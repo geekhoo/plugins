@@ -1,0 +1,21 @@
+{
+  "name": "geekhoo-plugins",
+  "owner": {
+    "name": "geekhoo"
+  },
+  "description": "Marketplace for personal Claude Code plugins focused on DevExtreme web UI workflows and semantic design-system token operations.",
+  "plugins": [
+    {
+      "name": "dx-webdev",
+      "source": "./dx-webdev",
+      "description": "DevExtreme jQuery web development helpers for pure HTML/JS/CSS apps.",
+      "version": "0.1.0"
+    },
+    {
+      "name": "semantic-design-system",
+      "source": "./semantic-design-system-plugin",
+      "description": "Skills, agents, hooks, and MCP tools for generating and applying semantic design token systems.",
+      "version": "0.1.1"
+    }
+  ]
+}
