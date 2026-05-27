@@ -1,5 +1,5 @@
 ---
-name: Audit Design System
+name: audit-design-system
 description: Audit semantic design tokens for naming quality, unresolved references, primitive leakage, accessibility risks, component-token overreach, and migration readiness.
 argument-hint: "[token dir or scope]"
 disable-model-invocation: true

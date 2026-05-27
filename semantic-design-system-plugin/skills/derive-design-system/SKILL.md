@@ -1,5 +1,5 @@
 ---
-name: Derive Design System
+name: derive-design-system
 description: Analyze an existing web codebase and derive a semantic design-token system from observed CSS, theme files, component styles, Tailwind config, CSS-in-JS, and hardcoded styling values.
 argument-hint: "[scope, token output dir, framework, migration goals]"
 disable-model-invocation: true

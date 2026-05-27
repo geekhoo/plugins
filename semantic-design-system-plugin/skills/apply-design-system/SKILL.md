@@ -1,5 +1,5 @@
 ---
-name: Apply Design System
+name: apply-desing-system
 description: Apply an existing semantic design-token system to a web codebase by replacing hardcoded styling values with CSS variables, token imports, or framework-specific theme references.
 argument-hint: "[component or path scope, token dir, migration target]"
 disable-model-invocation: true

@@ -1,5 +1,5 @@
 ---
-name: Generate Design System
+name: generate-design-system
 description: Generate a new semantic design-token system from product, brand, UX, accessibility, and implementation requirements. Use when the user asks to create a new design system, token system, design-token schema, theme system, or web styling foundation.
 argument-hint: "[product, brand, stack, themes, accessibility, components]"
 disable-model-invocation: true
