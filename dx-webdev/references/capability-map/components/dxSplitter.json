@@ -1,0 +1,111 @@
+{
+  "component": "dxSplitter",
+  "module": "ui/splitter",
+  "jqueryInitializer": "dxSplitter",
+  "sourceRefs": [
+    "packages/devextreme/js/ui/splitter.d.ts",
+    "packages/devextreme/js/__internal/ui/splitter/splitter.ts"
+  ],
+  "capabilities": {
+    "resizablePanes": {
+      "userPhrases": ["resizable panes", "split view", "resize sidebar", "adjust panels"],
+      "options": [
+        {
+          "path": "orientation",
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "purpose": "Choose whether panes split left/right or top/bottom."
+        },
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define splitter panes."
+        },
+        {
+          "path": "items[].size",
+          "type": "number|string",
+          "purpose": "Set an initial pane size."
+        },
+        {
+          "path": "items[].minSize",
+          "type": "number|string",
+          "purpose": "Prevent a pane from being resized below a minimum."
+        },
+        {
+          "path": "items[].maxSize",
+          "type": "number|string",
+          "purpose": "Prevent a pane from being resized above a maximum."
+        },
+        {
+          "path": "items[].resizable",
+          "type": "boolean",
+          "purpose": "Allow or disallow resizing for an individual pane."
+        }
+      ],
+      "validationRules": [
+        "Set minSize for panes that contain forms, nav, or action bars.",
+        "Use CSS height constraints on the splitter container so pane resizing has a stable box."
+      ]
+    },
+    "collapsiblePanes": {
+      "userPhrases": ["collapsible pane", "hide sidebar", "collapse details", "expand panel"],
+      "options": [
+        {
+          "path": "items[].collapsible",
+          "type": "boolean",
+          "purpose": "Allow a pane to collapse."
+        },
+        {
+          "path": "items[].collapsed",
+          "type": "boolean",
+          "requires": ["items[].collapsible=true"],
+          "purpose": "Control whether a pane starts collapsed."
+        },
+        {
+          "path": "items[].collapsedSize",
+          "type": "number|string",
+          "requires": ["items[].collapsible=true"],
+          "purpose": "Set the pane size while collapsed."
+        },
+        {
+          "path": "onItemCollapsed",
+          "type": "function",
+          "purpose": "React when a pane collapses."
+        },
+        {
+          "path": "onItemExpanded",
+          "type": "function",
+          "purpose": "React when a pane expands."
+        }
+      ],
+      "validationRules": [
+        "Only mark panes collapsible when the remaining content still works without that pane.",
+        "Set collapsedSize when icons or a narrow rail must remain visible."
+      ]
+    },
+    "nestedSplitters": {
+      "userPhrases": ["nested panes", "three pane layout", "split inside split", "IDE layout"],
+      "options": [
+        {
+          "path": "items[].splitter",
+          "type": "object",
+          "purpose": "Configure a nested splitter inside a pane."
+        },
+        {
+          "path": "separatorSize",
+          "type": "number",
+          "purpose": "Set resize separator thickness."
+        },
+        {
+          "path": "allowKeyboardNavigation",
+          "type": "boolean",
+          "purpose": "Allow keyboard navigation for splitter handles."
+        }
+      ],
+      "validationRules": [
+        "Use nested splitters for workspace panes, not for simple card grids.",
+        "Keep nested orientations intentional so resize handles are discoverable."
+      ]
+    }
+  }
+}

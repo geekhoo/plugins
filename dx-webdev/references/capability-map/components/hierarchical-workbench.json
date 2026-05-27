@@ -1,0 +1,92 @@
+{
+  "component": "dxTreeList",
+  "module": "ui/tree_list",
+  "jqueryInitializer": "dxTreeList",
+  "sourceRefs": [
+    "packages/devextreme/js/ui/tree_list.d.ts",
+    "packages/devextreme/js/integration/jquery.d.ts"
+  ],
+  "apiNotes": [
+    "Use public Properties-style options in generated guidance; deprecated *Options aliases in declarations are compatibility aliases."
+  ],
+  "capabilities": {
+    "hierarchicalRecords": {
+      "userPhrases": ["tree grid", "hierarchical records", "parent child rows", "subitems table", "nested work items"],
+      "options": [
+        {
+          "path": "dataSource",
+          "type": "array|DataSource|Store",
+          "purpose": "Provide hierarchical or plain row data."
+        },
+        {
+          "path": "keyExpr",
+          "type": "string|function",
+          "purpose": "Identify each row."
+        },
+        {
+          "path": "parentIdExpr",
+          "type": "string|function",
+          "purpose": "Map parent-child relationships for plain data."
+        },
+        {
+          "path": "dataStructure",
+          "type": "enum",
+          "purpose": "Describe whether data is plain or tree-shaped."
+        },
+        {
+          "path": "columns[]",
+          "type": "array",
+          "purpose": "Define visible fields and command columns."
+        },
+        {
+          "path": "expandedRowKeys",
+          "type": "array",
+          "purpose": "Control expanded nodes."
+        },
+        {
+          "path": "autoExpandAll",
+          "type": "boolean",
+          "purpose": "Expand all nodes initially."
+        },
+        {
+          "path": "expandNodesOnFiltering",
+          "type": "boolean",
+          "purpose": "Reveal matching child nodes when filtering."
+        },
+        {
+          "path": "selection|paging|scrolling",
+          "type": "objects",
+          "purpose": "Configure selection, paging, and scrolling behavior."
+        }
+      ],
+      "validationRules": [
+        "Use dxTreeList when hierarchy and tabular comparison are both important.",
+        "Use dxTreeView when hierarchy is navigation or selection only.",
+        "Avoid autoExpandAll for large hierarchies unless users explicitly need a fully expanded review."
+      ]
+    },
+    "hierarchicalActions": {
+      "userPhrases": ["expand row", "collapse row", "edit child item", "select subtree"],
+      "options": [
+        {
+          "path": "onRowExpanded",
+          "type": "function",
+          "purpose": "React when a node expands."
+        },
+        {
+          "path": "onRowUpdating",
+          "type": "function",
+          "purpose": "Validate or persist row updates."
+        },
+        {
+          "path": "onSelectionChanged",
+          "type": "function",
+          "purpose": "Update contextual or bulk actions from selection."
+        }
+      ],
+      "validationRules": [
+        "Keep parent and child actions visually distinct when permissions or workflow differ by level."
+      ]
+    }
+  }
+}

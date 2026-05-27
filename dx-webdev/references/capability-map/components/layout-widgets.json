@@ -1,0 +1,109 @@
+{
+  "components": ["dxBox", "dxResponsiveBox"],
+  "modules": ["ui/box", "ui/responsive_box"],
+  "jqueryInitializers": ["dxBox", "dxResponsiveBox"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/box.d.ts",
+    "packages/devextreme/js/ui/responsive_box.d.ts"
+  ],
+  "capabilities": {
+    "flexBoxLayout": {
+      "component": "dxBox",
+      "userPhrases": ["box layout", "widget flex layout", "proportional panes", "aligned widget items"],
+      "options": [
+        {
+          "path": "direction",
+          "type": "enum",
+          "values": ["row", "col"],
+          "purpose": "Choose row or column layout direction."
+        },
+        {
+          "path": "align",
+          "type": "enum",
+          "values": ["start", "end", "center", "space-between", "space-around"],
+          "purpose": "Distribute items along the main axis."
+        },
+        {
+          "path": "crossAlign",
+          "type": "enum",
+          "values": ["start", "end", "center", "stretch"],
+          "purpose": "Align items along the cross axis."
+        },
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define box items."
+        },
+        {
+          "path": "items[].baseSize",
+          "type": "number|string",
+          "purpose": "Set an item's base size."
+        },
+        {
+          "path": "items[].ratio",
+          "type": "number",
+          "purpose": "Set how extra space is distributed."
+        },
+        {
+          "path": "items[].shrink",
+          "type": "number",
+          "purpose": "Set how an item shrinks when space is constrained."
+        },
+        {
+          "path": "items[].box",
+          "type": "object",
+          "purpose": "Nest another dxBox inside an item."
+        }
+      ],
+      "validationRules": [
+        "Use dxBox for widget-owned proportional item layout.",
+        "Use plain CSS grid or flex for page shell layout unless dxBox item behavior is specifically useful."
+      ]
+    },
+    "responsiveItemLayout": {
+      "component": "dxResponsiveBox",
+      "userPhrases": ["responsive box", "adaptive item locations", "responsive widget layout", "screen-specific placement"],
+      "options": [
+        {
+          "path": "cols[]",
+          "type": "array",
+          "purpose": "Define responsive columns."
+        },
+        {
+          "path": "rows[]",
+          "type": "array",
+          "purpose": "Define responsive rows."
+        },
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define items placed into rows and columns."
+        },
+        {
+          "path": "items[].location",
+          "type": "object|array",
+          "purpose": "Place an item by row, column, span, and screen."
+        },
+        {
+          "path": "items[].location.row|col|rowspan|colspan|screen",
+          "type": "number|string",
+          "purpose": "Set item placement for a screen."
+        },
+        {
+          "path": "screenByWidth",
+          "type": "function",
+          "purpose": "Map widths to screen names."
+        },
+        {
+          "path": "singleColumnScreen",
+          "type": "string",
+          "purpose": "Choose screen names that collapse to one column."
+        }
+      ],
+      "validationRules": [
+        "Use dxResponsiveBox when item location changes by named screen are central to the widget composition.",
+        "Keep broader page breakpoints in CSS when the widget does not need to manage item placement."
+      ]
+    }
+  }
+}

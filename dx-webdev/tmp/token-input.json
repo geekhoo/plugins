@@ -1,0 +1,23 @@
+{
+  "color": {
+    "surface": "#FFFFFF",
+    "text": "#1F2937",
+    "brand": "#1F6FEB",
+    "success": "#16803C",
+    "warning": "#9A6700"
+  },
+  "spacing": {
+    "sm": "8px",
+    "md": "16px",
+    "lg": "24px"
+  },
+  "radius": {
+    "sm": "4px"
+  },
+  "typography": {
+    "fontFamily": "Arial, sans-serif"
+  },
+  "elevation": {
+    "panel": "0 1px 3px rgba(0, 0, 0, 0.12)"
+  }
+}

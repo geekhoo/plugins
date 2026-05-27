@@ -1,0 +1,60 @@
+{
+  "pattern": "workflowFeedback",
+  "purpose": "Show action, loading, empty, error, progress, save, and asynchronous states clearly across enterprise workflows.",
+  "inspiredBy": ["Fluent toast, message bar, progress, and skeleton", "Material snackbar and progress indicators", "Salesforce progress components"],
+  "capabilities": {
+    "operationState": {
+      "userPhrases": ["loading", "saving", "queued", "processing", "empty state", "error state", "validation summary"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxFileUploader",
+          "capabilityRefs": ["dxFileUploader.fileIntake"],
+          "role": "Upload intake, progress, and validation events."
+        },
+        {
+          "widget": "dxLoadPanel|dxLoadIndicator",
+          "capabilityRefs": ["dxLoadPanel.blockingLoad"],
+          "role": "Blocking or inline loading state."
+        },
+        {
+          "widget": "DevExpress.ui.notify|dxToast",
+          "capabilityRefs": ["dxToast.notifications"],
+          "role": "Non-blocking action result feedback."
+        },
+        {
+          "widget": "dxProgressBar",
+          "capabilityRefs": ["dxProgressBar.progress"],
+          "role": "Determinate progress for measurable work."
+        },
+        {
+          "widget": "dxForm|dxValidationSummary",
+          "capabilityRefs": ["dxValidationSummary.groupValidation", "dxForm.validation"],
+          "role": "Validation feedback around submitted data."
+        }
+      ],
+      "validationRules": [
+        "Use blocking load panels only when users cannot safely continue.",
+        "Use toast/notify for completed or failed actions that do not require immediate correction.",
+        "Use inline empty states in the affected region, not only a global banner."
+      ]
+    },
+    "statePersistenceFeedback": {
+      "userPhrases": ["saved view", "remember filters", "sync status", "last updated", "autosaved"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxDataGrid",
+          "optionPaths": ["stateStoring.enabled", "stateStoring.storageKey"],
+          "role": "Persist grid configuration."
+        },
+        {
+          "widget": "dxToolbar",
+          "role": "Expose saved view state, refresh, and reset actions."
+        }
+      ],
+      "validationRules": [
+        "Show reset affordances for persisted filters or column layouts.",
+        "Communicate stale data or last refresh time when decisions depend on freshness."
+      ]
+    }
+  }
+}

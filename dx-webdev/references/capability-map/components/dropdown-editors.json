@@ -1,0 +1,128 @@
+{
+  "components": ["dxSelectBox", "dxTagBox", "dxDropDownBox"],
+  "modules": ["ui/select_box", "ui/tag_box", "ui/drop_down_box"],
+  "jqueryInitializers": ["dxSelectBox", "dxTagBox", "dxDropDownBox"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/select_box.d.ts",
+    "packages/devextreme/js/ui/tag_box.d.ts",
+    "packages/devextreme/js/ui/drop_down_box.d.ts"
+  ],
+  "capabilities": {
+    "singleSelect": {
+      "component": "dxSelectBox",
+      "userPhrases": ["single select", "dropdown select", "lookup field", "choose one"],
+      "options": [
+        {
+          "path": "dataSource",
+          "type": "array|DataSource|Store",
+          "purpose": "Provide dropdown choices."
+        },
+        {
+          "path": "displayExpr",
+          "type": "string|function",
+          "purpose": "Choose display text for items."
+        },
+        {
+          "path": "valueExpr",
+          "type": "string|function",
+          "purpose": "Choose the value stored by the editor."
+        },
+        {
+          "path": "searchEnabled",
+          "type": "boolean",
+          "purpose": "Allow searching within choices."
+        },
+        {
+          "path": "acceptCustomValue",
+          "type": "boolean",
+          "purpose": "Allow values outside the data source."
+        },
+        {
+          "path": "showSelectionControls",
+          "type": "boolean",
+          "purpose": "Show selection controls in the dropdown."
+        }
+      ],
+      "validationRules": [
+        "Use dxSelectBox for one value from a moderate list.",
+        "Enable search for long lists.",
+        "Use acceptCustomValue only when the workflow permits free-form entries."
+      ]
+    },
+    "multiSelect": {
+      "component": "dxTagBox",
+      "userPhrases": ["multi select", "tags", "choose many", "multi-value dropdown"],
+      "options": [
+        {
+          "path": "dataSource",
+          "type": "array|DataSource|Store",
+          "purpose": "Provide tag choices."
+        },
+        {
+          "path": "displayExpr",
+          "type": "string|function",
+          "purpose": "Choose display text for tags."
+        },
+        {
+          "path": "valueExpr",
+          "type": "string|function",
+          "purpose": "Choose stored values."
+        },
+        {
+          "path": "searchEnabled",
+          "type": "boolean",
+          "purpose": "Allow searching within choices."
+        },
+        {
+          "path": "showSelectionControls",
+          "type": "boolean",
+          "purpose": "Show checkbox-like selection controls."
+        },
+        {
+          "path": "maxDisplayedTags",
+          "type": "number",
+          "purpose": "Limit visible tags before summarizing."
+        }
+      ],
+      "validationRules": [
+        "Use maxDisplayedTags for dense forms where selected tags can overflow.",
+        "Enable search when the available tag list is long."
+      ]
+    },
+    "compositeDropdown": {
+      "component": "dxDropDownBox",
+      "userPhrases": ["custom dropdown", "dropdown grid", "dropdown tree", "complex picker"],
+      "options": [
+        {
+          "path": "dataSource",
+          "type": "array|DataSource|Store",
+          "purpose": "Provide picker data."
+        },
+        {
+          "path": "displayExpr",
+          "type": "string|function",
+          "purpose": "Choose display text for the selected value."
+        },
+        {
+          "path": "valueExpr",
+          "type": "string|function",
+          "purpose": "Choose stored value."
+        },
+        {
+          "path": "contentTemplate",
+          "type": "function|string",
+          "purpose": "Render custom dropdown content such as dxDataGrid or dxTreeView."
+        },
+        {
+          "path": "acceptCustomValue",
+          "type": "boolean",
+          "purpose": "Allow values outside the data source."
+        }
+      ],
+      "validationRules": [
+        "Use dxDropDownBox when the dropdown content needs a grid, tree, or custom picker.",
+        "Keep the selected value synchronized between the embedded widget and the DropDownBox value."
+      ]
+    }
+  }
+}

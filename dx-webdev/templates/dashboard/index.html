@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DevExtreme jQuery Dashboard</title>
+    <link id="dx-theme" rel="stylesheet" href="https://cdn3.devexpress.com/jslib/25.2.3/css/dx.light.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="dx-viewport">
+<!-- DX_WIDGET_REGION_START -->
+    <div class="app-shell">
+        <header class="app-header">
+            <h1 data-page-title>Operations Dashboard</h1>
+            <p class="app-subtitle">Filter-first dashboard with scannable data regions</p>
+        </header>
+        <main class="app-content">
+            <section class="widget-panel">
+                <div id="filterToolbar" class="widget-host"></div>
+            </section>
+            <section class="summary-grid" aria-label="Dashboard summary">
+                <article><span>Open Pipeline</span><strong>$448K</strong></article>
+                <article><span>At Risk</span><strong>7</strong></article>
+                <article><span>Cycle Time</span><strong>4.2d</strong></article>
+            </section>
+            <section class="widget-panel">
+                <div id="metricsGrid" class="widget-host"></div>
+            </section>
+            <div id="dashboardLoadPanel" class="widget-host"></div>
+            <p class="state-message" data-empty-state>No metrics match the current filters.</p>
+            <p class="state-message state-message-error" data-error-state hidden>Unable to load dashboard data.</p>
+        </main>
+    </div>
+<!-- DX_WIDGET_REGION_END -->
+    <script id="jquery-script" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script id="dx-script" src="https://cdn3.devexpress.com/jslib/25.2.3/js/dx.all.js"></script>
+    <script src="./app.js"></script>
+</body>
+</html>

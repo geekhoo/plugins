@@ -1,0 +1,56 @@
+{
+  "pattern": "multiViewData",
+  "purpose": "Expose the same source data through multiple operational lenses without fragmenting state.",
+  "inspiredBy": ["monday.com board views", "Salesforce list and record views", "Google Calendar task/date views"],
+  "capabilities": {
+    "viewSwitcher": {
+      "userPhrases": ["view switcher", "table view", "calendar view", "kanban view", "timeline view", "chart view", "saved view"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxTabs|dxTabPanel",
+          "capabilityRefs": ["dxTabPanel.tabbedContent", "dxTabs.externalTabs"],
+          "role": "Switch between major representations."
+        },
+        {
+          "widget": "dxToolbar",
+          "capabilityRefs": ["dxToolbar.commandPlacement", "dxToolbar.responsiveOverflow"],
+          "role": "Host view controls, filters, and saved-view commands."
+        }
+      ],
+      "validationRules": [
+        "Keep filters and selection state intentionally synchronized or intentionally independent; do not leave it implicit.",
+        "Use clear labels for view modes because each view changes task affordances."
+      ]
+    },
+    "viewTypes": {
+      "table": {
+        "widgets": ["dxDataGrid", "dxTreeList"],
+        "useWhen": ["Users edit, filter, sort, compare, or bulk-select records."]
+      },
+      "calendar": {
+        "widgets": ["dxScheduler"],
+        "capabilityRefs": ["dxScheduler.calendarScheduling"],
+        "useWhen": ["Date, time, recurrence, or resource scheduling is central."]
+      },
+      "timelineOrGantt": {
+        "widgets": ["dxGantt", "dxScheduler", "dxChart"],
+        "capabilityRefs": ["dxGantt.timelinePlanning", "dxScheduler.calendarScheduling"],
+        "useWhen": ["Dependencies, duration, start/end dates, or phase overlap matter."]
+      },
+      "cardsOrBoard": {
+        "widgets": ["dxCardView", "dxSortable", "dxScrollView", "dxTileView", "plain HTML templates"],
+        "capabilityRefs": ["dxCardView.cardWorkbench", "dxSortable.reorderableLanes", "dxTileView.tileLayout"],
+        "useWhen": ["Status lanes, manual ordering, or compact object summaries matter more than columns."]
+      },
+      "chart": {
+        "widgets": ["dxChart", "dxPieChart", "dxFunnel", "dxPivotGrid"],
+        "useWhen": ["Users need trend, distribution, comparison, or rollup analysis."]
+      }
+    },
+    "validationRules": [
+      "Do not add a view if it cannot preserve the user's core workflow.",
+      "Use a single source dataset where possible and derive view-specific projections from it.",
+      "Prefer view-specific empty states that explain why the view has no data."
+    ]
+  }
+}

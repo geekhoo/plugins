@@ -1,0 +1,34 @@
+{
+  "name": "dx-webdev",
+  "version": "0.1.0",
+  "description": "Personal DevExtreme jQuery web development helpers for pure HTML/JS/CSS apps.",
+  "author": {
+    "name": "Personal"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "devextreme",
+    "jquery",
+    "html",
+    "css",
+    "javascript"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "DX WebDev",
+    "shortDescription": "DevExtreme jQuery helpers for HTML, JS, and CSS apps.",
+    "longDescription": "Focused personal helpers for generating and reviewing pure HTML, JavaScript, and CSS pages that use DevExtreme jQuery widgets with local styling and validation guidance.",
+    "developerName": "Personal",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Generate a DevExtreme jQuery page from a spec.",
+      "Map this UX intent to DevExtreme widgets.",
+      "Review this DevExtreme jQuery UI output."
+    ],
+    "brandColor": "#1F6FEB"
+  }
+}

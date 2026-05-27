@@ -1,0 +1,102 @@
+{
+  "component": "dxDrawer",
+  "module": "ui/drawer",
+  "jqueryInitializer": "dxDrawer",
+  "sourceRefs": [
+    "packages/devextreme/js/ui/drawer.d.ts",
+    "packages/devextreme/js/__internal/ui/drawer/drawer.ts"
+  ],
+  "capabilities": {
+    "sidePanel": {
+      "userPhrases": ["side panel", "side sheet", "detail drawer", "left rail", "right panel"],
+      "options": [
+        {
+          "path": "opened",
+          "type": "boolean",
+          "purpose": "Control whether the drawer panel is visible."
+        },
+        {
+          "path": "position",
+          "type": "enum",
+          "values": ["left", "right", "top", "bottom", "before", "after"],
+          "purpose": "Choose the panel edge."
+        },
+        {
+          "path": "openedStateMode",
+          "type": "enum",
+          "values": ["overlap", "shrink", "push"],
+          "purpose": "Choose how the panel affects the content area when opened."
+        },
+        {
+          "path": "revealMode",
+          "type": "enum",
+          "values": ["slide", "expand"],
+          "purpose": "Choose panel reveal behavior."
+        }
+      ],
+      "validationRules": [
+        "Use overlap for temporary panels and narrow screens.",
+        "Use shrink or push for persistent desktop navigation or detail panels.",
+        "Use before/after when logical direction matters more than physical left/right."
+      ]
+    },
+    "responsiveOverlay": {
+      "userPhrases": ["mobile drawer", "temporary drawer", "dismiss on outside click", "drawer shade"],
+      "options": [
+        {
+          "path": "shading",
+          "type": "boolean",
+          "purpose": "Show or hide overlay shading behind an opened drawer."
+        },
+        {
+          "path": "closeOnOutsideClick",
+          "type": "boolean|function",
+          "purpose": "Close the drawer when the user clicks outside it."
+        },
+        {
+          "path": "minSize",
+          "type": "number",
+          "purpose": "Set the collapsed or minimum visible panel size."
+        },
+        {
+          "path": "maxSize",
+          "type": "number",
+          "purpose": "Set the opened panel size."
+        },
+        {
+          "path": "animationEnabled",
+          "type": "boolean",
+          "purpose": "Enable or disable drawer animation."
+        }
+      ],
+      "validationRules": [
+        "Pair shading with closeOnOutsideClick for temporary drawers.",
+        "Avoid shading for persistent navigation drawers that remain part of the workspace."
+      ]
+    },
+    "panelContent": {
+      "userPhrases": ["drawer menu", "drawer template", "custom panel content"],
+      "options": [
+        {
+          "path": "template",
+          "type": "function|string",
+          "purpose": "Render custom drawer panel content."
+        },
+        {
+          "path": "content()",
+          "type": "method",
+          "purpose": "Access the drawer content element."
+        },
+        {
+          "path": "show()|hide()|toggle()",
+          "type": "methods",
+          "purpose": "Programmatically control panel visibility."
+        }
+      ],
+      "validationRules": [
+        "Keep template content scoped to the drawer panel.",
+        "Use dxList or dxTreeView inside the template when the panel is navigation-heavy."
+      ]
+    }
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "component": "dxForm",
+  "module": "ui/form",
+  "jqueryInitializer": "dxForm",
+  "sourceRefs": [
+    "packages/devextreme/js/ui/form.d.ts"
+  ],
+  "capabilities": {
+    "responsiveLayout": {
+      "userPhrases": ["responsive form", "form columns", "compact form", "adaptive form layout"],
+      "options": [
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define form items, groups, tabs, and buttons."
+        },
+        {
+          "path": "colCount",
+          "type": "number|string",
+          "purpose": "Set the base number of layout columns."
+        },
+        {
+          "path": "colCountByScreen",
+          "type": "object",
+          "purpose": "Set responsive column counts for screen sizes."
+        },
+        {
+          "path": "minColWidth",
+          "type": "number",
+          "purpose": "Set minimum column width before layout adapts."
+        },
+        {
+          "path": "labelLocation",
+          "type": "enum",
+          "values": ["left", "right", "top"],
+          "purpose": "Place labels relative to editors."
+        },
+        {
+          "path": "screenByWidth",
+          "type": "function",
+          "purpose": "Map container width to screen size names."
+        },
+        {
+          "path": "scrollingEnabled",
+          "type": "boolean",
+          "purpose": "Enable internal form scrolling."
+        },
+        {
+          "path": "showColonAfterLabel",
+          "type": "boolean",
+          "purpose": "Control label punctuation."
+        }
+      ],
+      "validationRules": [
+        "Use colCountByScreen for responsive forms instead of CSS-only editor repositioning.",
+        "Use top labels for narrow forms when horizontal label space is constrained."
+      ]
+    },
+    "validation": {
+      "userPhrases": ["validation rules", "required fields", "validate form", "form errors"],
+      "options": [
+        {
+          "path": "validationGroup",
+          "type": "string",
+          "purpose": "Associate the form with a validation group."
+        },
+        {
+          "path": "showValidationSummary",
+          "type": "boolean",
+          "purpose": "Show a validation summary for the form."
+        },
+        {
+          "path": "items[].validationRules",
+          "type": "array",
+          "purpose": "Attach DevExtreme validation rules to a form item."
+        },
+        {
+          "path": "items[].isRequired",
+          "type": "boolean",
+          "purpose": "Mark a simple item as required."
+        },
+        {
+          "path": "items[].editorOptions.inputAttr",
+          "type": "object",
+          "purpose": "Add accessible labels and stable input attributes."
+        }
+      ],
+      "validationRules": [
+        "Include validationRules for user input that can be submitted.",
+        "Use inputAttr or labels so editors remain accessible when labels are hidden or custom."
+      ]
+    },
+    "editorComposition": {
+      "userPhrases": ["form editor", "custom editor", "select field", "date field", "button item"],
+      "options": [
+        {
+          "path": "items[].itemType",
+          "type": "enum",
+          "purpose": "Choose the form item kind such as simple, group, tabbed, button, or empty."
+        },
+        {
+          "path": "items[].colSpan",
+          "type": "number",
+          "purpose": "Set how many form columns an item spans."
+        },
+        {
+          "path": "items[].dataField",
+          "type": "string",
+          "purpose": "Bind an item to a field in formData."
+        },
+        {
+          "path": "items[].editorType",
+          "type": "string",
+          "purpose": "Choose a DevExtreme editor for a form item."
+        },
+        {
+          "path": "items[].editorOptions",
+          "type": "object",
+          "requires": ["items[].editorType"],
+          "purpose": "Configure the selected editor."
+        },
+        {
+          "path": "formData",
+          "type": "object",
+          "purpose": "Provide the data object edited by the form."
+        }
+      ],
+      "validationRules": [
+        "Use editorType and editorOptions before custom HTML for standard inputs.",
+        "Keep editor options local to the item unless multiple editors share the same behavior."
+      ]
+    },
+    "readOnlyReview": {
+      "userPhrases": ["read only form", "review mode", "disabled form", "view details"],
+      "options": [
+        {
+          "path": "readOnly",
+          "type": "boolean",
+          "purpose": "Make form editors read-only."
+        },
+        {
+          "path": "items[].editorOptions.readOnly",
+          "type": "boolean",
+          "purpose": "Make one form editor read-only."
+        },
+        {
+          "path": "items[].visible",
+          "type": "boolean",
+          "purpose": "Show or hide individual items."
+        }
+      ],
+      "validationRules": [
+        "Use readOnly for review flows where values should remain selectable and readable.",
+        "Use disabled only when the control should be excluded from interaction semantics."
+      ]
+    }
+  }
+}

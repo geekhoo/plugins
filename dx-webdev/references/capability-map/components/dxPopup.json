@@ -1,0 +1,135 @@
+{
+  "component": "dxPopup",
+  "module": "ui/popup",
+  "jqueryInitializer": "dxPopup",
+  "sourceRefs": [
+    "packages/devextreme/js/ui/popup.d.ts",
+    "packages/devextreme/js/ui/overlay.d.ts"
+  ],
+  "capabilities": {
+    "modalWorkflow": {
+      "userPhrases": ["modal", "dialog", "popup editor", "blocking workflow", "confirmation with content"],
+      "options": [
+        {
+          "path": "visible",
+          "type": "boolean",
+          "purpose": "Control popup visibility."
+        },
+        {
+          "path": "showTitle",
+          "type": "boolean",
+          "purpose": "Show or hide the title area."
+        },
+        {
+          "path": "title",
+          "type": "string",
+          "purpose": "Set popup title text."
+        },
+        {
+          "path": "showCloseButton",
+          "type": "boolean",
+          "purpose": "Show a close affordance."
+        },
+        {
+          "path": "hideOnOutsideClick",
+          "type": "boolean|function",
+          "purpose": "Allow outside-click dismissal."
+        },
+        {
+          "path": "shading",
+          "type": "boolean",
+          "purpose": "Block attention behind the popup with a shaded overlay."
+        },
+        {
+          "path": "onShowing|onShown|onHiding|onHidden",
+          "type": "events",
+          "purpose": "React to popup lifecycle transitions."
+        }
+      ],
+      "validationRules": [
+        "Use shading for blocking workflows.",
+        "Avoid outside-click dismissal for destructive, unsaved, or validation-heavy flows."
+      ]
+    },
+    "sizingAndPlacement": {
+      "userPhrases": ["side modal", "right panel popup", "responsive dialog", "resizable popup"],
+      "options": [
+        {
+          "path": "width",
+          "type": "number|string",
+          "purpose": "Set popup width."
+        },
+        {
+          "path": "height",
+          "type": "number|string",
+          "purpose": "Set popup height."
+        },
+        {
+          "path": "fullScreen",
+          "type": "boolean",
+          "purpose": "Use full-screen popup presentation."
+        },
+        {
+          "path": "position",
+          "type": "string|object|function",
+          "purpose": "Place the popup relative to the window or a target."
+        },
+        {
+          "path": "resizeEnabled",
+          "type": "boolean",
+          "purpose": "Allow users to resize the popup."
+        },
+        {
+          "path": "dragEnabled",
+          "type": "boolean",
+          "purpose": "Allow users to drag the popup."
+        },
+        {
+          "path": "restorePosition",
+          "type": "boolean",
+          "purpose": "Restore the popup position after drag operations."
+        }
+      ],
+      "validationRules": [
+        "Use fullScreen or viewport-relative width on narrow screens.",
+        "For a persistent non-modal side panel, consider dxDrawer before dxPopup."
+      ]
+    },
+    "contentAndActions": {
+      "userPhrases": ["dialog actions", "popup toolbar", "popup content template", "save cancel buttons"],
+      "options": [
+        {
+          "path": "contentTemplate",
+          "type": "function|string",
+          "purpose": "Render popup body content."
+        },
+        {
+          "path": "toolbarItems[]",
+          "type": "array",
+          "purpose": "Place buttons or controls in the popup toolbar."
+        },
+        {
+          "path": "toolbarItems[].toolbar",
+          "type": "enum",
+          "values": ["top", "bottom"],
+          "purpose": "Choose the popup toolbar area."
+        },
+        {
+          "path": "toolbarItems[].location",
+          "type": "enum",
+          "values": ["before", "center", "after"],
+          "purpose": "Place an action within the toolbar."
+        },
+        {
+          "path": "toolbarItems[].widget",
+          "type": "string",
+          "purpose": "Use a DevExtreme widget such as dxButton in the toolbar."
+        }
+      ],
+      "validationRules": [
+        "Place primary submit actions at the bottom after position for form dialogs unless the existing app pattern differs.",
+        "Use dxForm inside contentTemplate for structured editable fields."
+      ]
+    }
+  }
+}

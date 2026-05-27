@@ -1,0 +1,58 @@
+{
+  "pattern": "semanticStatus",
+  "purpose": "Represent status, ownership, tags, linked entities, dates, files, and ratings as compact tokens that support scanning, filtering, and action.",
+  "inspiredBy": ["Google smart chips", "monday.com status/people/date columns", "Fluent tags, persona, badge, and tag picker", "Material chips"],
+  "capabilities": {
+    "statusTokens": {
+      "userPhrases": ["status chip", "badge", "priority", "owner", "tag", "label", "rating"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxDataGrid",
+          "optionPaths": ["columns[].cellTemplate", "columns[].lookup", "columns[].filterValues"],
+          "role": "Dense status and entity rendering in tabular data."
+        },
+        {
+          "widget": "dxTagBox",
+          "capabilityRefs": ["dxTagBox.multiSelect"],
+          "role": "Select and edit multiple tags or owners."
+        },
+        {
+          "widget": "dxCardView",
+          "capabilityRefs": ["dxCardView.cardWorkbench"],
+          "role": "Display object status and ownership in card summaries."
+        },
+        {
+          "widget": "dxSelectBox",
+          "capabilityRefs": ["dxSelectBox.singleSelect"],
+          "role": "Single status, owner, or category selection."
+        }
+      ],
+      "validationRules": [
+        "Do not rely on color alone; include text, icon, or tooltip meaning.",
+        "Use consistent status vocabulary across filters, cells, summaries, and forms.",
+        "Make tokens filterable when users scan dense data."
+      ]
+    },
+    "inlineEntityPreview": {
+      "userPhrases": ["smart chip", "person chip", "file chip", "event chip", "hover card", "entity preview"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxPopover",
+          "role": "Entity preview with related metadata and actions."
+        },
+        {
+          "widget": "dxTooltip",
+          "role": "Short entity hint or status explanation."
+        },
+        {
+          "widget": "dxList|dxForm",
+          "role": "Structured preview or edit content inside a popover/drawer."
+        }
+      ],
+      "validationRules": [
+        "Inline chips should not silently grant access or imply permissions.",
+        "Preview actions must be clearly scoped to the entity."
+      ]
+    }
+  }
+}

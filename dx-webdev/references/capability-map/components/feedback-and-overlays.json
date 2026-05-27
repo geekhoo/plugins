@@ -1,0 +1,130 @@
+{
+  "components": ["dxToast", "dxLoadPanel", "dxProgressBar", "dxPopover", "dxTooltip"],
+  "modules": ["ui/toast", "ui/load_panel", "ui/progress_bar", "ui/popover", "ui/tooltip"],
+  "jqueryInitializers": ["dxToast", "dxLoadPanel", "dxProgressBar", "dxPopover", "dxTooltip"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/toast.d.ts",
+    "packages/devextreme/js/ui/load_panel.d.ts",
+    "packages/devextreme/js/ui/progress_bar.d.ts",
+    "packages/devextreme/js/ui/popover.d.ts",
+    "packages/devextreme/js/ui/tooltip.d.ts"
+  ],
+  "capabilities": {
+    "notifications": {
+      "component": "dxToast",
+      "userPhrases": ["toast", "notification", "save confirmation", "error toast"],
+      "options": [
+        {
+          "path": "message",
+          "type": "string",
+          "purpose": "Set notification text."
+        },
+        {
+          "path": "type",
+          "type": "enum",
+          "values": ["custom", "error", "info", "success", "warning"],
+          "purpose": "Set notification tone."
+        },
+        {
+          "path": "displayTime",
+          "type": "number",
+          "purpose": "Set how long the toast remains visible."
+        },
+        {
+          "path": "position",
+          "type": "string|object",
+          "purpose": "Place the toast."
+        },
+        {
+          "path": "shading",
+          "type": "boolean",
+          "purpose": "Control whether toast blocks background interaction."
+        }
+      ],
+      "validationRules": [
+        "Use non-blocking toasts for action completion or recoverable failures.",
+        "Do not use toasts for required validation details that users must correct."
+      ]
+    },
+    "blockingLoad": {
+      "component": "dxLoadPanel",
+      "userPhrases": ["loading overlay", "blocking loading", "loading panel", "busy state"],
+      "options": [
+        {
+          "path": "message",
+          "type": "string",
+          "purpose": "Explain what is loading."
+        },
+        {
+          "path": "position",
+          "type": "string|object|function",
+          "purpose": "Place the loading panel."
+        },
+        {
+          "path": "shading|shadingColor",
+          "type": "boolean|string",
+          "purpose": "Block and dim the affected region."
+        }
+      ],
+      "validationRules": [
+        "Scope load panels to the affected region when the rest of the page remains usable.",
+        "Use a clear message for long operations."
+      ]
+    },
+    "progress": {
+      "component": "dxProgressBar",
+      "userPhrases": ["progress", "upload progress", "completion progress", "percent complete"],
+      "options": [
+        {
+          "path": "value",
+          "type": "number|false",
+          "purpose": "Set progress value or indeterminate state."
+        },
+        {
+          "path": "showStatus",
+          "type": "boolean",
+          "purpose": "Show progress status text."
+        },
+        {
+          "path": "statusFormat",
+          "type": "string|function",
+          "purpose": "Customize status text."
+        }
+      ],
+      "validationRules": [
+        "Use determinate progress only when the operation has measurable completion.",
+        "Use statusFormat to make progress meaningful in business terms."
+      ]
+    },
+    "anchoredContext": {
+      "components": ["dxPopover", "dxTooltip"],
+      "userPhrases": ["popover", "tooltip", "hover details", "entity preview", "help text"],
+      "options": [
+        {
+          "path": "target",
+          "type": "string|element",
+          "purpose": "Anchor the overlay to a UI element."
+        },
+        {
+          "path": "position",
+          "type": "string|object",
+          "purpose": "Place the overlay relative to target."
+        },
+        {
+          "path": "showEvent|hideEvent",
+          "type": "object|string",
+          "purpose": "Control trigger behavior."
+        },
+        {
+          "path": "contentTemplate",
+          "type": "function|string",
+          "purpose": "Render rich contextual content."
+        }
+      ],
+      "validationRules": [
+        "Use tooltips for brief hints and popovers for richer entity previews.",
+        "Make important content accessible without hover-only interaction."
+      ]
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "components": ["dxValidator", "dxValidationGroup", "dxValidationSummary"],
+  "modules": ["ui/validator", "ui/validation_group", "ui/validation_summary"],
+  "jqueryInitializers": ["dxValidator", "dxValidationGroup", "dxValidationSummary"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/validator.d.ts",
+    "packages/devextreme/js/ui/validation_group.d.ts",
+    "packages/devextreme/js/ui/validation_summary.d.ts"
+  ],
+  "capabilities": {
+    "validationRules": {
+      "component": "dxValidator",
+      "userPhrases": ["validator", "custom validation", "required field", "async validation"],
+      "options": [
+        {
+          "path": "validationRules[]",
+          "type": "array",
+          "purpose": "Attach validation rules to an editor."
+        },
+        {
+          "path": "validationGroup",
+          "type": "string",
+          "purpose": "Assign the editor to a validation group."
+        },
+        {
+          "path": "adapter",
+          "type": "object",
+          "purpose": "Validate a custom editor integration."
+        }
+      ],
+      "validationRules": [
+        "Prefer built-in editor/form validation before custom validation glue.",
+        "Use adapter only when validating non-DevExtreme or custom-rendered inputs."
+      ]
+    },
+    "groupValidation": {
+      "components": ["dxValidationGroup", "dxValidationSummary"],
+      "userPhrases": ["validation group", "validation summary", "show all errors", "submit validation"],
+      "options": [
+        {
+          "path": "validationGroup",
+          "type": "string",
+          "purpose": "Connect summary to a group."
+        },
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Summary items produced by validation."
+        }
+      ],
+      "validationRules": [
+        "Use validation summaries for multi-field forms or step workflows.",
+        "Place summaries near the submit action or top of the relevant form region."
+      ]
+    }
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "title": "Orders Workbench",
+  "template": "basic-page",
+  "themeCss": "https://cdn3.devexpress.com/jslib/25.2.3/css/dx.light.css",
+  "devextremeVersion": "25.2.3",
+  "containers": [
+    {
+      "id": "ordersToolbar",
+      "className": "orders-toolbar",
+      "label": "Orders toolbar"
+    },
+    {
+      "id": "ordersList",
+      "className": "orders-list",
+      "label": "Recent orders"
+    },
+    {
+      "id": "loadPanel",
+      "className": "orders-load-panel",
+      "label": "Loading state"
+    }
+  ],
+  "widgets": [
+    {
+      "containerId": "ordersToolbar",
+      "type": "dxToolbar",
+      "options": {
+        "items": [
+          {
+            "location": "before",
+            "text": "Orders Workbench"
+          },
+          {
+            "location": "after",
+            "widget": "dxButton",
+            "options": {
+              "text": "Refresh",
+              "icon": "refresh",
+              "type": "default"
+            }
+          }
+        ],
+        "elementAttr": {
+          "class": "orders-toolbar-widget"
+        }
+      }
+    },
+    {
+      "containerId": "ordersList",
+      "type": "dxList",
+      "dataKey": "orders",
+      "options": {
+        "displayExpr": "customer",
+        "searchEnabled": true,
+        "noDataText": "No orders match the current filters.",
+        "elementAttr": {
+          "class": "orders-list-widget"
+        }
+      }
+    },
+    {
+      "containerId": "loadPanel",
+      "type": "dxLoadPanel",
+      "options": {
+        "visible": false,
+        "message": "Loading orders..."
+      }
+    }
+  ],
+  "sampleData": {
+    "orders": [
+      {
+        "id": 1001,
+        "customer": "Northwind Traders",
+        "status": "Ready",
+        "total": 1280.5
+      },
+      {
+        "id": 1002,
+        "customer": "Contoso Retail",
+        "status": "Review",
+        "total": 842.0
+      }
+    ]
+  },
+  "tokens": {
+    "color": {
+      "surface": "#FFFFFF",
+      "text": "#1F2937",
+      "brand": "#1F6FEB",
+      "success": "#16803C",
+      "warning": "#9A6700"
+    },
+    "spacing": {
+      "sm": "8px",
+      "md": "16px",
+      "lg": "24px"
+    },
+    "radius": {
+      "sm": "4px"
+    },
+    "typography": {
+      "fontFamily": "Arial, sans-serif"
+    },
+    "elevation": {
+      "panel": "0 1px 3px rgba(0, 0, 0, 0.12)"
+    }
+  },
+  "outputFiles": ["index.html", "styles.css", "app.js"]
+}

@@ -1,0 +1,56 @@
+{
+  "name": "saas-ux-vendor-observations",
+  "version": "0.1.0",
+  "vendors": {
+    "salesforce": {
+      "observedModel": "Record-centric workbench with tables, forms, related lists, hierarchy, and row-level or record-level actions.",
+      "uxComponents": ["datatable", "record form", "card", "tree", "tree grid", "progress", "button menu"],
+      "transferablePrinciples": [
+        "Tables are action surfaces, not passive reports.",
+        "Record forms separate view, edit, and create modes.",
+        "Hierarchy belongs in tree or tree-grid primitives when it changes navigation or permissions."
+      ],
+      "devExtremeTargets": ["dxDataGrid", "dxTreeList", "dxForm", "dxToolbar", "dxMenu", "dxPopup"]
+    },
+    "monday": {
+      "observedModel": "Board-centric work management with groups, columns, items, subitems, views, dashboards, widgets, filters, automations, and item cards.",
+      "uxComponents": ["board table", "grouping", "columns", "item card", "views", "dashboard widgets", "filters"],
+      "transferablePrinciples": [
+        "A work object should have multiple operational views.",
+        "Status and ownership columns are interaction primitives, not just decoration.",
+        "Dashboards should roll up source data and preserve drill-through."
+      ],
+      "devExtremeTargets": ["dxDataGrid", "dxSortable", "dxTileView", "dxScheduler", "dxGantt", "dxChart", "dxPivotGrid", "dxDrawer"]
+    },
+    "microsoft365": {
+      "observedModel": "Document and task-pane workflows with command bars, tab bars, contextual ribbon commands, search, and narrow-pane navigation.",
+      "uxComponents": ["task pane", "command bar", "tab bar", "back button", "hamburger menu", "search", "contextual commands"],
+      "transferablePrinciples": [
+        "Constrained panes need command bars and progressive navigation.",
+        "Icon-only controls require recognizable symbols and tooltips.",
+        "Contextual commands reduce clutter by appearing only when relevant."
+      ],
+      "devExtremeTargets": ["dxDrawer", "dxToolbar", "dxTabs", "dxMenu", "dxButton", "dxTextBox", "dxPopup"]
+    },
+    "googleWorkspace": {
+      "observedModel": "Cross-product workspace with side panels, inline smart chips, task capture, add-ons, and contextual entity previews.",
+      "uxComponents": ["side panel", "smart chip", "entity picker", "task list", "calendar preview", "add-ons"],
+      "transferablePrinciples": [
+        "Users should keep the main artifact visible while consulting related apps.",
+        "Inline entity tokens can expose metadata and actions without opening a full detail page.",
+        "A side panel is ideal for capture and reference tasks."
+      ],
+      "devExtremeTargets": ["dxDrawer", "dxPopover", "dxTooltip", "dxTagBox", "dxList", "dxScheduler", "dxForm"]
+    },
+    "fluentMaterial": {
+      "observedModel": "Design-system vocabulary for solving specific UI problems with components such as drawer, toolbar, nav, tree, chips, tags, toast, message bar, progress, and skeleton.",
+      "uxComponents": ["drawer", "toolbar", "nav", "tree", "menu", "chips", "tag picker", "toast", "message bar", "progress", "skeleton"],
+      "transferablePrinciples": [
+        "Choose components by problem type and interaction cost.",
+        "Use compact semantic tokens for selection, filtering, and entity representation.",
+        "Differentiate blocking dialogs from supplemental popovers or drawers."
+      ],
+      "devExtremeTargets": ["dxDrawer", "dxToolbar", "dxTreeView", "dxMenu", "dxTagBox", "dxToast", "dxLoadPanel", "dxPopover"]
+    }
+  }
+}

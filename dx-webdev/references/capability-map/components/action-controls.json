@@ -1,0 +1,134 @@
+{
+  "components": ["dxDropDownButton", "dxButtonGroup", "dxSpeedDialAction", "dxStepper"],
+  "modules": ["ui/drop_down_button", "ui/button_group", "ui/speed_dial_action", "ui/stepper"],
+  "jqueryInitializers": ["dxDropDownButton", "dxButtonGroup", "dxSpeedDialAction", "dxStepper"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/drop_down_button.d.ts",
+    "packages/devextreme/js/ui/button_group.d.ts",
+    "packages/devextreme/js/ui/speed_dial_action.d.ts",
+    "packages/devextreme/js/ui/stepper.d.ts"
+  ],
+  "capabilities": {
+    "overflowActions": {
+      "component": "dxDropDownButton",
+      "userPhrases": ["more actions", "split button", "action menu", "primary action with alternatives"],
+      "options": [
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define action choices."
+        },
+        {
+          "path": "splitButton",
+          "type": "boolean",
+          "purpose": "Separate primary click from dropdown actions."
+        },
+        {
+          "path": "useSelectMode",
+          "type": "boolean",
+          "purpose": "Keep selected action state."
+        },
+        {
+          "path": "selectedItemKey",
+          "type": "string|number",
+          "purpose": "Control selected action key."
+        },
+        {
+          "path": "displayExpr|keyExpr",
+          "type": "string|function",
+          "purpose": "Map action labels and keys."
+        }
+      ],
+      "validationRules": [
+        "Use splitButton when one primary action has related alternatives.",
+        "Use a menu instead when actions are not variants of the same command."
+      ]
+    },
+    "segmentedActions": {
+      "component": "dxButtonGroup",
+      "userPhrases": ["segmented control", "toggle group", "view mode buttons", "button group"],
+      "options": [
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define button choices."
+        },
+        {
+          "path": "selectedItemKeys[]",
+          "type": "array",
+          "purpose": "Control selected choices."
+        },
+        {
+          "path": "keyExpr",
+          "type": "string|function",
+          "purpose": "Identify choices."
+        },
+        {
+          "path": "items[].icon|items[].hint",
+          "type": "string",
+          "purpose": "Add icons and accessible hints."
+        }
+      ],
+      "validationRules": [
+        "Use button groups for small mutually exclusive mode sets or compact filters.",
+        "Do not use a button group when the option set is long; use SelectBox or DropDownButton."
+      ]
+    },
+    "floatingPrimaryAction": {
+      "component": "dxSpeedDialAction",
+      "userPhrases": ["floating action", "quick add", "speed dial", "create button"],
+      "options": [
+        {
+          "path": "icon",
+          "type": "string",
+          "purpose": "Set the action icon."
+        },
+        {
+          "path": "hint",
+          "type": "string",
+          "purpose": "Describe the action."
+        },
+        {
+          "path": "label",
+          "type": "string",
+          "purpose": "Show action text."
+        }
+      ],
+      "validationRules": [
+        "Use speed dial for a small number of high-frequency create actions.",
+        "Avoid floating actions in dense enterprise shells where they obscure data."
+      ]
+    },
+    "stepWorkflow": {
+      "component": "dxStepper",
+      "userPhrases": ["stepper", "wizard", "multi-step flow", "progress steps"],
+      "options": [
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define workflow steps."
+        },
+        {
+          "path": "selectedIndex",
+          "type": "number",
+          "purpose": "Control the active step."
+        },
+        {
+          "path": "linear",
+          "type": "boolean",
+          "purpose": "Require steps to be completed in order."
+        },
+        {
+          "path": "orientation",
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "purpose": "Choose step layout direction."
+        }
+      ],
+      "validationRules": [
+        "Use linear steppers when later steps depend on valid earlier data.",
+        "Pair stepper state with forms and validation groups for submitted workflows."
+      ]
+    }
+  }
+}

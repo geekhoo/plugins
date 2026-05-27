@@ -1,0 +1,79 @@
+{
+  "component": "dxToolbar",
+  "module": "ui/toolbar",
+  "jqueryInitializer": "dxToolbar",
+  "sourceRefs": [
+    "packages/devextreme/js/ui/toolbar.d.ts"
+  ],
+  "capabilities": {
+    "commandPlacement": {
+      "userPhrases": ["toolbar", "command bar", "action bar", "page actions", "filter bar"],
+      "options": [
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define toolbar items."
+        },
+        {
+          "path": "items[].location",
+          "type": "enum",
+          "values": ["before", "center", "after"],
+          "purpose": "Place an item in the toolbar."
+        },
+        {
+          "path": "items[].widget",
+          "type": "string",
+          "purpose": "Render a DevExtreme widget inside the toolbar item."
+        },
+        {
+          "path": "items[].options",
+          "type": "object",
+          "requires": ["items[].widget"],
+          "purpose": "Pass options to the nested widget."
+        },
+        {
+          "path": "items[].cssClass",
+          "type": "string",
+          "purpose": "Add a scoped class hook for local styling."
+        }
+      ],
+      "validationRules": [
+        "Use before for navigation and primary context controls.",
+        "Use after for secondary commands and refresh/export actions.",
+        "Use widget plus options for interactive controls instead of hand-built buttons."
+      ]
+    },
+    "responsiveOverflow": {
+      "userPhrases": ["responsive toolbar", "overflow menu", "hide toolbar text", "compact actions"],
+      "options": [
+        {
+          "path": "items[].locateInMenu",
+          "type": "enum",
+          "values": ["always", "auto", "never"],
+          "purpose": "Control whether an item moves into the overflow menu."
+        },
+        {
+          "path": "items[].showText",
+          "type": "enum",
+          "values": ["always", "inMenu"],
+          "purpose": "Control whether item text is visible in the toolbar or only in the menu."
+        },
+        {
+          "path": "multiline",
+          "type": "boolean",
+          "purpose": "Allow toolbar items to wrap onto multiple lines."
+        },
+        {
+          "path": "menuItemTemplate",
+          "type": "function|string",
+          "purpose": "Customize overflow menu item rendering."
+        }
+      ],
+      "validationRules": [
+        "Use locateInMenu=auto for non-primary actions when horizontal space is limited.",
+        "Use showText=inMenu for icon buttons that still need clear menu labels.",
+        "Avoid multiline in dense enterprise shells unless wrapping is an explicit requirement."
+      ]
+    }
+  }
+}

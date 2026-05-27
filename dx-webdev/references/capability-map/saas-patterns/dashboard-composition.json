@@ -1,0 +1,66 @@
+{
+  "pattern": "dashboardComposition",
+  "purpose": "Create filterable monitoring and reporting surfaces from one or more source datasets.",
+  "inspiredBy": ["monday.com dashboards and widgets", "Salesforce reports and record lists", "Microsoft 365 analytics surfaces"],
+  "capabilities": {
+    "widgetGrid": {
+      "userPhrases": ["dashboard", "widgets", "summary cards", "portfolio view", "rollup", "reporting"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxChart|dxPieChart|dxFunnel",
+          "role": "Visualize trends, distributions, and progress."
+        },
+        {
+          "widget": "dxPivotGrid",
+          "capabilityRefs": ["dxPivotGrid.pivotAnalysis"],
+          "role": "Self-service multidimensional analysis."
+        },
+        {
+          "widget": "dxPivotGrid",
+          "role": "Analyze multidimensional rollups."
+        },
+        {
+          "widget": "dxDataGrid",
+          "role": "Show drill-through records behind a metric."
+        },
+        {
+          "widget": "plain HTML/CSS",
+          "capabilityRefs": ["htmlCssLayout.responsiveContent", "htmlCssLayout.visualTreatment"],
+          "role": "Summary tiles and non-widget layout."
+        }
+      ],
+      "validationRules": [
+        "Each widget must identify its source data and freshness assumptions.",
+        "Provide drill-through from summary widgets to source records when users need to act.",
+        "Avoid dashboard-only designs for workflows whose primary task is editing."
+      ]
+    },
+    "crossWidgetFilters": {
+      "userPhrases": ["dashboard filters", "quick filters", "advanced filters", "filter widgets", "global filter"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxToolbar",
+          "role": "Global filter and action surface."
+        },
+        {
+          "widget": "dxSelectBox|dxTagBox|dxDateRangeBox",
+          "role": "Filter editors for categories, owners, statuses, and date ranges."
+        },
+        {
+          "widget": "dxFilterBuilder",
+          "capabilityRefs": ["dxFilterBuilder.advancedFiltering"],
+          "role": "Advanced dashboard filter conditions."
+        },
+        {
+          "widget": "dxFilterBuilder",
+          "role": "Advanced condition builder."
+        }
+      ],
+      "validationRules": [
+        "Make global filters visibly apply to all affected widgets.",
+        "Keep quick filters simple; use dxFilterBuilder for advanced conditions.",
+        "Show active filter state and provide a clear reset action."
+      ]
+    }
+  }
+}

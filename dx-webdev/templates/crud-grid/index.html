@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DevExtreme jQuery CRUD Grid</title>
+    <link id="dx-theme" rel="stylesheet" href="https://cdn3.devexpress.com/jslib/25.2.3/css/dx.light.css">
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="dx-viewport">
+<!-- DX_WIDGET_REGION_START -->
+    <div class="app-shell">
+        <header class="app-header">
+            <h1 data-page-title>Orders Grid</h1>
+            <p class="app-subtitle">Editable DataGrid with popup form validation</p>
+        </header>
+        <main class="app-content">
+            <section class="widget-panel">
+                <div id="gridToolbar" class="widget-host"></div>
+            </section>
+            <section class="widget-panel">
+                <div id="ordersGrid" class="widget-host"></div>
+            </section>
+            <div id="gridLoadPanel" class="widget-host"></div>
+            <p class="state-message" data-empty-state>No orders match the current filters.</p>
+            <p class="state-message state-message-error" data-error-state hidden>Unable to load order data.</p>
+        </main>
+    </div>
+<!-- DX_WIDGET_REGION_END -->
+    <script id="jquery-script" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script id="dx-script" src="https://cdn3.devexpress.com/jslib/25.2.3/js/dx.all.js"></script>
+    <script src="./app.js"></script>
+</body>
+</html>

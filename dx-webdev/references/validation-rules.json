@@ -1,0 +1,65 @@
+{
+  "ruleset": "dx-webdev-static-validation",
+  "version": "0.1.0",
+  "requiredFiles": ["index.html", "styles.css", "app.js"],
+  "loadOrder": {
+    "cssMustReference": ["dx."],
+    "scriptOrder": ["jquery", "dx."],
+    "localAppAfterDevExtreme": true
+  },
+  "requiredPatterns": {
+    "jqueryWidgetInitialization": "\\$\\(['\\\"]#[A-Za-z][A-Za-z0-9_-]*['\\\"]\\)\\.dx[A-Z][A-Za-z0-9]+\\(",
+    "devextremeCss": "dx\\.[A-Za-z0-9_.-]+\\.css|devexpress\\.com/.+?/css/",
+    "devextremeJs": "dx\\.all\\.js|dx\\.web\\.js|devexpress\\.com/.+?/js/"
+  },
+  "containerValidation": {
+    "extractInitializedIdsFromAppJs": "\\$\\(['\\\"]#([A-Za-z][A-Za-z0-9_-]*)['\\\"]\\)\\.dx[A-Z][A-Za-z0-9]+\\(",
+    "requireMatchingHtmlIds": true
+  },
+  "forbiddenArtifacts": [
+    {
+      "name": "framework-imports",
+      "pattern": "\\bfrom\\s+['\\\"](react|vue|@angular/|angular)['\\\"]|\\bimport\\s+(React|Vue)\\b",
+      "severity": "error"
+    },
+    {
+      "name": "jsx-tsx-markers",
+      "pattern": "React\\.createElement|<[A-Z][A-Za-z0-9]*\\s+[^>]*>|\\.tsx\\b|\\.jsx\\b",
+      "severity": "error"
+    },
+    {
+      "name": "themebuilder-artifacts",
+      "pattern": "ThemeBuilder|themebuilder|dx-theme-builder|metadata\\.base\\.json",
+      "severity": "error"
+    }
+  ],
+  "auditWarnings": [
+    {
+      "name": "broad-global-dx-selector",
+      "pattern": "(^|\\n)\\s*\\.dx-[A-Za-z0-9_-]+\\s*\\{",
+      "message": "Prefer wrapper-scoped selectors unless the rule is intentionally app-wide."
+    },
+    {
+      "name": "hard-coded-color",
+      "pattern": "#[0-9A-Fa-f]{3,8}|rgba?\\(",
+      "message": "Prefer CSS variables for repeated color values."
+    },
+    {
+      "name": "missing-responsive-css",
+      "pattern": "@media|grid-template-columns|minmax\\(|clamp\\(",
+      "message": "Generated UI should include responsive constraints for non-trivial layouts."
+    },
+    {
+      "name": "missing-validation-for-form",
+      "whenWidgetPattern": "\\.dxForm\\(",
+      "pattern": "validationRules|validationGroup",
+      "message": "dxForm usage should include validation when user input can be submitted."
+    },
+    {
+      "name": "missing-styling-anchor",
+      "pattern": "elementAttr|inputAttr|cssClass|className",
+      "message": "Styled widgets should expose stable hooks for local CSS and accessibility."
+    }
+  ],
+  "recommendedStates": ["loading", "empty", "error", "disabled", "validation", "responsive"]
+}

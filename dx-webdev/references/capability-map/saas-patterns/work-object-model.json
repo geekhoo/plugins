@@ -1,0 +1,65 @@
+{
+  "pattern": "workObjectModel",
+  "purpose": "Define the stable business object that all views, actions, status tokens, and detail surfaces operate on.",
+  "inspiredBy": ["Salesforce records", "monday.com board items", "Google Workspace files/events/tasks", "Microsoft 365 documents/messages"],
+  "capabilities": {
+    "objectIdentity": {
+      "userPhrases": ["record", "item", "task", "file", "message", "event", "case", "order"],
+      "designQuestions": [
+        "What uniquely identifies the object?",
+        "Which fields are primary labels, status, ownership, dates, and permissions?",
+        "Which actions are global, row-level, object-level, or bulk?"
+      ],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxDataGrid",
+          "capabilityRefs": ["dxDataGrid.searchAndFilter", "dxDataGrid.editing", "dxDataGrid.statePersistence"],
+          "role": "Primary tabular object workbench."
+        },
+        {
+          "widget": "dxForm",
+          "capabilityRefs": ["dxForm.editorComposition", "dxForm.validation", "dxForm.readOnlyReview"],
+          "role": "Create, edit, and review object fields."
+        },
+        {
+          "widget": "dxDrawer|dxPopup",
+          "capabilityRefs": ["dxDrawer.sidePanel", "dxPopup.modalWorkflow"],
+          "role": "Object details or focused edit flows."
+        }
+      ],
+      "validationRules": [
+        "Do not start with dashboard widgets until the source object and freshness model are clear.",
+        "Expose object identity in every detail or action surface.",
+        "Keep status, owner, due date, and permissions close to row-level actions when they affect what users can do."
+      ]
+    },
+    "objectHierarchy": {
+      "userPhrases": ["parent child", "subitems", "related records", "folders", "nested categories"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxTreeList",
+          "role": "Hierarchical object table with row actions and columns."
+        },
+        {
+          "widget": "dxTreeView",
+          "capabilityRefs": ["dxTreeView.hierarchicalNavigation"],
+          "role": "Navigation or selection over a hierarchy."
+        },
+        {
+          "widget": "dxTreeList",
+          "capabilityRefs": ["dxTreeList.hierarchicalRecords"],
+          "role": "Primary hierarchical object workbench."
+        },
+        {
+          "widget": "dxDataGrid.masterDetail",
+          "capabilityRefs": ["dxDataGrid.masterDetail"],
+          "role": "Expandable row detail for related records."
+        }
+      ],
+      "validationRules": [
+        "Use hierarchy widgets when hierarchy changes scanning, navigation, permissions, or rollup behavior.",
+        "Use master-detail when child data is secondary to a flat primary list."
+      ]
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "saas-ux-pattern-taxonomy",
+  "version": "0.1.0",
+  "patterns": {
+    "workObjectModel": {
+      "definition": "A stable object model such as records, tasks, board items, files, messages, or events that every view and action operates on.",
+      "useWhen": ["Users need repeatable workflows", "Multiple components show the same business object", "Actions should stay tied to a selected object"],
+      "avoidWhen": ["The page is purely informational", "There is no persistent entity or workflow state"]
+    },
+    "multiViewData": {
+      "definition": "The same data exposed through alternate lenses such as table, card, calendar, timeline, board, chart, or detail view.",
+      "useWhen": ["Different roles inspect the same data differently", "Users alternate between editing and planning", "Data has dates, owners, status, or hierarchy"],
+      "avoidWhen": ["The alternate view would hide required editing controls", "The data does not have enough structure for the view"]
+    },
+    "contextualActions": {
+      "definition": "Actions placed near the current row, item, selection, panel, or view rather than only in a global menu.",
+      "useWhen": ["Users need to act on selected records", "Actions depend on row state or permissions", "The page has many possible commands"],
+      "avoidWhen": ["The action affects the whole application", "The command is rare and destructive without confirmation"]
+    },
+    "sideContextSurfaces": {
+      "definition": "Secondary context shown beside the main surface through drawers, task panes, split panes, side sheets, or panels.",
+      "useWhen": ["Users need reference material while working", "The current object should remain visible", "The flow is supplemental or reversible"],
+      "avoidWhen": ["The task requires blocking confirmation", "The secondary content needs the full viewport"]
+    },
+    "semanticStatus": {
+      "definition": "Compact tokens for status, people, files, dates, tags, ownership, priority, and other scan/filter dimensions.",
+      "useWhen": ["Users scan dense lists", "Statuses drive filtering or automation", "Entities need inline preview or selection"],
+      "avoidWhen": ["Color or token text would be the only source of meaning", "The token hides required detail"]
+    },
+    "dashboardComposition": {
+      "definition": "A filterable composition of widgets, summaries, charts, and drill-through links over one or more source datasets.",
+      "useWhen": ["Users monitor portfolio health", "Multiple source boards or objects roll up", "The primary activity is triage or reporting"],
+      "avoidWhen": ["Users need to perform row-level editing as the main task", "The source data has unclear ownership or freshness"]
+    },
+    "workflowFeedback": {
+      "definition": "Feedback components that show loading, empty, error, save, progress, notification, and asynchronous operation states.",
+      "useWhen": ["Work can fail, save, queue, refresh, or take time", "Users need confidence after actions", "The page fetches or mutates data"],
+      "avoidWhen": ["Feedback would duplicate native widget state without adding clarity"]
+    }
+  }
+}

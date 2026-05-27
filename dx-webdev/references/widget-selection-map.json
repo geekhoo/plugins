@@ -1,0 +1,77 @@
+{
+  "editable-table": {
+    "recommended": "dxDataGrid",
+    "alternatives": ["dxTreeList"],
+    "notes": "Use dxDataGrid for flat editable records. Use dxTreeList when rows have parent-child hierarchy."
+  },
+  "hierarchical-table": {
+    "recommended": "dxTreeList",
+    "alternatives": ["dxDataGrid"],
+    "notes": "Use dxTreeList for expandable parent-child rows. Use grouped dxDataGrid only when hierarchy is shallow and not structural."
+  },
+  "form": {
+    "recommended": "dxForm",
+    "alternatives": ["dxTextBox", "dxSelectBox", "dxDateBox"],
+    "notes": "Use dxForm for labeled editor layout, validation groups, and responsive form columns."
+  },
+  "command-bar": {
+    "recommended": "dxToolbar",
+    "alternatives": ["dxButtonGroup"],
+    "notes": "Use dxToolbar for page actions, filters, search controls, and grouped commands."
+  },
+  "modal-workflow": {
+    "recommended": "dxPopup",
+    "alternatives": ["dxPopover"],
+    "notes": "Use dxPopup for blocking workflow, edit dialogs, confirmations with content, and review panels."
+  },
+  "drawer-detail-panel": {
+    "recommended": "dxDrawer",
+    "alternatives": ["dxPopup"],
+    "notes": "Use dxDrawer for persistent navigation or side detail panels. Use dxPopup for temporary modal detail."
+  },
+  "tabbed-content": {
+    "recommended": "dxTabPanel",
+    "alternatives": ["dxTabs"],
+    "notes": "Use dxTabPanel when content panes are owned by the widget. Use dxTabs when tabs only drive external content."
+  },
+  "step-workflow": {
+    "recommended": "dxStepper",
+    "alternatives": ["dxForm", "dxTabPanel"],
+    "notes": "Use dxStepper to expose workflow progress and dxForm for each step's inputs."
+  },
+  "select-input": {
+    "recommended": "dxSelectBox",
+    "alternatives": ["dxLookup", "dxDropDownBox"],
+    "notes": "Use dxSelectBox for single choice from a moderate list."
+  },
+  "tag-input": {
+    "recommended": "dxTagBox",
+    "alternatives": ["dxDropDownBox"],
+    "notes": "Use dxTagBox for multi-select tags with search and removable selections."
+  },
+  "date-input": {
+    "recommended": "dxDateBox",
+    "alternatives": ["dxDateRangeBox"],
+    "notes": "Use dxDateBox for one date or date-time value. Use dxDateRangeBox for start/end range workflows."
+  },
+  "notifications": {
+    "recommended": "DevExpress.ui.notify",
+    "alternatives": ["dxToast"],
+    "notes": "Use notify for simple status feedback. Use dxToast when a configured reusable widget is needed."
+  },
+  "load-state": {
+    "recommended": "dxLoadPanel",
+    "alternatives": ["dxLoadIndicator"],
+    "notes": "Use dxLoadPanel for blocking page or panel work. Use dxLoadIndicator inline for small loading regions."
+  },
+  "menus": {
+    "recommended": "dxMenu",
+    "alternatives": ["dxContextMenu"],
+    "notes": "Use dxMenu for visible command navigation. Use dxContextMenu for right-click or overflow actions."
+  },
+  "navigation": {
+    "recommended": "dxTreeView",
+    "alternatives": ["dxList", "dxTabs", "dxDrawer"],
+    "notes": "Choose based on hierarchy, density, and responsive shell behavior."
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "name": "dx-webdev-capability-map",
+  "version": "0.1.0",
+  "scope": "DevExtreme jQuery widgets in pure HTML, JavaScript, and CSS apps",
+  "principles": [
+    "Map UX intent to available primitives, not prewritten layouts.",
+    "Prefer DevExtreme widget options before CSS overrides.",
+    "Prefer reconfiguration of existing widgets before replacement.",
+    "Use plain HTML and CSS for page layout, responsive constraints, visual treatment, and template content."
+  ],
+  "componentMaps": [
+    {
+      "component": "dxDataGrid",
+      "file": "components/dxDataGrid.json",
+      "primaryIntents": ["editable table", "dense data workbench", "fixed columns", "filtering", "grouping", "master detail"]
+    },
+    {
+      "component": "dxDrawer",
+      "file": "components/dxDrawer.json",
+      "primaryIntents": ["side panel", "navigation drawer", "responsive drawer", "detail drawer"]
+    },
+    {
+      "component": "dxSplitter",
+      "file": "components/dxSplitter.json",
+      "primaryIntents": ["resizable panes", "split view", "collapsible pane", "nested panes"]
+    },
+    {
+      "component": "dxPopup",
+      "file": "components/dxPopup.json",
+      "primaryIntents": ["modal workflow", "overlay editor", "side modal", "resizable dialog"]
+    },
+    {
+      "component": "dxToolbar",
+      "file": "components/dxToolbar.json",
+      "primaryIntents": ["command bar", "filters bar", "responsive overflow", "page actions"]
+    },
+    {
+      "component": "dxForm",
+      "file": "components/dxForm.json",
+      "primaryIntents": ["form layout", "validation", "responsive form", "read-only review"]
+    },
+    {
+      "component": "dxTabPanel/dxTabs",
+      "file": "components/tabbed-navigation.json",
+      "primaryIntents": ["tabbed content", "section switching", "wizard-like grouping"]
+    },
+    {
+      "component": "dxList/dxTreeView",
+      "file": "components/list-tree-navigation.json",
+      "primaryIntents": ["flat navigation", "hierarchical navigation", "selectable list", "navigation drawer content"]
+    },
+    {
+      "component": "dxSelectBox/dxTagBox/dxDropDownBox",
+      "file": "components/dropdown-editors.json",
+      "primaryIntents": ["single select", "multi select", "custom dropdown content", "lookup editor"]
+    },
+    {
+      "component": "dxMenu",
+      "file": "components/dxMenu.json",
+      "primaryIntents": ["application menu", "contextual navigation", "submenu commands"]
+    },
+    {
+      "component": "dxBox/dxResponsiveBox",
+      "file": "components/layout-widgets.json",
+      "primaryIntents": ["widget layout", "responsive box", "structural panel sizing", "adaptive item locations"]
+    },
+    {
+      "component": "dxCardView/dxTileView/dxSortable",
+      "file": "components/card-and-board-views.json",
+      "primaryIntents": ["card view", "record cards", "tile view", "kanban lane", "drag reorder"]
+    },
+    {
+      "component": "dxScheduler/dxGantt",
+      "file": "components/scheduling-and-planning.json",
+      "primaryIntents": ["calendar view", "schedule", "timeline", "gantt", "resource planning"]
+    },
+    {
+      "component": "dxPivotGrid/dxFilterBuilder",
+      "file": "components/analytics-and-filtering.json",
+      "primaryIntents": ["pivot analysis", "advanced filters", "rollup", "condition builder"]
+    },
+    {
+      "component": "dxDropDownButton/dxButtonGroup/dxSpeedDialAction/dxStepper",
+      "file": "components/action-controls.json",
+      "primaryIntents": ["more actions", "segmented control", "floating action", "step workflow"]
+    },
+    {
+      "component": "dxToast/dxLoadPanel/dxProgressBar/dxPopover/dxTooltip",
+      "file": "components/feedback-and-overlays.json",
+      "primaryIntents": ["toast", "loading overlay", "progress", "popover", "tooltip"]
+    },
+    {
+      "component": "dxValidator/dxValidationGroup/dxValidationSummary",
+      "file": "components/validation-and-forms-support.json",
+      "primaryIntents": ["validator", "validation group", "validation summary", "custom validation"]
+    },
+    {
+      "component": "dxTreeList",
+      "file": "components/hierarchical-workbench.json",
+      "primaryIntents": ["tree grid", "hierarchical records", "parent child rows", "subitems table"]
+    },
+    {
+      "component": "dxFileManager/dxFileUploader/dxHtmlEditor",
+      "file": "components/file-and-content-workflows.json",
+      "primaryIntents": ["file manager", "file upload", "attachments", "rich text", "mentions"]
+    },
+    {
+      "component": "dxChat/dxContextMenu",
+      "file": "components/collaboration-and-context.json",
+      "primaryIntents": ["chat panel", "comments", "assistant panel", "context menu", "right click menu"]
+    }
+  ],
+  "layoutMap": {
+    "file": "html-css-layout.json",
+    "primaryIntents": ["app shell", "fixed header", "scroll region", "responsive grid", "flex layout"]
+  },
+  "saasPatternMaps": [
+    {
+      "pattern": "workObjectModel",
+      "file": "saas-patterns/work-object-model.json",
+      "primaryIntents": ["record workbench", "task object", "board item", "object detail", "related records"]
+    },
+    {
+      "pattern": "multiViewData",
+      "file": "saas-patterns/multi-view-data.json",
+      "primaryIntents": ["same data different views", "table calendar chart", "view switcher", "saved views"]
+    },
+    {
+      "pattern": "contextualActions",
+      "file": "saas-patterns/contextual-actions.json",
+      "primaryIntents": ["row actions", "bulk actions", "command bar", "overflow menu", "selection actions"]
+    },
+    {
+      "pattern": "sideContextSurfaces",
+      "file": "saas-patterns/side-context-surfaces.json",
+      "primaryIntents": ["side panel", "task pane", "details panel", "entity preview", "stay in context"]
+    },
+    {
+      "pattern": "semanticStatus",
+      "file": "saas-patterns/semantic-status-and-entities.json",
+      "primaryIntents": ["status chip", "tags", "owners", "smart chip", "entity preview"]
+    },
+    {
+      "pattern": "dashboardComposition",
+      "file": "saas-patterns/dashboard-composition.json",
+      "primaryIntents": ["dashboard", "widgets", "rollup", "global filters", "drill through"]
+    },
+    {
+      "pattern": "workflowFeedback",
+      "file": "saas-patterns/workflow-feedback.json",
+      "primaryIntents": ["loading", "saving", "toast", "empty state", "progress", "validation summary"]
+    }
+  ],
+  "phraseIndex": {
+    "record workbench": ["workObjectModel.objectIdentity", "dxDataGrid.editing", "dxForm.editorComposition"],
+    "hierarchical records": ["dxTreeList.hierarchicalRecords", "workObjectModel.objectHierarchy"],
+    "tree grid": ["dxTreeList.hierarchicalRecords"],
+    "subitems table": ["dxTreeList.hierarchicalRecords"],
+    "same data different views": ["multiViewData.viewSwitcher"],
+    "view switcher": ["multiViewData.viewSwitcher", "dxTabs.externalTabs"],
+    "calendar view": ["multiViewData.viewTypes.calendar"],
+    "timeline view": ["multiViewData.viewTypes.timelineOrGantt"],
+    "kanban view": ["multiViewData.viewTypes.cardsOrBoard"],
+    "card view": ["dxCardView.cardWorkbench", "multiViewData.viewTypes.cardsOrBoard"],
+    "tile view": ["dxTileView.tileLayout"],
+    "drag reorder": ["dxSortable.reorderableLanes"],
+    "row actions": ["contextualActions.rowActions"],
+    "bulk actions": ["contextualActions.rowActions", "dxDataGrid.performanceAndDensity"],
+    "action menu": ["dxDropDownButton.overflowActions", "contextualActions.rowActions"],
+    "segmented control": ["dxButtonGroup.segmentedActions"],
+    "step workflow": ["dxStepper.stepWorkflow"],
+    "command bar": ["contextualActions.constrainedCommandBar", "dxToolbar.commandPlacement"],
+    "task pane": ["sideContextSurfaces.persistentSidePanel"],
+    "details panel": ["sideContextSurfaces.persistentSidePanel", "dxDrawer.sidePanel"],
+    "smart chip": ["semanticStatus.inlineEntityPreview"],
+    "status chip": ["semanticStatus.statusTokens"],
+    "dashboard widgets": ["dashboardComposition.widgetGrid"],
+    "global filters": ["dashboardComposition.crossWidgetFilters"],
+    "advanced filters": ["dxFilterBuilder.advancedFiltering", "dashboardComposition.crossWidgetFilters"],
+    "pivot analysis": ["dxPivotGrid.pivotAnalysis", "dashboardComposition.widgetGrid"],
+    "schedule": ["dxScheduler.calendarScheduling"],
+    "gantt": ["dxGantt.timelinePlanning"],
+    "resource planning": ["dxScheduler.calendarScheduling", "dxGantt.timelinePlanning"],
+    "toast": ["workflowFeedback.operationState"],
+    "empty state": ["workflowFeedback.operationState"],
+    "loading overlay": ["dxLoadPanel.blockingLoad", "workflowFeedback.operationState"],
+    "progress": ["dxProgressBar.progress", "workflowFeedback.operationState"],
+    "popover": ["dxPopover.anchoredContext", "sideContextSurfaces.temporaryContext"],
+    "tooltip": ["dxTooltip.anchoredContext"],
+    "validation summary": ["dxValidationSummary.groupValidation", "dxForm.validation"],
+    "file manager": ["dxFileManager.fileWorkspace", "sideContextSurfaces.persistentSidePanel"],
+    "file upload": ["dxFileUploader.fileIntake", "workflowFeedback.operationState"],
+    "attachments": ["dxFileUploader.fileIntake", "dxFileManager.fileWorkspace"],
+    "rich text": ["dxHtmlEditor.richTextContent"],
+    "mentions": ["dxHtmlEditor.richTextContent", "semanticStatus.inlineEntityPreview"],
+    "chat panel": ["dxChat.embeddedConversation", "sideContextSurfaces.persistentSidePanel"],
+    "comments": ["dxChat.embeddedConversation", "dxHtmlEditor.richTextContent"],
+    "context menu": ["dxContextMenu.targetedContextMenu", "contextualActions.rowActions"],
+    "fixed column": ["dxDataGrid.columnPinning"],
+    "pin column": ["dxDataGrid.columnPinning"],
+    "freeze column": ["dxDataGrid.columnPinning"],
+    "action column on right": ["dxDataGrid.columnPinning", "dxDataGrid.commandColumns"],
+    "search table": ["dxDataGrid.searchAndFilter"],
+    "filter row": ["dxDataGrid.searchAndFilter"],
+    "column chooser": ["dxDataGrid.columnManagement"],
+    "remember grid state": ["dxDataGrid.statePersistence"],
+    "group rows": ["dxDataGrid.groupingAndSummaries"],
+    "summary row": ["dxDataGrid.groupingAndSummaries"],
+    "remote filtering": ["dxDataGrid.remoteOperations"],
+    "responsive grid": ["dxDataGrid.adaptiveColumns"],
+    "side panel": ["dxDrawer.sidePanel", "dxPopup.sidePanelOverlay"],
+    "navigation drawer": ["dxDrawer.navigationShell"],
+    "resizable panes": ["dxSplitter.resizablePanes"],
+    "split view": ["dxSplitter.resizablePanes"],
+    "collapsible pane": ["dxSplitter.collapsiblePanes"],
+    "modal editor": ["dxPopup.modalWorkflow"],
+    "dialog actions": ["dxPopup.toolbarActions", "dxToolbar.commandPlacement"],
+    "responsive overflow": ["dxToolbar.responsiveOverflow"],
+    "responsive form": ["dxForm.responsiveLayout"],
+    "validation rules": ["dxForm.validation"],
+    "read only form": ["dxForm.readOnlyReview"],
+    "tabs": ["dxTabPanel.tabbedContent", "dxTabs.externalTabs"],
+    "navigation list": ["dxList.flatNavigation"],
+    "tree navigation": ["dxTreeView.hierarchicalNavigation"],
+    "single select": ["dxSelectBox.singleSelect"],
+    "multi select": ["dxTagBox.multiSelect"],
+    "custom dropdown": ["dxDropDownBox.compositeDropdown"],
+    "menu": ["dxMenu.menuNavigation"],
+    "submenu": ["dxMenu.submenus"],
+    "box layout": ["dxBox.flexBoxLayout"],
+    "responsive box": ["dxResponsiveBox.responsiveItemLayout"],
+    "sticky toolbar": ["htmlCssLayout.fixedShell"]
+  }
+}

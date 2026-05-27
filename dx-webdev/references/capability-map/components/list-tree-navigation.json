@@ -1,0 +1,141 @@
+{
+  "components": ["dxList", "dxTreeView"],
+  "modules": ["ui/list", "ui/tree_view"],
+  "jqueryInitializers": ["dxList", "dxTreeView"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/list.d.ts",
+    "packages/devextreme/js/ui/tree_view.d.ts"
+  ],
+  "capabilities": {
+    "flatNavigation": {
+      "component": "dxList",
+      "userPhrases": ["navigation list", "selectable list", "menu list", "flat menu"],
+      "options": [
+        {
+          "path": "dataSource",
+          "type": "array|DataSource|Store",
+          "purpose": "Provide list data."
+        },
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Provide static list items."
+        },
+        {
+          "path": "displayExpr",
+          "type": "string|function",
+          "purpose": "Choose item display text."
+        },
+        {
+          "path": "selectionMode",
+          "type": "enum",
+          "values": ["none", "single", "multiple", "all"],
+          "purpose": "Choose list selection behavior."
+        },
+        {
+          "path": "showSelectionControls",
+          "type": "boolean",
+          "purpose": "Show selection controls in the list."
+        },
+        {
+          "path": "pageLoadMode",
+          "type": "enum",
+          "values": ["nextButton", "scrollBottom"],
+          "purpose": "Choose how additional list pages load."
+        },
+        {
+          "path": "scrollingEnabled",
+          "type": "boolean",
+          "purpose": "Enable internal list scrolling."
+        },
+        {
+          "path": "searchEnabled|searchExpr|searchMode|searchTimeout|searchValue|searchEditorOptions",
+          "type": "search-options",
+          "requires": ["dataSource"],
+          "purpose": "Enable and configure list search."
+        },
+        {
+          "path": "selectByClick",
+          "type": "boolean",
+          "purpose": "Select items when clicked."
+        }
+      ],
+      "validationRules": [
+        "Use dxList for flat navigation or selectable records.",
+        "Use dxTreeView when hierarchy is structural, not just grouped display.",
+        "Search options require data to be provided with dataSource."
+      ]
+    },
+    "hierarchicalNavigation": {
+      "component": "dxTreeView",
+      "userPhrases": ["tree navigation", "hierarchical menu", "folder tree", "nested navigation"],
+      "options": [
+        {
+          "path": "dataSource",
+          "type": "array|DataSource|Store",
+          "purpose": "Provide hierarchical or plain tree data."
+        },
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Provide static tree items."
+        },
+        {
+          "path": "createChildren",
+          "type": "function",
+          "purpose": "Load child nodes dynamically."
+        },
+        {
+          "path": "dataStructure",
+          "type": "enum",
+          "values": ["plain", "tree"],
+          "purpose": "Describe the shape of the tree data."
+        },
+        {
+          "path": "parentIdExpr",
+          "type": "string|function",
+          "purpose": "Identify parent links for plain data structures."
+        },
+        {
+          "path": "selectionMode",
+          "type": "enum",
+          "values": ["single", "multiple"],
+          "purpose": "Choose tree selection behavior."
+        },
+        {
+          "path": "showCheckBoxesMode",
+          "type": "enum",
+          "values": ["none", "normal", "selectAll"],
+          "purpose": "Show selection checkboxes."
+        },
+        {
+          "path": "expandEvent",
+          "type": "enum",
+          "values": ["dblclick", "click"],
+          "purpose": "Choose which event expands nodes."
+        },
+        {
+          "path": "expandAllEnabled",
+          "type": "boolean",
+          "purpose": "Allow users to expand all nodes."
+        },
+        {
+          "path": "searchEnabled|searchExpr|searchMode|searchTimeout|searchValue|searchEditorOptions",
+          "type": "search-options",
+          "requires": ["dataSource"],
+          "purpose": "Enable and configure tree search."
+        },
+        {
+          "path": "selectByClick",
+          "type": "boolean",
+          "purpose": "Select nodes when clicked."
+        }
+      ],
+      "validationRules": [
+        "Use parentIdExpr for plain data with parent identifiers.",
+        "Use checkboxes only when users are making selections, not for simple navigation.",
+        "Search options require data to be provided with dataSource."
+      ]
+    }
+  }
+}

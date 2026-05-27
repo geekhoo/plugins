@@ -1,0 +1,120 @@
+{
+  "name": "saas-ux-source-inventory",
+  "version": "0.1.0",
+  "generatedFrom": "SerpApi-backed exploration of official SaaS product and design-system sources",
+  "sources": [
+    {
+      "vendor": "Salesforce",
+      "title": "Lightning Component Reference",
+      "url": "https://developer.salesforce.com/docs/platform/lightning-component-reference/guide/components.html",
+      "evidence": [
+        "Base components implement Lightning Design System designs and blueprints.",
+        "Form components support creating, editing, and viewing records.",
+        "Table and tree components display large formatted record data and hierarchy."
+      ],
+      "patterns": ["workObjectModel", "operationalTables", "forms", "hierarchy"]
+    },
+    {
+      "vendor": "Salesforce",
+      "title": "Display Data in a Table with Inline Editing",
+      "url": "https://developer.salesforce.com/docs/platform/lwc/guide/data-table-inline-edit.html",
+      "evidence": [
+        "Datatable is used to display Salesforce data in a table.",
+        "Inline editing lets users update field values in place."
+      ],
+      "patterns": ["operationalTables", "contextualActions", "inlineEditing"]
+    },
+    {
+      "vendor": "monday.com",
+      "title": "The basics of a board",
+      "url": "https://support.monday.com/hc/en-us/articles/115005317249-The-basics-of-a-board",
+      "evidence": [
+        "Boards are made from groups, columns, items, and subitems.",
+        "Columns customize how board data is displayed."
+      ],
+      "patterns": ["workObjectModel", "multiViewData", "semanticStatus"]
+    },
+    {
+      "vendor": "monday.com",
+      "title": "Introduction to monday.com",
+      "url": "https://support.monday.com/hc/en-us/articles/115005310945-Introduction-to-monday-com",
+      "evidence": [
+        "Views look at a single board from different angles.",
+        "Dashboards report across multiple boards using widgets and apps."
+      ],
+      "patterns": ["multiViewData", "dashboardComposition"]
+    },
+    {
+      "vendor": "monday.com",
+      "title": "The Dashboards",
+      "url": "https://support.monday.com/hc/en-us/articles/360002187819-The-Dashboards",
+      "evidence": [
+        "Dashboards centralize data in one location with widgets.",
+        "Quick filters and advanced filters customize dashboard data."
+      ],
+      "patterns": ["dashboardComposition", "crossWidgetFilters"]
+    },
+    {
+      "vendor": "Microsoft",
+      "title": "Navigation patterns for Office Add-ins",
+      "url": "https://learn.microsoft.com/en-us/office/dev/add-ins/design/navigation-patterns",
+      "evidence": [
+        "Command bars house commands and navigation controls at the top of task panes.",
+        "Command bars are useful for four or more top-level sections, narrow panes, search, and filters.",
+        "Recognizable icons with tooltips and 44x44 px touch targets improve constrained UI accessibility."
+      ],
+      "patterns": ["sideContextSurfaces", "contextualActions", "constrainedNavigation"]
+    },
+    {
+      "vendor": "Google Workspace",
+      "title": "Use Google products side by side",
+      "url": "https://support.google.com/calendar/answer/106237?hl=en&co=GENIE.Platform%3DDesktop",
+      "evidence": [
+        "Users can use Gmail, Calendar, Chat, Drive, Docs, Sheets, and Slides with side-panel apps in the same window.",
+        "Calendar, Keep, Tasks, Contacts, Voice, Maps, and add-ons can appear in the side panel."
+      ],
+      "patterns": ["sideContextSurfaces", "crossAppContext", "taskCapture"]
+    },
+    {
+      "vendor": "Google Workspace",
+      "title": "Insert smart chips in Google Docs",
+      "url": "https://support.google.com/docs/answer/10710316?hl=en",
+      "evidence": [
+        "Smart chips expose calendar events and other entities inline.",
+        "Event chips can expose meeting details and join actions."
+      ],
+      "patterns": ["semanticStatus", "inlineEntityPreview", "contextualActions"]
+    },
+    {
+      "vendor": "Google Workspace",
+      "title": "Insert smart chips in your Google Sheets",
+      "url": "https://support.google.com/docs/answer/12319513?hl=en",
+      "evidence": [
+        "Sheets smart chips include people, files, events, places, finance, YouTube, and ratings.",
+        "Users can narrow chip options after typing @."
+      ],
+      "patterns": ["semanticStatus", "inlineEntityPreview", "entitySearch"]
+    },
+    {
+      "vendor": "Microsoft Fluent",
+      "title": "Fluent 2 React components",
+      "url": "https://fluent2.microsoft.design/components/web/react/",
+      "evidence": [
+        "Fluent describes components as building blocks for specific UI problems.",
+        "Relevant components include drawer, toolbar, nav, tree, menu, tag picker, toast, message bar, persona, progress, and skeleton."
+      ],
+      "patterns": ["componentVocabulary", "sideContextSurfaces", "workflowFeedback", "semanticStatus"]
+    },
+    {
+      "vendor": "Material Design",
+      "title": "Material Design 3 components",
+      "url": "https://m3.material.io/components",
+      "evidence": [
+        "Material components include navigation, side sheets, chips, lists, search, snackbars, and progress indicators.",
+        "Side sheets show secondary content anchored to the side of the screen.",
+        "Chips help users enter information, make selections, filter content, or trigger actions."
+      ],
+      "patterns": ["sideContextSurfaces", "semanticStatus", "workflowFeedback"]
+    }
+  ]
+}

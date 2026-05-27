@@ -1,0 +1,456 @@
+{
+  "component": "dxDataGrid",
+  "module": "ui/data_grid",
+  "jqueryInitializer": "dxDataGrid",
+  "sourceRefs": [
+    "packages/devextreme/js/ui/data_grid.d.ts",
+    "packages/devextreme/js/__internal/grids/grid_core/column_fixing/m_column_fixing.ts",
+    "packages/devextreme/js/__internal/grids/grid_core/columns_resizing_reordering/m_columns_resizing_reordering.ts"
+  ],
+  "capabilities": {
+    "columnPinning": {
+      "userPhrases": ["fixed column", "pin column", "freeze column", "sticky column", "action column on right"],
+      "options": [
+        {
+          "path": "columnFixing.enabled",
+          "type": "boolean",
+          "purpose": "Enable column fixing support and runtime fixing UI."
+        },
+        {
+          "path": "columns[].fixed",
+          "type": "boolean",
+          "purpose": "Mark an individual column as fixed."
+        },
+        {
+          "path": "columns[].fixedPosition",
+          "type": "enum",
+          "values": ["left", "right", "sticky"],
+          "requires": ["columns[].fixed=true"],
+          "purpose": "Choose where the fixed column is anchored."
+        }
+      ],
+      "validationRules": [
+        "If fixedPosition is set, fixed must be true.",
+        "Use right for trailing command or action columns.",
+        "Use sticky only when the column should become fixed while scrolling rather than always occupying a fixed band."
+      ]
+    },
+    "columnManagement": {
+      "userPhrases": ["resize columns", "reorder columns", "column chooser", "hide columns"],
+      "options": [
+        {
+          "path": "allowColumnResizing",
+          "type": "boolean",
+          "purpose": "Allow users to resize grid columns."
+        },
+        {
+          "path": "columnResizingMode",
+          "type": "enum",
+          "values": ["nextColumn", "widget"],
+          "requires": ["allowColumnResizing=true"],
+          "purpose": "Choose whether resizing changes the next column or the full widget width."
+        },
+        {
+          "path": "allowColumnReordering",
+          "type": "boolean",
+          "purpose": "Allow users to drag columns to reorder them."
+        },
+        {
+          "path": "columnChooser.enabled",
+          "type": "boolean",
+          "purpose": "Allow users to show and hide columns."
+        },
+        {
+          "path": "columns[].allowResizing",
+          "type": "boolean",
+          "purpose": "Override resizing behavior for one column."
+        },
+        {
+          "path": "columns[].allowReordering",
+          "type": "boolean",
+          "purpose": "Override reordering behavior for one column."
+        }
+      ],
+      "validationRules": [
+        "Enable column-level overrides only when the global behavior is too broad.",
+        "Keep command columns stable when reordering would make actions hard to find."
+      ]
+    },
+    "searchAndFilter": {
+      "userPhrases": ["search table", "filter records", "filter row", "header filter", "quick search"],
+      "options": [
+        {
+          "path": "searchPanel.visible",
+          "type": "boolean",
+          "purpose": "Show the built-in search panel."
+        },
+        {
+          "path": "searchPanel.placeholder",
+          "type": "string",
+          "purpose": "Set contextual search placeholder text."
+        },
+        {
+          "path": "filterRow.visible",
+          "type": "boolean",
+          "purpose": "Show per-column filter inputs."
+        },
+        {
+          "path": "headerFilter.visible",
+          "type": "boolean",
+          "purpose": "Show header filter menus."
+        },
+        {
+          "path": "filterPanel.visible",
+          "type": "boolean",
+          "purpose": "Show the active filter panel."
+        }
+      ],
+      "validationRules": [
+        "Use searchPanel for broad text search.",
+        "Use filterRow or headerFilter when users need field-specific filtering."
+      ]
+    },
+    "editing": {
+      "userPhrases": ["edit rows", "popup editor", "inline edit", "batch edit", "CRUD grid"],
+      "options": [
+        {
+          "path": "editing.mode",
+          "type": "enum",
+          "values": ["batch", "cell", "row", "form", "popup"],
+          "purpose": "Choose the editing interaction model."
+        },
+        {
+          "path": "editing.allowAdding",
+          "type": "boolean",
+          "purpose": "Allow adding records."
+        },
+        {
+          "path": "editing.allowUpdating",
+          "type": "boolean",
+          "purpose": "Allow updating records."
+        },
+        {
+          "path": "editing.allowDeleting",
+          "type": "boolean",
+          "purpose": "Allow deleting records."
+        },
+        {
+          "path": "editing.popup",
+          "type": "object",
+          "requires": ["editing.mode=popup"],
+          "purpose": "Configure the popup used by popup editing."
+        },
+        {
+          "path": "editing.form",
+          "type": "object",
+          "requires": ["editing.mode=form|popup"],
+          "purpose": "Configure the form used by form or popup editing."
+        }
+      ],
+      "validationRules": [
+        "For dense grids, prefer popup or form editing when row editing would create crowded cells.",
+        "Include validation rules on editable columns or form items when submitted data has constraints."
+      ]
+    },
+    "masterDetail": {
+      "userPhrases": ["expand row details", "nested details", "line items", "drill into row"],
+      "options": [
+        {
+          "path": "masterDetail.enabled",
+          "type": "boolean",
+          "purpose": "Enable expandable detail rows."
+        },
+        {
+          "path": "masterDetail.template",
+          "type": "function|string",
+          "requires": ["masterDetail.enabled=true"],
+          "purpose": "Render detail content for each master row."
+        },
+        {
+          "path": "masterDetail.autoExpandAll",
+          "type": "boolean",
+          "purpose": "Expand all detail rows by default."
+        }
+      ],
+      "validationRules": [
+        "Use a detail template for row-specific secondary data.",
+        "Avoid autoExpandAll for large datasets unless the page is explicitly a review view."
+      ]
+    },
+    "statePersistence": {
+      "userPhrases": ["remember grid state", "persist column order", "save filters", "restore table setup"],
+      "options": [
+        {
+          "path": "stateStoring.enabled",
+          "type": "boolean",
+          "purpose": "Enable state persistence."
+        },
+        {
+          "path": "stateStoring.type",
+          "type": "enum",
+          "values": ["localStorage", "sessionStorage", "custom"],
+          "requires": ["stateStoring.enabled=true"],
+          "purpose": "Choose where state is stored."
+        },
+        {
+          "path": "stateStoring.storageKey",
+          "type": "string",
+          "requires": ["stateStoring.enabled=true"],
+          "purpose": "Set a stable storage key for local or session storage."
+        },
+        {
+          "path": "stateStoring.customLoad",
+          "type": "function",
+          "requires": ["stateStoring.type=custom"],
+          "purpose": "Load grid state from custom storage."
+        },
+        {
+          "path": "stateStoring.customSave",
+          "type": "function",
+          "requires": ["stateStoring.type=custom"],
+          "purpose": "Save grid state to custom storage."
+        },
+        {
+          "path": "stateStoring.savingTimeout",
+          "type": "number",
+          "purpose": "Debounce state saving."
+        },
+        {
+          "path": "stateStoring.ignoreColumnOptionNames",
+          "type": "array",
+          "purpose": "Exclude selected column options from persisted state."
+        }
+      ],
+      "validationRules": [
+        "Use a unique storageKey per grid and app context.",
+        "When user roles change visible columns, consider whether persisted state should ignore visibility or fixed-position options."
+      ]
+    },
+    "performanceAndDensity": {
+      "userPhrases": ["large table", "virtual scroll", "dense grid", "many rows", "wide grid"],
+      "options": [
+        {
+          "path": "scrolling.mode",
+          "type": "enum",
+          "values": ["standard", "virtual", "infinite"],
+          "purpose": "Choose row scrolling behavior."
+        },
+        {
+          "path": "scrolling.columnRenderingMode",
+          "type": "enum",
+          "values": ["standard", "virtual"],
+          "purpose": "Choose whether wide grids render columns virtually."
+        },
+        {
+          "path": "height",
+          "type": "number|string",
+          "purpose": "Give virtual or infinite scrolling a deterministic component height."
+        },
+        {
+          "path": "selection.deferred",
+          "type": "boolean",
+          "purpose": "Defer selection state calculation for large or virtualized datasets."
+        },
+        {
+          "path": "selection.selectAllMode",
+          "type": "enum",
+          "values": ["allPages", "page"],
+          "purpose": "Control whether select-all applies to all records or the current page."
+        },
+        {
+          "path": "selection.showCheckBoxesMode",
+          "type": "enum",
+          "values": ["none", "onClick", "onLongTap", "always"],
+          "purpose": "Control when selection checkboxes are visible."
+        },
+        {
+          "path": "columnAutoWidth",
+          "type": "boolean",
+          "purpose": "Adjust column widths to content."
+        },
+        {
+          "path": "wordWrapEnabled",
+          "type": "boolean",
+          "purpose": "Allow cell text to wrap instead of overflowing."
+        },
+        {
+          "path": "paging.pageSize",
+          "type": "number",
+          "purpose": "Control page size for paged grids."
+        }
+      ],
+      "validationRules": [
+        "When scrolling.mode is virtual or infinite, specify grid height.",
+        "When using infinite scrolling with multiple selection, set selection.deferred=true or selection.selectAllMode=page.",
+        "Use virtual scrolling for very large local or remote datasets when paging alone is not enough.",
+        "For operational tables, preserve scanability before increasing visual spaciousness."
+      ]
+    },
+    "groupingAndSummaries": {
+      "userPhrases": ["group rows", "group panel", "totals", "summary row", "roll up values", "group totals"],
+      "options": [
+        {
+          "path": "groupPanel.visible",
+          "type": "boolean|string",
+          "purpose": "Expose the group panel so users can drag columns into grouping."
+        },
+        {
+          "path": "grouping.autoExpandAll",
+          "type": "boolean",
+          "purpose": "Control whether grouped rows start expanded."
+        },
+        {
+          "path": "columns[].groupIndex",
+          "type": "number",
+          "purpose": "Group by a column programmatically."
+        },
+        {
+          "path": "summary.totalItems[]",
+          "type": "array",
+          "purpose": "Add total summaries such as count, sum, min, max, or average."
+        },
+        {
+          "path": "summary.groupItems[]",
+          "type": "array",
+          "purpose": "Add summaries inside grouped rows."
+        },
+        {
+          "path": "summary.calculateCustomSummary",
+          "type": "function",
+          "purpose": "Compute custom aggregate values."
+        }
+      ],
+      "validationRules": [
+        "Use grouping and summaries for operational rollups before creating a separate dashboard.",
+        "Avoid auto-expanding all groups for large datasets unless the task is a compact review view."
+      ]
+    },
+    "adaptiveColumns": {
+      "userPhrases": ["responsive grid", "hide columns on mobile", "adaptive columns", "narrow table"],
+      "options": [
+        {
+          "path": "columnHidingEnabled",
+          "type": "boolean",
+          "purpose": "Allow the grid to hide lower-priority columns when space is constrained."
+        },
+        {
+          "path": "columns[].hidingPriority",
+          "type": "number",
+          "purpose": "Set column hiding order for adaptive layouts."
+        },
+        {
+          "path": "columnAutoWidth",
+          "type": "boolean",
+          "purpose": "Let columns size to content."
+        },
+        {
+          "path": "wordWrapEnabled",
+          "type": "boolean",
+          "purpose": "Wrap long cell text instead of clipping."
+        }
+      ],
+      "validationRules": [
+        "Set hiding priorities deliberately for columns that matter least on narrow screens.",
+        "Do not hide identity, status, or primary action columns unless an alternate detail surface exposes them."
+      ]
+    },
+    "remoteOperations": {
+      "userPhrases": ["server side grid", "remote filtering", "remote sorting", "large remote data", "server paging"],
+      "options": [
+        {
+          "path": "remoteOperations",
+          "type": "boolean|object",
+          "purpose": "Delegate grid shaping operations to a remote data source."
+        },
+        {
+          "path": "remoteOperations.filtering",
+          "type": "boolean",
+          "purpose": "Run filtering remotely."
+        },
+        {
+          "path": "remoteOperations.sorting",
+          "type": "boolean",
+          "purpose": "Run sorting remotely."
+        },
+        {
+          "path": "remoteOperations.paging",
+          "type": "boolean",
+          "purpose": "Run paging remotely."
+        },
+        {
+          "path": "remoteOperations.grouping",
+          "type": "boolean",
+          "purpose": "Run grouping remotely."
+        },
+        {
+          "path": "remoteOperations.summary",
+          "type": "boolean",
+          "purpose": "Calculate summaries remotely."
+        }
+      ],
+      "validationRules": [
+        "Use remoteOperations when local shaping would be too slow or inconsistent with backend authorization.",
+        "Ensure the backing endpoint supports every enabled remote operation."
+      ]
+    },
+    "contextualRowActions": {
+      "userPhrases": ["row actions", "action menu", "command column", "edit button", "open row", "selection actions"],
+      "options": [
+        {
+          "path": "columns[].type=buttons",
+          "type": "string",
+          "purpose": "Create a command column for row-level actions."
+        },
+        {
+          "path": "columns[].buttons[]",
+          "type": "array",
+          "purpose": "Define built-in or custom row action buttons."
+        },
+        {
+          "path": "columns[].buttons[].visible",
+          "type": "boolean|function",
+          "purpose": "Show actions conditionally by row state."
+        },
+        {
+          "path": "onRowClick",
+          "type": "function",
+          "purpose": "Open details or set context from a row click."
+        },
+        {
+          "path": "onSelectionChanged",
+          "type": "function",
+          "purpose": "Update bulk action state when selection changes."
+        }
+      ],
+      "validationRules": [
+        "Keep the primary row action visible when it is common and safe.",
+        "Use conditional visibility for permission- or state-dependent commands.",
+        "Use selection change events to enable, disable, or summarize bulk actions."
+      ]
+    },
+    "toolbarComposition": {
+      "userPhrases": ["grid toolbar", "grid actions", "grid filter toolbar", "export button"],
+      "options": [
+        {
+          "path": "toolbar",
+          "type": "object",
+          "purpose": "Configure the DataGrid toolbar."
+        },
+        {
+          "path": "toolbar.items[]",
+          "type": "array",
+          "purpose": "Define built-in or custom toolbar items."
+        },
+        {
+          "path": "export",
+          "type": "object",
+          "purpose": "Configure export behavior."
+        }
+      ],
+      "validationRules": [
+        "Use the grid toolbar for actions that operate directly on grid state.",
+        "Use a page-level dxToolbar for actions that operate across multiple widgets."
+      ]
+    }
+  }
+}

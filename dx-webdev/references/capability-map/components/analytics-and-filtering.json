@@ -1,0 +1,92 @@
+{
+  "components": ["dxPivotGrid", "dxPivotGridFieldChooser", "dxFilterBuilder"],
+  "modules": ["ui/pivot_grid", "ui/pivot_grid_field_chooser", "ui/filter_builder"],
+  "jqueryInitializers": ["dxPivotGrid", "dxPivotGridFieldChooser", "dxFilterBuilder"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/pivot_grid.d.ts",
+    "packages/devextreme/js/ui/pivot_grid_field_chooser.d.ts",
+    "packages/devextreme/js/ui/filter_builder.d.ts"
+  ],
+  "capabilities": {
+    "pivotAnalysis": {
+      "component": "dxPivotGrid",
+      "userPhrases": ["pivot", "cross-tab", "rollup", "slice data", "analytics grid"],
+      "options": [
+        {
+          "path": "dataSource",
+          "type": "array|PivotGridDataSource|object",
+          "purpose": "Provide analytical data and field configuration."
+        },
+        {
+          "path": "allowFiltering",
+          "type": "boolean",
+          "purpose": "Allow field filtering."
+        },
+        {
+          "path": "allowSorting",
+          "type": "boolean",
+          "purpose": "Allow field sorting."
+        },
+        {
+          "path": "fieldChooser",
+          "type": "object",
+          "purpose": "Enable field chooser configuration."
+        },
+        {
+          "path": "fieldPanel",
+          "type": "object",
+          "purpose": "Show row, column, data, and filter field areas."
+        },
+        {
+          "path": "stateStoring",
+          "type": "object",
+          "purpose": "Persist analytical layout."
+        },
+        {
+          "path": "export",
+          "type": "object",
+          "purpose": "Enable exporting pivot data."
+        }
+      ],
+      "validationRules": [
+        "Use PivotGrid when users need multidimensional analysis, not ordinary row editing.",
+        "Expose field chooser/panel when users need self-service analysis."
+      ]
+    },
+    "advancedFiltering": {
+      "component": "dxFilterBuilder",
+      "userPhrases": ["advanced filters", "condition builder", "filter rules", "custom filter"],
+      "options": [
+        {
+          "path": "fields[]",
+          "type": "array",
+          "purpose": "Define fields users can filter."
+        },
+        {
+          "path": "value",
+          "type": "array|string|function",
+          "purpose": "Represent the filter expression."
+        },
+        {
+          "path": "customOperations[]",
+          "type": "array",
+          "purpose": "Define domain-specific operations."
+        },
+        {
+          "path": "maxGroupLevel",
+          "type": "number",
+          "purpose": "Limit nested filter groups."
+        },
+        {
+          "path": "filterOperationDescriptions|groupOperationDescriptions",
+          "type": "object",
+          "purpose": "Customize filter operation labels."
+        }
+      ],
+      "validationRules": [
+        "Use FilterBuilder for advanced filters; keep quick filters in toolbars.",
+        "Limit group depth when the audience is operational rather than analytical."
+      ]
+    }
+  }
+}

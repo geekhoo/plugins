@@ -1,0 +1,71 @@
+{
+  "pattern": "contextualActions",
+  "purpose": "Place commands close to the object, row, selection, or current view they affect.",
+  "inspiredBy": ["Salesforce row and record actions", "Microsoft 365 command bars", "Fluent toolbar and menu guidance", "Google smart chip actions"],
+  "capabilities": {
+    "rowActions": {
+      "userPhrases": ["row actions", "action column", "more menu", "open item", "approve selected", "bulk action"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxDataGrid",
+          "optionPaths": ["columns[].type=buttons", "columns[].buttons[]", "selection.mode", "toolbar.items[]"],
+          "role": "Row-level and selection-aware actions."
+        },
+        {
+          "widget": "dxDropDownButton",
+          "capabilityRefs": ["dxDropDownButton.overflowActions"],
+          "role": "Primary action with secondary alternatives or compact row action menu."
+        },
+        {
+          "widget": "dxContextMenu",
+          "capabilityRefs": ["dxContextMenu.targetedContextMenu"],
+          "role": "Targeted row, card, tree, or file commands."
+        },
+        {
+          "widget": "dxMenu|dxContextMenu",
+          "capabilityRefs": ["dxMenu.menuNavigation", "dxMenu.submenus"],
+          "role": "Overflow or contextual command lists."
+        },
+        {
+          "widget": "dxToolbar",
+          "capabilityRefs": ["dxToolbar.commandPlacement", "dxToolbar.responsiveOverflow"],
+          "role": "View-level commands and selection-dependent actions."
+        }
+      ],
+      "validationRules": [
+        "Pin destructive or high-frequency row actions only when they are safe and commonly used.",
+        "Move secondary row actions into a menu to preserve scanability.",
+        "Disable or hide selection actions when selection count is zero; communicate why when disabled."
+      ]
+    },
+    "constrainedCommandBar": {
+      "userPhrases": ["narrow pane actions", "icon toolbar", "hamburger menu", "search command bar"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxToolbar",
+          "optionPaths": ["items[].widget", "items[].options", "items[].locateInMenu", "items[].showText"],
+          "role": "Command surface for constrained panes."
+        },
+        {
+          "widget": "dxButton",
+          "optionPaths": ["icon", "hint", "text", "stylingMode"],
+          "role": "Recognizable action trigger with tooltip support."
+        },
+        {
+          "widget": "dxButtonGroup",
+          "capabilityRefs": ["dxButtonGroup.segmentedActions"],
+          "role": "Compact mode or filter segment selection."
+        },
+        {
+          "widget": "dxTextBox",
+          "optionPaths": ["mode=search", "placeholder", "buttons[]"],
+          "role": "Search or filter entry in a command bar."
+        }
+      ],
+      "validationRules": [
+        "Icon-only commands need hints/tooltips and recognizable icons.",
+        "Reserve overflow for secondary commands; keep the primary next action visible."
+      ]
+    }
+  }
+}

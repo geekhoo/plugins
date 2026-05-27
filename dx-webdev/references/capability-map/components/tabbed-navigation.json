@@ -1,0 +1,117 @@
+{
+  "components": ["dxTabPanel", "dxTabs"],
+  "modules": ["ui/tab_panel", "ui/tabs"],
+  "jqueryInitializers": ["dxTabPanel", "dxTabs"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/tab_panel.d.ts",
+    "packages/devextreme/js/ui/tabs.d.ts"
+  ],
+  "capabilities": {
+    "tabbedContent": {
+      "component": "dxTabPanel",
+      "userPhrases": ["tabbed content", "tabs with panels", "settings sections", "details tabs"],
+      "options": [
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define tabs and their content."
+        },
+        {
+          "path": "selectedIndex",
+          "type": "number",
+          "purpose": "Control the selected tab by index."
+        },
+        {
+          "path": "selectedItem",
+          "type": "object",
+          "purpose": "Control the selected tab by item."
+        },
+        {
+          "path": "animationEnabled",
+          "type": "boolean",
+          "purpose": "Enable or disable tab panel animation."
+        },
+        {
+          "path": "orientation",
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "purpose": "Choose tab strip orientation."
+        },
+        {
+          "path": "scrollingEnabled",
+          "type": "boolean",
+          "purpose": "Allow tab strip scrolling."
+        },
+        {
+          "path": "swipeEnabled",
+          "type": "boolean",
+          "purpose": "Allow swipe navigation between tabs."
+        },
+        {
+          "path": "tabsPosition",
+          "type": "enum",
+          "values": ["top", "bottom", "left", "right"],
+          "purpose": "Place tabs around the content."
+        }
+      ],
+      "validationRules": [
+        "Use dxTabPanel when the widget owns both tabs and content panes.",
+        "Disable swipe when accidental horizontal gestures would interfere with data grids or split panes."
+      ]
+    },
+    "externalTabs": {
+      "component": "dxTabs",
+      "userPhrases": ["tabs controlling page", "tabs only", "section switcher", "nav tabs"],
+      "options": [
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define tab choices."
+        },
+        {
+          "path": "selectedIndex",
+          "type": "number",
+          "purpose": "Control the selected tab."
+        },
+        {
+          "path": "scrollingEnabled",
+          "type": "boolean",
+          "purpose": "Allow tab strip scrolling."
+        },
+        {
+          "path": "scrollByContent",
+          "type": "boolean",
+          "purpose": "Allow scrolling by dragging tab content."
+        },
+        {
+          "path": "selectionMode",
+          "type": "enum",
+          "values": ["single", "multiple"],
+          "purpose": "Choose tab selection behavior."
+        },
+        {
+          "path": "showNavButtons",
+          "type": "boolean",
+          "purpose": "Show navigation buttons when tabs overflow."
+        },
+        {
+          "path": "stylingMode",
+          "type": "enum",
+          "values": ["primary", "secondary"],
+          "purpose": "Choose visual tab style."
+        },
+        {
+          "path": "iconPosition",
+          "type": "enum",
+          "values": ["top", "start", "end", "bottom"],
+          "purpose": "Place icons relative to tab text."
+        }
+      ],
+      "validationRules": [
+        "Use dxTabs when tabs only drive external content state.",
+        "Use showNavButtons for long tab sets instead of letting labels overflow.",
+        "Keep tab text visible enough for users to distinguish sections."
+      ]
+    }
+  }
+}

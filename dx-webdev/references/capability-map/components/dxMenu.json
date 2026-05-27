@@ -1,0 +1,75 @@
+{
+  "component": "dxMenu",
+  "module": "ui/menu",
+  "jqueryInitializer": "dxMenu",
+  "sourceRefs": [
+    "packages/devextreme/js/ui/menu.d.ts"
+  ],
+  "capabilities": {
+    "menuNavigation": {
+      "userPhrases": ["menu", "application menu", "top navigation", "side menu", "command menu"],
+      "options": [
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define menu items."
+        },
+        {
+          "path": "dataSource",
+          "type": "array|DataSource|Store",
+          "purpose": "Provide menu data."
+        },
+        {
+          "path": "displayExpr",
+          "type": "string|function",
+          "purpose": "Choose item display text."
+        },
+        {
+          "path": "orientation",
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "purpose": "Choose menu direction."
+        },
+        {
+          "path": "selectByClick",
+          "type": "boolean",
+          "purpose": "Select menu items when clicked."
+        },
+        {
+          "path": "onItemClick",
+          "type": "function",
+          "purpose": "Handle menu item activation."
+        }
+      ],
+      "validationRules": [
+        "Use dxMenu as an explicit command or navigation primitive, not as a free-form layout container.",
+        "Use dxToolbar for mixed filters and commands when menu semantics are not needed."
+      ]
+    },
+    "submenus": {
+      "userPhrases": ["submenu", "nested menu", "flyout menu", "menu hover"],
+      "options": [
+        {
+          "path": "hideSubmenuOnMouseLeave",
+          "type": "boolean",
+          "purpose": "Hide submenus when pointer leaves the menu."
+        },
+        {
+          "path": "showFirstSubmenuMode",
+          "type": "object",
+          "purpose": "Configure how first-level submenus open."
+        },
+        {
+          "path": "submenuDirection",
+          "type": "enum",
+          "values": ["auto", "left", "right"],
+          "purpose": "Choose submenu opening direction."
+        }
+      ],
+      "validationRules": [
+        "Prefer shallow menu structures for dense enterprise screens.",
+        "Use explicit click handling when hover behavior would be hard to use on touch devices."
+      ]
+    }
+  }
+}

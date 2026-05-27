@@ -1,0 +1,141 @@
+{
+  "components": ["dxFileManager", "dxFileUploader", "dxHtmlEditor"],
+  "modules": ["ui/file_manager", "ui/file_uploader", "ui/html_editor"],
+  "jqueryInitializers": ["dxFileManager", "dxFileUploader", "dxHtmlEditor"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/file_manager.d.ts",
+    "packages/devextreme/js/ui/file_uploader.d.ts",
+    "packages/devextreme/js/ui/html_editor.d.ts",
+    "packages/devextreme/js/integration/jquery.d.ts"
+  ],
+  "apiNotes": [
+    "Use public Properties-style options in generated guidance; deprecated *Options aliases in declarations are compatibility aliases."
+  ],
+  "capabilities": {
+    "fileWorkspace": {
+      "component": "dxFileManager",
+      "userPhrases": ["file manager", "document library", "file browser", "attachments panel", "folder picker"],
+      "options": [
+        {
+          "path": "fileSystemProvider",
+          "type": "object|string",
+          "purpose": "Provide file system data and operations."
+        },
+        {
+          "path": "currentPath|currentPathKeys",
+          "type": "string|array",
+          "purpose": "Control current folder location."
+        },
+        {
+          "path": "itemView",
+          "type": "object",
+          "purpose": "Configure details or thumbnails file view."
+        },
+        {
+          "path": "permissions",
+          "type": "object",
+          "purpose": "Control file operations such as create, copy, move, delete, rename, upload, and download."
+        },
+        {
+          "path": "selectionMode|selectedItemKeys",
+          "type": "enum|array",
+          "purpose": "Control file selection."
+        },
+        {
+          "path": "toolbar|notifications|upload",
+          "type": "objects",
+          "purpose": "Configure commands, user feedback, and upload behavior."
+        },
+        {
+          "path": "onContextMenuItemClick|onCurrentDirectoryChanged|onSelectedFileOpened",
+          "type": "events",
+          "purpose": "React to file commands and navigation."
+        }
+      ],
+      "validationRules": [
+        "Use FileManager for document-object workflows where folder navigation and permissions matter.",
+        "Keep permission-dependent commands disabled or hidden based on the current file system provider state."
+      ]
+    },
+    "fileIntake": {
+      "component": "dxFileUploader",
+      "userPhrases": ["upload", "attachments", "drop zone", "file intake", "bulk upload"],
+      "options": [
+        {
+          "path": "accept|allowedFileExtensions",
+          "type": "string|array",
+          "purpose": "Restrict selectable file types."
+        },
+        {
+          "path": "multiple",
+          "type": "boolean",
+          "purpose": "Allow multiple file selection."
+        },
+        {
+          "path": "uploadMode",
+          "type": "enum",
+          "purpose": "Choose instant or explicit upload behavior."
+        },
+        {
+          "path": "chunkSize",
+          "type": "number",
+          "purpose": "Enable chunked upload."
+        },
+        {
+          "path": "dialogTrigger|dropZone",
+          "type": "string|element",
+          "purpose": "Connect upload to custom trigger or drag-drop zone."
+        },
+        {
+          "path": "showFileList",
+          "type": "boolean",
+          "purpose": "Show selected/uploaded files."
+        },
+        {
+          "path": "onBeforeSend|onProgress|onDropZoneEnter|onDropZoneLeave",
+          "type": "events",
+          "purpose": "Customize upload requests and progress feedback."
+        }
+      ],
+      "validationRules": [
+        "Use explicit upload mode when users must review files before submission.",
+        "Pair upload progress with dxProgressBar or uploader progress events for long uploads."
+      ]
+    },
+    "richTextContent": {
+      "component": "dxHtmlEditor",
+      "userPhrases": ["rich text editor", "notes editor", "comment editor", "article editor", "mentions"],
+      "options": [
+        {
+          "path": "toolbar",
+          "type": "object",
+          "purpose": "Configure editing commands."
+        },
+        {
+          "path": "mentions[]",
+          "type": "array",
+          "purpose": "Enable person/entity mentions."
+        },
+        {
+          "path": "imageUpload",
+          "type": "object",
+          "purpose": "Configure image uploads."
+        },
+        {
+          "path": "mediaResizing",
+          "type": "object",
+          "purpose": "Allow media resizing."
+        },
+        {
+          "path": "variables",
+          "type": "object",
+          "purpose": "Support template variables."
+        }
+      ],
+      "validationRules": [
+        "Use HtmlEditor for authored content, notes, and comments; use TextArea for plain text.",
+        "Mentions should map to real users or entities and preserve accessible text."
+      ]
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "components": ["dxChat", "dxContextMenu"],
+  "modules": ["ui/chat", "ui/context_menu"],
+  "jqueryInitializers": ["dxChat", "dxContextMenu"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/chat.d.ts",
+    "packages/devextreme/js/ui/context_menu.d.ts",
+    "packages/devextreme/js/integration/jquery.d.ts"
+  ],
+  "apiNotes": [
+    "Use public Properties-style options in generated guidance; deprecated *Options aliases in declarations are compatibility aliases."
+  ],
+  "capabilities": {
+    "embeddedConversation": {
+      "component": "dxChat",
+      "userPhrases": ["chat panel", "comments", "collaboration thread", "assistant panel", "message composer"],
+      "options": [
+        {
+          "path": "user",
+          "type": "object",
+          "purpose": "Set current chat user."
+        },
+        {
+          "path": "items[]|dataSource",
+          "type": "array|DataSource",
+          "purpose": "Provide messages."
+        },
+        {
+          "path": "typingUsers[]",
+          "type": "array",
+          "purpose": "Show typing indicators."
+        },
+        {
+          "path": "editing",
+          "type": "object",
+          "purpose": "Configure message editing."
+        },
+        {
+          "path": "messageTimestampFormat",
+          "type": "string|function",
+          "purpose": "Format message timestamps."
+        },
+        {
+          "path": "showAvatar",
+          "type": "boolean",
+          "purpose": "Show user avatars."
+        },
+        {
+          "path": "speechToTextEnabled",
+          "type": "boolean",
+          "purpose": "Enable speech-to-text message input."
+        },
+        {
+          "path": "onMessageEntered|onTypingStart|onTypingEnd",
+          "type": "events",
+          "purpose": "Send messages and update typing state."
+        }
+      ],
+      "validationRules": [
+        "Use chat in side-context surfaces when collaboration is tied to a selected object.",
+        "Do not use chat where a structured audit trail or form submission is required."
+      ]
+    },
+    "targetedContextMenu": {
+      "component": "dxContextMenu",
+      "userPhrases": ["context menu", "right click menu", "targeted actions", "row context menu"],
+      "options": [
+        {
+          "path": "target",
+          "type": "string|element",
+          "purpose": "Attach menu to a target."
+        },
+        {
+          "path": "items[]|dataSource",
+          "type": "array|DataSource",
+          "purpose": "Define menu actions."
+        },
+        {
+          "path": "onItemClick|onShowing|onHidden",
+          "type": "events",
+          "purpose": "Handle command selection and menu lifecycle."
+        }
+      ],
+      "validationRules": [
+        "Context menus should duplicate or supplement discoverable actions, not hide the only path to critical commands.",
+        "Use row data to filter context menu actions by state and permissions."
+      ]
+    }
+  }
+}

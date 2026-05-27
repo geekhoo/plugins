@@ -1,0 +1,111 @@
+{
+  "components": ["dxScheduler", "dxGantt"],
+  "modules": ["ui/scheduler", "ui/gantt"],
+  "jqueryInitializers": ["dxScheduler", "dxGantt"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/scheduler.d.ts",
+    "packages/devextreme/js/ui/gantt.d.ts"
+  ],
+  "capabilities": {
+    "calendarScheduling": {
+      "component": "dxScheduler",
+      "userPhrases": ["calendar view", "schedule", "appointments", "resource calendar", "agenda"],
+      "options": [
+        {
+          "path": "views[]",
+          "type": "array",
+          "purpose": "Expose day, week, workWeek, month, timeline, or agenda views."
+        },
+        {
+          "path": "currentView",
+          "type": "string",
+          "purpose": "Set the active scheduler view."
+        },
+        {
+          "path": "currentDate",
+          "type": "Date|string|number",
+          "purpose": "Set the visible date."
+        },
+        {
+          "path": "resources[]",
+          "type": "array",
+          "purpose": "Group appointments by people, rooms, teams, or assets."
+        },
+        {
+          "path": "groups[]|groupByDate",
+          "type": "array|boolean",
+          "purpose": "Group scheduler cells by resource fields and date."
+        },
+        {
+          "path": "editing",
+          "type": "boolean|object",
+          "purpose": "Control appointment add, update, delete, resize, and drag permissions."
+        },
+        {
+          "path": "appointmentTemplate|appointmentTooltipTemplate",
+          "type": "function|string",
+          "purpose": "Customize appointment and tooltip content."
+        },
+        {
+          "path": "showAppointmentPopup()|showAppointmentTooltip()|scrollTo()",
+          "type": "methods",
+          "purpose": "Programmatically reveal appointment details or navigate time."
+        }
+      ],
+      "validationRules": [
+        "Use dxScheduler when dates, recurrence, resources, or time slots are central to the workflow.",
+        "Use appointment tooltips for quick inspection and popup/form flows for editing."
+      ]
+    },
+    "timelinePlanning": {
+      "component": "dxGantt",
+      "userPhrases": ["gantt", "timeline", "dependencies", "project plan", "roadmap", "resource plan"],
+      "options": [
+        {
+          "path": "tasks",
+          "type": "object",
+          "purpose": "Configure task data source and field mappings."
+        },
+        {
+          "path": "dependencies",
+          "type": "object",
+          "purpose": "Configure task dependency data."
+        },
+        {
+          "path": "resources",
+          "type": "object",
+          "purpose": "Configure resource data."
+        },
+        {
+          "path": "columns[]",
+          "type": "array",
+          "purpose": "Configure task list columns."
+        },
+        {
+          "path": "editing",
+          "type": "object",
+          "purpose": "Control task, dependency, and resource editing."
+        },
+        {
+          "path": "validation",
+          "type": "object",
+          "purpose": "Enable dependency and scheduling validation."
+        },
+        {
+          "path": "scaleType",
+          "type": "enum",
+          "purpose": "Set timeline scale granularity."
+        },
+        {
+          "path": "taskListWidth",
+          "type": "number",
+          "purpose": "Set the width of the task list area."
+        }
+      ],
+      "validationRules": [
+        "Use dxGantt when dependencies and durations matter; use dxScheduler when time slots and appointments matter.",
+        "Enable validation for planning workflows where dependency edits can create invalid schedules."
+      ]
+    }
+  }
+}

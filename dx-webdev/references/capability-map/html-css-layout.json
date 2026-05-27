@@ -1,0 +1,78 @@
+{
+  "name": "html-css-layout",
+  "scope": "Plain HTML and CSS primitives that complement DevExtreme jQuery widgets",
+  "capabilities": {
+    "fixedShell": {
+      "userPhrases": ["fixed header", "app shell", "sticky toolbar", "fixed nav", "scroll body"],
+      "primitives": [
+        {
+          "name": "css-grid-shell",
+          "css": ["display: grid", "grid-template-rows", "min-height: 100vh"],
+          "purpose": "Create a stable application shell with header, content, and optional footer rows."
+        },
+        {
+          "name": "scroll-region",
+          "css": ["overflow: auto", "min-height: 0"],
+          "purpose": "Allow inner content to scroll without resizing the full page."
+        },
+        {
+          "name": "sticky-region",
+          "css": ["position: sticky", "top"],
+          "purpose": "Keep local headers or toolbars visible within a scroll context."
+        }
+      ],
+      "validationRules": [
+        "Use min-height: 0 on grid or flex children that contain scrollable widgets.",
+        "Do not force DevExtreme internals to become layout containers when a wrapper can own layout."
+      ]
+    },
+    "responsiveContent": {
+      "userPhrases": ["responsive layout", "cards on mobile", "columns collapse", "fluid panels"],
+      "primitives": [
+        {
+          "name": "responsive-grid",
+          "css": ["display: grid", "grid-template-columns: repeat(auto-fit, minmax(...))", "gap"],
+          "purpose": "Create responsive summary or supporting content regions."
+        },
+        {
+          "name": "flex-toolbar-wrapper",
+          "css": ["display: flex", "align-items", "gap", "flex-wrap"],
+          "purpose": "Arrange non-widget layout around DevExtreme controls."
+        },
+        {
+          "name": "container-bounds",
+          "css": ["max-width", "inline-size", "overflow-wrap"],
+          "purpose": "Prevent long text or controls from overflowing their parent."
+        }
+      ],
+      "validationRules": [
+        "Prefer DevExtreme widget responsive options for widget internals.",
+        "Use CSS wrappers for page composition and spacing."
+      ]
+    },
+    "visualTreatment": {
+      "userPhrases": ["brand styling", "local theme", "spacing", "status color", "template content"],
+      "primitives": [
+        {
+          "name": "css-variables",
+          "css": ["--app-*"],
+          "purpose": "Centralize local app colors, spacing, radius, and elevation."
+        },
+        {
+          "name": "scoped-widget-selectors",
+          "css": [".app-scope .dx-*"],
+          "purpose": "Style DevExtreme widgets without global overrides."
+        },
+        {
+          "name": "template-classes",
+          "css": [".app-*"],
+          "purpose": "Style custom HTML emitted from item templates and cell templates."
+        }
+      ],
+      "validationRules": [
+        "Do not emit ThemeBuilder artifacts.",
+        "Avoid broad global .dx-* selectors unless the rule is intentionally app-wide."
+      ]
+    }
+  }
+}

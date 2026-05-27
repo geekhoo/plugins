@@ -1,0 +1,13 @@
+{
+  "name": "dx-webdev",
+  "owner": {
+    "name": "Personal"
+  },
+  "plugins": [
+    {
+      "name": "dx-webdev",
+      "source": "./",
+      "description": "DevExtreme jQuery helpers for HTML, JS, and CSS apps."
+    }
+  ]
+}

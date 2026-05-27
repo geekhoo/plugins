@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://personal.local/dx-webdev/ux-intent-schema.json",
+  "title": "DevExtreme jQuery UX Intent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["surface", "audience", "workflow", "density", "widgets", "themeBase", "stylingStrategy", "statesRequired", "excluded"],
+  "properties": {
+    "surface": {
+      "type": "string",
+      "description": "Page or application surface being built."
+    },
+    "audience": {
+      "type": "string",
+      "description": "Primary users and their operational context."
+    },
+    "workflow": {
+      "type": "string",
+      "description": "Main user workflow the page must support."
+    },
+    "density": {
+      "type": "string",
+      "enum": ["compact", "comfortable", "spacious"]
+    },
+    "widgets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["intent", "widget"],
+        "properties": {
+          "intent": { "type": "string" },
+          "widget": { "type": "string", "pattern": "^dx[A-Z][A-Za-z0-9]+$|^DevExpress\\.ui\\.notify$" },
+          "containerId": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "themeBase": {
+      "type": "string",
+      "description": "Official DevExtreme theme CSS URL or local path."
+    },
+    "stylingStrategy": {
+      "type": "string",
+      "description": "Local CSS variables, scoped selectors, and widget option strategy."
+    },
+    "statesRequired": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["loading", "empty", "error", "disabled", "validation", "responsive", "readOnly"]
+      },
+      "uniqueItems": true
+    },
+    "excluded": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["React", "Vue", "Angular", "JSX", "TSX", "ThemeBuilder", "generated wrappers"]
+      },
+      "default": ["React", "Vue", "Angular", "ThemeBuilder"],
+      "uniqueItems": true
+    },
+    "accessibilityNotes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

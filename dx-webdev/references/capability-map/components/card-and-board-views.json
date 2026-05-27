@@ -1,0 +1,118 @@
+{
+  "components": ["dxCardView", "dxTileView", "dxSortable"],
+  "modules": ["ui/card_view", "ui/tile_view", "ui/sortable"],
+  "jqueryInitializers": ["dxCardView", "dxTileView", "dxSortable"],
+  "sourceRefs": [
+    "packages/devextreme/js/ui/card_view.d.ts",
+    "packages/devextreme/js/ui/tile_view.d.ts",
+    "packages/devextreme/js/ui/sortable.d.ts"
+  ],
+  "capabilities": {
+    "cardWorkbench": {
+      "component": "dxCardView",
+      "userPhrases": ["card view", "record cards", "mobile record view", "item cards", "compact object cards"],
+      "options": [
+        {
+          "path": "columns[]",
+          "type": "array",
+          "purpose": "Define fields shown on cards."
+        },
+        {
+          "path": "cardsPerRow",
+          "type": "number|string",
+          "purpose": "Control responsive card density."
+        },
+        {
+          "path": "cardCover",
+          "type": "object",
+          "purpose": "Configure cover content for visual cards."
+        },
+        {
+          "path": "searchPanel|filterPanel|headerFilter|columnChooser",
+          "type": "objects",
+          "purpose": "Expose data shaping controls for card records."
+        },
+        {
+          "path": "editing",
+          "type": "object",
+          "purpose": "Enable card data editing."
+        },
+        {
+          "path": "selection",
+          "type": "object",
+          "purpose": "Enable card selection."
+        },
+        {
+          "path": "toolbar",
+          "type": "object",
+          "purpose": "Add card-view actions and filters."
+        }
+      ],
+      "validationRules": [
+        "Use dxCardView when object summaries need richer scanning than rows but still need data operations.",
+        "Do not replace dxDataGrid with cards when users need dense comparison across many columns."
+      ]
+    },
+    "tileLayout": {
+      "component": "dxTileView",
+      "userPhrases": ["tile view", "dashboard tiles", "app tiles", "visual item grid"],
+      "options": [
+        {
+          "path": "items[]",
+          "type": "array",
+          "purpose": "Define tile items."
+        },
+        {
+          "path": "baseItemHeight",
+          "type": "number",
+          "purpose": "Set base tile height."
+        },
+        {
+          "path": "baseItemWidth",
+          "type": "number",
+          "purpose": "Set base tile width."
+        },
+        {
+          "path": "direction",
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "purpose": "Choose tile layout direction."
+        }
+      ],
+      "validationRules": [
+        "Use tiles for visual navigation or dashboard-like summaries, not detailed row editing."
+      ]
+    },
+    "reorderableLanes": {
+      "component": "dxSortable",
+      "userPhrases": ["drag reorder", "kanban lane", "move item", "rank items", "reorder cards"],
+      "options": [
+        {
+          "path": "filter",
+          "type": "string",
+          "purpose": "Limit draggable elements."
+        },
+        {
+          "path": "itemOrientation",
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "purpose": "Set the item flow direction."
+        },
+        {
+          "path": "moveItemOnDrop",
+          "type": "boolean",
+          "purpose": "Move DOM items automatically after drop."
+        },
+        {
+          "path": "onAdd|onRemove|onReorder",
+          "type": "events",
+          "purpose": "Persist changes when items move between lists or within a list."
+        }
+      ],
+      "validationRules": [
+        "Persist drag results explicitly in data; do not rely only on DOM order.",
+        "Use keyboard-accessible alternatives for drag-only workflows."
+      ]
+    }
+  }
+}

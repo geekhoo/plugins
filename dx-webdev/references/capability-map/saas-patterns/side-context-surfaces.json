@@ -1,0 +1,64 @@
+{
+  "pattern": "sideContextSurfaces",
+  "purpose": "Keep secondary work visible beside the main surface so users can reference, capture, or inspect without switching tabs.",
+  "inspiredBy": ["Google Workspace side panel", "Microsoft 365 task panes", "Fluent drawers", "Material side sheets"],
+  "capabilities": {
+    "persistentSidePanel": {
+      "userPhrases": ["side panel", "task pane", "details panel", "inspector", "right rail"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxDrawer",
+          "capabilityRefs": ["dxDrawer.sidePanel", "dxDrawer.responsiveOverlay"],
+          "role": "Responsive supplemental panel."
+        },
+        {
+          "widget": "dxSplitter",
+          "capabilityRefs": ["dxSplitter.resizablePanes", "dxSplitter.collapsiblePanes"],
+          "role": "Resizable primary/detail workbench."
+        },
+        {
+          "widget": "dxFileManager",
+          "capabilityRefs": ["dxFileManager.fileWorkspace"],
+          "role": "Document or attachment workspace inside a panel."
+        },
+        {
+          "widget": "dxChat",
+          "capabilityRefs": ["dxChat.embeddedConversation"],
+          "role": "Object-bound collaboration or assistant panel."
+        },
+        {
+          "widget": "dxToolbar",
+          "capabilityRefs": ["dxToolbar.commandPlacement"],
+          "role": "Panel command bar."
+        }
+      ],
+      "validationRules": [
+        "Use persistent or resizable panels when users compare main and secondary content.",
+        "Use overlay drawers on narrow screens.",
+        "Set stable heights and scroll regions so the main work area and panel do not fight for page scroll."
+      ]
+    },
+    "temporaryContext": {
+      "userPhrases": ["preview", "quick details", "hover details", "entity preview", "non-blocking info"],
+      "devExtremePrimitives": [
+        {
+          "widget": "dxPopover",
+          "role": "Non-blocking contextual detail anchored to a target."
+        },
+        {
+          "widget": "dxTooltip",
+          "role": "Short supplemental guidance."
+        },
+        {
+          "widget": "dxPopup",
+          "capabilityRefs": ["dxPopup.modalWorkflow", "dxPopup.sizingAndPlacement"],
+          "role": "Focused temporary workflow when side context is insufficient."
+        }
+      ],
+      "validationRules": [
+        "Use popovers for supplemental information, not required form submission.",
+        "Use popups for blocking or validation-heavy workflows."
+      ]
+    }
+  }
+}
