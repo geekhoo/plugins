@@ -1,0 +1,23 @@
+{
+  "semantic": {
+    "color": {
+      "fg": {
+        "$type": "color",
+        "default": { "$value": "{primitive.color.neutral.900}" },
+        "inverse": { "$value": "{primitive.color.neutral.0}" },
+        "brand": { "$value": "{primitive.color.brand.500}" }
+      },
+      "bg": {
+        "$type": "color",
+        "canvas": { "$value": "{primitive.color.neutral.0}" }
+      }
+    },
+    "space": {
+      "$type": "dimension",
+      "inset": {
+        "sm": { "$value": "{primitive.space.100}" },
+        "md": { "$value": "{primitive.space.200}" }
+      }
+    }
+  }
+}
