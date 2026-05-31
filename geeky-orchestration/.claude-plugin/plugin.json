@@ -1,0 +1,8 @@
+{
+  "name": "geeky-orchestration",
+  "description": "Plan, execute, and track feature implementation end-to-end. Bundles /geeky-plan, /geeky-implement, /geeky-status, a portable geeky-coder agent, a canonical task template, a planning-folder validator, and a PreToolUse guard that protects frozen planning artifacts.",
+  "version": "0.1.0",
+  "author": {
+    "name": "geekhoo"
+  }
+}
