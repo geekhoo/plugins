@@ -7,14 +7,15 @@
 #   pwsh -File validate-planning-folder.ps1 -Path "C:\path\to\docs\feature-folder"
 
 param(
-    [Parameter(Mandatory = $true)]
-    [string]$Path
+    [Parameter(Mandatory = $true, Position = 0)]
+    [string]$Path,
+    [switch]$Json
 )
 
 $ErrorActionPreference = 'Stop'
 
 if (-not (Test-Path -LiteralPath $Path -PathType Container)) {
-    Write-Output "MISSING_FOLDER: $Path"
+    if ($Json) { [pscustomobject]@{ ok = $false; errors = @("MISSING_FOLDER: $Path") } | ConvertTo-Json } else { Write-Output "MISSING_FOLDER: $Path" }
     exit 1
 }
 
@@ -54,6 +55,22 @@ foreach ($f in $recommended) {
     }
 }
 
+$taskCount = 0
+if (Test-Path -LiteralPath $tasksDir -PathType Container) {
+    $taskCount = (Get-ChildItem -LiteralPath $tasksDir -Filter 'T*.md' -File |
+                  Where-Object { $_.Name -notmatch '\.notes\.md$' }).Count
+}
+$ok = ($missing.Count -eq 0)
+
+if ($Json) {
+    $summary = if ($ok) { "planning folder valid, $taskCount task file(s)" } else { "missing $($missing.Count) required artifact(s)" }
+    [pscustomobject]@{
+        ok = $ok; task_count = $taskCount;
+        missing_required = $missing; missing_recommended = $missingRecommended; summary = $summary
+    } | ConvertTo-Json -Depth 5
+    if ($ok) { exit 0 } else { exit 1 }
+}
+
 if ($missing.Count -gt 0) {
     Write-Output "INVALID_PLANNING_FOLDER: $Path"
     Write-Output "Missing required artifacts:"
@@ -64,9 +81,6 @@ if ($missing.Count -gt 0) {
     }
     exit 1
 }
-
-$taskCount = (Get-ChildItem -LiteralPath $tasksDir -Filter 'T*.md' -File |
-              Where-Object { $_.Name -notmatch '\.notes\.md$' }).Count
 
 $warningPart = ''
 if ($missingRecommended.Count -gt 0) {

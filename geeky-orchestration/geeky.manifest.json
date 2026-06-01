@@ -1,0 +1,95 @@
+{
+  "name": "geeky-orchestration",
+  "version": "0.1.0",
+  "description": "Machine-readable index of the geeky-orchestration deterministic quality gates. Any orchestrator (CLI hook, git hook, SDK guardrail, MCP wrapper) can discover and invoke these. Every validator follows the same contract: arguments in, exit 0 = pass / exit 1 = fail, human summary on stdout, optional --json/-Json for a machine-readable object. Scripts ship as paired Python and PowerShell with identical output and exit codes. Paths are relative to the plugin root (CLAUDE_PLUGIN_ROOT in Claude Code).",
+  "contract": {
+    "exit_codes": { "0": "pass", "1": "fail", "2": "hard block (guard --mode block --exit-code only)" },
+    "stdout": "human-readable summary; machine-readable JSON when --json/-Json is passed",
+    "parity": "the .py and .ps1 mirror of each tool produce identical output and exit codes"
+  },
+  "mcp": {
+    "server_name": "geeky_mcp",
+    "description": "Wraps the validators as MCP tools so any MCP-capable agent can invoke them with no per-framework hook config. Thin adapter: each tool shells out to the same script and returns its --json report.",
+    "entry": "mcp/server.py",
+    "transport": "stdio",
+    "registration": ".mcp.json (mcpServers.geeky)",
+    "run": "uv run --with mcp python mcp/server.py   (or: pip install mcp && python mcp/server.py)",
+    "tools": [
+      "geeky_validate_planning_folder",
+      "geeky_validate_task_schema",
+      "geeky_validate_kanban",
+      "geeky_check_dod",
+      "geeky_check_commit",
+      "geeky_check_frozen_artifact"
+    ]
+  },
+  "validators": [
+    {
+      "id": "validate-planning-folder",
+      "purpose": "Verify a geeky-plan folder has the artifacts geeky-implement needs.",
+      "when": "start of geeky-implement and geeky-status",
+      "args": "PATH to the planning folder",
+      "python": "python \"scripts/validate-planning-folder.py\" --path \"<folder>\" [--json]",
+      "powershell": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"scripts/validate-planning-folder.ps1\" -Path \"<folder>\" [-Json]",
+      "json": true,
+      "mcp_tool": "geeky_validate_planning_folder"
+    },
+    {
+      "id": "validate-task-schema",
+      "purpose": "Each tasks/Tx-*.md carries the required template sections.",
+      "when": "end of geeky-plan; start of geeky-implement (plan->implement boundary)",
+      "args": "--path <folder>  OR  --file <task.md>",
+      "python": "python \"scripts/validate-task-schema.py\" --path \"<folder>\" [--json]",
+      "powershell": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"scripts/validate-task-schema.ps1\" -Path \"<folder>\" [-Json]",
+      "json": true
+    },
+    {
+      "id": "validate-kanban",
+      "purpose": "Kanban integrity: every task in exactly one lane, no dangling refs, WIP cap, lane coverage.",
+      "when": "after every lane move in geeky-implement; in geeky-status",
+      "args": "--path <folder> [--wip N]",
+      "python": "python \"scripts/validate-kanban.py\" --path \"<folder>\" [--wip 3] [--json]",
+      "powershell": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"scripts/validate-kanban.ps1\" -Path \"<folder>\" [-Wip 3] [-Json]",
+      "json": true
+    },
+    {
+      "id": "check-dod",
+      "purpose": "Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block to re-run.",
+      "when": "before moving a task to Done in geeky-implement",
+      "args": "--path <folder> --task <ID>",
+      "python": "python \"scripts/check-dod.py\" --path \"<folder>\" --task <ID> [--json]",
+      "powershell": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"scripts/check-dod.ps1\" -Path \"<folder>\" -Task <ID> [-Json]",
+      "json": true
+    },
+    {
+      "id": "check-commit",
+      "purpose": "Commit message is Conventional Commits + references a task (Tasks: T<n>).",
+      "when": "before each commit in geeky-implement; ideal as a git commit-msg hook",
+      "args": "FILE (git commit-msg path)  OR  --message <text>  OR  stdin",
+      "python": "python \"scripts/check-commit.py\" <FILE|--message \"...\"> [--json]",
+      "powershell": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"scripts/check-commit.ps1\" <FILE|-Message \"...\"> [-Json]",
+      "json": true
+    },
+    {
+      "id": "guard-planning-contract",
+      "purpose": "PreToolUse-style guard: warn or block edits to frozen planning artifacts. Reads tool-call JSON on stdin.",
+      "when": "wired as a Claude Code PreToolUse hook (hooks/hooks.json); other CLI agents can add an equivalent pre-edit hook",
+      "args": "[--mode warn|block] [--exit-code]  (stdin = tool-call JSON)",
+      "python": "python \"hooks/guard-planning-contract.py\" --mode warn",
+      "powershell": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"hooks/guard-planning-contract.ps1\" -Mode warn",
+      "json": false
+    }
+  ],
+  "frozen_artifacts": [
+    "implementation-plan.md",
+    "feature-specification.md",
+    "draft.md",
+    "references.md",
+    "tasks/Tx-*.md"
+  ],
+  "mutable_artifacts": [
+    "kanban.md",
+    "handoff.md",
+    "tasks/Tx-*.notes.md"
+  ]
+}

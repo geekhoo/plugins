@@ -1,0 +1,17 @@
+[project]
+name = "geeky-mcp"
+version = "0.1.0"
+description = "MCP server exposing the geeky-orchestration deterministic quality gates as tools."
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.2.0",
+]
+
+[project.scripts]
+geeky-mcp = "server:main"
+
+# The validators this server wraps are stdlib-only and live in ../scripts and
+# ../hooks; only the server itself needs the `mcp` package. Run with:
+#   uv run --with mcp python server.py
+# or, after `pip install mcp`:
+#   python server.py

@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "geeky": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--with",
+        "mcp",
+        "python",
+        "${CLAUDE_PLUGIN_ROOT}/mcp/server.py"
+      ],
+      "cwd": "${CLAUDE_PLUGIN_ROOT}/mcp"
+    }
+  }
+}

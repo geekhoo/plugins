@@ -1,0 +1,9 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# uv / virtualenv artifacts from running the bundled MCP server locally.
+# The server runs via `uv run --with mcp` (ephemeral env), so these are not shipped.
+mcp/.venv/
+mcp/uv.lock
+.venv/

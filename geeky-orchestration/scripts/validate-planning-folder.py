@@ -15,6 +15,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import sys
@@ -42,6 +43,7 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(add_help=True)
     p.add_argument("--path", dest="path", required=False)
     p.add_argument("positional", nargs="?", default=None)
+    p.add_argument("--json", dest="as_json", action="store_true")
     return p.parse_args()
 
 
@@ -49,12 +51,14 @@ def main() -> int:
     args = parse_args()
     path_str = args.path or args.positional
     if not path_str:
-        print("USAGE: validate-planning-folder.py --path <folder>")
+        msg = "USAGE: validate-planning-folder.py --path <folder> [--json]"
+        print(json.dumps({"ok": False, "errors": [msg]}) if args.as_json else msg)
         return 1
 
     folder = Path(path_str)
     if not folder.is_dir():
-        print(f"MISSING_FOLDER: {folder}")
+        msg = f"MISSING_FOLDER: {folder}"
+        print(json.dumps({"ok": False, "errors": [msg]}) if args.as_json else msg)
         return 1
 
     missing: list[str] = []
@@ -78,6 +82,21 @@ def main() -> int:
     missing_recommended = [
         name for name in RECOMMENDED if not (folder / name).is_file()
     ]
+
+    ok = not missing
+    if args.as_json:
+        summary = (
+            f"planning folder valid, {task_count} task file(s)"
+            if ok else f"missing {len(missing)} required artifact(s)"
+        )
+        print(json.dumps({
+            "ok": ok,
+            "task_count": task_count,
+            "missing_required": missing,
+            "missing_recommended": missing_recommended,
+            "summary": summary,
+        }, indent=2))
+        return 0 if ok else 1
 
     if missing:
         print(f"INVALID_PLANNING_FOLDER: {folder}")
