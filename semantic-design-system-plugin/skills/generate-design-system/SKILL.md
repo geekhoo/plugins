@@ -3,7 +3,7 @@ name: generate-design-system
 description: Generate a new semantic design-token system from product, brand, UX, accessibility, and implementation requirements. Use when the user asks to create a new design system, token system, design-token schema, theme system, or web styling foundation.
 argument-hint: "[product, brand, stack, themes, accessibility, components]"
 disable-model-invocation: true
-allowed-tools: Read Grep Glob WebFetch
+allowed-tools: Read Grep Glob WebFetch Write Bash(node *) Bash(ds-token-validate *) Bash(ds-token-build *)
 model: inherit
 effort: high
 ---
@@ -27,14 +27,19 @@ Use the shared taxonomy in `${CLAUDE_PLUGIN_ROOT}/references/semantic-token-taxo
    - `semantic`: UI roles consumed by product code.
    - `component`: component aliases for variants and states.
    - `theme`: mode, brand, density, and breakpoint overrides.
-4. Generate DTCG-style JSONC using `$value`, `$type`, `$description`, `$deprecated`, and `$extensions` where useful.
+4. Generate DTCG (2025.10 stable) tokens using `$value`, `$type`, `$description`, `$deprecated`, and `$extensions` where useful. Files written to disk MUST be strict JSON (`.tokens.json`); reserve JSONC for illustrative inline snippets only.
 5. Cover the fundamental styling surface:
    - color, typography, spacing, sizing, layout, radius, border, elevation, shadow, opacity, blur, motion, z-index, interaction states, breakpoints, density, component tokens.
 6. Include at least light and dark mode strategy.
 7. Include CSS variable examples using the configured prefix, defaulting to `--ds-*`.
 8. Include usage examples in the user's target stack if known.
 9. Include governance and CI validation rules.
-10. Offer to write files only after presenting the proposed structure, unless the user explicitly asks you to create files immediately.
+10. Offer to write files only after presenting the proposed structure, unless the user explicitly asks you to create files immediately. Write token files under `design/tokens/` (the standardized location). After writing, validate and build:
+
+```sh
+ds-token-validate design/tokens
+ds-token-build design/tokens src/styles/tokens.css ds
+```
 
 ## Token philosophy
 
@@ -52,7 +57,7 @@ Follow `${CLAUDE_PLUGIN_ROOT}/references/output-contract.md`.
 When writing files, prefer this structure:
 
 ```text
-tokens/
+design/tokens/
   primitive/
   semantic/
   component/

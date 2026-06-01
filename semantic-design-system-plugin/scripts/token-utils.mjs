@@ -90,8 +90,27 @@ export function isPlainObject(value) {
   return value && typeof value === 'object' && !Array.isArray(value);
 }
 
-export function loadTokenTree(tokenDir) {
-  const files = walkFiles(tokenDir, f => /\.tokens\.jsonc?$|\.jsonc?$/.test(f));
+// Single, standardized location for design-token source files, resolved relative
+// to the working/project folder (CLAUDE_PROJECT_DIR or cwd). There is intentionally
+// no per-install override env var: scripts default here, and an explicit CLI/MCP
+// argument is the only override.
+export const DEFAULT_TOKEN_DIR = 'design/tokens';
+
+// DTCG 2025.10 recommends the `.tokens` and `.tokens.json` extensions. We also
+// accept `.tokens.jsonc` so authored files may carry comments. We intentionally
+// do NOT match bare `.json`/`.jsonc`, so stray files such as package.json or
+// tsconfig.json living under the token directory are never parsed as tokens.
+export const TOKEN_FILE_RE = /\.tokens(\.jsonc?)?$/;
+
+// Files living under a `themes/` directory are treated as theme/mode overrides
+// rather than base tokens, so they are emitted into themed selectors instead of
+// corrupting the base `:root`.
+export function isThemeFile(file) {
+  return /[\\/]themes[\\/]/.test(file);
+}
+
+export function loadTokenTree(tokenDir, predicate = f => TOKEN_FILE_RE.test(f)) {
+  const files = walkFiles(tokenDir, predicate);
   let tree = {};
   for (const file of files) {
     try {

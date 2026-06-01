@@ -42,22 +42,58 @@ Then invoke:
 
 ```text
 /semantic-design-system:generate-design-system SaaS analytics dashboard, light/dark theme, React, WCAG AA
-/semantic-design-system:derive-design-system inspect this repo and produce tokens under tokens/
+/semantic-design-system:derive-design-system inspect this repo and produce tokens under design/tokens/
 /semantic-design-system:apply-design-system migrate Button and Input to tokens
-/semantic-design-system:audit-design-system tokens/
+/semantic-design-system:audit-design-system design/tokens/
 ```
 
-## Recommended output locations
+## Token location
+
+Token source files live in **`design/tokens/`**, resolved relative to the project
+(working) folder. This is the single standardized location — every skill, agent, script,
+hook, and MCP tool defaults to it, with no per-install setting to configure. To target a
+different directory for a one-off, pass it explicitly as the first CLI/MCP argument.
 
 ```text
-tokens/
+design/tokens/
   primitive/
   semantic/
   component/
   themes/
   density/
-src/styles/tokens.css
+src/styles/tokens.css   # generated CSS (configurable via css_output_file)
 ```
+
+## Standards
+
+Tokens follow the **DTCG Design Tokens Format Module 2025.10** — the first stable
+release of the W3C Community Group specification (October 28, 2025). Authored token
+files are strict JSON using the `.tokens.json` extension; `ds-token-validate` warns on
+any `$type` outside the 13 standard types.
+
+## Theming
+
+`ds-token-build` is theme-aware. Files under `design/tokens/themes/` are emitted as overrides,
+not merged into the base:
+
+- base tokens → `:root`
+- `themes/<name>.tokens.json` → `[data-theme="<name>"]`
+- a `light` or `dark` theme additionally emits a `@media (prefers-color-scheme: <name>)`
+  block scoped to `:root:not([data-theme])`, so the OS preference applies by default
+  while an explicit `[data-theme]` attribute always wins.
+
+A theme re-emits every exposed token whose *resolved* value differs from the base — so
+overriding a single primitive or semantic also flows through to every component/semantic
+token that aliases it (values are inlined, so the CSS cascade alone cannot propagate the
+change).
+
+## Agent agnosticism
+
+The plugin does not pin a model. Skills and agents use `model: inherit`, so they run on
+whatever model the host session selects. The bin scripts, hooks, and MCP server shell out
+to `node` and contain no model-specific logic, and the token output is vendor-neutral
+DTCG. The plugin still depends on Claude Code primitives (`${CLAUDE_PLUGIN_ROOT}`, the
+plugin manifest, `hooks.json`, skills), which is expected for a Claude Code plugin.
 
 ## Notes
 

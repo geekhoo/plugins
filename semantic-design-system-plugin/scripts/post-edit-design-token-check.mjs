@@ -14,8 +14,8 @@ process.stdin.on('end', () => {
 
     const pluginRoot = process.env.CLAUDE_PLUGIN_ROOT || path.resolve(import.meta.dirname, '..');
     const projectDir = process.env.CLAUDE_PROJECT_DIR || process.cwd();
-    const tokenDir = process.env.CLAUDE_PLUGIN_OPTION_TOKEN_DIR || process.env.DEFAULT_TOKEN_DIR || 'tokens';
-    const fullTokenDir = path.isAbsolute(tokenDir) ? tokenDir : path.join(projectDir, tokenDir);
+    // Standardized, config-free location relative to the project/working folder.
+    const fullTokenDir = path.join(projectDir, 'design', 'tokens');
 
     if (!fs.existsSync(fullTokenDir)) return process.exit(0);
 

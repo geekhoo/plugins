@@ -27,4 +27,14 @@ For codebase-derived work, also include:
 20. Inconsistencies and Risks
 21. Confidence Report
 
-Use JSONC for examples unless the user explicitly asks for strict JSON.
+## JSON vs JSONC
+
+The DTCG Format Module 2025.10 (first stable release) mandates **strict JSON** for
+design-token files, using the `.tokens` or `.tokens.json` extension and the
+`application/design-tokens+json` media type. Files written to disk MUST be valid
+strict JSON so they interoperate with tools such as Figma, Style Dictionary, and
+Tokens Studio. Do not write comments into `.tokens.json` files.
+
+JSONC (JSON with comments) may be used **only** for illustrative inline snippets in
+chat responses, where a comment helps explain a decision. When the user asks you to
+create files, always emit strict JSON.

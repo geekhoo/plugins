@@ -2,10 +2,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { DEFAULT_TOKEN_DIR } from '../scripts/token-utils.mjs';
 
 const pluginRoot = process.env.CLAUDE_PLUGIN_ROOT || path.resolve(import.meta.dirname, '..');
 const projectDir = process.env.CLAUDE_PROJECT_DIR || process.cwd();
-const defaultTokenDir = process.env.DEFAULT_TOKEN_DIR || 'tokens';
+const defaultTokenDir = DEFAULT_TOKEN_DIR;
 const defaultCssOutputFile = process.env.DEFAULT_CSS_OUTPUT_FILE || 'src/styles/tokens.css';
 const defaultCssPrefix = process.env.DEFAULT_CSS_PREFIX || 'ds';
 
@@ -129,21 +130,21 @@ function writeSkeleton(outputDir, productName = 'Product') {
 const tools = [
   {
     name: 'validate_tokens',
-    description: 'Validate DTCG-style design token files for missing types, unresolved aliases, circular references, and common semantic-layer issues.',
+    description: 'Validate design token files (DTCG Format Module 2025.10) for missing types, non-standard $type values, unresolved aliases, circular references, primitive leakage, and literal color naming.',
     inputSchema: {
       type: 'object',
-      properties: { tokenDir: { type: 'string', description: 'Project-relative or absolute token directory.' } }
+      properties: { tokenDir: { type: 'string', description: 'Project-relative or absolute token directory. Defaults to design/tokens.' } }
     }
   },
   {
     name: 'build_css_variables',
-    description: 'Build CSS custom properties from semantic and component design tokens.',
+    description: 'Build CSS custom properties from semantic and component design tokens. Theme-aware: base tokens go to :root, files under themes/ become [data-theme="<name>"] overrides, and light/dark themes also emit a prefers-color-scheme block.',
     inputSchema: {
       type: 'object',
       properties: {
-        tokenDir: { type: 'string' },
-        outputFile: { type: 'string' },
-        prefix: { type: 'string' }
+        tokenDir: { type: 'string', description: 'Project-relative or absolute token directory. Defaults to design/tokens.' },
+        outputFile: { type: 'string', description: 'CSS output path. Defaults to src/styles/tokens.css.' },
+        prefix: { type: 'string', description: 'CSS custom-property prefix. Defaults to ds.' }
       }
     }
   },
@@ -157,10 +158,10 @@ const tools = [
   },
   {
     name: 'generate_token_skeleton',
-    description: 'Create a minimal primitive/semantic/component/theme token folder skeleton in the project.',
+    description: 'Create a minimal primitive/semantic/component/theme token folder skeleton. Defaults to design/tokens in the project.',
     inputSchema: {
       type: 'object',
-      properties: { outputDir: { type: 'string' }, productName: { type: 'string' } }
+      properties: { outputDir: { type: 'string', description: 'Token directory to create. Defaults to design/tokens.' }, productName: { type: 'string' } }
     }
   }
 ];

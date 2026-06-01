@@ -48,11 +48,11 @@ Use `${CLAUDE_PLUGIN_ROOT}/references/accessibility-checklist.md` and `${CLAUDE_
 ## Useful commands
 
 ```sh
-ds-token-validate tokens
+ds-token-validate design/tokens
 ```
 
 ```sh
-ds-token-build tokens src/styles/tokens.css ds
+ds-token-build design/tokens src/styles/tokens.css ds
 ```
 
 ## Required output

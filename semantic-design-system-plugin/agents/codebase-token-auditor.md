@@ -1,7 +1,7 @@
 ---
 name: codebase-token-auditor
 description: Inspects an existing web codebase, extracts styling values, identifies design language, clusters values, and proposes semantic design tokens with source mapping and confidence levels.
-model: sonnet
+model: inherit
 effort: high
 maxTurns: 30
 tools: Read, Grep, Glob, Bash
@@ -49,5 +49,7 @@ Return:
 - source mappings
 - migration plan
 - confidence report
+
+Propose tokens following the DTCG Format Module 2025.10 (strict JSON, the 13 standard `$type` values). Use `${CLAUDE_PLUGIN_ROOT}/references/semantic-token-taxonomy.md` for naming and `${CLAUDE_PLUGIN_ROOT}/references/accessibility-checklist.md` for accessibility risks. The standardized token source location is `design/tokens/` relative to the project folder.
 
 Do not edit files unless the parent task explicitly asks for implementation.

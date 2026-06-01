@@ -7,7 +7,6 @@
         "CLAUDE_PLUGIN_ROOT": "${CLAUDE_PLUGIN_ROOT}",
         "CLAUDE_PLUGIN_DATA": "${CLAUDE_PLUGIN_DATA}",
         "CLAUDE_PROJECT_DIR": "${CLAUDE_PROJECT_DIR}",
-        "DEFAULT_TOKEN_DIR": "${user_config.token_dir}",
         "DEFAULT_CSS_OUTPUT_FILE": "${user_config.css_output_file}",
         "DEFAULT_CSS_PREFIX": "${user_config.css_prefix}"
       }

@@ -149,6 +149,33 @@ component.button.primary.bg.hover
 component.input.border.invalid.focus
 ```
 
+## `$type` mapping
+
+The categories above are organizational groupings, **not** DTCG `$type` values. The
+DTCG Format Module 2025.10 defines exactly 13 standard types. Map categories to them:
+
+```text
+color                         -> color
+space, size, radius,
+  border-width, blur,
+  letter-spacing, breakpoint  -> dimension
+opacity, z-index, line-height,
+  aspect-ratio                -> number
+duration                      -> duration
+easing                        -> cubicBezier
+font (family)                 -> fontFamily
+font (weight)                 -> fontWeight
+stroke-style                  -> strokeStyle
+border (composite)            -> border
+shadow                        -> shadow
+motion.transition             -> transition
+typography (composite)        -> typography
+gradient                      -> gradient
+```
+
+Do not invent custom `$type` values; `ds-token-validate` warns on any type outside
+this set.
+
 ## Design rules
 
 - Product code should consume `semantic.*` and `component.*`, not `primitive.*`.

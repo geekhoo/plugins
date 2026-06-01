@@ -1,7 +1,7 @@
 ---
 name: design-system-migrator
 description: Migrates frontend code from hardcoded styling values to semantic/component design tokens while preserving behavior, accessibility, variants, and responsive rules.
-model: sonnet
+model: inherit
 effort: high
 maxTurns: 40
 tools: Read, Grep, Glob, Edit, Write, Bash
@@ -20,9 +20,11 @@ Migration rules:
 - Run available validation commands after edits.
 - Keep changes scoped to the user request.
 
+Use `${CLAUDE_PLUGIN_ROOT}/references/semantic-token-taxonomy.md` for token naming and layering rules. The standardized token source location is `design/tokens/` relative to the project folder; CSS custom properties are built to `src/styles/tokens.css` by default.
+
 Before editing:
 
-1. Locate token files.
+1. Locate token files (default: `design/tokens/`).
 2. Validate aliases and generated CSS if possible.
 3. Identify component styles and state rules.
 4. Plan replacements.

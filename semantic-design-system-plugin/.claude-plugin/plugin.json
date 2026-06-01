@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "semantic-design-system",
   "displayName": "Semantic Design System",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Skills, agents, hooks, and MCP tools for generating, deriving, validating, and applying semantic design token systems for web products.",
   "author": {
     "name": "Design Systems Team"
@@ -24,13 +24,6 @@
   "hooks": "./hooks/hooks.json",
   "mcpServers": "./.mcp.json",
   "userConfig": {
-    "token_dir": {
-      "type": "directory",
-      "title": "Token directory",
-      "description": "Project-relative directory where design token files should be read from or written to.",
-      "required": false,
-      "default": "tokens"
-    },
     "css_output_file": {
       "type": "file",
       "title": "CSS output file",

@@ -1,5 +1,5 @@
 ---
-name: apply-desing-system
+name: apply-design-system
 description: Apply an existing semantic design-token system to a web codebase by replacing hardcoded styling values with CSS variables, token imports, or framework-specific theme references.
 argument-hint: "[component or path scope, token dir, migration target]"
 disable-model-invocation: true
@@ -22,17 +22,17 @@ Use the taxonomy in `${CLAUDE_PLUGIN_ROOT}/references/semantic-token-taxonomy.md
 
 ## Required process
 
-1. Locate the token source directory, defaulting to `tokens/` or the configured `token_dir`.
+1. Locate the token source directory. It is standardized to `design/tokens/` relative to the project folder.
 2. Validate tokens before migration:
 
 ```sh
-ds-token-validate tokens
+ds-token-validate design/tokens
 ```
 
 3. Build or refresh CSS variables when appropriate:
 
 ```sh
-ds-token-build tokens src/styles/tokens.css ds
+ds-token-build design/tokens src/styles/tokens.css ds
 ```
 
 4. Inventory the requested component or path scope.

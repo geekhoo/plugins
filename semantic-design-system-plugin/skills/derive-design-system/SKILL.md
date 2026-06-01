@@ -3,7 +3,7 @@ name: derive-design-system
 description: Analyze an existing web codebase and derive a semantic design-token system from observed CSS, theme files, component styles, Tailwind config, CSS-in-JS, and hardcoded styling values.
 argument-hint: "[scope, token output dir, framework, migration goals]"
 disable-model-invocation: true
-allowed-tools: Read Grep Glob Bash(node *) Bash(ds-style-inventory *) Bash(ds-token-validate *)
+allowed-tools: Read Grep Glob Write Bash(node *) Bash(ds-style-inventory *) Bash(ds-token-validate *)
 model: inherit
 effort: high
 ---
@@ -44,10 +44,10 @@ Run this when you need a first-pass style inventory:
 ds-style-inventory . .design-system/style-inventory.json
 ```
 
-Run this to validate generated tokens:
+When writing derived tokens to disk, use the standardized `design/tokens/` location, then validate:
 
 ```sh
-ds-token-validate tokens
+ds-token-validate design/tokens
 ```
 
 ## Rules
