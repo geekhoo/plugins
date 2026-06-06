@@ -1,0 +1,40 @@
+{
+  "name": "semantic-design-system",
+  "version": "0.2.0",
+  "description": "Semantic design-token workflows for generating, deriving, validating, and applying design systems in web products.",
+  "author": {
+    "name": "Design Systems Team"
+  },
+  "license": "MIT",
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "semantic-tokens",
+    "css-variables",
+    "frontend",
+    "accessibility"
+  ],
+  "skills": "./.codex-plugin/skills/",
+  "hooks": "./.codex-plugin/hooks.json",
+  "mcpServers": "./.codex-plugin/mcp.json",
+  "interface": {
+    "displayName": "Semantic Design System",
+    "shortDescription": "Semantic design-token workflows for web products.",
+    "longDescription": "Generate, derive, apply, and audit semantic design-token systems with local validation scripts, optional MCP tools, and design-system migration guidance.",
+    "developerName": "Design Systems Team",
+    "websiteURL": "https://github.com/geekhoo/plugins/tree/main/semantic-design-system",
+    "privacyPolicyURL": "https://github.com/geekhoo/plugins/blob/main/semantic-design-system/README.md#privacy",
+    "termsOfServiceURL": "https://github.com/geekhoo/plugins/blob/main/semantic-design-system/README.md#terms-of-use",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Generate a semantic token system for this product.",
+      "Derive design tokens from this codebase.",
+      "Audit design tokens for accessibility and naming."
+    ],
+    "brandColor": "#0F766E"
+  }
+}

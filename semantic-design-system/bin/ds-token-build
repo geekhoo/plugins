@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+PLUGIN_ROOT="${PLUGIN_ROOT:-${CLAUDE_PLUGIN_ROOT:-$(dirname "$0")/..}}"
+node "$PLUGIN_ROOT/scripts/build-css-vars.mjs" "$@"

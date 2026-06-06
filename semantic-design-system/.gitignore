@@ -1,0 +1,10 @@
+# Generated local artifacts
+coverage/
+tmp/
+
+# Plugin Eval runtime artifacts
+.plugin-eval/**/*
+.plugin-eval/runs/
+.plugin-eval/benchmark-usage*.jsonl
+.plugin-eval/**/*.stderr.log
+.plugin-eval/**/*.stdout.log

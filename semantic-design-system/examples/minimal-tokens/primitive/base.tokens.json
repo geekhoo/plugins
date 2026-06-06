@@ -1,0 +1,19 @@
+{
+  "primitive": {
+    "color": {
+      "$type": "color",
+      "neutral": {
+        "0": { "$value": { "colorSpace": "srgb", "components": [1, 1, 1], "hex": "#ffffff" } },
+        "900": { "$value": { "colorSpace": "srgb", "components": [0.08, 0.08, 0.08], "hex": "#141414" } }
+      },
+      "brand": {
+        "500": { "$value": { "colorSpace": "srgb", "components": [0.05, 0.38, 0.95], "hex": "#0d61f2" } }
+      }
+    },
+    "space": {
+      "$type": "dimension",
+      "100": { "$value": { "value": 0.5, "unit": "rem" } },
+      "200": { "$value": { "value": 1, "unit": "rem" } }
+    }
+  }
+}

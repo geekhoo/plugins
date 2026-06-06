@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "design-system-tools": {
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/mcp/design-system-server.mjs"],
+      "env": {
+        "PLUGIN_ROOT": "${PLUGIN_ROOT}",
+        "DEFAULT_CSS_OUTPUT_FILE": "src/styles/tokens.css",
+        "DEFAULT_CSS_PREFIX": "ds"
+      }
+    }
+  }
+}
