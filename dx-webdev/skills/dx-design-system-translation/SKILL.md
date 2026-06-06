@@ -1,6 +1,6 @@
 ---
 name: dx-design-system-translation
-description: Translate design-system tokens and UX intent into DevExtreme jQuery implementation decisions.
+description: Use when converting design tokens into DevExtreme jQuery implementation decisions.
 ---
 
 # Design System Translation

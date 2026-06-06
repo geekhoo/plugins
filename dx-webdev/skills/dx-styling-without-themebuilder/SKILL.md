@@ -1,6 +1,6 @@
 ---
 name: dx-styling-without-themebuilder
-description: Style DevExtreme jQuery apps with local CSS variables and scoped selectors instead of ThemeBuilder output.
+description: Use when styling DevExtreme jQuery apps with local CSS variables and scoped selectors.
 ---
 
 # Styling Without ThemeBuilder

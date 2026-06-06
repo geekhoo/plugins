@@ -19,6 +19,9 @@
     "shortDescription": "DevExtreme jQuery helpers for HTML, JS, and CSS apps.",
     "longDescription": "Focused personal helpers for generating and reviewing pure HTML, JavaScript, and CSS pages that use DevExtreme jQuery widgets with local styling and validation guidance.",
     "developerName": "Personal",
+    "websiteURL": "https://github.com/geekhoo/plugins/tree/main/dx-webdev",
+    "privacyPolicyURL": "https://github.com/geekhoo/plugins/blob/main/dx-webdev/README.md#privacy",
+    "termsOfServiceURL": "https://github.com/geekhoo/plugins/blob/main/dx-webdev/README.md#terms-of-use",
     "category": "Developer Tools",
     "capabilities": [
       "Interactive",

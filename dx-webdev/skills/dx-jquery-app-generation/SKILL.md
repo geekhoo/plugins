@@ -1,6 +1,6 @@
 ---
 name: dx-jquery-app-generation
-description: Create, modify, or review pure HTML, JavaScript, and CSS apps using DevExtreme jQuery widgets.
+description: Use when creating or modifying pure HTML/CSS/JS apps with DevExtreme jQuery widgets.
 ---
 
 # DevExtreme jQuery App Generation

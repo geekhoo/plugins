@@ -1,6 +1,6 @@
 ---
 name: dx-saas-ux-pattern-translation
-description: Translate proven SaaS UX patterns from products such as Salesforce, Microsoft 365, Google Workspace, and monday.com into DevExtreme jQuery capability maps and implementation plans without cloning vendor layouts.
+description: Use when translating SaaS workflow patterns into DevExtreme jQuery capability maps and implementation plans without cloning vendor layouts.
 ---
 
 # DevExtreme SaaS UX Pattern Translation

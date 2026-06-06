@@ -1,6 +1,6 @@
 ---
 name: dx-ux-review
-description: Review generated DevExtreme jQuery UI for widget fit, implementation correctness, styling scope, states, and validation.
+description: Use when reviewing DevExtreme jQuery pages for fit, correctness, scope, states, and validation.
 ---
 
 # DevExtreme UX Review

@@ -1,6 +1,6 @@
 ---
 name: dx-options-recipes
-description: Use optional DevExtreme jQuery option examples when the user explicitly asks for recipes, starter configurations, or sample option sets.
+description: Use when the user explicitly asks for DevExtreme jQuery recipes, starter configurations, or sample option sets.
 ---
 
 # DevExtreme Options Recipes

@@ -1,6 +1,6 @@
 ---
 name: dx-capability-map-usage
-description: Use DevExtreme jQuery capability maps to translate UX intent into widget options, dependencies, and constraints without relying on recipes or templates.
+description: Use when mapping DevExtreme jQuery UX intent to capability maps.
 ---
 
 # DevExtreme Capability Map Usage

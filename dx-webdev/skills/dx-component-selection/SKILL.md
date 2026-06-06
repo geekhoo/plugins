@@ -1,6 +1,6 @@
 ---
 name: dx-component-selection
-description: Map UX intent and data shape to DevExtreme jQuery widget choices.
+description: Use when choosing DevExtreme jQuery widgets from UX intent and data shape.
 ---
 
 # DevExtreme Component Selection
