@@ -1,0 +1,4 @@
+interface:
+  display_name: "Strict JSON Status"
+  short_description: "Return automation-safe JSON status only"
+  default_prompt: "Return a strict JSON status response for this request."

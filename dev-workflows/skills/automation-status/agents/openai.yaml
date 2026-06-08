@@ -1,0 +1,4 @@
+interface:
+  display_name: "Automation Status"
+  short_description: "Inspect and report source-backed automation state."
+  default_prompt: "Check the current automation status, including active, blocked, completed, and next scheduled work."

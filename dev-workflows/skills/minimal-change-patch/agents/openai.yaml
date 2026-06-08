@@ -1,0 +1,4 @@
+interface:
+  display_name: "Minimal Change Patch"
+  short_description: "Make small targeted fixes without unrelated churn."
+  default_prompt: "Apply a minimal targeted patch for the requested issue, inspect only the necessary context, run proportional validation, and report the narrow scope."

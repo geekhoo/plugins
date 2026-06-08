@@ -1,0 +1,4 @@
+interface:
+  display_name: "Resume Inventory"
+  short_description: "Inventory current worktree state before resuming."
+  default_prompt: "Resume from the current worktree by inventorying completed, pending, blocked, and unknown work before continuing."

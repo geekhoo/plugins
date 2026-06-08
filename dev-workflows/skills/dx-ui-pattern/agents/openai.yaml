@@ -1,0 +1,4 @@
+interface:
+  display_name: "DX UI Pattern"
+  short_description: "Build and validate DevExtreme UI patterns"
+  default_prompt: "Use $dx-ui-pattern to implement or validate a DevExtreme jQuery UI pattern with rendered viewport and interaction evidence."

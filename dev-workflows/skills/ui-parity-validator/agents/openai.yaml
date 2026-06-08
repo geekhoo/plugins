@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI Parity Validator"
+  short_description: "Compare UI output against a reference and report visible deltas."
+  default_prompt: "Validate UI parity between a target and its reference, capture evidence, compare required states, and report pass/fail deltas."

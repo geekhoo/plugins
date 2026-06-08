@@ -1,0 +1,4 @@
+interface:
+  display_name: "Plugin Skill Lifecycle"
+  short_description: "Create, install, evaluate, and validate plugins or skills."
+  default_prompt: "Use plugin-skill-lifecycle to handle plugin or skill creation, installation, evaluation, updates, or validation with evidence."

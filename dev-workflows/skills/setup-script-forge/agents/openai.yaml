@@ -1,0 +1,3 @@
+display_name: Setup Script Forge
+short_description: Create idempotent local setup and repair scripts.
+default_prompt: Create a reusable local setup script with preflight checks, rerun safety, verification, and concise usage docs.

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Remediation"
+  short_description: "Turn verified review findings into scoped fixes or plans."
+  default_prompt: "Address these review findings against the current source, verify each one, and implement or plan the confirmed remediation."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Handoff Prompt Generator"
+  short_description: "Generate complete takeover prompts."
+  default_prompt: "Generate a handoff prompt with objective, read order, constraints, expected outputs, validation gates, assumptions, and redaction notes."

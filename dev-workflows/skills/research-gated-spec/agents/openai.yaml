@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research-Gated Spec"
+  short_description: "Draft source-backed specs after current research."
+  default_prompt: "Use research-gated-spec to research current sources, compare options, and produce a source-backed spec before implementation."

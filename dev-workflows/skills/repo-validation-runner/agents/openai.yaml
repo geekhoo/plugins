@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repo Validation Runner"
+  short_description: "Run repo-grounded validation checks"
+  default_prompt: "Use $repo-validation-runner to run repo-grounded checks and report validation status."

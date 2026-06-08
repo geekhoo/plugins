@@ -1,0 +1,4 @@
+interface:
+  display_name: "Document Corpus Pipeline"
+  short_description: "Process large document corpora with traceable per-file evidence."
+  default_prompt: "Process this document corpus with per-file evidence, coverage reporting, and a source-backed final synthesis."

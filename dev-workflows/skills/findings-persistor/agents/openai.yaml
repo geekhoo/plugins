@@ -1,0 +1,4 @@
+interface:
+  display_name: "Findings Persistor"
+  short_description: "Persist source-backed findings as durable Markdown artifacts."
+  default_prompt: "Save these source-backed findings to the requested Markdown file with severity, evidence, status, and validation preserved."

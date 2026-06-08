@@ -1,0 +1,4 @@
+interface:
+  display_name: "Browser Probe"
+  short_description: "Run repeatable browser probes with evidence."
+  default_prompt: "Probe this URL in the browser and return screenshots, console messages, DOM facts, and response failures."

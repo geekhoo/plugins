@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evidence Review"
+  short_description: "Source-backed reviews with line-cited findings."
+  default_prompt: "Review the current target using direct source evidence, cite exact files and lines, and report findings first."

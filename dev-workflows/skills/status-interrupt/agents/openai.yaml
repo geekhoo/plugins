@@ -1,0 +1,4 @@
+interface:
+  display_name: "Status Interrupt"
+  short_description: "Report progress without losing active work."
+  default_prompt: "Use status-interrupt to answer a status-only interruption, then continue the active task when appropriate."

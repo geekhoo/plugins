@@ -1,0 +1,12 @@
+{
+  "name": "dev-workflows",
+  "description": "A library of composable workflow skills distilled from cross-project Claude Code sessions (44 skills). Spans planning and spec authoring, multi-lens review and audit, testing/QA and DB seeding, browser and Figma workflows, environment/setup/deployment, git hygiene, corpus and document pipelines, capability inventory, and memory/status utilities. Primitives (e.g. env-check, parallel-audit, db-seed, figma-inventory, scope-guard) compose into higher-level workflows. Windows-aware (forward-slash bash paths, .venv interpreter, cp1252 encoding, Playwright MCP gotchas).",
+  "version": "0.1.0",
+  "author": {
+    "name": "geekhoo"
+  },
+  "skills": "./skills/",
+  "dependencies": [
+    { "name": "figma", "marketplace": "claude-plugins-official" }
+  ]
+}

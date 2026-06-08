@@ -1,0 +1,4 @@
+interface:
+  display_name: "Figma Design Loop"
+  short_description: "Use Figma evidence to guide scoped UI work."
+  default_prompt: "Use the figma-design-loop skill to inspect Figma evidence, implement scoped UI changes, and validate the rendered result."

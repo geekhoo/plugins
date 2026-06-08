@@ -1,0 +1,4 @@
+interface:
+  display_name: "Clean Room Implementation"
+  short_description: "Implement behavior without forbidden source reuse."
+  default_prompt: "Use clean-room-implementation to implement from allowed behavior evidence while avoiding forbidden source materials."

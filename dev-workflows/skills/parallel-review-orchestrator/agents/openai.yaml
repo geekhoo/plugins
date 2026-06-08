@@ -1,0 +1,3 @@
+interface:
+  display_name: "Parallel Review Orchestrator"
+  short_description: "Coordinate independent review passes"

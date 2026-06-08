@@ -1,0 +1,4 @@
+interface:
+  display_name: "Browser QA"
+  short_description: "Validate rendered web UI in a browser"
+  default_prompt: "Use $browser-qa to validate rendered UI routes, flows, viewports, and console or network health."

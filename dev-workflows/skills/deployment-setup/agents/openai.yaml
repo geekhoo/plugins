@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deployment Setup"
+  short_description: "Plan and validate deployment setup from evidence."
+  default_prompt: "Use $deployment-setup to deploy, configure a runtime, diagnose remote dependency failures, or produce a setup/remediation runbook."

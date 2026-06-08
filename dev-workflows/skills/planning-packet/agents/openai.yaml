@@ -1,0 +1,4 @@
+interface:
+  display_name: "Planning Packet"
+  short_description: "Build delivery-ready planning packets"
+  default_prompt: "Use $planning-packet to create a delivery-ready implementation planning packet."

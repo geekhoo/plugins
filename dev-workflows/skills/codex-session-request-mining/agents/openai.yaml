@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Session Request Mining"
+  short_description: "Mine Codex sessions for workflow candidates"
+  default_prompt: "Mine Codex sessions for repeated workflow requests and produce an evidence-backed backlog."

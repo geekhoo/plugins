@@ -1,0 +1,4 @@
+interface:
+  display_name: "Git Hygiene"
+  short_description: "Protect dirty worktrees during git operations."
+  default_prompt: "Use git-hygiene to inspect branch and dirty state, then perform the requested branch, stage, commit, push, or PR workflow without touching unrelated changes."

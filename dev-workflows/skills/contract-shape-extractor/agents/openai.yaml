@@ -1,0 +1,4 @@
+interface:
+  display_name: "Contract Shape Extractor"
+  short_description: "Extract schemas and machine-readable contracts from evidence."
+  default_prompt: "Extract the contract shape from the available evidence and produce schema, examples, validation notes, assumptions, and unresolved ambiguities."

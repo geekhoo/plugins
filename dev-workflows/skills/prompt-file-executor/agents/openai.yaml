@@ -1,0 +1,4 @@
+interface:
+  display_name: "Prompt File Executor"
+  short_description: "Execute prompt files with requirement coverage."
+  default_prompt: "Execute the referenced prompt file and report requirement coverage."

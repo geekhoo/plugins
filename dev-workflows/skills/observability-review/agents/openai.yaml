@@ -1,0 +1,4 @@
+interface:
+  display_name: "Observability Review"
+  short_description: "Review tracing, telemetry, and observability contracts."
+  default_prompt: "Review observability behavior, evidence, and validation for the current repo."

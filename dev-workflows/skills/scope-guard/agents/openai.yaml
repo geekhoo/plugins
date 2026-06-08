@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scope Guard"
+  short_description: "Preserve edit boundaries before making changes."
+  default_prompt: "Use scope-guard to identify allowed and protected paths before making changes."

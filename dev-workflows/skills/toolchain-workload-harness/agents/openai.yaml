@@ -1,0 +1,4 @@
+interface:
+  display_name: "Toolchain Workload Harness"
+  short_description: "Run repeatable toolchain workload evaluations"
+  default_prompt: "Build a bounded workload harness for this toolchain and report reproducible results."

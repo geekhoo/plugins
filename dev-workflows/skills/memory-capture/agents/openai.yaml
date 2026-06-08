@@ -1,0 +1,4 @@
+interface:
+  display_name: "Memory Capture"
+  short_description: "Create explicit, scoped memory update notes."
+  default_prompt: "Use memory-capture to create one scoped ad-hoc memory note after an explicit remember request."

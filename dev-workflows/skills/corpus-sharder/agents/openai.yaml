@@ -1,0 +1,4 @@
+interface:
+  display_name: "Corpus Sharder"
+  short_description: "Plan large corpus work as bounded shards."
+  default_prompt: "Shard this corpus into a manifest, per-shard prompts, merge format, and coverage checks."
