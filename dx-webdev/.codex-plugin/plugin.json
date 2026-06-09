@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Personal DevExtreme jQuery web development helpers for pure HTML/JS/CSS apps.",
   "author": {
-    "name": "Personal"
+    "name": "geekhoo"
   },
   "license": "UNLICENSED",
   "keywords": [
@@ -18,7 +18,7 @@
     "displayName": "DX WebDev",
     "shortDescription": "DevExtreme jQuery helpers for HTML, JS, and CSS apps.",
     "longDescription": "Focused personal helpers for generating and reviewing pure HTML, JavaScript, and CSS pages that use DevExtreme jQuery widgets with local styling and validation guidance.",
-    "developerName": "Personal",
+    "developerName": "geekhoo",
     "websiteURL": "https://github.com/geekhoo/plugins/tree/main/dx-webdev",
     "privacyPolicyURL": "https://github.com/geekhoo/plugins/blob/main/dx-webdev/README.md#privacy",
     "termsOfServiceURL": "https://github.com/geekhoo/plugins/blob/main/dx-webdev/README.md#terms-of-use",

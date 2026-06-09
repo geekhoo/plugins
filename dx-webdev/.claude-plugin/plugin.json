@@ -2,5 +2,8 @@
   "name": "dx-webdev",
   "version": "0.1.0",
   "description": "Personal DevExtreme jQuery web development helpers for pure HTML/JS/CSS apps.",
+  "author": {
+    "name": "geekhoo"
+  },
   "skills": "./skills/"
 }
