@@ -7,6 +7,7 @@
   },
   "skills": "./skills/",
   "dependencies": [
-    { "name": "figma", "marketplace": "claude-plugins-official" }
+    { "name": "figma", "marketplace": "claude-plugins-official" },
+    "geeky-orchestration"
   ]
 }
