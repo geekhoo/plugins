@@ -1,5 +1,5 @@
 ---
-allowed-tools: *
+allowed-tools: "*"
 argument-hint: folder path holding the geeky-plan artifacts (implementation-plan.md, kanban.md, tasks/, etc.). Optionally append --phase=<name|number>, --dry-run, or --serial.
 description: geeky orchestrator that executes the geeky-plan package — drives tasks through the kanban, delegates geeky-coder + reviewer subagents, validates, commits per phase, and keeps handoff.md current
 ---

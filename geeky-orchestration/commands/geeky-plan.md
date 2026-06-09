@@ -1,5 +1,5 @@
 ---
-allowed-tools: *
+allowed-tools: "*"
 argument-hint: include research and spec, or folder holding these artifacts
 description: geeky version of creating plan and tasks and Kanban orchestration
 ---
