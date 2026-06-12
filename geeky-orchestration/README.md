@@ -15,6 +15,9 @@ End-to-end feature delivery: **plan it, execute it, track it**, with strong cont
 | `archive` | skill | Archives a concluded spec: moves planning artifacts to `archives/`, creates the permanent `docs/spec-NNN-name/` folder (spec + handoff + README), updates CLAUDE.md current state. |
 | `/spec-research`, `/geeky-plan`, `/plan-review`, `/geeky-implement`, `/impl-review`, `/geeky-status`, `/archive` | commands | Thin slash-command fronts that simply invoke the same-named skill with `$ARGUMENTS`. The full procedure lives in the skills (`skills/<name>/SKILL.md`) so that non-Claude agents — which read skills but not commands — can run the same workflow. |
 | `geeky-coder` | agent | Portable coder subagent. Treats the orchestrator's brief as authoritative scope. Returns a structured summary. Safe to spawn in parallel against non-overlapping task surfaces. |
+| `code-architect` | agent | Portable architecture reviewer subagent. Reviews code with a system-level lens, focusing on maintainability, scalability, modularity, and architectural best practices. |
+| `code-explorer` | agent | Portable code explorer subagent. Reads the codebase to answer questions about existing patterns, dependencies, and relevant prior work. |
+| `code-reviewer` | agent | Portable code reviewer subagent. Focuses on correctness, style, and adherence to the task's validation block. |
 | `templates/task_template.md` | template | Canonical task shape consumed by `/geeky-plan`. |
 | `scripts/validate-planning-folder.{ps1,py}` | gate | Folder completeness: verifies a folder has the artifacts `/geeky-implement` expects. |
 | `scripts/validate-task-schema.{ps1,py}` | gate | Each `tasks/Tx-*.md` carries the required template sections (plan→implement boundary). |
