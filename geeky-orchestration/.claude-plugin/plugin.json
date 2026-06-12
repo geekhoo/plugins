@@ -1,7 +1,7 @@
 {
   "name": "geeky-orchestration",
-  "description": "Plan, execute, and track feature implementation end-to-end. Bundles the geeky-plan, geeky-implement, and geeky-status skills (each fronted by a same-named slash command), a portable geeky-coder agent, a canonical task template, framework-agnostic quality gates (planning-folder, task-schema, kanban-integrity, definition-of-done, and commit-message validators in paired Python/PowerShell), a PreToolUse guard for frozen planning artifacts, an AGENTS.md + manifest discovery layer, and a geeky_mcp server exposing the gates as MCP tools.",
-  "version": "0.1.0",
+  "description": "Plan, execute, and track feature implementation end-to-end. Bundles the geeky-plan, geeky-implement, and geeky-status skills (each fronted by a same-named slash command) plus spec-research, plan-review, impl-review, and archive lifecycle skills, a portable geeky-coder agent, a canonical task template, framework-agnostic quality gates (planning-folder, task-schema, kanban-integrity, definition-of-done, and commit-message validators in paired Python/PowerShell), a PreToolUse guard for frozen planning artifacts, an AGENTS.md + manifest discovery layer, and a geeky_mcp server exposing the gates as MCP tools.",
+  "version": "0.2.0",
   "author": {
     "name": "geekhoo"
   },
