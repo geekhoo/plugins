@@ -7,3 +7,4 @@ __pycache__/
 mcp/.venv/
 mcp/uv.lock
 .venv/
+*/.plugin-eval/**/*

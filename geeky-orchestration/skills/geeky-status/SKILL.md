@@ -17,15 +17,15 @@ Fast situational awareness when resuming a planning/implementation session. Answ
    - Windows: `pwsh -NoProfile -ExecutionPolicy Bypass -File "${CLAUDE_PLUGIN_ROOT}/scripts/validate-planning-folder.ps1" -Path "<folder>"`
    - macOS / Linux / cross-platform: `python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-planning-folder.py" --path "<folder>"` (use `python3` if `python` is not on PATH)
 
-   If it returns non-zero, print its output and stop.
+   **If it returns non-zero:** include the validator's full output in your chat response to the user, then stop. Do not proceed to subsequent steps.
 
    Then run the read-only **kanban-integrity** gate and fold its findings into the `Inconsistencies:` section of the report (do not fix anything — this skill is read-only):
    - Windows: `pwsh -NoProfile -ExecutionPolicy Bypass -File "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.ps1" -Path "<folder>"`
    - cross-platform: `python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.py" --path "<folder>"`
 
-2. **Read** `kanban.md`, `handoff.md`, and the last `review-*.md` in the folder. If `tasks/` exists, glob `tasks/T*.md` (excluding `*.notes.md`) to get the total task count.
+2. **Read** `kanban.md`, `handoff.md`, and the last `review-*.md` in the folder. If `tasks/` exists, glob `tasks/T[0-9]*.md` (this pattern matches T1-foo.md, T10-bar.md, etc., but excludes T1-foo.notes.md and non-task files) to get the total task count.
 
-3. **Parse `kanban.md`** into lane counts. Recognise these lane headings (case-insensitive, any heading depth): Backlog, Ready, In Progress, Blocked, In Review, Done. For each task in `In Progress` or `Blocked`, capture the task ID, the line, and any trailing `<!-- ... -->` timestamp comment.
+3. **Parse `kanban.md`** into lane counts. Recognise these lane headings (case-insensitive, any heading depth): Backlog, Ready, In Progress, Blocked, In Review, Done. For each task in `In Progress` or `Blocked`, capture the task ID (e.g., T1, T2), extract the **task title from the first line of the corresponding `tasks/Tx-*.md` file** (usually the line after `Task Name:` in the template, or the first heading if the template differs), and any trailing `<!-- ... -->` timestamp comment from the kanban line.
 
 4. **Read recent `tasks/Tx-*.notes.md` files** (sorted by modified time, most recent 3). Pull out the SUMMARY line and the VALIDATION line from each, if present.
 
@@ -51,7 +51,7 @@ Fast situational awareness when resuming a planning/implementation session. Answ
      - ...
 
    Validation checklist:
-     <reproduce the Validation Checklist block from kanban.md, preserving [ ]/[x]>
+     <reproduce the "Validation Checklist" section from kanban.md — typically the last section before or after "Done". Preserve all [ ] / [x] checkboxes exactly. If no such section exists, print "(No validation checklist defined in kanban)".>
 
    Last 3 task notes (most recent first):
      - <Tid>: <SUMMARY first sentence> | validation: <PASS|FAIL>
@@ -64,11 +64,12 @@ Fast situational awareness when resuming a planning/implementation session. Answ
      <bullet list under the "Deferred follow-ups" section in handoff.md, if any>
 
    Suggested next step:
-     <one of:
-        "Resume with /geeky-implement <folder>" if Ready > 0 and Blocked == 0
+     <one of (in precedence order):
         "Resolve blocked: <Tid> before resuming" if Blocked > 0
-        "Backlog only — promote tasks to Ready or extend plan" if Ready == 0 and Backlog > 0
         "Done — final PM review may be appropriate" if Done == total
+        "Resume with /geeky-implement <folder>" if Ready > 0 and Blocked == 0
+        "Backlog only — promote tasks to Ready or extend plan" if Ready == 0 and Backlog > 0
+        "Review kanban state — mixed or edge case detected" (fallback if none of the above apply)
      >
    ```
 

@@ -1,116 +1,134 @@
 ---
 name: archive
 description: >-
-  Archive a completed spec's planning artifacts and finalize its docs structure.
-  Use when a spec is fully implemented and concluded — moves planning files to archives/,
-  creates the permanent docs/spec-NNN-name/ folder with spec doc + handoff + README,
-  and updates CLAUDE.md current state.
+  Archive a completed `geeky-plan` package and finalize its docs structure.
+  Use when a plan is fully implemented and implementation is complete.
 ---
 
-# Archive Completed Spec
+# Archive Completed Feature Plan
+
+## Prerequisites
+
+This skill requires explicit command routing:
+
+- The `/archive` command must be configured to invoke this skill by name or path.
+- Without proper wiring, this skill will not respond to user commands.
+- Verify command registration in your agent configuration before use.
 
 ## When to Use
 
-Invoke with `/archive` after a spec is fully implemented, reviewed, and committed. The spec should have:
-- All tasks completed
-- Build passing with zero warnings
-- All tests green
-- Handoff document updated with final status
+Invoke `/archive` after `/geeky-implement` has completed a `geeky-plan` package.
+The package should satisfy:
+
+- All tasks completed in kanban
+- Quality gates passing (or explicitly recorded as skipped)
+- All checks documented in handoff
+- Team sign-off recorded in handoff
 
 ## Arguments
 
-The user may pass a spec identifier (e.g., `/archive spec-003` or `/archive SPEC-0004`). If no argument is given, look for the most recent spec in `docs/specifications/` that has a completed handoff.
+Pass a planning folder path (recommended), e.g. `docs/notifications/`.
+If no argument is provided, scan `docs/` for the most recent folder with:
+
+- `implementation-plan.md`
+- `handoff.md` marked complete
 
 ## Workflow
 
-### 1. Identify the spec
+### 1. Identify the planning folder
 
-- Parse the spec number from arguments, or scan `docs/specifications/` for the active spec
-- Read the handoff document to confirm status is "Complete"
-- If not complete, warn the user and stop
+- Resolve the target from arguments, or discover the most recently completed package in `docs/`.
+- **Missing file checks (STOP if any fail):**
+  - If `handoff.md` is missing: Report "Cannot archive: handoff.md not found in <folder>. Archive requires a completed handoff document." and STOP.
+  - If `kanban.md` is missing: Report "Cannot archive: kanban.md not found in <folder>. Archive requires a task kanban." and STOP.
+  - If `implementation-plan.md` is missing: Report "Cannot archive: implementation-plan.md not found in <folder>. Archive requires a planning document." and STOP.
+- Read `handoff.md` and confirm status is "Complete".
+- If status is not complete, warn and stop: "Cannot archive: handoff.md status is '<current_status>', not 'Complete'. Resolve implementation issues before archiving."
 
 ### 2. Create destination directories
 
-```bash
-mkdir -p archives/docs/spec-NNN-planning
-mkdir -p docs/spec-NNN-name/
-```
+Create:
 
-Use the spec's descriptive name for the docs folder (e.g., `spec-003-campaign-management`).
+- `archives/docs/<folder-name>-planning/`
+- Keep `docs/<folder-name>/` for the final artifact set
 
-### 3. Move planning artifacts to archives
+### 3. Move planning-only artifacts to archive
 
-These files go to `archives/docs/spec-NNN-planning/`:
+Move these planning artifacts with `git mv` into `archives/docs/<folder-name>-planning/`:
+
 - `kanban.md`
-- `execution-schedule.md`
-- `implementation-plan.md`
-- `tasks/` (entire directory)
+- `execution-schedule.md` (if present)
 - `references.md`
-- `research-prompt.md`
+- `tasks/` (entire directory)
+- `tasks/T*.notes.md` (if present)
+- `review-development-project-manager.md` (if present)
+- `implementation-plan.md`
+- `draft.md` (if present)
 - Any `*-prompt.md` files (handoff-prompt, optimization-prompt, etc.)
-- Any other planning/working documents
+- Any other plan-generation-only working docs that are not meant to remain canonical
 
-Use `git mv` to preserve history.
+### 4. Keep permanent docs in `docs/<folder-name>/`
 
-### 4. Move permanent docs
+Keep only the canonical final docs in `docs/<folder-name>/`:
 
-These files stay in `docs/spec-NNN-name/`:
-- `SPEC-NNNN-*.md` (the requirements document)
-- `handoff.md` (execution summary)
+- `feature-specification.md` (or your requirements document that was implemented)
+- `handoff.md` (implementation summary)
+- `README.md` (delivery summary)
 
-Use `git mv` to preserve history.
+### 5. Create / refresh README.md
 
-### 5. Write a README
+Write `docs/<folder-name>/README.md` with:
 
-Create `docs/spec-NNN-name/README.md` with:
-- Spec title and status (completed date)
-- "What Was Delivered" section (bullet list of key deliverables)
-- Any optimization/review passes that were applied
-- "Delegation to Future Specs" section (what was deferred)
-- Pointer to planning package location in archives
+- Spec title and completion date
+- "What Was Delivered" (bullet list)
+- Notes on reviews/optimizations that were applied
+- "Delegation to Future Spec/Tasks" section
+- Pointer to `archives/docs/<folder-name>-planning/`
 
-Read the spec doc and handoff to source this information.
+### 6. Tidy directories
 
-### 6. Remove empty directories
+Remove now-empty directories under the source plan folder.
 
-```bash
-rmdir docs/specifications/spec-NNN
-```
-
-If `docs/specifications/` is now empty, remove it too.
-
-### 7. Update CLAUDE.md
+### 7. Update CLAUDE.md and AGENTS.md
 
 In the `## Current State` section:
-- Change the spec's entry from "Next" to "Complete" with task counts
-- Add a reference to the new `docs/spec-NNN-name/` path
-- Update the "Next" line to the subsequent spec (or remove if unknown)
+
+- Mark the archived folder as complete with task counts/status.
+- Keep the new `docs/<folder-name>/` path as the canonical reference.
+- Update the next folder pointer (if known).
 
 ### 8. Commit
 
+CONDITIONAL:
+
+- Linux/macOS (bash):
+
 ```bash
 git add -A
-git commit -m "chore: Archive SPEC-NNNN planning artifacts, finalize docs structure
+git commit -m "chore: Archive completed planning package" -m "Move planning artifacts to archives/docs/<folder-name>-planning/" -m "Keep implementation specification, handoff, and README in docs/<folder-name>/" -m "Update CLAUDE.md / AGENTS.md current state"
+```
 
-- Move planning artifacts to archives/docs/spec-NNN-planning/
-- Keep spec doc + handoff + README in docs/spec-NNN-name/
-- Update CLAUDE.md current state
+- Windows (pwsh):
 
-Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>"
+```pwsh
+git add -A
+git commit -m "chore: Archive completed planning package" -m "Move planning artifacts to archives/docs/<folder-name>-planning/" -m "Keep implementation specification, handoff, and README in docs/<folder-name>/" -m "Update CLAUDE.md / AGENTS.md current state"
 ```
 
 ### 9. Verify
 
-- Confirm `docs/specifications/` is empty or removed
-- Confirm `archives/docs/spec-NNN-planning/` has all planning files
-- Confirm `docs/spec-NNN-name/` has spec doc, handoff, README
-- Confirm CLAUDE.md reflects the new state
-- Confirm build still passes (no broken file references)
+- Confirm `implementation-plan.md` is in archive, not in the final folder.
+- Confirm `tasks/` and task notes are fully archived.
+- Confirm `feature-specification.md`, `handoff.md`, and `README.md` remain in `docs/<folder-name>/`.
+- Confirm `CLAUDE.md` and `AGENTS.md` reflect final state.
+- Confirm no broken references in final docs.
 
 ## Rules
 
-- **Always use `git mv`** to preserve file history
-- **Never delete files** — they move to archives, not to oblivion
-- **archives/ is git-tracked** but excluded from AI context (noted in CLAUDE.md and AGENTS.md)
-- **Don't archive if spec is incomplete** — warn and stop
-- **README should be self-contained** — a reader should understand what was delivered without reading the full spec
+- **Use `git mv`** for all file moves.
+- **Never delete canonical artifacts** — move to `archives/` instead.
+- **`archives/` is git-tracked** and intentionally excluded from AI context.
+- **Do not archive incomplete work** — warn and stop.
+- **Stop immediately if required files are missing** — report exact missing file(s) and do not proceed with partial archiving.
+- **Behavior is conservative and traceable** — every move should be verifiable via git history.
+- **README must be self-contained** so readers can understand outcomes without opening full task history.

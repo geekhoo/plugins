@@ -1,6 +1,6 @@
 ---
 name: impl-review
-description: This skill should be used when the user asks to "review the implementation", "review spec-NNN code", "get expert review on the work", "review what was built", "implementation review", "code review the spec", or invokes /impl-review. Deploys 3 dynamically-chosen domain expert subagents to review implementation work from different angles — each reviewer covers a distinct, non-overlapping aspect of the delivered code. This skill reviews delivered code, not planning documents — for reviewing planning artifacts before implementation, use plan-review. Use after completing a spec implementation or before merging significant work.
+description: Use when requested to review implemented code after `/geeky-implement` completes. This skill dispatches multi-angle implementation reviewers and returns blocker/major/minor findings against the done work.
 ---
 
 # Implementation Review
@@ -9,7 +9,7 @@ Deploy 3 domain-expert reviewer subagents to evaluate completed implementation w
 
 ## Arguments
 
-Accept a spec folder path or diff reference (e.g., `docs/spec-007-infrastructure/`, `HEAD~5..HEAD`, or a branch name). If no argument given, use the current uncommitted changes or the most recent spec folder.
+Accept a `geeky-implement` package path or diff reference (e.g., `docs/notifications/`, `HEAD~5..HEAD`, or a branch name). If no argument is given, apply this deterministic precedence: (1) if uncommitted changes exist (`git diff --stat` is non-empty), review those; (2) otherwise, scan `docs/` for the most recent feature package (folder with `implementation-plan.md` and newest `handoff.md` timestamp) and review commits since its stated baseline.
 
 ## Workflow
 
@@ -17,18 +17,19 @@ Accept a spec folder path or diff reference (e.g., `docs/spec-007-infrastructure
 
 Before selecting reviewers, analyze the implementation scope:
 
-1. Read the spec's handoff or kanban to understand delivered tasks
-2. Run `git diff --stat` against the base to identify changed files
-3. Categorize the work into 3-5 distinct technical domains (e.g., "Bicep IaC modules", "GitHub Actions CI/CD", "OpenTelemetry instrumentation", ".NET EF Core persistence", "Docker containerization", "security/RBAC", "API design")
+1. Read the spec folder handoff/kanban to understand delivered tasks (e.g., `docs/feature-name/implementation-plan.md`, `handoff.md`, `kanban.md`).
+2. Run `git diff --stat` against the base to identify changed files.
+3. Categorize the work into 3-5 distinct technical domains (e.g., "Bicep IaC modules", "GitHub Actions CI/CD", "OpenTelemetry instrumentation", ".NET EF Core persistence", "Docker containerization", "security/RBAC", "API design").
 
 ### Phase 2: Select 3 Distinct Reviewers
 
 From the discovered domains, select the **3 most significant and non-overlapping** expertise areas. Each reviewer must cover a distinct dimension — no two reviewers should evaluate the same files from the same angle.
 
-**Selection criteria:**
-- Coverage: together the 3 reviewers should cover >80% of the changed files
-- Distinction: each reviewer's focus must be clearly different from the others
-- Significance: prioritize areas with the most risk, complexity, or business impact
+**Significance ranking criteria (choose the top 3):**
+- **Impact:** Areas affecting user-facing behavior, data integrity, or cross-cutting concerns (auth, observability, deployment)
+- **Risk:** Areas with security implications, external integrations, or state management complexity
+- **Complexity:** Areas with the highest cyclomatic complexity, deepest call chains, or most inter-module dependencies
+- **Coverage:** Prioritize domains that collectively cover >80% of changed lines; avoid niche file types unless they carry high risk
 
 **Define each reviewer with:**
 - A domain title (e.g., "Azure Infrastructure & Bicep")
@@ -38,7 +39,7 @@ From the discovered domains, select the **3 most significant and non-overlapping
 
 ### Phase 3: Deploy Reviewers in Parallel
 
-Dispatch all 3 reviewer subagents simultaneously using the `feature-dev:code-reviewer` agent type (lightweight read-only reviewer from the feature-dev agent family). Each receives a brief structured as:
+Dispatch all 3 reviewer subagents simultaneously using the `geeky-orchestration:code-reviewer` agent type (lightweight read-only reviewer from this plugin). Each receives a brief structured as:
 
 ````
 You are a [DOMAIN TITLE] expert reviewing [SPEC-NAME]'s implementation.
@@ -111,25 +112,25 @@ After all 3 reviewers complete:
 
 ### Phase 5 (Conditional): Fix Critical Issues
 
-If critical issues are found, present the list and ask the user whether to apply fixes. If the user declines, report the findings and stop. If approved, apply fixes directly. Commit with:
+If critical issues are found, present the list and ask the user whether to apply fixes. If the user declines, report the findings and stop.
+
+If approved, apply fixes directly and commit (same command on all platforms — duplication is intentional for per-environment copy/paste clarity):
+
 ```bash
-git commit -m "fix(spec-NNN): Address N critical review findings from impl-review
-
-[1-line summary per fix]
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
+# Linux/macOS (bash) or Windows (pwsh) — identical command
+git commit -m "fix(spec): Address N critical review findings from impl-review" -m "[1-line summary per fix]" -m "Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 ## Dynamic Reviewer Examples
 
-The same skill produces completely different reviewer configurations depending on the work:
+The examples below illustrate how reviewer selection adapts to different work domains — they are not prescriptive templates. The actual reviewers chosen for your implementation will depend on what was built and the significance ranking in Phase 2.
 
-**For a CI/CD spec (SPEC-0006):**
+**For a CI/CD spec:**
 1. CI/CD & GitHub Actions — workflow correctness, job dependencies, caching
 2. .NET & OpenTelemetry — telemetry setup, metrics design, package compatibility
 3. Security & Deployment Safety — secret management, supply chain, blast radius
 
-**For an IaC spec (SPEC-0007):**
+**For an IaC spec:**
 1. Azure Bicep & ARM — resource types, API versions, module structure, parameters
 2. Identity & RBAC — managed identity, role assignments, Entra auth, Key Vault
 3. Deployment Pipeline — Deployment Stacks, OIDC, health gates, rollback logic

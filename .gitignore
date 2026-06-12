@@ -2,3 +2,4 @@ temp-review/**/*
 tmp/**
 /tmp/**/*
 plugin-eval-reports/**/*
+--format

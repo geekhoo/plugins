@@ -1,57 +1,58 @@
 ---
 name: spec-research
-description: This skill should be used when the user asks to "research and write a spec", "investigate what we need for spec-NNN", "write spec-NNN", "create the next spec", "what should spec-NNN cover", "research spec requirements", or invokes /spec-research. Deploys a parallel research team (3 subagents) to investigate requirements from different angles — codebase analysis, web research on best practices, and architecture patterns — then synthesizes findings into a complete SPEC-NNNN.md document and README stub in docs/. This skill writes the spec requirements document itself — not the implementation plan. For creating the implementation plan from an existing spec, use /geeky-plan. Use whenever a new spec needs to be written from scratch with proper research backing, before /geeky-plan is run.
+description: Use when asked to research and write a new feature specification in `docs/<feature-folder>/`. This skill runs parallel research, synthesizes findings, and drafts `feature-specification.md` plus README scaffold before planning.
 ---
 
 # Spec Research & Authoring
 
-Deploy a parallel research team to investigate requirements for a new spec, then synthesize findings into a complete SPEC-NNNN document. The research phase uses 3 subagents with distinct investigation angles to ensure comprehensive coverage before writing begins.
+Deploy a parallel research team to investigate requirements for a new spec, then synthesize findings into a complete feature specification document. The research phase uses 3 subagents with distinct investigation angles to ensure comprehensive coverage before writing begins.
 
 ## Arguments
 
-Accept a spec topic or number (e.g., `spec-007 infrastructure`, `spec-009 notifications`, or a plain description like "real-time notifications system"). If a stub README already exists in `docs/spec-NNN-*/`, read it for initial scope constraints.
+Accept a spec topic or folder path (e.g., `notifications`, `feature-007`, `docs/notifications/`, or a plain description like "real-time notifications system").  
+If a stub README already exists in the feature folder (for example `docs/feature-name/README.md`), read it for initial scope constraints.
 
 ## Workflow
 
 ### Phase 1: Scope Discovery
 
-Before dispatching researchers, establish the investigation scope:
+Before dispatching researchers:
 
-1. Check CLAUDE.md `## Current State` for the current spec number and what preceded it
-2. Read any existing stub (`docs/spec-NNN-*/README.md`) for pre-defined scope hints
-3. Scan the codebase for relevant patterns — what infrastructure/code already exists that the spec will build upon
-4. Identify 3 distinct research angles based on what the spec needs to cover
+1. Determine the feature folder name. If the argument is already a folder path, use it. Otherwise derive `docs/spec-NNN-<kebab-slug>/`: read `CLAUDE.md` `## Current State` for the current sequence if present. If `CLAUDE.md` is missing, malformed, or the `## Current State` section is absent, continue with fallback naming logic: list existing `docs/spec-*` folders and use the highest number + 1. If no numbered folders exist, follow whatever folder convention prior specs in `docs/` use; if `docs/` is empty, ask the user to confirm the folder name before proceeding.
+2. Read any existing stub (`docs/<folder>/README.md`) for scope constraints.
+3. Scan the codebase for existing patterns and integration points.
+4. Identify 3 distinct research angles based on what the feature needs to cover.
 
-### Phase 2: Define 3 Research Agents
+### Phase 2: Define 3 Research Angles
 
-Select 3 non-overlapping research angles based on the spec's domain. Each agent investigates a different facet:
+Select 3 non-overlapping research angles based on the feature domain. Each agent investigates a different facet.
 
 **Typical configurations:**
 
-For an infrastructure spec:
-1. **Codebase Analyst** — audit existing code for all dependencies, configuration points, connection strings, and integration surfaces the new infrastructure must satisfy
-2. **Technology Researcher** — web search for current best practices, latest API versions, pricing models, and recommended patterns for the target technology (2025-2026)
-3. **Architecture Patterns** — web search for deployment patterns, security models, cost optimization, and disaster recovery strategies used by similar B2B SaaS platforms
+For an infrastructure feature:
+1. **Codebase Analyst** — audit existing code for dependencies, configuration points, and integration surfaces.
+2. **Technology Researcher** — web research for current patterns, API versions, pricing models, and recommended practices.
+3. **Architecture Patterns** — search for deployment patterns, security models, cost optimization, and reliability strategies used by similar systems.
 
 For a domain/feature spec:
-1. **Codebase Analyst** — trace existing domain boundaries, shared kernel interfaces, event contracts, and patterns established by prior specs
-2. **Domain Expert** — web search for industry best practices, data models, and workflows for the feature domain (e.g., campaign management, billing, notifications)
-3. **Integration Researcher** — identify third-party services, APIs, SDKs, and their latest documentation relevant to the feature
+1. **Codebase Analyst** — trace domain boundaries, interfaces, event contracts, and existing patterns.
+2. **Domain Expert** — research industry best practices, data models, and workflows for the feature domain.
+3. **Integration Researcher** — identify third-party services, APIs, SDKs, and their latest documentation.
 
 For a security/compliance spec:
-1. **Codebase Analyst** — audit current security posture, auth patterns, secret management, and vulnerability surface
-2. **Standards Researcher** — web search for relevant compliance frameworks (SOC2, GDPR, OWASP), certification requirements, and audit checklists
-3. **Tooling Researcher** — web search for security tooling, scanning services, policy-as-code frameworks, and their integration patterns
+1. **Codebase Analyst** — audit current security posture, auth patterns, secret management, and risk surface.
+2. **Standards Researcher** — research compliance frameworks (SOC2, GDPR, OWASP), certification requirements, and audit checklists.
+3. **Tooling Researcher** — research security tooling, scanning services, and policy-as-code integration options.
 
 ### Phase 3: Dispatch Research Team in Parallel
 
-Deploy all 3 researchers simultaneously. Each receives a structured brief:
+Deploy all 3 researchers simultaneously.
 
-- **Codebase Analyst**: Use `feature-dev:code-explorer` agent type. Brief it to audit specific directories, trace execution paths, and produce a structured inventory of what exists and what the new spec must interface with.
+- **Codebase Analyst**: use `geeky-orchestration:code-explorer` agent type.
+- **Web Researchers (2)**: use `general-purpose` agent type with instructions to use `WebSearch` and `WebFetch`.
 
-- **Web Researchers** (2): Use `general-purpose` agent type with explicit instruction to use `WebSearch` and `WebFetch` tools. Brief each with specific questions to answer, sources to prioritize (official docs over blogs), and output format (structured sections with source URLs).
+Each research brief ends with:
 
-Each agent brief ends with:
 ```
 Produce a structured report with:
 - Key findings (numbered, specific)
@@ -66,18 +67,36 @@ DO NOT create or modify any files.
 
 After all 3 researchers report back:
 
-1. **Consolidate findings** — merge overlapping discoveries, resolve contradictions, note where researchers agree (high confidence) vs disagree (flag for user decision)
-2. **Identify the spec's scope** — based on combined findings, define goals, non-goals, and delegation items
-3. **Write the SPEC document** following the project's established format:
+1. Consolidate findings: merge overlap, resolve contradictions, and note confidence gaps.
+2. Define scope: goals, non-goals, delegation items.
+3. Write the requirements document using the project’s established conventions in:
+   - `docs/<feature-folder>/feature-specification.md`
+   - `docs/<feature-folder>/README.md`
+
+   Do not create `SPEC-NNNN-*.md` files — that naming is legacy; `feature-specification.md` is the canonical filename consumed by /geeky-plan and the freeze hooks.
+
+   If a stub README already exists, preserve its stated scope and only update the Status line and missing sections; otherwise create the README stub:
+
+   ```markdown
+   # [Feature Name]
+
+   [One-paragraph scope summary.]
+
+   **Status:** Spec written — not yet planned
+   **Spec:** `feature-specification.md`
+   **Next:** /geeky-plan docs/<feature-folder>/
+   ```
+
+Recommended structure for the spec (this is a reference template — adapt sections to fit your feature domain; not all sections are required for every spec):
 
 ```markdown
-# SPEC-NNNN: [Title]
+# [Feature Name] Specification
 
 **Status:** Not Started
-**Dependencies:** [prior spec]
+**Dependencies:** [prior feature/spec]
 **Layer:** [Infrastructure / Domain / Security]
 **Priority:** [Critical Path / Important / Nice-to-have]
-**Estimated Complexity:** [N tasks across M waves]
+**Estimated Complexity:** [N tasks across M phases]
 
 ---
 
@@ -92,47 +111,41 @@ After all 3 researchers report back:
 ## 7. Task Outline (Preliminary)
 ## 8. Risks & Mitigations
 ## 9. Acceptance Criteria
-## 10. Dependencies on Prior Specs
+## 10. Dependencies on Prior Features
 ## 11. Delegation to Future Specs
 ```
 
-4. **Create the folder structure:**
-   - `docs/spec-NNN-name/SPEC-NNNN-name.md` — the full spec
-   - `docs/spec-NNN-name/README.md` — summary stub
+Include citations and explicit assumptions at the end of major findings.
 
 ### Phase 5: Commit and Suggest Next Steps
 
-Commit the spec document:
-```bash
-git add docs/spec-NNN-name/
-git commit -m "docs(spec-NNN): Research and author SPEC-NNNN-name
+Commit the spec (same command on all platforms). The spec is not yet frozen — it only becomes part of the frozen planning contract after /geeky-plan runs:
 
-- [1-line summary of what the spec covers]
-- Research conducted by: codebase analyst, [researcher 2 domain], [researcher 3 domain]
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
+```
+git add docs/<feature-folder>/
+git commit -m "docs: author feature specification in <feature-folder>" -m "[1-line summary of the spec focus]" -m "Research conducted by: codebase analyst, researcher 2 domain, researcher 3 domain" -m "Co-Authored-By: Claude <noreply@anthropic.com>"
 ```
 
 Then suggest next steps:
 ```
 Spec written. Next steps:
-- /geeky-plan docs/spec-NNN-name/   (to create implementation plan, tasks, kanban)
-- /plan-review docs/spec-NNN-name/  (to validate the planning package)
-- /geeky-implement docs/spec-NNN-name/  (to execute)
+- /geeky-plan docs/<feature-folder>/   (to create implementation plan, tasks, kanban)
+- /plan-review docs/<feature-folder>/  (to validate the planning package)
+- /geeky-implement docs/<feature-folder>/ (to execute)
 ```
 
 ## Research Quality Standards
 
-- **Recency**: Web research must target 2025-2026 patterns. Reject pre-2024 articles unless they cover stable fundamentals.
-- **Authority**: Prefer official documentation (Microsoft Learn, AWS docs, RFC specs) over blog posts or Stack Overflow.
-- **Specificity**: Researchers must produce concrete findings (resource type names, API versions, package versions, pricing tiers) — not vague "consider using X" recommendations.
-- **Adversarial verification**: If two researchers disagree on a fact, note both positions and flag for user decision rather than silently picking one.
+- **Recency**: Target sources from roughly the past 18 months; avoid older sources unless they cover stable fundamentals.
+- **Authority**: Prefer official documentation (Microsoft Learn, AWS docs, RFC specs) over blogs or forums.
+- **Specificity**: Include concrete findings (resource types, API versions, package versions, pricing tiers).
+- **Adversarial verification**: If researchers disagree on a fact, preserve both positions and flag for user decision.
 
 ## Rules
 
-- **Always 3 researchers** — one codebase analyst + two web/domain researchers
-- **Parallel dispatch** — all 3 in a single turn for maximum speed
-- **Research before writing** — never start the spec document until all researchers report back
-- **Cite sources** — every major claim in the spec should trace back to a researcher's finding
-- **Respect existing stubs** — if a README stub exists, treat its scope as authoritative constraints (goals and non-goals) unless the research reveals it should change
-- **Follow project conventions** — the spec format, naming, and folder structure must match prior specs in `docs/`
+- **Always 3 researchers** — one codebase analyst + two web/domain researchers.
+- **Parallel dispatch** — all 3 in a single turn for maximum speed.
+- **Research before writing** — do not start the spec document until all researchers report back.
+- **Cite sources** — every major claim in the spec should trace to research.
+- **Respect existing stubs** — if a README stub exists, treat its stated scope as authoritative unless research justifies adjustments.
+- **Follow project conventions** — spec format, naming, and folder structure should match prior specs in `docs/`.
