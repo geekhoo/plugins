@@ -155,3 +155,18 @@ Requirements:
 
 - `geeky-coder` is renamed from a generic `coder` agent to avoid clobbering any personal `coder` agent the user may have configured.
 - Reviewer delegation looks for the same agent type `/geeky-plan` used (development project manager / planning-coordinator). If your environment doesn't ship one, the per-task `code-review` skill still runs; only the phase-boundary PM sweep degrades.
+
+## Cross-harness agent registration (Codex / Claude / Copilot / Cursor)
+
+Canonical agent definitions live in `agents/*.md`.
+
+Different harnesses use different discovery paths and schemas, so this plugin ships a projection utility:
+
+```bash
+python scripts/sync-agents.py   # Python 3.8+, no dependencies
+node   scripts/sync-agents.js   # Node.js, no dependencies
+```
+
+Both produce identical output. This generates harness-specific agent files under `.claude/agents/`, `.github/agents/`, `.codex/agents/`, and `.cursor/agents/` at the repository root.
+
+See `docs/cross-harness-agent-registration.md` for usage flags, compatibility notes, and verification steps.
