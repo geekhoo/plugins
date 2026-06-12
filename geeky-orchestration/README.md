@@ -6,10 +6,14 @@ End-to-end feature delivery: **plan it, execute it, track it**, with strong cont
 
 | Component | Type | Purpose |
 |---|---|---|
+| `spec-research` | skill | Researches a new spec with a parallel 3-subagent team (codebase, web best practices, architecture), then writes `SPEC-NNNN.md` + README stub in `docs/`. Runs *before* `geeky-plan`. |
 | `geeky-plan` | skill | Produces a complete planning package: implementation plan, ordered task files, PM review, kanban, references, handoff. |
+| `plan-review` | skill | 4-phase quality review of a `geeky-plan` package — document alignment, issue resolution, sequencing validation, final sanity pass. Run between planning and implementation. |
 | `geeky-implement` | skill | Orchestrates execution: walks the kanban, delegates `geeky-coder` subagents (up to 3 in parallel), runs per-task validation, code review, and per-phase PM review, commits in small logical groups, never pushes. |
+| `impl-review` | skill | Reviews *delivered code* (not planning docs) with 3 dynamically-chosen domain-expert subagents, each covering a distinct aspect of what was built. |
 | `geeky-status` | skill | Read-only snapshot of a planning folder. Lane counts, blocked items, last handoff entry, suggested next step. No agents, no edits. |
-| `/geeky-plan`, `/geeky-implement`, `/geeky-status` | commands | Thin slash-command fronts that simply invoke the same-named skill with `$ARGUMENTS`. The full procedure lives in the skills (`skills/<name>/SKILL.md`) so that non-Claude agents — which read skills but not commands — can run the same workflow. |
+| `archive` | skill | Archives a concluded spec: moves planning artifacts to `archives/`, creates the permanent `docs/spec-NNN-name/` folder (spec + handoff + README), updates CLAUDE.md current state. |
+| `/spec-research`, `/geeky-plan`, `/plan-review`, `/geeky-implement`, `/impl-review`, `/geeky-status`, `/archive` | commands | Thin slash-command fronts that simply invoke the same-named skill with `$ARGUMENTS`. The full procedure lives in the skills (`skills/<name>/SKILL.md`) so that non-Claude agents — which read skills but not commands — can run the same workflow. |
 | `geeky-coder` | agent | Portable coder subagent. Treats the orchestrator's brief as authoritative scope. Returns a structured summary. Safe to spawn in parallel against non-overlapping task surfaces. |
 | `templates/task_template.md` | template | Canonical task shape consumed by `/geeky-plan`. |
 | `scripts/validate-planning-folder.{ps1,py}` | gate | Folder completeness: verifies a folder has the artifacts `/geeky-implement` expects. |
@@ -26,6 +30,8 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 ## Pipeline
 
 ```
+/spec-research <topic or spec-NNN>     → researches + writes SPEC-NNNN.md in docs/
+
 /geeky-plan <spec or folder>          → produces docs/<feature>/...
    ├─ implementation-plan.md           (FROZEN after this point)
    ├─ feature-specification.md         (FROZEN)
@@ -35,6 +41,8 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
    ├─ handoff.md                       (mutable — running log)
    ├─ review-development-project-manager.md
    └─ tasks/T1-...md  T2-...md  ...    (FROZEN — notes go in Tx-*.notes.md siblings)
+
+/plan-review <folder>                  → 4-phase quality review of the planning package
 
 /geeky-status <folder>                 → read-only snapshot
 
@@ -47,6 +55,11 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
    ├─ commits per phase, split into small logical commits
    └─ updates kanban.md + handoff.md continuously
                                        (never pushes)
+
+/impl-review <folder|diff|branch>      → 3 domain-expert subagents review the delivered code
+
+/archive <folder|spec-NNN>             → moves planning artifacts to archives/,
+                                         finalizes docs/spec-NNN-name/, updates CLAUDE.md
 ```
 
 ## Operating profile (baked into `/geeky-implement`)
@@ -89,8 +102,14 @@ This plugin ships in the `geekhoo-plugins` marketplace. Once that marketplace is
 ## Typical session
 
 ```
+# Session 0 — research a new spec from scratch (optional)
+/spec-research spec-009 notifications
+
 # Session 1 — planning
 /geeky-plan docs/my-feature/
+
+# Review the plan before committing to it
+/plan-review docs/my-feature/
 
 # Inspect
 /geeky-status docs/my-feature/
@@ -105,6 +124,10 @@ This plugin ships in the `geekhoo-plugins` marketplace. Once that marketplace is
 # Try a single phase first
 /geeky-implement docs/my-feature/ --phase=2 --dry-run
 /geeky-implement docs/my-feature/ --phase=2
+
+# Wrap up — expert review of the delivered code, then archive
+/impl-review docs/my-feature/
+/archive docs/my-feature/
 ```
 
 ## Cross-platform notes
