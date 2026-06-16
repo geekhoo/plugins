@@ -1,0 +1,4 @@
+# Shell scripts must stay LF on every platform. A CRLF shebang
+# (#!/usr/bin/env bash\r) breaks with "bad interpreter" on macOS/Linux.
+# The plugin ships hooks as .sh, so pin them regardless of core.autocrlf.
+*.sh text eol=lf
