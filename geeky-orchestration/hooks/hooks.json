@@ -1,5 +1,5 @@
 {
-  "description": "Geeky Orchestration plugin hooks — guard edits to frozen planning artifacts. Default mode is warn (advisory, surfaced via portable stdout+stderr). For a hard block, change the command to append --mode block (emits Claude/Codex deny JSON). Uses the Python hook by default for cross-platform reliability. To prefer PowerShell on Windows: pwsh -NoProfile -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.ps1\" -Mode warn",
+  "description": "Geeky Orchestration plugin hooks — guard edits to frozen planning artifacts. Default mode is warn (advisory, surfaced via portable stdout+stderr). For a hard block, change the command to append --mode block (emits Claude/Codex deny JSON). Runs the Python hook via hooks/py-run.sh, which probes python3 → python → py -3 so the same line works on Windows, macOS, and Linux without assuming a specific interpreter name. To prefer PowerShell on Windows: pwsh -NoProfile -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.ps1\" -Mode warn",
   "hooks": {
     "PreToolUse": [
       {
@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.py\" --mode warn",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/py-run.sh\" \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.py\" --mode warn",
             "timeout": 5
           }
         ]
