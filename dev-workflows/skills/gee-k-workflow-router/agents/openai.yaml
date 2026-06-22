@@ -1,0 +1,4 @@
+interface:
+  display_name: "Gee.K Workflow Router"
+  short_description: "Route Gee.K work to the right workflow."
+  default_prompt: "Use $gee-k-workflow-router to classify this Gee.K task and activate the right workflow before proceeding."
