@@ -1,7 +1,7 @@
 {
   "name": "dx-webdev",
-  "version": "0.1.0",
-  "description": "Personal DevExtreme jQuery web development helpers for pure HTML/JS/CSS apps.",
+  "version": "0.2.0",
+  "description": "Personal DevExtreme jQuery web development helpers for pure HTML/JS/CSS apps, incl. the ProgramsV2 grid updater.",
   "author": {
     "name": "geekhoo"
   },

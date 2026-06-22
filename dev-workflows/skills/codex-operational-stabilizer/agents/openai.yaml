@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Operational Stabilizer"
+  short_description: "Stabilize workflows into durable Codex assets."
+  default_prompt: "Use this skill to turn repeated Codex friction into reusable skills, routing memory, warning-only hook checks, agent guidance, and local preflight tools."
