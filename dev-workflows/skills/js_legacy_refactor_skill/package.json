@@ -1,0 +1,13 @@
+{
+  "name": "legacy-browser-js-refactor-skill-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Optional browser regression probe tools for the no-regression legacy browser JavaScript refactor skill.",
+  "devDependencies": {
+    "playwright": "latest"
+  },
+  "scripts": {
+    "probe:help": "node tools/browser_regression_probe.mjs"
+  }
+}

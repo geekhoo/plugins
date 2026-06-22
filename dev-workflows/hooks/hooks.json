@@ -1,0 +1,17 @@
+{
+  "description": "dev-workflows plugin hooks. SessionStart canary: the security-guidance and geeky-orchestration hooks shell out to python and fail non-blocking (silently) when no interpreter resolves. This canary (bash builtins only, so it can't share that failure mode) injects a loud warning into session context when python is missing — making the safeguard portable across machines instead of machine-local in settings.json.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/env-canary.sh\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,156 @@
+---
+name: figma-batch-analyzer
+description: >
+  Analyze one or more Figma nodes and produce a compact, structured spec table — NOT long prose plans.
+  Use this skill whenever the user says "analyze figma", "figma specs", "what does figma say about",
+  "batch analyze", or invokes /figma-batch-analyzer, or when they mention a Figma node ID or URL and
+  want to know what to implement. Also trigger when the user asks how a component should look, or
+  wants a checklist of visual fixes to make. The default Figma file key is f23wB7B5Sq16GncjfLNEYL
+  (Markefin UI). Always use this skill instead of producing a 200-line prose analysis — the user only
+  wants a table and a short numbered checklist, not an essay.
+---
+
+# Figma Batch Analyzer
+
+The goal of this skill is to replace the typical "verbose prose plan" Figma workflow with a fast,
+scannable structured spec. Gerald works against the Markefin UI Figma file and needs to go from
+"here's a node ID" directly to "here's what to change in code", with no manual filtering step.
+
+## Default context
+
+- **Default Figma file key**: `f23wB7B5Sq16GncjfLNEYL`
+- **Figma MCP tools available**:
+  - `mcp__claude_ai_Figma__get_design_context` — primary source of truth for layout, colors, type, spacing
+  - `mcp__claude_ai_Figma__get_screenshot` — optional visual confirmation
+  - `mcp__claude_ai_Figma__get_variable_defs` — if the component uses design tokens/variables
+
+## Invocation forms
+
+```
+/figma-batch-analyzer
+/figma-batch-analyzer [node-id-1] [node-id-2]
+/figma-batch-analyzer https://www.figma.com/design/f23wB7B5Sq16GncjfLNEYL/...?node-id=xxx&...
+```
+
+When called with no arguments, ask the user which node(s) to analyze.
+
+## Step 1 — Resolve node IDs
+
+If the user passes a full Figma URL, extract the `node-id` query parameter (URL-decode `%3A` → `:`).
+If the user passes a bare node ID (e.g. `123:456`), use it directly with the default file key.
+If multiple nodes are given, resolve all of them.
+
+## Step 2 — Fetch design context (parallel)
+
+Call `mcp__claude_ai_Figma__get_design_context` for each node. If multiple nodes, call them in parallel.
+
+Pass:
+- `file_key`: the file key extracted from the URL, or `f23wB7B5Sq16GncjfLNEYL` if not present
+- `node_id`: the resolved node ID
+
+If any node uses Figma variables/tokens, also call `mcp__claude_ai_Figma__get_variable_defs` for that file.
+
+## Step 3 — Extract spec values
+
+From the response, extract these properties (only include rows where there is a real value):
+
+| Category | Properties to extract |
+|----------|----------------------|
+| Layout | width, height, min/max width, display mode (auto-layout direction, wrap) |
+| Color | background color, border color, text color — as hex (#RRGGBB) |
+| Typography | font family, font size (px), font weight, line height (px or %), letter spacing |
+| Spacing | padding (top/right/bottom/left or shorthand), gap between children |
+| Border | border width, border radius (per-corner if varied) |
+| States | any named variants: hover, active, disabled, selected |
+
+Normalize values to CSS-friendly units (px, %, hex). If a value is a Figma variable, show both the variable name and its resolved value.
+
+## Step 4 — Diff against current code (optional but valuable)
+
+If you know or can find the corresponding code file for this component (search for `.cshtml`, `.css`, `.js` files in the repo that match the component name), read the current values and add a "Current Code" column and a "Match?" column to the table.
+
+To find the file: look for filenames containing the component name (derived from the node's name in Figma). The project root is typically the workspace directory.
+
+If no code file is identifiable, omit those two columns.
+
+## Step 5 — Output the structured spec
+
+Output this exact format. Keep it concise — the table replaces prose.
+
+```
+## Figma Analysis: {Component Name}
+Node: {node-id}  |  File: {file-key}
+
+| Property | Figma Spec | Current Code | Match? |
+|----------|-----------|--------------|--------|
+| Width | 240px | 220px | ❌ |
+| Height | auto | — | — |
+| Background | #F2F2F5 | #FFFFFF | ❌ |
+| Border radius | 8px | 8px | ✓ |
+| Border | 1px solid #D0D0D5 | none | ❌ |
+| Font | Inter 13px / 400 | Inter 13px / 400 | ✓ |
+| Line height | 20px | — | — |
+| Padding | 12px 16px | 10px 16px | ❌ |
+| Gap | 8px | — | — |
+| Hover state | background #E8E8EF | — | — |
+```
+
+If no code file was found, omit the last two columns entirely:
+
+```
+| Property | Figma Spec |
+|----------|-----------|
+| Width | 240px |
+...
+```
+
+If multiple nodes were analyzed, output one section per node, separated by a horizontal rule (`---`).
+
+## Step 6 — Implementation checklist
+
+After the table(s), output a numbered checklist of concrete code changes. Maximum 8 items. Each item should name the file and the exact change. Omit anything that already matches.
+
+```
+## Implementation Checklist
+1. Set width to 240px in `programs-v2.cshtml.css` (.program-card)
+2. Set background-color: #F2F2F5 (was #FFFFFF)
+3. Add border: 1px solid #D0D0D5
+4. Update padding from 10px 16px → 12px 16px
+5. Add :hover { background: #E8E8EF }
+```
+
+If everything matches, say: "No changes needed — code matches Figma spec."
+
+## What NOT to do
+
+- Do not write 200-line prose explanations of the design
+- Do not include "considerations", "suggestions", or open-ended commentary
+- Do not explain what the component is for or how it was designed
+- Do not ask clarifying questions if you have enough to proceed (node ID + file key = enough)
+- Do not include checklist items for properties that already match
+
+## Example (single node, with code diff)
+
+User: `/figma-batch-analyzer 847:2301`
+
+You call: `mcp__claude_ai_Figma__get_design_context(file_key="f23wB7B5Sq16GncjfLNEYL", node_id="847:2301")`
+
+You search the workspace for a CSS file matching "ProgramCard" or "program-card", read the current values, then output:
+
+```
+## Figma Analysis: Program Card
+Node: 847:2301  |  File: f23wB7B5Sq16GncjfLNEYL
+
+| Property | Figma Spec | Current Code | Match? |
+|----------|-----------|--------------|--------|
+| Width | 240px | 220px | ❌ |
+| Background | #F2F2F5 | #FFFFFF | ❌ |
+| Border radius | 8px | 8px | ✓ |
+| Font | Inter 13px / 400 | Inter 13px / 400 | ✓ |
+| Padding | 12px 16px | 10px 16px | ❌ |
+
+## Implementation Checklist
+1. Set width: 240px in programs-v2.cshtml.css (.program-card)
+2. Set background-color: #F2F2F5
+3. Update padding: 12px 16px
+```
