@@ -79,7 +79,8 @@ def parse_args() -> argparse.Namespace:
 
 def _strip_quotes(value: str) -> str:
     value = value.strip()
-    if (value.startswith('"') and value.endswith('"')) or (value.startswith("'") and value.endswith("'")):
+    if ((value.startswith('"') and value.endswith('"'))
+            or (value.startswith("'") and value.endswith("'"))):
         return value[1:-1]
     return value
 
@@ -274,7 +275,8 @@ def unique_names(agents: Iterable[AgentDef]) -> None:
     for agent in agents:
         if agent.name in seen:
             raise ValueError(
-                f"duplicate agent name '{agent.name}' in {seen[agent.name].name} and {agent.source_file.name}"
+                f"duplicate agent name '{agent.name}' in "
+                f"{seen[agent.name].name} and {agent.source_file.name}"
             )
         seen[agent.name] = agent.source_file
 
@@ -297,22 +299,26 @@ def main() -> int:
             if "claude" in targets:
                 out = project_root / ".claude" / "agents" / f"{agent.name}.md"
                 write_file(out, render_claude(agent), args.dry_run)
-                generated.append({"target": "claude", "source": str(agent.source_file), "output": str(out)})
+                generated.append(
+                    {"target": "claude", "source": str(agent.source_file), "output": str(out)})
 
             if "copilot" in targets:
                 out = project_root / ".github" / "agents" / f"{agent.name}.agent.md"
                 write_file(out, render_copilot(agent), args.dry_run)
-                generated.append({"target": "copilot", "source": str(agent.source_file), "output": str(out)})
+                generated.append(
+                    {"target": "copilot", "source": str(agent.source_file), "output": str(out)})
 
             if "codex" in targets:
                 out = project_root / ".codex" / "agents" / f"{agent.name}.toml"
                 write_file(out, render_codex(agent), args.dry_run)
-                generated.append({"target": "codex", "source": str(agent.source_file), "output": str(out)})
+                generated.append(
+                    {"target": "codex", "source": str(agent.source_file), "output": str(out)})
 
             if "cursor" in targets:
                 out = project_root / ".cursor" / "agents" / f"{agent.name}.md"
                 write_file(out, render_cursor(agent), args.dry_run)
-                generated.append({"target": "cursor", "source": str(agent.source_file), "output": str(out)})
+                generated.append(
+                    {"target": "cursor", "source": str(agent.source_file), "output": str(out)})
 
         summary = {
             "ok": True,
@@ -325,9 +331,12 @@ def main() -> int:
             "generated": generated,
             "notes": [
                 "Claude projection preserves tools/model/color.",
-                "Copilot projection uses compatibility-safe frontmatter without explicit tool mapping.",
-                "Codex projection emits required TOML fields: name, description, developer_instructions.",
-                "Cursor projection is best-effort and should be validated against installed Cursor version.",
+                "Copilot projection uses compatibility-safe frontmatter "
+                "without explicit tool mapping.",
+                "Codex projection emits required TOML fields: name, "
+                "description, developer_instructions.",
+                "Cursor projection is best-effort and should be validated "
+                "against installed Cursor version.",
             ],
         }
 
@@ -335,7 +344,8 @@ def main() -> int:
             print(json.dumps(summary, indent=2))
         else:
             mode = "DRY-RUN" if args.dry_run else "WROTE"
-            print(f"{mode}: {len(generated)} projection file(s) from {len(agents)} canonical agent(s).")
+            print(f"{mode}: {len(generated)} projection file(s) "
+                  f"from {len(agents)} canonical agent(s).")
             for item in generated:
                 print(f"  - [{item['target']}] {item['output']}")
 

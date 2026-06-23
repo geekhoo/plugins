@@ -22,13 +22,13 @@
       "name": "geeky-orchestration",
       "source": "./geeky-orchestration",
       "description": "End-to-end feature delivery: /spec-research, /geeky-plan, /plan-review, /geeky-implement, /impl-review, /geeky-status, /archive, portable geeky-coder agent, canonical task template, planning-folder validator, and a PreToolUse guard that warns on edits to frozen planning artifacts.",
-      "version": "0.2.1"
+      "version": "0.2.5"
     },
     {
       "name": "dev-workflows",
       "source": "./dev-workflows",
       "description": "Composable workflow skills distilled from cross-project sessions: planning/spec, workflow routing, review/audit, testing/QA, browser/Figma, env/setup/deploy, git, corpus and document pipelines, capability inventory, operational stabilization, session/friction analysis, an env-doctor toolchain check, and memory/status utilities. Ships a portable SessionStart env-canary hook. Windows-aware.",
-      "version": "0.2.2"
+      "version": "0.2.3"
     }
   ]
 }

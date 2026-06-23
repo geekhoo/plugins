@@ -101,13 +101,21 @@ def _require_dir(folder: str) -> Optional[dict[str, Any]]:
 # --------------------------------------------------------------------------- #
 class FolderInput(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
-    folder: str = Field(..., description="Absolute path to the geeky-plan planning folder (contains kanban.md, tasks/, etc.)", min_length=1)
+    folder: str = Field(
+        ...,
+        description="Absolute path to the geeky-plan planning folder "
+                    "(contains kanban.md, tasks/, etc.)",
+        min_length=1)
 
 
 class TaskSchemaInput(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
-    folder: Optional[str] = Field(default=None, description="Planning folder; validates every tasks/Tx-*.md in it")
-    file: Optional[str] = Field(default=None, description="A single task .md file to validate instead of a whole folder")
+    folder: Optional[str] = Field(
+        default=None,
+        description="Planning folder; validates every tasks/Tx-*.md in it")
+    file: Optional[str] = Field(
+        default=None,
+        description="A single task .md file to validate instead of a whole folder")
 
     @model_validator(mode="after")
     def _one_of(self) -> "TaskSchemaInput":
@@ -118,8 +126,12 @@ class TaskSchemaInput(BaseModel):
 
 class KanbanInput(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
-    folder: str = Field(..., description="Planning folder containing kanban.md and tasks/", min_length=1)
-    wip: int = Field(default=3, description="In Progress WIP cap before a warning is raised", ge=1, le=50)
+    folder: str = Field(
+        ..., description="Planning folder containing kanban.md and tasks/",
+        min_length=1)
+    wip: int = Field(
+        default=3, ge=1, le=50,
+        description="In Progress WIP cap before a warning is raised")
 
 
 class DodInput(BaseModel):
@@ -135,13 +147,18 @@ class CommitInput(BaseModel):
 
 class FrozenInput(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
-    file_path: str = Field(..., description="Path an agent intends to edit; checks whether it is a frozen planning artifact", min_length=1)
+    file_path: str = Field(
+        ...,
+        description="Path an agent intends to edit; checks whether it is a "
+                    "frozen planning artifact",
+        min_length=1)
 
 
 # --------------------------------------------------------------------------- #
 # Tools                                                                       #
 # --------------------------------------------------------------------------- #
-@mcp.tool(name="geeky_validate_planning_folder", annotations={"title": "Validate planning folder", **READONLY})
+@mcp.tool(name="geeky_validate_planning_folder",
+          annotations={"title": "Validate planning folder", **READONLY})
 async def geeky_validate_planning_folder(params: FolderInput) -> dict[str, Any]:
     """Verify a geeky-plan folder contains the artifacts geeky-implement needs.
 
@@ -163,7 +180,8 @@ async def geeky_validate_planning_folder(params: FolderInput) -> dict[str, Any]:
     return await _run(SCRIPTS / "validate-planning-folder.py", ["--path", params.folder, "--json"])
 
 
-@mcp.tool(name="geeky_validate_task_schema", annotations={"title": "Validate task-file schema", **READONLY})
+@mcp.tool(name="geeky_validate_task_schema",
+          annotations={"title": "Validate task-file schema", **READONLY})
 async def geeky_validate_task_schema(params: TaskSchemaInput) -> dict[str, Any]:
     """Validate that task files carry the required template sections.
 
@@ -190,7 +208,8 @@ async def geeky_validate_task_schema(params: TaskSchemaInput) -> dict[str, Any]:
     return await _run(SCRIPTS / "validate-task-schema.py", args)
 
 
-@mcp.tool(name="geeky_validate_kanban", annotations={"title": "Validate kanban integrity", **READONLY})
+@mcp.tool(name="geeky_validate_kanban",
+          annotations={"title": "Validate kanban integrity", **READONLY})
 async def geeky_validate_kanban(params: KanbanInput) -> dict[str, Any]:
     """Check kanban.md integrity against the tasks/ folder.
 
@@ -207,7 +226,8 @@ async def geeky_validate_kanban(params: KanbanInput) -> dict[str, Any]:
     """
     if (err := _require_dir(params.folder)):
         return err
-    return await _run(SCRIPTS / "validate-kanban.py", ["--path", params.folder, "--wip", str(params.wip), "--json"])
+    return await _run(SCRIPTS / "validate-kanban.py",
+                      ["--path", params.folder, "--wip", str(params.wip), "--json"])
 
 
 @mcp.tool(name="geeky_check_dod", annotations={"title": "Check Definition of Done", **READONLY})
@@ -227,7 +247,8 @@ async def geeky_check_dod(params: DodInput) -> dict[str, Any]:
     """
     if (err := _require_dir(params.folder)):
         return err
-    return await _run(SCRIPTS / "check-dod.py", ["--path", params.folder, "--task", params.task, "--json"])
+    return await _run(SCRIPTS / "check-dod.py",
+                      ["--path", params.folder, "--task", params.task, "--json"])
 
 
 @mcp.tool(name="geeky_check_commit", annotations={"title": "Check commit message", **READONLY})
@@ -246,7 +267,8 @@ async def geeky_check_commit(params: CommitInput) -> dict[str, Any]:
     return await _run(SCRIPTS / "check-commit.py", ["--json"], stdin_text=params.message)
 
 
-@mcp.tool(name="geeky_check_frozen_artifact", annotations={"title": "Check if a path is a frozen artifact", **READONLY})
+@mcp.tool(name="geeky_check_frozen_artifact",
+          annotations={"title": "Check if a path is a frozen artifact", **READONLY})
 async def geeky_check_frozen_artifact(params: FrozenInput) -> dict[str, Any]:
     """Check whether a file path is a frozen geeky-plan planning artifact.
 
@@ -263,7 +285,8 @@ async def geeky_check_frozen_artifact(params: FrozenInput) -> dict[str, Any]:
         frozen=true means do not edit — surface plan issues via kanban Blocked + handoff.md.
     """
     payload = json.dumps({"tool_name": "Edit", "tool_input": {"file_path": params.file_path}})
-    res = await _run(HOOKS / "guard-planning-contract.py", ["--mode", "block", "--exit-code"], stdin_text=payload)
+    res = await _run(HOOKS / "guard-planning-contract.py",
+                     ["--mode", "block", "--exit-code"], stdin_text=payload)
     frozen = res.get("exit_code") == 2
     return {
         "frozen": frozen,

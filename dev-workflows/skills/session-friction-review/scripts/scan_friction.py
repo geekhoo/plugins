@@ -34,7 +34,8 @@ from pathlib import Path
 SIGNATURES = [
     ("hook_silent_fail", re.compile(r"Failed with non-blocking status code"),
      "silent (non-blocking) hook failures - the dangerous, invisible kind"),
-    ("python_not_found", re.compile(r"python3?: command not found|'python3?' is not recognized", re.I),
+    ("python_not_found",
+     re.compile(r"python3?: command not found|'python3?' is not recognized", re.I),
      "python/python3 not resolving (breaks plugin hooks + scripts)"),
     ("cmd_not_found", re.compile(r"[\w.\-/]+: command not found|is not recognized as", re.I),
      "command failures (Unix-on-Windows reflexes, missing tools)"),
@@ -110,11 +111,13 @@ def scan_file(path):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Scan session transcripts for recurring friction.")
-    ap.add_argument("--since", help="only sessions with activity on/after this ISO date (YYYY-MM-DD)")
+    ap.add_argument("--since",
+                    help="only sessions with activity on/after this ISO date (YYYY-MM-DD)")
     ap.add_argument("--claude-dir", help="path to a .claude dir (default: ~/.claude)")
     ap.add_argument("--format", choices=["md", "json"], default="md")
     ap.add_argument("--top", type=int, default=0, help="show only the N highest-friction sessions")
-    ap.add_argument("--include-temp", action="store_true", help="include AppData/Temp background dirs")
+    ap.add_argument("--include-temp", action="store_true",
+                    help="include AppData/Temp background dirs")
     args = ap.parse_args(argv)
 
     since = datetime.fromisoformat(args.since).date() if args.since else None
@@ -139,7 +142,8 @@ def main(argv=None):
             if last_ts:
                 last_date = last_ts[:10]
             else:
-                last_date = datetime.fromtimestamp(f.stat().st_mtime, tz=timezone.utc).date().isoformat()
+                last_date = datetime.fromtimestamp(
+                    f.stat().st_mtime, tz=timezone.utc).date().isoformat()
             if since and datetime.fromisoformat(last_date).date() < since:
                 continue
             cwd = first_field(f, "cwd")
@@ -171,7 +175,8 @@ def main(argv=None):
     if not rows:
         print("_No friction signatures found in scope. Clean._")
         return 0
-    print("| LastActive | Project | Session | Total | SilentHook | Python | Cmd | Corrections | Apologies | Top failing cmd |")
+    print("| LastActive | Project | Session | Total | SilentHook | Python | "
+          "Cmd | Corrections | Apologies | Top failing cmd |")
     print("|---|---|---|---:|---:|---:|---:|---:|---:|---|")
     agg = defaultdict(int)
     for r in rows:

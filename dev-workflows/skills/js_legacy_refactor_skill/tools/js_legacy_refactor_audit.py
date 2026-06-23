@@ -60,17 +60,28 @@ POSSIBLE_ASSIGN_RE = re.compile(rf"(?<![\w$.])({IDENT})\s*=(?!=|>)", re.M)
 EVENT_ATTR_RE = re.compile(r"^on[a-z0-9_:-]+$", re.I)
 
 RISK_PATTERNS: List[Tuple[str, re.Pattern[str], str]] = [
-    ("document.currentScript", re.compile(r"\bdocument\.currentScript\b"), "Moving or externalizing this code can change currentScript."),
-    ("document.write", re.compile(r"\bdocument\.write\s*\("), "Parser-timing side effect; moving code can change DOM output."),
-    ("eval", re.compile(r"\beval\s*\("), "Dynamic code prevents confident static dependency analysis."),
-    ("new Function", re.compile(r"\bnew\s+Function\s*\("), "Dynamic code prevents confident static dependency analysis."),
-    ("dynamic import", re.compile(r"\bimport\s*\("), "Dynamic module import changes load graph at runtime."),
-    ("dynamic script element", re.compile(r"createElement\s*\(\s*['\"]script['\"]\s*\)", re.I), "Runtime script insertion can hide dependencies."),
-    ("script append", re.compile(r"appendChild\s*\(\s*[^)]*script", re.I), "Runtime script insertion can hide dependencies."),
-    ("timer string", re.compile(r"\bset(?:Timeout|Interval)\s*\(\s*['\"]", re.I), "String timers depend on global names."),
-    ("string global dispatch", re.compile(r"\b(?:window|globalThis|self)\s*\["), "Dynamic global lookup depends on exact exported names."),
-    ("prototype mutation", re.compile(rf"\b{IDENT}\.prototype\.{IDENT}\s*="), "Prototype mutation is global side-effectful."),
-    ("top-level this", re.compile(r"(^|[;\n])\s*this\b", re.M), "Top-level this differs in modules/strict wrappers."),
+    ("document.currentScript", re.compile(r"\bdocument\.currentScript\b"),
+     "Moving or externalizing this code can change currentScript."),
+    ("document.write", re.compile(r"\bdocument\.write\s*\("),
+     "Parser-timing side effect; moving code can change DOM output."),
+    ("eval", re.compile(r"\beval\s*\("),
+     "Dynamic code prevents confident static dependency analysis."),
+    ("new Function", re.compile(r"\bnew\s+Function\s*\("),
+     "Dynamic code prevents confident static dependency analysis."),
+    ("dynamic import", re.compile(r"\bimport\s*\("),
+     "Dynamic module import changes load graph at runtime."),
+    ("dynamic script element", re.compile(r"createElement\s*\(\s*['\"]script['\"]\s*\)", re.I),
+     "Runtime script insertion can hide dependencies."),
+    ("script append", re.compile(r"appendChild\s*\(\s*[^)]*script", re.I),
+     "Runtime script insertion can hide dependencies."),
+    ("timer string", re.compile(r"\bset(?:Timeout|Interval)\s*\(\s*['\"]", re.I),
+     "String timers depend on global names."),
+    ("string global dispatch", re.compile(r"\b(?:window|globalThis|self)\s*\["),
+     "Dynamic global lookup depends on exact exported names."),
+    ("prototype mutation", re.compile(rf"\b{IDENT}\.prototype\.{IDENT}\s*="),
+     "Prototype mutation is global side-effectful."),
+    ("top-level this", re.compile(r"(^|[;\n])\s*this\b", re.M),
+     "Top-level this differs in modules/strict wrappers."),
 ]
 
 
@@ -162,7 +173,8 @@ def normalize_js_fragment(text: str) -> str:
 
 def is_probably_javascript_script(attrs: Dict[str, str]) -> bool:
     typ = attrs.get("type", "").strip().lower()
-    if typ in ("", "text/javascript", "application/javascript", "application/ecmascript", "text/ecmascript", "module"):
+    if typ in ("", "text/javascript", "application/javascript",
+               "application/ecmascript", "text/ecmascript", "module"):
         return True
     if "javascript" in typ or typ.endswith("/ecmascript"):
         return True
@@ -304,88 +316,87 @@ def line_for_index(text: str, idx: int) -> int:
     return text.count("\n", 0, idx) + 1
 
 
+ASSIGNMENT_SKIP_KEYWORDS = {
+    "if", "for", "while", "switch", "return", "var", "let", "const", "function", "class",
+    "case", "throw", "new", "typeof", "delete", "void", "yield", "await", "else", "do",
+}
+
+
+def _decl(symbol: str, kind: str, unit_id: str, source_kind: str, line: int,
+          *, arity: Optional[int] = None, body_hash: Optional[str] = None,
+          source_hash: Optional[str] = None) -> Dict[str, Any]:
+    """Build one declaration record. Centralizes the shape used across kinds."""
+    return {
+        "symbol": symbol,
+        "kind": kind,
+        "unit": unit_id,
+        "source_kind": source_kind,
+        "line": line,
+        "arity": arity,
+        "body_hash": body_hash,
+        "source_hash": source_hash,
+    }
+
+
+def _function_record(text: str, m: "re.Match[str]", kind: str,
+                     unit_id: str, source_kind: str) -> Dict[str, Any]:
+    """Record for a `function name(...)`/`name = function(...)` match (with body hashes)."""
+    open_idx = m.end() - 1
+    close_idx = find_matching_brace(text, open_idx)
+    body = text[m.start(): close_idx + 1] if close_idx >= 0 else text[m.start(): m.end()]
+    return _decl(
+        m.group(1), kind, unit_id, source_kind, line_for_index(text, m.start()),
+        arity=arity_from_params(m.group(2)),
+        body_hash=sha256_text(normalize_js_fragment(body)),
+        source_hash=sha256_text(body),
+    )
+
+
+def _collect_implicit_globals(text: str, unit_id: str, source_kind: str,
+                              declared_names: set) -> List[Dict[str, Any]]:
+    """Suspect unqualified assignments. Over-reports; useful for investigation."""
+    found: List[Dict[str, Any]] = []
+    for m in POSSIBLE_ASSIGN_RE.finditer(text):
+        name = m.group(1)
+        before = text[max(0, m.start(1) - 30):m.start(1)]
+        if name in ASSIGNMENT_SKIP_KEYWORDS or name in declared_names:
+            continue
+        if re.search(r"(?:var|let|const)\s+$", before):
+            continue
+        if before.rstrip().endswith((".", "?.")):
+            continue
+        found.append(_decl(name, "suspect_implicit_global_assignment", unit_id,
+                           source_kind, line_for_index(text, m.start())))
+    return found
+
+
 def collect_declarations(unit_id: str, text: str, source_kind: str) -> List[Dict[str, Any]]:
     declarations: List[Dict[str, Any]] = []
     declared_names: set[str] = set()
 
     for m in FUNCTION_DECL_RE.finditer(text):
-        name = m.group(1)
-        params = m.group(2)
-        open_idx = m.end() - 1
-        close_idx = find_matching_brace(text, open_idx)
-        body = text[m.start(): close_idx + 1] if close_idx >= 0 else text[m.start(): m.end()]
-        body_norm = normalize_js_fragment(body)
-        declarations.append({
-            "symbol": name,
-            "kind": "function_decl",
-            "unit": unit_id,
-            "source_kind": source_kind,
-            "line": line_for_index(text, m.start()),
-            "arity": arity_from_params(params),
-            "body_hash": sha256_text(body_norm),
-            "source_hash": sha256_text(body),
-        })
-        declared_names.add(name)
+        declarations.append(_function_record(text, m, "function_decl", unit_id, source_kind))
+        declared_names.add(m.group(1))
 
     for m in FUNCTION_ASSIGN_RE.finditer(text):
-        name = m.group(1)
-        params = m.group(2)
-        open_idx = m.end() - 1
-        close_idx = find_matching_brace(text, open_idx)
-        body = text[m.start(): close_idx + 1] if close_idx >= 0 else text[m.start(): m.end()]
-        declarations.append({
-            "symbol": name,
-            "kind": "function_assignment",
-            "unit": unit_id,
-            "source_kind": source_kind,
-            "line": line_for_index(text, m.start()),
-            "arity": arity_from_params(params),
-            "body_hash": sha256_text(normalize_js_fragment(body)),
-            "source_hash": sha256_text(body),
-        })
-        declared_names.add(name)
+        declarations.append(_function_record(text, m, "function_assignment", unit_id, source_kind))
+        declared_names.add(m.group(1))
 
     for m in ARROW_ASSIGN_RE.finditer(text):
-        name = m.group(1)
-        declarations.append({
-            "symbol": name,
-            "kind": "arrow_assignment",
-            "unit": unit_id,
-            "source_kind": source_kind,
-            "line": line_for_index(text, m.start()),
-            "arity": None,
-            "body_hash": None,
-            "source_hash": None,
-        })
-        declared_names.add(name)
+        declarations.append(_decl(m.group(1), "arrow_assignment", unit_id, source_kind,
+                                  line_for_index(text, m.start())))
+        declared_names.add(m.group(1))
 
     for m in CLASS_DECL_RE.finditer(text):
-        name = m.group(1)
-        declarations.append({
-            "symbol": name,
-            "kind": "class_decl",
-            "unit": unit_id,
-            "source_kind": source_kind,
-            "line": line_for_index(text, m.start()),
-            "arity": None,
-            "body_hash": None,
-            "source_hash": None,
-        })
-        declared_names.add(name)
+        declarations.append(_decl(m.group(1), "class_decl", unit_id, source_kind,
+                                  line_for_index(text, m.start())))
+        declared_names.add(m.group(1))
 
     for m in VAR_DECL_RE.finditer(text):
-        kind = m.group(1)
+        kind = f"{m.group(1)}_decl"
         for name in split_decl_names(m.group(2)):
-            declarations.append({
-                "symbol": name,
-                "kind": f"{kind}_decl",
-                "unit": unit_id,
-                "source_kind": source_kind,
-                "line": line_for_index(text, m.start()),
-                "arity": None,
-                "body_hash": None,
-                "source_hash": None,
-            })
+            declarations.append(_decl(name, kind, unit_id, source_kind,
+                                      line_for_index(text, m.start())))
             declared_names.add(name)
 
     for m in WINDOW_ASSIGN_RE.finditer(text):
@@ -393,47 +404,17 @@ def collect_declarations(unit_id: str, text: str, source_kind: str) -> List[Dict
         line = line_for_index(text, m.start())
         # Avoid double-counting `window.foo = function (...) {}` as both a function
         # assignment and a generic explicit global assignment.
-        if any(d["symbol"] == name and d["unit"] == unit_id and d["line"] == line and d["kind"] == "function_assignment" for d in declarations):
-            declared_names.add(name)
-            continue
-        declarations.append({
-            "symbol": name,
-            "kind": "explicit_global_assignment",
-            "unit": unit_id,
-            "source_kind": source_kind,
-            "line": line,
-            "arity": None,
-            "body_hash": None,
-            "source_hash": None,
-        })
+        already_function = any(
+            d["symbol"] == name and d["unit"] == unit_id and d["line"] == line
+            and d["kind"] == "function_assignment" for d in declarations
+        )
+        if not already_function:
+            declarations.append(
+                _decl(name, "explicit_global_assignment", unit_id, source_kind, line))
         declared_names.add(name)
 
-    # Suspect unqualified assignments. Over-reports; useful for investigation.
-    assignment_skip = {
-        "if", "for", "while", "switch", "return", "var", "let", "const", "function", "class",
-        "case", "throw", "new", "typeof", "delete", "void", "yield", "await", "else", "do",
-    }
-    for m in POSSIBLE_ASSIGN_RE.finditer(text):
-        name = m.group(1)
-        start = m.start(1)
-        before = text[max(0, start - 30):start]
-        if name in assignment_skip or name in declared_names:
-            continue
-        if re.search(r"(?:var|let|const)\s+$", before):
-            continue
-        if before.rstrip().endswith((".", "?.")):
-            continue
-        declarations.append({
-            "symbol": name,
-            "kind": "suspect_implicit_global_assignment",
-            "unit": unit_id,
-            "source_kind": source_kind,
-            "line": line_for_index(text, m.start()),
-            "arity": None,
-            "body_hash": None,
-            "source_hash": None,
-        })
-
+    declarations.extend(
+        _collect_implicit_globals(text, unit_id, source_kind, declared_names))
     return declarations
 
 
@@ -564,7 +545,8 @@ def audit(root: Path, out: Path, scan_all_js: bool = True) -> Dict[str, Any]:
                 parser = HTMLInventoryParser()
                 parser.feed(read_text(html_path))
                 idx = script["index"]
-                inline_units[unit_id] = parser.scripts[idx].content if idx < len(parser.scripts) else ""
+                inline_units[unit_id] = (parser.scripts[idx].content
+                                         if idx < len(parser.scripts) else "")
             else:
                 if script.get("remote"):
                     remote_scripts.append({"page": page["path"], **script})
@@ -580,7 +562,8 @@ def audit(root: Path, out: Path, scan_all_js: bool = True) -> Dict[str, Any]:
                     "script_index": script["index"],
                     "line": script["line"],
                     "severity": "HIGH_ORDER_DEPENDENCY",
-                    "message": "async script has no deterministic ordering relative to other async/downloaded scripts.",
+                    "message": "async script has no deterministic ordering relative "
+                               "to other async/downloaded scripts.",
                     "src": script.get("src"),
                 })
             if script.get("defer") and script.get("is_inline"):
@@ -589,7 +572,8 @@ def audit(root: Path, out: Path, scan_all_js: bool = True) -> Dict[str, Any]:
                     "script_index": script["index"],
                     "line": script["line"],
                     "severity": "MEDIUM_INLINE_SCRIPT",
-                    "message": "defer on inline classic scripts has no effect; do not rely on it for ordering.",
+                    "message": "defer on inline classic scripts has no effect; "
+                               "do not rely on it for ordering.",
                     "src": script.get("src"),
                 })
             if page.get("base_hrefs"):
@@ -598,7 +582,8 @@ def audit(root: Path, out: Path, scan_all_js: bool = True) -> Dict[str, Any]:
                     "script_index": script["index"],
                     "line": script["line"],
                     "severity": "MEDIUM_BASE_HREF",
-                    "message": "<base href> exists; resolved script paths may differ from simple filesystem resolution.",
+                    "message": "<base href> exists; resolved script paths may differ "
+                               "from simple filesystem resolution.",
                     "src": script.get("src"),
                 })
 
@@ -659,88 +644,123 @@ def audit(root: Path, out: Path, scan_all_js: bool = True) -> Dict[str, Any]:
     return result
 
 
-def render_audit_report(a: Dict[str, Any]) -> str:
-    s = a["summary"]
-    lines: List[str] = []
-    lines.append("# Legacy Browser JavaScript Refactor Static Audit")
-    lines.append("")
-    lines.append(f"Generated: `{a['generated_at']}`")
-    lines.append("")
-    lines.append("## Summary")
-    for key, value in s.items():
+def _render_summary(a: Dict[str, Any]) -> List[str]:
+    lines = ["# Legacy Browser JavaScript Refactor Static Audit", "",
+             f"Generated: `{a['generated_at']}`", "", "## Summary"]
+    for key, value in a["summary"].items():
         lines.append(f"- {key.replace('_', ' ')}: **{value}**")
     lines.append("")
+    return lines
 
-    if a["missing_scripts"]:
-        lines.append("## Missing referenced scripts")
-        lines.append("| Page | Script index | Line | src | Resolved path |")
-        lines.append("|---|---:|---:|---|---|")
-        for item in a["missing_scripts"][:100]:
-            lines.append(f"| {item.get('page')} | {item.get('index')} | {item.get('line')} | `{item.get('src')}` | `{item.get('resolved_path')}` |")
-        lines.append("")
 
-    if a["script_attribute_warnings"]:
-        lines.append("## Script loading warnings")
-        lines.append("| Severity | Page | Script index | Line | src | Message |")
-        lines.append("|---|---|---:|---:|---|---|")
-        for item in a["script_attribute_warnings"][:150]:
-            lines.append(f"| {item.get('severity')} | {item.get('page')} | {item.get('script_index')} | {item.get('line')} | `{item.get('src')}` | {item.get('message')} |")
-        lines.append("")
+def _render_missing_scripts(a: Dict[str, Any]) -> List[str]:
+    if not a["missing_scripts"]:
+        return []
+    lines = ["## Missing referenced scripts",
+             "| Page | Script index | Line | src | Resolved path |",
+             "|---|---:|---:|---|---|"]
+    for item in a["missing_scripts"][:100]:
+        lines.append(f"| {item.get('page')} | {item.get('index')} | {item.get('line')} | "
+                     f"`{item.get('src')}` | `{item.get('resolved_path')}` |")
+    lines.append("")
+    return lines
 
-    if a["duplicates"]:
-        lines.append("## Duplicate declarations")
-        lines.append("| Symbol | Count | Classification | Kinds | Locations |")
-        lines.append("|---|---:|---|---|---|")
-        for dup in a["duplicates"][:200]:
-            loc = "; ".join(f"{x['unit']}:{x['line']} ({x['kind']})" for x in dup["locations"][:8])
-            if len(dup["locations"]) > 8:
-                loc += f"; +{len(dup['locations']) - 8} more"
-            lines.append(f"| `{dup['symbol']}` | {dup['count']} | {dup['classification']} | {', '.join(dup['kinds'])} | {loc} |")
-        lines.append("")
 
-    implicit = [d for d in a["declarations"] if d["kind"] == "suspect_implicit_global_assignment"]
-    if implicit:
-        lines.append("## Suspect implicit global assignments")
-        lines.append("These are conservative findings. Inspect before changing behavior.")
-        lines.append("")
-        lines.append("| Symbol | Unit | Line |")
-        lines.append("|---|---|---:|")
-        for item in implicit[:200]:
-            lines.append(f"| `{item['symbol']}` | {item['unit']} | {item['line']} |")
-        lines.append("")
+def _render_script_warnings(a: Dict[str, Any]) -> List[str]:
+    if not a["script_attribute_warnings"]:
+        return []
+    lines = ["## Script loading warnings",
+             "| Severity | Page | Script index | Line | src | Message |",
+             "|---|---|---:|---:|---|---|"]
+    for item in a["script_attribute_warnings"][:150]:
+        lines.append(f"| {item.get('severity')} | {item.get('page')} | "
+                     f"{item.get('script_index')} | {item.get('line')} | "
+                     f"`{item.get('src')}` | {item.get('message')} |")
+    lines.append("")
+    return lines
 
-    if a["risks"]:
-        lines.append("## Dynamic-code and parser-timing risks")
-        lines.append("| Risk | Unit | Line | Message | Snippet |")
-        lines.append("|---|---|---:|---|---|")
-        for r in a["risks"][:200]:
-            snippet = str(r.get("snippet", "")).replace("|", "\\|")
-            lines.append(f"| {r['risk']} | {r['unit']} | {r['line']} | {r['message']} | `{snippet}` |")
-        lines.append("")
 
-    event_count = sum(len(p["event_handlers"]) for p in a["pages"])
-    if event_count:
-        lines.append("## HTML event-handler attributes")
-        lines.append("| Page | Tag | Attribute | Line | Value |")
-        lines.append("|---|---|---|---:|---|")
-        for p in a["pages"]:
-            for ev in p["event_handlers"][:100]:
-                val = str(ev.get("value", "")).replace("|", "\\|")[:120]
-                lines.append(f"| {p['path']} | {ev.get('tag')} | {ev.get('attribute')} | {ev.get('line')} | `{val}` |")
-        lines.append("")
+def _render_duplicates(a: Dict[str, Any]) -> List[str]:
+    if not a["duplicates"]:
+        return []
+    lines = ["## Duplicate declarations",
+             "| Symbol | Count | Classification | Kinds | Locations |",
+             "|---|---:|---|---|---|"]
+    for dup in a["duplicates"][:200]:
+        loc = "; ".join(f"{x['unit']}:{x['line']} ({x['kind']})" for x in dup["locations"][:8])
+        if len(dup["locations"]) > 8:
+            loc += f"; +{len(dup['locations']) - 8} more"
+        lines.append(f"| `{dup['symbol']}` | {dup['count']} | {dup['classification']} | "
+                     f"{', '.join(dup['kinds'])} | {loc} |")
+    lines.append("")
+    return lines
 
-    if a["orphan_js"]:
-        lines.append("## JS files not directly referenced by scanned HTML")
-        lines.append("These may be dynamically loaded, test files, unused files, or referenced by pages outside the scan root.")
-        lines.append("")
-        for path in a["orphan_js"][:200]:
-            lines.append(f"- `{path}`")
-        if len(a["orphan_js"]) > 200:
-            lines.append(f"- ... +{len(a['orphan_js']) - 200} more")
-        lines.append("")
 
+def _render_implicit_globals(a: Dict[str, Any]) -> List[str]:
+    implicit = [d for d in a["declarations"]
+                if d["kind"] == "suspect_implicit_global_assignment"]
+    if not implicit:
+        return []
+    lines = ["## Suspect implicit global assignments",
+             "These are conservative findings. Inspect before changing behavior.", "",
+             "| Symbol | Unit | Line |", "|---|---|---:|"]
+    for item in implicit[:200]:
+        lines.append(f"| `{item['symbol']}` | {item['unit']} | {item['line']} |")
+    lines.append("")
+    return lines
+
+
+def _render_risks(a: Dict[str, Any]) -> List[str]:
+    if not a["risks"]:
+        return []
+    lines = ["## Dynamic-code and parser-timing risks",
+             "| Risk | Unit | Line | Message | Snippet |", "|---|---|---:|---|---|"]
+    for r in a["risks"][:200]:
+        snippet = str(r.get("snippet", "")).replace("|", "\\|")
+        lines.append(f"| {r['risk']} | {r['unit']} | {r['line']} | {r['message']} | "
+                     f"`{snippet}` |")
+    lines.append("")
+    return lines
+
+
+def _render_event_handlers(a: Dict[str, Any]) -> List[str]:
+    if not sum(len(p["event_handlers"]) for p in a["pages"]):
+        return []
+    lines = ["## HTML event-handler attributes",
+             "| Page | Tag | Attribute | Line | Value |", "|---|---|---|---:|---|"]
+    for p in a["pages"]:
+        for ev in p["event_handlers"][:100]:
+            val = str(ev.get("value", "")).replace("|", "\\|")[:120]
+            lines.append(f"| {p['path']} | {ev.get('tag')} | {ev.get('attribute')} | "
+                         f"{ev.get('line')} | `{val}` |")
+    lines.append("")
+    return lines
+
+
+def _render_orphans(a: Dict[str, Any]) -> List[str]:
+    if not a["orphan_js"]:
+        return []
+    lines = ["## JS files not directly referenced by scanned HTML",
+             "These may be dynamically loaded, test files, unused files, or "
+             "referenced by pages outside the scan root.", ""]
+    for path in a["orphan_js"][:200]:
+        lines.append(f"- `{path}`")
+    if len(a["orphan_js"]) > 200:
+        lines.append(f"- ... +{len(a['orphan_js']) - 200} more")
+    lines.append("")
+    return lines
+
+
+def render_audit_report(a: Dict[str, Any]) -> str:
+    sections = (_render_summary, _render_missing_scripts, _render_script_warnings,
+                _render_duplicates, _render_implicit_globals, _render_risks,
+                _render_event_handlers, _render_orphans)
+    lines: List[str] = []
+    for section in sections:
+        lines.extend(section(a))
     lines.append("## Recommended next step")
-    lines.append("Run the browser regression probe on the main HTML pages before making consolidation changes.")
+    lines.append("Run the browser regression probe on the main HTML pages before "
+                 "making consolidation changes.")
     lines.append("")
     return "\n".join(lines)
 
@@ -762,59 +782,83 @@ def page_script_signature(page: Dict[str, Any]) -> List[Dict[str, Any]]:
     return sig
 
 
-def compare_audits(before_path: Path, after_path: Path, out: Optional[Path]) -> str:
-    before = json.loads(before_path.read_text(encoding="utf-8"))
-    after = json.loads(after_path.read_text(encoding="utf-8"))
+def _comparison_issues(before: Dict[str, Any], after: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Static deltas between two audits that warrant a human runtime check."""
     issues: List[Dict[str, Any]] = []
 
     before_pages = {p["path"]: p for p in before.get("pages", [])}
     after_pages = {p["path"]: p for p in after.get("pages", [])}
     for page in sorted(set(before_pages) | set(after_pages)):
         if page not in before_pages:
-            issues.append({"severity": "HIGH", "area": "pages", "item": page, "message": "Page added after refactor."})
+            issues.append({"severity": "HIGH", "area": "pages", "item": page,
+                           "message": "Page added after refactor."})
             continue
         if page not in after_pages:
-            issues.append({"severity": "HIGH", "area": "pages", "item": page, "message": "Page missing after refactor."})
+            issues.append({"severity": "HIGH", "area": "pages", "item": page,
+                           "message": "Page missing after refactor."})
             continue
-        b_sig = page_script_signature(before_pages[page])
-        a_sig = page_script_signature(after_pages[page])
-        if b_sig != a_sig:
-            issues.append({"severity": "HIGH_ORDER_DEPENDENCY", "area": "script_sequence", "item": page, "message": "Script sequence/attributes/inline hashes changed. Requires explicit runtime proof."})
+        if page_script_signature(before_pages[page]) != page_script_signature(after_pages[page]):
+            issues.append({
+                "severity": "HIGH_ORDER_DEPENDENCY", "area": "script_sequence", "item": page,
+                "message": "Script sequence/attributes/inline hashes changed. "
+                           "Requires explicit runtime proof.",
+            })
 
-    b_symbols = {(d["symbol"], d["kind"], d["unit"]) for d in before.get("declarations", []) if d["kind"] != "suspect_implicit_global_assignment"}
-    a_symbols = {(d["symbol"], d["kind"], d["unit"]) for d in after.get("declarations", []) if d["kind"] != "suspect_implicit_global_assignment"}
-    removed = sorted(b_symbols - a_symbols)
-    added = sorted(a_symbols - b_symbols)
+    def symbols(audit: Dict[str, Any]) -> set:
+        return {(d["symbol"], d["kind"], d["unit"]) for d in audit.get("declarations", [])
+                if d["kind"] != "suspect_implicit_global_assignment"}
+
+    removed = sorted(symbols(before) - symbols(after))
+    added = sorted(symbols(after) - symbols(before))
     if removed:
-        issues.append({"severity": "HIGH_GLOBAL_COLLISION", "area": "declarations", "item": "removed", "message": f"{len(removed)} declaration records disappeared.", "examples": removed[:20]})
+        issues.append({"severity": "HIGH_GLOBAL_COLLISION", "area": "declarations",
+                       "item": "removed", "examples": removed[:20],
+                       "message": f"{len(removed)} declaration records disappeared."})
     if added:
-        issues.append({"severity": "MEDIUM", "area": "declarations", "item": "added", "message": f"{len(added)} declaration records were added.", "examples": added[:20]})
+        issues.append({"severity": "MEDIUM", "area": "declarations", "item": "added",
+                       "examples": added[:20],
+                       "message": f"{len(added)} declaration records were added."})
 
-    b_missing = {(m.get("page"), m.get("src"), m.get("resolved_path")) for m in before.get("missing_scripts", [])}
-    a_missing = {(m.get("page"), m.get("src"), m.get("resolved_path")) for m in after.get("missing_scripts", [])}
+    def missing_set(audit: Dict[str, Any]) -> set:
+        return {(m.get("page"), m.get("src"), m.get("resolved_path"))
+                for m in audit.get("missing_scripts", [])}
+
+    b_missing, a_missing = missing_set(before), missing_set(after)
     if b_missing != a_missing:
-        issues.append({"severity": "HIGH", "area": "missing_scripts", "item": "delta", "message": "Missing referenced script set changed.", "before_only": sorted(b_missing - a_missing), "after_only": sorted(a_missing - b_missing)})
+        issues.append({"severity": "HIGH", "area": "missing_scripts", "item": "delta",
+                       "message": "Missing referenced script set changed.",
+                       "before_only": sorted(b_missing - a_missing),
+                       "after_only": sorted(a_missing - b_missing)})
 
-    b_risks = {(r.get("risk"), r.get("unit"), r.get("line")) for r in before.get("risks", [])}
-    a_risks = {(r.get("risk"), r.get("unit"), r.get("line")) for r in after.get("risks", [])}
+    def risk_set(audit: Dict[str, Any]) -> set:
+        return {(r.get("risk"), r.get("unit"), r.get("line")) for r in audit.get("risks", [])}
+
+    b_risks, a_risks = risk_set(before), risk_set(after)
     if b_risks != a_risks:
-        issues.append({"severity": "MEDIUM", "area": "risk_findings", "item": "delta", "message": "Risk findings changed. Inspect whether code moved or behavior changed.", "removed_count": len(b_risks - a_risks), "added_count": len(a_risks - b_risks)})
+        issues.append({"severity": "MEDIUM", "area": "risk_findings", "item": "delta",
+                       "message": "Risk findings changed. Inspect whether code moved "
+                                  "or behavior changed.",
+                       "removed_count": len(b_risks - a_risks),
+                       "added_count": len(a_risks - b_risks)})
+    return issues
 
+
+def _render_comparison(before: Dict[str, Any], after: Dict[str, Any], before_path: Path,
+                       after_path: Path, issues: List[Dict[str, Any]]) -> str:
     lines: List[str] = []
     lines.append("# Static Audit Comparison")
     lines.append("")
     lines.append(f"Baseline: `{before_path}`")
     lines.append(f"After: `{after_path}`")
     lines.append("")
-    status = "PASS" if not issues else "REVIEW REQUIRED"
-    lines.append(f"## Status: {status}")
+    lines.append(f"## Status: {'PASS' if not issues else 'REVIEW REQUIRED'}")
     lines.append("")
     lines.append("## Summary")
     lines.append("| Metric | Baseline | After |")
     lines.append("|---|---:|---:|")
-    keys = sorted(set(before.get("summary", {})) | set(after.get("summary", {})))
-    for k in keys:
-        lines.append(f"| {k.replace('_', ' ')} | {before.get('summary', {}).get(k, '')} | {after.get('summary', {}).get(k, '')} |")
+    b_sum, a_sum = before.get("summary", {}), after.get("summary", {})
+    for k in sorted(set(b_sum) | set(a_sum)):
+        lines.append(f"| {k.replace('_', ' ')} | {b_sum.get(k, '')} | {a_sum.get(k, '')} |")
     lines.append("")
     if issues:
         lines.append("## Deltas requiring review")
@@ -825,9 +869,17 @@ def compare_audits(before_path: Path, after_path: Path, out: Optional[Path]) -> 
             if i.get("examples"):
                 lines.append(f"|  |  | examples | `{i['examples']}` |")
     else:
-        lines.append("No static deltas detected by this tool. Runtime/browser probes are still required for no-regression sign-off.")
+        lines.append("No static deltas detected by this tool. Runtime/browser probes "
+                     "are still required for no-regression sign-off.")
     lines.append("")
-    output = "\n".join(lines)
+    return "\n".join(lines)
+
+
+def compare_audits(before_path: Path, after_path: Path, out: Optional[Path]) -> str:
+    before = json.loads(before_path.read_text(encoding="utf-8"))
+    after = json.loads(after_path.read_text(encoding="utf-8"))
+    issues = _comparison_issues(before, after)
+    output = _render_comparison(before, after, before_path, after_path, issues)
     if out:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(output, encoding="utf-8")
@@ -835,13 +887,17 @@ def compare_audits(before_path: Path, after_path: Path, out: Optional[Path]) -> 
 
 
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    parser = argparse.ArgumentParser(description="Audit/refactor-guard helper for legacy browser JS apps.")
+    parser = argparse.ArgumentParser(
+        description="Audit/refactor-guard helper for legacy browser JS apps.")
     sub = parser.add_subparsers(dest="cmd", required=True)
 
     p_audit = sub.add_parser("audit", help="Create static script/declaration inventory.")
     p_audit.add_argument("root", type=Path, help="Application root to scan.")
-    p_audit.add_argument("--out", type=Path, required=True, help="Output directory for audit.json and report.md.")
-    p_audit.add_argument("--referenced-only", action="store_true", help="Only inventory JS referenced from scanned HTML. Default scans all JS too.")
+    p_audit.add_argument("--out", type=Path, required=True,
+                         help="Output directory for audit.json and report.md.")
+    p_audit.add_argument("--referenced-only", action="store_true",
+                         help="Only inventory JS referenced from scanned HTML. "
+                              "Default scans all JS too.")
 
     p_compare = sub.add_parser("compare", help="Compare two audit.json files.")
     p_compare.add_argument("before", type=Path)

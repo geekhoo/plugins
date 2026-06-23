@@ -1,6 +1,6 @@
 {
   "name": "geeky-orchestration",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Plan, review, execute, inspect, and archive feature work with durable planning packets and deterministic quality gates.",
   "author": {
     "name": "geekhoo"

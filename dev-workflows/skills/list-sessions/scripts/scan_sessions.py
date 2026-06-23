@@ -25,7 +25,8 @@ def extract_text(content) -> str:
     if isinstance(content, str):
         return content
     if isinstance(content, list):
-        parts = [b.get("text", "") for b in content if isinstance(b, dict) and b.get("type") == "text"]
+        parts = [b.get("text", "") for b in content
+                 if isinstance(b, dict) and b.get("type") == "text"]
         return "\n".join(p for p in parts if p)
     return ""
 
@@ -171,7 +172,8 @@ def process(groups, patterns, project_filter, since, show_background):
 def render_markdown(out_groups, totals) -> str:
     lines = []
     for group in out_groups:
-        label = group["displayPath"] + (" (path inferred from dir name)" if group["pathIsGuess"] else "")
+        label = group["displayPath"] + (
+            " (path inferred from dir name)" if group["pathIsGuess"] else "")
         lines.append(f"## {label}")
         lines.append("")
         if group["real"]:
@@ -182,7 +184,8 @@ def render_markdown(out_groups, totals) -> str:
                 if len(prompt) > 90:
                     prompt = prompt[:87] + "..."
                 prompt = prompt.replace("|", "\\|")
-                lines.append(f"| {s.get('created') or '?'} | {s.get('messageCount', '?')} | {prompt} |")
+                lines.append(
+                    f"| {s.get('created') or '?'} | {s.get('messageCount', '?')} | {prompt} |")
         else:
             lines.append("_No real conversations in this window._")
         lines.append("")
@@ -210,14 +213,20 @@ def render_markdown(out_groups, totals) -> str:
 
 def main():
     if hasattr(sys.stdout, "reconfigure"):
-        sys.stdout.reconfigure(encoding="utf-8")  # Windows consoles default to a lossy codepage otherwise
+        # Windows consoles default to a lossy codepage otherwise.
+        sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--claude-dir", default="~/.claude")
     parser.add_argument("--format", choices=["markdown", "json"], default="markdown")
-    parser.add_argument("--project", default=None, help="Only show groups whose path contains this substring")
-    parser.add_argument("--since", default=None, help="Only include sessions created on/after this ISO timestamp/date")
-    parser.add_argument("--show-background", action="store_true", help="List background sessions individually instead of just a count")
-    parser.add_argument("--background-pattern", action="append", default=[], help="Extra substring(s) (case-insensitive) that mark a session as background")
+    parser.add_argument("--project", default=None,
+                        help="Only show groups whose path contains this substring")
+    parser.add_argument("--since", default=None,
+                        help="Only include sessions created on/after this ISO timestamp/date")
+    parser.add_argument("--show-background", action="store_true",
+                        help="List background sessions individually instead of just a count")
+    parser.add_argument("--background-pattern", action="append", default=[],
+                        help="Extra substring(s) (case-insensitive) that mark "
+                             "a session as background")
     args = parser.parse_args()
 
     claude_dir = Path(args.claude_dir).expanduser().resolve()
