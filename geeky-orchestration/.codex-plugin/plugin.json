@@ -1,0 +1,40 @@
+{
+  "name": "geeky-orchestration",
+  "version": "0.2.4",
+  "description": "Plan, review, execute, inspect, and archive feature work with durable planning packets and deterministic quality gates.",
+  "author": {
+    "name": "geekhoo"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "planning",
+    "implementation",
+    "review",
+    "orchestration",
+    "quality-gates",
+    "workflow"
+  ],
+  "skills": "./skills/",
+  "hooks": "./.codex-plugin/hooks.json",
+  "mcpServers": "./.codex-plugin/mcp.json",
+  "interface": {
+    "displayName": "Geeky Orchestration",
+    "shortDescription": "Plan, execute, and track feature work end to end.",
+    "longDescription": "Workflow skills for feature planning, plan review, implementation, implementation review, status checks, archiving, and spec research. Includes planning-packet validators, task templates, advisory hooks, and an optional MCP server for quality gates.",
+    "developerName": "geekhoo",
+    "websiteURL": "https://github.com/geekhoo/plugins/tree/main/geeky-orchestration",
+    "privacyPolicyURL": "https://github.com/geekhoo/plugins/blob/main/geeky-orchestration/README.md#privacy",
+    "termsOfServiceURL": "https://github.com/geekhoo/plugins/blob/main/geeky-orchestration/README.md#terms-of-use",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Create a geeky-plan packet for this feature.",
+      "Review this implementation plan before execution.",
+      "Run geeky-status on this planning folder."
+    ],
+    "brandColor": "#7C3AED"
+  }
+}

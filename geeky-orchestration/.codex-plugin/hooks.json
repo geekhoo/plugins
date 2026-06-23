@@ -1,0 +1,17 @@
+{
+  "description": "Geeky Orchestration Codex hooks. Warns before edits to frozen planning artifacts using the same guard implementation as the Claude hook, with Codex-style PLUGIN_ROOT path variables.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${PLUGIN_ROOT}/hooks/py-run.sh\" \"${PLUGIN_ROOT}/hooks/guard-planning-contract.py\" --mode warn",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
