@@ -1,7 +1,12 @@
 ---
 name: handoff
 description: >
-  Manages HANDOFF.md files across a project's full lifecycle — creating them, updating them at the end of a session, and reading them at the start. Use this skill whenever the user says "handoff", "update handoff", "write handoff", "create handoff", "read handoff", "summarize this session", "reaching context limit", "what is done, what needs to be done", or invokes /handoff. Also use this skill at the very start of any session when a HANDOFF.md (or any *HANDOFF*.md / *handoff*.md variant) is found in the working directory — read and present it proactively. The skill runs in three modes: WRITE (append a structured summary of the current session), READ (present project state from an existing file), and CREATE (start a new handoff file from scratch). When in doubt, always invoke this skill rather than writing a handoff freehand — it ensures consistent structure that a cold-start agent can act on.
+  Use when the user says "handoff", "update handoff", "write handoff", "create
+  handoff", "read handoff", "summarize this session", "reaching context limit",
+  "what is done, what needs to be done", or invokes /handoff; and proactively at the
+  very start of any session when a HANDOFF.md (or any *HANDOFF*.md / *handoff*.md
+  variant) is found in the working directory — read and present it. When in doubt,
+  invoke this skill rather than writing a handoff freehand.
 ---
 
 # Handoff Skill

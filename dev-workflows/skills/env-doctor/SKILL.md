@@ -1,6 +1,6 @@
 ---
 name: env-doctor
-description: Verify the Windows toolchain that Claude Code and its plugin hooks depend on — python3/python/py resolution, the ~/bin shim dir on PATH, and node/gh/dotnet/pwsh. Use when the user asks "is my environment OK", "why won't this run", "are my hooks alive", "check the toolchain", or when plugin hooks seem to be silently no-opping. Complements env-check (which is .venv/dependency focused); env-doctor focuses on interpreter resolution and the silent-hook-failure class. Pairs with the SessionStart canary hook shipped in this plugin.
+description: Use when the user asks "is my environment OK", "why won't this run", "are my hooks alive", "check the toolchain", or when plugin hooks seem to be silently no-opping — verifies the Windows toolchain Claude Code and its hooks depend on (python3/python/py resolution, the ~/bin shim dir on PATH, node/gh/dotnet/pwsh). Complements env-check (.venv/dependency focused); env-doctor covers interpreter resolution and the silent-hook-failure class.
 ---
 
 # env-doctor

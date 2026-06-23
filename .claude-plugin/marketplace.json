@@ -28,7 +28,7 @@
       "name": "dev-workflows",
       "source": "./dev-workflows",
       "description": "Composable workflow skills distilled from cross-project sessions: planning/spec, workflow routing, review/audit, testing/QA, browser/Figma, env/setup/deploy, git, corpus and document pipelines, capability inventory, operational stabilization, session/friction analysis, an env-doctor toolchain check, and memory/status utilities. Ships a portable SessionStart env-canary hook. Windows-aware.",
-      "version": "0.2.1"
+      "version": "0.2.2"
     }
   ]
 }

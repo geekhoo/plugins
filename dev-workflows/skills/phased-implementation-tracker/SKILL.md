@@ -1,16 +1,14 @@
 ---
 name: phased-implementation-tracker
 description: >
-  Track multi-step implementation plans across sessions. Use this skill whenever
-  the user mentions continuing a plan, resuming from a step, asking where they
-  left off, or checking plan progress. Trigger immediately on any of these phrases:
-  "continue from step", "where were we", "what's next in the plan", "mark step N
-  done", "step N complete", "defer step N", "show plan status", "plan progress",
-  or "resume the plan". Also trigger automatically at the start of any session
-  when a .phased-plan.md file exists in the current project directory — check for
-  it proactively and show status without waiting to be asked. Do not require the
-  user to spell out "phased-implementation-tracker" — they will almost always use
-  natural language like "let's keep going" or "what's next".
+  Use when the user continues or resumes a multi-session implementation plan, asks
+  where they left off, or checks plan progress. Trigger on phrases like "continue
+  from step", "where were we", "what's next in the plan", "mark step N done", "step
+  N complete", "defer step N", "show plan status", "plan progress", "resume the
+  plan", or natural language like "let's keep going" — the user will rarely name the
+  skill. Also trigger proactively at the start of any session when a .phased-plan.md
+  file exists in the current project directory — show status without waiting to be
+  asked.
 ---
 
 # Phased Implementation Tracker

@@ -1,13 +1,11 @@
 ---
 name: figma-batch-analyzer
 description: >
-  Analyze one or more Figma nodes and produce a compact, structured spec table — NOT long prose plans.
-  Use this skill whenever the user says "analyze figma", "figma specs", "what does figma say about",
-  "batch analyze", or invokes /figma-batch-analyzer, or when they mention a Figma node ID or URL and
-  want to know what to implement. Also trigger when the user asks how a component should look, or
-  wants a checklist of visual fixes to make. The default Figma file key is f23wB7B5Sq16GncjfLNEYL
-  (Markefin UI). Always use this skill instead of producing a 200-line prose analysis — the user only
-  wants a table and a short numbered checklist, not an essay.
+  Use when the user wants a compact, structured spec table from Figma (a table, not
+  a long prose plan) — says "analyze figma", "figma specs", "what does figma say
+  about", "batch analyze", invokes /figma-batch-analyzer, mentions a Figma node ID
+  or URL and wants to know what to implement, asks how a component should look, or
+  wants a checklist of visual fixes to make.
 ---
 
 # Figma Batch Analyzer

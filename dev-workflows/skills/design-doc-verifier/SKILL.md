@@ -1,20 +1,15 @@
 ---
 name: design-doc-verifier
 description: >
-  Verifies that a codebase actually implements what a design document describes.
-  Given a design doc (spec, SDD, AGENTS.md, CLAUDE.md, feature doc) and an optional
-  source directory, it reads every requirement, searches the codebase for evidence of
-  implementation, and produces a structured gap-analysis report with DONE / PARTIAL /
-  MISSING / BROKEN status for each requirement, plus a prioritized next-steps list.
-
-  ALWAYS use this skill when the user:
-  - Says "verify against design", "check design doc", "review against spec",
-    "does the code match", "audit the implementation", or "/design-doc-verifier"
-  - Asks "how complete is this feature" or "what's missing from the design"
-  - Hands you a spec/design document and asks if the code fulfills it — even if
-    they just say "check this" or "is this done" while referring to a doc
-  - Is about to finalize or ship a feature and mentions a spec or design doc in context
-  - Asks you to compare code to any written requirements, acceptance criteria, or user stories
+  Use when the user wants to verify that a codebase actually implements what a
+  design document (spec, SDD, AGENTS.md, CLAUDE.md, feature doc) describes.
+  Triggers: "verify against design", "check design doc", "review against spec",
+  "does the code match", "audit the implementation", "how complete is this feature",
+  "what's missing from the design", or "/design-doc-verifier"; handing you a
+  spec/design document and asking "is this done" or "check this" while referring to
+  a doc; about to finalize or ship a feature while a spec/design doc is in context;
+  or asking to compare code to written requirements, acceptance criteria, or user
+  stories.
 ---
 
 # Design Doc Verifier
