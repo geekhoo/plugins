@@ -257,7 +257,15 @@ After each command, playwright-cli provides a snapshot of the current browser st
 - Page URL: https://example.com/
 - Page Title: Example Domain
 ### Snapshot
-[Snapshot](.playwright-cli/page-2026-02-14T19-22-42-679Z.yml)
+Snapshot saved at .playwright-cli/page-2026-02-14T19-22-42-679Z.yml
+```
+
+Snapshot artifact filenames use the pattern `$folder/page-$datetime.yml`; for the default snapshot folder, `$folder` is `.playwright-cli`.
+
+Markdown example:
+
+```md
+Snapshot artifact example: `.playwright-cli/page-2026-02-14T19-22-42-679Z.yml`
 ```
 
 You can also take a snapshot on demand using `playwright-cli snapshot` command. All the options below can be combined as needed.

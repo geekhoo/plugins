@@ -1,0 +1,47 @@
+{
+  "name": "dev-workflows",
+  "version": "0.2.1",
+  "description": "Composable workflow skills for planning, review, testing, browser and Figma workflows, environment checks, git hygiene, corpus pipelines, and operational stabilization.",
+  "author": {
+    "name": "geekhoo"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "workflow",
+    "planning",
+    "review",
+    "testing",
+    "browser",
+    "figma",
+    "git",
+    "operations"
+  ],
+  "skills": "./skills/",
+  "dependencies": [
+    {
+      "name": "figma",
+      "marketplace": "claude-plugins-official"
+    },
+    "geeky-orchestration"
+  ],
+  "interface": {
+    "displayName": "Dev Workflows",
+    "shortDescription": "Composable workflow skills for software delivery.",
+    "longDescription": "A broad workflow library covering planning and spec authoring, API and documentation checks, review and audit flows, test and seed workflows, browser and Figma validation, environment and deployment setup, git hygiene, corpus workflows, session analysis, and operational stabilization.",
+    "developerName": "geekhoo",
+    "websiteURL": "https://github.com/geekhoo/plugins/tree/main/dev-workflows",
+    "privacyPolicyURL": "https://github.com/geekhoo/plugins/blob/main/dev-workflows/PACKAGING.md",
+    "termsOfServiceURL": "https://github.com/geekhoo/plugins/blob/main/dev-workflows/PACKAGING.md",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Run an environment check for this repo.",
+      "Create a planning packet for this implementation.",
+      "Review this browser workflow and validation evidence."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
