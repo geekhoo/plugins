@@ -12,6 +12,14 @@ from pathlib import Path
 PLUGIN_ROOT = Path(__file__).resolve().parent
 PYTHON_SYNC = PLUGIN_ROOT / "scripts" / "sync-agents.py"
 NODE_SYNC = PLUGIN_ROOT / "scripts" / "sync-agents.js"
+TARGETS = ("claude", "copilot", "codex", "cursor", "generic")
+PROJECTIONS = {
+    "claude": Path(".claude/agents/{name}.md"),
+    "copilot": Path(".github/agents/{name}.agent.md"),
+    "codex": Path(".codex/agents/{name}.toml"),
+    "cursor": Path(".cursor/agents/{name}.md"),
+    "generic": Path(".agents/{name}.md"),
+}
 
 
 AGENT_TEMPLATE = """---
@@ -57,7 +65,7 @@ class SyncAgentsTests(unittest.TestCase):
         runtime: str,
         source: Path,
         project_root: Path,
-        agents: str = "beta",
+        agents: str | None = "beta",
     ) -> subprocess.CompletedProcess[str]:
         if runtime == "python":
             command = [sys.executable, str(PYTHON_SYNC)]
@@ -66,19 +74,19 @@ class SyncAgentsTests(unittest.TestCase):
             if node is None:
                 self.skipTest("node is not available")
             command = [node, str(NODE_SYNC)]
+        arguments = [
+            *command,
+            "--source",
+            str(source),
+            "--project-root",
+            str(project_root),
+            "--targets",
+            ",".join(TARGETS),
+        ]
+        if agents is not None:
+            arguments.extend(("--agents", agents))
         return subprocess.run(
-            [
-                *command,
-                "--source",
-                str(source),
-                "--project-root",
-                str(project_root),
-                "--targets",
-                "codex,generic",
-                "--agents",
-                agents,
-                "--json",
-            ],
+            [*arguments, "--json"],
             check=False,
             capture_output=True,
             text=True,
@@ -97,11 +105,13 @@ class SyncAgentsTests(unittest.TestCase):
             self.assertEqual(report["discovered_agent_count"], 2)
             self.assertEqual(report["agent_filter"], ["beta"])
             self.assertEqual(report["agent_count"], 1)
-            self.assertEqual(report["generated_count"], 2)
-            self.assertTrue((output / ".codex" / "agents" / "beta.toml").is_file())
-            self.assertTrue((output / ".agents" / "beta.md").is_file())
-            self.assertFalse((output / ".codex" / "agents" / "alpha.toml").exists())
-            self.assertFalse((output / ".agents" / "alpha.md").exists())
+            self.assertEqual(report["targets"], list(TARGETS))
+            self.assertEqual(report["generated_count"], len(TARGETS))
+            for relative_template in PROJECTIONS.values():
+                beta = Path(str(relative_template).format(name="beta"))
+                alpha = Path(str(relative_template).format(name="alpha"))
+                self.assertTrue((output / beta).is_file(), beta)
+                self.assertFalse((output / alpha).exists(), alpha)
             generic = (output / ".agents" / "beta.md").read_text(encoding="utf-8")
             self.assertIn("name: beta", generic)
             self.assertIn("Beta instructions.", generic)
@@ -125,28 +135,70 @@ class SyncAgentsTests(unittest.TestCase):
 
             self.assertEqual(python_result.returncode, 0, python_result.stderr)
             self.assertEqual(node_result.returncode, 0, node_result.stderr)
-            for relative in (
-                Path(".codex/agents/beta.toml"),
-                Path(".agents/beta.md"),
-            ):
+            for relative_template in PROJECTIONS.values():
+                relative = Path(str(relative_template).format(name="beta"))
                 self.assertEqual(
                     (python_root / relative).read_text(encoding="utf-8"),
                     (node_root / relative).read_text(encoding="utf-8"),
                 )
 
-    def test_unknown_agent_filter_fails_without_outputs(self) -> None:
-        with tempfile.TemporaryDirectory() as temp_dir:
-            root = Path(temp_dir)
-            source = self.make_sources(root)
-            output = root / "output"
+    def test_unknown_agent_filter_fails_without_outputs_in_both_runtimes(self) -> None:
+        for runtime in ("python", "node"):
+            with self.subTest(runtime=runtime), tempfile.TemporaryDirectory() as temp_dir:
+                root = Path(temp_dir)
+                source = self.make_sources(root)
+                output = root / "output"
 
-            result = self.run_sync("python", source, output, agents="missing")
+                result = self.run_sync(runtime, source, output, agents="missing")
 
-            self.assertEqual(result.returncode, 1)
-            report = json.loads(result.stdout)
-            self.assertFalse(report["ok"])
-            self.assertIn("unknown agent name(s): missing", report["error"])
-            self.assertFalse(output.exists())
+                self.assertEqual(result.returncode, 1)
+                report = json.loads(result.stdout)
+                self.assertFalse(report["ok"])
+                self.assertIn("unknown agent name(s): missing", report["error"])
+                self.assertFalse(output.exists())
+
+    def test_unfiltered_inventory_generates_every_agent_for_both_runtimes(self) -> None:
+        for runtime in ("python", "node"):
+            with self.subTest(runtime=runtime), tempfile.TemporaryDirectory() as temp_dir:
+                root = Path(temp_dir)
+                source = self.make_sources(root)
+                output = root / "output"
+
+                result = self.run_sync(runtime, source, output, agents=None)
+
+                self.assertEqual(result.returncode, 0, result.stderr or result.stdout)
+                report = json.loads(result.stdout)
+                self.assertEqual(report["agent_filter"], [])
+                self.assertEqual(report["agent_count"], 2)
+                self.assertEqual(report["generated_count"], 2 * len(TARGETS))
+                for name in ("alpha", "beta"):
+                    for relative_template in PROJECTIONS.values():
+                        relative = Path(str(relative_template).format(name=name))
+                        self.assertTrue((output / relative).is_file(), relative)
+
+    def test_repeat_run_is_reproducible_for_both_runtimes(self) -> None:
+        for runtime in ("python", "node"):
+            with self.subTest(runtime=runtime), tempfile.TemporaryDirectory() as temp_dir:
+                root = Path(temp_dir)
+                source = self.make_sources(root)
+                output = root / "output"
+
+                first = self.run_sync(runtime, source, output)
+                self.assertEqual(first.returncode, 0, first.stderr or first.stdout)
+                first_contents = {
+                    target: (output / Path(str(relative).format(name="beta"))).read_bytes()
+                    for target, relative in PROJECTIONS.items()
+                }
+
+                second = self.run_sync(runtime, source, output)
+                self.assertEqual(second.returncode, 0, second.stderr or second.stdout)
+                second_contents = {
+                    target: (output / Path(str(relative).format(name="beta"))).read_bytes()
+                    for target, relative in PROJECTIONS.items()
+                }
+
+                self.assertEqual(json.loads(first.stdout), json.loads(second.stdout))
+                self.assertEqual(first_contents, second_contents)
 
     def test_missing_agent_filter_value_reports_deliberate_error(self) -> None:
         for runtime in ("python", "node"):

@@ -65,9 +65,32 @@ to the current harness. If the harness cannot enforce a required guard, run a
 validator, preserve frozen artifacts, or provide required delegation semantics,
 report the capability gap and stop before unsafe mutation.
 
+## Decision policy
+
+- A clear request with one workflow and one target routes directly after
+  prerequisite checks.
+- Ambiguous intent receives a read-only, evidence-backed workflow recommendation
+  and no mutation.
+- Multiple plausible targets require one focused clarification question before
+  target selection or mutation.
+- An explicit request to implement a reviewed packet routes to
+  `geeky-implement`.
+- A workflow recommendation does not grant write authority; wait for explicit
+  authorization before mutation.
+- A documented blocker or stop condition stops the run and is reported rather
+  than routed onward.
+- A packet whose implementation tasks are Done routes to `impl-review`, not
+  `archive`, unless delivered-code review is already evidenced.
+- An inferred `archive` route requires confirmation of the archive target and
+  explicit approval before files move.
+- Explicit end-to-end authority permits stage chaining, with every gate and stop
+  condition preserved.
+- A required generic-harness capability gap is reported and stops the run before
+  unsafe mutation.
+
 ## Workflow routing
 
-- New researched requirements: `spec-research`.
+- New feature needing researched requirements: `spec-research`.
 - Requirements or a specification needing a packet: `geeky-plan`.
 - Packet readiness review: `plan-review`.
 - Status, orientation, or resume diagnosis: `geeky-status`.

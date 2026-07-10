@@ -13,6 +13,59 @@ PLUGIN_ROOT = REPO_ROOT / "geeky-orchestration"
 CANONICAL = PLUGIN_ROOT / "agents" / "geeky-orchestrator.md"
 SYNC = PLUGIN_ROOT / "scripts" / "sync-agents.py"
 
+ROUTING_SCENARIOS = (
+    (
+        "clear direct route",
+        "A clear request with one workflow and one target routes directly after "
+        "prerequisite checks.",
+    ),
+    (
+        "ambiguous read-only recommendation",
+        "Ambiguous intent receives a read-only, evidence-backed workflow "
+        "recommendation and no mutation.",
+    ),
+    (
+        "multiple targets clarification",
+        "Multiple plausible targets require one focused clarification question "
+        "before target selection or mutation.",
+    ),
+    (
+        "explicit implementation",
+        "An explicit request to implement a reviewed packet routes to "
+        "`geeky-implement`.",
+    ),
+    (
+        "recommendation without write authority",
+        "A workflow recommendation does not grant write authority; wait for "
+        "explicit authorization before mutation.",
+    ),
+    (
+        "blocker stop",
+        "A documented blocker or stop condition stops the run and is reported "
+        "rather than routed onward.",
+    ),
+    (
+        "Done routes to review",
+        "A packet whose implementation tasks are Done routes to `impl-review`, "
+        "not `archive`, unless delivered-code review is already evidenced.",
+    ),
+    (
+        "inferred archive confirmation",
+        "An inferred `archive` route requires confirmation of the archive target "
+        "and explicit approval before files move.",
+    ),
+    (
+        "explicit end-to-end chaining",
+        "Explicit end-to-end authority permits stage chaining, with every gate "
+        "and stop condition preserved.",
+    ),
+    (
+        "generic capability-gap stop",
+        "A required generic-harness capability gap is reported and stops the "
+        "run before unsafe mutation.",
+    ),
+)
+
 
 class GeekyOrchestratorContractTests(unittest.TestCase):
     def test_canonical_contract_contains_required_runtime_modes(self) -> None:
@@ -38,6 +91,22 @@ class GeekyOrchestratorContractTests(unittest.TestCase):
         self.assertNotIn(
             "pick the earliest stage whose output they don't yet have", text.lower()
         )
+
+    def test_canonical_contract_defines_approved_routing_scenarios(self) -> None:
+        text = CANONICAL.read_text(encoding="utf-8")
+        normalized_text = " ".join(text.split())
+        for scenario, exact_policy in ROUTING_SCENARIOS:
+            with self.subTest(scenario=scenario):
+                self.assertIn(exact_policy, normalized_text)
+
+    def test_new_feature_needing_researched_requirements_routes_to_spec_research(
+        self,
+    ) -> None:
+        text = CANONICAL.read_text(encoding="utf-8")
+        self.assertIn(
+            "New feature needing researched requirements: `spec-research`.", text
+        )
+        self.assertNotIn("New researched requirements: `spec-research`.", text)
 
     def test_scoped_sync_generates_all_five_projections(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
