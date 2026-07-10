@@ -148,6 +148,34 @@ class SyncAgentsTests(unittest.TestCase):
             self.assertIn("unknown agent name(s): missing", report["error"])
             self.assertFalse(output.exists())
 
+    def test_missing_agent_filter_value_reports_deliberate_error(self) -> None:
+        for runtime in ("python", "node"):
+            with self.subTest(runtime=runtime):
+                if runtime == "python":
+                    command = [sys.executable, str(PYTHON_SYNC)]
+                else:
+                    node = shutil.which("node")
+                    if node is None:
+                        self.skipTest("node is not available")
+                    command = [node, str(NODE_SYNC)]
+
+                result = subprocess.run(
+                    [*command, "--json", "--agents"],
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                )
+
+                self.assertNotEqual(result.returncode, 0)
+                if runtime == "node":
+                    report = json.loads(result.stdout)
+                    self.assertFalse(report["ok"])
+                    error = report["error"]
+                else:
+                    error = result.stderr
+                self.assertIn("argument --agents: expected one argument", error)
+                self.assertNotIn("undefined", error)
+
 
 if __name__ == "__main__":
     unittest.main()

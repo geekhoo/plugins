@@ -230,6 +230,9 @@ function ensureTargets(rawTargets) {
 }
 
 function ensureAgentFilter(rawAgents) {
+  if (typeof rawAgents !== "string") {
+    throw new Error("argument --agents: expected one argument");
+  }
   const names = rawAgents.split(",").map(name => name.trim()).filter(Boolean);
   if (names.length !== new Set(names).size) {
     throw new Error("duplicate agent name in --agents filter");
