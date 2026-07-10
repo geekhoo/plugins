@@ -6,13 +6,14 @@ End-to-end feature delivery: **plan it, execute it, track it**, with strong cont
 
 | Component | Type | Purpose |
 |---|---|---|
-| `spec-research` | skill | Researches a new spec with a parallel 3-subagent team (codebase, web best practices, architecture), then writes `SPEC-NNNN.md` + README stub in `docs/`. Runs *before* `geeky-plan`. |
+| `spec-research` | skill | Researches a new spec with a parallel 3-subagent team (codebase, web best practices, architecture), then writes `feature-specification.md` and `README.md` in `docs/`. Runs *before* `geeky-plan`. |
 | `geeky-plan` | skill | Produces a complete planning package: implementation plan, ordered task files, PM review, kanban, references, handoff. |
 | `plan-review` | skill | 4-phase quality review of a `geeky-plan` package — document alignment, issue resolution, sequencing validation, final sanity pass. Run between planning and implementation. |
 | `geeky-implement` | skill | Orchestrates execution: walks the kanban, delegates `geeky-coder` subagents (up to 3 in parallel), runs per-task validation, code review, and per-phase PM review, commits in small logical groups, never pushes. |
 | `impl-review` | skill | Reviews *delivered code* (not planning docs) with 3 dynamically-chosen domain-expert subagents, each covering a distinct aspect of what was built. |
 | `geeky-status` | skill | Read-only snapshot of a planning folder. Lane counts, blocked items, last handoff entry, suggested next step. No agents, no edits. |
 | `archive` | skill | Archives a concluded spec: moves planning artifacts to `archives/`, creates the permanent `docs/spec-NNN-name/` folder (spec + handoff + README), updates CLAUDE.md current state. |
+| `geeky-orchestrator` | agent | Intelligent workflow administrator for direct routing, read-only triage, lifecycle coordination, and focused clarification when the correct entry point is ambiguous. |
 | `/spec-research`, `/geeky-plan`, `/plan-review`, `/geeky-implement`, `/impl-review`, `/geeky-status`, `/archive` | commands | Thin slash-command fronts that simply invoke the same-named skill with `$ARGUMENTS`. The full procedure lives in the skills (`skills/<name>/SKILL.md`) so that non-Claude agents — which read skills but not commands — can run the same workflow. |
 | `geeky-coder` | agent | Portable coder subagent. Treats the orchestrator's brief as authoritative scope. Returns a structured summary. Safe to spawn in parallel against non-overlapping task surfaces. |
 | `code-architect` | agent | Portable architecture reviewer subagent. Reviews code with a system-level lens, focusing on maintainability, scalability, modularity, and architectural best practices. |
@@ -170,6 +171,13 @@ python scripts/sync-agents.py   # Python 3.8+, no dependencies
 node   scripts/sync-agents.js   # Node.js, no dependencies
 ```
 
-Both produce identical output. This generates harness-specific agent files under `.claude/agents/`, `.github/agents/`, `.codex/agents/`, and `.cursor/agents/` at the repository root.
+Both produce identical output. This generates harness-specific agent files under `.claude/agents/`, `.github/agents/`, `.codex/agents/`, and `.cursor/agents/`, plus the generic fallback `.agents/<name>.md`, at the repository root.
+
+To project only the workflow router across all targets, run:
+
+```bash
+python scripts/sync-agents.py --agents geeky-orchestrator
+node   scripts/sync-agents.js --agents geeky-orchestrator
+```
 
 See `docs/cross-harness-agent-registration.md` for usage flags, compatibility notes, and verification steps.
