@@ -221,9 +221,10 @@ def _toml_escape(value: str) -> str:
 
 def render_codex(agent: AgentDef) -> str:
     # Required fields per Codex subagent schema.
+    escaped_description = agent.description.replace('"', '\\"')
     return (
         f'name = "{agent.name}"\n'
-        f'description = "{agent.description.replace(chr(34), "\\\\\"")}"\n'
+        f'description = "{escaped_description}"\n'
         "developer_instructions = \"\"\"\n"
         f"{_toml_escape(agent.body.rstrip())}\n"
         "\"\"\"\n"
