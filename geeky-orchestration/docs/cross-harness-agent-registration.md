@@ -31,6 +31,14 @@ node   scripts/sync-agents.js --dry-run
 python scripts/sync-agents.py --targets claude,copilot,codex
 node   scripts/sync-agents.js --targets claude,copilot,codex
 
+# scoped projection
+python scripts/sync-agents.py --agents geeky-orchestrator
+node   scripts/sync-agents.js --agents geeky-orchestrator
+
+# harness-neutral fallback
+python scripts/sync-agents.py --targets generic --agents geeky-orchestrator
+node   scripts/sync-agents.js --targets generic --agents geeky-orchestrator
+
 # explicit project root
 python scripts/sync-agents.py --project-root "C:/path/to/repo"
 node   scripts/sync-agents.js --project-root "C:/path/to/repo"
@@ -48,6 +56,7 @@ Default output paths (relative to `--project-root`):
 - Copilot/VS Code: `.github/agents/<name>.agent.md`
 - Codex CLI: `.codex/agents/<name>.toml`
 - Cursor (best effort): `.cursor/agents/<name>.md`
+- Generic Markdown: `.agents/<name>.md`
 
 ## Harness notes
 
@@ -75,6 +84,11 @@ Default output paths (relative to `--project-root`):
 - Cursor capabilities around file-based custom agent registration have changed across versions.
 - This script emits best-effort `.cursor/agents/*.md` projections.
 - Validate behavior in your installed Cursor build and fall back to `.cursor/rules`, `.cursor/skills`, and SDK-based definitions when needed.
+
+### Generic Markdown
+
+- Generic Markdown preserves the agent name, description, and instructions body without harness-specific fields.
+- Use `.agents/<name>.md` for manual import or future adapters; it does not promise automatic discovery by any harness.
 
 ## Verification checklist
 

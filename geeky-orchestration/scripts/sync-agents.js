@@ -15,6 +15,7 @@
  *   Copilot/VS Code: <project-root>/.github/agents/*.agent.md
  *   Codex CLI:       <project-root>/.codex/agents/*.toml
  *   Cursor (exp):    <project-root>/.cursor/agents/*.md
+ *   Generic Markdown:<project-root>/.agents/*.md
  *
  * Contract (matches sync-agents.py):
  *   Exit 0 on success, 1 on validation or write failures.
@@ -23,7 +24,8 @@
  *
  * Usage:
  *   node sync-agents.js [--source <dir>] [--project-root <dir>]
- *                        [--targets claude,copilot,codex,cursor]
+ *                        [--targets claude,copilot,codex,cursor,generic]
+ *                        [--agents <comma-separated-names>]
  *                        [--dry-run] [--json]
  */
 
@@ -36,7 +38,7 @@ const path = require("path");
 // Constants
 // ---------------------------------------------------------------------------
 
-const SUPPORTED_TARGETS = ["claude", "copilot", "codex", "cursor"];
+const SUPPORTED_TARGETS = ["claude", "copilot", "codex", "cursor", "generic"];
 
 // ---------------------------------------------------------------------------
 // CLI arg parsing  (no third-party libs)
@@ -51,6 +53,7 @@ function parseArgs(argv) {
     source:      path.join(pluginRoot, "agents"),
     projectRoot: repoRoot,
     targets:     SUPPORTED_TARGETS.join(","),
+    agents:      "",
     dryRun:      false,
     asJson:      false,
   };
@@ -68,14 +71,17 @@ function parseArgs(argv) {
     else if (a.startsWith("--project-root=")){ args.projectRoot = a.slice("--project-root=".length); }
     else if (a === "--targets")              { args.targets = raw[++i]; }
     else if (a.startsWith("--targets="))     { args.targets = a.slice("--targets=".length); }
+    else if (a === "--agents")                { args.agents = raw[++i]; }
+    else if (a.startsWith("--agents="))       { args.agents = a.slice("--agents=".length); }
     else if (a === "--help" || a === "-h") {
       console.log([
         "Usage: node sync-agents.js [options]",
         "",
         "Options:",
         `  --source <dir>         Canonical agent .md directory (default: ${defaults.source})`,
-        `  --project-root <dir>   Repo root for output folders  (default: ${defaults.projectRoot})`,
-        `  --targets <list>       Comma-separated: claude,copilot,codex,cursor (default: all)`,
+        `  --project-root <dir>   Repo root for .claude/.github/.codex/.cursor/.agents (default: ${defaults.projectRoot})`,
+        `  --targets <list>       Comma-separated: claude,copilot,codex,cursor,generic (default: all)`,
+        "  --agents <list>        Comma-separated canonical agent names (default: all)",
         "  --dry-run              Preview only; do not write files",
         "  --json                 Emit JSON summary to stdout",
         "  --help                 Show this help",
@@ -223,6 +229,23 @@ function ensureTargets(rawTargets) {
   return targets;
 }
 
+function ensureAgentFilter(rawAgents) {
+  const names = rawAgents.split(",").map(name => name.trim()).filter(Boolean);
+  if (names.length !== new Set(names).size) {
+    throw new Error("duplicate agent name in --agents filter");
+  }
+  return names;
+}
+
+function selectAgents(agents, names) {
+  if (!names.length) return agents;
+  const requested = new Set(names);
+  const available = new Set(agents.map(agent => agent.name));
+  const missing = [...requested].filter(name => !available.has(name)).sort();
+  if (missing.length) throw new Error(`unknown agent name(s): ${missing.join(", ")}`);
+  return agents.filter(agent => requested.has(agent.name));
+}
+
 // ---------------------------------------------------------------------------
 // Renderers
 // ---------------------------------------------------------------------------
@@ -289,6 +312,18 @@ function renderCursor(agent) {
   ].join("\n");
 }
 
+function renderGeneric(agent) {
+  return [
+    "---",
+    `name: ${agent.name}`,
+    yamlBlock("description", agent.description),
+    "---",
+    "",
+    agent.body.trimEnd(),
+    "",
+  ].join("\n");
+}
+
 // ---------------------------------------------------------------------------
 // File writer
 // ---------------------------------------------------------------------------
@@ -308,12 +343,14 @@ function main() {
 
   try {
     const targets     = ensureTargets(args.targets);
+    const agentFilter = ensureAgentFilter(args.agents);
     const sourceDir   = path.resolve(args.source);
     const projectRoot = path.resolve(args.projectRoot);
 
-    const sourceFiles = discoverAgents(sourceDir);
-    const agents      = sourceFiles.map(loadAgent);
-    ensureUniqueNames(agents);
+    const sourceFiles      = discoverAgents(sourceDir);
+    const discoveredAgents = sourceFiles.map(loadAgent);
+    ensureUniqueNames(discoveredAgents);
+    const agents = selectAgents(discoveredAgents, agentFilter);
 
     const generated = [];
 
@@ -338,6 +375,11 @@ function main() {
         writeFile(out, renderCursor(agent), args.dryRun);
         generated.push({ target: "cursor", source: agent.sourceFile, output: out });
       }
+      if (targets.includes("generic")) {
+        const out = path.join(projectRoot, ".agents", `${agent.name}.md`);
+        writeFile(out, renderGeneric(agent), args.dryRun);
+        generated.push({ target: "generic", source: agent.sourceFile, output: out });
+      }
     }
 
     const summary = {
@@ -346,6 +388,8 @@ function main() {
       source_dir:     sourceDir,
       project_root:   projectRoot,
       targets,
+      discovered_agent_count: discoveredAgents.length,
+      agent_filter:   agentFilter,
       agent_count:    agents.length,
       generated_count: generated.length,
       generated,
@@ -354,6 +398,7 @@ function main() {
         "Copilot projection uses compatibility-safe frontmatter without explicit tool mapping.",
         "Codex projection emits required TOML fields: name, description, developer_instructions.",
         "Cursor projection is best-effort and should be validated against installed Cursor version.",
+        "Generic Markdown is for manual import or future adapters; automatic discovery is not implied.",
       ],
     };
 
