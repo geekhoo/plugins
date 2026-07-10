@@ -34,7 +34,7 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 ## Pipeline
 
 ```
-/spec-research <topic or spec-NNN>     → researches + writes SPEC-NNNN.md in docs/
+/spec-research <topic or spec-NNN>     → writes feature-specification.md + README.md in docs/<feature>/
 
 /geeky-plan <spec or folder>          → produces docs/<feature>/...
    ├─ implementation-plan.md           (FROZEN after this point)

@@ -54,6 +54,9 @@ class PluginMetadataTests(unittest.TestCase):
         self.assertIn("geeky-orchestrator", agents)
         self.assertIn("read-only", agents)
         self.assertIn("geeky-orchestrator", readme)
+        self.assertIn(".agents/<name>.md", readme)
+        self.assertIn("--agents geeky-orchestrator", readme)
+        self.assertNotIn("writes SPEC-NNNN.md", readme)
         self.assertIn(".agents/<name>.md", registration)
         self.assertIn("--agents geeky-orchestrator", registration)
 
