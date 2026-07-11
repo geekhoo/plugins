@@ -13,6 +13,7 @@ Generated projections:
   Copilot/VS Code: <project-root>/.github/agents/*.agent.md
   Codex CLI: <project-root>/.codex/agents/*.toml
   Cursor (experimental): <project-root>/.cursor/agents/*.md
+  Generic Markdown: <project-root>/.agents/*.md
 
 Notes:
 - This script intentionally uses compatibility-safe output for non-Claude
@@ -20,6 +21,8 @@ Notes:
   where schema/tool-name mismatches may prevent registration.
 - Cursor file-based custom agent loading has changed across versions; projection
   is generated as an optional best-effort artifact.
+- Generic Markdown is generated for manual import or future adapters and does
+  not imply automatic discovery by a harness.
 
 Contract:
 - Exit 0 on success, 1 on validation or write failures.
@@ -38,7 +41,7 @@ from pathlib import Path
 from typing import Iterable
 
 
-SUPPORTED_TARGETS = ("claude", "copilot", "codex", "cursor")
+SUPPORTED_TARGETS = ("claude", "copilot", "codex", "cursor", "generic")
 
 
 @dataclass
@@ -65,12 +68,23 @@ def parse_args() -> argparse.Namespace:
     p.add_argument(
         "--project-root",
         default=str(plugin_root.parent),
-        help="Project root where .claude/.github/.codex/.cursor folders will be created",
+        help=(
+            "Project root where .claude/.github/.codex/.cursor/.agents "
+            "folders will be created"
+        ),
     )
     p.add_argument(
         "--targets",
         default=",".join(SUPPORTED_TARGETS),
-        help="Comma-separated targets: claude,copilot,codex,cursor (default: all)",
+        help=(
+            "Comma-separated targets: claude,copilot,codex,cursor,generic "
+            "(default: all)"
+        ),
+    )
+    p.add_argument(
+        "--agents",
+        default="",
+        help="Comma-separated canonical agent names to project (default: all)",
     )
     p.add_argument("--dry-run", action="store_true", help="Preview only; do not write files")
     p.add_argument("--json", dest="as_json", action="store_true", help="Emit JSON summary")
@@ -245,6 +259,19 @@ def render_cursor(agent: AgentDef) -> str:
     return "\n".join(lines)
 
 
+def render_generic(agent: AgentDef) -> str:
+    lines = [
+        "---",
+        f"name: {agent.name}",
+        yaml_block("description", agent.description),
+        "---",
+        "",
+        agent.body.rstrip(),
+        "",
+    ]
+    return "\n".join(lines)
+
+
 def ensure_targets(raw_targets: str) -> list[str]:
     targets = [t.strip().lower() for t in raw_targets.split(",") if t.strip()]
     bad = [t for t in targets if t not in SUPPORTED_TARGETS]
@@ -253,6 +280,24 @@ def ensure_targets(raw_targets: str) -> list[str]:
     if not targets:
         raise ValueError("no targets specified")
     return targets
+
+
+def ensure_agent_filter(raw_agents: str) -> list[str]:
+    names = [name.strip() for name in raw_agents.split(",") if name.strip()]
+    if len(names) != len(set(names)):
+        raise ValueError("duplicate agent name in --agents filter")
+    return names
+
+
+def select_agents(agents: list[AgentDef], names: list[str]) -> list[AgentDef]:
+    if not names:
+        return agents
+    requested = set(names)
+    available = {agent.name for agent in agents}
+    missing = sorted(requested - available)
+    if missing:
+        raise ValueError(f"unknown agent name(s): {', '.join(missing)}")
+    return [agent for agent in agents if agent.name in requested]
 
 
 def write_file(path: Path, content: str, dry_run: bool) -> None:
@@ -287,12 +332,14 @@ def main() -> int:
 
     try:
         targets = ensure_targets(args.targets)
+        agent_filter = ensure_agent_filter(args.agents)
         source_dir = Path(args.source).resolve()
         project_root = Path(args.project_root).resolve()
 
         source_files = discover_agents(source_dir)
-        agents = [load_agent(f) for f in source_files]
-        unique_names(agents)
+        discovered_agents = [load_agent(f) for f in source_files]
+        unique_names(discovered_agents)
+        agents = select_agents(discovered_agents, agent_filter)
 
         generated: list[dict[str, str]] = []
 
@@ -321,12 +368,21 @@ def main() -> int:
                 generated.append(
                     {"target": "cursor", "source": str(agent.source_file), "output": str(out)})
 
+            if "generic" in targets:
+                out = project_root / ".agents" / f"{agent.name}.md"
+                write_file(out, render_generic(agent), args.dry_run)
+                generated.append(
+                    {"target": "generic", "source": str(agent.source_file), "output": str(out)}
+                )
+
         summary = {
             "ok": True,
             "dry_run": bool(args.dry_run),
             "source_dir": str(source_dir),
             "project_root": str(project_root),
             "targets": targets,
+            "discovered_agent_count": len(discovered_agents),
+            "agent_filter": agent_filter,
             "agent_count": len(agents),
             "generated_count": len(generated),
             "generated": generated,
@@ -338,6 +394,8 @@ def main() -> int:
                 "description, developer_instructions.",
                 "Cursor projection is best-effort and should be validated "
                 "against installed Cursor version.",
+                "Generic Markdown is for manual import or future adapters; "
+                "automatic discovery is not implied.",
             ],
         }
 

@@ -7,12 +7,19 @@ most other CLI agents read `AGENTS.md` natively.
 
 ## The workflow
 
-1. **geeky-plan** — turn a spec/research into a planning package under
-   `docs/<feature>/`: `implementation-plan.md`, ordered `tasks/Tx-*.md`, a PM
-   review, `kanban.md`, `references.md`, `handoff.md`.
-2. **geeky-implement** — execute the package: walk the kanban, delegate coders,
-   re-run each task's validation, review, commit per phase. Never push.
-3. **geeky-status** — read-only snapshot of where the package stands.
+1. **spec-research** — research and write `feature-specification.md`.
+2. **geeky-plan** — create the frozen planning package.
+3. **plan-review** — validate alignment, coverage, sequencing, and readiness.
+4. **geeky-status** — read-only status and resumption orientation at any packet stage.
+5. **geeky-implement** — execute Ready tasks with validation and review gates.
+6. **impl-review** — review delivered code through three domain-specific lanes.
+7. **archive** — move completed planning artifacts into the archive structure.
+
+Use **geeky-orchestrator** when the requested entry point is unclear or when one
+agent should administer the lifecycle. It examines repository evidence read-only
+and recommends a workflow before mutation. Clear, explicit requests route to the
+best matching skill after prerequisite checks. Material ambiguity is clarified;
+stages are not auto-chained without end-to-end authorization.
 
 Full procedures live in the portable Skills under `skills/<name>/SKILL.md`.
 

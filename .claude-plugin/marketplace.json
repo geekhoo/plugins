@@ -21,8 +21,8 @@
     {
       "name": "geeky-orchestration",
       "source": "./geeky-orchestration",
-      "description": "End-to-end feature delivery: /spec-research, /geeky-plan, /plan-review, /geeky-implement, /impl-review, /geeky-status, /archive, portable geeky-coder agent, canonical task template, planning-folder validator, and a PreToolUse guard that warns on edits to frozen planning artifacts.",
-      "version": "0.2.5"
+      "description": "End-to-end feature delivery with an intelligent geeky-orchestrator, portable agent projections, lifecycle skills, deterministic quality gates, and frozen-artifact guards.",
+      "version": "0.2.6"
     },
     {
       "name": "dev-workflows",
