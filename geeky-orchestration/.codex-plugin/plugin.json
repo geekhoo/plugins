@@ -1,7 +1,7 @@
 {
   "name": "geeky-orchestration",
-  "version": "0.2.5",
-  "description": "Plan, review, execute, inspect, and archive feature work with durable planning packets and deterministic quality gates.",
+  "version": "0.2.8",
+  "description": "Plan, review, execute, inspect, and archive feature work with an intelligent geeky-orchestrator, portable agent projections, durable planning packets, and deterministic quality gates.",
   "author": {
     "name": "geekhoo"
   },
@@ -19,8 +19,8 @@
   "mcpServers": "./.codex-plugin/mcp.json",
   "interface": {
     "displayName": "Geeky Orchestration",
-    "shortDescription": "Plan, execute, and track feature work end to end.",
-    "longDescription": "Workflow skills for feature planning, plan review, implementation, implementation review, status checks, archiving, and spec research. Includes planning-packet validators, task templates, advisory hooks, and an optional MCP server for quality gates.",
+    "shortDescription": "Route and administer feature delivery workflows.",
+    "longDescription": "An intelligent geeky-orchestrator routes requests and administers the lifecycle across feature planning, plan review, implementation, implementation review, status checks, archiving, and spec research. Includes portable agent projections, planning-packet validators, task templates, advisory hooks, and an optional MCP server for quality gates.",
     "developerName": "geekhoo",
     "websiteURL": "https://github.com/geekhoo/plugins/tree/main/geeky-orchestration",
     "privacyPolicyURL": "https://github.com/geekhoo/plugins/blob/main/geeky-orchestration/README.md#privacy",
@@ -31,9 +31,9 @@
       "Write"
     ],
     "defaultPrompt": [
+      "Examine this repository and recommend the appropriate Geeky Orchestration workflow.",
       "Create a geeky-plan packet for this feature.",
-      "Review this implementation plan before execution.",
-      "Run geeky-status on this planning folder."
+      "Review this implementation plan before execution."
     ],
     "brandColor": "#7C3AED"
   }

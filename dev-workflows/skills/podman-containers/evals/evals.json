@@ -1,0 +1,23 @@
+{
+  "skill_name": "podman-containers",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "There's a Dockerfile in this repo — can you check it actually builds and that the container starts and responds on port 8080? I don't have docker desktop on this machine btw",
+      "expected_output": "Uses podman machine preflight, builds with `podman build` (Dockerfile unchanged), runs with `podman run -p 8080:...`, verifies the endpoint responds, and does NOT suggest installing Docker or rewriting the Dockerfile",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "spin up the docker-compose.yml dev stack (postgres + redis + the api) and confirm the api container can reach redis",
+      "expected_output": "Runs `podman compose up -d` or `docker-compose up -d` against the compose file unchanged, checks service health/connectivity (e.g., exec into api container and ping redis by service name), tears down cleanly",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "our github actions workflow does 'docker build -t app .' then 'docker run app npm test' — reproduce that locally so I can debug the failing test without pushing commits",
+      "expected_output": "Runs the same docker commands verbatim through the compat layer (podman verbs or alias/shim), does not translate the CI YAML to podman syntax, and notes rootful-vs-CI-runner differences if relevant to the failure",
+      "files": []
+    }
+  ]
+}

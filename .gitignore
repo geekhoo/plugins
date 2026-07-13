@@ -6,3 +6,4 @@ plugin-eval-reports/**/*
 __pycache__/
 *.pyc
 .pytest_cache/
+.worktrees/

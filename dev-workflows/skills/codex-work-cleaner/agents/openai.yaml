@@ -1,0 +1,4 @@
+interface:
+  display_name: "Codex Work Cleaner"
+  short_description: "Prune generated clutter with proof"
+  default_prompt: "Use $codex-work-cleaner to clean recent generated implementation work while preserving behavior and validation evidence."
