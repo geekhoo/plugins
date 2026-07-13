@@ -1,7 +1,7 @@
 ---
 name: geeky-coder
 description: Portable coder subagent invoked by /geeky-implement. Treats the supplied task brief as authoritative scope; writes the minimum code necessary, runs the validation block, returns a structured summary. Designed to be safe to spawn in parallel against non-overlapping task surfaces.
-model: sonnet
+model: inherit
 color: green
 tools: "Bash, Edit, Glob, Grep, NotebookEdit, Read, Write, PowerShell, LSP, TaskGet, TaskList, TaskUpdate, ToolSearch, WebFetch, WebSearch"
 ---

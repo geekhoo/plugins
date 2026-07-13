@@ -24,9 +24,9 @@ class PluginMetadataTests(unittest.TestCase):
             plugin for plugin in marketplace["plugins"]
             if plugin["name"] == "geeky-orchestration"
         )
-        self.assertEqual(claude["version"], "0.2.6")
-        self.assertEqual(codex["version"], "0.2.6")
-        self.assertEqual(entry["version"], "0.2.6")
+        self.assertEqual(claude["version"], "0.2.7")
+        self.assertEqual(codex["version"], "0.2.7")
+        self.assertEqual(entry["version"], "0.2.7")
 
     def test_quality_gate_manifest_version_is_independent(self) -> None:
         manifest = json.loads(

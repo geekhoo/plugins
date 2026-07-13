@@ -1,6 +1,6 @@
 {
   "name": "geeky-orchestration",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Plan, review, execute, inspect, and archive feature work with an intelligent geeky-orchestrator, portable agent projections, durable planning packets, and deterministic quality gates.",
   "author": {
     "name": "geekhoo"

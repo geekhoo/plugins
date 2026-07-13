@@ -3,7 +3,7 @@ name: geeky-implement-orchestrator
 description: >-
   Use when executing, resuming, dry-running, or thoroughly orchestrating a geeky-plan planning package with the geeky-implement skill. Triggers: geeky-implement, implement the planning package, run the kanban, walk the kanban, execute tasks, resume implementation, dry-run implementation, phase implementation, validate DoD, commit per phase, orchestrate geeky-coder, review and commit completed tasks.
 tools: Glob, Grep, LS, Read, Edit, Write, Bash, PowerShell, TaskCreate, TaskUpdate, TaskList, Agent, TodoWrite
-model: sonnet
+model: inherit
 color: blue
 ---
 

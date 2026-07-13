@@ -8,6 +8,8 @@ geeky orchestrator that executes the geeky-plan package — drives tasks through
 
 `$ARGUMENTS`: a folder produced by `geeky-plan` containing at minimum `implementation-plan.md`, `kanban.md`, `tasks/Tx-*.md`, `handoff.md`, `references.md`.
 
+**Pre-run preflight (STEP ZERO, always):** self-test the tooling before trusting it — `preflight.ps1` on Windows / `preflight.py` elsewhere, passing `-Path/--path <folder>`. It verifies the validators' own dependencies and compilability (a gate script crashing at import time once stalled a 91-hour run), checks handoff/kanban freshness, detects an active `.heartbeat` from a prior run, and reminds about pre-run re-auth for long runs. If it exits non-zero: STOP and report. If any *later* validator crashes mid-run (traceback rather than a clean fail), surface it in one line, manually check the same criteria, and continue or stop VISIBLY — never absorb a crash into a silent stall.
+
 **Pre-run validation (FIRST STEP, always):** invoke the bundled validator. Pick the runtime by host OS (`${CLAUDE_PLUGIN_ROOT}` is the root of the `geeky-orchestration` plugin):
 
 - **Windows (preferred):**
@@ -34,6 +36,8 @@ To execute the planning package produced by `geeky-plan`: walk the kanban, deleg
 Operating profile (DO NOT prompt to change mid-run; only respect inline flags above):
 
 - **Autonomy:** fully autonomous from start until the backlog is empty, a task is moved to Blocked, or a validation/review step cannot be auto-resolved. Do not pause for confirmation between tasks.
+- **Session grain:** default ONE phase per session. At each phase boundary: checkpoint `handoff.md`, set `.heartbeat` to `paused`, and prefer resuming in a fresh session over pushing through context compaction or token expiry. If the user explicitly asks for a full multi-phase run in one session, honor it — but remind them of the >1h re-auth preflight first.
+- **Heartbeat:** maintain `<folder>/.heartbeat` (JSON `{"ts":"<ISO-8601 UTC>","task":"T<x>","status":"running|paused|done"}`). Write `running` at run start, refresh `ts`+`task` on EVERY lane move (same moments you update kanban), set `paused` on deliberate mid-run stop, `done` at run end. External watchdog hooks key on this file — a stale `running` heartbeat is how a dead run gets detected.
 - **Reviewer strategy:** per-task `/review` (or the `code-review` skill) on the diff for every task; PM-level review delegated to the same agent type `geeky-plan` used (development project manager / planning-coordinator) after each phase to check cross-task consistency.
 - **Commits:** commit per phase, split into multiple small logically-grouped commits (e.g. one for schemas, one for service, one for tests), one concern per commit. **NEVER push to remote.** Never `--no-verify`, never amend, never force.
 - **Parallelism:** up to 3 concurrent `geeky-coder` subagents when safe (see Parallelization Rules). Otherwise serial.
@@ -84,7 +88,7 @@ For each phase, in plan order:
    - none of them is marked P0-blocker-for-others in the implementation plan.
    Otherwise reduce batch size or fall back to serial. Record the justification in the per-task notes file (step 10).
 
-6. **Move every task in the batch from Ready to In Progress** in `kanban.md`. Add a timestamp comment beside each: `<!-- in_progress: YYYY-MM-DD HH:MM -->`.
+6. **Move every task in the batch from Ready to In Progress** in `kanban.md`. Add a timestamp comment beside each: `<!-- in_progress: YYYY-MM-DD HH:MM -->`. Refresh `.heartbeat` (`ts` = now, `task` = batch's first task ID, `status` = `running`).
 
 7. **Delegate implementation to `geeky-coder`.** When the batch has >1 task, send a SINGLE message with multiple `Agent` tool calls in parallel (this is required — do not serialize parallel work into separate messages). Each brief must be self-contained:
    - Full text of the task file (paste it — coders don't share your context).
@@ -120,7 +124,7 @@ For each phase, in plan order:
     python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.py" --path "<folder>"
     ```
 
-    `check-dod` also prints the task's validation block — re-run those commands rather than trusting they passed. Run `validate-kanban` after every lane move, not only at Done, so the board never drifts from truth.
+    `check-dod` also prints the task's validation block — re-run those commands rather than trusting they passed. Run `validate-kanban` after every lane move, not only at Done, so the board never drifts from truth. Refresh `.heartbeat` on the Done move. If either gate CRASHES (traceback / missing module rather than a clean non-zero): say so in one line, run the equivalent manual check (read the DoD block and verify each item; eyeball lane membership), record the crash in the per-task notes, and continue VISIBLY — a crashed gate must never become a silent stall.
 
 13. **Repeat steps 5–12** until the current phase has no eligible Ready tasks left.
 
@@ -162,6 +166,7 @@ For each phase, in plan order:
 ### Phase 3 — End of run
 
 18. When all phases complete (or backlog is empty, or a task is blocked):
+    - Set `.heartbeat` `status` to `done` (or `paused` if stopping mid-package, e.g. on Blocked).
     - Append a "Run Summary" section to `handoff.md` with: total tasks completed, total commits, blocked items, deferred follow-ups, suggested next-session start steps.
     - Verify `kanban.md` lane counts add up to the original task count.
     - Print to the user: a short status (Done count, Blocked count, Deferred count) and the path to the updated handoff. Suggest the `geeky-status` skill (`/geeky-status <folder>`) as the lightweight follow-up.
@@ -188,6 +193,8 @@ These are recoverable — handle inline, do not stop the run:
 - Coder reports a typo or import error → re-delegate once with the error log.
 - Pre-commit hook fails on whitespace/lint → fix and create a new commit.
 - Code-review surfaces minor/nit findings → log under Deferred, proceed.
+- A gate/validator script CRASHES (traceback, missing module) → one-line surface, manual check of the same criteria, note it, continue; flag the plugin for a fix at run end. Never a silent stall.
+- 401/auth-expiry symptoms mid-run → FIRST append a resume block to `handoff.md` (current task, exact state, next command) and set `.heartbeat` to `paused`; the session may be unrecoverable and the handoff is what survives.
 
 These STOP the run (mark Blocked, update handoff, return to user):
 - A task's validation block fails after one retry.
@@ -206,6 +213,7 @@ A successful run leaves the folder in this state:
 4. The project tree has commits (none pushed) that map cleanly to the phases executed.
 5. No edits to `implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`, or original `tasks/Tx-*.md` files.
 6. If anything was blocked, the user sees a clear "Blocked: T<x> — <reason>" line and knows where to look.
+7. `.heartbeat` is finalized (`done`, or `paused` with a matching resume block in `handoff.md`) — never left as a stale `running`.
 
 A `--dry-run` invocation must produce the execution model output and modify nothing.
 
