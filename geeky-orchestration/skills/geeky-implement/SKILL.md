@@ -44,7 +44,7 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 
 ## Execution constraints
 
-- Do not modify planning contract files (`implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`, `tasks/Tx-*.md`, `handoff.md`).
+- Do not modify planning contract files (`implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`, `tasks/Tx-*.md`).
 - Use `geeky-coder` for implementation work and avoid pausing between tasks unless blocked.
 - Do not push and do not use `--amend`.
 - Update `kanban.md` and `handoff.md` on every task state change.
