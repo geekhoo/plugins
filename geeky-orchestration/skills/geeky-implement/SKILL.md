@@ -36,6 +36,8 @@ If validation fails, stop and report.
 - Use `geeky-coder` for implementation work and avoid pausing between tasks unless blocked.
 - Do not push and do not use `--amend`.
 - Update `kanban.md` and `handoff.md` on every task state change.
+- **Re-invocation is a resume, never a restart.** Read kanban/handoff first; skip Done tasks; reconcile orphaned In Progress tasks against git/file ground truth (protocol step 2b).
+- Prefer the bundled validator **scripts** over the `geeky_*` MCP tools (no permission prompts, immune to the plugin-root interpolation bug).
 
 ## Full protocol
 

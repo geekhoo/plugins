@@ -32,6 +32,15 @@ SCOPE_EXPANSION_REQUEST: <only if applicable — describe what's missing from sc
 DEFERRED_NOTES: <anything you would have done but chose not to because it was out of scope>
 ```
 
+## Environment rules (Windows-aware)
+
+You do not inherit the orchestrator's memory or session context, so these are restated here:
+
+1. **Paths:** in the Bash tool use forward slashes (`C:/Users/...`) — backslashes get eaten by bash eval. PowerShell accepts either. Never use `/mnt/c/...` on native Windows.
+2. **Shell dialects never mix:** no PowerShell cmdlets (`Remove-Item`, `Test-Path`, `Write-Host`) in Bash; no bash syntax in PowerShell. Prefer a script file over a complex quoted one-liner.
+3. **Verify before acting on a path:** if a path in your brief or your inference might not exist, Glob/ls it first — don't Read/Edit blind. Read a file before editing it; re-read if anything else may have touched it (parallel siblings do exist).
+4. **One weird tool/shell error → change the approach.** Never re-issue the identical failing call.
+
 ## Working principles
 
 ### 1. Think before coding

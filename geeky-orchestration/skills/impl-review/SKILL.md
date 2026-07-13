@@ -13,6 +13,8 @@ Accept a `geeky-implement` package path or diff reference (e.g., `docs/notificat
 
 ## Workflow
 
+**Resume contract (check FIRST):** this skill writes its consolidated report to `review-impl.md` inside the package folder (or `docs/` root for diff-only reviews), marking each reviewer section with `<!-- reviewer-complete: <domain> -->` as it lands. On invocation, if a `review-impl.md` exists for the same target with completed reviewer sections, this is a resumed run: skip the completed domains, dispatch only the missing reviewers, and merge into the existing report. Re-invocation must never re-dispatch reviewers whose findings are already recorded.
+
 ### Phase 1: Discover What Was Built
 
 Before selecting reviewers, analyze the implementation scope:
@@ -81,7 +83,7 @@ After all 3 reviewers complete:
 
 1. Deduplicate findings that appear across multiple reviewers
 2. Prioritize by severity (Critical > Warning > Suggestion)
-3. Present a unified report:
+3. Write the unified report to `review-impl.md` in the package folder (each reviewer section tagged `<!-- reviewer-complete: <domain> -->` — this is the resume checkpoint), then present it:
 
 ```
 ## Implementation Review: [SPEC-NAME]

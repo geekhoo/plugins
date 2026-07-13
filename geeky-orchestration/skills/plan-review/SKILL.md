@@ -15,6 +15,8 @@ Accept a planning folder path (e.g., `docs/feature-name/`). If no argument is gi
 
 Execute all four phases sequentially. Each phase builds on findings from the prior phase.
 
+**Resume contract:** append each phase's output to `review-plan.md` in the planning folder as the phase completes (tagged `<!-- phase-N-complete -->`). On invocation, if `review-plan.md` already exists for this folder, this is a resumed run — skip phases already tagged complete and continue from the first missing phase. Re-invocation must never repeat completed phases or re-apply their fixes.
+
 ---
 
 ### Phase 1: Document Alignment Audit

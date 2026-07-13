@@ -22,6 +22,8 @@ geeky orchestrator that executes the geeky-plan package — drives tasks through
 
 Both produce identical output and exit codes. If it exits non-zero, print its output and STOP. Do not attempt to regenerate planning artifacts — that is the `geeky-plan` skill's job. If the folder is missing entirely, ask the user.
 
+**Scripts over MCP tools:** always prefer these bundled scripts to the `geeky_*` MCP tools — the MCP tools trigger per-call permission prompts mid-run and are subject to the `${CLAUDE_PLUGIN_ROOT}` interpolation bug. Use the MCP tools only when the scripts are genuinely unavailable. If `${CLAUDE_PLUGIN_ROOT}` is not interpolated in your environment, resolve the plugin root yourself (installed cache: `~/.claude/plugins/cache/<marketplace>/geeky-orchestration/<version>/`; or the source checkout) — do not stall on the placeholder.
+
 Optional inline flags inside `$ARGUMENTS` (parse loosely from the string):
 - `--phase=<name|number>` — scope this run to a single phase from `implementation-plan.md`. Default: run all Ready tasks through to Done or Blocked.
 - `--dry-run` — produce the execution plan + parallelization decisions only; do not call coders or modify files.
@@ -66,6 +68,12 @@ Hard rules — violations are bugs:
 
 2. Read every file in the planning folder: `implementation-plan.md`, `kanban.md`, `references.md`, `handoff.md`, `feature-specification.md`, `draft.md`, the most recent `review-*.md`, and every file in `tasks/`. Use `TaskCreate` to track this run's own phases so progress is visible to the user.
 
+2b. **Resume detection (idempotent re-entry).** This skill must be safe to re-invoke after a session cutoff, compaction, or interrupted run — re-invocation continues, never restarts:
+   - Tasks in **Done** stay done. Never re-execute them, never re-run their validation, never redo their commits.
+   - Tasks stuck in **In Progress** with no live coder are orphans from a cut-off run. Reconcile each against ground truth (git status/log, the declared file surface, any `tasks/Tx-*.notes.md`): if the work appears complete, run the task's validation block and route it through review → Done normally; if partial or absent, move it back to Ready with a kanban note (`<!-- reset from orphaned in_progress: YYYY-MM-DD -->`).
+   - If `handoff.md` ends with a `RESUME:` line (see step 17), trust it as the starting hint but verify against kanban (kanban is the source of truth).
+   - Then proceed with the normal eligibility walk — it naturally continues from wherever the previous run stopped.
+
 3. Build an in-memory execution model:
    - **Task graph** — node per `Tx-*.md`, edges from each task's `Dependencies:` block.
    - **Phase grouping** — derive from `implementation-plan.md` headings if it has explicit phases, else from kanban grouping comments, else by dependency layer (tasks with no unmet deps = layer 0, etc.).
@@ -88,6 +96,7 @@ For each phase, in plan order:
 
 7. **Delegate implementation to `geeky-coder`.** When the batch has >1 task, send a SINGLE message with multiple `Agent` tool calls in parallel (this is required — do not serialize parallel work into separate messages). Each brief must be self-contained:
    - Full text of the task file (paste it — coders don't share your context).
+   - **Verified absolute paths** for every file/folder the brief references — verify each exists (Glob/ls) before writing the brief; never pass an assumed path. Subagents don't share your context or memory, and assumed paths are a top wasted-turn cause.
    - Pointers to relevant sections of `implementation-plan.md` and `feature-specification.md` by heading + line range, not just filename.
    - Acceptance criteria copied verbatim.
    - The validation block from the task file (`Tests/Validation Before Next Task`).
@@ -158,6 +167,7 @@ For each phase, in plan order:
     - Commits created (short SHAs).
     - PM review highlights.
     - Deferred follow-ups added in this phase.
+    - End with a single checkpoint line so any future session can resume with zero re-prompting: `RESUME: <next phase or "run complete"> — next eligible: <task IDs or none>`. Replace the previous `RESUME:` line each time (it is a cursor, not a log).
 
 ### Phase 3 — End of run
 
