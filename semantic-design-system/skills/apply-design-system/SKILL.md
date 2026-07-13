@@ -26,14 +26,17 @@ Use the taxonomy in `${CLAUDE_PLUGIN_ROOT}/references/semantic-token-taxonomy.md
 2. Validate tokens before migration:
 
 ```sh
-ds-token-validate design/tokens
+node "${CLAUDE_PLUGIN_ROOT}/scripts/validate-tokens.mjs" design/tokens
 ```
 
 3. Build or refresh CSS variables when appropriate:
 
 ```sh
-ds-token-build design/tokens src/styles/tokens.css ds
+node "${CLAUDE_PLUGIN_ROOT}/scripts/build-css-vars.mjs" design/tokens src/styles/tokens.css ds
 ```
+
+(The `ds-token-validate` / `ds-token-build` names are sh wrappers in the plugin's `bin/`
+that call these same scripts — use them only if `bin/` is on PATH; the `node` form always works.)
 
 4. Inventory the requested component or path scope.
 5. Replace hardcoded values with semantic or component tokens:

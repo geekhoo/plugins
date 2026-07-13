@@ -41,14 +41,17 @@ Use the shared taxonomy in `${CLAUDE_PLUGIN_ROOT}/references/semantic-token-taxo
 Run this when you need a first-pass style inventory:
 
 ```sh
-ds-style-inventory . .design-system/style-inventory.json
+node "${CLAUDE_PLUGIN_ROOT}/scripts/extract-style-inventory.mjs" . .design-system/style-inventory.json
 ```
 
 When writing derived tokens to disk, use the standardized `design/tokens/` location, then validate:
 
 ```sh
-ds-token-validate design/tokens
+node "${CLAUDE_PLUGIN_ROOT}/scripts/validate-tokens.mjs" design/tokens
 ```
+
+(`ds-style-inventory` / `ds-token-validate` are sh wrappers for these scripts in the plugin's
+`bin/` — only usable if that dir is on PATH; the `node` form always works.)
 
 ## Rules
 

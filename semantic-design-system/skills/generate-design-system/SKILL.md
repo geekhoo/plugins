@@ -37,9 +37,12 @@ Use the shared taxonomy in `${CLAUDE_PLUGIN_ROOT}/references/semantic-token-taxo
 10. Offer to write files only after presenting the proposed structure, unless the user explicitly asks you to create files immediately. Write token files under `design/tokens/` (the standardized location). After writing, validate and build:
 
 ```sh
-ds-token-validate design/tokens
-ds-token-build design/tokens src/styles/tokens.css ds
+node "${CLAUDE_PLUGIN_ROOT}/scripts/validate-tokens.mjs" design/tokens
+node "${CLAUDE_PLUGIN_ROOT}/scripts/build-css-vars.mjs" design/tokens src/styles/tokens.css ds
 ```
+
+(`ds-token-validate` / `ds-token-build` are sh wrappers for these scripts in the plugin's
+`bin/` — only usable if that dir is on PATH; the `node` form always works.)
 
 ## Token philosophy
 
