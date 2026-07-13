@@ -7,14 +7,6 @@ description: >-
 
 # Archive Completed Feature Plan
 
-## Prerequisites
-
-This skill requires explicit command routing:
-
-- The `/archive` command must be configured to invoke this skill by name or path.
-- Without proper wiring, this skill will not respond to user commands.
-- Verify command registration in your agent configuration before use.
-
 ## When to Use
 
 Invoke `/archive` after `/geeky-implement` has completed a `geeky-plan` package.
@@ -99,18 +91,9 @@ In the `## Current State` section:
 
 ### 8. Commit
 
-CONDITIONAL:
-
-- Linux/macOS (bash):
+Same command on all platforms (bash and pwsh):
 
 ```bash
-git add -A
-git commit -m "chore: Archive completed planning package" -m "Move planning artifacts to archives/docs/<folder-name>-planning/" -m "Keep implementation specification, handoff, and README in docs/<folder-name>/" -m "Update CLAUDE.md / AGENTS.md current state"
-```
-
-- Windows (pwsh):
-
-```pwsh
 git add -A
 git commit -m "chore: Archive completed planning package" -m "Move planning artifacts to archives/docs/<folder-name>-planning/" -m "Keep implementation specification, handoff, and README in docs/<folder-name>/" -m "Update CLAUDE.md / AGENTS.md current state"
 ```

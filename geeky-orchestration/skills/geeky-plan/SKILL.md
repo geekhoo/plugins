@@ -27,70 +27,11 @@ This is the _planning_ phase. After this run, use the `plan-review` skill (or `/
 
 4. Create task markdown files using the canonical task template bundled with this plugin at `${CLAUDE_PLUGIN_ROOT}/templates/task_template.md` (where `${CLAUDE_PLUGIN_ROOT}` is the root of the `geeky-orchestration` plugin). If for any reason that file cannot be read, fall back to the inline template below — but prefer the bundled one. A task must be clearly defined and self-contained. Each task includes tests to validate and verify the task BEFORE proceeding to the next task. Consider the order of the tasks, and name each task file with prefix `Tx-taskname` where `x` is the order number **starting at T1** (e.g., `T1-setup-database.md`, `T2-implement-auth.md`). Tests can be a separate file or within the task file itself.
 
-   Inline fallback template (keep in sync with `templates/task_template.md` — the bundled template is canonical):
+   If the bundled template is unreadable, use the inline fallback in
+   `references/task-template-fallback.md` (kept in sync with `templates/task_template.md`;
+   the bundled template is canonical).
 
-   ```markdown
-   Task Name:
-   [Clear action-based title]
-
-   Context:
-   [Why this task exists, what feature/user flow it supports]
-
-   Scope:
-
-   ## In scope:
-
-   - [What is being changed and where]
-
-   ## Out of scope:
-
-   - [What is intentionally NOT being changed]
-
-   Module/System:
-   [Where this belongs]
-
-   ## Dependencies:
-
-   - [Tx-task-name or None]
-
-   ## Technical Notes:
-
-   - [Constraints, invariants, links to plan sections]
-
-   ## Acceptance Criteria:
-
-   -
-   -
-
-   Definition of Done:
-
-   - Code reviewed
-   - Tested (manual/unit)
-   - Deployed to staging
-   - No critical bugs
-
-   Tests/Validation Before Next Task:
-
-   - [Exact commands that must pass]
-
-   Estimate:
-   [S/M/L]
-
-   Priority:
-   [P0/P1/P2]
-   ```
-
-5. **Coverage check — MUST not miss anything.** Write `draft.md` to disk: a coverage matrix mapping every requirement in `$ARGUMENTS` to the task(s) that satisfy it. Use this exact format:
-
-   ```markdown
-   # Coverage Matrix
-
-   | Requirement ID | Requirement Summary | Covered by Task(s) | Status |
-   |----------------|---------------------|-------------------|--------|
-   | REQ-001        | User authentication | T1, T2            | ✓      |
-   ```
-
-   Required columns: Requirement ID, Requirement Summary, Covered by Task(s), Status. Each requirement must have at least one task; each task must trace to at least one requirement. Then read `draft.md` back and verify completeness. Fix gaps before proceeding.
+5. **Coverage check — MUST not miss anything.** Write `draft.md` to disk: a `# Coverage Matrix` table mapping every requirement in `$ARGUMENTS` to the task(s) that satisfy it. Required columns (exact): Requirement ID, Requirement Summary, Covered by Task(s), Status. Each requirement must have at least one task; each task must trace to at least one requirement. Then read `draft.md` back and verify completeness. Fix gaps before proceeding.
 
 6. Delegate a PM-style review of the plan + tasks as a whole. **Reviewer selection order (first match wins):**
    1. A `development-project-manager` agent if available in the environment

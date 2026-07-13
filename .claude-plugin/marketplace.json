@@ -22,7 +22,7 @@
       "name": "geeky-orchestration",
       "source": "./geeky-orchestration",
       "description": "End-to-end feature delivery with an intelligent geeky-orchestrator, portable agent projections, lifecycle skills, deterministic quality gates, and frozen-artifact guards.",
-      "version": "0.2.8"
+      "version": "0.2.9"
     },
     {
       "name": "dev-workflows",

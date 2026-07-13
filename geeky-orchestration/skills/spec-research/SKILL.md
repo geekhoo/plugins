@@ -27,22 +27,7 @@ Before dispatching researchers:
 
 Select 3 non-overlapping research angles based on the feature domain. Each agent investigates a different facet.
 
-**Typical configurations:**
-
-For an infrastructure feature:
-1. **Codebase Analyst** — audit existing code for dependencies, configuration points, and integration surfaces.
-2. **Technology Researcher** — web research for current patterns, API versions, pricing models, and recommended practices.
-3. **Architecture Patterns** — search for deployment patterns, security models, cost optimization, and reliability strategies used by similar systems.
-
-For a domain/feature spec:
-1. **Codebase Analyst** — trace domain boundaries, interfaces, event contracts, and existing patterns.
-2. **Domain Expert** — research industry best practices, data models, and workflows for the feature domain.
-3. **Integration Researcher** — identify third-party services, APIs, SDKs, and their latest documentation.
-
-For a security/compliance spec:
-1. **Codebase Analyst** — audit current security posture, auth patterns, secret management, and risk surface.
-2. **Standards Researcher** — research compliance frameworks (SOC2, GDPR, OWASP), certification requirements, and audit checklists.
-3. **Tooling Researcher** — research security tooling, scanning services, and policy-as-code integration options.
+Typical per-domain configurations (infrastructure / domain-feature / security-compliance, always anchored by a Codebase Analyst) are in `references/research-angle-menus.md` — load it when picking the angles.
 
 ### Phase 3: Dispatch Research Team in Parallel
 
@@ -87,35 +72,7 @@ After all 3 researchers report back:
    **Next:** /geeky-plan docs/<feature-folder>/
    ```
 
-Recommended structure for the spec (this is a reference template — adapt sections to fit your feature domain; not all sections are required for every spec):
-
-```markdown
-# [Feature Name] Specification
-
-**Status:** Not Started
-**Dependencies:** [prior feature/spec]
-**Layer:** [Infrastructure / Domain / Security]
-**Priority:** [Critical Path / Important / Nice-to-have]
-**Estimated Complexity:** [N tasks across M phases]
-
----
-
-## 1. Executive Summary
-## 2. Problem Statement
-### Current State
-### Impact of Inaction
-## 3. Goals & Non-Goals
-## 4. Architecture
-## 5. Detailed Design
-## 6. Cost Estimates (if applicable)
-## 7. Task Outline (Preliminary)
-## 8. Risks & Mitigations
-## 9. Acceptance Criteria
-## 10. Dependencies on Prior Features
-## 11. Delegation to Future Specs
-```
-
-Include citations and explicit assumptions at the end of major findings.
+Use the 11-section recommended spec structure in `references/spec-structure-template.md` (adapt sections to the feature domain; include citations and explicit assumptions at the end of major findings).
 
 ### Phase 5: Commit and Suggest Next Steps
 
