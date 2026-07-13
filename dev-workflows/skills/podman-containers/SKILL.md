@@ -22,7 +22,9 @@ because they must stay runnable on Docker-based CI runners and teammates' machin
 ## Preflight — run before any container work
 
 ```powershell
-& "$PSScriptRoot\scripts\preflight.ps1"   # or: scripts/preflight.ps1 relative to this skill
+# run scripts/preflight.ps1, resolving the path from this skill's own directory
+# (do NOT rely on $PSScriptRoot — it is empty when the command is pasted into a shell)
+& "<path-to-this-skill>/scripts/preflight.ps1"
 ```
 
 Or manually: `podman machine ls` — if the machine is not "Currently running", run
@@ -68,19 +70,10 @@ something stale — an explicit DOCKER_HOST overrides the default pipe.
 
 ## Reproducing CI/CD pipeline steps locally
 
-When verifying or implementing a container-based CI step (GitHub Actions `docker build`
-/ `docker run` steps, Jenkins agents, etc.), run the pipeline's docker commands
-**verbatim** through the compatibility layer above — translating them defeats the purpose
-of local verification. Differences vs a Linux CI runner that can produce divergent results:
-
-- CI runners are usually rootless or user-namespaced; this machine's engine is **rootful**
-  (containers run as root, low ports < 1024 bind fine here but may fail in CI)
-- Default network here is named `podman`, not `bridge` — scripts hardcoding
-  `--network bridge` need that network created, not the script edited
-- `host.docker.internal` and `host.containers.internal` both resolve inside containers
-  (Podman 5 adds them automatically)
-- Testcontainers: works out of the box via the pipe; if the Ryuk reaper container flakes,
-  set `TESTCONTAINERS_RYUK_DISABLED=true` for the test run
+Run the pipeline's docker commands **verbatim** through the compatibility layer above —
+translating them defeats the purpose of local verification. Before doing CI-reproduction
+work, load `references/ci-and-troubleshooting.md` for the rootful-vs-rootless, network-name,
+host.docker.internal, and Testcontainers/Ryuk divergences vs Linux CI runners.
 
 ## Env-specific gotchas
 
@@ -91,12 +84,8 @@ of local verification. Differences vs a Linux CI runner that can produce diverge
   machines only with `podman machine rm`
 - Only one machine provider at a time: WSL and Hyper-V machines cannot coexist
 
-## Troubleshooting quick reference
+## Troubleshooting
 
-| Symptom | Cause → fix |
-|---|---|
-| `connection refused` / `cannot connect to Podman` | Machine not running → `podman machine start` |
-| Docker API clients can't connect | `docker_engine` pipe missing → restart machine; or set `DOCKER_HOST` to the podman pipe |
-| `short-name "x" did not resolve` or a registry prompt | Unqualified image name → use `docker.io/library/x` |
-| Compose targets wrong/absent engine | Stale `$env:DOCKER_HOST` → clear it or point at `npipe:////./pipe/podman-machine-default` |
-| Build killed / exit 137 | VM out of memory → raise machine memory (see gotchas) |
+On any container failure (connection refused, API clients can't connect, short-name
+resolution prompt, compose targeting the wrong engine, exit 137), consult the
+symptom→fix table in `references/ci-and-troubleshooting.md` before debugging.

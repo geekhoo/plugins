@@ -12,7 +12,7 @@ Gerald has asked for a full cross-repo session inventory three times (2026-06-10
 Run the bundled script and relay its Markdown output (lightly edited, if at all):
 
 ```bash
-python scripts/scan_sessions.py
+py <path-to-this-skill>/scripts/scan_sessions.py   # resolve from the skill's own dir, not the project cwd
 ```
 
 This scans `~/.claude/projects` by default. It's plain Python with no shell-specific syntax, so it runs the same way from PowerShell or Bash.

@@ -1,6 +1,6 @@
 ---
 name: parallel-audit
-description: This skill should be used when the user asks to "review", "audit", "get independent opinions", "deploy reviewers", or "validate a spec, branch, or design" from multiple lenses — spawn independent read-only reviewers and collate one severity-ranked report (reports only, does not fix).
+description: Use when the user asks to "review", "audit", "get independent opinions", "deploy reviewers", or "validate a spec, branch, or design" from multiple lenses — spawn independent read-only reviewers and collate one severity-ranked report (reports only, does not fix).
 user-invocable: true
 argument-hint: "<target path/file/spec> [roles: e.g. security, spec-validation, data-model, perf]"
 ---

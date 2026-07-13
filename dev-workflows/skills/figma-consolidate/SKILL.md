@@ -1,6 +1,6 @@
 ---
 name: figma-consolidate
-description: This skill should be used when the user asks to "consolidate these Figma files", "clean up or dedupe the design system", or "merge into one Figma file" — perform a reductive merge into one tiered, deduped design system, composing figma-inventory and figma-generate-library.
+description: Use when the user asks to "consolidate these Figma files", "clean up or dedupe the design system", or "merge into one Figma file" — perform a reductive merge into one tiered, deduped design system, composing figma-inventory and figma-generate-library.
 user-invocable: true
 argument-hint: "<source file key(s)> -> <target file>, or describe the consolidation"
 ---

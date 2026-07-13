@@ -1,6 +1,6 @@
 ---
 name: codex-work-cleaner
-description: Use when the user asks to clean, tighten, de-slop, reduce bloat, simplify, remove AI-generated clutter, review unnecessary code/docs, or prepare recent implementation, packet, plugin, skill, frontend, or agent-generated work for validation while preserving behavior, user-owned changes, durable artifacts, and proof.
+description: Use when the user asks to clean, tighten, de-slop, reduce bloat, simplify, remove AI-generated clutter, review unnecessary code/docs, or prepare recent implementation, packet, plugin, skill, frontend, or agent-generated work for validation while preserving behavior, user-owned changes, durable artifacts, and proof — in Codex sessions only. In Claude Code sessions use claude-work-cleaner; for cleanup scoped purely to source code files, use simplify-code.
 ---
 
 # Codex Work Cleaner

@@ -1,6 +1,6 @@
 ---
 name: env-doctor
-description: Use when the user asks "is my environment OK", "why won't this run", "are my hooks alive", "check the toolchain", or when plugin hooks seem to be silently no-opping — verifies the Windows toolchain Claude Code and its hooks depend on (python3/python/py resolution, the ~/bin shim dir on PATH, node/gh/dotnet/pwsh). Complements env-check (.venv/dependency focused); env-doctor covers interpreter resolution and the silent-hook-failure class.
+description: Use when the user asks "is my environment OK", "why won't this run", "are my hooks alive", "check the toolchain", or when plugin hooks seem to be silently no-opping — verifies the Windows toolchain Claude Code and its hooks depend on (python3/python/py resolution, the ~/bin shim dir on PATH, node/gh/dotnet/pwsh). For repo .venv/dependency checks use env-check.
 ---
 
 # env-doctor

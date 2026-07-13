@@ -1,6 +1,6 @@
 ---
 name: simplify-code
-description: Use when asked to simplify, clean up, deslop, tidy, or reduce slop in source code — a branch before PR/review, named code files, or AI-generated code just written — without changing behavior. Preferred over the generic built-in simplify skill for repo work in this environment (Markefin validation gates, DevExtreme grid coupling, Windows tooling). Not for bug, security, architecture, or performance review; for docs, skill, plugin, or planning-packet artifacts use claude-work-cleaner.
+description: Use when asked to simplify, clean up, deslop, tidy, or reduce slop in source code — a branch before PR/review, named code files, or AI-generated code just written — without changing behavior. Preferred over the generic built-in simplify skill for repo work in this environment. Not for bug, security, architecture, or performance review; for docs, skill, plugin, or planning-packet artifacts use claude-work-cleaner.
 ---
 
 # Simplify Code

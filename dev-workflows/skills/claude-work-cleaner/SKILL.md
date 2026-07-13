@@ -1,6 +1,6 @@
 ---
 name: claude-work-cleaner
-description: Use when asked to clean, tighten, de-slop, or strip AI-generated bloat from docs, skills, plugins, planning packets, handoff/kanban notes, reports, or a whole recent implementation (code plus its artifacts) before review or validation. For cleanup scoped purely to source code files, use simplify-code instead.
+description: Use when asked to clean, tighten, de-slop, or strip AI-generated bloat from docs, skills, plugins, planning packets, handoff/kanban notes, reports, or a whole recent implementation (code plus its artifacts) before review or validation — in Claude Code sessions. In Codex sessions use codex-work-cleaner; for cleanup scoped purely to source code files, use simplify-code instead.
 ---
 
 # Claude Work Cleaner

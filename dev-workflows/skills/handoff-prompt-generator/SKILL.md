@@ -1,6 +1,6 @@
 ---
 name: handoff-prompt-generator
-description: Use when the user asks for a "handoff", "takeover prompt", "resume prompt", "implementation packet", or "read order"; produce a complete takeover prompt with objective, constraints, read order, expected outputs, and validation gates.
+description: Use when the user asks for a "handoff prompt", "takeover prompt", "resume prompt", "implementation packet", or "read order"; produce a complete takeover prompt with objective, constraints, read order, expected outputs, and validation gates. For updating or creating HANDOFF.md files, use the handoff skill instead.
 ---
 
 # Handoff Prompt Generator

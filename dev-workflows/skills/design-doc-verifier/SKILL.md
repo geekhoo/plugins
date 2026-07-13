@@ -1,15 +1,13 @@
 ---
 name: design-doc-verifier
 description: >
-  Use when the user wants to verify that a codebase actually implements what a
-  design document (spec, SDD, AGENTS.md, CLAUDE.md, feature doc) describes.
-  Triggers: "verify against design", "check design doc", "review against spec",
+  Use when asked to "verify against design", "check design doc", "review against spec",
   "does the code match", "audit the implementation", "how complete is this feature",
-  "what's missing from the design", or "/design-doc-verifier"; handing you a
-  spec/design document and asking "is this done" or "check this" while referring to
-  a doc; about to finalize or ship a feature while a spec/design doc is in context;
-  or asking to compare code to written requirements, acceptance criteria, or user
-  stories.
+  "what's missing from the design", "is this done" / "check this" while a spec, SDD,
+  AGENTS.md, CLAUDE.md, or feature doc is in context, when about to finalize or ship a
+  feature while such a doc is in context, or to compare code to written requirements,
+  acceptance criteria, or user stories — gap-analyze the codebase against the doc and
+  report DONE/PARTIAL/MISSING/BROKEN.
 ---
 
 # Design Doc Verifier
@@ -68,29 +66,8 @@ From `GET /api/programs — returns paginated list, 25 per page`:
 ## Step 2: Search for implementation evidence
 
 For each requirement, search the codebase. Use multiple strategies — one search is
-rarely enough to be confident.
-
-**For backend requirements (ASP.NET Core / CQRS pattern):**
-- Controllers: look for `[HttpGet]`, `[HttpPost]`, route attributes matching the endpoint
-- Commands/Queries: look for MediatR `IRequest`, `ICommand`, `IQuery` handlers
-- Models/Entities: look for EF Core entity classes, `DbSet<T>`, migration files
-- Validators: FluentValidation classes covering the field/constraint
-
-**For frontend requirements (DevExtreme / JS):**
-- DevExtreme form items: `dataField`, `editorType`, component configs
-- Grid/DataGrid columns: column definitions matching described fields
-- API calls: `fetch`, `axios`, `$.ajax`, `dx.data.AspNet` URLs matching endpoints
-
-**For UI specs:**
-- CSS classes matching described layout or component
-- HTML element structure matching described components
-
-**For test coverage:**
-- xUnit / NUnit test method names referencing the feature
-- Test files in `Tests/` or `*.Tests/` directories
-
-Run targeted searches — use function/class names from the design doc as search terms,
-then branch out to synonyms and abbreviations if nothing turns up.
+rarely enough to be confident. Load `references/search-strategies.md` for the
+per-layer search heuristics (backend CQRS, DevExtreme frontend, UI specs, test coverage).
 
 ## Step 3: Classify each requirement
 
@@ -116,36 +93,9 @@ MISSING after a genuine effort.
 
 ## Step 4: Output the verification report
 
-Use this exact format. Replace `{placeholders}` with actual values.
-
-```
-## Design Verification: {doc title or filename}
-Date: {today's date}
-Source: {directory scanned}
-
-| # | Requirement | Status | Evidence |
-|---|-------------|--------|----------|
-| 1 | {requirement text} | ✅ DONE | {ClassName.Method, route, or file:line} |
-| 2 | {requirement text} | ⚠️ PARTIAL | {what exists — file:line; what's missing} |
-| 3 | {requirement text} | ❌ MISSING | No implementation found |
-| 4 | {requirement text} | 🔴 BROKEN | {file:line — expected X, found Y} |
-
-## Summary
-- ✅ Done: {n}/{total} ({pct}%)
-- ⚠️ Partial: {n} — {brief list of what's incomplete}
-- ❌ Missing: {n} — {brief list of what's not started}
-- 🔴 Broken: {n} — {brief list of what contradicts the spec}
-
-## Recommended Next Steps
-{Prioritized numbered list. Order by: Broken first (regressions), then Missing critical
-paths, then Partial items, then cosmetic gaps. Be specific — name the file to edit,
-the class to create, or the value to fix.}
-```
-
-Keep the Evidence column concise: `ProgramsController.Create (line 42)` or
-`POST /api/programs — ProgramsController.cs:42` is better than a paragraph.
-For MISSING, simply say "No implementation found" to keep the table readable;
-put extra detail in the Next Steps section if needed.
+Use the exact format in `references/report-template.md` (table with per-requirement
+status + evidence, summary counts, prioritized next steps). Load it before writing
+the report. Keep the Evidence column concise (`ProgramsController.cs:42`, not a paragraph).
 
 ## Step 5: After the report
 
@@ -157,13 +107,5 @@ session, not just a status check.
 
 ## Edge cases
 
-- **The doc is an AGENTS.md or CLAUDE.md**: These often contain behavioral instructions
-  rather than features. Extract them as behavioral requirements and look for evidence in
-  hooks, middleware, or comments that enforce those behaviors.
-- **The doc has zero structure** (free prose): Extract every sentence that contains
-  "will", "must", "should", "shall", "can", or present-tense capability claims.
-- **The codebase is very large**: Focus searches on the most relevant subdirectory
-  first (e.g., the feature branch folder or the module named after the feature).
-- **A requirement is ambiguous**: Note the ambiguity in the Evidence column and mark
-  as PARTIAL rather than guessing DONE. Gerald can clarify.
-- **The design doc references another doc**: Offer to read the referenced doc too.
+For AGENTS.md/CLAUDE.md docs, unstructured prose, very large codebases, ambiguous
+requirements, and doc-references-another-doc, load `references/edge-cases.md`.

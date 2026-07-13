@@ -12,10 +12,11 @@ methodology so it is a one-command **delta**, not a fresh investigation.
 ## Quick path
 
 ```bash
-py scripts/scan_friction.py            # full history, highest-friction sessions first
-py scripts/scan_friction.py --since 2026-06-22   # only what's new since the last review
-py scripts/scan_friction.py --top 10   # just the worst offenders
-py scripts/scan_friction.py --format json   # for further computation
+# scripts/ lives in this skill's own directory — resolve the path from there, not the project cwd
+py <path-to-this-skill>/scripts/scan_friction.py            # full history, highest-friction sessions first
+py <path-to-this-skill>/scripts/scan_friction.py --since 2026-06-22   # only what's new since the last review
+py <path-to-this-skill>/scripts/scan_friction.py --top 10   # just the worst offenders
+py <path-to-this-skill>/scripts/scan_friction.py --format json   # for further computation
 ```
 
 Plain stdlib Python; runs identically from PowerShell or Bash. On Windows invoke via `py`

@@ -1,6 +1,6 @@
 ---
 name: figma-inventory
-description: This skill should be used when the user asks "what is in this Figma file", "audit the design file", "find duplicate components or tokens", or wants a pre-merge audit — read-only enumeration of pages, variables, and components, flagging duplicates, orphans, and non-brand collections.
+description: Use when the user asks "what is in this Figma file", "audit the design file", "find duplicate components or tokens", or wants a pre-merge audit — read-only enumeration of pages, variables, and components, flagging duplicates, orphans, and non-brand collections.
 user-invocable: true
 argument-hint: "<Figma file key(s)>"
 ---

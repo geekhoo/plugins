@@ -50,32 +50,7 @@ The goal is that previous sessions never vanish from the record — they're comp
 
 ### Step 3: Append new session entry
 
-Write the file first — before summarising anything to the user. (The failure mode this skill exists to prevent is a cheerful summary of a session that was never actually saved.) After the compressed history, append:
-
-```markdown
-## Session: {YYYY-MM-DD} — {3-6 word title summarising the main thing accomplished}
-
-### Context
-{1-2 sentences: what larger project or goal this work belongs to, and why it matters}
-
-### Done This Session
-- {Concrete completed item — include file paths where relevant}
-- {Another completed item}
-
-### Not Done / Next Steps
-- {Specific, ordered, actionable item — written for a cold-start agent with zero conversation memory}
-- {Include: file paths, doc references, API names, env var names, anything the next agent needs}
-- {Ordered by priority: most urgent first}
-
-### Key Decisions & Gotchas
-- {A decision made and the reason behind it}
-- {A problem that was hit and how it was resolved}
-- {A thing that will bite the next agent if they don't know about it}
-
-### Verification Instructions
-- {How to confirm the Done items actually work}
-- {Specific: command to run, URL to visit, thing to look for in output}
-```
+Write the file first — before summarising anything to the user. (The failure mode this skill exists to prevent is a cheerful summary of a session that was never actually saved.) After the compressed history, append a session entry using the exact template in `references/templates.md` (Context / Done This Session / Not Done / Key Decisions & Gotchas / Verification Instructions).
 
 The "Not Done / Next Steps" section is the most important one for continuity. Write it so that a fresh Claude instance with only this file as context could act on it. That means:
 - Every step is self-contained (no "continue what we were doing")
@@ -125,30 +100,7 @@ Otherwise ask: "Shall I start on the next steps, or did you have something else 
 
 Use when no HANDOFF.md exists and the user asks to create one, or when it's clearly needed but doesn't exist yet.
 
-Same as WRITE, but prepend a Project Overview section before the first session entry:
-
-```markdown
-# HANDOFF — {Project or Feature Name}
-
-## Project Overview
-
-### What this is
-{2-4 sentences: what the project/feature does, why it exists, who it's for}
-
-### Key files and locations
-- `{path}` — {what it is}
-- `{path}` — {what it is}
-
-### Requirements and specs
-- {Link or path to requirements doc, if any}
-- {Any key constraints or non-negotiables}
-
-### Environment and setup
-- {How to run the project locally}
-- {Any env vars, config files, or dependencies to know about}
-
----
-```
+Same as WRITE, but prepend a Project Overview section before the first session entry — use the CREATE-mode template in `references/templates.md` (What this is / Key files / Requirements / Environment).
 
 Then continue with the first session entry as in WRITE mode.
 

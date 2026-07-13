@@ -16,7 +16,7 @@ The point of the loop: **mine past transcripts → distinguish genuinely new fri
 Get the project partition and exact per-session file paths from the existing scanner — don't hand-roll a disk walk:
 
 ```
-py "C:\Users\gerald.khoo\.claude\skills\list-sessions\scripts\scan_sessions.py" --format json
+py "<this-plugin>/skills/list-sessions/scripts/scan_sessions.py" --format json
 ```
 
 - Each group = one project/repo. The scanner already separates real conversations from background housekeeping jobs — audit only the **real** ones.
@@ -53,15 +53,10 @@ The cut that has worked well:
 
 ## Signal patterns to search for
 
-Hypotheses, not a rigid checklist — always read surrounding context, don't pattern-match blindly:
-
-- `is_error` / `"is_error":true` in tool_result blocks → a tool failed and needed a retry.
-- The same tool called repeatedly with small variations → trial-and-error loop.
-- Harness rejection strings: `"doesn't want to proceed with this tool use"`, `"STOP what you are doing"` → user rejected a tool call.
-- Short sharp user messages: `no`, `don't`, `stop`, `that's not what I meant`, `wrong` → explicit correction.
-- Assistant self-correction language: `let me reconsider`, `I made a mistake`, `apologies`, `that didn't work`, `actually` → backtracking.
-- `command not found`, `exit code 1`, `Cancelled: parallel tool call` → environment/shell friction.
-- Repeated identical first-prompts across sessions minutes apart → abandoned restarts (often infra/model-routing, not reasoning — check before blaming the assistant).
+The signal-pattern hypotheses (tool errors, trial-and-error loops, harness
+rejections, sharp user corrections, self-correction language, shell friction,
+abandoned restarts) are in `references/signal-patterns.md` — include them verbatim
+in every subagent brief alongside `references/agent-brief-template.md`.
 
 ## Notes
 

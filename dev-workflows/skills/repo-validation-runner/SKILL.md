@@ -21,7 +21,7 @@ The bundled command detector is only a candidate finder. It does not replace the
 ## Workflow
 
 1. Detect stack and candidate commands from repo files. If useful, run:
-   `python <skill>/scripts/detect_validation_commands.py <repo>`
+   `py <skill>/scripts/detect_validation_commands.py <repo>`
    Treat its JSON output as suggestions; review `inspected_categories` and `unsupported_categories` before building the matrix.
 2. Build a validation matrix covering applicable categories: lint, typecheck, unit, integration, build, browser, docs, migrations, and domain checks.
 3. For complex repos, write the matrix before execution, with command, cwd, evidence, expected signal, and skip criteria.

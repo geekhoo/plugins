@@ -1,6 +1,6 @@
 ---
 name: backend-api-spec
-description: This skill should be used when the user asks to "write a backend-api spec", "audit the conventions or data-models spec", or "spec this endpoint" (the mf-dx-cc docs/backend-api-spec package) — author or audit a spec file with authority-gap validation, structural self-correction, and a PM-review pass.
+description: Use when the user asks to "write a backend-api spec", "audit the conventions or data-models spec", or "spec this endpoint" (the mf-dx-cc docs/backend-api-spec package) — author or audit a spec file there.
 user-invocable: true
 argument-hint: "<spec file under docs/backend-api-spec/, or the entity/topic to spec>"
 ---

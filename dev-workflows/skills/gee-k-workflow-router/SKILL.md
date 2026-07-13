@@ -1,6 +1,6 @@
 ---
 name: gee-k-workflow-router
-description: Route Gee.K work to the right Codex workflow, skill, agent role, and validation protocol. Use when the task involves review, implementation, validation, resume/status, read-only scope, planning/handoff, browser/UI, external tools, subagents, plugin/skill lifecycle, docs/AGENTS refresh, corpus work, observability, or recurring friction around evidence, validation, scope, shipped-vs-planning, memory, and environment assumptions.
+description: Route Gee.K work to the right workflow, skill, agent role, and validation protocol. Use when the task involves review, implementation, validation, resume/status, read-only scope, planning/handoff, browser/UI, external tools, subagents, plugin/skill lifecycle, docs/AGENTS refresh, corpus work, observability, or recurring friction around evidence, validation, scope, shipped-vs-planning, memory, and environment assumptions.
 ---
 
 # Gee.K Workflow Router
