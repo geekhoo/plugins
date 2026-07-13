@@ -1,15 +1,10 @@
 ---
 name: devextreme-grid-updater
 description: >
-  Guides atomic, dependency-aware updates to the ProgramsV2 DevExtreme DataGrid.
-  Use this skill whenever the user mentions: updating the grid, changing column width,
-  updating a band, fixing grid styling, programs grid, ProgramsV2 grid, or any
-  DevExtreme DataGrid column or band change in the v2 project — even if they just say
-  "make the column wider" or "hide that band" without explicitly invoking the skill.
-  The grid's column/band CSS and JS state are tightly coupled; making a change to one
-  column without checking dependencies routinely breaks other columns. This skill
-  ensures every grid change is preceded by a dependency scan and produces a complete,
-  ordered checklist so nothing is missed.
+  Use whenever the user mentions updating the grid, changing column width, updating a
+  band, fixing grid styling, programs grid, ProgramsV2 grid, or any DevExtreme DataGrid
+  column or band change in the v2 project — even implicit asks like "make the column
+  wider" or "hide that band". Enforces a dependency scan and an ordered, atomic checklist.
 ---
 
 # DevExtreme Grid Updater
@@ -18,8 +13,11 @@ description: >
 
 The ProgramsV2 DataGrid has tightly coupled column/band configuration split across two files:
 
-- **JS config**: `C:\Users\gerald.khoo\Codes\v2\wwwroot\js\pages\programs.page.js`
-- **CSS**: `C:\Users\gerald.khoo\Codes\v2\wwwroot\css\pages\programs-v2.cshtml.css`
+- **JS config**: `<v2-repo>\wwwroot\js\pages\programs.page.js`
+- **CSS**: `<v2-repo>\wwwroot\css\pages\programs-v2.cshtml.css`
+
+(`<v2-repo>` = the v2 project root on this machine — locate it first; do not assume a
+hardcoded user-profile path.)
 
 Changing one column's width, visibility, or header style without checking its siblings and parent band almost always breaks something else — adjacent column widths shift, band headers misalign, or expand/collapse state becomes inconsistent. This skill enforces a read-first, validate-dependencies, then write approach so every change is atomic and complete.
 
@@ -32,8 +30,8 @@ Changing one column's width, visibility, or header style without checking its si
 Before proposing any change, read both source files to understand what is actually there:
 
 ```
-Read: C:\Users\gerald.khoo\Codes\v2\wwwroot\js\pages\programs.page.js
-Read: C:\Users\gerald.khoo\Codes\v2\wwwroot\css\pages\programs-v2.cshtml.css
+Read: <v2-repo>\wwwroot\js\pages\programs.page.js
+Read: <v2-repo>\wwwroot\css\pages\programs-v2.cshtml.css
 ```
 
 Look for:
@@ -105,59 +103,13 @@ Output the following structure. Fill every section — do not omit sections even
 
 ---
 
-## CSS scoping rules (enforce these on every change)
+## CSS and JS rules (enforce on every change)
 
-DevExtreme generates DOM elements dynamically at runtime — those elements are outside the Blazor component's static HTML, so they are not subject to normal scoped CSS. The `::deep` combinator is required for any rule that targets a DevExtreme-appended class.
-
-Pattern the user's project uses:
-
-```css
-/* Correct — ::deep targets runtime-appended DevExtreme elements */
-.mf-component-programs ::deep .dx-header-row .dx-datagrid-text-content {
-    font-weight: 600;
-}
-
-.mf-component-programs ::deep .dx-band-row td:nth-child(2) {
-    background-color: var(--mf-band-color);
-}
-
-/* Wrong — DevExtreme elements won't match without ::deep */
-.mf-component-programs .dx-header-row .dx-datagrid-text-content {
-    font-weight: 600;
-}
-```
-
-When adding or editing CSS rules:
-- Always start with `.mf-component-programs ::deep`
-- Never target `dx-col-{n}` index-based classes for styling that must survive column reordering — prefer `cssClass` defined in the JS column config
-- Width overrides in CSS take precedence over JS config; flag any conflict explicitly in the checklist
-
----
-
-## JS config rules (enforce these on every change)
-
-```js
-// Correct — stays inside Markefin.runWhenAvailable, no new globals
-Markefin.runWhenAvailable('.programs-v2-wrapper', (root) => {
-    $(root).find('.programs-grid').dxDataGrid({
-        columns: [
-            {
-                caption: 'Band Name',
-                isBand: true,
-                expanded: false,       // default expand/collapse state
-                columns: [
-                    { dataField: 'FieldA', width: 120, cssClass: 'col-field-a' },
-                    { dataField: 'FieldB', width: 80,  visible: true }
-                ]
-            }
-        ]
-    });
-});
-```
-
-- `width` values in the JS config are in pixels (number, no unit suffix)
-- `expanded` on a band controls the default state on page load; changing it is a user-visible behavior change — flag it in the checklist
-- `allowHiding: false` prevents the column chooser from toggling the column; set it intentionally, not by default
+Before writing any CSS, load `references/css-scoping.md` (`.mf-component-programs ::deep`
+prefix required for DevExtreme-appended elements; never style via `dx-col-{n}` index
+classes; CSS width overrides beat JS config — flag conflicts). Before writing any JS,
+load `references/js-config-rules.md` (stay inside `Markefin.runWhenAvailable`, no new
+globals; pixel-number widths; `expanded` and `allowHiding` semantics).
 
 ---
 
@@ -169,34 +121,4 @@ Always apply JS changes before CSS changes. DevExtreme renders column structure 
 
 ## Example
 
-**Request**: "Make the Forecast band collapsed by default and reduce the first child column to 90px."
-
-**Correct output:**
-
-```
-## Grid Update: Collapse Forecast band by default; reduce ForecastQ1 width to 90px
-
-### Affected Columns/Bands
-- Primary: Forecast band — set expanded: false; ForecastQ1 column — width 120 → 90
-- Dependencies: ForecastQ2 width may need adjustment if band has a fixed total width CSS rule
-
-### Update Checklist (implement in this order)
-
-**JS (programs.page.js):**
-- [ ] 1. Forecast band config — set `expanded: false`
-- [ ] 2. ForecastQ1 column — set `width: 90`
-
-**CSS (programs-v2.cshtml.css):**
-- [ ] 3. Check `.mf-component-programs ::deep .dx-band-row` for any fixed width on the Forecast band cell — update if present
-- [ ] 4. No other CSS changes needed for this update
-
-### CSS Scoping Check
-- Uses ::deep for DevExtreme-appended elements? YES
-- Scoped to .mf-component-programs? YES
-
-### Verification Steps
-- [ ] Reload page — Forecast band should render collapsed on load
-- [ ] Expand the Forecast band and confirm ForecastQ1 renders at 90px
-- [ ] Confirm ForecastQ2 width is visually unaffected
-- [ ] Verify header styling in both expanded and collapsed state
-```
+A full worked request→checklist example is in `references/example-update.md`.

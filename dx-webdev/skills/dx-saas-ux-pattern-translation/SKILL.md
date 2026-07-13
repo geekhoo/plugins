@@ -12,12 +12,12 @@ Keep the boundary: pure HTML, JavaScript, CSS, jQuery, and DevExtreme jQuery wid
 ## Workflow
 
 1. Identify the user's operational goal: act on records, switch views, manage context, monitor status, filter dashboards, or complete a workflow.
-2. Load the smallest relevant SaaS reference:
-   - `references/saas-ux/source-inventory.json` for source provenance.
-   - `references/saas-ux/pattern-taxonomy.json` for cross-product pattern categories.
-   - `references/saas-ux/vendor-observations.json` for product-specific observations.
-3. Load the matching capability map under `references/capability-map/saas-patterns/`.
-4. Translate the pattern into DevExtreme jQuery primitives using `references/capability-map/index.json` and component maps.
+2. Load the smallest relevant SaaS reference — these live at the **plugin root** (the `dx-webdev` plugin directory, not this skill's directory); resolve `<plugin-root>` first:
+   - `<plugin-root>/references/saas-ux/source-inventory.json` for source provenance.
+   - `<plugin-root>/references/saas-ux/pattern-taxonomy.json` for cross-product pattern categories.
+   - `<plugin-root>/references/saas-ux/vendor-observations.json` for product-specific observations.
+3. Load the matching capability map under `<plugin-root>/references/capability-map/saas-patterns/`.
+4. Translate the pattern into DevExtreme jQuery primitives using `<plugin-root>/references/capability-map/index.json` and component maps.
 5. Preserve the user's design direction; use the SaaS pattern as a capability model, not as a visual template.
 
 ## Translation Rules

@@ -1,6 +1,6 @@
 ---
 name: dx-jquery-app-generation
-description: Use when creating or modifying pure HTML/CSS/JS apps with DevExtreme jQuery widgets.
+description: Use when generating a new pure HTML/CSS/JS app or page with DevExtreme jQuery widgets — scaffolding, asset load order, jQuery widget initialization. For reconfiguring existing widgets, use dx-capability-map-usage.
 ---
 
 # DevExtreme jQuery App Generation

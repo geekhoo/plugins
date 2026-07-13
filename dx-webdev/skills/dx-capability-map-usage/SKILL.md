@@ -1,6 +1,6 @@
 ---
 name: dx-capability-map-usage
-description: Use when mapping DevExtreme jQuery UX intent to capability maps.
+description: Use when reconfiguring, enhancing, or planning a DevExtreme jQuery UI and you must check which widgets, option paths, or composition primitives exist — search the capability maps before emitting code.
 ---
 
 # DevExtreme Capability Map Usage
@@ -21,17 +21,20 @@ Keep the plugin boundary: pure HTML, JavaScript, CSS, jQuery, and DevExtreme jQu
 
 ## Reference Files
 
-- `references/capability-map/index.json`: map inventory and phrase index.
-- `references/capability-map/components/*.json`: component capability maps.
-- `references/capability-map/saas-patterns/*.json`: cross-product SaaS workflow maps that translate operational patterns into DevExtreme primitives.
-- `references/capability-map/html-css-layout.json`: plain HTML/CSS layout primitives that complement widgets.
-- `references/saas-ux/*.json`: source-backed SaaS observations and taxonomy. Load only when the task asks for SaaS-style pattern translation or research provenance.
+These live at the **plugin root** (the `dx-webdev` plugin directory, NOT this skill's directory) — resolve `<plugin-root>` before reading or searching:
+
+- `<plugin-root>/references/capability-map/index.json`: map inventory and phrase index.
+- `<plugin-root>/references/capability-map/components/*.json`: component capability maps.
+- `<plugin-root>/references/capability-map/saas-patterns/*.json`: cross-product SaaS workflow maps that translate operational patterns into DevExtreme primitives.
+- `<plugin-root>/references/capability-map/html-css-layout.json`: plain HTML/CSS layout primitives that complement widgets.
+- `<plugin-root>/references/saas-ux/*.json`: source-backed SaaS observations and taxonomy. Load only when the task asks for SaaS-style pattern translation or research provenance.
 
 Load only the files that match the current user intent. The maps answer what primitives are available; they are not layout recipes and should not decide the final visual design for you.
 
 Useful searches:
 
 ```bash
+# run from <plugin-root>, or prefix the paths with it
 rg -n "fixed column|columnFixing|drawer|splitter|toolbar|popup" references/capability-map
 rg -n "\"path\": \"columns\\[\\]\\.fixed\"" references/capability-map
 rg -n "record workbench|side panel|smart chip|dashboard widgets|command bar" references/capability-map references/saas-ux
