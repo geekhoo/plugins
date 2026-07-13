@@ -16,7 +16,7 @@
       "name": "semantic-design-system",
       "source": "./semantic-design-system",
       "description": "Skills, agents, hooks, and MCP tools for generating and applying semantic design token systems.",
-      "version": "0.2.0"
+      "version": "0.2.1"
     },
     {
       "name": "geeky-orchestration",
