@@ -12,9 +12,10 @@ End-to-end feature delivery: **plan it, execute it, track it**, with strong cont
 | `geeky-implement` | skill | Orchestrates execution: walks the kanban, delegates `geeky-coder` subagents (up to 3 in parallel), runs per-task validation, code review, and per-phase PM review, commits in small logical groups, never pushes. |
 | `impl-review` | skill | Reviews *delivered code* (not planning docs) with 3 dynamically-chosen domain-expert subagents, each covering a distinct aspect of what was built. |
 | `geeky-status` | skill | Read-only snapshot of a planning folder. Lane counts, blocked items, last handoff entry, suggested next step. No agents, no edits. |
+| `geeky-resume` | skill | Post-cutoff reconciliation: verifies kanban/handoff claims against live `git status`/`git log`/`git diff`, corrects lanes to verified reality (the only edits it may make), then hands off to `/geeky-implement`. Never trusts a pre-cutoff "done". |
 | `archive` | skill | Archives a concluded spec: moves planning artifacts to `archives/`, creates the permanent `docs/spec-NNN-name/` folder (spec + handoff + README), updates CLAUDE.md current state. |
 | `geeky-orchestrator` | agent | Intelligent workflow administrator for direct routing, read-only triage, lifecycle coordination, and focused clarification when the correct entry point is ambiguous. |
-| `/spec-research`, `/geeky-plan`, `/plan-review`, `/geeky-implement`, `/impl-review`, `/geeky-status`, `/archive` | commands | Thin slash-command fronts that simply invoke the same-named skill with `$ARGUMENTS`. The full procedure lives in the skills (`skills/<name>/SKILL.md`) so that non-Claude agents — which read skills but not commands — can run the same workflow. |
+| `/spec-research`, `/geeky-plan`, `/plan-review`, `/geeky-implement`, `/impl-review`, `/geeky-status`, `/geeky-resume`, `/archive` | commands | Thin slash-command fronts that simply invoke the same-named skill with `$ARGUMENTS`. The full procedure lives in the skills (`skills/<name>/SKILL.md`) so that non-Claude agents — which read skills but not commands — can run the same workflow. |
 | `geeky-coder` | agent | Portable coder subagent. Treats the orchestrator's brief as authoritative scope. Returns a structured summary. Safe to spawn in parallel against non-overlapping task surfaces. |
 | `code-architect` | agent | Portable architecture reviewer subagent. Reviews code with a system-level lens, focusing on maintainability, scalability, modularity, and architectural best practices. |
 | `code-explorer` | agent | Portable code explorer subagent. Reads the codebase to answer questions about existing patterns, dependencies, and relevant prior work. |
@@ -49,6 +50,8 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 /plan-review <folder>                  → 4-phase quality review of the planning package
 
 /geeky-status <folder>                 → read-only snapshot
+
+/geeky-resume <folder>                 → after a cutoff: reconcile kanban vs live git, then resume
 
 /geeky-implement <folder>              → walks kanban Ready → Done
    ├─ delegates geeky-coder per task (max 3 parallel when safe)

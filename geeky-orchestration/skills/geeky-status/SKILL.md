@@ -1,6 +1,6 @@
 ---
 name: geeky-status
-description: Read-only status snapshot of a geeky-plan / geeky-implement planning folder. Reports kanban lane counts, in-progress and blocked tasks, recent task notes, the last handoff entry, deferred follow-ups, and a suggested next step. No agents, no edits, no commits. Use when asked where a planning/implementation effort stands or to inspect a kanban folder before resuming. Invoked by the /geeky-status command and usable directly by any agent.
+description: Read-only status snapshot of a geeky-plan / geeky-implement planning folder. Reports kanban lane counts, in-progress and blocked tasks, recent task notes, the last handoff entry, deferred follow-ups, and a suggested next step. No agents, no edits, no commits. Use when asked where a planning/implementation effort stands or to inspect a kanban folder before resuming. When resuming after a session cutoff/compaction, use geeky-resume instead — it reconciles the kanban against live git state. Invoked by the /geeky-status command and usable directly by any agent.
 ---
 
 # geeky-status
