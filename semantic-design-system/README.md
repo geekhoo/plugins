@@ -22,6 +22,7 @@ Skills:
 - `derive-design-system`: inspect an existing codebase and infer primitive, semantic, and component tokens.
 - `apply-design-system`: migrate code from hardcoded styling values to semantic/component tokens.
 - `audit-design-system`: validate naming, references, accessibility risks, and migration readiness.
+- `tokens-to-figma-sync`: push a validated DTCG token directory into Figma variable collections (code→Figma one-way). Claude Code only — it composes the figma plugin's `figma-use` / `figma-generate-library` skills, so it has no Codex mirror.
 
 Utilities:
 
