@@ -205,13 +205,16 @@ These are recoverable — handle inline, do not stop the run:
 - Code-review surfaces minor/nit findings → log under Deferred, proceed.
 - A gate/validator script CRASHES (traceback, missing module) → one-line surface, manual check of the same criteria, note it, continue; flag the plugin for a fix at run end. Never a silent stall.
 - 401/auth-expiry symptoms mid-run → FIRST append a resume block to `handoff.md` (current task, exact state, next command) and set `.heartbeat` to `paused`; the session may be unrecoverable and the handoff is what survives.
-- API 529 / "overloaded" / `<synthetic>` turn (external capacity event, not your fault) → the turn may be killed with no auto-resume. FIRST checkpoint (`handoff.md` + `.heartbeat` `paused`), note the event, then resume; capacity is per-model, so a `/model` switch is a valid mitigation during a degraded window (status.claude.com). Upstream: anthropics/claude-code #60577, #35801.
+- API-error interruption (`<synthetic>` model turn in the log = the API cut the turn off, no auto-resume; external, not your fault) → FIRST checkpoint (`handoff.md` + `.heartbeat` `paused`), then resume — the fix depends on the subtype, so read the turn's text:
+  - **spend/usage limit** ("hit your monthly spend limit") → raise it at claude.ai/settings/usage or wait; a `/model` switch does NOT help (account-level quota).
+  - **session limit** ("hit your session limit — resets …") → wait for the reset; `/model` does not help.
+  - **401 / auth** ("run /login") → re-auth; the session may be unrecoverable, so the handoff is what survives.
+  - **529 / overloaded** (genuine capacity) → `/model` switch (capacity is per-model) or wait; status.claude.com. Upstream: anthropics/claude-code #60577, #35801.
 
-**Diagnosing a quiet/stalled run** — when a run has gone silent, check causes in THIS order (cheapest first, and the first two are external/mechanical, not model quality):
-1. **529 / capacity** — scan the session log tail for `<synthetic>` model turns or "API Error"/overloaded lines.
+**Diagnosing a quiet/stalled run** — when a run has gone silent, check causes in THIS order (cheapest first; the first is external, not model quality):
+1. **API-error interruption** — scan the session log tail for `<synthetic>` model turns (NOT for the string "529" — in this environment the real population is spend-limit / session-limit / 401; a genuine 529/overload has not actually occurred here). Fix per subtype above.
 2. **Validator/gate crash** — a gate scripted itself into a traceback and the loop absorbed it.
-3. **401 / auth-expiry** — token lapsed mid-run.
-Only after ruling these out is it a logic/plan problem. Misattributing a 529 kill to "the model got stuck" wastes a wrong-fix cycle.
+3. **Logic/plan problem** — only after ruling out the external causes above. Misattributing an external interruption to "the model got stuck" wastes a wrong-fix cycle.
 
 These STOP the run (mark Blocked, update handoff, return to user):
 - A task's validation block fails after one retry.
