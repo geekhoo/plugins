@@ -23,6 +23,8 @@ HANDOFF.md files are the memory bridge between sessions. When done well they let
 
 Named variants (HANDOFF-V3.md, TESTING-HANDOFF.md, handoff-v2.1.md) follow all the same rules — if the user names a variant, use that name; when reading, search for any file matching `*HANDOFF*.md` or `*handoff*.md`.
 
+**Session-start precedence:** when this skill, `phased-implementation-tracker` (a `.phased-plan.md` exists), and/or `resume-inventory` (user said "resume"/"continue") all want to fire, read and present the handoff first, then show plan status; on an explicit resume/continue, `resume-inventory` drives the worktree verification and this handoff is evidence input, not confirmed state.
+
 ---
 
 ## Mode 1: WRITE

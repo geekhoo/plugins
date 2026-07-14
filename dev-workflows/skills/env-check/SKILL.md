@@ -32,3 +32,7 @@ Run before executing Python/tests in a repo to catch environment problems early.
 
 ## Output
 A short checklist: ✅/⚠️/❌ per check with the exact remediation command. Don't change anything without asking — this is a preflight, not a fixer. If everything's green, say so and give the ready-to-run command using the venv interpreter.
+
+## Related skills
+- `dotnet-env-check` — the .NET/ASP.NET equivalent (SDK, restore, EF migrations, DB reachability).
+- `env-doctor` — machine-level toolchain resolution when interpreters/SDKs don't resolve at all.

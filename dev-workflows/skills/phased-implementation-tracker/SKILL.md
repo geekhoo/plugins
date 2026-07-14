@@ -17,6 +17,10 @@ This skill helps Gerald manage multi-step implementation plans that span multipl
 sessions. Plans are saved to `.phased-plan.md` in the current project directory so
 work can pause and resume cleanly.
 
+**Session-start precedence:** if a `*HANDOFF*.md` also exists, the `handoff` skill
+presents it first and plan status follows; on an explicit "resume"/"continue",
+`resume-inventory` verifies the worktree before plan markers are trusted or acted on.
+
 ---
 
 ## Step 1: Check for an existing plan

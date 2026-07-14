@@ -60,7 +60,6 @@ Documentation is current, internally consistent, and operational: another agent 
 
 ## Companion Skills
 
-- If available, use `docs-command-auditor` when the main risk is command drift across docs and scripts.
 - If available, use `planning-packet` when the docs are part of a spec, tasks, kanban, references, and handoff packet.
 
 ## Common Mistakes

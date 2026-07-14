@@ -38,14 +38,14 @@ Turn broad requirements into a linked, delivery-ready planning packet another ag
    - Use `handoff-prompt-generator` for standalone takeover prompts that do not need the full packet.
 7. Validate packet structure before implementation starts.
    - Check ID consistency, task/status alignment, acceptance coverage, references, and handoff completeness.
-   - If a `packet-validator` tool exists in the environment, run it; otherwise perform a manual consistency pass and state that no validator was available.
+   - For geeky-plan-format packets, run the geeky-orchestration plugin's validators: `geeky_validate_kanban`, `geeky_validate_task_schema`, and `geeky_check_dod` (MCP tools; `geeky_validate_planning_folder` covers the whole folder). For other formats, perform a manual consistency pass and state that no validator was available.
 8. Report state.
    - Mark the packet `ready`, `partial`, or `blocked`.
    - List changed files, evidence inspected, validation performed, assumptions, and unresolved risks.
 
 ## Verification Gates
 
-`packet-validator` is a companion tool when available; its absence does not block packet creation, but requires a stated manual consistency checklist.
+The geeky validators (`geeky_validate_kanban` / `geeky_validate_task_schema` / `geeky_check_dod`) apply only to geeky-plan-format packets; for other formats their absence does not block packet creation, but requires a stated manual consistency checklist.
 
 | Gate | Requirement |
 | --- | --- |
@@ -53,7 +53,7 @@ Turn broad requirements into a linked, delivery-ready planning packet another ag
 | G1 | Relevant repo/context, requirements, docs, trackers, and constraints were inspected. |
 | G2 | Packet files are drafted with linked task, acceptance, reference, and handoff IDs. |
 | G3 | Tasks map to acceptance criteria, dependencies, statuses, and validation methods. |
-| G4 | Packet consistency is checked by `packet-validator` when available, or by a manual pass. |
+| G4 | Packet consistency is checked by the geeky validators (geeky-format packets) or by a manual pass. |
 | G5 | Final report identifies ready, blocked, or partial state with assumptions and risks. |
 
 ## Acceptance Criteria

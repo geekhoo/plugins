@@ -53,7 +53,7 @@ if ($flat -match 'pretooluse|pre_tool_use' -or $toolName) {
 
 if ($flat -match 'userpromptsubmit|user_prompt_submit') {
   if ($flat -match 'parallel subagents|spawn.*subagent|use.*subagents') {
-    Add-Warning 'Operational guard: subagent request detected. Use subagent-orchestration-hygiene; make lanes concrete, bounded, and placeholder-free.'
+    Add-Warning 'Operational guard: subagent request detected. Use parallel-review-orchestrator; make lanes concrete, bounded, and placeholder-free.'
   }
   if ($flat -match 'browser|playwright|chrome|screenshot|ui validation|localhost') {
     Add-Warning 'Operational guard: browser/UI proof request detected. Use browser-ui-validation-gates before runtime claims.'

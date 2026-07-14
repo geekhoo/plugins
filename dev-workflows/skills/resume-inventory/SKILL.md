@@ -9,6 +9,8 @@ description: Use when the user asks to "resume", "continue", "check status", "wh
 
 Resume from evidence, not memory. Build a current-state inventory before reporting status or continuing work so user changes, stale assumptions, blocked tasks, and pending validation are visible.
 
+Precedence: this skill drives explicit resume/continue requests; any `*HANDOFF*.md` (handoff skill) or `.phased-plan.md` (phased-implementation-tracker) found is evidence input to the inventory — present handoff context first, but never treat either file as confirmed current state.
+
 ## Prerequisites And Clarification
 
 - Identify the current repo, worktree, branch, protected paths, and write scope before editing.

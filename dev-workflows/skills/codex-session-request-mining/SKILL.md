@@ -1,6 +1,6 @@
 ---
 name: codex-session-request-mining
-description: Use when the user asks to "mine session history", "scan sessions", "audit repeated requests", "rank workflow candidates", or "identify skill opportunities"; turn local session history into an evidence-backed backlog of reusable skill and tool candidates.
+description: Use when the user asks to "mine Codex session history", "scan Codex sessions", "audit repeated Codex requests", "rank Codex workflow candidates", or "identify skill opportunities from Codex sessions"; turn local Codex session history into an evidence-backed backlog of reusable skill and tool candidates. Not for Claude Code transcripts — for those use list-sessions, session-friction-review, session-retrospective, or self-audit.
 ---
 
 # Codex Session Request Mining
@@ -8,6 +8,8 @@ description: Use when the user asks to "mine session history", "scan sessions", 
 ## Overview
 
 Turn local Codex session history into an evidence-backed backlog of reusable workflow skill and tool opportunities. Use this as the synthesis wrapper around `codex-session-request-miner`; keep deterministic mining and filtering logic in that companion tool.
+
+Scope: Codex session JSONL only. Claude Code transcripts have a different layout and their own skills — route "mine/scan sessions" requests about Claude history to `list-sessions`, `session-friction-review`, `session-retrospective`, or `self-audit`.
 
 ## Companion Miner Source
 
