@@ -10,7 +10,7 @@
       "name": "dx-webdev",
       "source": "./dx-webdev",
       "description": "DevExtreme jQuery web development helpers for pure HTML/JS/CSS apps, incl. the ProgramsV2 grid updater.",
-      "version": "0.2.1"
+      "version": "0.2.2"
     },
     {
       "name": "semantic-design-system",

@@ -34,4 +34,6 @@ $('#ordersGrid').dxDataGrid({
 
 Prefer DevExtreme widgets over hand-built controls when an appropriate widget exists. Include loading, empty, error, disabled, validation, and responsive states when they are relevant to the workflow. Use browser or static validation when possible.
 
+Before reporting a generated page as working, run the **render gate** in `dx-ux-review` (serve over local HTTP, verify in a real browser via browser-verify/browser-qa, zero console errors, widgets instantiated).
+
 Do not generate framework wrapper code, JSX, TSX, generated wrapper package usage, or ThemeBuilder output. Keep output as pure HTML, JavaScript, and CSS.
