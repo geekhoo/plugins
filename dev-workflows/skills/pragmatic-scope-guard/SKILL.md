@@ -1,6 +1,6 @@
 ---
 name: pragmatic-scope-guard
-description: Use when implementation work risks over-engineering, scope creep, unnecessary files, new dependencies, broad refactors, drive-by formatting, or unrequested tests/docs/config — or when the user signals "only change X", "keep it simple", "too much", "don't change that", "read only", "follow existing convention", or "stop".
+description: Use when implementation work risks over-engineering, scope creep, unnecessary files, new dependencies, broad refactors, drive-by formatting, or unrequested tests/docs/config — or when the user signals "only change X", "keep it simple", "too much", "don't change that", "read only", "follow existing convention", or "stop". This is the standing restraint discipline. For an EXPLICIT list of protected paths / no-edit directories, use scope-guard.
 ---
 
 # Pragmatic Scope Guard

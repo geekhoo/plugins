@@ -15,7 +15,7 @@ If no code file was found, omit the last two columns entirely:
 
 User: `/figma-batch-analyzer 847:2301`
 
-You call: `mcp__claude_ai_Figma__get_design_context(file_key="f23wB7B5Sq16GncjfLNEYL", node_id="847:2301")`
+You call: the resolved Figma `…get_design_context(file_key="f23wB7B5Sq16GncjfLNEYL", node_id="847:2301")` tool (resolve the live MCP prefix; don't hardcode it)
 
 You search the workspace for a CSS file matching "ProgramCard" or "program-card", read the current values, then output:
 

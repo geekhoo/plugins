@@ -19,14 +19,17 @@ Use this skill only for explicit durable memory requests. Create one scoped ad-h
 ## Workflow
 
 1. Extract the memory contract:
-   - Scope, repo, path, or situation where it applies.
+   - Scope, repo, path, or situation where it applies. **Prefer the narrowest scope that is still true** — a workspace/repo-specific memory beats a global one when the fact only applies there.
    - Rule, preference, blocked state, cleanup guardrail, or workflow instruction to preserve.
    - Brief evidence or context that makes the note understandable later.
-2. Write exactly one small Markdown note under the user's Codex memory notes directory (`~/.codex/memories/extensions/ad_hoc/notes/`; ask the user if the location differs).
-3. Name the note `<timestamp>-<short-slug>.md`; use a timestamp precise enough to avoid collisions.
-4. Keep the note focused. Prefer short sections such as `Scope`, `Memory`, and `Context`.
-5. Do not edit `MEMORY.md`, `memory_summary.md`, rollout summaries, generated memory indexes, or unrelated notes.
-6. In the final response, name the created note path and summarize the captured memory.
+2. Write into the **active harness's memory store** (not a Codex-only path):
+   - **Claude Code** (this harness): follow the agent's memory-store convention — one Markdown file per fact under the session's memory directory (`~/.claude/projects/<sanitized-project>/memory/`), with frontmatter (`name`, `description`, `metadata.type` = user | feedback | project | reference), then a one-line pointer appended to that store's `MEMORY.md` index. Before creating a new file, check for an existing memory that already covers the fact and update it instead of duplicating.
+   - **Codex**: write one ad-hoc note under the Codex memory notes directory (`~/.codex/memories/extensions/ad_hoc/notes/`).
+   - If the store location is unclear, ask the user rather than guessing.
+3. Name a new file `<short-kebab-slug>.md` (Claude Code) or `<timestamp>-<short-slug>.md` (Codex ad-hoc).
+4. Keep it focused — the single fact plus, for feedback/project types, **Why:** and **How to apply:** lines.
+5. In Claude Code, the `MEMORY.md` index line is expected and correct; do NOT rewrite unrelated memories, generated indexes, or another store's notes. In Codex, do not edit canonical summaries or rollout files.
+6. In the final response, name the created/updated file path (and the index line, if added) and summarize the captured memory.
 
 ## Verification Gates
 

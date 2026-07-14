@@ -13,8 +13,9 @@ companion canary hook surfaces it automatically at session start.
 ## Run
 
 ```powershell
-pwsh -File scripts/env-healthcheck.ps1          # full PASS/FAIL table
-pwsh -File scripts/env-healthcheck.ps1 -Quiet   # output only if something is wrong (hook mode)
+# resolve scripts/ from THIS skill's own directory, not the project cwd
+pwsh -File <path-to-this-skill>/scripts/env-healthcheck.ps1          # full PASS/FAIL table
+pwsh -File <path-to-this-skill>/scripts/env-healthcheck.ps1 -Quiet   # output only if something is wrong (hook mode)
 ```
 
 Checks `python3` / `python` / `py` resolution, the `~/bin` shim dir on PATH, and node / gh / dotnet /

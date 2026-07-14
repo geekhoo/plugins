@@ -1,6 +1,6 @@
 ---
 name: parallel-review-orchestrator
-description: Use when the user explicitly asks for "subagents", "parallel reviewers", "multiple expert domains", "delegated coders", or "independent passes"; coordinate parallel reviewers, deduplicate findings, verify before acting, and report one integrated result.
+description: Use to REVIEW delivered work — the codebase, completed tasks, written code — against the expected OUTCOMES/goals of the requirements, coordinating parallel reviewer AND coder passes into one verified, integrated result (can remediate, not just report). Triggers "subagents", "parallel reviewers", "delegated coders", "multiple expert domains", "independent passes". For read-only auditing of work against task/spec requirements without fixes, use parallel-audit.
 ---
 
 # Parallel Review Orchestrator

@@ -1,6 +1,6 @@
-# Claude Work Cleaner Pass Guide
+# Work Cleaner Pass Guide
 
-Load this reference when a cleanup spans multiple files, generated docs, plugin or skill packages, planning-packet artifacts, frontend surfaces, hooks, or runtime compatibility files.
+Load this reference when a cleanup spans multiple files, generated docs, plugin or skill packages, planning-packet artifacts, frontend surfaces, hooks, or runtime compatibility files. Passes 1–4 are harness-agnostic; Pass 5 has a Claude Code and a Codex variant — use the one for the active harness (details in `claude-env.md` / `codex-env.md`).
 
 ## Pass 1: Mechanical Clutter
 
@@ -34,7 +34,7 @@ Tighten code or docs produced by broad agents:
 - Replace verbose recap with concrete status, evidence, next action, and blocker.
 - Collapse repeated command examples into the single working command when variants failed.
 - Remove unused helper functions, unused CSS classes, unreachable branches, or frontend state that the UI no longer renders.
-- Trim over-specific examples that make validators or link checkers treat placeholders as live broken links.
+- Trim over-specific examples that make validators, plugin-eval, or link checkers treat placeholders as live broken links.
 
 Do not erase evidence trails. If a report is noisy but contains validation proof, preserve the proof and shorten around it.
 
@@ -49,16 +49,27 @@ Simplify only when call sites prove the abstraction is unnecessary:
 
 Leave abstractions in place when they are public API, plugin compatibility surface, skill trigger metadata, framework convention (MediatR handlers, Razor page models, `Markefin.pages.*` registration), test seam, or documented future-extension point.
 
-## Pass 5: Windows And Claude Environment Fit
+## Pass 5: Environment Fit
 
-Clean environment mismatch introduced by generated work:
+Clean environment mismatch introduced by generated work. Use the variant for the active harness.
+
+### Claude Code
 
 - Prefer PowerShell-safe commands with quoted paths for anything documented for this host; flag bare-`python`, unquoted-path, or bash-only examples in docs meant for Windows.
 - Prefer `git -C <repo>` for multi-repo work.
 - Prefer the dedicated Grep/Glob tools (or `rg` with targeted roots in scripts) over broad recursive scans.
 - Use `py -3` style PATH-stable launchers in scripts, not bare `python`.
-- Keep `~\.claude` runtime-layer changes separate from durable plugin source changes under `C:\Users\gerald.khoo\geekhoo-plugins`; never edit `~\.claude\plugins\cache\`.
+- Keep `~\.claude` runtime-layer changes separate from durable plugin source changes under the `geekhoo-plugins` repo; never edit `~\.claude\plugins\cache\`.
 - Preserve cross-runtime compatibility files (`.claude-plugin`, `.codex-plugin`, `agents/*.yaml`) when the same skill folder serves multiple agent runtimes.
+
+### Codex
+
+- Prefer PowerShell-safe commands and quoted `-LiteralPath` examples for Windows paths.
+- Prefer `git -C <repo>` for multi-repo work.
+- Prefer `rg` and targeted roots over broad recursive scans.
+- Use bundled or discovered runtimes when PATH is unreliable.
+- Keep `.codex` runtime-layer changes separate from durable plugin source changes under the `geekhoo-plugins` repo.
+- Preserve `.claude-plugin` compatibility when adding Codex plugin metadata.
 
 If host prerequisites block validation, record the missing prerequisite instead of claiming proof.
 

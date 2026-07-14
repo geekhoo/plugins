@@ -1,6 +1,6 @@
 ---
 name: scope-guard
-description: Use when the user mentions "no-edit paths", "protected directories", "do not touch these files", "what is in scope", or implied edit boundaries; establish allowed surfaces before changing code, docs, or running destructive or git operations.
+description: Use when the user names EXPLICIT no-edit paths, protected directories, or specific files not to touch (e.g. "don't edit these files", "these dirs are off-limits", "only touch X/") — record the allowed and protected edit surfaces before changing code, docs, or running destructive or git operations. For general restraint against over-engineering or scope creep (no explicit path list), use pragmatic-scope-guard.
 ---
 
 # Scope Guard

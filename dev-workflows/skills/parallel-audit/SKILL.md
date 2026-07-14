@@ -1,6 +1,6 @@
 ---
 name: parallel-audit
-description: Use when the user asks to "review", "audit", "get independent opinions", "deploy reviewers", or "validate a spec, branch, or design" from multiple lenses — spawn independent read-only reviewers and collate one severity-ranked report (reports only, does not fix).
+description: Use to AUDIT delivered work — code, a branch, a spec, or a design — against its task/spec requirements, read-only: spawn independent multi-lens reviewers and collate one severity-ranked findings report (reports only, never fixes). Triggers "audit", "review against the spec/requirements", "get independent opinions", "deploy reviewers", "validate a spec, branch, or design". To also remediate, or to review delivered work against its expected outcome/goal, use parallel-review-orchestrator.
 user-invocable: true
 argument-hint: "<target path/file/spec> [roles: e.g. security, spec-validation, data-model, perf]"
 ---

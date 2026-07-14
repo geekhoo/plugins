@@ -17,10 +17,10 @@ scannable structured spec. Gerald works against the Markefin UI Figma file and n
 ## Default context
 
 - **Default Figma file key**: `f23wB7B5Sq16GncjfLNEYL`
-- **Figma MCP tools available**:
-  - `mcp__claude_ai_Figma__get_design_context` — primary source of truth for layout, colors, type, spacing
-  - `mcp__claude_ai_Figma__get_screenshot` — optional visual confirmation
-  - `mcp__claude_ai_Figma__get_variable_defs` — if the component uses design tokens/variables
+- **Figma MCP tools** (the connector prefix varies with how it's mounted — `mcp__Figma__*`, `mcp__claude_ai_Figma__*`, etc.; resolve the live prefix via tool discovery, don't hardcode it):
+  - `get_design_context` — primary source of truth for layout, colors, type, spacing
+  - `get_screenshot` — optional visual confirmation
+  - `get_variable_defs` — if the component uses design tokens/variables
 
 ## Invocation forms
 
@@ -40,13 +40,13 @@ If multiple nodes are given, resolve all of them.
 
 ## Step 2 — Fetch design context (parallel)
 
-Call `mcp__claude_ai_Figma__get_design_context` for each node. If multiple nodes, call them in parallel.
+Call the resolved `…get_design_context` tool for each node. If multiple nodes, call them in parallel.
 
 Pass:
 - `file_key`: the file key extracted from the URL, or `f23wB7B5Sq16GncjfLNEYL` if not present
 - `node_id`: the resolved node ID
 
-If any node uses Figma variables/tokens, also call `mcp__claude_ai_Figma__get_variable_defs` for that file.
+If any node uses Figma variables/tokens, also call the resolved `…get_variable_defs` tool for that file.
 
 ## Step 3 — Extract spec values
 

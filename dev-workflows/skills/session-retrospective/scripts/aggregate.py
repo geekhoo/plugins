@@ -84,5 +84,6 @@ ps = [d for d in data if d["cat"]=="project" and d["first_user"] and isinstance(
 ps.sort(key=lambda d: d["first_ts"])
 for d in ps:
     fu = re.sub(r"\s+"," ", d["first_user"])[:140]
-    cwd = (d["cwd"] or "?").replace("C:\\Users\\gerald.khoo\\","~\\")
+    _home = str(Path.home())
+    cwd = (d["cwd"] or "?").replace(_home, "~").replace("C:\\Users\\gerald.khoo", "~")
     print(f"{d['first_ts'][:10]} [{cwd[:45]:45s}] {fu}")

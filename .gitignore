@@ -2,7 +2,6 @@ temp-review/**/*
 tmp/**
 /tmp/**/*
 plugin-eval-reports/**/*
---format
 __pycache__/
 *.pyc
 .pytest_cache/

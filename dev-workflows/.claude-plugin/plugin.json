@@ -1,7 +1,7 @@
 {
   "name": "dev-workflows",
   "description": "A library of composable workflow skills distilled from cross-project Claude Code and Codex sessions. Spans planning and spec authoring, workflow routing, multi-lens review and audit, testing/QA and DB seeding, browser and Figma workflows, environment/setup/deployment, git hygiene, corpus and document pipelines, capability inventory, operational stabilization, and memory/status utilities. Primitives (e.g. env-check, parallel-audit, db-seed, figma-inventory, scope-guard, codex-operational-stabilizer) compose into higher-level workflows. Windows-aware (forward-slash bash paths, .venv interpreter, cp1252 encoding, Playwright MCP gotchas).",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "author": {
     "name": "geekhoo"
   },

@@ -1,13 +1,13 @@
 ---
 name: figma-design-loop
-description: Use when the user asks to "use Figma, FigJam, or Slides", "inspect a Figma URL or selection", "import design context", "implement design-to-code", or "validate UI against Figma" through a read, generate, implement, or validation loop.
+description: Use for a traceable Figma design→code→VALIDATION loop — fetch design context, implement scoped UI, then validate the RENDERED output against the Figma evidence. Delegates Figma API work to figma-use and rendered checks to browser-qa / ui-parity-validator; its own value is the evidence→scope→rendered-validation gates. Triggers "validate UI against Figma", "implement this Figma design and check it renders", "Figma-backed UI loop". For plain Figma authoring/reading (FigJam, Slides, variables) use the figma plugin skills directly.
 ---
 
 # Figma Design Loop
 
 ## Overview
 
-Use Figma evidence as the source of truth for scoped design, implementation, and UI validation work. Keep the loop traceable: target, evidence, mapping, scoped execution, rendered validation, and limitations.
+Use Figma evidence as the source of truth for scoped design, implementation, and UI validation work. Keep the loop traceable: target, evidence, mapping, scoped execution, rendered validation, and limitations. This skill is the **loop orchestrator** — it proxies the actual Figma fetch/write to `figma-use` (or the figma plugin skills) and the rendered checks to `browser-qa` / `ui-parity-validator`; its differential is the verification-gated loop, not re-implementing the Figma API.
 
 ## Prerequisites And Clarification
 

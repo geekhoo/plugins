@@ -24,7 +24,7 @@ py "<this-plugin>/skills/list-sessions/scripts/scan_sessions.py" --format json
 
 ### 2. Read the current memory baseline FRESH (so the audit hunts what's *new*)
 
-Read every `feedback_*.md` and `user_profile.md` under `C:\Users\gerald.khoo\.claude\projects\C--Users-gerald-khoo--claude\memory\`. These are the already-known patterns. The audit's value is finding what is **not yet captured**, or evidence that a documented fix **didn't stick** in sessions postdating it. Read them every run — the corpus grows, and a stale baseline makes subagents re-report things you already fixed.
+Read the agent's memory store under the **current user's** home — `~/.claude/projects/<sanitized-project>/memory/` (resolve `~` on this machine; do not assume a specific user profile). Read `MEMORY.md` (the index) and every file it points to — the store is one topical file per fact (`pref-*.md`, `proj-*.md`, `feedback-*.md`, etc.), not a `feedback_*.md`/`user_profile.md` scheme. These are the already-known patterns. The audit's value is finding what is **not yet captured**, or evidence that a documented fix **didn't stick** in sessions postdating it. Read them every run — the corpus grows, and a stale baseline makes subagents re-report things you already fixed.
 
 ### 3. Fan out — one subagent per project, all dispatched in a single turn
 
@@ -47,7 +47,7 @@ The cut that has worked well:
 
 ### 5. Propose durable fixes (then act on what the user approves)
 
-- **Memories:** new or updated `feedback_*` files following the conventions in `MEMORY.md`'s own format + a one-line index entry. Fold near-duplicates into existing memories rather than proliferating.
+- **Memories:** new or updated memory files following the conventions the store's own `MEMORY.md` documents (one topical file per fact, frontmatter, + a one-line index entry). Fold near-duplicates into existing memories rather than proliferating.
 - **Config/env/hook fixes:** investigate root cause and prefer a single durable fix over per-file patches (e.g. fix the missing interpreter on PATH once, not every plugin hook that calls it). Plugin cache files get overwritten on update — fix at the source or at the environment layer.
 - **Skills:** if the audit surfaces a recurring *method* (not just a fact), encode it as a skill — that's a more durable carrier than a memory. This skill is itself an instance of that.
 

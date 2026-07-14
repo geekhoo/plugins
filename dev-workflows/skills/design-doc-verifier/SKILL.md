@@ -23,10 +23,10 @@ If no path was given, ask: "Which design document should I verify against? (path
 If no source directory was given, default to the project root that contains the design doc,
 or ask if there is genuine ambiguity (e.g., a mono-repo with multiple projects).
 
-Gerald's common project roots for reference:
-- `C:\Users\gerald.khoo\Codes\v2\` — ASP.NET Core + DevExtreme frontend
-- `C:\Users\gerald.khoo\Codes\mf-dotnet\` — C# backend (CQRS/MediatR/EF Core)
-- `C:\Users\gerald.khoo\Codes\mf-dx-cc\` — static frontend
+Common project types under the user's Codes root (resolve the actual path on this machine — do not assume a user profile):
+- `v2` — ASP.NET Core + DevExtreme frontend
+- `mf-dotnet` — C# backend (CQRS/MediatR/EF Core)
+- `mf-dx-cc` — static frontend
 
 ## Step 1: Read and parse the design document
 

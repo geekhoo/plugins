@@ -5,9 +5,9 @@ The tools live in this skill's `tools/` directory (resolve the path from the ski
 ## Static audit and comparison
 
 ```bash
-python tools/js_legacy_refactor_audit.py audit /path/to/app --out /path/to/app/.refactor_audit/baseline
-python tools/js_legacy_refactor_audit.py audit /path/to/app-refactored --out /path/to/app/.refactor_audit/after
-python tools/js_legacy_refactor_audit.py compare /path/to/app/.refactor_audit/baseline/audit.json /path/to/app/.refactor_audit/after/audit.json --out /path/to/app/.refactor_audit/static-compare.md
+py -3 tools/js_legacy_refactor_audit.py audit /path/to/app --out /path/to/app/.refactor_audit/baseline
+py -3 tools/js_legacy_refactor_audit.py audit /path/to/app-refactored --out /path/to/app/.refactor_audit/after
+py -3 tools/js_legacy_refactor_audit.py compare /path/to/app/.refactor_audit/baseline/audit.json /path/to/app/.refactor_audit/after/audit.json --out /path/to/app/.refactor_audit/static-compare.md
 ```
 
 The audit tool is dependency-free Python. It intentionally reports conservative warnings and may over-report. Treat warnings as investigation targets, not automatic proof.

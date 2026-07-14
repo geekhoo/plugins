@@ -1,0 +1,4 @@
+interface:
+  display_name: "Work Cleaner"
+  short_description: "Prune generated clutter with proof"
+  default_prompt: "Use $work-cleaner to clean recent generated implementation work while preserving behavior and validation evidence."
