@@ -83,6 +83,10 @@ host.docker.internal, and Testcontainers/Ryuk divergences vs Linux CI runners.
 - Never `wsl --unregister podman-machine-default` — it is the default WSL distro; remove
   machines only with `podman machine rm`
 - Only one machine provider at a time: WSL and Hyper-V machines cannot coexist
+- **Space-interleaved output** (`p o d m a n   m a c h i n e   s t a r t …`) is UTF-16 read as
+  8-bit — cosmetic but it breaks any gate that greps the output. Fix for that call:
+  pipe through `| Out-String`, or set `[Console]::OutputEncoding = [Text.Encoding]::UTF8`
+  before invoking `podman`/`wsl`.
 
 ## Troubleshooting
 

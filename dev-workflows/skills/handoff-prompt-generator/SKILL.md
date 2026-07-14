@@ -9,6 +9,8 @@ description: Use when the user asks for a "handoff prompt", "takeover prompt", "
 
 Produce a complete takeover prompt that lets the destination actor continue without hidden conversation context. Optimize for actionable continuity: objective, read order, constraints, expected outputs, validation gates, assumptions, and redaction notes.
 
+**Why this earns its keep:** two sessions built this way each delivered a full work package on a *single* human message — the planning session wrote the kickoff prompt to a file with acceptance gates baked in, and the executing session pasted it, worked autonomously, and closed with evidence. That is the highest steering leverage on record; a well-formed kickoff file replaces a dozen mid-run steers.
+
 ## Prerequisites And Clarification
 
 - Identify the audience: Codex thread, external agent, subagent, human engineer, or future self.
@@ -25,8 +27,9 @@ Produce a complete takeover prompt that lets the destination actor continue with
 5. Include known completed work, pending work, blockers, assumptions, and decisions already made.
 6. Define expected outputs: files to create or edit, reports to return, artifacts to produce, or questions to answer.
 7. Add validation gates with exact commands or checks only when they are known from evidence; otherwise mark them as "derive from repo before running."
-8. Add reporting requirements: what completion should include, what evidence to cite, and how to flag limitations.
-9. Redact sensitive data or mark uncertain sensitive details for user review before transfer.
+8. Add the reporting contract: the recipient must **lead with gate status and raw evidence** (command + exit code + salient output), and state any gate not run as **"NOT RUN"** in those words — never imply verification that did not happen.
+9. **Persist the prompt to a file** so the human's only job is to paste it into a fresh session. Convention: `docs/<package>/kickoff-<task>.md` for package/repo work, or `~/.claude/kickoffs/<task>.md` for meta/infra work. Name it for the task, not the date. (Skip only if the user explicitly wants it inline in chat.)
+10. Redact sensitive data or mark uncertain sensitive details for user review before transfer.
 
 ## Verification Gates
 
@@ -35,8 +38,9 @@ Produce a complete takeover prompt that lets the destination actor continue with
 - G2: Objective and scope boundaries are explicit.
 - G3: Read order is concrete and ordered.
 - G4: Constraints, sensitive-data handling, and assumptions are explicit.
-- G5: Validation and reporting requirements are included.
+- G5: Validation and reporting requirements are included (reporting contract = gate status + evidence first, "NOT RUN" stated explicitly).
 - G6: The prompt is usable without relying on hidden conversation context.
+- G7: The prompt is saved to a file under the naming convention (or the user explicitly chose inline).
 
 ## Acceptance Criteria
 
@@ -46,7 +50,7 @@ Produce a complete takeover prompt that lets the destination actor continue with
 
 ## Expected Outcome
 
-A complete handoff prompt or addendum with objective, read order, constraints, expected outputs, validation gates, assumptions, and redaction notes.
+A complete handoff prompt or addendum with objective, read order, constraints, expected outputs, validation gates, assumptions, and redaction notes — saved to a file under the naming convention (unless the user chose inline), ready to paste into a fresh session with no other setup.
 
 ## Common Mistakes
 

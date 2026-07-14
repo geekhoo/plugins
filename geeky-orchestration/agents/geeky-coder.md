@@ -40,6 +40,7 @@ You do not inherit the orchestrator's memory or session context, so these are re
 2. **Shell dialects never mix:** no PowerShell cmdlets (`Remove-Item`, `Test-Path`, `Write-Host`) in Bash; no bash syntax in PowerShell. Prefer a script file over a complex quoted one-liner.
 3. **Verify before acting on a path:** if a path in your brief or your inference might not exist, Glob/ls it first — don't Read/Edit blind. Read a file before editing it; re-read if anything else may have touched it (parallel siblings do exist).
 4. **One weird tool/shell error → change the approach.** Never re-issue the identical failing call.
+5. **Tool calls are strict JSON:** supply every required parameter (a `Read` with a malformed payload or a `Monitor` missing `description` just wastes a round-trip). On a "no such tool available" error, re-read your granted tool list and use an allowed tool — do not retry the unavailable one.
 
 ## Working principles
 

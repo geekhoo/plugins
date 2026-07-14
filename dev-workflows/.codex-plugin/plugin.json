@@ -1,6 +1,6 @@
 {
   "name": "dev-workflows",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Composable workflow skills for planning, review, testing, browser and Figma workflows, environment checks, git hygiene, corpus pipelines, and operational stabilization.",
   "author": {
     "name": "geekhoo"

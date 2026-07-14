@@ -56,6 +56,7 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 
 - **Session grain:** default to ONE phase (or wave) per session — checkpoint to `handoff.md`, set heartbeat `paused`, and continue in a fresh session — rather than one marathon run. Evidence: chained short sessions had zero stalls/auth incidents where a 91-hour mega-run had seven. Re-entry is cheap because re-invocation resumes (see Execution constraints).
 - **Auth:** before a run expected to exceed ~1 hour, have the user `/login` first (preflight reminds you). On any 401/auth-expiry failure mid-run, the FIRST action is appending a resume block to `handoff.md` (current task, exact state, next command) — the session itself may be unrecoverable.
+- **Quiet/stalled run — diagnose in order:** (1) API 529/capacity (scan log tail for `<synthetic>` turns or "overloaded"), (2) validator/gate crash, (3) 401/auth. The first two are external/mechanical, not model quality — check them before assuming a logic problem. On a 529, checkpoint immediately (the turn may be killed) and consider a `/model` switch (capacity is per-model). Full table in [references/execution-protocol.md](references/execution-protocol.md#failure-modes).
 
 ## Full protocol
 

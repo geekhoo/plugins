@@ -1,7 +1,7 @@
 {
   "name": "geeky-orchestration",
   "description": "Plan, execute, and track feature implementation end-to-end with an intelligent geeky-orchestrator, portable agent projections, lifecycle skills, deterministic quality gates, frozen-artifact guards, and MCP tools.",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "author": {
     "name": "geekhoo"
   },

@@ -205,6 +205,13 @@ These are recoverable — handle inline, do not stop the run:
 - Code-review surfaces minor/nit findings → log under Deferred, proceed.
 - A gate/validator script CRASHES (traceback, missing module) → one-line surface, manual check of the same criteria, note it, continue; flag the plugin for a fix at run end. Never a silent stall.
 - 401/auth-expiry symptoms mid-run → FIRST append a resume block to `handoff.md` (current task, exact state, next command) and set `.heartbeat` to `paused`; the session may be unrecoverable and the handoff is what survives.
+- API 529 / "overloaded" / `<synthetic>` turn (external capacity event, not your fault) → the turn may be killed with no auto-resume. FIRST checkpoint (`handoff.md` + `.heartbeat` `paused`), note the event, then resume; capacity is per-model, so a `/model` switch is a valid mitigation during a degraded window (status.claude.com). Upstream: anthropics/claude-code #60577, #35801.
+
+**Diagnosing a quiet/stalled run** — when a run has gone silent, check causes in THIS order (cheapest first, and the first two are external/mechanical, not model quality):
+1. **529 / capacity** — scan the session log tail for `<synthetic>` model turns or "API Error"/overloaded lines.
+2. **Validator/gate crash** — a gate scripted itself into a traceback and the loop absorbed it.
+3. **401 / auth-expiry** — token lapsed mid-run.
+Only after ruling these out is it a logic/plan problem. Misattributing a 529 kill to "the model got stuck" wastes a wrong-fix cycle.
 
 These STOP the run (mark Blocked, update handoff, return to user):
 - A task's validation block fails after one retry.
