@@ -42,8 +42,9 @@ never continue silently degraded.
 7. `sagas.py <relpath...>` — replay the human messages of specific sessions found above.
 8. `dig.py` — targeted digs: rejected tools, stall gaps, error sites.
 9. `error_kinds.py`, `transcripts_topics.py` — error taxonomy; legacy-era topics.
+10. `retro_extras.py [ROOT]` — standalone (walks the corpus itself, no `scan_results.json` needed): machine-vs-human session split, path-normalized/merged project dirs, dated event trend lines (`<synthetic>` API-error turns by subtype, minor tool/encoding classes), and main-vs-subagent token aggregates. See `scripts/README.md` for the capability detail and the 529-vs-`<synthetic>` note.
 
-Stages 1–4 are the spine; 5–9 are follow-ups driven by what the spine surfaces.
+Stages 1–4 are the spine; 5–9 are follow-ups driven by what the spine surfaces; 10 is a self-contained cross-cut that also serves the A18 "verify prior fixes against recent logs" check.
 
 ## Findings: the fix-vehicle rule (T22)
 
