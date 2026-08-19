@@ -13,7 +13,7 @@ Orchestrates a reductive design-system merge. It **delegates** the read and buil
 
 **Prerequisite:** load the `figma-use` skill before any `use_figma` call. Honor the use_figma gotchas: no `closePlugin`/IIFE; `figma.notify()` throws; set `layoutSizing FILL` after `appendChild`; set `scopes` explicitly (never `ALL_SCOPES`, `[]` for primitives); await every promise; `use_figma` is atomic (a failed script leaves no partial state).
 
-**Dependencies:** `figma-inventory` (this plugin), plus `figma-generate-library` and `figma-use` — provided by the `figma` plugin, which `dev-workflows` declares as a dependency (so the plugin and its Figma MCP server auto-install). They appear namespaced as `figma:figma-generate-library` / `figma:figma-use`.
+**Dependencies:** `figma-inventory` (this plugin), plus `figma-generate-library` and `figma-use` — provided by the `figma` plugin, which must be installed and enabled separately (it supplies the Figma MCP server). They appear namespaced as `figma:figma-generate-library` / `figma:figma-use`.
 
 ## 1. Clarify before starting
 - Which files are **sources** vs the **target**?

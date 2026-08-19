@@ -11,7 +11,7 @@ A read-only primitive that maps what exists in Figma file(s) before any change i
 
 ## 1. Clarify before reading
 - Confirm the **file key(s)** and, if relevant, which are **sources vs the target**.
-- Load the `figma-use` skill first if any step needs JavaScript execution in the file context (`figma-use` is provided by the `figma` plugin, declared as a `dev-workflows` dependency; it appears namespaced as `figma:figma-use`). All reads below use the Figma MCP tools (`get_metadata`, `get_variable_defs`, etc.).
+- Load the `figma-use` skill first if any step needs JavaScript execution in the file context (`figma-use` is provided by the `figma` plugin, which must be installed and enabled separately; it appears namespaced as `figma:figma-use`). All reads below use the Figma MCP tools (`get_metadata`, `get_variable_defs`, etc.).
 
 ## 2. Inventory (read-only — make no edits)
 Enumerate, paging to avoid timeouts (don't pull everything in one call):

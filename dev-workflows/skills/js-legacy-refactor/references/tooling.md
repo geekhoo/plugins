@@ -1,6 +1,6 @@
 # Tooling bundled with this skill
 
-The tools live in this skill's `tools/` directory (resolve the path from the skill's own directory, e.g. `<plugin-root>/skills/js_legacy_refactor_skill/tools/` — the examples below assume you substitute that absolute path for `tools/`). Run them from the root of the app being refactored.
+The tools live in this skill's `tools/` directory (resolve the path from the skill's own directory, e.g. `<plugin-root>/skills/js-legacy-refactor/tools/` — the examples below assume you substitute that absolute path for `tools/`). Run them from the root of the app being refactored.
 
 ## Static audit and comparison
 
