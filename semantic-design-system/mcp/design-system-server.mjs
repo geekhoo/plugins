@@ -4,15 +4,23 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { DEFAULT_TOKEN_DIR } from '../scripts/token-utils.mjs';
 
+// A harness may pass a placeholder through unexpanded (e.g. the literal
+// "${CLAUDE_PLUGIN_ROOT}"); treat those as unset instead of resolving them
+// into a path that does not exist.
+const envPath = (name) => {
+  const v = process.env[name];
+  return v && !v.includes('${') ? v : undefined;
+};
+
 const pluginRoot =
-  process.env.PLUGIN_ROOT ||
-  process.env.CODEX_PLUGIN_ROOT ||
-  process.env.CLAUDE_PLUGIN_ROOT ||
+  envPath('PLUGIN_ROOT') ||
+  envPath('CODEX_PLUGIN_ROOT') ||
+  envPath('CLAUDE_PLUGIN_ROOT') ||
   path.resolve(import.meta.dirname, '..');
 const projectDir =
-  process.env.PLUGIN_PROJECT_DIR ||
-  process.env.CODEX_PROJECT_DIR ||
-  process.env.CLAUDE_PROJECT_DIR ||
+  envPath('PLUGIN_PROJECT_DIR') ||
+  envPath('CODEX_PROJECT_DIR') ||
+  envPath('CLAUDE_PROJECT_DIR') ||
   process.cwd();
 const defaultTokenDir = DEFAULT_TOKEN_DIR;
 const defaultCssOutputFile = process.env.DEFAULT_CSS_OUTPUT_FILE || 'src/styles/tokens.css';
