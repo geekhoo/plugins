@@ -58,9 +58,14 @@ async def _run(script: Path, args: list[str], stdin_text: Optional[str] = None) 
 
     cmd = [sys.executable, str(script), *args]
     try:
+        # stdin is DEVNULL, never None: on stdio transport this server's own
+        # stdin is the host's pipe, and a validator that inherits it never
+        # exits -- the tool call hangs until the host gives up. Only the two
+        # validators that are fed text on stdin get a pipe of their own.
         proc = await asyncio.create_subprocess_exec(
             *cmd,
-            stdin=asyncio.subprocess.PIPE if stdin_text is not None else None,
+            stdin=(asyncio.subprocess.PIPE if stdin_text is not None
+                   else asyncio.subprocess.DEVNULL),
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
         )
