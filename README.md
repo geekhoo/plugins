@@ -1,21 +1,20 @@
 # geekhoo plugins
 
-This repository is a marketplace for four local plugins. They cover DevExtreme
-pages, design tokens, feature delivery, and the day-to-day work around software
-projects. It is a toolbox, not a single application. Install the plugin that
-matches the work in front of you.
+This repository publishes four local plugins. They cover DevExtreme page work,
+design tokens, feature delivery, and day-to-day engineering tasks. Pick the
+plugin that matches the job.
 
-The repository is packaged as a Claude Code marketplace and also includes Codex
-plugin manifests. Each plugin keeps its own documentation and validation tools.
+The root includes a Claude Code marketplace plus Codex plugin manifests. Each
+plugin has its own docs and checks.
 
 ## Plugins
 
 | Plugin | Use it for | Version | Docs |
 |---|---|---:|---|
 | `dx-webdev` | Pure HTML, JavaScript, and CSS pages built with DevExtreme jQuery widgets. | 0.2.3 | [README](dx-webdev/README.md) |
-| `semantic-design-system` | Generating, deriving, validating, and applying DTCG design tokens, including CSS output and optional MCP tools. | 0.2.7 | [README](semantic-design-system/README.md) |
-| `geeky-orchestration` | Researching, planning, reviewing, implementing, tracking, and archiving feature work. | 0.2.16 | [README](geeky-orchestration/README.md) |
-| `dev-workflows` | Composable skills for planning, review, testing, browser and Figma work, environment setup, Git, documents, and session analysis. | 0.2.12 | [Packaging notes](dev-workflows/PACKAGING.md) |
+| `semantic-design-system` | Build, validate, and apply DTCG design tokens, including CSS output and optional MCP tools. | 0.2.7 | [README](semantic-design-system/README.md) |
+| `geeky-orchestration` | Plan, review, implement, track, and archive feature work. | 0.2.16 | [README](geeky-orchestration/README.md) |
+| `dev-workflows` | Reusable skills for planning, review, testing, browser and Figma work, environment setup, Git, docs, and session analysis. | 0.2.12 | [Packaging notes](dev-workflows/PACKAGING.md) |
 
 The versions in this table come from
 `.claude-plugin/marketplace.json`. The Claude and Codex manifests inside each
@@ -37,15 +36,16 @@ You only need to install the plugins you plan to use. The marketplace name is
 `geekhoo-plugins`, and the install name is the plugin name in the table above.
 
 `dev-workflows` lists two dependencies in
-`dev-workflows/.codex-plugin/plugin.json`: the local `geeky-orchestration`
-plugin and the official `figma` plugin from `claude-plugins-official`.
+`dev-workflows/.codex-plugin/plugin.json`. They are the local
+`geeky-orchestration` plugin and the official `figma` plugin from
+`claude-plugins-official`.
 Claude Code installs `dev-workflows` on its own, so install
 `geeky-orchestration` and `figma` separately when you need those skills. The
 marketplace allowlist in `.claude-plugin/marketplace.json` permits the
 cross-marketplace `figma` dependency.
 
-The plugin folders also contain `.codex-plugin` manifests for Codex. Load the
-plugin from its directory using the Codex plugin workflow for your installation.
+Each plugin folder also has a `.codex-plugin` manifest. Load the plugin from
+its directory with the Codex plugin workflow for your setup.
 `geeky-orchestration` includes a projection script for Claude, Codex, Copilot,
 Cursor, and generic Markdown agent files. See its
 [cross-harness registration guide](geeky-orchestration/docs/cross-harness-agent-registration.md).
@@ -56,21 +56,22 @@ Use `dx-webdev` when the output must be ordinary `index.html`, `styles.css`,
 and `app.js` files. Its checks reject framework artifacts, JSX or TSX markers,
 and ThemeBuilder output.
 
-Use `semantic-design-system` when a project needs a token system. It works from
+Use `semantic-design-system` when a project needs tokens. It reads
 `design/tokens/` by default, validates DTCG token files, resolves aliases, and
-builds semantic and component tokens into CSS custom properties. It also ships
-an optional MCP server and a Figma sync skill with Claude and Codex guidance.
+builds semantic and component tokens into CSS custom properties. It also
+includes an optional MCP server and a Figma sync skill with Claude and Codex
+guidance.
 
-Use `geeky-orchestration` when the work needs a guarded path from research to
-plan to implementation. Its planning files have frozen and mutable parts,
-while Python and PowerShell gates check folder shape, task schemas, kanban
-state, Definition of Done, and commit messages. The optional MCP server wraps
+Use `geeky-orchestration` when the work needs a structured path from research
+to planning to implementation. Its planning files have frozen and mutable
+sections. Python and PowerShell gates check folder shape, task schemas, kanban
+state, Definition of Done, and commit messages. The optional MCP server runs
 the same gates for MCP-capable agents.
 
-Use `dev-workflows` when you need a single skill rather than a full lifecycle.
-Its library includes small tools such as environment checks, scope guards,
-browser probes, repository validation, document checks, and Git hygiene, as
-well as larger workflows that compose them.
+Use `dev-workflows` when you need one skill instead of a full lifecycle. Its
+library includes small tools such as environment checks, scope guards, browser
+probes, repository validation, document checks, and Git hygiene. It also
+includes larger workflows built from those tools.
 
 ## Repository layout
 
