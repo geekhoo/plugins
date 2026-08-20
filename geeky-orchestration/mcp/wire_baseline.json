@@ -1,0 +1,446 @@
+{
+  "initialize": {
+    "capabilities": {
+      "experimental": {},
+      "prompts": {
+        "listChanged": false
+      },
+      "resources": {
+        "listChanged": false,
+        "subscribe": false
+      },
+      "tools": {
+        "listChanged": false
+      }
+    },
+    "protocolVersion": "2025-11-25"
+  },
+  "schema": "geeky_mcp.wire_baseline/1",
+  "tools_call": {
+    "geeky_check_commit": {
+      "content": [
+        {
+          "text": "{\n  \"exit_code\": 0,\n  \"ok\": true,\n  \"subject\": \"feat(mcp): capture wire baseline\",\n  \"errors\": [],\n  \"warnings\": []\n}",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "errors": [],
+        "exit_code": 0,
+        "ok": true,
+        "subject": "feat(mcp): capture wire baseline",
+        "warnings": []
+      }
+    },
+    "geeky_check_dod": {
+      "content": [
+        {
+          "text": "{\n  \"exit_code\": 0,\n  \"ok\": true,\n  \"task\": \"T1\",\n  \"errors\": [],\n  \"warnings\": [],\n  \"lanes\": [\n    \"Done\"\n  ],\n  \"validation_block\": \"- python -m pytest -q\"\n}",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "errors": [],
+        "exit_code": 0,
+        "lanes": [
+          "Done"
+        ],
+        "ok": true,
+        "task": "T1",
+        "validation_block": "- python -m pytest -q",
+        "warnings": []
+      }
+    },
+    "geeky_check_frozen_artifact": {
+      "content": [
+        {
+          "text": "{\n  \"frozen\": true,\n  \"file_path\": \"<FIXTURE>//tasks//T1-example.md\",\n  \"reason\": \"[geeky-orchestration] <FIXTURE>//tasks//T1-example.md is a frozen task file (per-task notes belong in tasks/Tx-*.notes.md instead). Planning artifacts are the frozen contract between geeky-plan and geeky-implement. If the plan is genuinely wrong, surface it via kanban Blocked + handoff.md rather than editing the contract mid-run.\",\n  \"exit_code\": 2\n}",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "exit_code": 2,
+        "file_path": "<FIXTURE>/tasks/T1-example.md",
+        "frozen": true,
+        "reason": "[geeky-orchestration] <FIXTURE>/tasks/T1-example.md is a frozen task file (per-task notes belong in tasks/Tx-*.notes.md instead). Planning artifacts are the frozen contract between geeky-plan and geeky-implement. If the plan is genuinely wrong, surface it via kanban Blocked + handoff.md rather than editing the contract mid-run."
+      }
+    },
+    "geeky_validate_kanban": {
+      "content": [
+        {
+          "text": "{\n  \"exit_code\": 0,\n  \"ok\": true,\n  \"errors\": [],\n  \"warnings\": [],\n  \"lane_counts\": {\n    \"Backlog\": 0,\n    \"Ready\": 0,\n    \"In Progress\": 0,\n    \"In Review\": 0,\n    \"Blocked\": 0,\n    \"Done\": 1\n  },\n  \"summary\": \"OK: 1 task(s) tracked, 1 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=1\"\n}",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "errors": [],
+        "exit_code": 0,
+        "lane_counts": {
+          "Backlog": 0,
+          "Blocked": 0,
+          "Done": 1,
+          "In Progress": 0,
+          "In Review": 0,
+          "Ready": 0
+        },
+        "ok": true,
+        "summary": "OK: 1 task(s) tracked, 1 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=1",
+        "warnings": []
+      }
+    },
+    "geeky_validate_planning_folder": {
+      "content": [
+        {
+          "text": "{\n  \"exit_code\": 0,\n  \"ok\": true,\n  \"task_count\": 1,\n  \"missing_required\": [],\n  \"missing_recommended\": [],\n  \"summary\": \"planning folder valid, 1 task file(s)\"\n}",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "exit_code": 0,
+        "missing_recommended": [],
+        "missing_required": [],
+        "ok": true,
+        "summary": "planning folder valid, 1 task file(s)",
+        "task_count": 1
+      }
+    },
+    "geeky_validate_task_schema": {
+      "content": [
+        {
+          "text": "{\n  \"exit_code\": 0,\n  \"ok\": true,\n  \"results\": [\n    {\n      \"file\": \"T1-example.md\",\n      \"ok\": true,\n      \"missing_required\": [],\n      \"missing_recommended\": []\n    }\n  ]\n}",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "exit_code": 0,
+        "ok": true,
+        "results": [
+          {
+            "file": "T1-example.md",
+            "missing_recommended": [],
+            "missing_required": [],
+            "ok": true
+          }
+        ]
+      }
+    }
+  },
+  "tools_list": {
+    "tools": [
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true,
+          "title": "Validate planning folder"
+        },
+        "description": "Verify a geeky-plan folder contains the artifacts geeky-implement needs.\n\nChecks for implementation-plan.md, kanban.md, references.md, handoff.md, and a\nnon-empty tasks/ folder; reports missing recommended files (feature-specification.md,\ndraft.md) as warnings.\n\nArgs:\n    params (FolderInput): folder = absolute path to the planning folder.\n\nReturns:\n    dict: { ok: bool, task_count: int, missing_required: [str],\n            missing_recommended: [str], summary: str, exit_code: int }.\n    ok=false with exit_code=1 means the folder is incomplete (a validation\n    failure, not a server error).\n",
+        "inputSchema": {
+          "$defs": {
+            "FolderInput": {
+              "additionalProperties": false,
+              "properties": {
+                "folder": {
+                  "description": "Absolute path to the geeky-plan planning folder (contains kanban.md, tasks/, etc.)",
+                  "minLength": 1,
+                  "title": "Folder",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "folder"
+              ],
+              "title": "FolderInput",
+              "type": "object"
+            }
+          },
+          "properties": {
+            "params": {
+              "$ref": "#/$defs/FolderInput"
+            }
+          },
+          "required": [
+            "params"
+          ],
+          "title": "geeky_validate_planning_folderArguments",
+          "type": "object"
+        },
+        "name": "geeky_validate_planning_folder",
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "geeky_validate_planning_folderDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true,
+          "title": "Validate task-file schema"
+        },
+        "description": "Validate that task files carry the required template sections.\n\nThe plan->implement boundary gate. Required sections: Task Name, In scope,\nDependencies, Acceptance Criteria, Tests/Validation, Priority. Missing\nrecommended sections (Context, Module/System, Technical Notes, Definition of\nDone, Estimate) are warnings.\n\nArgs:\n    params (TaskSchemaInput): provide 'folder' (validate all tasks/Tx-*.md) OR\n        'file' (validate one task .md).\n\nReturns:\n    dict: { ok: bool, results: [ { file, ok, missing_required, missing_recommended } ],\n            exit_code: int }.\n",
+        "inputSchema": {
+          "$defs": {
+            "TaskSchemaInput": {
+              "additionalProperties": false,
+              "properties": {
+                "file": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "A single task .md file to validate instead of a whole folder",
+                  "title": "File"
+                },
+                "folder": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Planning folder; validates every tasks/Tx-*.md in it",
+                  "title": "Folder"
+                }
+              },
+              "title": "TaskSchemaInput",
+              "type": "object"
+            }
+          },
+          "properties": {
+            "params": {
+              "$ref": "#/$defs/TaskSchemaInput"
+            }
+          },
+          "required": [
+            "params"
+          ],
+          "title": "geeky_validate_task_schemaArguments",
+          "type": "object"
+        },
+        "name": "geeky_validate_task_schema",
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "geeky_validate_task_schemaDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true,
+          "title": "Validate kanban integrity"
+        },
+        "description": "Check kanban.md integrity against the tasks/ folder.\n\nErrors (ok=false): a task file placed in no lane (untracked); a task in more\nthan one lane (ambiguous). Warnings: dangling references, WIP cap exceeded,\nmissing lane headings.\n\nArgs:\n    params (KanbanInput): folder = planning folder; wip = In Progress cap (default 3).\n\nReturns:\n    dict: { ok: bool, errors: [str], warnings: [str], lane_counts: {lane:int},\n            summary: str, exit_code: int }.\n",
+        "inputSchema": {
+          "$defs": {
+            "KanbanInput": {
+              "additionalProperties": false,
+              "properties": {
+                "folder": {
+                  "description": "Planning folder containing kanban.md and tasks/",
+                  "minLength": 1,
+                  "title": "Folder",
+                  "type": "string"
+                },
+                "wip": {
+                  "default": 3,
+                  "description": "In Progress WIP cap before a warning is raised",
+                  "maximum": 50,
+                  "minimum": 1,
+                  "title": "Wip",
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "folder"
+              ],
+              "title": "KanbanInput",
+              "type": "object"
+            }
+          },
+          "properties": {
+            "params": {
+              "$ref": "#/$defs/KanbanInput"
+            }
+          },
+          "required": [
+            "params"
+          ],
+          "title": "geeky_validate_kanbanArguments",
+          "type": "object"
+        },
+        "name": "geeky_validate_kanban",
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "geeky_validate_kanbanDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true,
+          "title": "Check Definition of Done"
+        },
+        "description": "Verify a task's Definition of Done before it moves to Done.\n\nAsserts: a per-task notes file tasks/<ID>-*.notes.md exists; <ID> is in the Done\nlane; handoff.md mentions <ID>. Also returns the task's Tests/Validation block so\nthe caller can re-run it (\"verify, don't trust\").\n\nArgs:\n    params (DodInput): folder = planning folder; task = task id (e.g. 'T3').\n\nReturns:\n    dict: { ok: bool, task: str, errors: [str], warnings: [str], lanes: [str],\n            validation_block: str, exit_code: int }.\n",
+        "inputSchema": {
+          "$defs": {
+            "DodInput": {
+              "additionalProperties": false,
+              "properties": {
+                "folder": {
+                  "description": "Planning folder",
+                  "minLength": 1,
+                  "title": "Folder",
+                  "type": "string"
+                },
+                "task": {
+                  "description": "Task id to check, e.g. 'T3'",
+                  "minLength": 2,
+                  "title": "Task",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "folder",
+                "task"
+              ],
+              "title": "DodInput",
+              "type": "object"
+            }
+          },
+          "properties": {
+            "params": {
+              "$ref": "#/$defs/DodInput"
+            }
+          },
+          "required": [
+            "params"
+          ],
+          "title": "geeky_check_dodArguments",
+          "type": "object"
+        },
+        "name": "geeky_check_dod",
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "geeky_check_dodDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true,
+          "title": "Check commit message"
+        },
+        "description": "Validate a commit message: Conventional Commits subject + a task reference.\n\nErrors (ok=false): subject not 'type(scope): summary'; subject > 72 chars; no\ntask reference. A bare T<n> without a 'Tasks:' line is a warning, not an error.\n\nArgs:\n    params (CommitInput): message = full commit message text.\n\nReturns:\n    dict: { ok: bool, subject: str, errors: [str], warnings: [str], exit_code: int }.\n",
+        "inputSchema": {
+          "$defs": {
+            "CommitInput": {
+              "additionalProperties": false,
+              "properties": {
+                "message": {
+                  "description": "The full commit message text to validate",
+                  "minLength": 1,
+                  "title": "Message",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "message"
+              ],
+              "title": "CommitInput",
+              "type": "object"
+            }
+          },
+          "properties": {
+            "params": {
+              "$ref": "#/$defs/CommitInput"
+            }
+          },
+          "required": [
+            "params"
+          ],
+          "title": "geeky_check_commitArguments",
+          "type": "object"
+        },
+        "name": "geeky_check_commit",
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "geeky_check_commitDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true,
+          "title": "Check if a path is a frozen artifact"
+        },
+        "description": "Check whether a file path is a frozen geeky-plan planning artifact.\n\nUse this as a pre-edit guardrail (the in-process equivalent of the PreToolUse\nguard hook): call it before editing a file inside a planning folder. Frozen:\nimplementation-plan.md, feature-specification.md, draft.md, references.md, and\ntasks/Tx-*.md bodies (but NOT tasks/Tx-*.notes.md).\n\nArgs:\n    params (FrozenInput): file_path = the path an agent intends to edit.\n\nReturns:\n    dict: { frozen: bool, file_path: str, reason: str|None, exit_code: int }.\n    frozen=true means do not edit — surface plan issues via kanban Blocked + handoff.md.\n",
+        "inputSchema": {
+          "$defs": {
+            "FrozenInput": {
+              "additionalProperties": false,
+              "properties": {
+                "file_path": {
+                  "description": "Path an agent intends to edit; checks whether it is a frozen planning artifact",
+                  "minLength": 1,
+                  "title": "File Path",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "file_path"
+              ],
+              "title": "FrozenInput",
+              "type": "object"
+            }
+          },
+          "properties": {
+            "params": {
+              "$ref": "#/$defs/FrozenInput"
+            }
+          },
+          "required": [
+            "params"
+          ],
+          "title": "geeky_check_frozen_artifactArguments",
+          "type": "object"
+        },
+        "name": "geeky_check_frozen_artifact",
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "geeky_check_frozen_artifactDictOutput",
+          "type": "object"
+        }
+      }
+    ]
+  }
+}
