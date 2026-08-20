@@ -223,10 +223,21 @@ installed cache.
 
 ---
 
-## What this plan deliberately does not deliver
+## What this plan delivers
 
-Claude Code negotiates the protocol revision, not the server. Until its MCP client
-drops the `initialize` handshake for stateless `_meta` requests, both SDK majors
-serve **2025-11-25** and `geeky_mcp` behaves exactly as it does today. Completing
-these four tasks buys a removed ceiling and measured readiness — not a change the
-user can observe. Judge it on that basis.
+Claude Code negotiates the protocol revision, not the server — and it already drives
+the stateless path. Measured against a real connection (spec.md → Versions), the host
+probes with `server/discover`, then issues `subscriptions/listen` and every
+subsequent request with `_meta` carrying **2026-07-28**, never sending `initialize`.
+`mcp` 2.x answers that exchange cleanly; `mcp` 1.x makes the host fall back to the v1
+handshake at 2025-11-25.
+
+So completing these four tasks moves `geeky_mcp` onto the current protocol revision
+with cacheable list results, not merely onto a newer library. Both harnesses on this
+machine carry the v2 client — the CLI (2.1.237) and the desktop app's own bundled
+copy (2.1.234), which are separate installs at different versions.
+
+One thing to watch rather than assume: the host launches the server process **twice**
+per connection (probe, then session), so `uv run` startup cost is paid twice. That is
+true today on 1.x as well, but it is worth measuring in T2 rather than discovering
+later.

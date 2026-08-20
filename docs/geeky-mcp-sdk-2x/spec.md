@@ -124,7 +124,7 @@ by this work. This spec touches transport and packaging only.
 | Python | `>=3.10` | unchanged | `mcp/pyproject.toml` |
 | Claude Code | 2.1.237 | — | `claude --version` |
 
-### What 2026-07-28 actually requires — measured, not assumed
+### What 2026-07-28 requires, and what the host actually does — both measured
 
 The new revision is only reachable in **true stateless mode**. Measured against a
 `MCPServer` on stdio:
@@ -133,13 +133,36 @@ The new revision is only reachable in **true stateless mode**. Measured against 
 |---|---|
 | `initialize` handshake, any `protocolVersion` | **2025-11-25** |
 | `initialize` handshake, then `_meta` carrying 2026-07-28 | rejected, `-32600` "this connection serves the handshake protocol era" |
-| **no `initialize`**, protocol version + clientInfo + capabilities in `_meta` on every request | **2026-07-28** — response gains `cacheScope` and `resultType` |
+| **no `initialize`**, protocol version + clientInfo + capabilities in `_meta` on every request | **2026-07-28** — response gains `cacheScope`, `resultType`, `ttlMs` |
 
-So migrating the SDK does **not** by itself upgrade the protocol. The revision in use
-is chosen by the client. Until Claude Code's MCP client drops the handshake and moves
-to stateless `_meta` requests, both SDKs deliver 2025-11-25 and the observable
-behaviour of `geeky_mcp` is unchanged. That is the honest value case: this work buys
-**readiness and an unblocked ceiling**, not a capability the user can see today.
+**Claude Code already drives the stateless path.** Captured from a real connection by
+proxying a stdio server behind a logging tee (`--mcp-config` + `--strict-mcp-config`,
+Claude Code 2.1.237). The host launches the server **twice** per connection:
+
+1. probe process — a single `server/discover` request, then exit;
+2. session process — `subscriptions/listen` carrying
+   `_meta["io.modelcontextprotocol/protocolVersion"] = "2026-07-28"`, then
+   `prompts/list`, `resources/list`, `tools/list`, each with the same `_meta`.
+   No `initialize` is ever sent.
+
+Against `mcp` 2.0.0 this exchange completed cleanly on every run, returning the full
+tool list with `cacheScope`, `resultType`, and `ttlMs`. Against `mcp` 1.29.0 the host
+falls back to the v1 `initialize` → `notifications/initialized` → `tools/list`
+handshake at 2025-11-25 — also clean.
+
+So the host supports both and picks per server. Migrating **does** change the
+protocol in use: `geeky_mcp` moves from the v1 handshake at 2025-11-25 to stateless
+2026-07-28 with cacheable list results. The value case is real, not merely readiness.
+
+Both harnesses on this machine carry the v2 client: the CLI at `~/.local/bin`
+(2.1.237) and the desktop app's own bundled copy at
+`~/AppData/Roaming/Claude/claude-code/2.1.234/`. Note they are **different versions** —
+the desktop app does not use the CLI on `PATH`.
+
+**Caveat on the double launch.** Because the host starts the server process twice per
+connection, startup cost is paid twice. `uv run` + Python + Pydantic import is not
+free. This is a latency consideration for the migration, not a correctness one, and
+it applies equally to both SDK majors.
 
 ## Invariants
 
