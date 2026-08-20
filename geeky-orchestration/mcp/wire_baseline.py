@@ -17,11 +17,21 @@ The transcript is deliberately stripped of everything that legitimately varies:
     irreproducible on the very next run.
   * keys are sorted recursively.
 
+What it does *not* normalise is the tool descriptions, which come straight from
+the handler docstrings -- and CPython 3.13 changed the compiler to strip leading
+indentation from docstrings, so the same server emits differently formatted
+descriptions on 3.12 and on 3.14. The baseline is therefore only reproducible on
+one side of that change; `.python-version` pins this project to 3.14 so `uv`
+cannot quietly build the venv on an older interpreter, and MIN_PYTHON below
+fails loudly rather than writing a baseline that will not diff.
+
 Run (from this directory):
 
   uv run --with "mcp>=1.2.0" python wire_baseline.py --out wire_baseline.json
 
-Deliberately not wired into pytest: every run pays a `uv` resolve.
+Deliberately not wired into pytest: every run pays a `uv` resolve. The stdio
+invariant it used to be the only check for -- that no validator inherits the
+host's transport -- is guarded cheaply in ../test_mcp_server.py.
 """
 
 from __future__ import annotations
@@ -43,6 +53,12 @@ SERVER = HERE / "server.py"
 FIXTURE = "<FIXTURE>"
 PROTOCOL_VERSION = "2025-11-25"
 READ_TIMEOUT_S = 120.0
+
+# CPython 3.13 strips docstring indentation at compile time; 3.10-3.12 do not.
+# Tool descriptions are docstrings, so a capture below this floor differs from
+# the committed baseline in all six of them for a reason that has nothing to do
+# with the server or the SDK.
+MIN_PYTHON = (3, 13)
 
 # Fixed order: the transcript must not depend on dict iteration order.
 TOOL_CALLS: list[tuple[str, dict[str, Any]]] = [
@@ -331,6 +347,16 @@ def main() -> int:
     parser.add_argument("--out", required=True,
                         help="path to write the normalised transcript to")
     args = parser.parse_args()
+
+    if sys.version_info[:2] < MIN_PYTHON:
+        raise SystemExit(
+            "wire_baseline: refusing to capture on Python %d.%d. Tool descriptions "
+            "are docstrings, and CPython %d.%d+ strips their indentation while older "
+            "versions keep it, so this capture would differ from the committed "
+            "baseline in every description for reasons unrelated to the server. "
+            "Run it on the interpreter named in .python-version."
+            % (sys.version_info[0], sys.version_info[1], MIN_PYTHON[0], MIN_PYTHON[1])
+        )
 
     with tempfile.TemporaryDirectory(prefix="geekywire") as temp_dir:
         root = Path(temp_dir)

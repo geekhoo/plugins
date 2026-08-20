@@ -157,6 +157,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File "${CLAUDE_PLUGIN_ROOT}/hooks/guard
 Requirements:
 - The Python implementations need **Python 3.8+** on PATH as `python` (or `python3` — edit `hooks.json` if your environment uses the latter). No third-party packages required — stdlib only.
 - The PowerShell implementations need **PowerShell 7+ (`pwsh`)**. Works on Windows out of the box; install `pwsh` separately on macOS/Linux if you prefer them there.
+- The `geeky_mcp` server is the exception: it needs `uv` and is pinned to **Python 3.14** by `mcp/.python-version` (`uv` downloads it on first launch if absent). The gates and hook above are unaffected. See [mcp/README.md](mcp/README.md) for why the interpreter is pinned, what the server costs at startup, and the stdio subprocess rule.
 
 ## Other notes
 
