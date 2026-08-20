@@ -36,10 +36,13 @@ Add the repository as a marketplace, then install one or more plugins:
 You only need to install the plugins you plan to use. The marketplace name is
 `geekhoo-plugins`, and the install name is the plugin name in the table above.
 
-`dev-workflows` declares two dependencies. It uses the local
-`geeky-orchestration` plugin and the official `figma` plugin from
-`claude-plugins-official`. The marketplace allowlist in
-`.claude-plugin/marketplace.json` permits that cross-marketplace dependency.
+`dev-workflows` lists two dependencies in
+`dev-workflows/.codex-plugin/plugin.json`: the local `geeky-orchestration`
+plugin and the official `figma` plugin from `claude-plugins-official`.
+Claude Code installs `dev-workflows` on its own, so install
+`geeky-orchestration` and `figma` separately when you need those skills. The
+marketplace allowlist in `.claude-plugin/marketplace.json` permits the
+cross-marketplace `figma` dependency.
 
 The plugin folders also contain `.codex-plugin` manifests for Codex. Load the
 plugin from its directory using the Codex plugin workflow for your installation.
