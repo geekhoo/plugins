@@ -152,8 +152,8 @@ python scripts/sync-agents.py --dry-run --json
 ```
 
 The quality-gate scripts need only the Python standard library. The optional
-`geeky_mcp` server needs `uv` and the `mcp` package. Its `.python-version`
-pins the server environment to Python 3.14. See the
+`geeky_mcp` server needs `uv` and the `mcp` package. Its
+`mcp/.python-version` pins the server environment to Python 3.14. See the
 [MCP notes](geeky-orchestration/mcp/README.md) before running it directly.
 
 ### `dev-workflows`
