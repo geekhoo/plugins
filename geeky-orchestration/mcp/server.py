@@ -26,7 +26,13 @@ from pathlib import Path
 from typing import Any, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
-from mcp.server.fastmcp import FastMCP
+
+try:                                                    # mcp >= 2.0
+    from mcp.server.mcpserver import MCPServer as _Server
+    _SERVER_TAKES_VERSION = True
+except ImportError:                                     # mcp 1.x
+    from mcp.server.fastmcp import FastMCP as _Server
+    _SERVER_TAKES_VERSION = False
 
 PLUGIN_ROOT = Path(__file__).resolve().parent.parent
 SCRIPTS = PLUGIN_ROOT / "scripts"
@@ -39,7 +45,33 @@ READONLY = {
     "openWorldHint": False,
 }
 
-mcp = FastMCP("geeky_mcp")
+
+def _plugin_version() -> str:
+    """The plugin's own version, for serverInfo.version.
+
+    Neither SDK default is useful here: FastMCP reports the *SDK* version and
+    MCPServer reports an empty string, while what identifies this server to an
+    operator is the release it shipped in. A version string must never be the
+    reason a server fails to boot, so an unreadable manifest degrades to 0.0.0.
+    """
+    try:
+        manifest = PLUGIN_ROOT / ".claude-plugin" / "plugin.json"
+        version = json.loads(manifest.read_text(encoding="utf-8"))["version"]
+        return str(version) or "0.0.0"
+    except Exception:
+        return "0.0.0"
+
+
+SERVER_VERSION = _plugin_version()
+
+if _SERVER_TAKES_VERSION:
+    mcp = _Server("geeky_mcp", version=SERVER_VERSION)
+else:
+    # FastMCP 1.x accepts no version= at all -- the field lives on the lowlevel
+    # server it wraps, and is left None so that initialize falls back to the
+    # installed mcp version. Setting it there is the only route on this major.
+    mcp = _Server("geeky_mcp")
+    mcp._mcp_server.version = SERVER_VERSION
 
 
 # --------------------------------------------------------------------------- #
