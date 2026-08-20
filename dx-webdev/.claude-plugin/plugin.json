@@ -1,9 +1,21 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "dx-webdev",
-  "version": "0.2.2",
+  "displayName": "DX WebDev",
+  "version": "0.2.3",
   "description": "Personal DevExtreme jQuery web development helpers for pure HTML/JS/CSS apps, incl. the ProgramsV2 grid updater.",
   "author": {
     "name": "geekhoo"
   },
+  "homepage": "https://github.com/geekhoo/plugins/tree/main/dx-webdev",
+  "repository": "https://github.com/geekhoo/plugins",
+  "license": "UNLICENSED",
+  "keywords": [
+    "devextreme",
+    "jquery",
+    "html",
+    "css",
+    "javascript"
+  ],
   "skills": "./skills/"
 }
