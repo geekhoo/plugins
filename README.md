@@ -56,7 +56,7 @@ and ThemeBuilder output.
 Use `semantic-design-system` when a project needs a token system. It works from
 `design/tokens/` by default, validates DTCG token files, resolves aliases, and
 builds semantic and component tokens into CSS custom properties. It also ships
-an optional MCP server and a Claude-only Figma sync skill.
+an optional MCP server and a Figma sync skill with Claude and Codex guidance.
 
 Use `geeky-orchestration` when the work needs a guarded path from research to
 plan to implementation. Its planning files have frozen and mutable parts,
