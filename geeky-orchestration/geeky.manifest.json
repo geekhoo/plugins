@@ -13,7 +13,7 @@
     "entry": "mcp/server.py",
     "transport": "stdio",
     "registration": ".mcp.json (mcpServers.geeky)",
-    "run": "uv run --with 'mcp<2.0.0' python mcp/server.py   (or: pip install mcp && python mcp/server.py)",
+    "run": "uv run --with 'mcp>=1.2.0' python mcp/server.py   (or: pip install mcp && python mcp/server.py)",
     "tools": [
       "geeky_validate_planning_folder",
       "geeky_validate_task_schema",

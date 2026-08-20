@@ -3,7 +3,7 @@ __pycache__/
 *.py[cod]
 
 # uv / virtualenv artifacts from running the bundled MCP server locally.
-# The server runs via `uv run --with "mcp<2.0.0"` (ephemeral env), so these are not shipped.
+# The server runs via `uv run --with "mcp>=1.2.0"` (ephemeral env), so these are not shipped.
 mcp/.venv/
 mcp/uv.lock
 .venv/

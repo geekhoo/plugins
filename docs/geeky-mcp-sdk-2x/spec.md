@@ -161,8 +161,42 @@ the desktop app does not use the CLI on `PATH`.
 
 **Caveat on the double launch.** Because the host starts the server process twice per
 connection, startup cost is paid twice. `uv run` + Python + Pydantic import is not
-free. This is a latency consideration for the migration, not a correctness one, and
-it applies equally to both SDK majors.
+free. This is a latency consideration for the migration, not a correctness one.
+
+### Measured after the migration
+
+Both numbers below were captured on the delivering machine (Windows 11, `uv`
+0.11.7, Python 3.14.7) against the migrated `server.py`.
+
+**Stateless probe — the readiness claim, now measured against this server.** One
+`tools/list` with no `initialize` and `_meta` carrying `2026-07-28`, under
+`uv run --with "mcp>=2.0.0" python server.py`:
+
+| Field | Value |
+|---|---|
+| `cacheScope` | `private` |
+| `resultType` | `complete` |
+| `ttlMs` | `0` |
+| `_meta` → `serverInfo` | `{"name": "geeky_mcp", "version": "0.2.15"}` |
+| tools returned | 6 |
+
+So `geeky_mcp` answers the stateless 2026-07-28 exchange with cacheable list
+results, and reports the plugin version on that path as well as on the handshake.
+
+**Startup latency — the one cost this spec could not estimate in advance.** Time
+from process launch to the `initialize` response; cold means the project `.venv`
+was rebuilt first, warm is the mean of four consecutive runs after it:
+
+| SDK | Cold | Warm | Warm × 2 (per connection) |
+|---|---|---|---|
+| `mcp` 1.29.0 | 7.73 s | 1.49 s | ~2.99 s |
+| `mcp` 2.0.0 | 6.76 s | 3.04 s | ~6.07 s |
+
+The cost does **not** apply equally to both majors, as this spec assumed before
+measuring: 2.0.0 roughly doubles warm startup, and the double launch doubles that
+again, so a connection pays about three extra seconds. It buys the current
+protocol revision and cacheable list results. Worth revisiting if the host ever
+stops probing with a separate process.
 
 ## Invariants
 

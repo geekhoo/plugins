@@ -13,7 +13,7 @@ modify anything. A non-zero exit from a validator is a *validation failure* (a
 normal result with ok=false), not a server error.
 
 Run (stdio):
-  uv run --with "mcp<2.0.0" python server.py
+  uv run --with "mcp>=1.2.0" python server.py
   # or, with mcp installed:  python server.py
 """
 

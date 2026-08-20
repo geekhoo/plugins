@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "geeky-orchestration",
   "displayName": "Geeky Orchestration",
-  "version": "0.2.14",
+  "version": "0.2.15",
   "description": "Plan, execute, and track feature implementation end-to-end with an intelligent geeky-orchestrator, portable agent projections, lifecycle skills, deterministic quality gates, frozen-artifact guards, and MCP tools.",
   "author": {
     "name": "geekhoo"
