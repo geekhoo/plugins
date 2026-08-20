@@ -28,7 +28,7 @@ server error; the tool still returns its structured report.
 
 ```bash
 # Preferred — ephemeral env, no global install:
-uv run --with mcp python server.py
+uv run --with "mcp<2.0.0" python server.py
 
 # Or, with mcp installed into your environment:
 pip install mcp
@@ -36,21 +36,21 @@ python server.py
 ```
 
 In Claude Code the server starts automatically: `.mcp.json` at the plugin root registers
-it as the `geeky` server using `uv run --with mcp`.
+it as the `geeky` server using `uv run --with "mcp<2.0.0"`.
 
 ## Inspect / debug
 
 ```bash
 # MCP Inspector (interactive tool explorer):
-npx @modelcontextprotocol/inspector uv run --with mcp python server.py
+npx @modelcontextprotocol/inspector uv run --with "mcp<2.0.0" python server.py
 
 # List registered tools:
-uv run --with mcp python -c "import asyncio, server; print([t.name for t in asyncio.run(server.mcp.list_tools())])"
+uv run --with "mcp<2.0.0" python -c "import asyncio, server; print([t.name for t in asyncio.run(server.mcp.list_tools())])"
 ```
 
 ## Requirements
 
-- Python ≥ 3.10 and the `mcp` package (resolved automatically by `uv run --with mcp`).
+- Python ≥ 3.10 and the `mcp` package (resolved automatically by `uv run --with "mcp<2.0.0"`).
 - `uv` on PATH for the default `.mcp.json` command. To use plain `python` instead, edit
   `.mcp.json` to `"command": "python", "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/server.py"]`
   and ensure `mcp` is installed.

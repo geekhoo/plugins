@@ -144,7 +144,7 @@ read-only tools — `geeky_validate_planning_folder`, `geeky_validate_task_schem
 callable from Claude, Cursor, OpenAI Agents SDK, LangGraph, etc., with no per-framework hook config.
 It is a **thin adapter**: each tool shells out to the same validator script with `--json` and returns
 the parsed report, so there is zero logic duplication and MCP output matches the CLI/hook output.
-Run with `uv run --with mcp python mcp/server.py` (or `pip install mcp && python mcp/server.py`).
+Run with `uv run --with "mcp<2.0.0" python mcp/server.py` (or `pip install mcp && python mcp/server.py`).
 
 ---
 

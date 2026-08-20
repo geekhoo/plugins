@@ -5,7 +5,7 @@
       "args": [
         "run",
         "--with",
-        "mcp",
+        "mcp<2.0.0",
         "python",
         "${PLUGIN_ROOT}/mcp/server.py"
       ],

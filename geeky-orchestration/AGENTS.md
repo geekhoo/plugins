@@ -70,7 +70,7 @@ and re-run the same gate until it exits 0 before proceeding.
   registered in `.mcp.json`) exposes the gates as tools — `geeky_validate_planning_folder`,
   `geeky_validate_task_schema`, `geeky_validate_kanban`, `geeky_check_dod`,
   `geeky_check_commit`, `geeky_check_frozen_artifact` — for tool-style invocation with
-  no per-framework hook config. Run it with `uv run --with mcp python mcp/server.py`
+  no per-framework hook config. Run it with `uv run --with "mcp<2.0.0" python mcp/server.py`
   (or `pip install mcp && python mcp/server.py`).
 
 ## Hard rules for implement
