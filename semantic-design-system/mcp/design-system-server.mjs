@@ -7,24 +7,33 @@ import { DEFAULT_TOKEN_DIR } from '../scripts/token-utils.mjs';
 // A harness may pass a placeholder through unexpanded (e.g. the literal
 // "${CLAUDE_PLUGIN_ROOT}"); treat those as unset instead of resolving them
 // into a path that does not exist.
-const envPath = (name) => {
+const envValue = (name) => {
   const v = process.env[name];
   return v && !v.includes('${') ? v : undefined;
 };
 
 const pluginRoot =
-  envPath('PLUGIN_ROOT') ||
-  envPath('CODEX_PLUGIN_ROOT') ||
-  envPath('CLAUDE_PLUGIN_ROOT') ||
+  envValue('PLUGIN_ROOT') ||
+  envValue('CODEX_PLUGIN_ROOT') ||
+  envValue('CLAUDE_PLUGIN_ROOT') ||
   path.resolve(import.meta.dirname, '..');
 const projectDir =
-  envPath('PLUGIN_PROJECT_DIR') ||
-  envPath('CODEX_PROJECT_DIR') ||
-  envPath('CLAUDE_PROJECT_DIR') ||
+  envValue('PLUGIN_PROJECT_DIR') ||
+  envValue('CODEX_PROJECT_DIR') ||
+  envValue('CLAUDE_PROJECT_DIR') ||
   process.cwd();
 const defaultTokenDir = DEFAULT_TOKEN_DIR;
-const defaultCssOutputFile = process.env.DEFAULT_CSS_OUTPUT_FILE || 'src/styles/tokens.css';
-const defaultCssPrefix = process.env.DEFAULT_CSS_PREFIX || 'ds';
+// userConfig values arrive as CLAUDE_PLUGIN_OPTION_<KEY>; DEFAULT_CSS_* is the
+// Codex/manual path. ${user_config.*} is deliberately NOT used in .mcp.json --
+// it breaks env substitution for the whole block (anthropics/claude-code#51573).
+const defaultCssOutputFile =
+  envValue('CLAUDE_PLUGIN_OPTION_CSS_OUTPUT_FILE') ||
+  envValue('DEFAULT_CSS_OUTPUT_FILE') ||
+  'src/styles/tokens.css';
+const defaultCssPrefix =
+  envValue('CLAUDE_PLUGIN_OPTION_CSS_PREFIX') ||
+  envValue('DEFAULT_CSS_PREFIX') ||
+  'ds';
 
 function asProjectPath(value, fallback) {
   const v = value || fallback;
