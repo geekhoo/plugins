@@ -13,7 +13,7 @@
     "entry": "mcp/server.py",
     "transport": "stdio",
     "registration": ".mcp.json (mcpServers.geeky)",
-    "run": "uv run --with 'mcp>=1.2.0' python mcp/server.py   (or: pip install mcp && python mcp/server.py)",
+    "run": "uv run python mcp/server.py   (from mcp/, so uv.lock governs; or: pip install \"mcp>=1.28.1,<3\" && python mcp/server.py)",
     "tools": [
       "geeky_validate_planning_folder",
       "geeky_validate_task_schema",
@@ -54,8 +54,8 @@
     },
     {
       "id": "check-dod",
-      "purpose": "Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block to re-run.",
-      "when": "before moving a task to Done in geeky-implement",
+      "purpose": "Definition-of-Done for one task: notes file exists, task is in the In Review or Done lane, handoff mentions it; prints the task's validation block to re-run.",
+      "when": "after moving a task to In Review and before moving it to Done in geeky-implement (lifecycle: In Review -> validate + DoD -> Done on success; re-running it once the task is in Done is also a pass)",
       "args": "--path <folder> --task <ID>",
       "python": "python \"scripts/check-dod.py\" --path \"<folder>\" --task <ID> [--json]",
       "powershell": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"scripts/check-dod.ps1\" -Path \"<folder>\" -Task <ID> [-Json]",
@@ -72,7 +72,7 @@
     },
     {
       "id": "guard-planning-contract",
-      "purpose": "PreToolUse-style guard: warn or block edits to frozen planning artifacts. Reads tool-call JSON on stdin.",
+      "purpose": "PreToolUse-style guard: warn or block edits to frozen planning artifacts. Reads tool-call JSON on stdin. Path matching is separator-agnostic (relative/absolute POSIX, Windows, mixed, UNC, Git-Bash /c/... forms). Stage-aware: silent for a pre-freeze package (nothing has left the kanban Backlog lane), active once frozen. Fails CLOSED on a malformed payload.",
       "when": "wired as a Claude Code PreToolUse hook (hooks/hooks.json); other CLI agents can add an equivalent pre-edit hook",
       "args": "[--mode warn|block] [--exit-code]  (stdin = tool-call JSON)",
       "python": "python \"hooks/guard-planning-contract.py\" --mode warn",

@@ -73,7 +73,10 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File geeky-orchestration/scripts/valida
 pwsh -NoProfile -ExecutionPolicy Bypass -File geeky-orchestration/scripts/validate-task-schema.ps1 -Path "<folder>"
 ```
 
-If MCP gate tools are available, prefer them over raw shell scripts:
+Prefer these bundled scripts. The `geeky_*` MCP tools are an optional convenience on
+hosts where the server actually starts — they add per-call permission prompts and are
+subject to the plugin-root interpolation bug (Codex CLI passes `${CLAUDE_PLUGIN_ROOT}`
+through literally). Fall back to them only when the scripts are unavailable:
 - `geeky_validate_planning_folder`
 - `geeky_validate_task_schema`
 - `geeky_validate_kanban`
@@ -138,18 +141,22 @@ After each coder returns:
 
 ### 5. Move to Done only after gates pass
 
-Before moving a task to Done, ensure:
+Lifecycle: **In Review -> validate + DoD -> Done on success.** The task is already in `In Review` from step 4; run the gates there, then move it to `Done`.
+
+With the task in `In Review`, ensure:
 - validation block has been re-run and passed;
 - no blocker or major review findings remain;
 - `tasks/Tx-*.notes.md` exists and is current;
 - `handoff.md` mentions the completion.
 
-Then move the task to Done and run:
+Then run, with the task still in `In Review`:
 
 ```bash
 python geeky-orchestration/scripts/check-dod.py --path "<folder>" --task T<x>
 python geeky-orchestration/scripts/validate-kanban.py --path "<folder>"
 ```
+
+`check-dod` accepts `In Review` or `Done`, so it passes here and still passes if you re-run it after the move. Only move the task to `Done` once both gates exit 0; re-run `validate-kanban` after the lane move.
 
 If a gate fails, fix mutable artifacts or implementation issues and re-run the same gate until it exits 0. Never fix a failed DoD by editing frozen task bodies.
 

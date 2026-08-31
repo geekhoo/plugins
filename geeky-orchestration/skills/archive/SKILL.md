@@ -1,26 +1,25 @@
 ---
 name: archive
 description: >-
-  Archive a completed `geeky-plan` package and finalize its docs structure.
-  Use when a plan is fully implemented and implementation is complete.
+  Archive a completed `geeky-plan` package. Moves planning artifacts to
+  `archives/`, keeps canonical docs in place.
 ---
 
 # Archive Completed Feature Plan
 
 ## When to Use
 
-Invoke `/archive` after `/geeky-implement` has completed a `geeky-plan` package.
-The package should satisfy:
+Run `/archive` after `/geeky-implement` finishes a `geeky-plan` package. The package needs:
 
-- All tasks completed in kanban
+- All tasks Done in kanban
 - Quality gates passing (or explicitly recorded as skipped)
-- All checks documented in handoff
-- Team sign-off recorded in handoff
+- Checks documented in handoff
+- Team sign-off in handoff
 
 ## Arguments
 
-Pass a planning folder path (recommended), e.g. `docs/notifications/`.
-If no argument is provided, scan `docs/` for the most recent folder with:
+Pass a planning folder path, e.g. `docs/notifications/`.
+No argument → scan `docs/` for the most recent folder with:
 
 - `implementation-plan.md`
 - `handoff.md` marked complete
@@ -29,24 +28,23 @@ If no argument is provided, scan `docs/` for the most recent folder with:
 
 ### 1. Identify the planning folder
 
-- Resolve the target from arguments, or discover the most recently completed package in `docs/`.
-- **Missing file checks (STOP if any fail):**
-  - If `handoff.md` is missing: Report "Cannot archive: handoff.md not found in <folder>. Archive requires a completed handoff document." and STOP.
-  - If `kanban.md` is missing: Report "Cannot archive: kanban.md not found in <folder>. Archive requires a task kanban." and STOP.
-  - If `implementation-plan.md` is missing: Report "Cannot archive: implementation-plan.md not found in <folder>. Archive requires a planning document." and STOP.
-- Read `handoff.md` and confirm status is "Complete".
-- If status is not complete, warn and stop: "Cannot archive: handoff.md status is '<current_status>', not 'Complete'. Resolve implementation issues before archiving."
+Resolve the target from arguments, or find the most recently completed package in `docs/`.
+
+**Missing file checks — STOP if any fail:**
+- `handoff.md` missing → "Cannot archive: handoff.md not found in <folder>."
+- `kanban.md` missing → "Cannot archive: kanban.md not found in <folder>."
+- `implementation-plan.md` missing → "Cannot archive: implementation-plan.md not found in <folder>."
+
+Read `handoff.md` and confirm status is "Complete". If it isn't: "Cannot archive: handoff.md status is '<current_status>', not 'Complete'." Fix implementation issues first.
 
 ### 2. Create destination directories
-
-Create:
 
 - `archives/docs/<folder-name>-planning/`
 - Keep `docs/<folder-name>/` for the final artifact set
 
 ### 3. Move planning-only artifacts to archive
 
-Move these planning artifacts with `git mv` into `archives/docs/<folder-name>-planning/`:
+`git mv` these into `archives/docs/<folder-name>-planning/`:
 
 - `kanban.md`
 - `execution-schedule.md` (if present)
@@ -57,13 +55,13 @@ Move these planning artifacts with `git mv` into `archives/docs/<folder-name>-pl
 - `implementation-plan.md`
 - `draft.md` (if present)
 - Any `*-prompt.md` files (handoff-prompt, optimization-prompt, etc.)
-- Any other plan-generation-only working docs that are not meant to remain canonical
+- Any other plan-generation working docs not meant to stay canonical
 
 ### 4. Keep permanent docs in `docs/<folder-name>/`
 
-Keep only the canonical final docs in `docs/<folder-name>/`:
+Only these stay:
 
-- `feature-specification.md` (or your requirements document that was implemented)
+- `feature-specification.md` (or the requirements doc that was implemented)
 - `handoff.md` (implementation summary)
 - `README.md` (delivery summary)
 
@@ -73,7 +71,7 @@ Write `docs/<folder-name>/README.md` with:
 
 - Spec title and completion date
 - "What Was Delivered" (bullet list)
-- Notes on reviews/optimizations that were applied
+- Notes on reviews or optimizations applied
 - "Delegation to Future Spec/Tasks" section
 - Pointer to `archives/docs/<folder-name>-planning/`
 
@@ -85,9 +83,9 @@ Remove now-empty directories under the source plan folder.
 
 In the `## Current State` section:
 
-- Mark the archived folder as complete with task counts/status.
-- Keep the new `docs/<folder-name>/` path as the canonical reference.
-- Update the next folder pointer (if known).
+- Mark the archived folder as complete with task counts/status
+- Keep `docs/<folder-name>/` as the canonical reference path
+- Update the next folder pointer if known
 
 ### 8. Commit
 
@@ -100,18 +98,18 @@ git commit -m "chore: Archive completed planning package" -m "Move planning arti
 
 ### 9. Verify
 
-- Confirm `implementation-plan.md` is in archive, not in the final folder.
-- Confirm `tasks/` and task notes are fully archived.
-- Confirm `feature-specification.md`, `handoff.md`, and `README.md` remain in `docs/<folder-name>/`.
-- Confirm `CLAUDE.md` and `AGENTS.md` reflect final state.
-- Confirm no broken references in final docs.
+- `implementation-plan.md` is in archive, not in the final folder
+- `tasks/` and task notes are fully archived
+- `feature-specification.md`, `handoff.md`, `README.md` remain in `docs/<folder-name>/`
+- `CLAUDE.md` and `AGENTS.md` reflect final state
+- No broken references in final docs
 
 ## Rules
 
-- **Use `git mv`** for all file moves.
-- **Never delete canonical artifacts** — move to `archives/` instead.
-- **`archives/` is git-tracked** and intentionally excluded from AI context.
-- **Do not archive incomplete work** — warn and stop.
-- **Stop immediately if required files are missing** — report exact missing file(s) and do not proceed with partial archiving.
-- **Behavior is conservative and traceable** — every move should be verifiable via git history.
-- **README must be self-contained** so readers can understand outcomes without opening full task history.
+- **Use `git mv`** for all file moves
+- **Never delete canonical artifacts** — move to `archives/` instead
+- **`archives/` is git-tracked** and intentionally excluded from AI context
+- **Don't archive incomplete work** — warn and stop
+- **Stop if required files are missing** — report what's missing, don't proceed with partial archiving
+- **Every move is traceable** via git history
+- **README must be self-contained** — readers should understand outcomes without opening the full task history

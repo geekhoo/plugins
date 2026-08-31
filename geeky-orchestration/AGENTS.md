@@ -49,7 +49,7 @@ Use `python3` where `python` is not on PATH; use `pwsh` (PowerShell 7+) for the 
 | Planning-folder valid | start of implement/status | `python scripts/validate-planning-folder.py --path "<folder>"` | `pwsh -File scripts/validate-planning-folder.ps1 -Path "<folder>"` |
 | Task-file schema | end of plan; start of implement | `python scripts/validate-task-schema.py --path "<folder>"` | `pwsh -File scripts/validate-task-schema.ps1 -Path "<folder>"` |
 | Kanban integrity | after every lane move | `python scripts/validate-kanban.py --path "<folder>"` | `pwsh -File scripts/validate-kanban.ps1 -Path "<folder>"` |
-| Definition of Done | before moving a task to Done | `python scripts/check-dod.py --path "<folder>" --task <ID>` | `pwsh -File scripts/check-dod.ps1 -Path "<folder>" -Task <ID>` |
+| Definition of Done | in In Review, before moving to Done | `python scripts/check-dod.py --path "<folder>" --task <ID>` | `pwsh -File scripts/check-dod.ps1 -Path "<folder>" -Task <ID>` |
 | Commit message | before each commit | `python scripts/check-commit.py <FILE>` | `pwsh -File scripts/check-commit.ps1 <FILE>` |
 
 **Feedback loop:** when a gate exits non-zero, read its output, fix the artifact,
@@ -58,7 +58,10 @@ and re-run the same gate until it exits 0 before proceeding.
 ## How each agent type runs the gates
 
 - **Claude Code:** the frozen-artifact guard fires automatically via
-  `hooks/hooks.json` (PreToolUse). Run the validators above as explicit steps.
+  `hooks/hooks.json` (PreToolUse). It is stage-aware — silent while the package is
+  pre-freeze (nothing has left the kanban `Backlog` lane), active once frozen — and
+  fails closed on a payload it cannot interpret. Run the validators above as
+  explicit steps.
 - **Other CLI agents (Codex, Cursor, Windsurf, Copilot, Gemini):** add an
   equivalent pre-edit/stop hook in your tool's config pointing at
   `hooks/guard-planning-contract.{py,ps1}` (it reads tool-call JSON on stdin,
@@ -70,12 +73,14 @@ and re-run the same gate until it exits 0 before proceeding.
   registered in `.mcp.json`) exposes the gates as tools — `geeky_validate_planning_folder`,
   `geeky_validate_task_schema`, `geeky_validate_kanban`, `geeky_check_dod`,
   `geeky_check_commit`, `geeky_check_frozen_artifact` — for tool-style invocation with
-  no per-framework hook config. Run it with `uv run --with "mcp>=1.2.0" python mcp/server.py`
-  (or `pip install mcp && python mcp/server.py`).
+  no per-framework hook config. Run it from `mcp/` with `uv run python server.py`
+  (or `pip install "mcp>=1.28.1,<3" && python server.py`).
 
 ## Hard rules for implement
 
 Never push to a remote. Never `--no-verify`, `--force`, or `--amend`. Respect each
-task's declared `Dependencies:`. Stop and finalize state (kanban + handoff) when a
-task moves to Blocked. Re-run each task's validation block yourself — do not trust
-a coder's claim that it passed.
+task's declared `Dependencies:`. When a task moves to Blocked, record it in kanban +
+handoff at once and quarantine that task plus every descendant depending on it; keep
+running everything outside that set, and stop only when all remaining not-Done tasks
+are quarantined. Re-run each task's validation block yourself — do not trust a
+coder's claim that it passed.

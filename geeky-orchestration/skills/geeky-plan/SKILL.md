@@ -41,7 +41,7 @@ This is the _planning_ phase. After this run, use the `plan-review` skill (or `/
 
    The review must check coverage, sequencing, dependency correctness, and scope gaps. Save the result as `review-development-project-manager.md` (exact filename — downstream skills look for it). Intelligently resolve all gaps but note them inside the review document.
 
-7. Create a Kanban markdown `kanban.md` for tracking task progress. Standard lanes: Backlog, Ready, In Progress, Blocked, In Review, Done, plus a Validation Checklist (release gate). Place every newly-created task in **Ready** unless an explicit dependency keeps it in Backlog.
+7. Create a Kanban markdown `kanban.md` for tracking task progress. Standard lanes: Backlog, Ready, In Progress, Blocked, In Review, Done, plus a Validation Checklist (release gate). Place **every** newly-created task in **Backlog**, with no exceptions for dependency-free tasks. Neither this skill nor `plan-review` promotes anything: `geeky-implement` owns promotion to Ready and every lane move after it. Leaving the whole package in Backlog is what keeps it editable for `plan-review` — see the frozen-contract note at the end of this file.
 
 8. Create a markdown `references.md` containing references to the design docs, the plan, the task files, the tests, the kanban — with full descriptions and instructions for implementation. Double-check that nothing is missing.
 
@@ -69,4 +69,6 @@ Additional artifacts may be created beyond these.
 
 ## Frozen planning contract
 
-These artifacts form the frozen contract between planning and implementation: after this skill completes, `implementation-plan.md`, `references.md`, and `tasks/Tx-*.md` (plus `feature-specification.md` and `draft.md` if present) are guarded against edits by the bundled PreToolUse hook. Downstream sessions record per-task notes in `tasks/Tx-*.notes.md` instead; `kanban.md` and `handoff.md` stay mutable. During this planning session, guard warnings on these files are expected while iterating to green.
+`implementation-plan.md`, `references.md`, and `tasks/Tx-*.md` (plus `feature-specification.md` and `draft.md` if present) form the frozen contract between planning and implementation. Downstream sessions record per-task notes in `tasks/Tx-*.notes.md` instead; `kanban.md` and `handoff.md` stay mutable throughout.
+
+**The freeze starts when the first task leaves `Backlog`** — when `geeky-implement` promotes its first batch to `Ready` — not when this skill finishes. `Backlog` is the only pre-freeze lane; `Ready` already means frozen. The bundled PreToolUse hook reads `kanban.md` to decide: while every task sits in `Backlog` the package is pre-freeze and edits to these files are allowed, so this planning session and the whole of `plan-review` can iterate freely. Once any task is promoted, the hook guards these files for the rest of the run, and a contract found to be wrong sends its task to **Blocked** with the contradiction recorded in `handoff.md` rather than being edited to fit.

@@ -142,7 +142,7 @@ Accept a specification, design file, research files, plain requirement, or folde
     - In Review,
     - Done,
     - Validation Checklist.
-13. Put every new task in Ready unless an explicit dependency keeps it in Backlog.
+13. Put every new task in Backlog. Neither `geeky-plan` nor `plan-review` promotes to Ready — `geeky-implement` does that when it starts its first batch (see §4), and that first promotion out of Backlog is what freezes the planning contracts.
 14. Create `references.md` linking the design docs, plan, task files, tests, kanban, and implementation instructions.
 15. Create or update `handoff.md` with session summary, preparation, next-session instructions, and explicit recommendations to run `plan-review`, then `geeky-implement` after review passes.
 16. Run validators and fix until all exit 0:

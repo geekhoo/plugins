@@ -8,8 +8,8 @@ End-to-end feature delivery: **plan it, execute it, track it**, with strong cont
 |---|---|---|
 | `spec-research` | skill | Researches a new spec with a parallel 3-subagent team (codebase, web best practices, architecture), then writes `feature-specification.md` and `README.md` in `docs/`. Runs *before* `geeky-plan`. |
 | `geeky-plan` | skill | Produces a complete planning package: implementation plan, ordered task files, PM review, kanban, references, handoff. |
-| `plan-review` | skill | 4-phase quality review of a `geeky-plan` package — document alignment, issue resolution, sequencing validation, final sanity pass. Run between planning and implementation. |
-| `geeky-implement` | skill | Orchestrates execution: walks the kanban, delegates `geeky-coder` subagents (up to 3 in parallel), runs per-task validation, code review, and per-phase PM review, commits in small logical groups, never pushes. |
+| `plan-review` | skill | 4-phase quality review of a `geeky-plan` package — document alignment, issue resolution, sequencing validation, final sanity pass. Scopes itself from the closest `Backlog` task, so on a partially-executed package it reviews only the uncommitted remainder. Phase 3 is the termination guarantee: a cyclic, unreachable, or unresolvable dependency graph is Critical here, because `geeky-implement` cannot tell an unsatisfiable graph from a finished one. Moves no lanes. |
+| `geeky-implement` | skill | Orchestrates execution: promotes `Backlog → Ready`, walks the kanban, delegates `geeky-coder` subagents (up to 3 in parallel), runs per-task validation, code review, and per-phase PM review, commits in small logical groups, never pushes. Owns every lane move; the kanban is the persisted state of that orchestration. |
 | `impl-review` | skill | Reviews *delivered code* (not planning docs) with 3 dynamically-chosen domain-expert subagents, each covering a distinct aspect of what was built. |
 | `geeky-status` | skill | Read-only snapshot of a planning folder. Lane counts, blocked items, last handoff entry, suggested next step. No agents, no edits. |
 | `geeky-resume` | skill | Post-cutoff reconciliation: verifies kanban/handoff claims against live `git status`/`git log`/`git diff`, corrects lanes to verified reality (the only edits it may make), then hands off to `/geeky-implement`. Never trusts a pre-cutoff "done". |
@@ -23,10 +23,10 @@ End-to-end feature delivery: **plan it, execute it, track it**, with strong cont
 | `templates/task_template.md` | template | Canonical task shape consumed by `/geeky-plan`. |
 | `scripts/validate-planning-folder.{ps1,py}` | gate | Folder completeness: verifies a folder has the artifacts `/geeky-implement` expects. |
 | `scripts/validate-task-schema.{ps1,py}` | gate | Each `tasks/Tx-*.md` carries the required template sections (plan→implement boundary). |
-| `scripts/validate-kanban.{ps1,py}` | gate | Kanban integrity: every task in exactly one lane, no dangling refs, WIP cap, lane coverage. |
-| `scripts/check-dod.{ps1,py}` | gate | Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block to re-run. |
+| `scripts/validate-kanban.{ps1,py}` | gate | Kanban integrity: every task in exactly one lane, no dangling refs, WIP cap, lane coverage. A task is *placed* only by a list item leading with its ID; mentions inside other items and HTML comments do not count. |
+| `scripts/check-dod.{ps1,py}` | gate | Definition-of-Done for one task: notes file exists, task is in the `In Review` or `Done` lane, handoff mentions it; prints the task's validation block to re-run. Run it from `In Review` — the lifecycle is In Review → validate + DoD → Done on success. |
 | `scripts/check-commit.{ps1,py}` | gate | Commit message is Conventional Commits + references a task (`Tasks: T<n>`). |
-| `hooks/guard-planning-contract.{ps1,py}` | hook | PreToolUse guard for edits to frozen planning artifacts. Default `--mode warn` (advisory, surfaced via portable stdout+stderr); `--mode block` denies via Claude/Codex JSON (or exit 2 with `--exit-code`). |
+| `hooks/guard-planning-contract.{ps1,py}` | hook | PreToolUse guard for edits to frozen planning artifacts. Separator-agnostic path matching (relative/absolute POSIX, Windows, mixed, UNC, Git-Bash `/c/...`). Stage-aware: silent while the package is pre-freeze, active once a task has left the kanban `Backlog` lane. Fails closed on a payload it cannot interpret. Default `--mode warn` (advisory, surfaced via portable stdout+stderr); `--mode block` denies via Claude/Codex JSON (or exit 2 with `--exit-code`). |
 | `AGENTS.md` + `geeky.manifest.json` | discovery | Framework-agnostic discovery layer: how non-Claude agents learn the contract and invoke the gates (human-readable + machine-readable). |
 | `mcp/server.py` + `.mcp.json` | MCP server | `geeky_mcp` — stdio server exposing the six gates as MCP tools for any MCP-capable agent. Thin adapter over the same scripts. See [mcp/README.md](mcp/README.md). |
 
@@ -38,22 +38,25 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 /spec-research <topic or spec-NNN>     → writes feature-specification.md + README.md in docs/<feature>/
 
 /geeky-plan <spec or folder>          → produces docs/<feature>/...
-   ├─ implementation-plan.md           (FROZEN after this point)
-   ├─ feature-specification.md         (FROZEN)
-   ├─ draft.md                         (FROZEN)
-   ├─ references.md                    (FROZEN)
+   ├─ implementation-plan.md           (contract — freezes on first promotion)
+   ├─ feature-specification.md         (contract)
+   ├─ draft.md                         (contract)
+   ├─ references.md                    (contract)
    ├─ kanban.md                        (mutable — status of truth)
    ├─ handoff.md                       (mutable — running log)
    ├─ review-development-project-manager.md
-   └─ tasks/T1-...md  T2-...md  ...    (FROZEN — notes go in Tx-*.notes.md siblings)
+   └─ tasks/T1-...md  T2-...md  ...    (contract — notes go in Tx-*.notes.md siblings)
+                                       every task starts in the Backlog lane
 
-/plan-review <folder>                  → 4-phase quality review of the planning package
+/plan-review <folder>                  → 4-phase review, scoped from the closest Backlog task
+                                         (package still editable — nothing has been promoted)
 
 /geeky-status <folder>                 → read-only snapshot
 
 /geeky-resume <folder>                 → after a cutoff: reconcile kanban vs live git, then resume
 
-/geeky-implement <folder>              → walks kanban Ready → Done
+/geeky-implement <folder>              → walks kanban Backlog → Ready → In Progress → Done
+   ├─ promotes Backlog → Ready itself  (◄── this first promotion freezes the contracts)
    ├─ delegates geeky-coder per task (max 3 parallel when safe)
    ├─ re-runs each task's validation block itself
    ├─ runs code-review on each task's diff
@@ -71,7 +74,7 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 
 ## Operating profile (baked into `/geeky-implement`)
 
-- **Autonomy:** fully autonomous until the backlog is empty or a task lands in Blocked.
+- **Autonomy:** fully autonomous until no eligible task remains. A task landing in Blocked does not stop the run — it quarantines that task plus every descendant depending on it, and everything outside that set keeps going to Done. The run stops only when every remaining not-Done task is inside a blocked set.
 - **Reviewer:** per-task code-review on every task's diff + PM-level review at each phase boundary.
 - **Commits:** per phase, split into multiple small commits (one concern per commit). Never push, never amend, never `--no-verify`.
 - **Parallelism:** up to 3 concurrent `geeky-coder` subagents, gated by a checklist (no shared deps, no file-surface overlap, no shared mutable artifacts).
@@ -92,6 +95,10 @@ The output of `/geeky-plan` is a **read-only contract** consumed by `/geeky-impl
 - `tasks/Tx-*.md` (original task bodies)
 
 If reality diverges from the plan mid-run, the task is moved to Blocked with a note in `kanban.md` and surfaced to the user. The bundled PreToolUse hook surfaces a warning if any tool attempts to write to a frozen artifact (default `--mode warn`); switch it to `--mode block` in `hooks/hooks.json` to deny such edits outright.
+
+**The freeze starts when the first task leaves the `Backlog` lane.** `/geeky-plan` puts every task in `Backlog` and promotes nothing; `/plan-review` moves no lanes at all. `/geeky-implement` owns promotion, so the boundary is its first `Backlog → Ready` move — `Ready` already means frozen. That gives planning and the whole of `/plan-review` a window in which the contracts are freely editable, and locks them the moment the package is committed to execution.
+
+The guard reads `kanban.md` next to the edited file to decide. A task counts as placed in a lane only when a markdown list item leads with its ID — `- T1`, `* T2`, `1. T3`, `- [x] **T4**` all count; a cross-reference inside another item (`- T1 (unblocks T4)`) and an HTML comment (`<!-- T2 goes here next -->`) are mentions, not placements, and cannot freeze a package by accident. If `kanban.md` cannot be located the guard cannot prove the package is pre-freeze, so it treats it as frozen and says so. `GEEKY_PREFREEZE_LANES` (comma-separated, default `Backlog`) overrides the pre-freeze lane set. Because the guard is stage-aware and fails closed on malformed hook payloads, `--mode block` is safe to enable; `warn` remains the shipped default.
 
 Mutable artifacts (updated continuously by `/geeky-implement`):
 - `kanban.md` — single source of truth for lane status

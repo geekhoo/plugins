@@ -54,7 +54,11 @@ Hard rules — violations are bugs:
 2. **Always update** `kanban.md` on every lane move and `handoff.md` on every task completion or block.
 3. **Never push** to a remote. Never use `--no-verify`, `--force`, or `--amend`.
 4. **Respect declared dependencies.** A task is only eligible when every entry in its `Dependencies:` block is in the Done lane of `kanban.md`.
-5. **Stop on Blocked.** When any task moves to Blocked, finalize state (handoff, kanban) and return to the user with a summary. Do not silently skip blocked tasks to keep going.
+5. **Blocked quarantines a subtree, it does not stop the run.** When a task moves to Blocked, record it in `kanban.md` and `handoff.md` immediately, then compute its **blocked set**: the task itself plus every descendant that depends on it, directly or transitively. Those are quarantined for the rest of the run. Every task outside that set is unaffected — keep working it through to Done exactly as normal.
+
+   Stop only when every remaining not-Done task is inside a blocked set. At that point finalize state and return to the user with a summary naming each blocked root, its reason, and the descendants quarantined behind it.
+
+   This is not "skip the blocked task and keep going" — a quarantined task is never attempted, and its blocker is never silently dropped. It is: one bad task must not strand independent work that is ready to land.
 6. **One source of truth for status:** `kanban.md`. If `handoff.md` and `kanban.md` disagree, trust kanban and reconcile handoff.
 7. **Delegate implementation to `geeky-coder`** (the agent bundled with this plugin), not the user's personal `coder` agent — they may differ.
 
@@ -82,7 +86,7 @@ Hard rules — violations are bugs:
    - **Task graph** — node per `Tx-*.md`, edges from each task's `Dependencies:` block.
    - **Phase grouping** — derive from `implementation-plan.md` headings if it has explicit phases, else from kanban grouping comments, else by dependency layer (tasks with no unmet deps = layer 0, etc.).
    - **File-overlap inference** — for each task, scan its `In scope` / `Module/System` / `Technical Notes` for filenames, modules, or package paths. Two tasks are file-conflicting if their declared surfaces overlap.
-   - **Eligibility** — task is eligible iff it sits in kanban Ready AND every dependency is Done.
+   - **Eligibility** — task is eligible iff it sits in kanban **Backlog or Ready** AND every dependency is Done. `geeky-plan` leaves every task in Backlog and `plan-review` never moves lanes, so on a first run the whole package is in Backlog: treating Ready as the only eligible lane would find nothing to do and end the run silently. This skill owns promotion and every lane move from here on; the kanban is the persisted state of that orchestration, not a report written after it.
 
 4. If `--dry-run` is set, print the execution model (phase order, per-phase batches, parallel groups with justifications) and STOP. Otherwise continue.
 
@@ -96,7 +100,13 @@ For each phase, in plan order:
    - none of them is marked P0-blocker-for-others in the implementation plan.
    Otherwise reduce batch size or fall back to serial. Record the justification in the per-task notes file (step 10).
 
-6. **Move every task in the batch from Ready to In Progress** in `kanban.md`. Add a timestamp comment beside each: `<!-- in_progress: YYYY-MM-DD HH:MM -->`. Refresh `.heartbeat` (`ts` = now, `task` = batch's first task ID, `status` = `running`).
+   Prefer the parallel groups `plan-review` recorded in `implementation-plan.md` over re-deriving your own; only depart from them when the file-overlap inference contradicts a group, and say so in the notes when you do.
+
+6. **Promote the batch, then start it.** For any task in the batch still sitting in **Backlog**, move it to **Ready** first — this skill is the only thing that promotes, and on a first run every task will need it. Then move the whole batch from Ready to **In Progress** in `kanban.md`, with a timestamp comment beside each: `<!-- in_progress: YYYY-MM-DD HH:MM -->`. Refresh `.heartbeat` (`ts` = now, `task` = batch's first task ID, `status` = `running`).
+
+   **The first promotion out of `Backlog` freezes the package.** `Backlog` is the only pre-freeze lane, so moving a task to `Ready` is itself the boundary — it commits this package to execution. From that moment the planning contracts — `implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`, and every `tasks/Tx-*.md` — are immutable for the rest of the run, and the `guard-planning-contract` hook starts enforcing that. Everything mutable lives in `kanban.md`, `handoff.md`, and `tasks/Tx-*.notes.md`. If a frozen contract turns out to be wrong, move the affected task to **Blocked** and record the contradiction in `handoff.md`; never edit the contract to fit the code.
+
+   Run `validate-kanban` after these moves, as after every lane move, so the board never drifts from truth.
 
 7. **Delegate implementation to `geeky-coder`.** When the batch has >1 task, send a SINGLE message with multiple `Agent` tool calls in parallel (this is required — do not serialize parallel work into separate messages). Each brief must be self-contained:
    - Full text of the task file (paste it — coders don't share your context).
@@ -112,7 +122,7 @@ For each phase, in plan order:
    - Re-delegate to `geeky-coder` once with the failure context for a fix attempt.
    - If it still fails, move the task to **Blocked** with a kanban note that includes the validation command and the failure summary, finalize state per the Constitution, and return to the user.
 
-9. **Move the task(s) from In Progress to In Review.** For each task in the batch, in parallel (single message, multiple skill/agent calls):
+9. **Move the task(s) from In Progress to In Review.** This is the lane the Definition-of-Done gate runs from (step 12) — the lifecycle is In Review -> validate + DoD -> Done on success. For each task in the batch, in parallel (single message, multiple skill/agent calls):
    - Invoke the `code-review` (or `review`) skill scoped to the diff for that task's declared file surface only.
    - Consolidate findings into severity buckets: blocker, major, minor, nit.
 
@@ -126,12 +136,14 @@ For each phase, in plan order:
 
 11. **Resolve findings:** blockers and majors must be fixed before Done — re-delegate to `geeky-coder` with consolidated findings, then re-run validation and re-review. Minors and nits may be deferred; if deferred, add a one-line entry under a "Deferred follow-ups" section at the bottom of `handoff.md`.
 
-12. **Move to Done** in `kanban.md` only when validation is green AND no blocker/major findings remain. Before finalizing the move, run the **Definition-of-Done** gate for the task and the **kanban-integrity** gate, and fix until both exit 0:
+12. **Run the gates from In Review, then move to Done.** With the task still in the `In Review` lane (step 9), run the **Definition-of-Done** gate and the **kanban-integrity** gate, and fix until both exit 0:
 
     ```
     python "${CLAUDE_PLUGIN_ROOT}/scripts/check-dod.py" --path "<folder>" --task T<x>
     python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.py" --path "<folder>"
     ```
+
+    `check-dod` accepts `In Review` or `Done`, so it passes here and does not fail if you re-run it after the move. Move the task to `Done` in `kanban.md` only once both gates exit 0 AND validation is green AND no blocker/major findings remain; re-run `validate-kanban` after the lane move. Do NOT move to Done first just to satisfy the gate.
 
     `check-dod` also prints the task's validation block — re-run those commands rather than trusting they passed. Run `validate-kanban` after every lane move, not only at Done, so the board never drifts from truth. Refresh `.heartbeat` on the Done move. If either gate CRASHES (traceback / missing module rather than a clean non-zero): say so in one line, run the equivalent manual check (read the DoD block and verify each item; eyeball lane membership), record the crash in the per-task notes, and continue VISIBLY — a crashed gate must never become a silent stall.
 
