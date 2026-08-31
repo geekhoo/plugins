@@ -7,3 +7,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .worktrees/
+.agents/geeky-implement-orchestrator.original.md
+.claude/agents/geeky-implement-orchestrator.original.md
+.cursor/agents/geeky-implement-orchestrator.original.md
+.github/agents/geeky-implement-orchestrator.agent.original.md
