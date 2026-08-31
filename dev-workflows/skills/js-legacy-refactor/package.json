@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Optional browser regression probe tools for the no-regression legacy browser JavaScript refactor skill.",
   "devDependencies": {
-    "playwright": "latest"
+    "playwright": ">=1.62.1 <1.63"
   },
   "scripts": {
     "probe:help": "node tools/browser_regression_probe.mjs"

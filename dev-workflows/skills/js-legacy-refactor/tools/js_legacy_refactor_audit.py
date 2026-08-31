@@ -199,6 +199,118 @@ def relative(path: Path, root: Path) -> str:
         return path.as_posix()
 
 
+def is_within_root(path: Path, root: Path) -> bool:
+    """True when an already-resolved `path` is `root` or lives underneath it.
+
+    Real path containment, never a string prefix: for root `/app`, the path
+    `/app-evil/x.js` shares the prefix but is a different tree and must be refused.
+    """
+    try:
+        return path.is_relative_to(root)
+    except (OSError, ValueError):
+        return False
+
+
+def _href_dir_part(href_path: str) -> str:
+    """Directory portion of a `<base href>` URL path, per HTML base-URL semantics.
+
+    `assets/` -> `assets`, `assets/x.html` -> `assets`, `assets` -> `` (the base URL
+    is a file next to the page, so relative URLs still resolve against the page dir).
+    """
+    return href_path.rsplit("/", 1)[0] if "/" in href_path else ""
+
+
+def base_dir_candidates(page_path: Path, root: Path,
+                        base_hrefs: Sequence[Dict[str, Any]]) -> Tuple[str, List[Path]]:
+    """Directories a page's relative `<script src>` may resolve against.
+
+    Only the first `<base href>` counts, matching the HTML spec. The returned basis
+    records how the base was decided so the audit can explain itself:
+
+    - ``page_dir``          no usable `<base href>`; resolve against the page directory.
+    - ``base_href``         relative `<base href>`; unambiguous on the filesystem.
+    - ``base_href_or_page`` absolute-path `<base href>` such as ``/app/``. Mapping a
+      server document root onto the audit root cannot be known statically, so both the
+      base-mapped and the page-relative directory are candidates and the one that
+      actually holds the file wins. This is the case the MEDIUM_BASE_HREF warning is
+      about, and the chosen basis is recorded per script.
+    - ``remote_base_href``  `<base href>` is an absolute URL; every relative src on the
+      page is therefore remote and no local file exists to analyze.
+    """
+    href = (base_hrefs[0].get("href") or "").strip() if base_hrefs else ""
+    if not href:
+        return "page_dir", [page_path.parent]
+    if is_remote_src(href):
+        return "remote_base_href", []
+    href_path = strip_url_query_fragment(href)
+    dir_part = _href_dir_part(href_path)
+    if href_path.startswith("/"):
+        mapped = root / dir_part.lstrip("/") if dir_part.strip("/") else root
+        return "base_href_or_page", [mapped, page_path.parent]
+    return "base_href", [(page_path.parent / dir_part) if dir_part else page_path.parent]
+
+
+def resolve_script_src(src: str, page_path: Path, root: Path,
+                       base_hrefs: Sequence[Dict[str, Any]]) -> Dict[str, Any]:
+    """Resolve one local `<script src>` to a file inside the audit root.
+
+    `root` must already be resolved. Query strings and fragments are stripped, and
+    anything that lands outside `root` is refused outright rather than sanitized.
+
+    Returns a dict with `status` in {local, remote, outside_root, unresolvable},
+    `unit_id` (root-relative posix path, identical to the id the scan-all mode gives
+    the same file), `exists`, `basis`, and a human-readable `detail`.
+    """
+    def result(status: str, *, resolved: Optional[Path] = None, exists: Optional[bool] = None,
+               basis: str = "page_dir", detail: Optional[str] = None) -> Dict[str, Any]:
+        return {
+            "status": status,
+            "resolved": resolved,
+            "unit_id": relative(resolved, root) if resolved is not None else None,
+            "exists": exists,
+            "basis": basis,
+            "detail": detail,
+        }
+
+    src_path = strip_url_query_fragment(src).strip()
+    basis, bases = base_dir_candidates(page_path, root, base_hrefs)
+    if basis == "remote_base_href":
+        return result("remote", basis=basis,
+                      detail="<base href> is an absolute URL, so this relative src is remote.")
+    if not src_path or src_path.endswith("/"):
+        return result("unresolvable", basis=basis,
+                      detail=f"src {src!r} does not name a file.")
+
+    if src_path.startswith("/"):
+        # Root-relative URL. The audit root is treated as the document root.
+        basis = "root_relative_src"
+        candidates = [root / src_path.lstrip("/")]
+    else:
+        candidates = [base / src_path for base in bases]
+
+    refused: List[str] = []
+    first_inside: Optional[Path] = None
+    for candidate in candidates:
+        try:
+            resolved = candidate.resolve()
+        except OSError as exc:
+            refused.append(f"{candidate}: {exc}")
+            continue
+        if not is_within_root(resolved, root):
+            refused.append(resolved.as_posix())
+            continue
+        if resolved.is_file():
+            return result("local", resolved=resolved, exists=True, basis=basis)
+        if first_inside is None:
+            first_inside = resolved
+    if first_inside is not None:
+        return result("local", resolved=first_inside, exists=False, basis=basis)
+    if refused:
+        return result("outside_root", basis=basis,
+                      detail="resolves outside the audit root -> " + "; ".join(refused))
+    return result("unresolvable", basis=basis, detail=f"src {src!r} could not be resolved.")
+
+
 def walk_files(root: Path, extensions: set[str]) -> List[Path]:
     results: List[Path] = []
     for dirpath, dirnames, filenames in os.walk(root):
@@ -460,16 +572,25 @@ def analyze_html_file(path: Path, root: Path) -> Dict[str, Any]:
             "crossorigin": attrs.get("crossorigin"),
             "nonce": attrs.get("nonce"),
         }
-        if src:
+        if src is not None:
+            # An empty src is not an inline script. It resolves to nothing usable and
+            # must be reported rather than silently dropped from the inventory.
             item["remote"] = is_remote_src(src)
             item["src_without_query"] = strip_url_query_fragment(src)
-            if not item["remote"]:
-                resolved = (path.parent / item["src_without_query"]).resolve()
-                item["resolved_path"] = relative(resolved, root)
-                item["exists"] = resolved.exists()
-            else:
+            if item["remote"]:
+                item["resolution_status"] = "remote"
+                item["resolution_basis"] = None
                 item["resolved_path"] = None
                 item["exists"] = None
+            else:
+                res = resolve_script_src(src, path, root, parser.base_hrefs)
+                item["resolution_status"] = res["status"]
+                item["resolution_basis"] = res["basis"]
+                item["resolution_detail"] = res["detail"]
+                item["resolved_path"] = res["unit_id"]
+                item["exists"] = res["exists"]
+                if res["status"] == "remote":
+                    item["remote"] = True
         else:
             item["content_sha256"] = sha256_text(tag.content)
             item["content_length"] = len(tag.content)
@@ -528,32 +649,52 @@ def audit(root: Path, out: Path, scan_all_js: bool = True) -> Dict[str, Any]:
 
     pages: List[Dict[str, Any]] = []
     referenced_js: set[str] = set()
+    # unit id -> absolute path, for referenced scripts that exist. Keying by unit id
+    # deduplicates repeat references within and across pages.
+    referenced_js_paths: Dict[str, Path] = {}
     missing_scripts: List[Dict[str, Any]] = []
     remote_scripts: List[Dict[str, Any]] = []
+    escaping_scripts: List[Dict[str, Any]] = []
     script_attribute_warnings: List[Dict[str, Any]] = []
     inline_units: Dict[str, str] = {}
 
     for html_path in html_files:
         page = analyze_html_file(html_path, root)
         pages.append(page)
+        page_parser: Optional[HTMLInventoryParser] = None
         for script in page["scripts"]:
             if not script.get("is_javascript_like"):
                 continue
             if script.get("is_inline"):
                 unit_id = script.get("unit_id")
-                # Re-parse content by matching index from parser result.
-                parser = HTMLInventoryParser()
-                parser.feed(read_text(html_path))
+                # Re-parse once per page to recover inline bodies by tag index.
+                if page_parser is None:
+                    page_parser = HTMLInventoryParser()
+                    page_parser.feed(read_text(html_path))
                 idx = script["index"]
-                inline_units[unit_id] = (parser.scripts[idx].content
-                                         if idx < len(parser.scripts) else "")
+                inline_units[unit_id] = (page_parser.scripts[idx].content
+                                         if idx < len(page_parser.scripts) else "")
             else:
+                status = script.get("resolution_status")
                 if script.get("remote"):
                     remote_scripts.append({"page": page["path"], **script})
+                elif status in ("outside_root", "unresolvable"):
+                    escaping_scripts.append({"page": page["path"], **script})
+                    script_attribute_warnings.append({
+                        "page": page["path"],
+                        "script_index": script["index"],
+                        "line": script["line"],
+                        "severity": "HIGH_PATH_ESCAPE",
+                        "message": "Refused to resolve script src: "
+                                   + str(script.get("resolution_detail")),
+                        "src": script.get("src"),
+                    })
                 else:
                     rp = script.get("resolved_path")
                     if rp:
                         referenced_js.add(rp)
+                        if script.get("exists"):
+                            referenced_js_paths.setdefault(rp, root / rp)
                     if script.get("exists") is False:
                         missing_scripts.append({"page": page["path"], **script})
             if script.get("async"):
@@ -582,14 +723,30 @@ def audit(root: Path, out: Path, scan_all_js: bool = True) -> Dict[str, Any]:
                     "script_index": script["index"],
                     "line": script["line"],
                     "severity": "MEDIUM_BASE_HREF",
-                    "message": "<base href> exists; resolved script paths may differ "
-                               "from simple filesystem resolution.",
+                    "message": "<base href> is present and was applied when resolving "
+                               "this page's script srcs. Confirm the served document "
+                               "root matches the audit root.",
+                    "resolution_basis": script.get("resolution_basis"),
                     "src": script.get("src"),
                 })
 
     js_units: Dict[str, str] = {}
-    for js_path in js_files:
-        js_units[relative(js_path, root)] = read_text(js_path)
+    unreadable_scripts: List[Dict[str, Any]] = []
+
+    def load_unit(unit_id: str, path: Path) -> None:
+        try:
+            js_units[unit_id] = read_text(path)
+        except OSError as exc:
+            unreadable_scripts.append({"unit": unit_id, "path": str(path), "error": str(exc)})
+
+    if scan_all_js:
+        for js_path in js_files:
+            load_unit(relative(js_path, root), js_path)
+    else:
+        # Referenced-only: analyze exactly the local JS the scanned HTML loads, plus
+        # inline scripts. Unit ids match the scan-all ids so the two modes compare.
+        for unit_id in sorted(referenced_js_paths):
+            load_unit(unit_id, referenced_js_paths[unit_id])
 
     all_units: Dict[str, Tuple[str, str]] = {}
     for unit_id, text in js_units.items():
@@ -606,18 +763,28 @@ def audit(root: Path, out: Path, scan_all_js: bool = True) -> Dict[str, Any]:
         risks.extend(collect_risks(unit_id, text, source_kind))
 
     duplicates = build_duplicate_map(declarations)
-    all_js_set = set(js_units.keys())
-    orphan_js = sorted(all_js_set - referenced_js)
+    if scan_all_js:
+        orphan_js = sorted(set(js_units) - referenced_js)
+        orphan_detection = "complete"
+        orphan_count: Optional[int] = len(orphan_js)
+    else:
+        # Referenced-only mode never builds the full on-disk JS set, so there is
+        # nothing to diff references against. Report that instead of a bogus zero.
+        orphan_js = []
+        orphan_detection = "unavailable_referenced_only"
+        orphan_count = None
 
     result: Dict[str, Any] = {
         "schema": "legacy-browser-js-refactor-audit/v1",
         "generated_at": _dt.datetime.now(_dt.timezone.utc).isoformat(),
         "root": str(root),
+        "scan_mode": "all_js" if scan_all_js else "referenced_only",
+        "orphan_detection": orphan_detection,
         "summary": {
             "html_pages": len(pages),
             "js_files_scanned": len(js_units),
             "referenced_local_js_files": len(referenced_js),
-            "orphan_js_files": len(orphan_js),
+            "orphan_js_files": orphan_count,
             "inline_script_units": len(inline_units),
             "event_handler_attributes": sum(len(p["event_handlers"]) for p in pages),
             "declarations": len(declarations),
@@ -625,12 +792,17 @@ def audit(root: Path, out: Path, scan_all_js: bool = True) -> Dict[str, Any]:
             "risk_findings": len(risks),
             "missing_scripts": len(missing_scripts),
             "remote_scripts": len(remote_scripts),
+            "escaping_scripts": len(escaping_scripts),
+            "unreadable_scripts": len(unreadable_scripts),
         },
         "pages": pages,
         "referenced_local_js": sorted(referenced_js),
+        "analyzed_units": sorted(all_units),
         "orphan_js": orphan_js,
         "missing_scripts": missing_scripts,
         "remote_scripts": remote_scripts,
+        "escaping_scripts": escaping_scripts,
+        "unreadable_scripts": unreadable_scripts,
         "script_attribute_warnings": script_attribute_warnings,
         "file_hashes": file_hashes,
         "declarations": declarations,
@@ -648,7 +820,8 @@ def _render_summary(a: Dict[str, Any]) -> List[str]:
     lines = ["# Legacy Browser JavaScript Refactor Static Audit", "",
              f"Generated: `{a['generated_at']}`", "", "## Summary"]
     for key, value in a["summary"].items():
-        lines.append(f"- {key.replace('_', ' ')}: **{value}**")
+        shown = "not available" if value is None else value
+        lines.append(f"- {key.replace('_', ' ')}: **{shown}**")
     lines.append("")
     return lines
 
@@ -662,6 +835,33 @@ def _render_missing_scripts(a: Dict[str, Any]) -> List[str]:
     for item in a["missing_scripts"][:100]:
         lines.append(f"| {item.get('page')} | {item.get('index')} | {item.get('line')} | "
                      f"`{item.get('src')}` | `{item.get('resolved_path')}` |")
+    lines.append("")
+    return lines
+
+
+def _render_escaping_scripts(a: Dict[str, Any]) -> List[str]:
+    if not a.get("escaping_scripts"):
+        return []
+    lines = ["## Refused script references",
+             "These `src` values resolve outside the audit root or name no file. "
+             "They were not analyzed. Investigate before trusting this inventory.", "",
+             "| Page | Script index | Line | src | Reason |",
+             "|---|---:|---:|---|---|"]
+    for item in a["escaping_scripts"][:100]:
+        reason = str(item.get("resolution_detail", "")).replace("|", "\\|")
+        lines.append(f"| {item.get('page')} | {item.get('index')} | {item.get('line')} | "
+                     f"`{item.get('src')}` | {reason} |")
+    lines.append("")
+    return lines
+
+
+def _render_unreadable_scripts(a: Dict[str, Any]) -> List[str]:
+    if not a.get("unreadable_scripts"):
+        return []
+    lines = ["## Unreadable JS files", "| Unit | Error |", "|---|---|"]
+    for item in a["unreadable_scripts"][:100]:
+        err = str(item.get("error", "")).replace("|", "\\|")
+        lines.append(f"| `{item.get('unit')}` | {err} |")
     lines.append("")
     return lines
 
@@ -738,6 +938,12 @@ def _render_event_handlers(a: Dict[str, Any]) -> List[str]:
 
 
 def _render_orphans(a: Dict[str, Any]) -> List[str]:
+    if a.get("orphan_detection") == "unavailable_referenced_only":
+        return ["## Orphan JS detection: not available",
+                "This audit ran with `--referenced-only`, so no full on-disk JS set was "
+                "built and unreferenced files cannot be identified. `orphan_js_files` is "
+                "null rather than zero. Re-run without `--referenced-only` to detect "
+                "orphans.", ""]
     if not a["orphan_js"]:
         return []
     lines = ["## JS files not directly referenced by scanned HTML",
@@ -752,7 +958,8 @@ def _render_orphans(a: Dict[str, Any]) -> List[str]:
 
 
 def render_audit_report(a: Dict[str, Any]) -> str:
-    sections = (_render_summary, _render_missing_scripts, _render_script_warnings,
+    sections = (_render_summary, _render_missing_scripts, _render_escaping_scripts,
+                _render_unreadable_scripts, _render_script_warnings,
                 _render_duplicates, _render_implicit_globals, _render_risks,
                 _render_event_handlers, _render_orphans)
     lines: List[str] = []
@@ -785,6 +992,14 @@ def page_script_signature(page: Dict[str, Any]) -> List[Dict[str, Any]]:
 def _comparison_issues(before: Dict[str, Any], after: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Static deltas between two audits that warrant a human runtime check."""
     issues: List[Dict[str, Any]] = []
+
+    if before.get("scan_mode") != after.get("scan_mode"):
+        issues.append({
+            "severity": "HIGH", "area": "scan_mode", "item": "mismatch",
+            "message": f"Audits used different scan modes "
+                       f"({before.get('scan_mode')} vs {after.get('scan_mode')}). "
+                       f"Unit sets are not comparable; re-run both the same way.",
+        })
 
     before_pages = {p["path"]: p for p in before.get("pages", [])}
     after_pages = {p["path"]: p for p in after.get("pages", [])}

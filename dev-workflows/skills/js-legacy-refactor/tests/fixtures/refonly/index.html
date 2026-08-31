@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Referenced-only fixture</title>
+  <script src="js/shared.js"></script>
+  <script src="js/only_index.js?v=2"></script>
+  <script src="js/shared.js"></script>
+  <script src="js/missing.js"></script>
+  <script src="https://cdn.example.com/remote.js"></script>
+  <script src="//cdn.example.com/proto-relative.js"></script>
+  <script src="../refonly_evil/evil.js"></script>
+  <script src="../../../../etc/passwd"></script>
+</head>
+<body>
+  <script>
+    var indexInlineFlag = true;
+  </script>
+</body>
+</html>
