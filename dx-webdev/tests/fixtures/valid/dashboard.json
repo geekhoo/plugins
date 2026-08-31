@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Operations Dashboard",
+  "template": "dashboard",
+  "devextremeVersion": "25.2.3",
+  "containers": [
+    { "id": "filters", "label": "Filters", "className": "filter-bar" },
+    { "id": "metrics" },
+    { "id": "overlays" }
+  ],
+  "widgets": [
+    {
+      "id": "filterToolbar",
+      "containerId": "filters",
+      "type": "dxToolbar",
+      "items": [
+        { "location": "before", "text": "Filters" },
+        {
+          "location": "before",
+          "widget": "dxSelectBox",
+          "options": {
+            "width": 180,
+            "items": ["All regions", "North", "Central", "West"],
+            "value": "All regions",
+            "inputAttr": { "aria-label": "Region filter" },
+            "onValueChanged": { "kind": "named-reference", "name": "applyRegionFilter" }
+          }
+        },
+        {
+          "location": "after",
+          "widget": "dxButton",
+          "options": {
+            "text": "Apply",
+            "type": "default",
+            "icon": "filter",
+            "onClick": { "kind": "notify", "message": "Filters applied", "notifyType": "info", "displayTime": 1200 }
+          }
+        }
+      ]
+    },
+    {
+      "id": "metricsGrid",
+      "containerId": "metrics",
+      "type": "dxDataGrid",
+      "dataKey": "metrics",
+      "columns": [
+        { "dataField": "region" },
+        { "dataField": "pipeline", "caption": "Pipeline", "dataType": "number", "alignment": "right" },
+        { "dataField": "revenue", "dataType": "number", "format": "currency", "alignment": "right" },
+        { "dataField": "risk" }
+      ],
+      "options": {
+        "editing": { "allowAdding": false, "allowUpdating": false, "allowDeleting": false },
+        "summary": {
+          "totalItems": [
+            { "column": "pipeline", "summaryType": "sum" },
+            { "column": "revenue", "summaryType": "sum", "valueFormat": "currency" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "dashboardLoadPanel",
+      "containerId": "overlays",
+      "type": "dxLoadPanel",
+      "options": { "message": "Loading dashboard..." }
+    }
+  ],
+  "sampleData": {
+    "metrics": [
+      { "region": "North", "pipeline": 42, "revenue": 182000, "risk": "Low" },
+      { "region": "Central", "pipeline": 31, "revenue": 145000, "risk": "Medium" },
+      { "region": "West", "pipeline": 27, "revenue": 121500, "risk": "High" }
+    ]
+  },
+  "tokens": {
+    "color": { "brand": "#1F6FEB", "surface": "#FFFFFF" },
+    "spacing": { "md": { "value": "16px" } }
+  }
+}

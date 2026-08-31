@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Dangling Data Key",
+  "template": "crud-grid",
+  "widgets": [
+    { "id": "ordersGrid", "type": "dxDataGrid", "dataKey": "orders" }
+  ],
+  "sampleData": { "invoices": [{ "id": 1 }] }
+}

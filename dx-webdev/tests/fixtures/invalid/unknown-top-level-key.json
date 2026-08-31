@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Typo",
+  "template": "basic-page",
+  "themCss": "https://example.invalid/dx.light.css",
+  "widgets": [{ "id": "a", "type": "dxButton" }]
+}

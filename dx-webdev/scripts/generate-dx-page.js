@@ -3,14 +3,41 @@
 
 const fs = require('fs');
 const path = require('path');
+const {
+    validateAgainstSchema,
+    validateSemantics,
+    formatErrors,
+} = require('./lib/dx-spec-validator');
 
-const TEMPLATES = new Set(['basic-page', 'crud-grid', 'dashboard', 'form-workflow']);
+const SCHEMA_PATH = path.resolve(__dirname, '..', 'references', 'dx-page-spec-schema.json');
 const DEFAULT_DX_VERSION = '25.2.3';
 const DEFAULT_JQUERY_URL = 'https://code.jquery.com/jquery-3.7.1.min.js';
+const DEFAULT_OUTPUT_FILES = { html: 'index.html', css: 'styles.css', js: 'app.js' };
 
 function fail(message) {
     console.error(`ERROR: ${message}`);
     process.exit(1);
+}
+
+/* ------------------------------------------------------------------ *
+ * Emitted-code representation
+ *
+ * RawJs is the ONLY way a value reaches the generated file as executable
+ * JavaScript, and only this module constructs it. Spec-supplied strings are
+ * always serialized as string literals, so no spec value can become code.
+ * ------------------------------------------------------------------ */
+class RawJs {
+    constructor(code) {
+        this.code = code;
+    }
+}
+
+function raw(code) {
+    return new RawJs(code);
+}
+
+function lit(value) {
+    return JSON.stringify(value);
 }
 
 function parseArgs(argv) {
@@ -46,120 +73,129 @@ function readJson(filePath) {
     }
 }
 
-function assertObject(value, name) {
-    if (!value || typeof value !== 'object' || Array.isArray(value)) {
-        fail(`${name} must be a JSON object`);
+/* ------------------------------------------------------------------ *
+ * Validation gate
+ * ------------------------------------------------------------------ */
+function validateSpec(spec, specPath) {
+    const schema = readJson(SCHEMA_PATH);
+
+    if (!spec || typeof spec !== 'object' || Array.isArray(spec)) {
+        fail(formatErrors([{ path: '/', message: 'must be a JSON object.' }], specPath));
+    }
+
+    let errors = validateAgainstSchema(spec, schema);
+
+    // Cross-reference checks only make sense on a structurally sound spec.
+    if (errors.length === 0) {
+        errors = validateSemantics(spec);
+    }
+
+    if (errors.length > 0) {
+        fail(formatErrors(errors, specPath));
     }
 }
 
-function normalizeTemplate(spec) {
-    if (spec.template && !TEMPLATES.has(spec.template)) {
-        fail(`template must be one of: ${Array.from(TEMPLATES).join(', ')}`);
+/* ------------------------------------------------------------------ *
+ * Handlers: typed spec values -> generator-emitted call sites
+ * ------------------------------------------------------------------ */
+function compileHandler(handler) {
+    if (handler.kind === 'named-reference') {
+        return raw(`runHandler(${lit(handler.name)})`);
     }
 
-    if (spec.template) {
-        return spec.template;
+    if (handler.kind === 'notify') {
+        const type = handler.notifyType || 'info';
+        const time = handler.displayTime === undefined ? 2000 : handler.displayTime;
+        return raw(`notifyAction(${lit(handler.message)}, ${lit(type)}, ${time})`);
     }
 
-    const widgetTypes = Array.isArray(spec.widgets)
-        ? spec.widgets.map((widget) => String(widget.type || '').toLowerCase())
-        : [];
-
-    if (widgetTypes.includes('dxdatagrid')) {
-        return 'crud-grid';
-    }
-
-    if (widgetTypes.includes('dxform')) {
-        return 'form-workflow';
-    }
-
-    return 'basic-page';
+    // Unreachable: the schema constrains kind to the two variants above.
+    fail(`Unsupported handler kind: ${handler.kind}`);
 }
 
-function sanitizeId(value, fallback) {
-    const id = String(value || fallback || '').trim();
-
-    if (!/^[A-Za-z][A-Za-z0-9_-]*$/.test(id)) {
-        fail(`Invalid container id: ${id || '<empty>'}. Use letters, numbers, underscores, or dashes.`);
-    }
-
-    return id;
+function isHandlerKey(key) {
+    return /^on[A-Z]/.test(key);
 }
 
-function normalizeWidgetType(value) {
-    const raw = String(value || '').trim();
-
-    if (!raw) {
-        fail('Each widget must include a type');
+/**
+ * Walk a spec-supplied options tree and replace handler objects with RawJs
+ * call sites. Everything else is copied verbatim as data.
+ */
+function compileOptions(value, key) {
+    if (Array.isArray(value)) {
+        return value.map((item) => compileOptions(item, null));
     }
 
-    if (raw.startsWith('dx')) {
-        return raw;
+    if (value && typeof value === 'object') {
+        if (key !== null && isHandlerKey(key)) {
+            return compileHandler(value);
+        }
+
+        const out = {};
+        Object.keys(value).forEach((childKey) => {
+            out[childKey] = compileOptions(value[childKey], childKey);
+        });
+        return out;
     }
 
-    return `dx${raw.charAt(0).toUpperCase()}${raw.slice(1)}`;
+    return value;
 }
 
-function normalizeWidgets(spec, templateName) {
+/* ------------------------------------------------------------------ *
+ * Normalization
+ * ------------------------------------------------------------------ */
+function defaultWidgets(templateName) {
     const defaults = {
         'basic-page': [
-            { id: 'pageToolbar', type: 'dxToolbar' },
-            { id: 'primaryAction', type: 'dxButton' },
-            { id: 'activityList', type: 'dxList', dataKey: 'items' },
+            { id: 'pageToolbar', type: 'dxToolbar', label: 'Operations' },
+            { id: 'primaryAction', type: 'dxButton', label: 'Run Review' },
+            { id: 'activityList', type: 'dxList', dataKey: 'items', displayFields: ['text', 'status'] },
             { id: 'pageLoadPanel', type: 'dxLoadPanel' },
         ],
         'crud-grid': [
-            { id: 'gridToolbar', type: 'dxToolbar' },
+            { id: 'gridToolbar', type: 'dxToolbar', label: 'Orders' },
             { id: 'ordersGrid', type: 'dxDataGrid', dataKey: 'orders' },
             { id: 'gridLoadPanel', type: 'dxLoadPanel' },
         ],
         dashboard: [
-            { id: 'filterToolbar', type: 'dxToolbar' },
+            { id: 'filterToolbar', type: 'dxToolbar', label: 'Filters' },
             { id: 'metricsGrid', type: 'dxDataGrid', dataKey: 'metrics' },
             { id: 'dashboardLoadPanel', type: 'dxLoadPanel' },
         ],
         'form-workflow': [
             { id: 'requestForm', type: 'dxForm', dataKey: 'request' },
-            { id: 'submitButton', type: 'dxButton' },
+            { id: 'submitButton', type: 'dxButton', label: 'Submit', submitsValidationGroup: 'workflowValidation' },
             { id: 'workflowLoadPanel', type: 'dxLoadPanel' },
         ],
     };
 
+    return defaults[templateName];
+}
+
+function normalizeWidgets(spec, templateName) {
     const widgets = Array.isArray(spec.widgets) && spec.widgets.length > 0
         ? spec.widgets
-        : defaults[templateName];
+        : defaultWidgets(templateName);
 
-    return widgets.map((widget, index) => {
-        assertObject(widget, `widgets[${index}]`);
-
-        return {
-            id: sanitizeId(widget.id || widget.containerId, `widget${index + 1}`),
-            type: normalizeWidgetType(widget.type),
-            dataKey: widget.dataKey || widget.data || defaultDataKey(widget.type),
-            options: widget.options && typeof widget.options === 'object' && !Array.isArray(widget.options)
-                ? widget.options
-                : {},
-            label: widget.label || widget.title || '',
-            className: widget.className || '',
-        };
-    });
+    return widgets.map((widget) => ({
+        id: widget.id,
+        type: widget.type,
+        containerId: widget.containerId,
+        dataKey: widget.dataKey || defaultDataKey(widget.type),
+        options: widget.options || {},
+        columns: widget.columns,
+        items: widget.items,
+        displayFields: widget.displayFields,
+        submitsValidationGroup: widget.submitsValidationGroup,
+        label: widget.label || '',
+        className: widget.className || '',
+    }));
 }
 
 function defaultDataKey(type) {
-    const normalized = normalizeWidgetType(type).toLowerCase();
-
-    if (normalized === 'dxdatagrid') {
-        return 'rows';
-    }
-
-    if (normalized === 'dxlist') {
-        return 'items';
-    }
-
-    if (normalized === 'dxform') {
-        return 'formData';
-    }
-
+    if (type === 'dxDataGrid') return 'rows';
+    if (type === 'dxList') return 'items';
+    if (type === 'dxForm') return 'formData';
     return '';
 }
 
@@ -199,21 +235,56 @@ function sampleDataFor(templateName) {
     return samples[templateName];
 }
 
-function buildBody(title, templateName, widgets) {
-    const widgetMarkup = widgets.map((widget) => {
-        const classes = ['widget-host'];
-        if (widget.className) {
-            classes.push(widget.className);
-        }
+/* ------------------------------------------------------------------ *
+ * Markup
+ * ------------------------------------------------------------------ */
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
 
-        return [
+function widgetMount(widget) {
+    const classes = ['widget-host'];
+    if (widget.className) {
+        classes.push(widget.className);
+    }
+
+    return `                <div id="${widget.id}" class="${classes.join(' ')}"></div>`;
+}
+
+function buildSections(spec, templateName, widgets) {
+    // No declared containers: one section per widget (the historical layout).
+    if (!Array.isArray(spec.containers)) {
+        return widgets.map((widget) => [
             `            <section class="widget-panel ${templateName}-panel">`,
             widget.label ? `                <h2>${escapeHtml(widget.label)}</h2>` : '',
-            `                <div id="${widget.id}" class="${classes.join(' ')}"></div>`,
+            widgetMount(widget),
+            '            </section>',
+        ].filter(Boolean).join('\n')).join('\n');
+    }
+
+    // Declared containers own the sections; widgets are grouped into them.
+    return spec.containers.map((container) => {
+        const classes = ['widget-panel', `${templateName}-panel`];
+        if (container.className) {
+            classes.push(container.className);
+        }
+
+        const members = widgets.filter((widget) => widget.containerId === container.id);
+
+        return [
+            `            <section class="${classes.join(' ')}" data-container="${escapeHtml(container.id)}">`,
+            container.label ? `                <h2>${escapeHtml(container.label)}</h2>` : '',
+            ...members.map(widgetMount),
             '            </section>',
         ].filter(Boolean).join('\n');
     }).join('\n');
+}
 
+function buildBody(spec, title, templateName, widgets) {
     const dashboardSummary = templateName === 'dashboard'
         ? [
             '            <section class="summary-grid" aria-label="Dashboard summary">',
@@ -232,20 +303,12 @@ function buildBody(title, templateName, widgets) {
         '        </header>',
         '        <main class="app-content">',
         dashboardSummary,
-        widgetMarkup,
+        buildSections(spec, templateName, widgets),
         '            <p class="state-message" data-empty-state>No records to display when the data source is empty.</p>',
         '            <p class="state-message state-message-error" data-error-state hidden>Unable to load the page data.</p>',
         '        </main>',
         '    </div>',
     ].filter(Boolean).join('\n');
-}
-
-function escapeHtml(value) {
-    return String(value)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
 }
 
 function replaceRegion(source, startMarker, endMarker, replacement) {
@@ -259,33 +322,35 @@ function replaceRegion(source, startMarker, endMarker, replacement) {
     return `${source.slice(0, start + startMarker.length)}\n${replacement}\n${source.slice(end)}`;
 }
 
-function buildHtml(templateHtml, spec, templateName, widgets) {
+function buildHtml(templateHtml, spec, templateName, widgets, outputFiles) {
     const version = spec.devextremeVersion || DEFAULT_DX_VERSION;
     const themeCss = spec.themeCss || `https://cdn3.devexpress.com/jslib/${version}/css/dx.light.css`;
     const devextremeJs = spec.devextremeJs || `https://cdn3.devexpress.com/jslib/${version}/js/dx.all.js`;
     const jqueryJs = spec.jqueryJs || DEFAULT_JQUERY_URL;
-    const title = spec.title || 'DevExtreme jQuery App';
+    const title = spec.title;
 
     let html = templateHtml
         .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(title)}</title>`)
         .replace(/<link id="dx-theme"[^>]*>/i, `<link id="dx-theme" rel="stylesheet" href="${escapeHtml(themeCss)}">`)
         .replace(/<script id="jquery-script"[^>]*><\/script>/i, `<script id="jquery-script" src="${escapeHtml(jqueryJs)}"></script>`)
-        .replace(/<script id="dx-script"[^>]*><\/script>/i, `<script id="dx-script" src="${escapeHtml(devextremeJs)}"></script>`);
+        .replace(/<script id="dx-script"[^>]*><\/script>/i, `<script id="dx-script" src="${escapeHtml(devextremeJs)}"></script>`)
+        // Honour declared output names so a renamed stylesheet/script still loads.
+        .replace(/href="\.\/styles\.css"/i, `href="./${escapeHtml(outputFiles.css)}"`)
+        .replace(/src="\.\/app\.js"/i, `src="./${escapeHtml(outputFiles.js)}"`);
 
-    html = replaceRegion(
+    return replaceRegion(
         html,
         '<!-- DX_WIDGET_REGION_START -->',
         '<!-- DX_WIDGET_REGION_END -->',
-        buildBody(title, templateName, widgets),
+        buildBody(spec, title, templateName, widgets),
     );
-
-    return html;
 }
 
+/* ------------------------------------------------------------------ *
+ * Styles
+ * ------------------------------------------------------------------ */
 function buildCss(templateCss, spec) {
-    const tokens = spec.tokens && typeof spec.tokens === 'object' && !Array.isArray(spec.tokens)
-        ? cssVariablesFromObject(spec.tokens)
-        : '';
+    const tokens = spec.tokens ? cssVariablesFromObject(spec.tokens) : '';
 
     if (!tokens) {
         return templateCss;
@@ -300,15 +365,9 @@ function cssVariablesFromObject(tokens) {
     Object.keys(tokens).forEach((groupName) => {
         const group = tokens[groupName];
 
-        if (!group || typeof group !== 'object' || Array.isArray(group)) {
-            return;
-        }
-
         Object.keys(group).forEach((tokenName) => {
-            const raw = group[tokenName];
-            const value = raw && typeof raw === 'object' && Object.prototype.hasOwnProperty.call(raw, 'value')
-                ? raw.value
-                : raw;
+            const rawValue = group[tokenName];
+            const value = rawValue && typeof rawValue === 'object' ? rawValue.value : rawValue;
 
             if (typeof value === 'string' || typeof value === 'number') {
                 lines.push(`    --${toKebab(groupName)}-${toKebab(tokenName)}: ${value};`);
@@ -327,14 +386,45 @@ function toKebab(value) {
         .toLowerCase();
 }
 
+/* ------------------------------------------------------------------ *
+ * Widget options
+ * ------------------------------------------------------------------ */
+function formNeedsValidation(items) {
+    return (items || []).some((item) => item.isRequired === true || Array.isArray(item.validationRules));
+}
+
+function defaultFormItems() {
+    return [
+        { dataField: 'requester', isRequired: true, editorOptions: { inputAttr: { 'aria-label': 'Requester' } } },
+        {
+            dataField: 'category',
+            isRequired: true,
+            editorType: 'dxSelectBox',
+            editorOptions: { items: ['Access Review', 'Change Request', 'Incident'], inputAttr: { 'aria-label': 'Category' } },
+        },
+        {
+            dataField: 'priority',
+            editorType: 'dxSelectBox',
+            editorOptions: { items: ['Low', 'Normal', 'High'], inputAttr: { 'aria-label': 'Priority' } },
+        },
+        {
+            dataField: 'notes',
+            editorType: 'dxTextArea',
+            colSpan: 2,
+            validationRules: [{ type: 'required', message: 'Notes are required.' }],
+            editorOptions: { minHeight: 96, inputAttr: { 'aria-label': 'Notes' } },
+        },
+    ];
+}
+
 function buildOptions(widget, sampleData, templateName) {
-    const type = widget.type.toLowerCase();
+    const type = widget.type;
     const data = widget.dataKey ? sampleData[widget.dataKey] : undefined;
     const base = {
         elementAttr: { class: `${templateName}__${toKebab(widget.id)}` },
     };
 
-    if (type === 'dxdatagrid') {
+    if (type === 'dxDataGrid') {
         Object.assign(base, {
             dataSource: data || [],
             keyExpr: inferKeyExpr(data),
@@ -354,43 +444,74 @@ function buildOptions(widget, sampleData, templateName) {
                 popup: { title: 'Edit record', showTitle: true, width: 720 },
                 form: { labelLocation: 'top' },
             },
-            onDataErrorOccurred: "function(e) { showError(e.error && e.error.message ? e.error.message : 'Data error'); }",
+            // Generator-owned handler, emitted as a named function in app.js.
+            onDataErrorOccurred: raw('handleDataError'),
         });
-    } else if (type === 'dxform') {
+
+        if (widget.columns) {
+            base.columns = compileOptions(widget.columns, null);
+        }
+    } else if (type === 'dxTreeList') {
+        Object.assign(base, {
+            dataSource: data || [],
+            showBorders: true,
+            columnAutoWidth: true,
+            onDataErrorOccurred: raw('handleDataError'),
+        });
+
+        if (widget.columns) {
+            base.columns = compileOptions(widget.columns, null);
+        }
+    } else if (type === 'dxForm') {
+        const items = widget.items ? compileOptions(widget.items, null) : defaultFormItems();
+
         Object.assign(base, {
             formData: data || {},
             labelLocation: 'top',
             colCountByScreen: { xs: 1, sm: 1, md: 2, lg: 2 },
-            showValidationSummary: true,
-            validationGroup: 'workflowValidation',
-            items: [
-                { dataField: 'requester', isRequired: true, editorOptions: { inputAttr: { 'aria-label': 'Requester' } } },
-                { dataField: 'category', isRequired: true, editorType: 'dxSelectBox', editorOptions: { items: ['Access Review', 'Change Request', 'Incident'], inputAttr: { 'aria-label': 'Category' } } },
-                { dataField: 'priority', editorType: 'dxSelectBox', editorOptions: { items: ['Low', 'Normal', 'High'], inputAttr: { 'aria-label': 'Priority' } } },
-                { dataField: 'notes', editorType: 'dxTextArea', colSpan: 2, validationRules: [{ type: 'required', message: 'Notes are required.' }], editorOptions: { minHeight: 96, inputAttr: { 'aria-label': 'Notes' } } },
-            ],
+            items,
         });
-    } else if (type === 'dxlist') {
+
+        // Declarative validation rules are only meaningful if something runs
+        // them, so wire the group and summary whenever any rule is present.
+        if (formNeedsValidation(widget.items || defaultFormItems())) {
+            base.showValidationSummary = true;
+            base.validationGroup = 'workflowValidation';
+        }
+    } else if (type === 'dxList') {
         Object.assign(base, {
             dataSource: data || [],
             noDataText: 'No activity yet.',
-            displayExpr: functionDisplayExpr(),
         });
-    } else if (type === 'dxtoolbar') {
+
+        if (widget.displayFields) {
+            base.displayExpr = raw(`joinFields(${JSON.stringify(widget.displayFields)})`);
+        }
+    } else if (type === 'dxToolbar') {
         Object.assign(base, {
-            items: [
+            items: widget.items ? compileOptions(widget.items, null) : [
                 { location: 'before', text: widget.label || 'Workspace' },
-                { location: 'after', widget: 'dxButton', options: { text: 'Refresh', icon: 'refresh', stylingMode: 'outlined', elementAttr: { class: 'toolbar-refresh-button' }, onClick: "function() { DevExpress.ui.notify('Refresh requested', 'info', 1400); }" } },
+                {
+                    location: 'after',
+                    widget: 'dxButton',
+                    options: {
+                        text: 'Refresh',
+                        icon: 'refresh',
+                        stylingMode: 'outlined',
+                        elementAttr: { class: 'toolbar-refresh-button' },
+                        onClick: raw("notifyAction('Refresh requested', 'info', 1400)"),
+                    },
+                },
             ],
         });
-    } else if (type === 'dxbutton') {
+    } else if (type === 'dxButton') {
         Object.assign(base, {
             text: widget.label || 'Submit',
             type: 'default',
             stylingMode: 'contained',
-            onClick: "function() { DevExpress.ui.notify('Action completed', 'success', 1600); }",
+            onClick: raw("notifyAction('Action completed', 'success', 1600)"),
         });
-    } else if (type === 'dxloadpanel') {
+    } else if (type === 'dxLoadPanel') {
         Object.assign(base, {
             visible: false,
             shading: true,
@@ -399,11 +520,17 @@ function buildOptions(widget, sampleData, templateName) {
         });
     }
 
-    return mergeObjects(base, widget.options);
-}
+    const merged = mergeObjects(base, compileOptions(widget.options, null));
 
-function functionDisplayExpr() {
-    return "function(item) { return item && item.text ? item.text + ' - ' + item.status : String(item || ''); }";
+    // Validation-gated submit wraps whatever click handler survived the merge.
+    if (widget.submitsValidationGroup) {
+        const inner = merged.onClick instanceof RawJs
+            ? merged.onClick.code
+            : "notifyAction('Workflow submitted', 'success', 1600)";
+        merged.onClick = raw(`submitValidationGroup(${lit(widget.submitsValidationGroup)}, ${inner})`);
+    }
+
+    return merged;
 }
 
 function inferKeyExpr(data) {
@@ -425,9 +552,11 @@ function mergeObjects(target, source) {
             sourceValue
             && typeof sourceValue === 'object'
             && !Array.isArray(sourceValue)
+            && !(sourceValue instanceof RawJs)
             && targetValue
             && typeof targetValue === 'object'
             && !Array.isArray(targetValue)
+            && !(targetValue instanceof RawJs)
         ) {
             merged[key] = mergeObjects(targetValue, sourceValue);
         } else {
@@ -438,9 +567,12 @@ function mergeObjects(target, source) {
     return merged;
 }
 
+/* ------------------------------------------------------------------ *
+ * JavaScript emission
+ * ------------------------------------------------------------------ */
 function jsValue(value, indent) {
-    if (typeof value === 'string' && value.startsWith('function(')) {
-        return value;
+    if (value instanceof RawJs) {
+        return value.code;
     }
 
     if (Array.isArray(value)) {
@@ -466,14 +598,64 @@ function jsValue(value, indent) {
     return JSON.stringify(value);
 }
 
+const RUNTIME_HELPERS = [
+    '    function notify(message, notifyType, displayTime) {',
+    "        DevExpress.ui.notify(message, notifyType || 'info', displayTime || 2000);",
+    '    }',
+    '',
+    '    function notifyAction(message, notifyType, displayTime) {',
+    '        return function() {',
+    '            notify(message, notifyType, displayTime);',
+    '        };',
+    '    }',
+    '',
+    '    function showError(message) {',
+    "        $('[data-error-state]').prop('hidden', false).text(message);",
+    "        notify(message, 'error', 2400);",
+    '    }',
+    '',
+    '    function handleDataError(e) {',
+    "        showError(e && e.error && e.error.message ? e.error.message : 'Data error');",
+    '    }',
+    '',
+    '    function runHandler(name) {',
+    '        return function(e) {',
+    '            var registry = window.dxPageHandlers || {};',
+    "            if (typeof registry[name] !== 'function') {",
+    '                notify(\'Handler "\' + name + \'" is not registered on window.dxPageHandlers.\', \'warning\', 2400);',
+    '                return undefined;',
+    '            }',
+    '            return registry[name](e);',
+    '        };',
+    '    }',
+    '',
+    '    function joinFields(fields) {',
+    '        return function(item) {',
+    "            if (!item) { return ''; }",
+    '            return fields',
+    '                .map(function(field) { return item[field]; })',
+    "                .filter(function(part) { return part !== undefined && part !== null && part !== ''; })",
+    "                .join(' - ');",
+    '        };',
+    '    }',
+    '',
+    '    function submitValidationGroup(group, next) {',
+    '        return function(e) {',
+    '            var result = DevExpress.validationEngine.validateGroup(group);',
+    '            if (!result.isValid) {',
+    "                notify('Resolve validation errors before submitting.', 'warning', 1800);",
+    '                return undefined;',
+    '            }',
+    '            return next(e);',
+    '        };',
+    '    }',
+].join('\n');
+
 function buildAppJs(spec, templateName, widgets) {
-    const sampleData = spec.sampleData && typeof spec.sampleData === 'object' && !Array.isArray(spec.sampleData)
-        ? spec.sampleData
-        : sampleDataFor(templateName);
+    const sampleData = spec.sampleData || sampleDataFor(templateName);
 
     const initBlocks = widgets.map((widget) => {
         const options = buildOptions(widget, sampleData, templateName);
-
         return `        $('#${widget.id}').${widget.type}(${jsValue(options, 8)});`;
     }).join('\n\n');
 
@@ -483,10 +665,7 @@ function buildAppJs(spec, templateName, widgets) {
         '$(function() {',
         `    const sampleData = ${JSON.stringify(sampleData, null, 4).replace(/\n/g, '\n    ')};`,
         '',
-        '    function showError(message) {',
-        "        $('[data-error-state]').prop('hidden', false).text(message);",
-        "        DevExpress.ui.notify(message, 'error', 2400);",
-        '    }',
+        RUNTIME_HELPERS,
         '',
         '    try {',
         initBlocks,
@@ -498,6 +677,9 @@ function buildAppJs(spec, templateName, widgets) {
     ].join('\n');
 }
 
+/* ------------------------------------------------------------------ *
+ * Entry point
+ * ------------------------------------------------------------------ */
 function main() {
     const args = parseArgs(process.argv);
 
@@ -508,10 +690,13 @@ function main() {
     const specPath = path.resolve(args.spec);
     const outDir = path.resolve(args.out);
     const spec = readJson(specPath);
-    assertObject(spec, 'spec');
 
-    const templateName = normalizeTemplate(spec);
+    validateSpec(spec, specPath);
+
+    const templateName = spec.template;
     const widgets = normalizeWidgets(spec, templateName);
+    const outputFiles = Object.assign({}, DEFAULT_OUTPUT_FILES, spec.outputFiles || {});
+
     const templateDir = path.resolve(__dirname, '..', 'templates', templateName);
     const indexTemplatePath = path.join(templateDir, 'index.html');
     const stylesTemplatePath = path.join(templateDir, 'styles.css');
@@ -522,15 +707,15 @@ function main() {
 
     fs.mkdirSync(outDir, { recursive: true });
 
-    const files = {
-        'index.html': buildHtml(fs.readFileSync(indexTemplatePath, 'utf8'), spec, templateName, widgets),
-        'styles.css': buildCss(fs.readFileSync(stylesTemplatePath, 'utf8'), spec),
-        'app.js': buildAppJs(spec, templateName, widgets),
-    };
+    const files = [
+        [outputFiles.html, buildHtml(fs.readFileSync(indexTemplatePath, 'utf8'), spec, templateName, widgets, outputFiles)],
+        [outputFiles.css, buildCss(fs.readFileSync(stylesTemplatePath, 'utf8'), spec)],
+        [outputFiles.js, buildAppJs(spec, templateName, widgets)],
+    ];
 
-    Object.keys(files).forEach((fileName) => {
+    files.forEach(([fileName, contents]) => {
         const outputPath = path.join(outDir, fileName);
-        fs.writeFileSync(outputPath, files[fileName], 'utf8');
+        fs.writeFileSync(outputPath, contents, 'utf8');
         console.log(outputPath);
     });
 }

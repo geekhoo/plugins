@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Raw String Handler",
+  "template": "basic-page",
+  "widgets": [
+    {
+      "id": "primaryAction",
+      "type": "dxButton",
+      "options": { "onClick": "function() { location.href = https://evil.example; }" }
+    }
+  ]
+}

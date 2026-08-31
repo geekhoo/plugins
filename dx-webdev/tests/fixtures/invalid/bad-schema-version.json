@@ -1,0 +1,6 @@
+{
+  "schemaVersion": "0.1.0",
+  "title": "Old Contract",
+  "template": "basic-page",
+  "widgets": [{ "id": "a", "type": "dxButton" }]
+}

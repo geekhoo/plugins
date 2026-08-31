@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Duplicate Mount Ids",
+  "template": "basic-page",
+  "widgets": [
+    { "id": "sameId", "type": "dxButton" },
+    { "id": "sameId", "type": "dxLoadPanel" }
+  ]
+}

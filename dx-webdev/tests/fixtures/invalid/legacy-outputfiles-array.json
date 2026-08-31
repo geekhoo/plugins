@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Legacy Output Files",
+  "template": "basic-page",
+  "widgets": [{ "id": "a", "type": "dxButton" }],
+  "outputFiles": ["index.html", "styles.css", "app.js"]
+}

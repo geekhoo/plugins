@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Defaults And Renamed Outputs",
+  "template": "basic-page",
+  "widgets": [
+    { "id": "pageToolbar", "type": "dxToolbar", "label": "Operations" },
+    { "id": "primaryAction", "type": "dxButton", "label": "Run Review" },
+    { "id": "activityList", "type": "dxList", "dataKey": "items", "displayFields": ["text", "status"] },
+    { "id": "pageLoadPanel", "type": "dxLoadPanel" }
+  ],
+  "sampleData": {
+    "items": [
+      { "text": "Review queue prepared", "status": "Ready" },
+      { "text": "Data refresh completed", "status": "Complete" },
+      { "text": "Validation pass required", "status": "Pending" }
+    ]
+  },
+  "outputFiles": {
+    "html": "orders.html",
+    "css": "orders.css",
+    "js": "orders.js"
+  }
+}

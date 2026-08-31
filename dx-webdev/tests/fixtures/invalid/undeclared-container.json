@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Dangling Container Reference",
+  "template": "basic-page",
+  "containers": [{ "id": "panelA" }],
+  "widgets": [
+    { "id": "buttonOne", "containerId": "panelA", "type": "dxButton" },
+    { "id": "buttonTwo", "containerId": "panelZ", "type": "dxButton" }
+  ]
+}

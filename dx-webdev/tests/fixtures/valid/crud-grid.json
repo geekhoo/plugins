@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Orders CRUD",
+  "template": "crud-grid",
+  "containers": [
+    { "id": "commandBar", "label": "Orders" },
+    { "id": "dataPanel", "className": "orders-data" },
+    { "id": "overlays" }
+  ],
+  "widgets": [
+    {
+      "id": "gridToolbar",
+      "containerId": "commandBar",
+      "type": "dxToolbar",
+      "items": [
+        { "location": "before", "text": "Orders" },
+        {
+          "location": "after",
+          "widget": "dxButton",
+          "options": {
+            "text": "Export",
+            "icon": "exportxlsx",
+            "stylingMode": "outlined",
+            "onClick": { "kind": "named-reference", "name": "exportOrders" }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ordersGrid",
+      "containerId": "dataPanel",
+      "type": "dxDataGrid",
+      "dataKey": "orders",
+      "columns": [
+        { "dataField": "id", "caption": "Order", "allowEditing": false, "width": 110 },
+        {
+          "dataField": "customer",
+          "validationRules": [
+            { "type": "required" },
+            { "type": "stringLength", "min": 2, "max": 80, "message": "Customer name is 2-80 characters." }
+          ]
+        },
+        { "dataField": "status", "validationRules": [{ "type": "required" }] },
+        {
+          "dataField": "total",
+          "dataType": "number",
+          "format": { "type": "currency", "precision": 0 },
+          "alignment": "right",
+          "validationRules": [
+            { "type": "required" },
+            { "type": "numeric" },
+            { "type": "range", "min": 0, "message": "Total cannot be negative." }
+          ]
+        },
+        { "dataField": "dueDate", "dataType": "date", "validationRules": [{ "type": "required" }] },
+        {
+          "dataField": "contactEmail",
+          "validationRules": [
+            { "type": "email", "message": "Enter a valid contact email." },
+            { "type": "pattern", "pattern": "@(acme|northwind|contoso)\\.example$", "message": "Use an approved domain." }
+          ]
+        }
+      ],
+      "options": {
+        "summary": {
+          "totalItems": [{ "column": "total", "summaryType": "sum", "valueFormat": "currency" }]
+        },
+        "onRowUpdated": { "kind": "notify", "message": "Order saved", "notifyType": "success", "displayTime": 1600 }
+      }
+    },
+    {
+      "id": "gridLoadPanel",
+      "containerId": "overlays",
+      "type": "dxLoadPanel",
+      "options": { "message": "Loading orders..." }
+    }
+  ],
+  "sampleData": {
+    "orders": [
+      { "id": 1001, "customer": "Acme Health", "status": "New", "total": 12840, "dueDate": "2026-06-02", "contactEmail": "ops@acme.example" },
+      { "id": 1002, "customer": "Northwind Care", "status": "Review", "total": 9250, "dueDate": "2026-06-05", "contactEmail": "ops@northwind.example" },
+      { "id": 1003, "customer": "Contoso Clinics", "status": "Approved", "total": 15300, "dueDate": "2026-06-11", "contactEmail": "ops@contoso.example" }
+    ]
+  }
+}

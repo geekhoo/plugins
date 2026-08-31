@@ -1,80 +1,488 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://personal.local/dx-webdev/dx-page-spec-schema.json",
+  "$id": "https://personal.local/dx-webdev/dx-page-spec-schema/v1",
   "title": "DevExtreme jQuery Page Spec",
+  "description": "Authoritative input contract for scripts/generate-dx-page.js. Every field declared here is consumed by the generator; the generator reads nothing that is not declared here. Breaking changes mint a new $id path segment and a new schemaVersion major.",
   "type": "object",
+  "required": ["schemaVersion", "title", "template", "widgets"],
   "additionalProperties": false,
-  "required": ["title", "template", "themeCss", "containers", "widgets", "outputFiles"],
   "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": ["1.0.0"],
+      "description": "Spec contract version. Producers stamp this; the generator refuses versions it does not implement.",
+      "errorMessage": "schemaVersion must be \"1.0.0\". This generator implements exactly one spec contract version."
+    },
+
     "title": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "$ref": "#/$defs/safeString",
+      "description": "Page title. Emitted into <title> and the <h1 data-page-title> heading, HTML-escaped."
     },
+
     "template": {
       "type": "string",
-      "enum": ["basic-page", "crud-grid", "dashboard", "form-workflow"]
+      "enum": ["basic-page", "crud-grid", "dashboard", "form-workflow"],
+      "description": "Template directory under templates/ that supplies index.html and styles.css."
     },
-    "themeCss": {
-      "type": "string",
-      "minLength": 1
-    },
+
     "devextremeVersion": {
       "type": "string",
-      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "DevExtreme version used to build the default CDN URLs. Default: 25.2.3.",
+      "errorMessage": "devextremeVersion must be a three-part version such as \"25.2.3\"."
     },
+
+    "themeCss": {
+      "type": "string",
+      "minLength": 1,
+      "$ref": "#/$defs/safeString",
+      "description": "Override for the DevExtreme theme stylesheet URL. Default: https://cdn3.devexpress.com/jslib/<devextremeVersion>/css/dx.light.css"
+    },
+    "devextremeJs": {
+      "type": "string",
+      "minLength": 1,
+      "$ref": "#/$defs/safeString",
+      "description": "Override for the DevExtreme script URL. Default: https://cdn3.devexpress.com/jslib/<devextremeVersion>/js/dx.all.js"
+    },
+    "jqueryJs": {
+      "type": "string",
+      "minLength": 1,
+      "$ref": "#/$defs/safeString",
+      "description": "Override for the jQuery script URL. Default: https://code.jquery.com/jquery-3.7.1.min.js"
+    },
+
     "containers": {
       "type": "array",
       "minItems": 1,
+      "description": "Optional markup grouping. Each container becomes one <section> in the generated body, in declaration order, holding every widget whose containerId points at it. Omit this key to get one section per widget.",
       "items": {
         "type": "object",
         "additionalProperties": false,
         "required": ["id"],
         "properties": {
-          "id": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$" },
-          "className": { "type": "string" },
-          "label": { "type": "string" }
+          "id": {
+            "$ref": "#/$defs/domId",
+            "description": "Container identity. Referenced by widget.containerId. Not emitted as an element id; the section carries it as data-container."
+          },
+          "className": {
+            "$ref": "#/$defs/cssClassList",
+            "description": "Extra CSS classes appended to the section's class attribute."
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "$ref": "#/$defs/safeString",
+            "description": "Optional heading rendered as <h2> at the top of the section, HTML-escaped."
+          }
         }
       }
     },
+
     "widgets": {
       "type": "array",
       "minItems": 1,
-      "items": {
+      "description": "Component initializers. Each entry becomes exactly one $('#id').<type>(options) call. Callable APIs such as DevExpress.ui.notify are NOT widgets - express them as handler actions (see $defs.handler).",
+      "items": { "$ref": "#/$defs/widget" }
+    },
+
+    "sampleData": {
+      "type": "object",
+      "description": "Named data sets emitted as a const in app.js. Array values feed dataSource; object values feed formData.",
+      "additionalProperties": {
+        "oneOf": [
+          { "type": "array", "items": { "type": "object" } },
+          { "type": "object" }
+        ],
+        "errorMessage": "sampleData entries must be an array of record objects (for dataSource) or a single object (for formData)."
+      }
+    },
+
+    "tokens": {
+      "type": "object",
+      "description": "Design tokens flattened into CSS custom properties on :root as --<group>-<name>. Values may be scalars or DTCG-style { \"value\": ... } wrappers.",
+      "additionalProperties": {
         "type": "object",
-        "additionalProperties": true,
-        "required": ["containerId", "type"],
-        "properties": {
-          "containerId": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_-]*$" },
-          "type": { "type": "string", "pattern": "^dx[A-Z][A-Za-z0-9]+$|^DevExpress\\.ui\\.notify$" },
-          "dataKey": { "type": "string" },
-          "data": { "type": "string" },
-          "dataSource": { "type": "string" },
-          "options": { "type": "object" },
-          "items": { "type": "array" },
-          "columns": { "type": "array" }
+        "additionalProperties": {
+          "oneOf": [
+            { "type": "string" },
+            { "type": "number" },
+            {
+              "type": "object",
+              "required": ["value"],
+              "properties": { "value": { "type": ["string", "number"] } }
+            }
+          ]
         }
       }
     },
-    "sampleData": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "array"
-      }
-    },
-    "tokens": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "object"
-      }
-    },
+
     "outputFiles": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": ["index.html", "styles.css", "app.js"]
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Output file names. The generated HTML links whatever names are declared here. Defaults: index.html, styles.css, app.js.",
+      "properties": {
+        "html": { "$ref": "#/$defs/outputFileName" },
+        "css": { "$ref": "#/$defs/outputFileName" },
+        "js": { "$ref": "#/$defs/outputFileName" }
+      }
+    }
+  },
+
+  "$defs": {
+    "domId": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]*$",
+      "errorMessage": "must be a DOM id starting with a letter and containing only letters, digits, underscores, or dashes."
+    },
+
+    "cssClassList": {
+      "type": "string",
+      "pattern": "^[A-Za-z_-][A-Za-z0-9 _-]*$",
+      "errorMessage": "must be a space-separated list of CSS class names."
+    },
+
+    "outputFileName": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "errorMessage": "must be a plain file name with no path separators (e.g. \"index.html\"). Output paths are resolved against --out."
+    },
+
+    "safeString": {
+      "type": "string",
+      "pattern": "^(?!\\s*(?:async\\s+)?function\\b)(?!\\s*new\\s+Function\\b)(?!\\s*(?:\\([^)]*\\)|[A-Za-z_$][A-Za-z0-9_$]*)\\s*=>)",
+      "errorMessage": "must not contain JavaScript source. Function bodies are prohibited in specs; use a handler object such as { \"kind\": \"named-reference\", \"name\": \"handleSubmit\" } instead."
+    },
+
+    "handler": {
+      "type": "object",
+      "description": "A typed action. Handlers replace raw JavaScript strings: the generator emits the call site itself, so no spec value is ever interpolated as executable code.",
+      "required": ["kind"],
+      "x-discriminator": { "propertyName": "kind" },
+      "oneOf": [
+        {
+          "title": "named-reference",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "name"],
+          "properties": {
+            "kind": { "const": "named-reference" },
+            "name": {
+              "type": "string",
+              "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$",
+              "description": "Key looked up on window.dxPageHandlers at call time. The generated page degrades gracefully when the handler is not registered.",
+              "errorMessage": "must be a plain JavaScript identifier naming a handler registered on window.dxPageHandlers."
+            }
+          }
+        },
+        {
+          "title": "notify",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "message"],
+          "description": "Calls DevExpress.ui.notify(message, type, displayTime). This is a callable API on the DevExpress.ui namespace, not a component - it can only be reached through a handler, never declared as a widget.",
+          "properties": {
+            "kind": { "const": "notify" },
+            "message": { "type": "string", "minLength": 1, "$ref": "#/$defs/safeString" },
+            "notifyType": {
+              "type": "string",
+              "enum": ["info", "warning", "error", "success"],
+              "description": "Toast type. Default: info."
+            },
+            "displayTime": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Milliseconds the toast stays visible. Default: 2000."
+            }
+          }
+        }
+      ]
+    },
+
+    "validationRule": {
+      "type": "object",
+      "description": "DevExtreme declarative validation rule. Only the callback-free rule types are expressible: 'custom', 'compare', and 'async' require JavaScript functions and are therefore outside this contract.",
+      "required": ["type"],
+      "x-discriminator": { "propertyName": "type" },
+      "oneOf": [
+        {
+          "title": "required",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "required" },
+            "message": { "type": "string", "$ref": "#/$defs/safeString" },
+            "trim": { "type": "boolean" }
+          }
+        },
+        {
+          "title": "numeric",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "numeric" },
+            "message": { "type": "string", "$ref": "#/$defs/safeString" },
+            "ignoreEmptyValue": { "type": "boolean" }
+          }
+        },
+        {
+          "title": "range",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "range" },
+            "min": { "type": ["number", "string"] },
+            "max": { "type": ["number", "string"] },
+            "message": { "type": "string", "$ref": "#/$defs/safeString" },
+            "ignoreEmptyValue": { "type": "boolean" },
+            "reevaluate": { "type": "boolean" }
+          }
+        },
+        {
+          "title": "stringLength",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "stringLength" },
+            "min": { "type": "integer", "minimum": 0 },
+            "max": { "type": "integer", "minimum": 0 },
+            "trim": { "type": "boolean" },
+            "message": { "type": "string", "$ref": "#/$defs/safeString" },
+            "ignoreEmptyValue": { "type": "boolean" }
+          }
+        },
+        {
+          "title": "pattern",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type", "pattern"],
+          "properties": {
+            "type": { "const": "pattern" },
+            "pattern": { "type": "string", "minLength": 1 },
+            "message": { "type": "string", "$ref": "#/$defs/safeString" },
+            "ignoreEmptyValue": { "type": "boolean" }
+          }
+        },
+        {
+          "title": "email",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "const": "email" },
+            "message": { "type": "string", "$ref": "#/$defs/safeString" },
+            "ignoreEmptyValue": { "type": "boolean" }
+          }
+        }
+      ]
+    },
+
+    "optionValue": {
+      "description": "Any JSON value permitted inside a widget options tree. Strings are checked against safeString so JavaScript source cannot be smuggled through.",
+      "oneOf": [
+        { "$ref": "#/$defs/safeString" },
+        { "type": "number" },
+        { "type": "boolean" },
+        { "type": "null" },
+        { "type": "array", "items": { "$ref": "#/$defs/optionValue" } },
+        { "$ref": "#/$defs/optionsObject" }
+      ]
+    },
+
+    "optionsObject": {
+      "type": "object",
+      "description": "DevExtreme option bag. Keys matching ^on[A-Z] are DevExtreme event handlers and must be handler objects; validationRules must be declarative rules; everything else is plain JSON.",
+      "properties": {
+        "validationRules": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/validationRule" }
+        }
       },
-      "minItems": 3,
-      "uniqueItems": true
+      "patternProperties": {
+        "^on[A-Z]": { "$ref": "#/$defs/handler" }
+      },
+      "additionalProperties": { "$ref": "#/$defs/optionValue" }
+    },
+
+    "widgetCommon": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/domId",
+          "description": "Id of the mount element the generator emits and initializes. Must be unique across widgets."
+        },
+        "containerId": {
+          "$ref": "#/$defs/domId",
+          "description": "Container this widget is rendered into. Required to reference a declared container when containers are present."
+        },
+        "label": {
+          "type": "string",
+          "$ref": "#/$defs/safeString",
+          "description": "Used as the default toolbar title / button caption for those widget types. Not emitted as markup."
+        },
+        "className": {
+          "$ref": "#/$defs/cssClassList",
+          "description": "Extra CSS classes on the widget's mount element."
+        },
+        "dataKey": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Key into sampleData supplying dataSource (array) or formData (object). Must exist in sampleData."
+        },
+        "options": { "$ref": "#/$defs/optionsObject" }
+      }
+    },
+
+    "widget": {
+      "type": "object",
+      "required": ["id", "type"],
+      "x-discriminator": { "propertyName": "type" },
+      "oneOf": [
+        {
+          "title": "dxDataGrid",
+          "allOf": [{ "$ref": "#/$defs/widgetCommon" }],
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "type"],
+          "properties": {
+            "id": {}, "containerId": {}, "label": {}, "className": {}, "dataKey": {}, "options": {},
+            "type": { "const": "dxDataGrid" },
+            "columns": {
+              "type": "array",
+              "minItems": 1,
+              "description": "Column definitions merged into options.columns. Declared here so column config is a first-class, validated part of the contract.",
+              "items": { "$ref": "#/$defs/optionsObject" }
+            }
+          }
+        },
+        {
+          "title": "dxTreeList",
+          "allOf": [{ "$ref": "#/$defs/widgetCommon" }],
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "type"],
+          "properties": {
+            "id": {}, "containerId": {}, "label": {}, "className": {}, "dataKey": {}, "options": {},
+            "type": { "const": "dxTreeList" },
+            "columns": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/optionsObject" }
+            }
+          }
+        },
+        {
+          "title": "dxForm",
+          "allOf": [{ "$ref": "#/$defs/widgetCommon" }],
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "type"],
+          "properties": {
+            "id": {}, "containerId": {}, "label": {}, "className": {}, "dataKey": {}, "options": {},
+            "type": { "const": "dxForm" },
+            "items": {
+              "type": "array",
+              "minItems": 1,
+              "description": "Form items merged into options.items. When any item carries validationRules or isRequired, the generator wires a validation group and a validated submit helper.",
+              "items": { "$ref": "#/$defs/optionsObject" }
+            }
+          }
+        },
+        {
+          "title": "dxList",
+          "allOf": [{ "$ref": "#/$defs/widgetCommon" }],
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "type"],
+          "properties": {
+            "id": {}, "containerId": {}, "label": {}, "className": {}, "dataKey": {}, "options": {},
+            "type": { "const": "dxList" },
+            "displayFields": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 4,
+              "description": "Record fields joined into each list item's text. The generator emits its own displayExpr function; specs never supply one.",
+              "items": { "type": "string", "pattern": "^[A-Za-z_$][A-Za-z0-9_$]*$" }
+            }
+          }
+        },
+        {
+          "title": "dxToolbar",
+          "allOf": [{ "$ref": "#/$defs/widgetCommon" }],
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "type"],
+          "properties": {
+            "id": {}, "containerId": {}, "label": {}, "className": {}, "dataKey": {}, "options": {},
+            "type": { "const": "dxToolbar" },
+            "items": {
+              "type": "array",
+              "minItems": 1,
+              "description": "Toolbar items merged into options.items.",
+              "items": { "$ref": "#/$defs/optionsObject" }
+            }
+          }
+        },
+        {
+          "title": "dxButton",
+          "allOf": [{ "$ref": "#/$defs/widgetCommon" }],
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "type"],
+          "properties": {
+            "id": {}, "containerId": {}, "label": {}, "className": {}, "dataKey": {}, "options": {},
+            "type": { "const": "dxButton" },
+            "submitsValidationGroup": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Names a dxForm validation group. The generator emits a click handler that runs DevExpress.validationEngine.validateGroup before the button's own onClick handler.",
+              "$ref": "#/$defs/safeString"
+            }
+          }
+        },
+        {
+          "title": "dxLoadPanel",
+          "allOf": [{ "$ref": "#/$defs/widgetCommon" }],
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "type"],
+          "properties": {
+            "id": {}, "containerId": {}, "label": {}, "className": {}, "dataKey": {}, "options": {},
+            "type": { "const": "dxLoadPanel" }
+          }
+        },
+        {
+          "title": "other supported DevExtreme components",
+          "allOf": [{ "$ref": "#/$defs/widgetCommon" }],
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["id", "type"],
+          "description": "Components the generator initializes verbatim: it emits the mount element, merges elementAttr, applies dataKey, and passes options straight through. No type-specific defaults are supplied.",
+          "properties": {
+            "id": {}, "containerId": {}, "label": {}, "className": {}, "dataKey": {}, "options": {},
+            "type": {
+              "enum": [
+                "dxAccordion", "dxBox", "dxButtonGroup", "dxCalendar", "dxCardView", "dxChart",
+                "dxChat", "dxCheckBox", "dxContextMenu", "dxDateBox", "dxDrawer", "dxDropDownBox",
+                "dxDropDownButton", "dxFileManager", "dxFileUploader", "dxFilterBuilder", "dxFunnel",
+                "dxGallery", "dxGantt", "dxHtmlEditor", "dxMenu", "dxNumberBox", "dxPieChart",
+                "dxPivotGrid", "dxPivotGridFieldChooser", "dxPopover", "dxPopup", "dxProgressBar",
+                "dxRadioGroup", "dxResponsiveBox", "dxScheduler", "dxScrollView", "dxSelectBox",
+                "dxSortable", "dxSpeedDialAction", "dxSplitter", "dxStepper", "dxSwitch",
+                "dxTabPanel", "dxTabs", "dxTagBox", "dxTextArea", "dxTextBox", "dxTileView",
+                "dxToast", "dxTooltip", "dxTreeView", "dxValidationGroup", "dxValidationSummary",
+                "dxValidator"
+              ]
+            }
+          }
+        }
+      ]
     }
   }
 }

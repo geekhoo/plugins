@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Unknown Handler Kind",
+  "template": "basic-page",
+  "widgets": [
+    {
+      "id": "primaryAction",
+      "type": "dxButton",
+      "options": { "onClick": { "kind": "eval", "source": "alert(1)" } }
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Access Request",
+  "template": "form-workflow",
+  "containers": [
+    { "id": "formPanel", "label": "Request details" },
+    { "id": "actions", "className": "actions-panel" },
+    { "id": "overlays" }
+  ],
+  "widgets": [
+    {
+      "id": "requestForm",
+      "containerId": "formPanel",
+      "type": "dxForm",
+      "dataKey": "request",
+      "items": [
+        {
+          "dataField": "requester",
+          "isRequired": true,
+          "validationRules": [{ "type": "stringLength", "min": 3, "message": "Requester name is too short." }],
+          "editorOptions": { "inputAttr": { "aria-label": "Requester" } }
+        },
+        {
+          "dataField": "email",
+          "validationRules": [{ "type": "email", "message": "Enter a valid work email." }],
+          "editorOptions": { "inputAttr": { "aria-label": "Email" } }
+        },
+        {
+          "dataField": "category",
+          "isRequired": true,
+          "editorType": "dxSelectBox",
+          "editorOptions": {
+            "items": ["Access Review", "Change Request", "Incident"],
+            "inputAttr": { "aria-label": "Category" }
+          }
+        },
+        {
+          "dataField": "notes",
+          "editorType": "dxTextArea",
+          "colSpan": 2,
+          "validationRules": [{ "type": "required", "message": "Notes are required." }],
+          "editorOptions": { "minHeight": 96, "inputAttr": { "aria-label": "Notes" } }
+        }
+      ],
+      "options": {
+        "onFieldDataChanged": { "kind": "named-reference", "name": "trackFieldChange" }
+      }
+    },
+    {
+      "id": "submitButton",
+      "containerId": "actions",
+      "type": "dxButton",
+      "label": "Submit request",
+      "submitsValidationGroup": "workflowValidation",
+      "options": {
+        "onClick": { "kind": "named-reference", "name": "submitAccessRequest" }
+      }
+    },
+    {
+      "id": "workflowLoadPanel",
+      "containerId": "overlays",
+      "type": "dxLoadPanel",
+      "options": { "message": "Submitting..." }
+    }
+  ],
+  "sampleData": {
+    "request": {
+      "requester": "Case Owner",
+      "email": "case.owner@contoso.example",
+      "category": "Access Review",
+      "notes": ""
+    }
+  }
+}

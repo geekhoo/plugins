@@ -1,65 +1,78 @@
 {
+  "schemaVersion": "1.0.0",
   "title": "Orders Workbench",
   "template": "basic-page",
   "themeCss": "https://cdn3.devexpress.com/jslib/25.2.3/css/dx.light.css",
   "devextremeVersion": "25.2.3",
   "containers": [
     {
-      "id": "ordersToolbar",
+      "id": "commandBar",
       "className": "orders-toolbar",
       "label": "Orders toolbar"
     },
     {
-      "id": "ordersList",
+      "id": "ordersPanel",
       "className": "orders-list",
       "label": "Recent orders"
     },
     {
-      "id": "loadPanel",
-      "className": "orders-load-panel",
-      "label": "Loading state"
+      "id": "overlays",
+      "className": "orders-load-panel"
     }
   ],
   "widgets": [
     {
-      "containerId": "ordersToolbar",
+      "id": "ordersToolbar",
+      "containerId": "commandBar",
       "type": "dxToolbar",
-      "options": {
-        "items": [
-          {
-            "location": "before",
-            "text": "Orders Workbench"
-          },
-          {
-            "location": "after",
-            "widget": "dxButton",
-            "options": {
-              "text": "Refresh",
-              "icon": "refresh",
-              "type": "default"
+      "items": [
+        {
+          "location": "before",
+          "text": "Orders Workbench"
+        },
+        {
+          "location": "after",
+          "widget": "dxButton",
+          "options": {
+            "text": "Refresh",
+            "icon": "refresh",
+            "type": "default",
+            "onClick": {
+              "kind": "named-reference",
+              "name": "refreshOrders"
             }
           }
-        ],
+        }
+      ],
+      "options": {
         "elementAttr": {
           "class": "orders-toolbar-widget"
         }
       }
     },
     {
-      "containerId": "ordersList",
+      "id": "ordersList",
+      "containerId": "ordersPanel",
       "type": "dxList",
       "dataKey": "orders",
+      "displayFields": ["customer", "status"],
       "options": {
-        "displayExpr": "customer",
         "searchEnabled": true,
         "noDataText": "No orders match the current filters.",
         "elementAttr": {
           "class": "orders-list-widget"
+        },
+        "onItemClick": {
+          "kind": "notify",
+          "message": "Order opened",
+          "notifyType": "info",
+          "displayTime": 1400
         }
       }
     },
     {
-      "containerId": "loadPanel",
+      "id": "loadPanel",
+      "containerId": "overlays",
       "type": "dxLoadPanel",
       "options": {
         "visible": false,
@@ -106,5 +119,9 @@
       "panel": "0 1px 3px rgba(0, 0, 0, 0.12)"
     }
   },
-  "outputFiles": ["index.html", "styles.css", "app.js"]
+  "outputFiles": {
+    "html": "index.html",
+    "css": "styles.css",
+    "js": "app.js"
+  }
 }

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Arrow Body Smuggling",
+  "template": "basic-page",
+  "widgets": [
+    {
+      "id": "activityList",
+      "type": "dxList",
+      "options": { "itemTemplate": "(item) => item.text" }
+    }
+  ]
+}
