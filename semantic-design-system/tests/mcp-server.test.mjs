@@ -111,3 +111,144 @@ test('MCP server lists tools and runs skeleton, validate, and build calls', asyn
     server.close();
   }
 });
+
+// --- path containment, no-clobber, and tool annotations ---------------------
+
+async function callTool(server, name, args) {
+  const message = await server.request('tools/call', { name, arguments: args });
+  return { isError: message.result.isError, text: message.result.content[0].text };
+}
+
+test('MCP tool annotations describe what each tool actually does', async () => {
+  const projectDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sds-mcp-annotations-'));
+  const server = startServer(projectDir);
+
+  try {
+    await server.request('initialize', { protocolVersion: '2025-06-18' });
+    const listed = await server.request('tools/list');
+    const byName = Object.fromEntries(listed.result.tools.map(t => [t.name, t.annotations]));
+
+    // validate_tokens is the only tool that touches nothing on disk.
+    assert.equal(byName.validate_tokens.readOnlyHint, true);
+    assert.equal(byName.validate_tokens.destructiveHint, false);
+
+    // Everything else writes a file and can overwrite an existing one, so none
+    // of them may claim readOnlyHint.
+    for (const name of ['build_css_variables', 'extract_style_inventory', 'generate_token_skeleton']) {
+      assert.equal(byName[name].readOnlyHint, false, `${name} writes files`);
+      assert.equal(byName[name].destructiveHint, true, `${name} can overwrite files`);
+    }
+  } finally {
+    server.close();
+  }
+});
+
+test('MCP server refuses paths that escape the workspace root', async () => {
+  const projectDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sds-mcp-escape-'));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'sds-mcp-outside-'));
+  fs.mkdirSync(path.join(outside, 'primitive'), { recursive: true });
+  fs.writeFileSync(
+    path.join(outside, 'primitive', 'x.tokens.json'),
+    JSON.stringify({ primitive: { color: { $type: 'color', a: { $value: '#ffffff' } } } })
+  );
+
+  const tokenDir = path.join(projectDir, 'design', 'tokens', 'primitive');
+  fs.mkdirSync(tokenDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(tokenDir, 'base.tokens.json'),
+    JSON.stringify({ primitive: { color: { $type: 'color', a: { $value: '#ffffff' } } } })
+  );
+
+  const server = startServer(projectDir);
+
+  try {
+    await server.request('initialize', { protocolVersion: '2025-06-18' });
+
+    const ok = await callTool(server, 'validate_tokens', { tokenDir: 'design/tokens' });
+    assert.equal(ok.isError, false, 'a legitimate in-root path must still work');
+
+    const absolute = await callTool(server, 'validate_tokens', { tokenDir: outside });
+    assert.equal(absolute.isError, true);
+    assert.match(absolute.text, /Path escapes the allowed read root/);
+
+    const traversal = await callTool(server, 'validate_tokens', { tokenDir: '../../elsewhere' });
+    assert.equal(traversal.isError, true);
+    assert.match(traversal.text, /Path escapes the allowed read root/);
+
+    // A sibling directory sharing the root's name as a prefix. A naive
+    // startsWith(root) containment check would wrongly allow this.
+    const siblingPrefix = await callTool(server, 'validate_tokens', { tokenDir: `${projectDir}-evil` });
+    assert.equal(siblingPrefix.isError, true);
+    assert.match(siblingPrefix.text, /Path escapes the allowed read root/);
+
+    const write = await callTool(server, 'build_css_variables', {
+      tokenDir: 'design/tokens',
+      outputFile: path.join(outside, 'stolen.css')
+    });
+    assert.equal(write.isError, true);
+    assert.match(write.text, /Path escapes the allowed write root/);
+    assert.equal(fs.existsSync(path.join(outside, 'stolen.css')), false);
+  } finally {
+    server.close();
+  }
+});
+
+test('MCP server refuses a symlinked path that resolves outside the root', async () => {
+  const projectDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sds-mcp-symlink-'));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'sds-mcp-symlink-target-'));
+  const link = path.join(projectDir, 'linked-tokens');
+
+  try {
+    // 'junction' works on Windows without elevation; 'dir' elsewhere.
+    fs.symlinkSync(outside, link, process.platform === 'win32' ? 'junction' : 'dir');
+  } catch {
+    return; // no permission to create links in this environment
+  }
+
+  const server = startServer(projectDir);
+
+  try {
+    await server.request('initialize', { protocolVersion: '2025-06-18' });
+    const escaped = await callTool(server, 'validate_tokens', { tokenDir: 'linked-tokens' });
+    assert.equal(escaped.isError, true);
+    assert.match(escaped.text, /Path escapes the allowed read root/);
+  } finally {
+    server.close();
+  }
+});
+
+test('generate_token_skeleton refuses to clobber existing token files without force', async () => {
+  const projectDir = fs.mkdtempSync(path.join(os.tmpdir(), 'sds-mcp-clobber-'));
+  const server = startServer(projectDir);
+  const userFile = path.join(projectDir, 'design', 'tokens', 'semantic', 'base.tokens.json');
+
+  try {
+    await server.request('initialize', { protocolVersion: '2025-06-18' });
+
+    const first = await callTool(server, 'generate_token_skeleton', { outputDir: 'design/tokens' });
+    assert.equal(first.isError, false);
+    const firstResult = JSON.parse(first.text);
+    assert.equal(firstResult.written.length, 4);
+    assert.deepEqual(firstResult.overwritten, []);
+
+    const authored = '{"semantic":{"color":{"$type":"color","mine":{"$value":"#abcdef"}}}}';
+    fs.writeFileSync(userFile, authored);
+
+    const second = await callTool(server, 'generate_token_skeleton', { outputDir: 'design/tokens' });
+    assert.equal(second.isError, true);
+    const secondResult = JSON.parse(second.text);
+    assert.equal(secondResult.ok, false);
+    assert.deepEqual(secondResult.written, []);
+    assert.equal(secondResult.skipped.length, 4);
+    assert.match(secondResult.error, /Refusing to overwrite/);
+    assert.equal(fs.readFileSync(userFile, 'utf8'), authored, 'the user file must be untouched');
+
+    const forced = await callTool(server, 'generate_token_skeleton', { outputDir: 'design/tokens', force: true });
+    assert.equal(forced.isError, false);
+    const forcedResult = JSON.parse(forced.text);
+    assert.equal(forcedResult.overwritten.length, 4);
+    assert.notEqual(fs.readFileSync(userFile, 'utf8'), authored);
+  } finally {
+    server.close();
+  }
+});

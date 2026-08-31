@@ -1,6 +1,47 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+// Failure classes a token can land in when it cannot be turned into a CSS value.
+// Callers report these verbatim so a consumer can tell a typo'd reference apart
+// from an alias cycle apart from a composite value the CSS builder cannot flatten.
+export const RESOLUTION_FAILURE_KINDS = {
+  MISSING_REFERENCE: 'missing-reference',
+  CIRCULAR_ALIAS: 'circular-alias',
+  UNSUPPORTED_VALUE_SHAPE: 'unsupported-value-shape',
+  RESOLUTION_ERROR: 'resolution-error'
+};
+
+// `resolveAlias` throws plain Errors; map their messages onto the classes above.
+export function classifyResolutionError(error) {
+  const message = (error && error.message) || String(error);
+  if (message.startsWith('Circular alias:')) return RESOLUTION_FAILURE_KINDS.CIRCULAR_ALIAS;
+  if (message.startsWith('Unresolved alias:')) return RESOLUTION_FAILURE_KINDS.MISSING_REFERENCE;
+  return RESOLUTION_FAILURE_KINDS.RESOLUTION_ERROR;
+}
+
+// Write through a sibling temp file and rename into place only after the bytes
+// have been read back and (optionally) validated. A failed or crashed write
+// leaves any pre-existing file byte-for-byte intact instead of truncating it.
+export function writeFileAtomic(file, contents, validate) {
+  const dir = path.dirname(file);
+  fs.mkdirSync(dir, { recursive: true });
+  const tmp = path.join(
+    dir,
+    `.${path.basename(file)}.${process.pid}-${Math.random().toString(36).slice(2, 8)}.tmp`
+  );
+  try {
+    fs.writeFileSync(tmp, contents, 'utf8');
+    const readBack = fs.readFileSync(tmp, 'utf8');
+    if (readBack !== contents) throw new Error(`Atomic write verification failed for ${file}`);
+    if (typeof validate === 'function') validate(readBack);
+    fs.renameSync(tmp, file);
+  } catch (error) {
+    try { fs.rmSync(tmp, { force: true }); } catch { /* temp file already gone */ }
+    throw error;
+  }
+  return file;
+}
+
 export function stripJsonComments(input) {
   let output = '';
   let inString = false;
