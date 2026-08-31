@@ -27,7 +27,7 @@ fails loudly rather than writing a baseline that will not diff.
 
 Run (from this directory):
 
-  uv run --with "mcp>=1.2.0" python wire_baseline.py --out wire_baseline.json
+  uv run python wire_baseline.py --out wire_baseline.json
 
 Deliberately not wired into pytest: every run pays a `uv` resolve. The stdio
 invariant it used to be the only check for -- that no validator inherits the

@@ -4,8 +4,6 @@
       "command": "uv",
       "args": [
         "run",
-        "--with",
-        "mcp>=1.2.0",
         "python",
         "${PLUGIN_ROOT}/mcp/server.py"
       ],

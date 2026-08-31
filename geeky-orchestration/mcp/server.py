@@ -13,14 +13,16 @@ modify anything. A non-zero exit from a validator is a *validation failure* (a
 normal result with ok=false), not a server error.
 
 Run (stdio):
-  uv run --with "mcp>=1.2.0" python server.py
+  uv run python server.py          # from this directory, so uv.lock governs
   # or, with mcp installed:  python server.py
+  # or, once installed:      geeky-mcp
 """
 
 from __future__ import annotations
 
 import asyncio
 import json
+import os
 import sys
 from pathlib import Path
 from typing import Any, Optional
@@ -34,7 +36,27 @@ except ImportError:                                     # mcp 1.x
     from mcp.server.fastmcp import FastMCP as _Server
     _SERVER_TAKES_VERSION = False
 
-PLUGIN_ROOT = Path(__file__).resolve().parent.parent
+def _plugin_root() -> Path:
+    """Locate the plugin root holding scripts/ and hooks/.
+
+    Run from source -- what .mcp.json does, and the only supported production
+    invocation -- that is simply the parent of mcp/, so this is tried first and
+    the historical behaviour is unchanged. The `geeky-mcp` console script is the
+    exception: there server.py lives in site-packages and `parent.parent` points
+    at nothing useful, so an explicit root from the environment takes over rather
+    than every tool returning "validator not found".
+    """
+    from_source = Path(__file__).resolve().parent.parent
+    if (from_source / "scripts").is_dir():
+        return from_source
+    for var in ("GEEKY_PLUGIN_ROOT", "CLAUDE_PLUGIN_ROOT"):
+        raw = os.environ.get(var)
+        if raw and (candidate := Path(raw).expanduser()).joinpath("scripts").is_dir():
+            return candidate.resolve()
+    return from_source
+
+
+PLUGIN_ROOT = _plugin_root()
 SCRIPTS = PLUGIN_ROOT / "scripts"
 HOOKS = PLUGIN_ROOT / "hooks"
 
@@ -333,5 +355,15 @@ async def geeky_check_frozen_artifact(params: FrozenInput) -> dict[str, Any]:
     }
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Start the stdio server.
+
+    Both routes in -- `python server.py` and the `geeky-mcp` console script
+    declared in pyproject.toml -- land here, so there is one entry point that can
+    never drift from a second one.
+    """
     mcp.run()
+
+
+if __name__ == "__main__":
+    main()

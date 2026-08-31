@@ -2,9 +2,14 @@
 __pycache__/
 *.py[cod]
 
-# uv / virtualenv artifacts from running the bundled MCP server locally.
-# The server runs via `uv run --with "mcp>=1.2.0"` (ephemeral env), so these are not shipped.
+# Local virtualenv for the bundled MCP server. `uv run` from mcp/ recreates it
+# on demand, so it is never shipped. This is the runtime artifact.
+#
+# mcp/uv.lock is deliberately NOT ignored: it is a resolution record, not a
+# runtime file, and uv states it "should be checked into version control"
+# (https://docs.astral.sh/uv/concepts/projects/layout). Same split as
+# node_modules/ vs package-lock.json. Refresh it with `uv lock --upgrade`.
 mcp/.venv/
-mcp/uv.lock
 .venv/
+
 */.plugin-eval/**/*

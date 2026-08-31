@@ -1,17 +1,43 @@
+[build-system]
+# hatchling, not uv_build: the wheel must be buildable by whatever frontend the
+# host happens to have. hatchling is a plain PEP 517 backend that pip, uv, build
+# and poetry can all bootstrap from PyPI, whereas uv_build only builds under uv —
+# and this plugin is meant to run under non-Claude MCP hosts that may only have pip.
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
 [project]
 name = "geeky-mcp"
 version = "0.1.0"
 description = "MCP server exposing the geeky-orchestration deterministic quality gates as tools."
-requires-python = ">=3.10"
+# 3.13 is the real floor, not 3.10: CPython 3.13 changed the compiler to strip
+# leading indentation from docstrings, tool descriptions *are* the handler
+# docstrings, and wire_baseline.py refuses to capture below MIN_PYTHON = (3, 13)
+# for that reason. `.python-version` pins the build interpreter one higher (3.14);
+# see "Version binding" in README.md.
+requires-python = ">=3.13"
 dependencies = [
-    "mcp>=1.2.0",
+    # Floor 1.28.1: the first 1.x with no outstanding advisory (GHSA-vj7q-gjh5-988w
+    # was fixed there). Ceiling <3: server.py carries a shim for both majors and is
+    # verified on 1.28.1 and 2.1.1, so <2 would forbid the very version the shim exists for.
+    "mcp>=1.28.1,<3",
 ]
 
 [project.scripts]
 geeky-mcp = "server:main"
 
+# server.py stays a top-level module at the project root rather than moving into a
+# package directory: it derives PLUGIN_ROOT from its own location, and the supported
+# invocation runs it from source in place. Without this table hatchling looks for a
+# `geeky_mcp` package, finds none, and ships a wheel of pure metadata.
+[tool.hatch.build.targets.wheel]
+only-include = ["server.py"]
+
+[tool.hatch.build.targets.sdist]
+only-include = ["server.py", "wire_baseline.py", "README.md"]
+
 # The validators this server wraps are stdlib-only and live in ../scripts and
 # ../hooks; only the server itself needs the `mcp` package. Run with:
-#   uv run --with "mcp>=1.2.0" python server.py
+#   uv run python server.py          (uses uv.lock in this directory)
 # or, after `pip install mcp`:
 #   python server.py

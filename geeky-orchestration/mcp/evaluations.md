@@ -3,7 +3,7 @@
 These gates are **deterministic** over a planning folder, so evaluations are exact
 input → output assertions rather than open-ended questions. Each case below was
 verified end-to-end through the running MCP server (tools invoked via
-`uv run --with "mcp>=1.2.0"`).
+`uv run` from `mcp/`, resolving `mcp>=1.28.1,<3`).
 
 ## Fixture
 
