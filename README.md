@@ -11,10 +11,10 @@ plugin has its own docs and checks.
 
 | Plugin | Use it for | Version | Docs |
 |---|---|---:|---|
-| `dx-webdev` | Pure HTML, JavaScript, and CSS pages built with DevExtreme jQuery widgets. | 0.2.3 | [README](dx-webdev/README.md) |
-| `semantic-design-system` | Build, validate, and apply DTCG design tokens, including CSS output and optional MCP tools. | 0.2.7 | [README](semantic-design-system/README.md) |
-| `geeky-orchestration` | Plan, review, implement, track, and archive feature work. | 0.2.16 | [README](geeky-orchestration/README.md) |
-| `dev-workflows` | Reusable skills for planning, review, testing, browser and Figma work, environment setup, Git, docs, and session analysis. | 0.2.12 | [Packaging notes](dev-workflows/PACKAGING.md) |
+| `dx-webdev` | Pure HTML, JavaScript, and CSS pages built with DevExtreme jQuery widgets. | 0.3.0 | [README](dx-webdev/README.md) |
+| `semantic-design-system` | Build, validate, and apply DTCG design tokens, including CSS output and optional MCP tools. | 0.3.0 | [README](semantic-design-system/README.md) |
+| `geeky-orchestration` | Plan, review, implement, track, and archive feature work. | 0.3.0 | [README](geeky-orchestration/README.md) |
+| `dev-workflows` | Reusable skills for planning, review, testing, browser and Figma work, environment setup, Git, docs, and session analysis. | 0.2.13 | [Packaging notes](dev-workflows/PACKAGING.md) |
 
 The versions in this table come from
 `.claude-plugin/marketplace.json`. The Claude and Codex manifests inside each
@@ -63,8 +63,12 @@ includes an optional MCP server and a Figma sync skill with Claude and Codex
 guidance.
 
 Use `geeky-orchestration` when the work needs a structured path from research
-to planning to implementation. Its planning files have frozen and mutable
-sections. Python and PowerShell gates check folder shape, task schemas, kanban
+to planning to implementation. A planning package separates contract files from
+mutable ones: the plan, spec, and task bodies are the contract, while the
+kanban, handoff, and per-task notes move. Planning puts every task in `Backlog`,
+review leaves the lanes alone, and implementation owns promotion — so the
+contracts stay editable through review and freeze on the first `Backlog → Ready`
+move. Python and PowerShell gates check folder shape, task schemas, kanban
 state, Definition of Done, and commit messages. The optional MCP server runs
 the same gates for MCP-capable agents.
 

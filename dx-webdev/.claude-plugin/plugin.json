@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "dx-webdev",
   "displayName": "DX WebDev",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Personal DevExtreme jQuery web development helpers for pure HTML/JS/CSS apps, incl. the ProgramsV2 grid updater.",
   "author": {
     "name": "geekhoo"
