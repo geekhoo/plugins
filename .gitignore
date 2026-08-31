@@ -7,3 +7,12 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .worktrees/
+
+# Node install trees. Two plugins ship a package.json (semantic-design-system,
+# dev-workflows/skills/js-legacy-refactor); an npm install in either would
+# otherwise leave thousands of untracked files in the working tree.
+node_modules/
+.claude/agents/geeky-implement-orchestrator.original.md
+.cursor/agents/geeky-implement-orchestrator.original.md
+.github/agents/geeky-implement-orchestrator.agent.original.md
+.agents/geeky-implement-orchestrator.original.md
