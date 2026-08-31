@@ -5,11 +5,16 @@ Definition-of-Done checker for a single geeky-implement task. Embodies "verify,
 don't trust": instead of believing the agent that a task is finished, assert the
 durable signals on disk before the task may move to Done.
 
+Lifecycle: move the task to **In Review** -> run validation + this gate -> move to
+**Done** only on success. Both `In Review` and `Done` are therefore accepted
+placements: `In Review` is the normal pre-Done state this gate is run from, and
+`Done` stays acceptable so re-running the gate after the move is not an error.
+
 Checks for task <ID> in <folder> (missing => ERROR unless noted):
   - a per-task notes file tasks/<ID>-*.notes.md exists
-  - <ID> is placed in the Done lane of kanban.md
+  - <ID> is placed in the In Review or Done lane of kanban.md
   - handoff.md mentions <ID>
-  - WARNING if <ID> still appears in a non-Done lane (In Progress / Blocked / ...)
+  - WARNING if <ID> also appears in another lane (Backlog / In Progress / Blocked / ...)
 
 It also extracts and prints the task's "Tests/Validation Before Next Task" block
 so the orchestrator can re-run those commands itself (this script does not execute
@@ -32,7 +37,33 @@ import sys
 from pathlib import Path
 
 KNOWN_LANES = ("Backlog", "Ready", "In Progress", "In Review", "Blocked", "Done")
+# Lanes from which the DoD gate may legitimately pass. "In Review" is the state the
+# gate is run from; "Done" keeps a post-move re-run from failing.
+ACCEPTED_LANES = ("In Review", "Done")
 HEADING_RE = re.compile(r"^\s{0,3}#{1,6}\s+(.*\S)\s*$")
+
+# --- Lane placement (keep in sync with validate-kanban.py and hooks/guard-planning-contract.py) ---
+# Only a markdown list item whose LEADING token is the task id places that task
+# in a lane. A trailing cross-reference or an HTML comment merely mentions it.
+COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
+PLACEMENT_RE = re.compile(
+    r"^\s*(?:[-*+]|\d+[.)])\s+"   # markdown bullet or ordered-list marker
+    r"(?:\[[ xX]\]\s*)?"          # optional task-list checkbox
+    r"[*_`~]*\s*"                 # optional emphasis / code marks
+    r"(T\d+)\b",                  # the task id, and it must lead
+    re.IGNORECASE,
+)
+
+
+def strip_comments(text: str) -> str:
+    """Remove HTML comments (possibly multi-line) before lane parsing."""
+    return COMMENT_RE.sub("", text)
+
+
+def placement_id(line: str) -> str | None:
+    """The task id this line PLACES in the current lane, or None."""
+    m = PLACEMENT_RE.match(line)
+    return m.group(1).upper() if m else None
 
 
 def parse_args() -> argparse.Namespace:
@@ -56,15 +87,22 @@ def lane_for_heading(heading: str) -> str | None:
 
 
 def lanes_for_task(kanban_text: str, task_id: str) -> list[str]:
+    """Lanes in which task_id is PLACED (not merely mentioned).
+
+    Placement rule kept in sync with scripts/validate-kanban.py and
+    hooks/guard-planning-contract.py: only a markdown list item whose leading
+    token is the id counts. A trailing cross-reference ("- T1 (unblocks T4)")
+    or an HTML comment mentions the id without placing it.
+    """
     found: list[str] = []
     current: str | None = None
-    tid_re = re.compile(rf"\b{re.escape(task_id)}\b", re.IGNORECASE)
-    for line in kanban_text.splitlines():
+    want = task_id.upper()
+    for line in strip_comments(kanban_text).splitlines():
         hm = HEADING_RE.match(line)
         if hm:
             current = lane_for_heading(hm.group(1))
             continue
-        if current and tid_re.search(line) and current not in found:
+        if current and placement_id(line) == want and current not in found:
             found.append(current)
     return found
 
@@ -123,11 +161,16 @@ def main() -> int:
         errors.append("kanban.md not found")
     else:
         lanes = lanes_for_task(kanban.read_text(encoding="utf-8", errors="replace"), task_id)
-        if "Done" not in lanes:
-            errors.append(f"{task_id} is not in the Done lane (found in: {', '.join(lanes) or 'no lane'})")
-        non_done = [l for l in lanes if l != "Done"]
-        if non_done:
-            warnings.append(f"{task_id} also appears in: {', '.join(non_done)}")
+        if not any(l in lanes for l in ACCEPTED_LANES):
+            errors.append(
+                f"{task_id} is not in the In Review or Done lane "
+                f"(found in: {', '.join(lanes) or 'no lane'})"
+            )
+        extra = [l for l in lanes if l not in ACCEPTED_LANES]
+        if extra:
+            warnings.append(f"{task_id} also appears in: {', '.join(extra)}")
+        if "In Review" in lanes and "Done" in lanes:
+            warnings.append(f"{task_id} appears in both In Review and Done")
 
     # 3. handoff mention
     handoff = folder / "handoff.md"
@@ -152,6 +195,7 @@ def main() -> int:
         print(json.dumps({
             "ok": ok, "task": task_id, "errors": errors, "warnings": warnings,
             "lanes": lanes, "validation_block": validation,
+            "accepted_lanes": list(ACCEPTED_LANES),
         }, indent=2))
     else:
         print(summary)

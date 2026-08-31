@@ -40,6 +40,32 @@ TASK_ID_RE = re.compile(r"\bT\d+\b", re.IGNORECASE)
 TASK_FILE_RE = re.compile(r"^T\d+", re.IGNORECASE)
 NOTES_RE = re.compile(r"\.notes\.md$", re.IGNORECASE)
 
+# --- Lane placement (keep in sync with check-dod.py and hooks/guard-planning-contract.py) ---
+# A task is PLACED in a lane only by a markdown list item whose leading token is
+# the task id. A bare mention inside prose, a trailing cross-reference, or an
+# HTML comment is a mention, not a placement -- otherwise a kanban note like
+# "- T1 (unblocks T4)" would place T4 in that lane too, and a planning comment
+# like "<!-- T2 goes here next -->" would place T2.
+COMMENT_RE = re.compile(r"<!--.*?-->", re.DOTALL)
+PLACEMENT_RE = re.compile(
+    r"^\s*(?:[-*+]|\d+[.)])\s+"   # markdown bullet or ordered-list marker
+    r"(?:\[[ xX]\]\s*)?"          # optional task-list checkbox
+    r"[*_`~]*\s*"                 # optional emphasis / code marks
+    r"(T\d+)\b",                  # the task id, and it must lead
+    re.IGNORECASE,
+)
+
+
+def strip_comments(text: str) -> str:
+    """Remove HTML comments (possibly multi-line) before lane parsing."""
+    return COMMENT_RE.sub("", text)
+
+
+def placement_id(line: str) -> str | None:
+    """The task id this line PLACES in the current lane, or None."""
+    m = PLACEMENT_RE.match(line)
+    return m.group(1).upper() if m else None
+
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(add_help=True)
@@ -82,7 +108,7 @@ def parse_kanban(text: str) -> tuple[dict[str, set[str]], set[str]]:
     placements: dict[str, set[str]] = {lane: set() for lane in KNOWN_LANES}
     present: set[str] = set()
     current: str | None = None
-    for line in text.splitlines():
+    for line in strip_comments(text).splitlines():
         hm = HEADING_RE.match(line)
         if hm:
             current = lane_for_heading(hm.group(1))
@@ -91,8 +117,9 @@ def parse_kanban(text: str) -> tuple[dict[str, set[str]], set[str]]:
             continue
         if current is None:
             continue
-        for tid in TASK_ID_RE.findall(line):
-            placements[current].add(tid.upper())
+        tid = placement_id(line)
+        if tid:
+            placements[current].add(tid)
     return placements, present
 
 

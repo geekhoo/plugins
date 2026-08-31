@@ -2,11 +2,16 @@
 # Definition-of-Done checker for a single geeky-implement task. Mirrors check-dod.py
 # (same checks, summary, exit codes). Embodies "verify, don't trust".
 #
+# Lifecycle: move the task to In Review -> run validation + this gate -> move to Done
+# only on success. Both 'In Review' and 'Done' are accepted placements: 'In Review' is
+# the normal pre-Done state this gate runs from, and 'Done' stays acceptable so
+# re-running the gate after the move is not an error.
+#
 # Checks for task <ID> in <folder>:
 #   ERROR   - no per-task notes file tasks/<ID>-*.notes.md
-#   ERROR   - <ID> not in the Done lane of kanban.md
+#   ERROR   - <ID> not in the In Review or Done lane of kanban.md
 #   WARNING - handoff.md does not mention <ID>
-#   WARNING - <ID> also appears in a non-Done lane
+#   WARNING - <ID> also appears in another lane
 # Also prints the task's Tests/Validation block for the caller to re-run.
 #
 # Contract: argv in, exit 0 = pass / exit 1 = fail, human summary on stdout.
@@ -26,6 +31,9 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $KnownLanes = @('Backlog', 'Ready', 'In Progress', 'In Review', 'Blocked', 'Done')
+# Lanes from which the DoD gate may legitimately pass. 'In Review' is the state the
+# gate is run from; 'Done' keeps a post-move re-run from failing.
+$AcceptedLanes = @('In Review', 'Done')
 
 function Get-LaneForHeading([string]$heading) {
     $norm = $heading.Trim().ToLower()
@@ -38,15 +46,22 @@ function Get-LaneForHeading([string]$heading) {
 }
 
 function Get-LanesForTask([string[]]$lines, [string]$taskId) {
+    # Lane placement (keep in sync with validate-kanban.* and the guard): only a
+    # markdown list item whose LEADING token is the id places the task. A trailing
+    # cross-reference ("- T1 (unblocks T4)") or an HTML comment merely mentions it.
     $found = @()
     $current = $null
-    $pat = "\b$([regex]::Escape($taskId))\b"
-    foreach ($line in $lines) {
+    $want = $taskId.ToUpper()
+    $placementPattern = '^\s*(?:[-*+]|\d+[.)])\s+(?:\[[ xX]\]\s*)?[*_`~]*\s*(T\d+)\b'
+    $stripped = [regex]::Replace(($lines -join "`n"), '<!--.*?-->', '', 'Singleline')
+    foreach ($line in ($stripped -split "`r?`n")) {
         if ($line -match '^\s{0,3}#{1,6}\s+(.*\S)\s*$') {
             $current = Get-LaneForHeading $Matches[1]
             continue
         }
-        if ($current -and ([regex]::IsMatch($line, $pat, 'IgnoreCase')) -and ($found -notcontains $current)) {
+        if (-not $current) { continue }
+        $pm = [regex]::Match($line, $placementPattern, 'IgnoreCase')
+        if ($pm.Success -and ($pm.Groups[1].Value.ToUpper() -eq $want) -and ($found -notcontains $current)) {
             $found += $current
         }
     }
@@ -70,8 +85,44 @@ function Get-ValidationBlock([string]$text) {
     return ($out -join "`n").Trim()
 }
 
+# --- JSON emitters -------------------------------------------------------
+# Hand-built to match Python's json.dumps() byte-for-byte (ensure_ascii=True,
+# separators ', ' / ': ', indent=2 for the report). ConvertTo-Json differs in
+# whitespace and escaping, which would break the declared .py/.ps1 parity.
+function ConvertTo-PyJsonString([string]$s) {
+    if ($null -eq $s) { $s = '' }
+    $sb = [System.Text.StringBuilder]::new()
+    [void]$sb.Append('"')
+    foreach ($ch in $s.ToCharArray()) {
+        $code = [int]$ch
+        if ($ch -ceq '"')      { [void]$sb.Append('\"') }
+        elseif ($ch -ceq '\')  { [void]$sb.Append('\\') }
+        elseif ($code -eq 8)   { [void]$sb.Append('\b') }
+        elseif ($code -eq 12)  { [void]$sb.Append('\f') }
+        elseif ($code -eq 10)  { [void]$sb.Append('\n') }
+        elseif ($code -eq 13)  { [void]$sb.Append('\r') }
+        elseif ($code -eq 9)   { [void]$sb.Append('\t') }
+        elseif ($code -lt 0x20 -or $code -gt 0x7E) { [void]$sb.Append(('\u{0:x4}' -f $code)) }
+        else { [void]$sb.Append($ch) }
+    }
+    [void]$sb.Append('"')
+    return $sb.ToString()
+}
+
+function ConvertTo-PyJsonArray($items) {
+    $arr = @($items)
+    if ($arr.Count -eq 0) { return '[]' }
+    $parts = @()
+    foreach ($i in $arr) { $parts += ('    ' + (ConvertTo-PyJsonString ([string]$i))) }
+    return "[`n" + ($parts -join ",`n") + "`n  ]"
+}
+
 function Out-Fail([string]$msg) {
-    if ($Json) { [pscustomobject]@{ ok = $false; errors = @($msg) } | ConvertTo-Json } else { Write-Output $msg }
+    if ($Json) {
+        Write-Output ('{"ok": false, "errors": [' + (ConvertTo-PyJsonString $msg) + ']}')
+    } else {
+        Write-Output $msg
+    }
 }
 
 if (-not $Path -or -not $Task) {
@@ -101,12 +152,16 @@ if (-not (Test-Path -LiteralPath $kanban -PathType Leaf)) {
     $errors += "kanban.md not found"
 } else {
     $lanes = @(Get-LanesForTask (Get-Content -LiteralPath $kanban) $taskId)
-    if ($lanes -notcontains 'Done') {
+    $accepted = @($lanes | Where-Object { $AcceptedLanes -contains $_ })
+    if ($accepted.Count -eq 0) {
         $where = if ($lanes.Count) { $lanes -join ', ' } else { 'no lane' }
-        $errors += "$taskId is not in the Done lane (found in: $where)"
+        $errors += "$taskId is not in the In Review or Done lane (found in: $where)"
     }
-    $nonDone = @($lanes | Where-Object { $_ -ne 'Done' })
-    if ($nonDone.Count -gt 0) { $warnings += "$taskId also appears in: $($nonDone -join ', ')" }
+    $extra = @($lanes | Where-Object { $AcceptedLanes -notcontains $_ })
+    if ($extra.Count -gt 0) { $warnings += "$taskId also appears in: $($extra -join ', ')" }
+    if (($lanes -contains 'In Review') -and ($lanes -contains 'Done')) {
+        $warnings += "$taskId appears in both In Review and Done"
+    }
 }
 
 # 3. handoff mention
@@ -130,10 +185,24 @@ $ok = ($errors.Count -eq 0)
 $summary = if ($ok) { "DOD_OK: $taskId" } else { "DOD_INCOMPLETE: $taskId" }
 
 if ($Json) {
-    [pscustomobject]@{
-        ok = $ok; task = $taskId; errors = $errors; warnings = $warnings;
-        lanes = $lanes; validation_block = $validation
-    } | ConvertTo-Json -Depth 6
+    $okLit = if ($ok) { 'true' } else { 'false' }
+    # NOTE: every element is parenthesized. PowerShell's comma operator binds
+    # tighter than '+', so an unparenthesized "'a' + $x + ','," inside @(...)
+    # builds nested arrays instead of one concatenated string.
+    $lines = @(
+        '{'
+        ('  "ok": ' + $okLit + ',')
+        ('  "task": ' + (ConvertTo-PyJsonString $taskId) + ',')
+        ('  "errors": ' + (ConvertTo-PyJsonArray $errors) + ',')
+        ('  "warnings": ' + (ConvertTo-PyJsonArray $warnings) + ',')
+        ('  "lanes": ' + (ConvertTo-PyJsonArray $lanes) + ',')
+        ('  "validation_block": ' + (ConvertTo-PyJsonString $validation) + ',')
+        ('  "accepted_lanes": ' + (ConvertTo-PyJsonArray $AcceptedLanes))
+        '}'
+    )
+    # Python writes "\n" and the runtime translates it to the platform newline;
+    # PowerShell does not translate, so do it explicitly to keep stdout identical.
+    Write-Output (($lines -join "`n").Replace("`n", [Environment]::NewLine))
 } else {
     Write-Output $summary
     foreach ($e in $errors)   { Write-Output "  ERROR:   $e" }
