@@ -12,7 +12,9 @@ Semantic design-token workflows for Codex and Claude Code. The plugin provides s
 - Claude hooks and MCP config: `hooks/hooks.json`, `.mcp.json`
 - Claude skills and agents: `skills/`, `agents/`
 
-Runtime scripts accept Codex-style `PLUGIN_ROOT` / `PLUGIN_PROJECT_DIR` and Claude-style `CLAUDE_PLUGIN_ROOT` / `CLAUDE_PROJECT_DIR`. If project env vars are not set, scripts resolve project-relative paths from the current working directory.
+Runtime scripts accept Codex-style `PLUGIN_ROOT` / `PLUGIN_PROJECT_DIR` and Claude-style `CLAUDE_PLUGIN_ROOT` / `CLAUDE_PROJECT_DIR`. The MCP server locates its bundled scripts relative to its own file, so inherited plugin-root variables cannot redirect it to another plugin. Project-relative paths use the project environment variable or a working directory outside the plugin.
+
+Codex launches the MCP server with a plugin-relative `cwd` and script argument, without `${PLUGIN_ROOT}` interpolation. When no project environment variable is provided, pass absolute paths for all MCP input/output paths; omitted or relative paths are rejected rather than writing into the installed plugin. Claude's existing project-directory behavior is unchanged.
 
 ## Capabilities
 
@@ -68,6 +70,8 @@ Theme files under `design/tokens/themes/` are emitted as overrides instead of be
 - A theme re-emits every exposed token whose resolved value differs from base, so primitive or semantic overrides propagate through component aliases.
 
 ## Release Notes
+
+Version 0.3.0 fixes portable Codex MCP startup and isolates bundled-script discovery from inherited plugin-root variables. MCP calls without a project directory require explicit absolute paths.
 
 Version 0.2.0 fixed the critical theme-corruption bug where theme files were deep-merged into `:root`, standardized token source files on `design/tokens/`, tightened token-file matching, added DTCG `$type` validation warnings, fixed the `apply-design-system` skill name, aligned tool permissions with skill instructions, and updated agents/MCP descriptions for DTCG 2025.10.
 

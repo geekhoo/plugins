@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import ast
+import json
 import unittest
 from pathlib import Path
 
@@ -58,6 +59,13 @@ class StdioTransportGuardTests(unittest.TestCase):
     def test_server_has_a_spawn_site(self) -> None:
         self.assertTrue(_spawn_calls(_server_tree()),
                         "no create_subprocess_exec call found -- this guard has gone stale")
+
+    def test_codex_launch_resolves_server_without_placeholder_expansion(self) -> None:
+        root = SERVER.parent.parent
+        config = json.loads((root / ".codex-plugin" / "mcp.json").read_text())["mcpServers"]["geeky"]
+        self.assertNotIn("${", json.dumps(config))
+        self.assertFalse(Path(config["cwd"]).is_absolute())
+        self.assertEqual((root / config["cwd"] / config["args"][-1]).resolve(), SERVER)
 
     def test_every_spawn_passes_stdin_explicitly(self) -> None:
         for call in _spawn_calls(_server_tree()):

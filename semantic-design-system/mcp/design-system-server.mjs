@@ -12,16 +12,16 @@ const envValue = (name) => {
   return v && !v.includes('${') ? v : undefined;
 };
 
-const pluginRoot =
-  envValue('PLUGIN_ROOT') ||
-  envValue('CODEX_PLUGIN_ROOT') ||
-  envValue('CLAUDE_PLUGIN_ROOT') ||
-  path.resolve(import.meta.dirname, '..');
+// Bundled scripts belong to this server, regardless of inherited host variables.
+const pluginRoot = path.resolve(import.meta.dirname, '..');
+const relativeCwd = path.relative(pluginRoot, process.cwd());
+const cwdIsPluginDirectory = relativeCwd === '' ||
+  (!relativeCwd.startsWith(`..${path.sep}`) && relativeCwd !== '..' && !path.isAbsolute(relativeCwd));
 const projectDir =
   envValue('PLUGIN_PROJECT_DIR') ||
   envValue('CODEX_PROJECT_DIR') ||
   envValue('CLAUDE_PROJECT_DIR') ||
-  process.cwd();
+  (cwdIsPluginDirectory ? undefined : process.cwd());
 const defaultTokenDir = DEFAULT_TOKEN_DIR;
 // userConfig values arrive as CLAUDE_PLUGIN_OPTION_<KEY>; DEFAULT_CSS_* is the
 // Codex/manual path. ${user_config.*} is deliberately NOT used in .mcp.json --
@@ -37,7 +37,11 @@ const defaultCssPrefix =
 
 function asProjectPath(value, fallback) {
   const v = value || fallback;
-  return path.isAbsolute(v) ? v : path.join(projectDir, v);
+  if (path.isAbsolute(v)) return v;
+  if (!projectDir) {
+    throw new Error('Pass an absolute path or set PLUGIN_PROJECT_DIR to the project directory; the plugin directory is not a project.');
+  }
+  return path.join(projectDir, v);
 }
 
 function runNode(script, args) {
@@ -199,14 +203,15 @@ function error(id, code, message) {
   process.stdout.write(JSON.stringify({ jsonrpc: '2.0', id, error: { code, message } }) + '\n');
 }
 
-async function handle(message) {
+function handle(message) {
   if (!message.id && message.method?.startsWith('notifications/')) return;
 
   if (message.method === 'initialize') {
     respond(message.id, {
       protocolVersion: message.params?.protocolVersion || '2024-11-05',
       capabilities: { tools: {} },
-      serverInfo: { name: 'design-system-tools', version: '0.1.0' }
+      instructions: 'When launched without a project directory, pass absolute paths for tokenDir, outputDir, outputFile, and rootDir. Relative paths and defaults require PLUGIN_PROJECT_DIR or a project working directory.',
+      serverInfo: { name: 'design-system-tools', version: '0.3.0' }
     });
     return;
   }
@@ -261,6 +266,11 @@ process.stdin.on('data', chunk => {
     const line = buffer.slice(0, index).trim();
     buffer = buffer.slice(index + 1);
     if (!line) continue;
-    try { handle(JSON.parse(line)); } catch (e) { error(null, -32700, e.message); }
+    let message;
+    try { message = JSON.parse(line); } catch (e) {
+      error(null, -32700, e.message);
+      continue;
+    }
+    try { handle(message); } catch (e) { error(message.id, -32602, e.message); }
   }
 });
