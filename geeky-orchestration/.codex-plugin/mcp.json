@@ -1,12 +1,11 @@
 {
   "mcpServers": {
     "geeky": {
-      "command": "uv",
+      "command": "bash",
       "args": [
-        "run",
-        "--with",
+        "../hooks/py-run.sh",
+        "--uv-with",
         "mcp>=1.2.0",
-        "python",
         "server.py"
       ],
       "cwd": "./mcp"

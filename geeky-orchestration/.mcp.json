@@ -1,12 +1,11 @@
 {
   "mcpServers": {
     "geeky": {
-      "command": "uv",
+      "command": "bash",
       "args": [
-        "run",
-        "--with",
+        "${CLAUDE_PLUGIN_ROOT}/hooks/py-run.sh",
+        "--uv-with",
         "mcp>=1.2.0",
-        "python",
         "${CLAUDE_PLUGIN_ROOT}/mcp/server.py"
       ],
       "cwd": "${CLAUDE_PLUGIN_ROOT}/mcp"
