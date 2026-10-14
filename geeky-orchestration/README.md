@@ -21,16 +21,16 @@ End-to-end feature delivery: **plan it, execute it, track it**, with strong cont
 | `code-explorer` | agent | Portable code explorer subagent. Reads the codebase to answer questions about existing patterns, dependencies, and relevant prior work. |
 | `code-reviewer` | agent | Portable code reviewer subagent. Focuses on correctness, style, and adherence to the task's validation block. |
 | `templates/task_template.md` | template | Canonical task shape consumed by `/geeky-plan`. |
-| `scripts/validate-planning-folder.{ps1,py}` | gate | Folder completeness: verifies a folder has the artifacts `/geeky-implement` expects. |
-| `scripts/validate-task-schema.{ps1,py}` | gate | Each `tasks/Tx-*.md` carries the required template sections (plan→implement boundary). |
-| `scripts/validate-kanban.{ps1,py}` | gate | Kanban integrity: every task in exactly one lane, no dangling refs, WIP cap, lane coverage. |
-| `scripts/check-dod.{ps1,py}` | gate | Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block to re-run. |
-| `scripts/check-commit.{ps1,py}` | gate | Commit message is Conventional Commits + references a task (`Tasks: T<n>`). |
-| `hooks/guard-planning-contract.{ps1,py}` | hook | PreToolUse guard for edits to frozen planning artifacts. Default `--mode warn` (advisory, surfaced via portable stdout+stderr); `--mode block` denies via Claude/Codex JSON (or exit 2 with `--exit-code`). |
+| `scripts/validate-planning-folder.{ps1,py,mts}` | gate | Folder completeness: verifies a folder has the artifacts `/geeky-implement` expects. |
+| `scripts/validate-task-schema.{ps1,py,mts}` | gate | Each `tasks/Tx-*.md` carries the required template sections (plan→implement boundary). |
+| `scripts/validate-kanban.{ps1,py,mts}` | gate | Kanban integrity: every task in exactly one lane, no dangling refs, WIP cap, lane coverage. |
+| `scripts/check-dod.{ps1,py,mts}` | gate | Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block to re-run. |
+| `scripts/check-commit.{ps1,py,mts}` | gate | Commit message is Conventional Commits + references a task (`Tasks: T<n>`). |
+| `hooks/guard-planning-contract.{ps1,py,mts}` | hook | PreToolUse guard for edits to frozen planning artifacts. Default `--mode warn` (advisory, surfaced via portable stdout+stderr); `--mode block` denies via Claude/Codex JSON (or exit 2 with `--exit-code`). |
 | `AGENTS.md` + `geeky.manifest.json` | discovery | Framework-agnostic discovery layer: how non-Claude agents learn the contract and invoke the gates (human-readable + machine-readable). |
-| `mcp/server.py` + `.mcp.json` | MCP server | `geeky_mcp` — stdio server exposing the six gates as MCP tools for any MCP-capable agent. Thin adapter over the same scripts. See [mcp/README.md](mcp/README.md). |
+| `mcp/server.py` + `.mcp.json` | MCP server | `geeky_mcp` — stdio server exposing the six gates as MCP tools for any MCP-capable agent. Thin adapter over the same scripts. `mcp/server.mts` is a dependency-free Node mirror with an identical wire format. See [mcp/README.md](mcp/README.md). |
 
-Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, summary on stdout** (optional `--json` / `-Json`). Each ships paired Python + PowerShell with identical output and exit codes. See [docs/framework-agnostic-quality-gates.md](docs/framework-agnostic-quality-gates.md) for the design rationale.
+Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, summary on stdout** (optional `--json` / `-Json`). Each ships Python, PowerShell, and Node (TypeScript `.mts`) twins with identical output and exit codes. See [docs/framework-agnostic-quality-gates.md](docs/framework-agnostic-quality-gates.md) for the design rationale.
 
 ## Pipeline
 
@@ -157,7 +157,8 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File "${CLAUDE_PLUGIN_ROOT}/hooks/guard
 Requirements:
 - The Python implementations need **Python 3.8+** on PATH as `python` (or `python3` — edit `hooks.json` if your environment uses the latter). No third-party packages required — stdlib only.
 - The PowerShell implementations need **PowerShell 7+ (`pwsh`)**. Works on Windows out of the box; install `pwsh` separately on macOS/Linux if you prefer them there.
-- The `geeky_mcp` server is the exception: it needs `uv` and is pinned to **Python 3.14** by `mcp/.python-version` (`uv` downloads it on first launch if absent). The gates and hook above are unaffected. See [mcp/README.md](mcp/README.md) for why the interpreter is pinned, what the server costs at startup, and the stdio subprocess rule.
+- The Node implementations (`.mts`) need **Node 22.18+**, which runs TypeScript directly by stripping types — no `npm install`, no build. They are the route for machines without a working Python: point `hooks/hooks.json` at `node "${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.mts" --mode warn` and `.mcp.json` at `node ${CLAUDE_PLUGIN_ROOT}/mcp/server.mts`. `npm test` / `npm run typecheck` (dev only) cover them.
+- The Python `geeky_mcp` server is the exception: it needs `uv` and is pinned to **Python 3.14** by `mcp/.python-version` (`uv` downloads it on first launch if absent). The gates and hook above are unaffected. See [mcp/README.md](mcp/README.md) for why the interpreter is pinned, what the server costs at startup, and the stdio subprocess rule.
 
 ## Other notes
 

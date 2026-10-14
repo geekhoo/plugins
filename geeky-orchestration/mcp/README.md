@@ -43,6 +43,44 @@ From version 0.3.0, the Codex-specific manifest uses `cwd: "./mcp"` and
 plugin root, so startup does not depend on `${PLUGIN_ROOT}` substitution or a
 version-specific cache path. Claude retains its own `${CLAUDE_PLUGIN_ROOT}` config.
 
+## Node mirror
+
+`server.mts` is a dependency-free Node/TypeScript twin of `server.py` for machines without
+`uv` or a working Python. Same six tools, same input schemas and descriptions, same result
+documents; it shells out to the `.mts` twins of the validators instead of the `.py` ones.
+
+```bash
+node server.mts          # Node 22.18+ (TypeScript runs natively via type stripping)
+```
+
+To make a harness use it, change the server command, e.g. in `.mcp.json`:
+`"command": "node", "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/server.mts"]`.
+
+- **Parity is tested, not asserted.** `wire-baseline.mts` is a port of `wire_baseline.py`;
+  `../tests/mcp-server.test.mts` drives the Node server with it and requires the normalised
+  transcript to equal the committed `wire_baseline.json`. (The committed capture was taken on
+  Windows, so the test collapses the doubled `//` that normalising a JSON-escaped `\\`
+  separator leaves in one `content[].text` path.)
+- **No SDK.** Line-delimited JSON-RPC 2.0 is implemented in the file (as in
+  `semantic-design-system`), because plugin installs never run `npm install`. It answers the
+  2025-11-25 handshake and earlier revisions, and returns `-32601` for methods it does not
+  serve (including the stateless 2026-07-28 `server/discover`), so hosts fall back exactly as
+  they do for `mcp` 1.x.
+- **Same subprocess rule** (below): validators that are not fed text get `stdio: "ignore"`,
+  never `"inherit"`; `../tests/mcp-server.test.mts` pins the spawn site.
+- Startup is one Node process with no imports beyond the standard library.
+- **Deliberate differences**, none of which change a pass/fail verdict: validation-error
+  text omits pydantic's `[type=…, input_value=…]` suffix and docs URL; usage lines name the
+  `.mts` script; invalid UTF-8 on a validator's stdin becomes U+FFFD instead of a traceback;
+  a malformed JSON-RPC line gets a `-32700`/`-32600` reply; `prompts/get` and
+  `resources/read` are not served (no prompts or resources are offered).
+
+Tests and type-check (dev only; the runtime needs nothing installed):
+
+```bash
+cd .. && npm install && npm test && npm run typecheck
+```
+
 ## Inspect / debug
 
 ```bash
