@@ -82,7 +82,7 @@ line of defense.
 5. **Fail-stop at irreversible boundaries; warn only for advisory.**
 6. **Gates must be fast (<5s) and idempotent** — they run on every matching event. (`hooks.json`
    already sets `timeout: 5`.)
-7. **Verify, don't trust** — re-run tests/checks rather than believing the transcript. (Already a
+7. **Verify, don't trust** — inspect saved validation evidence before deciding whether checks need to run. (Already a
    rule in `geeky-implement`: "Verify saved validation evidence; a bare PASS claim is insufficient. Reuse valid evidence and record why a rerun is needed.")
 
 ---

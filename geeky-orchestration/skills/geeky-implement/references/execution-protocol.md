@@ -82,7 +82,7 @@ For cross-task consequences, append a linked event to each affected task's log a
 
 2b. **Resume detection (idempotent re-entry).** This skill must be safe to re-invoke after a session cutoff, compaction, or interrupted run — re-invocation continues, never restarts:
    - Tasks in **Done** stay done. Never re-execute them, never re-run their validation, never redo their commits.
-   - Tasks stuck in **In Progress** with no live coder are orphans from a cut-off run. Reconcile each against ground truth (git status/log, the declared file surface, any `tasks/Tx-*.notes.md`): if the work appears complete, run the task's validation block and route it through review → Done normally; if partial or absent, move it back to Ready with a kanban note (`<!-- reset from orphaned in_progress: YYYY-MM-DD -->`).
+   - Tasks stuck in **In Progress** with no live coder are orphans from a cut-off run. Reconcile each against ground truth (git status/log, the declared file surface, any `tasks/Tx-*.notes.md`): if the work appears complete, verify saved validation evidence first and run only missing, invalidated, unreliable or explicitly required independent checks, then route it through review → Done normally; if partial or absent, move it back to Ready with a kanban note (`<!-- reset from orphaned in_progress: YYYY-MM-DD -->`).
    - If `handoff.md` ends with a `RESUME:` line (see step 17), trust it as the starting hint but verify against kanban (kanban is the source of truth).
    - Then proceed with the normal eligibility walk — it naturally continues from wherever the previous run stopped.
 
