@@ -15,7 +15,7 @@ Accept a planning folder path (e.g., `docs/feature-name/`). If no argument is gi
 
 ## Workflow
 
-Execute all four phases sequentially. Each phase builds on findings from the prior phase.
+Execute the four phases in order, except for the safe Phase 2/3 overlap described under Execution Strategy. Each phase uses the findings it depends on.
 
 **Resume contract:** append each phase's output to `review-plan.md` in the planning folder as the phase completes (tagged `<!-- phase-N-complete -->`). On invocation, if `review-plan.md` already exists for this folder, this is a resumed run — skip phases already tagged complete and continue from the first missing phase. Re-invocation must never repeat completed phases or re-apply their fixes.
 
@@ -130,7 +130,7 @@ Overall: READY FOR IMPLEMENTATION / NEEDS ATTENTION (list remaining items)
 - **Phase 3**: Deploy as a background subagent (`geeky-orchestration:code-architect` type) — independent analysis of sequencing
 - **Phase 4**: Execute directly — final verification pass
 
-If Phase 1 finds no critical issues, dispatch Phase 3 in parallel while Phase 2 addresses warnings. Otherwise, execute sequentially (Phase 1 → Phase 2 → Phase 3 → Phase 4).
+If Phase 1 finds no critical issues and Phase 2 corrections do not affect sequencing inputs, Phase 3 may run in parallel. Otherwise, complete Phase 2 first.
 
 ## Commit Behavior
 

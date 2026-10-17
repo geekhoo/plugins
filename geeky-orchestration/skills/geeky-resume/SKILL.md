@@ -21,14 +21,14 @@ A session cutoff, a compaction summary, and a subagent's "done" are all **claims
 
 3. **Reconcile claims against live git — the core step.** For the repo the planning folder targets:
    - `git status` + `git log --oneline` since the last handoff timestamp, and `git diff` / `git diff --cached` for uncommitted work.
-   - For each task claimed `Done` or `In Review` since the previous handoff entry: verify its artifacts actually exist on disk and its commit actually landed (check the hash cited in the task notes; if none is cited, treat the claim as unverified).
-   - For each task in `In Progress`: check whether any matching changes exist in the worktree at all. A subagent that returned empty/0 tokens or died at the boundary progressed **nothing**, even though the kanban says In Progress.
-   - Never re-run validation that demonstrably passed pre-cutoff (a cited, real commit + a PASS line in the task's notes) — read the recorded result instead of burning turns repeating it.
+   - For each task claimed `Done` or `In Review` since the previous handoff entry: verify its artifacts and saved validation/review evidence against the current files or cited revision. Verify any cited commit, but a missing commit alone does not invalidate accepted work awaiting a phase commit.
+   - For each task in `In Progress`: inspect matching worktree changes, commits and saved evidence. An empty or interrupted subagent response does not establish whether work was done.
+   - Reuse saved passing validation while its tested files or revision, dependencies and relevant environment remain valid. A bare PASS claim is insufficient; run only missing, invalidated or explicitly required independent checks.
 
 4. **Classify each discrepancy** and correct the ledger to match verified reality — the *only* edits this skill may make are kanban lane moves and a dated reconciliation note in `handoff.md`:
-   - claimed Done, no commit/artifacts → move back to `Ready` (or `In Progress` if partial work exists in the worktree), with a `<!-- reconciled YYYY-MM-DD: ... -->` comment.
-   - claimed In Progress, zero trace in worktree → move back to `Ready`.
-   - uncommitted work that matches a task → leave the lane, note "uncommitted work present" so geeky-implement commits it before starting anything new.
+   - claimed Done, evidence shows missing or incomplete work → move to `Ready` if absent, `In Progress` if partial, or `In Review` if implementation is complete but acceptance evidence is missing. Record the reason with a `<!-- reconciled YYYY-MM-DD: ... -->` comment.
+   - claimed In Progress, no live worker and no matching artifacts, commits or saved progress → move back to `Ready`.
+   - uncommitted work that matches a task → retain the evidence-supported lane and note the pending commit for geeky-implement at its normal commit boundary.
    - work in the tree matching **no** task → flag as user-owned or out-of-band; never revert or clean it.
 
 5. **Report and hand off.** Print: verified lane counts (post-reconciliation), the discrepancy list with evidence (file paths / commit hashes), and the next step — normally `Resume with /geeky-implement <folder>`, or `Resolve blocked: <Tid>` if anything is blocked. Do not start executing tasks yourself; execution belongs to `geeky-implement`.
@@ -36,12 +36,12 @@ A session cutoff, a compaction summary, and a subagent's "done" are all **claims
 ## Hard rules
 
 - Read `handoff.md` + `kanban.md` **before** any other action; re-`Read` any file before editing it (the pre-cutoff view is stale).
-- A pre-cutoff "done" (yours or a subagent's) without a verifiable commit/artifact is a hypothesis, not a fact.
+- A pre-cutoff "done" claim requires verifiable artifacts and acceptance evidence. Missing communication or a pending commit alone does not justify reopening accepted work.
 - Edits limited to: kanban lane corrections + one dated handoff reconciliation note. No task work, no commits of product code, no subagents.
 - Preserve user-owned changes unconditionally.
 
 ## Acceptance criteria
 
-- Every lane correction cites the evidence (missing commit, empty diff, existing artifact) that justified it.
+- Every lane correction cites the artifacts and evidence that establish the discrepancy; a missing commit or empty diff alone is insufficient.
 - The handoff gains exactly one dated reconciliation entry.
 - The report separates verified state from unverified claims and names the next step.

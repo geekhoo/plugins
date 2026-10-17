@@ -39,7 +39,7 @@ Definition of Done:
 
 - Code reviewed
 - Tested (manual/unit)
-- Deployed to staging
+- [Deployment evidence, only when required by the approved task scope]
 - No critical bugs
 
 Tests/Validation Before Next Task:
