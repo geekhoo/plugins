@@ -60,6 +60,8 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 - Batch independent tasks and reviews, then consolidate compatible fixes by owner. Keep a verdict and test evidence for each task. Isolate shared test resources.
 - Verify saved test evidence before rerunning. Reuse it while the tested code, dependencies and relevant environment remain valid; record why a rerun is needed.
 
+Blocking findings must cite the task contract and evidence. Repeated work needs a reason and the smallest useful check. After two unsuccessful correction cycles, diagnose the cause without extending existing retry limits. Once authorized gates pass, close out; optional improvements do not reopen acceptance. Keep these decisions in existing task notes.
+
 ## Long-run resilience
 
 - **Session grain:** default to ONE phase (or wave) per session — checkpoint to `handoff.md`, set heartbeat `paused`, and continue in a fresh session — rather than one marathon run. Evidence: chained short sessions had zero stalls/auth incidents where a 91-hour mega-run had seven. Re-entry is cheap because re-invocation resumes (see Execution constraints).

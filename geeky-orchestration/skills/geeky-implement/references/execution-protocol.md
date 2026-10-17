@@ -105,9 +105,10 @@ For each phase, in plan order:
    - Acceptance criteria copied verbatim.
    - The validation block from the task file (`Tests/Validation Before Next Task`).
    - Explicit instruction: *do not modify files outside the declared In Scope surface; if you discover the scope is wrong, stop and report — do not silently expand.*
+   - Give the worker authority to finish the bounded assignment, including compatible fixes and required checks. Ask for a consolidated return; interrupt only for blockers, scope decisions or ownership conflicts, not each small edit.
    - Use the harness's actual dispatch schema and callable role name. Apply the canonical-instructions fallback above only when needed; record the substitution once.
 
-8. **Verify the task's validation evidence** after each coder returns. Require the tested revision or file hashes, exact commands, exit status and results. Inspect the saved output; a bare claim of PASS is insufficient. Reuse passing evidence for unchanged code, dependencies and relevant environment. Execute missing checks or rerun only when evidence is invalidated, unreliable, or independent execution is explicitly required. Record the reason. If a required command fails:
+8. **Verify the task's validation evidence** after each coder returns. Require the tested revision or file hashes, exact commands, exit status and results. Inspect the saved output; a bare claim of PASS is insufficient. Reuse passing evidence for unchanged code, dependencies and relevant environment. Execute missing checks or rerun only when evidence is invalidated, unreliable, or independent execution is explicitly required. Before repeating a test or review, record what changed or remains unproved, which evidence is invalidated, and the smallest check that resolves it. Reuse valid evidence unless a required check is missing or independent execution is explicitly mandated. If a required command fails:
    - Capture the failure output.
    - Re-delegate to `geeky-coder` once with the failure context for a fix attempt.
    - If it still fails, move the task to **Blocked** with a kanban note that includes the validation command and the failure summary, finalize state per the Constitution, and return to the user.
@@ -115,6 +116,7 @@ For each phase, in plan order:
 9. **Move the task(s) from In Progress to In Review.** For each task in the batch, in parallel (single message, multiple skill/agent calls):
    - Give the reviewer the task template, task diff, ACs and validation evidence. Its decision is: **Does this task meet every AC and pass its defined tests?** Return an AC-by-AC result, test result and PASS or NEEDS FIXES; missing evidence cannot pass.
    - Inspect immediate dependencies only as needed to answer that question. Do not review the entire implementation chain or add acceptance requirements. Route unrelated findings separately; block this task only when a finding prevents its contract from being met or makes acceptance unsafe under an existing requirement.
+   - Every blocking finding must cite the violated AC, defined test or existing mandatory constraint, concrete evidence, and the smallest necessary correction. Severity alone does not authorize extra scope. Record optional improvements as follow-ups.
    - Collect one complete finding set per task before remediation. Group findings by severity and keep a separate verdict for each task, even when reviews share a dispatch.
 
 10. **Write a per-task notes file** `tasks/Tx-*.notes.md` (creating it, NOT editing the original task file) containing:
@@ -124,6 +126,7 @@ For each phase, in plan order:
     - Review findings, grouped by severity.
     - Resolution: which findings were fixed in this run vs deferred (with rationale).
     - Final diff scope (list of touched files).
+    Keep review scope, any reopened evidence and the next action in these existing notes. Do not create another ledger or approval gate.
 
 11. **Resolve findings:** batch compatible in-scope fixes from the completed review passes into one assignment per owner. Respect dependencies and shared files; do not dispatch one correction at a time when they can be fixed together. Rerun affected checks and review the changed scope plus the original findings. Preserve unaffected evidence. Blockers and majors within the review contract must be resolved before Done; record unrelated findings separately. Log deferred minors and nits in `handoff.md`.
 
@@ -179,6 +182,7 @@ For each phase, in plan order:
 
 18. When all phases complete (or backlog is empty, or a task is blocked):
     - When all phases are accepted, route final implementation review to [impl-review](../../impl-review/SKILL.md). Invoke it when final review is authorized by the request or standing workflow; otherwise record it as the next step. Do not substitute another final review or claim final acceptance before its verdict. A phase-only run does not trigger package-wide review.
+    - Once the authorized gates pass, finish required closeout and report completion. Do not add discretionary hardening, broader tests or another review. Reopen only for evidence of an unmet approved requirement or mandatory constraint; record optional work as a follow-up.
     - Set `.heartbeat` `status` to `done` (or `paused` if stopping mid-package, e.g. on Blocked).
     - Append a "Run Summary" section to `handoff.md` with: total tasks completed, total commits, blocked items, deferred follow-ups, suggested next-session start steps.
     - Verify `kanban.md` lane counts add up to the original task count.
@@ -203,6 +207,8 @@ Task reviews may run together on stable diffs. Tests or reviewer probes that mut
 Batch independent reads and compatible checks in one dispatch. A shared validation run may satisfy several tasks only when its command, configuration and tested revision meet each task's contract; retain a result for every task. Collect independent failures before remediation when safe. Stop dependent or destructive checks on failure. Separate product defects from harness and environment faults, then fix each compatible set together. Smoke new browser helpers before a broad acceptance run. Reserve broad final gates for a stable candidate unless the plan explicitly requires them earlier.
 
 ## Failure modes
+
+After two unsuccessful correction cycles on the same issue, diagnose the cause before repeating the approach: product defect, test expectation, harness/fixture, environment, or unresolved requirement. Record the cause and bounded next action in existing notes. This does not grant extra retries or waive a failed gate; any earlier stop condition still applies.
 
 These are recoverable — handle inline, do not stop the run:
 - Coder reports a typo or import error → re-delegate once with the error log.

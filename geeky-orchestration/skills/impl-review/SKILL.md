@@ -13,6 +13,8 @@ This skill owns final implementation review. Task reviews establish AC and test 
 
 Collect all domain findings before remediation. Batch compatible fixes by owner, then validate and re-review the affected scope. Preserve unaffected verdicts and evidence; do not dispatch a separate review for every small correction.
 
+Once required findings are resolved and affected checks pass, record the final verdict and finish required closeout. Do not add another review or hardening pass. Reopen only when concrete evidence invalidates acceptance; optional suggestions remain follow-ups.
+
 ## Arguments
 
 Accept a `geeky-implement` package path or diff reference (e.g., `docs/notifications/`, `HEAD~5..HEAD`, or a branch name). If no argument is given, apply this deterministic precedence: (1) if uncommitted changes exist (`git diff --stat` is non-empty), review those; (2) otherwise, scan `docs/` for the most recent feature package (folder with `implementation-plan.md` and newest `handoff.md` timestamp) and review commits since its stated baseline.

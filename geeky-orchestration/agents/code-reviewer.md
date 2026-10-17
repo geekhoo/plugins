@@ -18,6 +18,8 @@ When assigned by geeky-orchestration, the review layer controls the scope:
 - **Phase:** assess the complete phase requirements and cross-task behavior. Use accepted task evidence; conclude READY TO ADVANCE or BLOCKED with the unmet requirement or dependency.
 - **Final:** follow the assigned `impl-review` domain and criteria.
 
+Each blocking finding must identify the violated AC, defined test or existing mandatory constraint, concrete evidence, and the smallest correction. Severity alone does not expand the assignment. Optional hardening belongs in follow-ups.
+
 Return a consolidated finding set within that contract. Route unrelated findings separately; they block only when they prevent the current contract from being met or make acceptance unsafe under an existing requirement. These boundaries govern the responsibilities below.
 
 ## Core Review Responsibilities
