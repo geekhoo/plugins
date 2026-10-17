@@ -36,12 +36,59 @@ python server.py
 ```
 
 In Claude Code the server starts automatically: `.mcp.json` at the plugin root registers
-it as the `geeky` server using `uv run --with "mcp>=1.2.0"`.
+it as the `geeky` server through `bash ../hooks/py-run.sh --uv-with "mcp>=1.2.0" server.py`.
+The redirector runs `uv run --with "mcp>=1.2.0" python server.py` when `uv` can provide the
+package, or a plain Python whose installed `mcp` distribution is at least 1.2.0. That is
+checked through `importlib.metadata`, because a bare `import mcp` also finds this `mcp/`
+folder as a namespace package. Otherwise it runs the Node twin,
+`server.mts`, with an identical wire format (see [Node mirror](#node-mirror)). Every probe is
+time-limited, within an 8 s budget that fits Codex's 10 s startup timeout, and never reads
+stdin, which is the MCP transport. The decision is cached, so
+the probe cost is paid once a day, not per launch. `GEEKY_RUNTIME=python|node` forces a route.
 
-From version 0.3.0, the Codex-specific manifest uses `cwd: "./mcp"` and
-`python server.py`. Codex resolves the working directory against the installed
+From version 0.3.0, the Codex-specific manifest uses `cwd: "./mcp"` and the same
+redirector with `server.py` as its last argument. Codex resolves the working directory against the installed
 plugin root, so startup does not depend on `${PLUGIN_ROOT}` substitution or a
 version-specific cache path. Claude retains its own `${CLAUDE_PLUGIN_ROOT}` config.
+
+## Node mirror
+
+`server.mts` is a dependency-free Node/TypeScript twin of `server.py` for machines without
+`uv` or a working Python. Same six tools, same input schemas and descriptions, same result
+documents; it shells out to the `.mts` twins of the validators instead of the `.py` ones.
+
+```bash
+node server.mts          # Node 22.18+ (TypeScript runs natively via type stripping)
+```
+
+Both launch configs reach it automatically through `../hooks/py-run.sh` when no usable
+Python is found. To pin it regardless, set `GEEKY_RUNTIME=node`, or point the server command
+at it directly: `"command": "node", "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/server.mts"]`.
+
+- **Parity is tested, not asserted.** `wire-baseline.mts` is a port of `wire_baseline.py`;
+  `../tests/mcp-server.test.mts` drives the Node server with it and requires the normalised
+  transcript to equal the committed `wire_baseline.json`. (The committed capture was taken on
+  Windows, so the test collapses the doubled `//` that normalising a JSON-escaped `\\`
+  separator leaves in one `content[].text` path.)
+- **No SDK.** Line-delimited JSON-RPC 2.0 is implemented in the file (as in
+  `semantic-design-system`), because plugin installs never run `npm install`. It answers the
+  2025-11-25 handshake and earlier revisions, and returns `-32601` for methods it does not
+  serve (including the stateless 2026-07-28 `server/discover`), so hosts fall back exactly as
+  they do for `mcp` 1.x.
+- **Same subprocess rule** (below): validators that are not fed text get `stdio: "ignore"`,
+  never `"inherit"`; `../tests/mcp-server.test.mts` pins the spawn site.
+- Startup is one Node process with no imports beyond the standard library.
+- **Deliberate differences**, none of which change a pass/fail verdict: validation-error
+  text omits pydantic's `[type=…, input_value=…]` suffix and docs URL; usage lines name the
+  `.mts` script; invalid UTF-8 on a validator's stdin becomes U+FFFD instead of a traceback;
+  a malformed JSON-RPC line gets a `-32700`/`-32600` reply; `prompts/get` and
+  `resources/read` are not served (no prompts or resources are offered).
+
+Tests and type-check (dev only; the runtime needs nothing installed):
+
+```bash
+cd .. && npm install && npm test && npm run typecheck
+```
 
 ## Inspect / debug
 
@@ -57,9 +104,8 @@ uv run --with "mcp>=1.2.0" python -c "import asyncio, server; print([t.name for 
 
 - The `mcp` package, either major — `server.py` runs unchanged on 1.x and 2.x and is
   resolved automatically by `uv run --with "mcp>=1.2.0"`.
-- `uv` on PATH for the default `.mcp.json` command. To use plain `python` instead, edit
-  `.mcp.json` to `"command": "python", "args": ["${CLAUDE_PLUGIN_ROOT}/mcp/server.py"]`
-  and ensure `mcp` is installed.
+- `uv` on PATH, or a Python with `mcp` installed. Without either, the redirector serves the
+  Node twin instead (Node 22.18+).
 - **Python 3.14**, pinned by `.python-version`. `pyproject.toml` still declares
   `requires-python = ">=3.10"` — the server code needs nothing newer — but the venv `uv`
   builds here is pinned, for the reason in [Wire baseline](#wire-baseline) below. `uv`

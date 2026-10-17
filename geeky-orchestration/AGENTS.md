@@ -38,8 +38,8 @@ and `tasks/Tx-*.notes.md` (per-task notes — these are writable, unlike the tas
 
 These replace "I updated the board / the task is done" with fail-stop checks.
 Every gate: **arguments in, exit 0 = pass / exit 1 = fail, summary on stdout**,
-optional `--json` / `-Json`. Each ships paired Python + PowerShell with identical
-behavior. `geeky.manifest.json` is the machine-readable index of the same list.
+optional `--json` / `-Json`. Each ships Python, PowerShell, and Node (`.mts`) twins with
+identical behavior. `geeky.manifest.json` is the machine-readable index of the same list.
 
 Paths below are relative to this plugin root (`${CLAUDE_PLUGIN_ROOT}` in Claude Code).
 Use `python3` where `python` is not on PATH; use `pwsh` (PowerShell 7+) for the `.ps1`.
@@ -52,6 +52,9 @@ Use `python3` where `python` is not on PATH; use `pwsh` (PowerShell 7+) for the 
 | Definition of Done | before moving a task to Done | `python scripts/check-dod.py --path "<folder>" --task <ID>` | `pwsh -File scripts/check-dod.ps1 -Path "<folder>" -Task <ID>` |
 | Commit message | before each commit | `python scripts/check-commit.py <FILE>` | `pwsh -File scripts/check-commit.ps1 <FILE>` |
 
+Node twin of every row (Node 22.18+, no install): replace `python scripts/<gate>.py` with
+`node scripts/<gate>.mts` — same arguments, output, and exit codes.
+
 **Feedback loop:** when a gate exits non-zero, read its output, fix the artifact,
 and re-run the same gate until it exits 0 before proceeding.
 
@@ -61,7 +64,7 @@ and re-run the same gate until it exits 0 before proceeding.
   `hooks/hooks.json` (PreToolUse). Run the validators above as explicit steps.
 - **Other CLI agents (Codex, Cursor, Windsurf, Copilot, Gemini):** add an
   equivalent pre-edit/stop hook in your tool's config pointing at
-  `hooks/guard-planning-contract.{py,ps1}` (it reads tool-call JSON on stdin,
+  `hooks/guard-planning-contract.{py,ps1,mts}` (it reads tool-call JSON on stdin,
   `--mode block` denies via JSON / exit 2). Invoke the validators as shell steps.
 - **SDK / graph orchestrators (OpenAI Agents SDK, LangGraph):** call any validator
   with `subprocess.run([...])` inside a guardrail / node; raise a tripwire or
@@ -70,8 +73,10 @@ and re-run the same gate until it exits 0 before proceeding.
   registered in `.mcp.json`) exposes the gates as tools — `geeky_validate_planning_folder`,
   `geeky_validate_task_schema`, `geeky_validate_kanban`, `geeky_check_dod`,
   `geeky_check_commit`, `geeky_check_frozen_artifact` — for tool-style invocation with
-  no per-framework hook config. Run it with `uv run --with "mcp>=1.2.0" python mcp/server.py`
-  (or `pip install mcp && python mcp/server.py`).
+  no per-framework hook config. `.mcp.json` launches it via `hooks/py-run.sh`, which runs
+  `uv run --with "mcp>=1.2.0" python mcp/server.py` when Python works and the dependency-free
+  Node mirror `node mcp/server.mts` (same tools and wire format) when it does not. The guard
+  hook uses the same redirector.
 
 ## Hard rules for implement
 
