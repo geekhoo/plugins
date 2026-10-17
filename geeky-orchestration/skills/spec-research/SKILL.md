@@ -3,6 +3,8 @@ name: spec-research
 description: Use when asked to research and write a new feature specification in `docs/<feature-folder>/`. This skill runs parallel research, synthesizes findings, and drafts `feature-specification.md` plus README scaffold before planning.
 ---
 
+Use the shared [workflow terminology](../../AGENTS.md#workflow-terminology).
+
 # Spec Research & Authoring
 
 Deploy a parallel research team to investigate requirements for a new spec, then synthesize findings into a complete feature specification document. The research phase uses 3 subagents with distinct investigation angles to ensure comprehensive coverage before writing begins.

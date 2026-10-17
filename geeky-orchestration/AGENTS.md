@@ -23,6 +23,28 @@ stages are not auto-chained without end-to-end authorization.
 
 Full procedures live in the portable Skills under `skills/<name>/SKILL.md`.
 
+## Workflow terminology
+
+Use these meanings across skills, briefs and reports. They describe the orchestration
+domain; retain the target project's own domain language. Existing filenames, schema
+fields and checkpoint markers remain unchanged.
+
+| Term | Meaning |
+|---|---|
+| Planning package | Specification, plan, task contracts and tracking artifacts for one approved outcome. "Packet" is an alias; planning folder is its location. |
+| Workflow stage | A lifecycle activity such as planning, implementation or final implementation review. Numbered "phases" inside a skill are procedure steps, not implementation phases. |
+| Implementation phase | A group of tasks whose combined requirements are reviewed before advancement. "Wave" means a scheduling group unless the plan explicitly equates it with a phase. |
+| Task | A bounded unit with an ID, scope, dependencies, acceptance criteria (ACs) and required validation. |
+| Requirement / AC / Definition of Done | Required outcome or constraint / observable condition for satisfying it / completion conditions for the task. Required tests supply evidence; they do not replace ACs. |
+| Task contract | The frozen task body and applicable approved requirements. A task brief conveys that contract to a worker. |
+| Validation | Checks of the work. Validation evidence records what ran or was observed, against which inputs, and the result; a PASS claim alone is not evidence. |
+| Review | Judgment of evidence against an assigned scope. Task review checks ACs/tests; phase review decides readiness to advance; final implementation review uses `impl-review`. Plan review evaluates the planning package. |
+| Acceptance | The decision that required outcomes and gates for the stated scope are satisfied. Task Done, phase READY TO ADVANCE and final review PASS have different scopes; none grants release or deployment approval. |
+| Finding | An evidenced discrepancy. A blocking finding prevents the current contract from being met; an optional improvement is a follow-up. Severity labels retain their review-stage meanings, not an automatic cross-stage mapping. |
+| Execution batch / review batch | Tasks dispatched together / tasks sharing a reviewer assignment. A shared review batch holds all members' progression until the whole batch clears, preserving individual verdicts. |
+| Orchestrator / worker / reviewer | Coordinates and accepts work / performs a bounded assignment / evaluates it. `geeky-coder` is the implementation worker; PM describes a planning or phase-review perspective. |
+| Task event log | One `tasks/T<n>.events.jsonl` per task for consequential collaboration events, preserving the sender. It does not replace task notes or Kanban state. |
+
 ## The planning-folder contract
 
 **Frozen** (never edit mid-run — they are the contract between plan and implement):

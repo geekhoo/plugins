@@ -3,6 +3,8 @@ name: geeky-resume
 description: Use when resuming a geeky-plan / geeky-implement run after a session cutoff, compaction, crash, or dead subagent — "resume the implementation", "continue where we left off", "are you stuck". Reconciles kanban lanes and handoff claims against live git status/diff before any work continues; never trusts a pre-cutoff "done". For a snapshot without resuming, use geeky-status; to continue execution after reconciliation, hand off to geeky-implement.
 ---
 
+Use the shared [workflow terminology](../../AGENTS.md#workflow-terminology).
+
 # geeky-resume
 
 A session cutoff, a compaction summary, and a subagent's "done" are all **claims about state you have not observed**. This skill re-grounds a geeky run in live ground truth before anything continues. It is the geeky-orchestration form of the standing resume reflex: read the durable ledger first, then reconcile it against the repo.

@@ -13,6 +13,8 @@ Use it as the canonical runbook for taking a feature from researched specificati
 
 ---
 
+Use the shared [workflow terminology](../AGENTS.md#workflow-terminology).
+
 ## Global workflow contract
 
 - Work from a feature/spec folder, normally `docs/<feature-folder>/`.
@@ -484,7 +486,7 @@ If missing:
    - deduplicate overlaps,
    - prioritize Critical > Warning > Suggestion,
    - present unified report.
-10. Overall verdict is either READY TO SHIP or NEEDS FIXES.
+10. Overall verdict is either PASS or NEEDS FIXES.
 11. If critical issues exist, ask the user whether to apply fixes.
 12. If approved, fix only critical issues and commit:
 

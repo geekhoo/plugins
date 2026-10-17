@@ -3,6 +3,8 @@ name: geeky-plan
 description: Use when asked to turn a specification folder into a frozen implementation package. This skill creates implementation-plan.md, tasks, kanban, references, and handoff artifacts, runs planning gates, and outputs a package ready for `/geeky-implement`.
 ---
 
+Use the shared [workflow terminology](../../AGENTS.md#workflow-terminology).
+
 # geeky-plan
 
 Create a set of plan / tasks / Kanban based on provided research and specification requirements.

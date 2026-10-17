@@ -3,6 +3,8 @@ name: impl-review
 description: Use when requested to review implemented code after `/geeky-implement` completes. This skill dispatches multi-angle implementation reviewers and returns blocker/major/minor findings against the done work.
 ---
 
+Use the shared [workflow terminology](../../AGENTS.md#workflow-terminology).
+
 # Implementation Review
 
 Deploy 3 domain-expert reviewer subagents to evaluate completed implementation work. The reviewers are NOT hardcoded — they are dynamically selected based on what was actually built, ensuring each covers the most significant and distinct aspect of the delivered code.
@@ -117,7 +119,7 @@ After all 3 reviewers complete:
 | [Domain 2] | [verdict] |
 | [Domain 3] | [verdict] |
 
-### Overall: [READY TO SHIP / NEEDS FIXES (N critical)]
+### Overall: [PASS / NEEDS FIXES (N critical)]
 ```
 
 ### Phase 5 (Conditional): Fix Critical Issues

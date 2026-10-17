@@ -3,6 +3,8 @@ name: geeky-status
 description: Read-only status snapshot of a geeky-plan / geeky-implement planning folder. Reports kanban lane counts, in-progress and blocked tasks, recent task notes, the last handoff entry, deferred follow-ups, and a suggested next step. No agents, no edits, no commits. Use when asked where a planning/implementation effort stands or to inspect a kanban folder before resuming. When resuming after a session cutoff/compaction, use geeky-resume instead — it reconciles the kanban against live git state. Invoked by the /geeky-status command and usable directly by any agent.
 ---
 
+Use the shared [workflow terminology](../../AGENTS.md#workflow-terminology).
+
 # geeky-status
 
 Fast situational awareness when resuming a planning/implementation session. Answers: where are we, what's blocked, what's deferred, what was the last thing done. Useful before invoking the `geeky-implement` skill to decide whether to resume, retarget, or hand-fix.
@@ -66,7 +68,7 @@ Fast situational awareness when resuming a planning/implementation session. Answ
    Suggested next step:
      <one of (in precedence order):
         "Resolve blocked: <Tid> before resuming" if Blocked > 0
-        "Done — final PM review may be appropriate" if Done == total
+        "Tasks Done — check phase readiness, then impl-review and required closeout" if Done == total
         "Resume with /geeky-implement <folder>" if Ready > 0 and Blocked == 0
         "Backlog only — promote tasks to Ready or extend plan" if Ready == 0 and Backlog > 0
         "Review kanban state — mixed or edge case detected" (fallback if none of the above apply)

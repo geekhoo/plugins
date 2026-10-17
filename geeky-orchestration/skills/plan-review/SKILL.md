@@ -3,6 +3,8 @@ name: plan-review
 description: Use when asked to sanity-check a completed planning folder before implementation. This skill reviews plan-to-task consistency, sequencing, and execution readiness so `/geeky-implement` can start with fewer blockers.
 ---
 
+Use the shared [workflow terminology](../../AGENTS.md#workflow-terminology).
+
 # Plan Review
 
 Multi-phase planning package quality review that validates document alignment, resolves inconsistencies, validates execution sequencing, and performs a final sanity pass. Targets the `/geeky-plan` output folder (implementation-plan.md, kanban.md, tasks/, references.md, review-development-project-manager.md, handoff.md, plus execution-schedule.md if the plan produced one).
@@ -59,7 +61,7 @@ Deploy a review subagent for the semantic cross-validation the scripts cannot co
 
 **Handling optional sections:** If a document contains a section stub marked as optional or placeholder (e.g., "[Optional: X]", "TBD"), do NOT flag it as missing content — optional stubs are valid and expected in planning packages.
 
-**Output:** A structured findings report with severity levels (Critical / Warning / Suggestion — mapping to geeky-implement's blocker / major / minor-nit taxonomy).
+**Output:** A structured findings report with severity levels (Critical / Warning / Suggestion, within the plan-review scope).
 
 ### Phase 2: Issue Resolution
 

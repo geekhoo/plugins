@@ -3,6 +3,8 @@ name: geeky-implement
 description: Use when asked to execute an existing `geeky-plan` planning package. This skill runs kanban tasks through `geeky-coder` subagents, applies validation + review gates, and commits completed work per phase.
 ---
 
+Use the shared [workflow terminology](../../AGENTS.md#workflow-terminology).
+
 # geeky-implement
 
 Use this skill only after `/geeky-plan` has produced a planning package.

@@ -2,6 +2,8 @@
 
 End-to-end feature delivery: **plan it, execute it, track it**, with strong contracts between phases and conservative parallelism.
 
+Use the shared [workflow terminology](AGENTS.md#workflow-terminology).
+
 ## What's in the box
 
 | Component | Type | Purpose |
@@ -24,7 +26,7 @@ End-to-end feature delivery: **plan it, execute it, track it**, with strong cont
 | `scripts/validate-planning-folder.{ps1,py}` | gate | Folder completeness: verifies a folder has the artifacts `/geeky-implement` expects. |
 | `scripts/validate-task-schema.{ps1,py}` | gate | Each `tasks/Tx-*.md` carries the required template sections (plan→implement boundary). |
 | `scripts/validate-kanban.{ps1,py}` | gate | Kanban integrity: every task in exactly one lane, no dangling refs, WIP cap, lane coverage. |
-| `scripts/check-dod.{ps1,py}` | gate | Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block to re-run. |
+| `scripts/check-dod.{ps1,py}` | gate | Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block for comparison with evidence. |
 | `scripts/check-commit.{ps1,py}` | gate | Commit message is Conventional Commits + references a task (`Tasks: T<n>`). |
 | `hooks/guard-planning-contract.{ps1,py}` | hook | PreToolUse guard for edits to frozen planning artifacts. Default `--mode warn` (advisory, surfaced via portable stdout+stderr); `--mode block` denies via Claude/Codex JSON (or exit 2 with `--exit-code`). |
 | `AGENTS.md` + `geeky.manifest.json` | discovery | Framework-agnostic discovery layer: how non-Claude agents learn the contract and invoke the gates (human-readable + machine-readable). |
@@ -55,7 +57,7 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 
 /geeky-implement <folder>              → walks kanban Ready → Done
    ├─ delegates geeky-coder per task (max 3 parallel when safe)
-   ├─ re-runs each task's validation block itself
+   ├─ verifies each task's validation evidence; runs only justified checks
    ├─ runs code-review on each task's diff
    ├─ runs PM review at each phase boundary
    ├─ writes tasks/Tx-*.notes.md per task

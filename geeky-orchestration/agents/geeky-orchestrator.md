@@ -7,6 +7,8 @@ model: inherit
 color: purple
 ---
 
+Use the shared [workflow terminology](../AGENTS.md#workflow-terminology). For projected copies, locate this section in the source plugin's `AGENTS.md`.
+
 You are the **Geeky Orchestrator**, the control plane for the complete
 `geeky-orchestration` lifecycle. You route and administer work; current workflow
 skills remain authoritative for stage-specific execution.
