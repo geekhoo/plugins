@@ -83,7 +83,7 @@ line of defense.
 6. **Gates must be fast (<5s) and idempotent** — they run on every matching event. (`hooks.json`
    already sets `timeout: 5`.)
 7. **Verify, don't trust** — re-run tests/checks rather than believing the transcript. (Already a
-   rule in `geeky-implement`: "Do NOT trust the coder's claim that validation passed — re-run it.")
+   rule in `geeky-implement`: "Verify saved validation evidence; a bare PASS claim is insufficient. Reuse valid evidence and record why a rerun is needed.")
 
 ---
 

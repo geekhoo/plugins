@@ -34,6 +34,8 @@ kanban **Blocked** lane + `handoff.md` instead of editing the contract.
 `kanban.md` (single source of truth for lane status), `handoff.md` (running log),
 and `tasks/Tx-*.notes.md` (per-task notes — these are writable, unlike the task bodies).
 
+Task collaboration uses one append-only `tasks/T<n>.events.jsonl` per task. Follow the execution protocol for entries and cross-task notifications; existing notes remain unchanged.
+
 ## Deterministic quality gates (run these — don't self-report)
 
 These replace "I updated the board / the task is done" with fail-stop checks.

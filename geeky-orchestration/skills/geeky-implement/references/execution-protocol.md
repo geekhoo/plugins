@@ -58,6 +58,14 @@ Hard rules — violations are bugs:
 6. **One source of truth for status:** `kanban.md`. If `handoff.md` and `kanban.md` disagree, trust kanban and reconcile handoff.
 7. **Delegate implementation using the canonical `geeky-coder` instructions.** Check the live harness role catalog before dispatch. A TOML file or generated projection does not prove the role is callable. If the role is unavailable, do not retry guessed or namespaced variants. Use an available generic role with the canonical agent body and task brief, preserving requested model settings. If the user requires the registered role itself, report the registration blocker instead of substituting it.
 
+## Task events
+
+Use one append-only `tasks/T<n>.events.jsonl` per task, for example `tasks/T3.events.jsonl`. The orchestrator creates it if absent on dispatch and includes its absolute path in coder/reviewer briefs. Participants read new entries when starting or resuming work and before returning a result. Record consequential progress, findings, blockers, decisions and inbound/outbound dependency changes; omit routine status chatter and reference evidence instead of copying logs.
+
+Each line is a JSON object with `id` (unique within the task), `at` (UTC), `from`, `to`, `type`, `message`, and optional `refs`. Coders and read-only reviewers return event entries with their updates; the orchestrator appends them, preserving the sender and serializing complete-line writes. Do not rewrite previous entries. No acknowledgements are required unless a decision or action needs a response.
+
+For cross-task consequences, append a linked event to each affected task's log and notify an active worker when its work must change. A log entry alone does not wake an agent. Events do not change frozen contracts, Kanban state or acceptance; keep existing notes behavior unchanged.
+
 ## Tasks
 
 ### Phase 0 — Load and analyze the planning package
@@ -113,7 +121,7 @@ For each phase, in plan order:
    - Re-delegate to `geeky-coder` once with the failure context for a fix attempt.
    - If it still fails, move the task to **Blocked** with a kanban note that includes the validation command and the failure summary, finalize state per the Constitution, and return to the user.
 
-9. **Move the task(s) from In Progress to In Review.** For each task in the batch, in parallel (single message, multiple skill/agent calls):
+9. **Move the task(s) from In Progress to In Review.** Group compatible tasks into shared reviewer assignments when their context and timing make that useful; use separate assignments otherwise. A shared review batch holds progression of every included task until all its blocking findings are resolved and every task has passing required tests and a PASS verdict. Do not move any member to Done or advance its dependents before the batch clears. Preserve individual verdicts and valid evidence; only affected scope needs re-review. Record batch members and the hold/release in each task’s event log. For each assignment:
    - Give the reviewer the task template, task diff, ACs and validation evidence. Its decision is: **Does this task meet every AC and pass its defined tests?** Return an AC-by-AC result, test result and PASS or NEEDS FIXES; missing evidence cannot pass.
    - Inspect immediate dependencies only as needed to answer that question. Do not review the entire implementation chain or add acceptance requirements. Route unrelated findings separately; block this task only when a finding prevents its contract from being met or makes acceptance unsafe under an existing requirement.
    - Every blocking finding must cite the violated AC, defined test or existing mandatory constraint, concrete evidence, and the smallest necessary correction. Severity alone does not authorize extra scope. Record optional improvements as follow-ups.
@@ -132,7 +140,7 @@ For each phase, in plan order:
 
 Acceptance must wait until all required tests have passing evidence, even when the task is not in the Blocked lane. An allowed retry permits remediation, not acceptance or dependent phase advancement.
 
-12. **Move to Done** in `kanban.md` only when validation is green AND no blocker/major findings remain. Before finalizing the move, run the **Definition-of-Done** gate for the task and the **kanban-integrity** gate, and fix until both exit 0:
+12. **Move to Done** in `kanban.md` only when validation is green AND no blocker/major findings remain AND any shared review batch has cleared. Before finalizing the move, run the **Definition-of-Done** gate for the task and the **kanban-integrity** gate, and fix until both exit 0:
 
     ```
     python "${CLAUDE_PLUGIN_ROOT}/scripts/check-dod.py" --path "<folder>" --task T<x>

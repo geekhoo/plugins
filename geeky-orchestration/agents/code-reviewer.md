@@ -22,6 +22,8 @@ Each blocking finding must identify the violated AC, defined test or existing ma
 
 Return a consolidated finding set within that contract. Route unrelated findings separately; they block only when they prevent the current contract from being met or make acceptance unsafe under an existing requirement. These boundaries govern the responsibilities below.
 
+For shared task reviews, return a separate AC/test verdict for each task. Progression of all included tasks stays on hold until the whole review batch clears. Read the supplied per-task event logs and return consequential findings/results as event entries for the orchestrator to append; remain read-only. Preserve unaffected evidence during remediation.
+
 ## Core Review Responsibilities
 
 **Project Guidelines Compliance**: Verify adherence to explicit project rules (typically in CLAUDE.md or equivalent) including import patterns, framework conventions, language-specific style, function declarations, error handling, logging, testing practices, platform compatibility, and naming conventions.

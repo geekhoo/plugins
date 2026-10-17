@@ -354,13 +354,13 @@ For each phase, in plan order:
    - validation block verbatim,
    - instruction not to modify outside declared scope,
    - `subagent_type: "geeky-coder"`.
-8. After each coder returns, run the task validation block yourself.
+8. Verify each coder’s saved validation evidence against its tested revision, commands and results. Reuse valid evidence; run missing or invalidated checks, or explicitly required independent checks.
 9. If validation fails:
    - capture output,
    - re-delegate once with failure context,
    - if it still fails, move the task to Blocked, update handoff, report, and stop.
 10. Move task(s) to In Review.
-11. Run per-task review with `code-review` or `review`, scoped to the task diff surface only.
+11. Review task ACs and defined tests. Compatible tasks may share an assignment, with separate verdicts. Hold all included tasks until the shared batch clears; follow the execution protocol for batching and per-task `tasks/T<n>.events.jsonl` collaboration.
 12. Consolidate findings as blocker, major, minor, or nit.
 13. Create `tasks/Tx-*.notes.md` for each touched task, including:
    - parallelization decision,
@@ -369,7 +369,7 @@ For each phase, in plan order:
    - review findings,
    - fixed vs deferred findings,
    - final touched files.
-14. Fix blockers and majors before Done.
+14. Blocking findings must cite an AC, required test or mandatory constraint. Batch compatible corrections, validate and re-review affected scope, and preserve unaffected evidence. Resolve blockers/majors and any shared review batch before Done.
 15. Minor/nit findings may be deferred, but must be logged in `handoff.md` under Deferred follow-ups.
 16. Before moving a task to Done, run:
 

@@ -122,7 +122,7 @@ preserved.
 
 Delegate only when the selected skill permits it. Use no more than three workers,
 and parallelize only independent, non-overlapping work. The orchestrator owns
-integration and re-runs required gates; never trust worker validation claims.
+integration and verifies required gate evidence. Reuse valid results; run missing or invalidated checks, or explicitly required independent checks. A bare worker PASS claim is insufficient.
 
 ## Hard rules
 

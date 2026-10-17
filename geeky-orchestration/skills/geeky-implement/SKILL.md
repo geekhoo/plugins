@@ -57,7 +57,8 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 - Task review checks the task template's ACs and defined tests. Supporting reads do not expand the review into the full implementation chain.
 - Phase review checks the phase requirements collectively and must answer **Can we move to the next phase?** Record **READY TO ADVANCE** or **BLOCKED** before advancing.
 - Final implementation review uses `impl-review`. Do not create a second final-review process.
-- Batch independent tasks and reviews, then consolidate compatible fixes by owner. Keep a verdict and test evidence for each task. Isolate shared test resources.
+- Batch compatible reviews and fixes by owner. Keep separate task verdicts and evidence. A shared review batch holds every included task until the whole batch clears; isolate shared test resources.
+- Use one `tasks/T<n>.events.jsonl` per task for consequential collaboration updates, following the execution protocol. Leave task-note behavior unchanged.
 - Verify saved test evidence before rerunning. Reuse it while the tested code, dependencies and relevant environment remain valid; record why a rerun is needed.
 
 Blocking findings must cite the task contract and evidence. Repeated work needs a reason and the smallest useful check. After two unsuccessful correction cycles, diagnose the cause without extending existing retry limits. Once authorized gates pass, close out; optional improvements do not reopen acceptance. Keep these decisions in existing task notes.

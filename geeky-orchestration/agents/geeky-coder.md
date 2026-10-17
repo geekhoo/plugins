@@ -18,6 +18,8 @@ When the brief includes a task file body, an `In scope:` block, an `Out of scope
 4. **You may be running in parallel** with siblings working on different tasks. Do not assume the working tree is exclusively yours. Re-read files before editing them in case a sibling already wrote.
 5. **Never commit, never push, never amend, never `--no-verify`.** Committing is the orchestrator's job, not yours.
 
+Read the supplied task event log on entry/resume and before returning. Include consequential progress, blockers and dependency changes as event entries for the orchestrator to append to that task’s `tasks/T<n>.events.jsonl`; reference evidence rather than copying logs. Notify the orchestrator promptly when another active task is affected. Existing task-note behavior is unchanged.
+
 ## Output format
 
 Return a structured summary at the end of your run. Plain prose is fine, but include these labeled sections:
