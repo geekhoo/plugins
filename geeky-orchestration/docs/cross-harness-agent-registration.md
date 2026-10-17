@@ -48,6 +48,12 @@ python scripts/sync-agents.py --json
 node   scripts/sync-agents.js --json
 ```
 
+## Installed-cache use
+
+Both sync scripts default to the current working directory, independent of where the plugin is installed. Run from the intended project root, or pass `--project-root` explicitly. Use `--dry-run --json` first and inspect every output path. Limit `--agents` and `--targets` to the definitions being updated; preserve custom user definitions.
+
+For Codex, parse the resulting TOML and check the live role catalog. File generation alone does not prove runtime registration. Use the exact callable role name; do not repeatedly try namespaced guesses after an unavailable-role error. If a valid projection is absent from the catalog, inspect harness diagnostics and verify discovery in a fresh session before claiming it is fixed. Task dispatch may use the canonical-instructions fallback in the execution protocol unless the user requires that registered role.
+
 ## Generated outputs
 
 Default output paths (relative to `--project-root`):
@@ -73,6 +79,10 @@ Default output paths (relative to `--project-root`):
   - `name`
   - `description`
   - `developer_instructions`
+
+Codex resolves a role by its TOML `name`, not the filename. Keep names unique within a scope and match filenames to names. Check both user and workspace definitions when a role is missing or behaves differently.
+
+Custom subagents inherit the parent provider. A `model_provider` setting in an agent file does not override it; selecting a third-party model there can still send it through the parent's provider and fail. Use a separately configured provider session or an explicit provider wrapper for cross-provider work. See [Codex custom-agent configuration](https://learn.chatgpt.com/docs/agent-configuration/subagents). A successful spawn followed by a provider error is an execution failure, not a TOML parsing failure.
 
 ### Copilot (VS Code custom agents)
 

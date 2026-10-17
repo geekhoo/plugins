@@ -52,6 +52,14 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 - Prefer the bundled validator **scripts** over the `geeky_*` MCP tools (no permission prompts, immune to the plugin-root interpolation bug).
 - Maintain the **heartbeat**: write `<folder>/.heartbeat` (JSON: `{"ts":"<ISO>","task":"T<x>","status":"running"}`) at run start, refresh `ts`+`task` at every task transition, set `status` to `"paused"` (deliberate stop) or `"done"` (run complete) before ending. External watchdogs key on this file.
 
+## Review and batching rules
+
+- Task review checks the task template's ACs and defined tests. Supporting reads do not expand the review into the full implementation chain.
+- Phase review checks the phase requirements collectively and must answer **Can we move to the next phase?** Record **READY TO ADVANCE** or **BLOCKED** before advancing.
+- Final implementation review uses `impl-review`. Do not create a second final-review process.
+- Batch independent tasks and reviews, then consolidate compatible fixes by owner. Keep a verdict and test evidence for each task. Isolate shared test resources.
+- Verify saved test evidence before rerunning. Reuse it while the tested code, dependencies and relevant environment remain valid; record why a rerun is needed.
+
 ## Long-run resilience
 
 - **Session grain:** default to ONE phase (or wave) per session — checkpoint to `handoff.md`, set heartbeat `paused`, and continue in a fresh session — rather than one marathon run. Evidence: chained short sessions had zero stalls/auth incidents where a 91-hour mega-run had seven. Re-entry is cheap because re-invocation resumes (see Execution constraints).

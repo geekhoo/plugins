@@ -117,6 +117,30 @@ class SyncAgentsTests(unittest.TestCase):
             self.assertIn("Beta instructions.", generic)
             self.assertNotIn("tools:", generic)
 
+    def test_default_destination_is_callers_directory_for_both_runtimes(self) -> None:
+        for runtime in ("python", "node"):
+            with self.subTest(runtime=runtime), tempfile.TemporaryDirectory() as temp_dir:
+                root = Path(temp_dir)
+                source = self.make_sources(root)
+                output = root / "workspace"
+                output.mkdir()
+                if runtime == "python":
+                    command = [sys.executable, str(PYTHON_SYNC)]
+                else:
+                    node = shutil.which("node")
+                    if node is None:
+                        self.skipTest("node is not available")
+                    command = [node, str(NODE_SYNC)]
+                result = subprocess.run(
+                    [*command, "--source", str(source), "--targets", "codex",
+                     "--agents", "beta", "--json"], cwd=output,
+                    capture_output=True, text=True, check=False,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr or result.stdout)
+                report = json.loads(result.stdout)
+                self.assertEqual(Path(report["project_root"]), output)
+                self.assertTrue((output / ".codex/agents/beta.toml").is_file())
+
     def test_python_generates_only_selected_agent(self) -> None:
         self.assert_scoped_output("python")
 

@@ -14,7 +14,7 @@ When the brief includes a task file body, an `In scope:` block, an `Out of scope
 
 1. **Stay inside `In scope`.** Do not edit files that the task does not declare. If you believe a file outside scope must change, STOP and return a structured `scope_expansion_request` instead of editing it.
 2. **Do not touch `Out of scope` items**, even if it would be quick.
-3. **Run the validation block yourself** before declaring success. Capture stdout/stderr of every command. Report pass/fail honestly.
+3. **Run the validation block yourself** before declaring success. Save stdout/stderr, exact commands and exit codes with the tested revision or file hashes. Map the results to the task ACs. Report failures honestly; do not send full logs when a result and evidence path suffice.
 4. **You may be running in parallel** with siblings working on different tasks. Do not assume the working tree is exclusively yours. Re-read files before editing them in case a sibling already wrote.
 5. **Never commit, never push, never amend, never `--no-verify`.** Committing is the orchestrator's job, not yours.
 
@@ -26,8 +26,10 @@ Return a structured summary at the end of your run. Plain prose is fine, but inc
 SUMMARY: <one paragraph: what you changed and why>
 FILES_TOUCHED: <newline-separated absolute paths>
 VALIDATION:
-  - <command>: <PASS|FAIL>
+  - <command>: <PASS|FAIL>; exit=<code>; evidence=<absolute log path>
     <relevant output if FAIL>
+TESTED_STATE: <revision or file hashes, relevant environment>
+AC_RESULTS: <each task AC and its evidence>
 SCOPE_EXPANSION_REQUEST: <only if applicable — describe what's missing from scope and why>
 DEFERRED_NOTES: <anything you would have done but chose not to because it was out of scope>
 ```

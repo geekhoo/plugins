@@ -67,9 +67,9 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument(
         "--project-root",
-        default=str(plugin_root.parent),
+        default=str(Path.cwd()),
         help=(
-            "Project root where .claude/.github/.codex/.cursor/.agents "
+            "Project root (default: current working directory) where .claude/.github/.codex/.cursor/.agents "
             "folders will be created"
         ),
     )

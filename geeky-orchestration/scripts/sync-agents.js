@@ -47,11 +47,10 @@ const SUPPORTED_TARGETS = ["claude", "copilot", "codex", "cursor", "generic"];
 function parseArgs(argv) {
   const here       = path.resolve(__dirname);
   const pluginRoot = path.resolve(here, "..");
-  const repoRoot   = path.resolve(pluginRoot, "..");
 
   const defaults = {
     source:      path.join(pluginRoot, "agents"),
-    projectRoot: repoRoot,
+    projectRoot: process.cwd(),
     targets:     SUPPORTED_TARGETS.join(","),
     agents:      "",
     dryRun:      false,

@@ -7,13 +7,19 @@ description: Use when requested to review implemented code after `/geeky-impleme
 
 Deploy 3 domain-expert reviewer subagents to evaluate completed implementation work. The reviewers are NOT hardcoded — they are dynamically selected based on what was actually built, ensuring each covers the most significant and distinct aspect of the delivered code.
 
+## Review boundary
+
+This skill owns final implementation review. Task reviews establish AC and test results; phase reviews establish collective requirements and readiness to advance. Use those verdicts and evidence as inputs, then review the approved outcome and cross-phase integration within each assigned domain. Do not repeat earlier reviews or tests unless changed dependencies, contradictory evidence or a concrete defect invalidate them. Record the reason for reopening a surface.
+
+Collect all domain findings before remediation. Batch compatible fixes by owner, then validate and re-review the affected scope. Preserve unaffected verdicts and evidence; do not dispatch a separate review for every small correction.
+
 ## Arguments
 
 Accept a `geeky-implement` package path or diff reference (e.g., `docs/notifications/`, `HEAD~5..HEAD`, or a branch name). If no argument is given, apply this deterministic precedence: (1) if uncommitted changes exist (`git diff --stat` is non-empty), review those; (2) otherwise, scan `docs/` for the most recent feature package (folder with `implementation-plan.md` and newest `handoff.md` timestamp) and review commits since its stated baseline.
 
 ## Workflow
 
-**Resume contract (check FIRST):** this skill writes its consolidated report to `review-impl.md` inside the package folder (or `docs/` root for diff-only reviews), marking each reviewer section with `<!-- reviewer-complete: <domain> -->` as it lands. On invocation, if a `review-impl.md` exists for the same target with completed reviewer sections, this is a resumed run: skip the completed domains, dispatch only the missing reviewers, and merge into the existing report. Re-invocation must never re-dispatch reviewers whose findings are already recorded.
+**Resume contract (check FIRST):** this skill writes its consolidated report to `review-impl.md` inside the package folder (or `docs/` root for diff-only reviews), marking each reviewer section with `<!-- reviewer-complete: <domain> -->` as it lands. On invocation, if a `review-impl.md` exists for the same target with completed reviewer sections, this is a resumed run: skip the completed domains, dispatch only the missing reviewers, and merge into the existing report. Reuse completed domains only while their reviewed revision and relevant dependencies remain valid. Record the reviewed revision or file hashes with each section. If those inputs change, reopen only affected domains and record why; a completed marker alone is not proof of current validity.
 
 ### Phase 1: Discover What Was Built
 

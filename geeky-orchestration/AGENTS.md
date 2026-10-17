@@ -77,5 +77,9 @@ and re-run the same gate until it exits 0 before proceeding.
 
 Never push to a remote. Never `--no-verify`, `--force`, or `--amend`. Respect each
 task's declared `Dependencies:`. Stop and finalize state (kanban + handoff) when a
-task moves to Blocked. Re-run each task's validation block yourself — do not trust
-a coder's claim that it passed.
+task moves to Blocked. Verify task validation evidence against the tested revision,
+commands and results; a coder's bare PASS claim is insufficient. Reuse valid evidence
+and record the reason for any rerun. Task review checks ACs and defined tests. Phase
+review checks collective requirements and must return READY TO ADVANCE before the
+next phase starts. Final implementation review uses `impl-review`. Batch independent
+work and compatible fixes while preserving each task's verdict and resource isolation.
