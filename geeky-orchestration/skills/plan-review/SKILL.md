@@ -83,7 +83,7 @@ Deploy a **time-master planner** subagent (`geeky-orchestration:code-architect` 
 >
 > 1. **Dependency graph is acyclic** — no circular dependencies
 > 2. **Critical path** — derive the longest dependency chain; if the plan states one, verify it matches
-> 3. **Parallelization opportunities are maximized** — derive groups of mutually independent tasks suitable for parallel dispatch (up to 3 concurrent) and propose them as a recommendation if the plan doesn't already group them
+> 3. **Parallelization opportunities are maximized** — derive groups of mutually independent tasks suitable for parallel dispatch (up to 3 concurrent) and propose them as a recommendation if the plan doesn't already group them. Distinguish required behavior or contract dependencies from shared-file scheduling constraints. Shared files require coordinated ownership, not automatically a dependency edge. Allow safe, authorized preparation while acceptance prerequisites are pending, without bypassing dependencies. Resolve dependency changes during planning; frozen dependencies remain binding during execution.
 > 4. **Validation blocks are achievable** — each task's Tests/Validation commands can be run with the tools/access available
 > 5. **Ordering is safe** — no task is sequenced before its dependencies complete
 > 6. **Task estimates are realistic** — flag any task marked S that touches multiple files/modules, or any L task that could be split into independent S/M tasks
