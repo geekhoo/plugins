@@ -130,6 +130,8 @@ For each phase, in plan order:
 
 11. **Resolve findings:** batch compatible in-scope fixes from the completed review passes into one assignment per owner. Respect dependencies and shared files; do not dispatch one correction at a time when they can be fixed together. Rerun affected checks and review the changed scope plus the original findings. Preserve unaffected evidence. Blockers and majors within the review contract must be resolved before Done; record unrelated findings separately. Log deferred minors and nits in `handoff.md`.
 
+Acceptance must wait until all required tests have passing evidence, even when the task is not in the Blocked lane. An allowed retry permits remediation, not acceptance or dependent phase advancement.
+
 12. **Move to Done** in `kanban.md` only when validation is green AND no blocker/major findings remain. Before finalizing the move, run the **Definition-of-Done** gate for the task and the **kanban-integrity** gate, and fix until both exit 0:
 
     ```
