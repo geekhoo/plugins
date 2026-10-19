@@ -130,7 +130,7 @@ If approved, apply fixes directly and commit (same command on all platforms — 
 
 ```bash
 # Linux/macOS (bash) or Windows (pwsh) — identical command
-git commit -m "fix(spec): Address N critical review findings from impl-review" -m "[1-line summary per fix]" -m "Co-Authored-By: Claude <noreply@anthropic.com>"
+git commit -m "fix(spec): Address N critical review findings from impl-review" -m "[1-line summary per fix]"
 ```
 
 ## Dynamic Reviewer Examples

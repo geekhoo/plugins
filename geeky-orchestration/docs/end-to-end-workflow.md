@@ -78,8 +78,7 @@ Accept either:
 git add docs/<feature-folder>/
 git commit -m "docs: author feature specification in <feature-folder>" \
   -m "<1-line summary of the spec focus>" \
-  -m "Research conducted by: codebase analyst, researcher 2 domain, researcher 3 domain" \
-  -m "Co-Authored-By: Claude <noreply@anthropic.com>"
+  -m "Research conducted by: codebase analyst, researcher 2 domain, researcher 3 domain"
 ```
 
 ### Required output state
@@ -276,8 +275,7 @@ If files changed, commit:
 git add <modified-spec-files>
 git commit -m "chore(plan): Plan review — align documents, fix sequencing" \
   -m "<summary of Phase 1 fixes>" \
-  -m "<summary of Phase 3 adjustments>" \
-  -m "Co-Authored-By: Claude <noreply@anthropic.com>"
+  -m "<summary of Phase 3 adjustments>"
 ```
 
 ### Rules
@@ -492,8 +490,7 @@ If missing:
 
 ```bash
 git commit -m "fix(spec): Address N critical review findings from impl-review" \
-  -m "<1-line summary per fix>" \
-  -m "Co-Authored-By: Claude <noreply@anthropic.com>"
+  -m "<1-line summary per fix>"
 ```
 
 ### Rules
