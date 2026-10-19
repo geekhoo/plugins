@@ -12,7 +12,7 @@
 
 ## Contestant brief
 
-Build `minisql`, a query engine for a read-only SQL subset over a directory of CSV files, in Python 3.11+ using only the standard library. Each CSV file is a table; columns get an inferred type of INTEGER, REAL or TEXT, and empty fields are NULL. Support SELECT with expressions and aliases, WHERE with full NULL three-valued logic, LIKE and IN, INNER and LEFT JOIN, GROUP BY with HAVING and the five standard aggregates, DISTINCT, multi-key ORDER BY, and LIMIT/OFFSET. Structure it as a real engine: tokenizer, parser producing an AST, semantic analysis, and an executor. Expose a library API, a one-shot CLI that prints CSV or an aligned table, and an interactive REPL. Errors must be one line naming their kind and the exact query line and column, never a traceback. Do not use `sqlite3` or any existing SQL engine or parser. Output must be byte-for-byte deterministic on Windows, macOS and Linux. The full contract is in `spec.md`; include pytest tests for your implementation.
+Build `minisql`, a query engine for a read-only SQL subset over a directory of CSV files, in Python 3.11+ using only the standard library. Each CSV file is a table; columns get an inferred type of INTEGER, REAL or TEXT, and empty fields are NULL. Support SELECT with expressions and aliases, WHERE with full NULL three-valued logic, LIKE and IN, INNER and LEFT JOIN, GROUP BY with HAVING and the five standard aggregates, DISTINCT, multi-key ORDER BY, and LIMIT/OFFSET. Structure it as a real engine: tokenizer, parser producing an AST, semantic analysis, and an executor. Expose a library API, a one-shot CLI that prints CSV or an aligned table, and an interactive REPL. Errors must be one line naming their kind and the exact query line and column, never a traceback. Do not use `sqlite3` or any existing SQL engine or parser. Output must be byte-for-byte deterministic on Windows, macOS and Linux. The full contract is in `contract.md`; include pytest tests for your implementation.
 
 ## Scope
 
@@ -127,9 +127,9 @@ For each column, over its non-empty raw fields (no trimming): if every field ful
 
 ### Data directory
 
-- `--data DIR` (default `.`); library `connect(DIR)`. A missing or non-directory `DIR` is an IOError.
+- `--data DIR` (default `.`); library `connect(DIR)`. A missing or non-directory `DIR` is an IOError: `connect(DIR)` raises `DataIOError` immediately, and the one-shot CLI reports it and exits 3 before lexing the SQL.
 - A table is any regular file directly in `DIR` whose name ends in `.csv` (case-insensitive). Table name = file stem; lookup is case-insensitive. Two files whose stems are equal case-insensitively make every reference to that name an IOError `ambiguous table file '<name>'`.
-- Files are read on each `execute` with `encoding='utf-8-sig'`, `newline=''` and `csv.reader(f, strict=True)` (default dialect).
+- Files are read on each `execute` with `encoding='utf-8-sig'`, `newline=''` and `csv.reader(f, strict=True)` (default dialect). Only the tables referenced in `FROM`/`JOIN` are read; any other file in `DIR`, however malformed, never affects a query. `tables()` lists stems without reading file contents.
 - Row 1 is the header; names are used verbatim. Empty header name, or duplicate names (case-insensitive), is an IOError. Lines yielding zero fields are skipped. A record with a different field count than the header is IOError `<file>: line N: expected K fields, got M`, where N is the reader's `line_num` after that record.
 
 ### Name resolution and output names
@@ -142,12 +142,12 @@ For each column, over its non-empty raw fields (no trimming): if every field ful
 
 - A query is an aggregate query if it has `GROUP BY`, `HAVING`, or an aggregate call in the select list or `ORDER BY`.
 - `COUNT(*)` counts rows; `COUNT(e)` counts non-NULL values (INTEGER). `SUM` of INTEGER is INTEGER, of REAL is REAL. `AVG` is REAL. `MIN`/`MAX` keep the argument type. All ignore NULLs. Over zero non-NULL values `COUNT` is `0`, others NULL. `SUM`/`AVG` need numeric arguments; only `COUNT` accepts `*`.
-- Without `GROUP BY` an aggregate query yields exactly one row, even over empty input. With `GROUP BY`, empty input yields zero rows; groups appear in first-seen order unless ordered.
+- Without `GROUP BY` the whole filtered input (after `WHERE`) forms a single group, even when empty; without `HAVING` the query yields exactly one row, and `HAVING` filters that group, yielding 0 or 1 row (1 row over empty input when `HAVING` is true, e.g. `HAVING COUNT(*) = 0`). With `GROUP BY`, empty input yields zero rows; groups appear in first-seen order unless ordered.
 - In an aggregate query, every select, `HAVING` and `ORDER BY` expression must be built from aggregate calls, literals, and subexpressions structurally identical to a `GROUP BY` expression (same resolved columns, operators and literals). `*` is not allowed. Aggregates are not allowed in `WHERE`, `ON`, `GROUP BY`, or inside another aggregate.
 
 ### ORDER BY, DISTINCT, LIMIT
 
-- An `ORDER BY` item that is a bare INTEGER literal is a 1-based output ordinal, counted after `*` expansion. A bare identifier equal to exactly one explicit `AS` alias refers to that output column (two such aliases: ambiguous column). Otherwise it is an expression over input rows (or groups).
+- An `ORDER BY` item that is a bare INTEGER literal is a 1-based output ordinal, counted after `*` expansion. A bare identifier equal to exactly one select-item alias (written with or without `AS`) refers to that output column (two such aliases: ambiguous column). Otherwise it is an expression over input rows (or groups).
 - With `DISTINCT`, each `ORDER BY` item must be an ordinal, an alias, or structurally identical to a select expression.
 - Sorting is stable; ties keep pre-sort order for both `ASC` and `DESC`. NULL sorts before every value (first in `ASC`, last in `DESC`).
 - `LIMIT 0` yields no rows; `OFFSET` past the end yields no rows.
@@ -219,7 +219,7 @@ Format: `<Kind>Error at line L, column C: <message>`; IO errors: `IOError: <mess
 | Runtime | `division by zero`, `invalid LIKE pattern` | `/` or `%` token; `LIKE` token |
 | IO | `data directory not found: DIR` (DIR as given), `ambiguous table file 'N'`, `<file>: empty file`, `<file>: empty column name`, `<file>: duplicate column 'C'`, `<file>: line N: expected K fields, got M`, `<file>: line N: malformed CSV`, `<file>: invalid UTF-8` | none |
 
-`N`, `R`, `F` are names as written in the query without quotes (`R` qualified as `q.c`). `OP` is the operator as written for symbols, upper-case for keywords and aggregates (`LIKE`, `IN`, `AND`, `SUM`). `<file>` is the base file name. Phases run lex → parse → semantic (including IO for referenced tables, in `FROM` order) → execute. The oracle only uses queries containing a single error.
+`N`, `R`, `F` are names as written in the query without quotes (`R` qualified as `q.c`). `OP` is the operator as written for symbols, upper-case for keywords and aggregates (`LIKE`, `IN`, `AND`, `SUM`). `<file>` is the base file name. For `duplicate table name 'N'`, the position is the range-name token of the second `tableref` with that range name (its alias if present, else its table name) and `N` is that range name as written. For `'*' argument only allowed for COUNT`, the position is the `*` token inside the call. For `duplicate column 'C'`, `C` is the second occurrence's header name exactly as written in the CSV. For `malformed CSV`, `N` is the reader's `line_num` at the moment `csv.Error` is raised. Phases run lex → parse → semantic (including IO for referenced tables, in `FROM` order) → execute. The oracle only uses queries containing a single error.
 
 ## Acceptance criteria
 

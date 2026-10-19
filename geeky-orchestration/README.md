@@ -190,4 +190,8 @@ See `docs/cross-harness-agent-registration.md` for usage flags, compatibility no
 
 ## Planned: agent eval (`/geeky-eval`)
 
-Not yet implemented. Design decisions for evaluating, judging, and scoring coding agents/harnesses/models on quality, adherence, and consistency are recorded in [docs/agent-eval-decisions.md](docs/agent-eval-decisions.md). Reference specs for the three sample challenges are in `evals/cases/c1-csvledger/`, `c2-linkvault/` and `c3-minisql/` (`spec.md`).
+Not yet implemented. Design decisions for evaluating, judging, and scoring coding agents/harnesses/models on quality, adherence, and consistency are recorded in [docs/agent-eval-decisions.md](docs/agent-eval-decisions.md). The three sample challenges are in `evals/cases/c1-csvledger/`, `c2-linkvault/` and `c3-minisql/`. Each folder holds:
+
+- `spec.md`: the reference spec.
+- `brief.md` and `contract.md`: the only files contestants see.
+- `oracle/`: the hidden pytest suite. Run it from inside `oracle/` with `ORACLE_TARGET=<contestant repo root>`.
