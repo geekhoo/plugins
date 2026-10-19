@@ -12,7 +12,7 @@
 
 ## Contestant brief
 
-Build `linkvault`, a small URL-shortener HTTP JSON API with a command-line client, in the `linkvault/` package at the root of this workspace. Use only the Python 3.11+ standard library: `http.server` for the server and `sqlite3` for storage; pytest is allowed for your own tests. An admin key issues bearer tokens, and each token can create, list, inspect and delete only its own short links. Short links redirect with HTTP 302, can carry an optional custom slug and expiry, and count their clicks. Each token is rate-limited, and all data except rate-limit counters survives a server restart. The server binds 127.0.0.1 only, prints one ready line, supports a fake clock for testing, and shuts down cleanly on Ctrl+C on Windows, macOS and Linux. Follow the attached interface contract exactly, because an automated test suite checks status codes, JSON keys and key order, headers, output and exit codes. Keep the code minimal and readable, and include tests for the behaviour you build.
+Build `linkvault`, a small URL-shortener HTTP JSON API with a command-line client, in the `linkvault/` package at the root of this workspace. Use only the Python 3.11+ standard library: `http.server` for the server and `sqlite3` for storage; pytest is allowed for your own tests. An admin key issues bearer tokens, and each token can create, list, inspect and delete only its own short links. Short links redirect with HTTP 302, can carry an optional custom slug and expiry, and count their clicks. Each token is rate-limited, and all data except rate-limit counters survives a server restart. The server binds 127.0.0.1 only, prints one ready line, supports a fake clock for testing, and shuts down cleanly on Ctrl+C on Windows, macOS and Linux. Follow `contract.md` exactly, because an automated test suite checks status codes, JSON keys and key order, headers, output and exit codes. Keep the code minimal and readable, and include tests for the behaviour you build.
 
 ## Scope
 
@@ -34,7 +34,7 @@ HTTPS, non-loopback binding, token revocation, link editing, analytics beyond cl
 - **R8 Missing and expired links.** An unknown slug returns 404. A link with `now >= expires_at` returns 410 and its click count is unchanged. Comparisons use whole seconds.
 - **R9 List and inspect.** A token can list its own links (expired ones included) and fetch one link with its stats. Another token's link always returns 404, never 403.
 - **R10 Delete.** A token can delete its own link. Afterwards the slug resolves 404 and is free to reuse.
-- **R11 Rate limit.** Requests are counted per token in fixed 60-second windows aligned to the Unix epoch (`window_start = now - now % 60`). The limit is `--rate-limit` (default 60) counted requests per window. A request is counted when it reaches the rate-limit step (see precedence in Error handling), whatever its final status. Request number `limit + 1` and later in the same window return 429 with `Retry-After: <window_start + 60 - now>`, and 429s are not counted. Counters are in memory and reset on restart. Redirects, `/healthz` and admin routes are not rate-limited.
+- **R11 Rate limit.** Requests are counted per token in fixed 60-second windows aligned to the Unix epoch (`window_start = now - now % 60`). The limit is `--rate-limit` (default 60) counted requests per window. A request is counted when it reaches the rate-limit step (see precedence in Error handling), whatever its final status. Request number `limit + 1` and later in the same window return 429 with `Retry-After: <window_start + 60 - now>`. Counters are in memory and reset on restart. Redirects, `/healthz` and admin routes are not rate-limited.
 - **R12 Clock.** "Now" is integer Unix seconds (floor of real time). With `--fake-clock <ISO>`, now is frozen at that instant and changes only through `POST /v1/admin/clock`. The fake clock is not persisted.
 - **R13 Persistence.** Tokens, links, clicks and `last_clicked_at` survive a restart on the same `--db`.
 - **R14 Concurrency.** The server is a `ThreadingHTTPServer`. N concurrent redirects to one slug leave `clicks == N` exactly.
@@ -46,7 +46,7 @@ HTTPS, non-loopback binding, token revocation, link editing, analytics beyond cl
 ### Conventions
 
 - Timestamps are `YYYY-MM-DDTHH:MM:SSZ` in UTC with whole seconds. They are stored as INTEGER Unix seconds.
-- JSON responses are encoded with `json.dumps(obj, separators=(",", ":"), ensure_ascii=True)` in UTF-8, with `Content-Type: application/json`. Every response sets `Content-Length`. Keys appear in exactly the order listed below.
+- JSON responses are encoded with `json.dumps(obj, separators=(",", ":"), ensure_ascii=True)` in UTF-8, with `Content-Type: application/json`. Every response sets `Content-Length`; a 204 response has an empty body and MUST send `Content-Length: 0`. Keys appear in exactly the order listed below.
 - Request `Content-Type` is ignored. The body is read using `Content-Length` (absent means empty), and the maximum is 8192 bytes.
 - Query strings are ignored on every route. Paths are matched exactly, with no trailing-slash normalisation. Any (method, path) pair not listed below returns 404 `not_found`.
 - `short_url` is `http://127.0.0.1:<bound port>/<slug>`.
@@ -67,7 +67,7 @@ python -m linkvault serve --db PATH --admin-key KEY [--port N] [--rate-limit N] 
 | `--rate-limit` | Integer >= 1, default 60. |
 | `--fake-clock` | An ISO timestamp in the format above. It enables the admin clock route. |
 
-Ready line: `LISTENING http://127.0.0.1:<port>\n`, which uses the actual bound port and is flushed immediately.
+Ready line: `LISTENING http://127.0.0.1:<port>` followed by a line terminator, which may be `\n` or `\r\n`. It uses the actual bound port, is flushed immediately, and nothing else is written to stdout before it.
 
 Exit codes: 0 for a clean shutdown; 2 for a usage error (argparse); 3 if the port cannot be bound or the DB cannot be opened, with a message to stderr.
 
@@ -87,8 +87,12 @@ Exit codes: 0 for a clean shutdown; 2 for a usage error (argparse); 3 if the por
 E3 body rules:
 - The body is a JSON object with no extra keys.
 - `url` is required and must follow R6.
-- `slug` is optional and must follow R5.
-- `expires_in` is optional. It is an integer from 1 to 31536000, and `bool` values are rejected. It sets `expires_at = created_at + expires_in`.
+- `slug` is optional and must follow R5. An explicit `null` is `invalid_request` (400).
+- `expires_in` is optional. It is an integer from 1 to 31536000, and `bool` values are rejected. An explicit `null` is `invalid_request` (400). It sets `expires_at = created_at + expires_in`.
+
+E8 body rules:
+- The body must be exactly `{"now": ISO}`, where ISO is a string in the timestamp format above.
+- A missing `now` key, an extra key, a wrong type or an unparseable timestamp returns 400 `invalid_request`.
 
 A wrong or missing admin key on E2 or E8 returns 401. On E5, E6 and E7, a `<slug>` that fails `^[A-Za-z0-9_-]{3,32}$` is a route mismatch, so it returns 404 at the route step, before auth.
 
