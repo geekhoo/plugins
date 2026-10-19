@@ -12,7 +12,7 @@
 
 ## Contestant brief
 
-Build `csvledger`, a small Python command-line tool that reads one or more bank-export CSV files of transactions, assigns each transaction a category using a rules file, and prints a monthly report. It must run as `python -m csvledger` from the repository root using only the Python 3.11+ standard library. Provide two commands: `report` (per-month, per-category totals) and `categorize` (each transaction with its assigned category). Both commands print either an aligned text table or JSON. Money must be exact (no floating point) and output must be byte-for-byte deterministic on Windows, macOS and Linux. Bad input must fail cleanly with a clear message on stderr and a specific exit code, never a traceback. Identical transactions repeated across overlapping exports must be counted once. The full interface contract is in `spec.md`; include pytest tests for your implementation.
+Build `csvledger`, a small Python command-line tool that reads one or more bank-export CSV files of transactions, assigns each transaction a category using a rules file, and prints a monthly report. It must run as `python -m csvledger` from the repository root using only the Python 3.11+ standard library. Provide two commands: `report` (per-month, per-category totals) and `categorize` (each transaction with its assigned category). Both commands print either an aligned text table or JSON. Money must be exact (no floating point) and output must be byte-for-byte deterministic on Windows, macOS and Linux. Bad input must fail cleanly with a clear message on stderr and a specific exit code, never a traceback. Identical transactions repeated across overlapping exports must be counted once. The full interface contract is in `contract.md`; include pytest tests for your implementation.
 
 ## Scope
 
@@ -31,7 +31,7 @@ Build `csvledger`, a small Python command-line tool that reads one or more bank-
 - **R2** Transaction files are parsed per the CSV contract; any invalid file or row aborts the run with exit 3 and no stdout.
 - **R3** The rules file is parsed per the rules contract; any invalid rule aborts with exit 4 and no stdout.
 - **R4** Each transaction gets exactly one category: the highest-priority matching rule; ties go to the rule earliest in the file; no match gives `Uncategorized`.
-- **R5** Duplicate transactions (same date, stripped description, and numeric amount value) across all inputs are kept once (first occurrence) and a warning is written to stderr.
+- **R5** Duplicate transactions (same date, stripped description, and numeric amount value) across all inputs are kept once (first occurrence) and a warning is written to stderr. Deduplication runs over all rows of all input files before the `--month` filter; the warning count N covers duplicates across all inputs regardless of `--month`.
 - **R6** `report` aggregates by month and category: count, income, expenses, net.
 - **R7** `categorize` lists every transaction, sorted by date ascending, ties in input order.
 - **R8** `--month YYYY-MM` restricts both commands to transactions in that month.
@@ -104,15 +104,15 @@ Columns: `DATE` (left), `AMOUNT` (right, per-transaction amount formatted as mon
 
 ## Error handling
 
-Errors go to stderr as one line, prefix `csvledger: error: `, then exit with the code shown; stdout stays empty. `<path>` is as given on the command line; `<line>` is `csv.reader.line_num` after reading the record. Row checks run in this order: field count, date, amount (transactions) or field count, category, type, pattern, priority, regex (rules).
+Errors go to stderr as one line, prefix `csvledger: error: `, then exit with the code shown; stdout stays empty. `<path>` is exactly the argv string given on the command line (a relative path stays relative); `<line>` is `csv.reader.line_num` after reading the record. Row checks run in this order: field count, date, amount (transactions) or field count, category, type, pattern, priority, regex (rules). Header checks run in this order: (1) no header line, (2) duplicate column, (3) missing required column. For a duplicate column, `<name>` is the second occurrence after strip and lowercase, and the first duplicate in header order is reported. For a missing column, `<name>` is the first absent name in the listed order.
 
 | Condition | Exit | stderr (after prefix) |
 |---|---|---|
 | File missing/unreadable | 3 / 4 | `<path>: cannot read file` |
 | Not valid UTF-8 | 3 / 4 | `<path>: not valid UTF-8` |
 | No header line | 3 / 4 | `<path>: missing header` |
+| Duplicate header name (first duplicate in header order) | 3 / 4 | `<path>: duplicate column '<name>'` |
 | Required column absent (first in listed order) | 3 / 4 | `<path>: missing column '<name>'` |
-| Duplicate header name | 3 / 4 | `<path>: duplicate column '<name>'` |
 | Field count mismatch | 3 / 4 | `<path>:<line>: expected <N> fields, got <M>` |
 | Bad date | 3 | `<path>:<line>: invalid date '<value>'` |
 | Bad amount | 3 | `<path>:<line>: invalid amount '<value>'` |
@@ -120,7 +120,7 @@ Errors go to stderr as one line, prefix `csvledger: error: `, then exit with the
 | Bad type | 4 | `<path>:<line>: invalid type '<value>'` |
 | Bad priority | 4 | `<path>:<line>: invalid priority '<value>'` |
 | Regex fails to compile | 4 | `<path>:<line>: invalid regex '<pattern>'` |
-| argparse usage errors | 2 | argparse default; last stderr line starts `csvledger: error:` |
+| argparse usage errors | 2 | argparse default; the last stderr line must match the regex `^csvledger( report\| categorize)?: error: ` (argparse subparser prog form allowed) |
 
 Warning (exit unaffected): `csvledger: warning: skipped <N> duplicate row(s)` when N > 0, written after stdout output. `<value>` is the stripped field value.
 
@@ -179,9 +179,34 @@ MONTH  CATEGORY  COUNT  INCOME  EXPENSES  NET
 
 **O3 — bad date.** Line 3 is `2026-02-30,X,-1` → exit 3, stderr `csvledger: error: tx.csv:3: invalid date '2026-02-30'`. Same for `2026-2-01` and `20260201`.
 
-**O4 — duplicates.** `a.csv` and `b.csv` both contain `2026-01-05,STARBUCKS #12,-4.50`; `b.csv` has it as `-4.5` with surrounding spaces in the description → one Coffee row, count 1; stderr `csvledger: warning: skipped 1 duplicate row(s)`.
+**O4 — duplicates.** `rules.csv` as in O1. `a.csv`:
+```
+date,description,amount
+2026-01-05,STARBUCKS #12,-4.50
+```
+`b.csv` (the description has two spaces on each side):
+```
+date,description,amount
+2026-01-05,  STARBUCKS #12  ,-4.5
+```
+`report --rules rules.csv a.csv b.csv` → exit 0, one `2026-01  Coffee` row with count 1 and expenses `-4.50`; stderr `csvledger: warning: skipped 1 duplicate row(s)`.
 
-**O5 — rounding and sign.** Rules `Misc,contains,misc,0` and `Tiny,contains,tiny,0`; rows in 2026-03: `misc` `0.125`, `misc` `-0.125`, `tiny` `0.005`, `tiny` `0.005`, `tiny` `-0.004` →
+**O5 — rounding and sign.** `rules.csv`:
+```
+category,type,pattern,priority
+Misc,contains,misc,0
+Tiny,contains,tiny,0
+```
+`tx.csv`:
+```
+date,description,amount
+2026-03-01,misc,0.125
+2026-03-02,misc,-0.125
+2026-03-03,tiny,0.005
+2026-03-04,tiny,0.005
+2026-03-05,tiny,-0.004
+```
+`report --rules rules.csv tx.csv` → exit 0, stdout:
 ```
 MONTH    CATEGORY  COUNT  INCOME  EXPENSES   NET
 -------  --------  -----  ------  --------  ----
