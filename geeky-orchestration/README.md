@@ -187,3 +187,7 @@ node   scripts/sync-agents.js --agents geeky-orchestrator
 ```
 
 See `docs/cross-harness-agent-registration.md` for usage flags, compatibility notes, and verification steps.
+
+## Planned: agent eval (`/geeky-eval`)
+
+Not yet implemented. Design decisions for evaluating, judging, and scoring coding agents/harnesses/models on quality, adherence, and consistency are recorded in [docs/agent-eval-decisions.md](docs/agent-eval-decisions.md). Reference specs for the three sample challenges are in `evals/cases/c1-csvledger/`, `c2-linkvault/` and `c3-minisql/` (`spec.md`).
