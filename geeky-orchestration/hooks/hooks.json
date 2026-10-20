@@ -1,5 +1,5 @@
 {
-  "description": "Geeky Orchestration plugin hooks — guard edits to frozen planning artifacts. Default mode is warn (advisory, surfaced via portable stdout+stderr). For a hard block, change the command to append --mode block (emits Claude/Codex deny JSON). Runs the Python hook via hooks/py-run.sh, which probes python3 → python → py -3 so the same line works on Windows, macOS, and Linux without assuming a specific interpreter name. To prefer PowerShell on Windows: pwsh -NoProfile -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.ps1\" -Mode warn",
+  "description": "Geeky Orchestration plugin hooks: guard edits to frozen planning artifacts. Default mode is warn (advisory, surfaced through portable stdout+stderr). For a hard block, append -Mode block (emits Claude/Codex deny JSON). The hook runs the PowerShell guard with \"shell\": \"powershell\", so it needs PowerShell 7+ (pwsh) on PATH but not Git Bash. That lets it run where Git Bash cannot start, such as MXC sandboxes. The Python guard (hooks/guard-planning-contract.py) behaves identically; to use it, remove \"shell\" and set the command to: bash \"${CLAUDE_PLUGIN_ROOT}/hooks/py-run.sh\" \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.py\" --mode warn",
   "hooks": {
     "PreToolUse": [
       {
@@ -7,7 +7,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/py-run.sh\" \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.py\" --mode warn",
+            "shell": "powershell",
+            "command": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.ps1\" -Mode warn",
             "timeout": 5
           }
         ]

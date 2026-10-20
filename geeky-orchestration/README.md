@@ -150,15 +150,15 @@ Every gate and the PreToolUse hook ship as **paired Python + PowerShell** implem
 
 **Gates:** the skills show both invocations in their prompts; the model picks the right one based on the host OS. Each exits `0` on pass / `1` on fail and accepts `--json` (`.py`) / `-Json` (`.ps1`) for machine-readable output. The `geeky_mcp` server (Python) wraps these for tool-style invocation.
 
-**Hook (auto-run):** `hooks/hooks.json` calls the **Python** version by default — Python is the most universal runtime for hooks that must fire on every edit, and the Python hook handles edge cases (empty stdin, malformed JSON, backslash paths) cleanly. If you're on Windows and prefer the PowerShell hook, edit `hooks/hooks.json` and replace the command with:
+**Hook (auto-run):** `hooks/hooks.json` calls the **PowerShell** version with `"shell": "powershell"`. Claude Code then runs it without Git Bash, so it also works where Git Bash can't start, such as an MXC sandbox. The Python guard behaves identically. To use it instead (for example on macOS or Linux without `pwsh`), remove `"shell"` from `hooks/hooks.json` and set the command to:
 
 ```
-pwsh -NoProfile -ExecutionPolicy Bypass -File "${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.ps1"
+bash "${CLAUDE_PLUGIN_ROOT}/hooks/py-run.sh" "${CLAUDE_PLUGIN_ROOT}/hooks/guard-planning-contract.py" --mode warn
 ```
 
 Requirements:
 - The Python implementations need **Python 3.8+** on PATH as `python` (or `python3` — edit `hooks.json` if your environment uses the latter). No third-party packages required — stdlib only.
-- The PowerShell implementations need **PowerShell 7+ (`pwsh`)**. Works on Windows out of the box; install `pwsh` separately on macOS/Linux if you prefer them there.
+- The PowerShell implementations, including the default hook, need **PowerShell 7+ (`pwsh`)** on PATH. It's present on Windows; on macOS or Linux, install `pwsh` or switch the hook to the Python guard as above.
 - The `geeky_mcp` server is the exception: it needs `uv` and is pinned to **Python 3.14** by `mcp/.python-version` (`uv` downloads it on first launch if absent). The gates and hook above are unaffected. See [mcp/README.md](mcp/README.md) for why the interpreter is pinned, what the server costs at startup, and the stdio subprocess rule.
 
 ## Other notes
