@@ -41,6 +41,8 @@ $mxc = '<plugin-root>\scripts\mxc.ps1'      # builds on first use into %USERPROF
 | `--deny-net` | run, probe | Block all egress; claude retries the API until `--timeout`, so set a short one |
 | `--ro <dir>` / `--rw <dir>` | run, probe | Extra grants (repeatable) |
 | `--timeout <sec>` | run, tui | Kill after N seconds (exit 124) |
+| `--host-loopback` | run | Allow the workload to reach host `127.0.0.1`. Needed by Python asyncio, and therefore by `mcp`-library stdio MCP servers, on Windows builds affected by [microsoft/mxc#1505](https://github.com/microsoft/mxc/issues/1505) (for example 26300.9711 with KB5127648). Without it they never connect. It also exposes every host loopback port to the workload. |
+| `--env NAME=VALUE` / `--env NAME` | run, tui | Set a variable in the workload (repeatable). A bare `NAME` copies the host's value, and exits 2 if that is unset. Applied last, so it overrides pinned values. Only on the host's side is the value shown; `probe` lists the names only. |
 | `-Rebuild` | wrapper | Force a host rebuild; must be the first argument |
 
 `probe` reports the grants a `run` with the same options would apply. `tui` ignores the

@@ -1,7 +1,7 @@
 ---
 name: mxc-run
 description: This skill should be used when the user asks to "run claude in MXC", "run claude inside the MXC sandbox", "test this plugin in the MXC sandbox", "try this skill/prompt in an MXC-sandboxed claude", "run claude headless against an untrusted repo in MXC", or "claude mcp list inside MXC" on Windows, i.e. a non-interactive Claude Code CLI invocation inside a Microsoft MXC ProcessContainer with filesystem and network policy. Not for interactive sessions (mxc-interactive), diagnosing failures (mxc-troubleshooting), Docker/devcontainer sandboxes, or Claude Code's built-in /sandbox.
-argument-hint: "--workspace <dir> [--isolated] [--allow-win32k] [--deny-net] [--ro <dir>] [--rw <dir>] [--timeout <sec>] -- <claude args>"
+argument-hint: "--workspace <dir> [--isolated] [--allow-win32k] [--host-loopback] [--deny-net] [--ro <dir>] [--rw <dir>] [--env NAME[=VALUE]] [--timeout <sec>] -- <claude args>"
 allowed-tools: PowerShell, Read, Write
 ---
 
@@ -38,6 +38,8 @@ Exit codes: claude's own, `124` timeout, `2` bad host usage, `1` `MXC error` bef
 | Containment test without network | `--deny-net --timeout 60` | Blocks all egress. claude retries the API until the timeout (exit 124) rather than failing fast, so always pair it with a short `--timeout` |
 | Load a local plugin under test | `--ro <plugin dir>` and `--plugin-dir <plugin dir>` for claude | Extra read-only grant |
 | Extra writable folder | `--rw <dir>` | Extra read-write grant |
+| Python stdio MCP servers built on the `mcp` library | `--allow-win32k --host-loopback` | asyncio's loopback socketpair hangs under the default loopback deny ([microsoft/mxc#1505](https://github.com/microsoft/mxc/issues/1505)). This opens every host loopback port to the workload. Launch the server with a prebuilt interpreter, not `uv run`, which still fails. |
+| Set a variable for the workload | `--env NAME=VALUE` (or `--env NAME` to copy the host's value) | Repeatable, and applied last. Only the two auth variables are passed by default, so use this for anything else, e.g. `MCP_TIMEOUT` or, with `MXC_CLAUDE_EXE`, another CLI's `CODEX_HOME`. Pass secrets as a bare `NAME`, never as a literal value. |
 | Silence hooks (they cannot run, see below) | claude `--settings <file containing {"disableAllHooks": true}>` | No exit-66 hook noise |
 
 Keep the workspace shallow (`C:\repos\<name>`). A deep path such as a `%TEMP%` 8.3 path makes

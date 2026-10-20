@@ -13,6 +13,10 @@
 //   --ro <dir>          run: extra read-only grant (repeatable)
 //   --rw <dir>          run: extra read-write grant (repeatable)
 //   --timeout <sec>     kill the workload after this many seconds (default: none)
+//   --host-loopback     run: allow the workload to reach host 127.0.0.1 (needed by Python asyncio / mcp-library
+//                       stdio MCP servers on builds affected by microsoft/mxc#1505; opens every loopback port)
+//   --env NAME=VALUE    set an environment variable in the workload (repeatable); a bare NAME copies
+//                       the host's value. Applied last, so it overrides the host's pinned values.
 //
 // Environment overrides: MXC_CLAUDE_EXE (CLI path), MXC_SANDBOX_HOME (state root).
 
@@ -90,6 +94,7 @@ int Probe()
     foreach (var (name, value) in request.Environment!.Where(e => e.Key is "npm_config_cache" or "UV_CACHE_DIR" or "TEMP"))
         Console.WriteLine($"env pinned: {name}={value}");
     Console.WriteLine($"env token passthrough: {AuthSource() ?? "none"}");
+    foreach (var name in opt.Env.Keys) Console.WriteLine($"env set: {name}");
     return support.IsSupported && probe.Error is null ? 0 : 1;
 }
 
@@ -126,6 +131,8 @@ async Task<int> RunTuiAsync()
 
     // IsolationSession runs as a separate, ephemeral agent account that cannot read the host user's
     // profile, so the CLI is staged under %ProgramData%. The agent keeps its own profile and config.
+    var tuiEnvironment = BaseEnvironment();
+    ApplyUserEnvironment(tuiEnvironment);
     var request = new ContainerRequest(ClaudeCommand(StageForAgentUser(claudeExe)))
     {
         Containment = new Containment.IsolationSession(),
@@ -136,7 +143,7 @@ async Task<int> RunTuiAsync()
             Ingress = new NetworkIngressPolicy { Default = NetworkAction.Allow, HostLoopback = NetworkAction.Allow },
         },
         WorkingDirectory = opt.Workspace,
-        Environment = BaseEnvironment(),
+        Environment = tuiEnvironment,
         InheritDefaultEnvironment = true,
         TimeoutMs = TimeoutMs(),
     };
@@ -169,6 +176,7 @@ ContainerRequest BuildProcessContainerRequest(string command)
     // Inside the container %LOCALAPPDATA% is redirected to the AppContainer profile, so tools would
     // otherwise write their caches somewhere ungranted. Pin them to the granted folders.
     foreach (var (variable, dir) in caches) environment[variable] = dir;
+    ApplyUserEnvironment(environment);
 
     // node's realpath lstat()s the drive root and fails with EPERM without it. Enumerate-only access lets
     // it read the root's attributes and child names without granting file contents.
@@ -187,7 +195,14 @@ ContainerRequest BuildProcessContainerRequest(string command)
         {
             // MXC has no hostname allow-lists; egress is all-or-CIDR. Inbound is always closed.
             Egress = new NetworkEgressPolicy { Default = opt.DenyNet ? NetworkAction.Deny : NetworkAction.Allow },
-            Ingress = new NetworkIngressPolicy { Default = NetworkAction.Deny, HostLoopback = NetworkAction.Deny },
+            // --host-loopback: Python asyncio on Windows builds its self-pipe from a 127.0.0.1 socketpair,
+            // which hangs under HostLoopback=Deny (microsoft/mxc#1261, #1505), so mcp-library stdio servers
+            // never connect. Allowing it also lets the workload reach every host loopback port.
+            Ingress = new NetworkIngressPolicy
+            {
+                Default = NetworkAction.Deny,
+                HostLoopback = opt.HostLoopback ? NetworkAction.Allow : NetworkAction.Deny,
+            },
         },
         // Default UiPolicy blocks Win32k syscalls, which makes user32.dll fail to initialise
         // (0xC0000142) in node, npx, uv and pwsh. Opt-in only; clipboard and input injection stay blocked.
@@ -260,6 +275,11 @@ Dictionary<string, string> BaseEnvironment()
     return env;
 }
 
+void ApplyUserEnvironment(Dictionary<string, string> env)
+{
+    foreach (var (name, value) in opt.Env) env[name] = value;
+}
+
 static string? AuthSource() =>
     new[] { "CLAUDE_CODE_OAUTH_TOKEN", "ANTHROPIC_API_KEY" }
         .FirstOrDefault(n => !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(n)));
@@ -328,11 +348,12 @@ static string QuoteArg(string arg)
 
 sealed record Options(
     string Workspace, bool Isolated, bool DenyNet, bool AllowWin32k,
-    List<string> ReadOnly, List<string> ReadWrite, int? TimeoutSec, string[] ClaudeArgs)
+    List<string> ReadOnly, List<string> ReadWrite, int? TimeoutSec, string[] ClaudeArgs,
+    Dictionary<string, string> Env, bool HostLoopback = false)
 {
     public static Options Parse(string[] rest)
     {
-        var o = new Options(Environment.CurrentDirectory, false, false, false, [], [], null, []);
+        var o = new Options(Environment.CurrentDirectory, false, false, false, [], [], null, [], []);
         for (var i = 0; i < rest.Length; i++)
         {
             switch (rest[i])
@@ -344,10 +365,22 @@ sealed record Options(
                 case "--ro": o.ReadOnly.Add(Path.GetFullPath(rest[++i])); break;
                 case "--rw": o.ReadWrite.Add(Path.GetFullPath(rest[++i])); break;
                 case "--timeout": o = o with { TimeoutSec = int.Parse(rest[++i]) }; break;
+                case "--env": AddEnv(o.Env, rest[++i]); break;
+                case "--host-loopback": o = o with { HostLoopback = true }; break;
                 case "--": return o with { ClaudeArgs = rest[(i + 1)..] };
                 default: return o with { ClaudeArgs = rest[i..] };
             }
         }
         return o;
+    }
+
+    static void AddEnv(Dictionary<string, string> env, string spec)
+    {
+        var eq = spec.IndexOf('=');
+        var name = eq < 0 ? spec : spec[..eq];
+        if (name.Length == 0) throw new ArgumentException($"--env needs NAME or NAME=VALUE, got '{spec}'");
+        var value = eq < 0 ? Environment.GetEnvironmentVariable(name) : spec[(eq + 1)..];
+        if (value is null) throw new ArgumentException($"--env {name}: not set on the host");
+        env[name] = value;
     }
 }
