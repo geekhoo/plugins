@@ -1,0 +1,47 @@
+{
+  "skill_name": "mxc-troubleshooting",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "node exits with -1073741502 when I run it inside the MXC ProcessContainer, python works fine. why?",
+      "expected_output": "Identifies 0xC0000142 STATUS_DLL_INIT_FAILED from the default Win32k block (UiPolicy.Disable=true) preventing user32.dll init, recommends --allow-win32k with its isolation trade-off, and mentions the EPERM lstat C:\\ follow-on handled via enumeratePaths",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "all my hooks fail with exit 66 when claude runs in MXC",
+      "expected_output": "Explains Claude Code runs hooks via Git Bash and msys fails NtCreateDirectoryObject 0xC0000022 in BaseContainer, states it is a hard limit, recommends disableAllHooks via a --settings file and testing hook scripts directly",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "write me a C# MXC request that runs a tool with only api.anthropic.com reachable and read-only access to C:\\tools",
+      "expected_output": "Uses ContainerRequest with ReadonlyPaths C:\\tools, explains there are no hostname allow-lists, uses CIDR egress rules (assigning new lists, not collection initializers) plus DNS or a NetworkProxy, sets ingress deny, and does not grant a drive root",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "claude in MXC says Settings file could not be read: Refusing to read a file whose path could not be vetted",
+      "expected_output": "Attributes it to a deep workspace path with blocked upward traversal and recommends a shallow workspace such as C:\\repos\\<name>",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "mxc run --isolated says Not logged in",
+      "expected_output": "Explains --isolated has no access to ~/.claude, so auth comes only from a host CLAUDE_CODE_OAUTH_TOKEN (claude setup-token, set by the user) or ANTHROPIC_API_KEY, or drop --isolated",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "my uv cache writes fail in the MXC sandbox even though I granted a folder under AppData\\Local read-write",
+      "expected_output": "Explains %LOCALAPPDATA% is redirected inside the container so read-write grants there are unwritable, and points to %USERPROFILE%\\.mxc-sandbox (MXC_SANDBOX_HOME not under LOCALAPPDATA)",
+      "files": []
+    },
+    {
+      "id": 7,
+      "prompt": "podman machine start fails with connection refused",
+      "expected_output": "Should NOT trigger mxc-troubleshooting: Podman/container engine issue, not Microsoft MXC",
+      "files": []
+    }
+  ]
+}

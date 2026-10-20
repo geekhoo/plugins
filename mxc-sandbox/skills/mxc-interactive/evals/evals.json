@@ -1,0 +1,29 @@
+{
+  "skill_name": "mxc-interactive",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "open an interactive claude TUI inside MXC on C:\\repos\\scratch",
+      "expected_output": "Does not run tui through a captured shell tool; opens a terminal tab if such a tool exists, otherwise prints the exact `pwsh -NoProfile -File <resolved mxc.ps1> tui --workspace C:\\repos\\scratch` command; states the session runs as a separate agent account with no fs/net policy and no host ~/.claude, and that /login is needed unless a token env var is set",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "the sandboxed claude TUI in MXC just prints Access is denied and exits",
+      "expected_output": "Explains the IsolationSession agent account cannot read the host user's profile, checks the workspace is outside C:\\Users\\<user> (e.g. under C:\\repos), and confirms the CLI was staged to %ProgramData%\\mxc-sandbox\\bin",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I want an interactive MXC claude session but with network blocked",
+      "expected_output": "States IsolationSession cannot restrict networking and Windows MXC offers a PTY only via IsolationSession, so interactive plus network policy is not possible; offers mxc-run with --deny-net for headless instead",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "run claude -p 'hello' in the MXC sandbox",
+      "expected_output": "Should NOT trigger mxc-interactive: a headless -p prompt belongs to mxc-run",
+      "files": []
+    }
+  ]
+}
