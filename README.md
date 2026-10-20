@@ -1,8 +1,8 @@
 # geekhoo plugins
 
-This repository publishes four local plugins. They cover DevExtreme page work,
-design tokens, feature delivery, and day-to-day engineering tasks. Pick the
-plugin that matches the job.
+This repository publishes five local plugins. They cover DevExtreme page work,
+design tokens, feature delivery, day-to-day engineering tasks, and sandboxed
+Claude Code runs. Pick the plugin that matches the job.
 
 The root includes a Claude Code marketplace plus Codex plugin manifests. Each
 plugin has its own docs and checks.
@@ -15,10 +15,11 @@ plugin has its own docs and checks.
 | `semantic-design-system` | Build, validate, and apply DTCG design tokens, including CSS output and optional MCP tools. | 0.2.7 | [README](semantic-design-system/README.md) |
 | `geeky-orchestration` | Plan, review, implement, track, and archive feature work. | 0.2.16 | [README](geeky-orchestration/README.md) |
 | `dev-workflows` | Reusable skills for planning, review, testing, browser and Figma work, environment setup, Git, docs, and session analysis. | 0.2.12 | [Packaging notes](dev-workflows/PACKAGING.md) |
+| `mxc-sandbox` | Run the Claude Code CLI inside a Microsoft MXC sandbox on Windows for isolated testing. | 0.1.0 | [README](mxc-sandbox/README.md) |
 
 The versions in this table come from
 `.claude-plugin/marketplace.json`. The Claude and Codex manifests inside each
-plugin should stay aligned with that entry.
+plugin (Claude only for `mxc-sandbox`) should stay aligned with that entry.
 
 ## Install in Claude Code
 
@@ -30,6 +31,7 @@ Add the repository as a marketplace, then install one or more plugins:
 /plugin install semantic-design-system@geekhoo-plugins
 /plugin install geeky-orchestration@geekhoo-plugins
 /plugin install dev-workflows@geekhoo-plugins
+/plugin install mxc-sandbox@geekhoo-plugins
 ```
 
 You only need to install the plugins you plan to use. The marketplace name is
@@ -44,7 +46,8 @@ Claude Code installs `dev-workflows` on its own, so install
 marketplace allowlist in `.claude-plugin/marketplace.json` permits the
 cross-marketplace `figma` dependency.
 
-Each plugin folder also has a `.codex-plugin` manifest. Load the plugin from
+Each plugin folder except `mxc-sandbox` (which drives the Claude Code CLI
+specifically) also has a `.codex-plugin` manifest. Load the plugin from
 its directory with the Codex plugin workflow for your setup.
 `geeky-orchestration` includes a projection script for Claude, Codex, Copilot,
 Cursor, and generic Markdown agent files. See its
@@ -73,6 +76,11 @@ library includes small tools such as environment checks, scope guards, browser
 probes, repository validation, document checks, and Git hygiene. It also
 includes larger workflows built from those tools.
 
+Use `mxc-sandbox` when a Claude Code run should not see the whole machine: testing
+a plugin or skill, trying prompts against an untrusted repo, or checking what a
+hook or MCP server needs. It is Windows-only and builds a small .NET host on first
+use.
+
 ## Repository layout
 
 ```text
@@ -81,6 +89,7 @@ dev-workflows/                      Composable workflow skills
 dx-webdev/                          DevExtreme jQuery page workflows
 geeky-orchestration/                Feature lifecycle and quality gates
 semantic-design-system/             Design-token workflows and utilities
+mxc-sandbox/                        Claude Code CLI inside Microsoft MXC (Windows)
 docs/superpowers/                   Dated design notes and implementation plans
 ```
 
@@ -168,9 +177,21 @@ python -m pytest -q
 Some skills call tools supplied by other plugins. The dependency details and
 the Figma setup are in [`dev-workflows/PACKAGING.md`](dev-workflows/PACKAGING.md).
 
+### `mxc-sandbox`
+
+Windows only. The wrapper builds the host into `%USERPROFILE%\.mxc-sandbox\bin`
+(needs the .NET 10 SDK, or edit the host `.csproj` for 8/9) and probes the machine:
+
+```powershell
+cd mxc-sandbox
+pwsh -NoProfile -File scripts/mxc.ps1 -Rebuild probe --workspace C:\repos\scratch
+pwsh -NoProfile -File scripts/mxc.ps1 run --workspace C:\repos\scratch -- -p "Reply with exactly: PONG"
+```
+
 ## License notes
 
-License metadata belongs to each plugin. `semantic-design-system` is MIT.
+License metadata belongs to each plugin. `semantic-design-system` and
+`mxc-sandbox` are MIT.
 `dx-webdev`, `geeky-orchestration`, and `dev-workflows` are marked `UNLICENSED`
 in their manifests. DevExtreme assets and libraries remain subject to
 DevExpress licensing terms in projects that use them.
