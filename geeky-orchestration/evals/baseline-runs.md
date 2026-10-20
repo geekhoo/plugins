@@ -20,6 +20,22 @@ Decisions referenced: D41 (reference solutions), D53 (tokens as cost), D57 (judg
 - **Runs:** at least one per case. If you can, run three per case on the same harness. Repeat runs give the variance; the best one becomes the reference solution.
 - **Harness and model:** your choice, recorded in `run.json`. Use the same harness for all three cases so the ceilings are comparable.
 
+## Runner
+
+`evals/scripts/run-baseline.ps1 -Case <case> [-Model <id>] [-DryRun]` performs steps 1–4 below for one run.
+
+Before starting, it needs:
+- `CLAUDE_CODE_OAUTH_TOKEN` set in the environment;
+- a Python with pytest;
+- the `geeky-mcp` venv in `C:\repos\.eval-tools`.
+
+What it does:
+- Exports the plugin at the committed `HEAD`, without `evals/`, into a read-write folder for that run only, and records whether the run modified it. Under a read-only grant, Claude can't list the plugin's folders and loads none of its skills.
+- Sets git's `safe.directory` through environment variables, because inside the container git reports the workspace as having "dubious ownership".
+- Records `geeky_skills_loaded`. A run in which no geeky skill loaded is never reference-eligible.
+
+Run it once per repeat, from a fresh shell.
+
 ## Procedure, per run
 
 ### 1. Prepare the workspace
