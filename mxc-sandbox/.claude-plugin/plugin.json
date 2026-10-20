@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "mxc-sandbox",
+  "displayName": "MXC Sandbox",
+  "version": "0.1.0",
+  "description": "Run the Claude Code CLI inside a Microsoft MXC sandbox on Windows for isolated testing of prompts, plugins, skills, hooks, and untrusted repos. Bundles a .NET host (Microsoft.Mxc.Sdk) with three modes: probe the host, run headless claude in a filesystem- and network-scoped ProcessContainer, or run interactive claude in an IsolationSession. Includes setup, run, interactive, and troubleshooting skills built from verified host behaviour. Windows 11 only.",
+  "author": {
+    "name": "geekhoo"
+  },
+  "homepage": "https://github.com/geekhoo/plugins/tree/main/mxc-sandbox",
+  "repository": "https://github.com/geekhoo/plugins",
+  "license": "MIT",
+  "keywords": [
+    "sandbox",
+    "mxc",
+    "isolation",
+    "testing",
+    "windows",
+    "dotnet",
+    "claude-cli"
+  ],
+  "skills": "./skills/"
+}

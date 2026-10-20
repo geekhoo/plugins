@@ -1,0 +1,41 @@
+{
+  "skill_name": "mxc-run",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "run claude in MXC against C:\\repos\\scratch and ask it to summarise the readme",
+      "expected_output": "Resolves scripts/mxc.ps1, runs `mxc.ps1 run --workspace C:\\repos\\scratch --timeout ... -- -p \"...\"` in default shared mode, returns claude's output and exit code, and filters SEP-2352 warning noise",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "test my plugin at C:\\repos\\geekhoo-plugins\\dx-webdev in the MXC sandbox, does its skill trigger?",
+      "expected_output": "Adds --ro for the plugin dir, passes --plugin-dir and a disableAllHooks settings file, uses a trigger-phrase prompt with stream-json to inspect skill/tool use, and notes hooks cannot run in BaseContainer",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "I want to point claude at a repo I downloaded and don't trust. run it in MXC so it can't touch my claude config or credentials",
+      "expected_output": "Uses --isolated (not shared mode), explains auth needs a host CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY set by the user, suggests --allowedTools limits, and does not grant drive roots or ~/.claude",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "run claude mcp list inside MXC with node-based MCP servers working",
+      "expected_output": "Runs `mxc.ps1 run --allow-win32k ... -- mcp list`, explains --allow-win32k makes all folder names listable while contents stay denied, and warns uv-run servers still cannot start",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "prove that claude inside MXC can't reach the network",
+      "expected_output": "Runs with --deny-net plus a short --timeout (claude retries the API until timeout, exit 124), optionally a cmd.exe/curl workload via MXC_CLAUDE_EXE, and reports that egress is blocked",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "run my test suite inside a docker container",
+      "expected_output": "Should NOT trigger mxc-run: Docker/Podman container work, not Microsoft MXC",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "skill_name": "mxc-setup",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "can this machine run claude inside the MXC sandbox? check it for me",
+      "expected_output": "Resolves scripts/mxc.ps1 from the skill base dir, checks the dotnet SDK and claude.exe, runs `mxc.ps1 probe --workspace <dir>`, reports tier (BaseContainer), isolationSession availability, and the exact grant lines, then runs a PONG smoke test",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "set up mxc so I can test plugins in it, and show me what the sandbox will be able to see",
+      "expected_output": "Probes with and without --allow-win32k against an explicit workspace, lists read-only and read-write grants, and notes that --allow-win32k makes all folder names listable while contents stay denied",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "the mxc probe says AppContainer tier instead of BaseContainer, what now?",
+      "expected_output": "Explains that this tier needs wxc-host-prep prepare-system-drive once and prepare-null-device after every boot, elevated; states the user must run them and does not attempt elevation",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "I updated the mxc-sandbox plugin, rebuild the MXC host",
+      "expected_output": "Runs `& $mxc -Rebuild probe` with -Rebuild as the first argument and confirms the 'building host' line and tier",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "turn on Claude Code's built-in sandbox mode for bash commands",
+      "expected_output": "Should NOT trigger mxc-setup: this is Claude Code's own /sandbox setting, not Microsoft MXC",
+      "files": []
+    }
+  ]
+}

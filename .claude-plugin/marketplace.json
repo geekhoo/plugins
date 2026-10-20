@@ -31,6 +31,12 @@
       "source": "./dev-workflows",
       "description": "Composable workflow skills distilled from cross-project sessions: planning/spec, workflow routing, review/audit, testing/QA, browser/Figma, env/setup/deploy, git, corpus and document pipelines, capability inventory, operational stabilization, session/friction analysis, an env-doctor toolchain check, and memory/status utilities. Ships a portable SessionStart env-canary hook. Windows-aware.",
       "version": "0.2.12"
+    },
+    {
+      "name": "mxc-sandbox",
+      "source": "./mxc-sandbox",
+      "description": "Run the Claude Code CLI inside a Microsoft MXC sandbox on Windows (bundled .NET host): headless ProcessContainer runs with filesystem/network policy, interactive IsolationSession runs, setup probe, and verified troubleshooting.",
+      "version": "0.1.0"
     }
   ]
 }
