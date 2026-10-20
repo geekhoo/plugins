@@ -56,7 +56,8 @@ It reports scores and their breakdown. It does not rank contestants as winners o
 | D39 | Reference specs | `evals/cases/<id>/spec.md` holds, for each challenge: contestant brief, scope, requirements, exact interface contract, error handling, acceptance criteria, hidden-oracle outline, suggested decomposition, quality signals. |
 | D40 | Canonical prompt | One prompt, `evals/prompts/end-to-end.md`, identical for every case and harness. Its only placeholder is `{{PLANNING_FOLDER}}`. A case supplies only `brief.md`, `contract.md`, the hidden oracle, and its `case.json` (D66). The prompt rules are D65. |
 | D45 | What contestants see | Only `brief.md` and `contract.md`. `contract.md` holds the requirements, the language reference (C3 only), the interface contract, error handling and the acceptance criteria. The hidden-oracle outline, suggested decomposition and quality signals are never shown. |
-| D67 | Tasks: implementation scored, creation not | The agent creates its tasks in `geeky-plan` however it judges best. How it decomposes the work is not scored. Task creation counts only toward the `geeky-plan` stage: whether the planning produced the artifacts that workflow requires. **Task tier:** each task the agent created gets a 0–100 implementation score from three checks: its re-run validation block (D27), its DoD gate, and its task-review verdict. The **task-tier score** is the mean of the per-task scores, normalized across tasks so the number of tasks has no effect on scale. Per-task scores are kept in the breakdown. Component weights and where this score sits in the composite: O16. |
+| D67 | Tasks: implementation scored, creation not | The agent creates its tasks in `geeky-plan` however it judges best. How it decomposes the work is not scored. Task creation counts only toward the `geeky-plan` stage: whether the planning produced the artifacts that workflow requires. **Task tier:** each task the agent created gets a 0–100 implementation score that emphasizes attempts. The task-tier score combines those per-task scores so that the number of tasks has no effect. Formulas: [Task-tier formula](#task-tier-formula) (D68). Per-task scores are kept in the breakdown. |
+| D68 | Task-tier weighting | Attempts count most: validation attempts and passing review on the first try outweigh duration and DoD. Duration is normalized for model latency. Tasks are combined using weights from LOC changed and validation attempts. The composite is **Q/A/C/T = 35/35/20/10**. |
 | D65 | Prompt rules | Every canonical prompt follows four rules. **Case-agnostic:** it names no case, stack, file or solution. **Workflow as-is:** it only grants authorization and answers the skills' stop-and-ask points (the table in `evals/prompts/README.md`). **No coaching:** it never restates workflow rules, because adherence is being measured. **Harness-neutral:** it refers to workflows by skill name. Each run records the content hash of every prompt it used. "Green" means the overall verdict from `impl-review` is PASS. |
 | D66 | Case manifest | Each case has an `evals/cases/<id>/case.json` holding its case-specific numbers: token ceilings, task-timeout overrides, and the oracle command. The harness, prompts and scorer contain no per-case logic. |
 | D61 | geeky-coder is optional | The `geeky-coder` agent definition is available to every contestant, but its use is not required. The harness/model decides. Each run records whether `geeky-coder` was used. That choice falls in an allowed set and is not scored. |
@@ -118,6 +119,8 @@ It reports scores and their breakdown. It does not rank contestants as winners o
 - **Commit rules:** commits follow the stage protocol (D17). Never push, amend, force or use `--no-verify`.
 - **Honesty (D8):** report claims match the evidence.
 
+**Task tier**: how efficiently and cleanly each task the agent created was implemented, measured by validation attempts, review rounds, latency-normalized duration and DoD, and normalized across tasks (D67, D68).
+
 **Consistency**: whether the agent makes the choices the baseline workflow expects at each decision point (D22, D34). It is measured on actions taken, not on output. Decision points include:
 - skill and step invocation, and their order;
 - stage chaining by `geeky-orchestrator`;
@@ -138,7 +141,8 @@ All values are normalized to 0–100.
   - **D** is defect-free: max(0, 1 − defects ÷ 5). Defects are compile and import errors, failures of the re-run validation blocks (D27), and judge-confirmed defects with cited evidence.
 - **Adherence** = 100 × (passed adherence checks ÷ applicable adherence checks), then capped by the [hard gates](#hard-gates).
 - **Consistency**: see [Consistency formula](#consistency-formula).
-- **Composite** = 0.45 × Quality + 0.35 × Adherence + 0.20 × Consistency.
+- **Task tier**: see [Task-tier formula](#task-tier-formula).
+- **Composite** = 0.35 × Quality + 0.35 × Adherence + 0.20 × Consistency + 0.10 × Task tier (QACT, D68).
 - **Breakdown** (not in the composite): every metric above, per-task implementation results (D67), token efficiency (D53), total tokens, wall time, `geeky-coder` used (yes/no), capability notes, and `failed_at` if any.
 - **Output:** each run writes to `evals/results/<YYYYMMDDTHHMMSSZ>-<case>-<contestant>/`. The folder holds `results.json`, `scorecard.md`, the normalized action trace, oracle and validation output, and the redacted transcript.
 
@@ -174,6 +178,28 @@ A conditional decision point whose trigger never occurred is excluded.
 **Consistency** = 100 × (0.8 × DPC + 0.2 × OC).
 
 **Stability** is the share of decision points where all N runs of a contestant took the same action. It is reported for diagnosis and is not part of the score.
+
+## Task-tier formula
+
+All inputs come from the normalized trace (D19) and the task's artifacts.
+
+**Per task `i`** (each part is 0–1):
+
+| Part | Weight | Definition |
+|---|---|---|
+| **V** — validation attempts | 0.40 | `a` = the number of times the agent ran the task's validation block (or any of its commands), counted from the task's first code edit up to the first fully passing run. V = max(0, 1 − 0.25 × (a − 1)), so 1 attempt scores 1.0, 2 score 0.75, 3 score 0.5 and 4 score 0.25. V = 0 if the block never passes, including when the scorer's re-run fails (D27). |
+| **R** — review rounds | 0.30 | `r` = the number of task-review rounds until PASS. R = 1 for `r` = 1 (first try), 0.5 for `r` = 2, and 0 for `r` ≥ 3 or if the task never passes review. |
+| **T** — latency-normalized duration | 0.20 | `d` = wall time from the task's dispatch (In Progress) to Done. The adjusted time is `d_adj` = d × (L_ref ÷ L_run), where `L_run` is the run's median model-response latency per turn and `L_ref` is a fixed reference latency per harness, stored in its adapter. This removes slow-API effects. T = max(0, 1 − d_adj ÷ task timeout) (D37, 20 min by default). |
+| **D** — DoD gate | 0.10 | 1 if `check-dod` passes for the task, else 0. |
+
+Per-task score: s_i = 100 × (0.40 V + 0.30 R + 0.20 T + 0.10 D).
+
+**Combining tasks:** the task-tier score is Σ w_i × s_i, with w_i = 0.5 × (LOC_i ÷ Σ LOC) + 0.5 × (a_i ÷ Σ a), where:
+
+- `LOC_i` is the task's non-test lines changed;
+- `a_i` is the task's validation attempts.
+
+The weights sum to 1, so the score stays 0–100 however many tasks there are. Larger tasks, and tasks that took more attempts, count for more, so padding the plan with trivial tasks cannot raise the score.
 
 ## Placement
 
@@ -218,5 +244,4 @@ A conditional decision point whose trigger never occurred is excluded.
 | O2 | Normalized action-event schema across Claude Code and Codex transcripts. Goes to `/spec-research`. |
 | O7 | How the ingest-only path supplies a transcript the tracer can read. Goes to `/spec-research`. |
 | O13 | Pipeline wall-time ceilings per challenge. Deferred. |
-| O16 | Task-tier scoring details (D67): per-task component weights, mean weighting, and placement in the composite. |
 | O14 | The owner runs the external baseline implementations and records each run's transcript and total tokens. They are then compared and folded in as baseline solutions, and the token ceilings (D53) are adjusted from them. |
