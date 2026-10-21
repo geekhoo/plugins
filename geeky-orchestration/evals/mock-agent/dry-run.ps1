@@ -106,12 +106,16 @@ $envPairs = [ordered]@{
     GIT_AUTHOR_NAME = 'geeky-eval-agent'; GIT_AUTHOR_EMAIL = 'agent@geeky-eval.local'
     GIT_COMMITTER_NAME = 'geeky-eval-agent'; GIT_COMMITTER_EMAIL = 'agent@geeky-eval.local'
 }
+# Per-run writable temp: MXC forces TEMP/TMP to the AppContainer AC\Temp; TMPDIR wins for Python/pytest/git.
+$runTmp = Join-Path $cfg 'tmp'
+New-Item -ItemType Directory -Force $runTmp | Out-Null
+if ($InMxc) { $envPairs['TMPDIR'] = $runTmp }
 $stream = Join-Path $OutDir 'stream.jsonl'
 $stderr = Join-Path $OutDir 'stderr.txt'
 if ($InMxc) {
     $grantArgs = if ($PluginDir) { @("--$PluginGrant", $pluginRun) } else { @("--$PluginGrant", (Split-Path $pluginRun)) }
     $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host-loopback') + $grantArgs +
-        @('--ro', $cfg, '--ro', $ToolsDir, '--timeout', $TimeoutSec)
+        @('--ro', $cfg, '--rw', $runTmp, '--ro', $ToolsDir, '--timeout', $TimeoutSec)
     foreach ($k in $envPairs.Keys) { $hostArgs += @('--env', "$k=$($envPairs[$k])") }
     $sessionRoot = Join-Path $env:USERPROFILE '.mxc-sandbox\home\projects'
     $saved = $env:MXC_CLAUDE_EXE

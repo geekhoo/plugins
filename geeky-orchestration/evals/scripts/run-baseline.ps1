@@ -118,8 +118,14 @@ if ($MockAgent) {
 }
 # Git sees the workspace as owned by another identity inside the container ("dubious ownership").
 # Trust only this workspace via env-scoped config; the global git config is untouched.
+# MXC forces TEMP/TMP to the AppContainer's AC\Temp, where mkdtemp()-style folders (pytest tmp_path,
+# git temp repos) are not writable. TMPDIR takes precedence for Python, pytest and git and MXC leaves
+# it alone, so point it at a per-run writable folder.
+$runTmp = Join-Path $cfg 'tmp'
+New-Item -ItemType Directory -Force $runTmp | Out-Null
 $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host-loopback',
-    '--rw', $export, '--ro', $cfg, '--ro', $ToolsDir, '--timeout', $TimeoutSec,
+    '--rw', $export, '--ro', $cfg, '--rw', $runTmp, '--ro', $ToolsDir, '--timeout', $TimeoutSec,
+    '--env', "TMPDIR=$runTmp",
     '--env', 'GIT_CONFIG_COUNT=1', '--env', 'GIT_CONFIG_KEY_0=safe.directory', '--env', "GIT_CONFIG_VALUE_0=$($ws -replace '\\','/')",
     '--env', "XDG_CONFIG_HOME=$cfg",   # host ~/.config/git is unreadable in the container; avoid per-command warnings
     # Claude's Windows shell launcher makes every PowerShell tool call report "Exit code 5" inside MXC
