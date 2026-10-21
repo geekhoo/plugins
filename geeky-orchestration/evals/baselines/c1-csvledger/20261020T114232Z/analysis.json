@@ -1,0 +1,105 @@
+{
+  "tokens": {
+    "input": 9872039,
+    "cached_input": 9034240,
+    "cache_creation": 499415,
+    "output": 192634,
+    "total": 10064673,
+    "by_model": {
+      "claude-sonnet-5-5": {
+        "inputTokens": 334,
+        "cacheReadInputTokens": 9034240,
+        "cacheCreationInputTokens": 499415,
+        "outputTokens": 167668
+      },
+      "claude-haiku-5-5": {
+        "inputTokens": 338050,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "outputTokens": 24966
+      }
+    },
+    "cost_usd_estimate": 4.0834
+  },
+  "model_calls": 67,
+  "latency_median_ms": 2714,
+  "latency_samples": 94,
+  "max_idle_gap_s": 251,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-20T11:42:46.405000+00:00",
+      "ended_utc": "2026-10-20T11:46:15.732000+00:00",
+      "minutes": 3.5
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-20T11:46:15.732000+00:00",
+      "ended_utc": "2026-10-20T11:51:13.106000+00:00",
+      "minutes": 5.0
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-20T11:51:13.106000+00:00",
+      "ended_utc": "2026-10-20T11:54:20.647000+00:00",
+      "minutes": 3.1
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-20T11:54:20.647000+00:00",
+      "ended_utc": "2026-10-20T12:17:06.064000+00:00",
+      "minutes": 22.8
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-20T12:17:06.064000+00:00",
+      "ended_utc": "2026-10-20T12:19:17.644000+00:00",
+      "minutes": 2.2
+    }
+  ],
+  "impl_review_rounds": 1,
+  "skill_invocations": {
+    "spec-research": 1,
+    "geeky-plan": 1,
+    "plan-review": 1,
+    "geeky-implement": 1,
+    "impl-review": 1
+  },
+  "tool_calls_main": {
+    "Edit": 31,
+    "PowerShell": 26,
+    "Write": 17,
+    "Agent": 16,
+    "Read": 8,
+    "Skill": 5,
+    "Bash": 3
+  },
+  "tool_calls_subagents": {
+    "Read": 81,
+    "PowerShell": 27,
+    "Write": 13,
+    "WebFetch": 12,
+    "Bash": 11,
+    "Grep": 9,
+    "Glob": 6,
+    "Edit": 3,
+    "ToolSearch": 2
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 3,
+    "geeky-orchestration:code-reviewer": 4,
+    "geeky-orchestration:code-architect": 1,
+    "geeky-orchestration:geeky-coder": 7
+  },
+  "validation_runs": {
+    "sub": 21,
+    "main": 12
+  },
+  "gate_invocations": {
+    "validate-task-schema": 2,
+    "validate-kanban": 6,
+    "check-dod": 2
+  },
+  "duration_api_ms": 1510987
+}
