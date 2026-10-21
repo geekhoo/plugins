@@ -33,8 +33,24 @@ What it does:
 - Exports the plugin at the committed `HEAD`, without `evals/`, into a read-write folder for that run only, and records whether the run modified it. Under a read-only grant, Claude can't list the plugin's folders and loads none of its skills.
 - Sets git's `safe.directory` through environment variables, because inside the container git reports the workspace as having "dubious ownership".
 - Records `geeky_skills_loaded`. A run in which no geeky skill loaded is never reference-eligible.
+- Sets `CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1`. Without it, every PowerShell tool call in MXC reports `Exit code 5` even when it succeeds.
+- Puts `C:\repos\.eval-tools\agent-py`, a venv with pytest built offline, first on the sandbox `PATH`. The sandbox Python has no pytest, and `pip` can't install inside MXC.
+- Sets a neutral commit identity, `geeky-eval-agent <agent@geeky-eval.local>`, through the `GIT_AUTHOR_*` and `GIT_COMMITTER_*` environment variables.
+- Reads its limits from `evals/cases/<case>/case.json`. After each run it calls `evals/scripts/analyze-run.py`, which writes `analysis.json` and fills the derived `run.json` fields.
 
 Run it once per repeat, from a fresh shell.
+
+Before any paid run, check the toolchain with the mock agent (D83). It costs no tokens:
+
+```powershell
+pwsh -File evals\mock-agent\dry-run.ps1 -InMxc -Checks all
+```
+
+To run the whole pipeline with the mock agent instead of Claude:
+
+```powershell
+pwsh -File evals\scripts\run-baseline.ps1 -Case <case> -MockAgent -MockScenario happy
+```
 
 ## Procedure, per run
 

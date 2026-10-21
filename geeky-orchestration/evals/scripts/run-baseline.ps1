@@ -27,7 +27,11 @@ param(
     [int]$TimeoutSec,
     [string]$ToolsDir = 'C:\repos\.eval-tools',
     [string]$WorkRoot = 'C:\repos',
-    [switch]$DryRun
+    [switch]$DryRun,
+    # Run evals/mock-agent/mock_claude.py as the MXC workload instead of claude: no model calls,
+    # no token needed. Scenarios are comma-separated (see mock_claude.py); default happy.
+    [switch]$MockAgent,
+    [string]$MockScenario = 'happy'
 )
 $ErrorActionPreference = 'Stop'
 
@@ -41,13 +45,17 @@ $python = @((Get-Command python -All -ErrorAction SilentlyContinue).Source; 'C:\
 if (-not $python) { throw 'no Python with pytest found' }
 $venvHome = ((Get-Content (Join-Path $ToolsDir 'geeky-mcp\pyvenv.cfg')) -match '^home\s*=' -replace '^home\s*=\s*', '').Trim()
 $mcpPython = Join-Path $venvHome 'python.exe'
-$provisionalTimeout = @{ 'c1-csvledger' = 5400; 'c2-linkvault' = 10800; 'c3-minisql' = 21600 }  # O13
-if (-not $TimeoutSec) { $TimeoutSec = $provisionalTimeout[$Case] }
+$agentPy = Join-Path $ToolsDir 'agent-py'   # venv with pytest, first on the sandbox PATH
+if (-not (Test-Path (Join-Path $agentPy 'Scripts\python.exe'))) { throw "missing $agentPy (uv venv + uv pip install --offline pytest)" }
+$caseCfg = Get-Content (Join-Path $caseDir 'case.json') -Raw | ConvertFrom-Json   # D66 limits
+if (-not $TimeoutSec) { $TimeoutSec = [int]$caseCfg.wall_time_ceiling_s }
+# The slow scenario exists to hit the timeout; keep it short unless one was given.
+if ($MockAgent -and $MockScenario -match '\bslow\b' -and -not $PSBoundParameters.ContainsKey('TimeoutSec')) { $TimeoutSec = 30 }
 
 if (-not $env:CLAUDE_CODE_OAUTH_TOKEN) {
     $env:CLAUDE_CODE_OAUTH_TOKEN = [Environment]::GetEnvironmentVariable('CLAUDE_CODE_OAUTH_TOKEN', 'User')
 }
-if (-not $env:CLAUDE_CODE_OAUTH_TOKEN) { throw 'CLAUDE_CODE_OAUTH_TOKEN is not set (run claude setup-token).' }
+if (-not $MockAgent -and -not $env:CLAUDE_CODE_OAUTH_TOKEN) { throw 'CLAUDE_CODE_OAUTH_TOKEN is not set (run claude setup-token).' }
 
 function Invoke-Oracle([string]$target, [string]$outFile) {
     $env:ORACLE_TARGET = $target
@@ -100,12 +108,28 @@ $claudeArgs = @('-p', $prompt, '--session-id', $sid, '--plugin-dir', $pluginRun,
     '--settings', (Join-Path $cfg 'settings.json'), '--strict-mcp-config', '--mcp-config', (Join-Path $cfg 'mcp.json'),
     '--permission-mode', 'bypassPermissions', '--output-format', 'stream-json', '--verbose')
 if ($Model) { $claudeArgs += @('--model', $Model) }
+if ($MockAgent) {
+    # MXC_CLAUDE_EXE must be an .exe: the agent-py python runs the mock, copied under the read-only
+    # config grant so the sandbox can read it (the repo itself is not granted).
+    $mockDir = Join-Path $cfg 'mock-agent'
+    New-Item -ItemType Directory -Force $mockDir | Out-Null
+    Copy-Item (Join-Path $plugin 'evals\mock-agent\mock_claude.py') $mockDir
+    $claudeArgs = @((Join-Path $mockDir 'mock_claude.py')) + $claudeArgs + @('--mock-scenario', $MockScenario, '--mock-case', $Case)
+}
 # Git sees the workspace as owned by another identity inside the container ("dubious ownership").
 # Trust only this workspace via env-scoped config; the global git config is untouched.
 $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host-loopback',
     '--rw', $export, '--ro', $cfg, '--ro', $ToolsDir, '--timeout', $TimeoutSec,
     '--env', 'GIT_CONFIG_COUNT=1', '--env', 'GIT_CONFIG_KEY_0=safe.directory', '--env', "GIT_CONFIG_VALUE_0=$($ws -replace '\\','/')",
-    '--env', "XDG_CONFIG_HOME=$cfg")   # host ~/.config/git is unreadable in the container; avoid per-command warnings
+    '--env', "XDG_CONFIG_HOME=$cfg",   # host ~/.config/git is unreadable in the container; avoid per-command warnings
+    # Claude's Windows shell launcher makes every PowerShell tool call report "Exit code 5" inside MXC
+    # even on success; without it the tool returns the command's real exit code.
+    '--env', 'CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1',
+    # pytest for the agents' own tests: the sandbox Python has none and pip cannot install inside MXC.
+    '--env', "PATH=$agentPy\Scripts;$env:PATH", '--env', "VIRTUAL_ENV=$agentPy",
+    # Neutral commit identity (the seed repo has none); set via env so no repo or global config changes.
+    '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
+    '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
 
 if ($DryRun) {
     Write-Host "DRY RUN. Would launch (timeout ${TimeoutSec}s):`n  $mxc $($hostArgs -join ' ') -- <claude args: session $sid, plugin $pluginRun>"
@@ -117,9 +141,16 @@ if ($DryRun) {
 $out = Join-Path $plugin "evals\baselines\$Case\$stamp"
 New-Item -ItemType Directory -Force $out | Out-Null
 $started = (Get-Date).ToUniversalTime()
-& $mxc @hostArgs -- @claudeArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
-$exitCode = $LASTEXITCODE
+if ($MockAgent) { $savedExe = $env:MXC_CLAUDE_EXE; $env:MXC_CLAUDE_EXE = Join-Path $agentPy 'Scripts\python.exe' }
+try {
+    & $mxc @hostArgs -- @claudeArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
+    $exitCode = $LASTEXITCODE
+} finally { if ($MockAgent) { $env:MXC_CLAUDE_EXE = $savedExe } }
 $ended = (Get-Date).ToUniversalTime()
+if ($MockAgent) {
+    $mockSummary = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '"subtype":"mock_summary"' } | Select-Object -Last 1
+    if ($mockSummary) { $mockSummary | ConvertFrom-Json | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $out 'mock-summary.json') }
+}
 
 $pluginTampered = (& $hashTree $pluginRun) -ne $exportHash
 $session = Get-ChildItem (Join-Path $env:USERPROFILE '.mxc-sandbox\home\projects') -Recurse -Filter "$sid.jsonl" -ErrorAction SilentlyContinue | Select-Object -First 1
@@ -150,7 +181,7 @@ $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.
 [ordered]@{
     schema = 'geeky-eval.baseline/1'; case = $Case
     harness = 'claude-code'; harness_version = $init.claude_code_version; model = $init.model; reasoning = 'default'
-    approach = 'canonical-prompt'; plugin_sha = $pluginSha; plugin_modified_during_run = $pluginTampered; prompt_sha256 = $promptSha
+    approach = $(if ($MockAgent) { "mock-agent:$MockScenario" } else { 'canonical-prompt' }); plugin_sha = $pluginSha; plugin_modified_during_run = $pluginTampered; prompt_sha256 = $promptSha
     geeky_skills_loaded = @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count
     workspace = $ws; seed_sha = $baseSha; session_id = $sid
     started_utc = $started.ToString('o'); ended_utc = $ended.ToString('o'); wall_time_s = [int]($ended - $started).TotalSeconds
@@ -166,9 +197,10 @@ $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.
     exit_code = $exitCode; exit_reason = $exitReason; is_error = $result.is_error
     raw_sha256 = [ordered]@{ stream = & $sha (Join-Path $out 'stream.jsonl'); session = & $sha (Join-Path $out 'session.jsonl') }
     interventions = 0
-    reference_eligible = ($clean -and $exitReason -eq 'completed' -and -not $pluginTampered -and @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count -gt 0)
+    reference_eligible = (-not $MockAgent -and $clean -and $exitReason -eq 'completed' -and -not $pluginTampered -and @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count -gt 0)
 } | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $out 'run.json')
 
 Set-Content (Join-Path $out 'notes.md') "# Baseline $Case $stamp`n`nApproach: canonical prompt, Claude Code isolated in MXC.`nInterventions: none.`nOracle verdicts: (fill in for any failure)`n"
+# Derived measures (tokens summed over all models, stages, latency, idle gap) -> run.json + analysis.json
+& $python (Join-Path $PSScriptRoot 'analyze-run.py') $out --token-ceiling $caseCfg.token_ceiling
 Write-Host "stored: $out"
-Get-Content (Join-Path $out 'run.json')

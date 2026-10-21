@@ -1,0 +1,14 @@
+{
+  "schema": "geeky-eval.case/1",
+  "id": "c3-minisql",
+  "token_ceiling": 50000000,
+  "wall_time_ceiling_s": 21600,
+  "task_timeout_s": 1200,
+  "idle_watchdog_s": 600,
+  "oracle": {
+    "dir": "oracle",
+    "command": "python -m pytest -q -rA -p no:cacheprovider",
+    "target_env": "ORACLE_TARGET"
+  },
+  "limits_status": "provisional"
+}
