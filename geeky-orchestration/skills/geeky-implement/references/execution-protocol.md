@@ -115,6 +115,7 @@ For each phase, in plan order:
    - Explicit instruction: *do not modify files outside the declared In Scope surface; if you discover the scope is wrong, stop and report — do not silently expand.*
    - Give the worker authority to finish the bounded assignment, including compatible fixes and required checks. Ask for a consolidated return; interrupt only for blockers, scope decisions or ownership conflicts, not each small edit. Contact the worker only for new information, a blocker, a decision or a completed result; use completion waits instead of repeated status requests. User progress updates do not require another worker round trip.
    - Use the harness's actual dispatch schema and callable role name. Apply the canonical-instructions fallback above only when needed; record the substitution once.
+   - The absolute path of `tasks/T<n>.events.jsonl`, created now if absent (see Task events).
 
 8. **Verify the task's validation evidence** after each coder returns. Require the tested revision or file hashes, exact commands, exit status and results. Inspect the saved output; a bare claim of PASS is insufficient. Reuse passing evidence for unchanged code, dependencies and relevant environment. Execute missing checks or rerun only when evidence is invalidated, unreliable, or independent execution is explicitly required. Before repeating a test or review, record what changed or remains unproved, which evidence is invalidated, and the smallest check that resolves it. Reuse valid evidence unless a required check is missing or independent execution is explicitly mandated. If a required command fails:
    - Capture the failure output.
@@ -161,16 +162,18 @@ Acceptance must wait until all required tests have passing evidence, even when t
     Review the complete phase requirements, combined behavior, cross-task interactions, shared contracts and phase-level validation. Use accepted task verdicts as inputs; do not repeat task reviews without changed dependencies, contradictory evidence or a concrete defect affecting the phase.
     Answer explicitly: **Can we move to the next phase?** Return **READY TO ADVANCE** or **BLOCKED**, with evidence for requirement coverage and any unmet requirement or dependency. All phase tasks must be accounted for; an unfinished required task cannot pass this gate.
 
-15. **Integrate phase findings** in compatible batches using step 11. Resolve failures within the approved scope, then obtain an updated phase verdict. Do not start the next phase until **READY TO ADVANCE** is recorded. If a blocker cannot be resolved under the existing task contracts, mark Blocked and return with the exact unmet requirement. Minors that do not prevent advancement remain deferred.
+15. **Integrate phase findings** in compatible batches using step 11. Resolve failures within the approved scope, then obtain an updated phase verdict. Do not start the next phase until **READY TO ADVANCE** is recorded in the step-17 `handoff.md` phase block. If a blocker cannot be resolved under the existing task contracts, mark Blocked and return with the exact unmet requirement. Minors that do not prevent advancement remain deferred.
 
 16. **Commit the phase diff, split into multiple small logically-grouped commits.** Decide grouping by reading the diff yourself (one commit per concern: e.g. schemas, service, endpoints, tests, docs). Each commit message format:
 
     ```
     feat(<phase-short-name>): <what this commit changes>
 
-    Tasks: T<x>, T<y>
+    Tasks: T<x>
     Refs: docs/<planning-folder>/tasks/Tx-*.md
     ```
+
+    Name several tasks on the `Tasks:` line only when their changes form one concern.
 
     Use HEREDOC to pass multiline messages. Do NOT push. Do NOT amend. If a pre-commit hook fails, fix the underlying issue and create a NEW commit — do not skip hooks.
 

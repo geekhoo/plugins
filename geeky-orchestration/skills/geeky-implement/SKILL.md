@@ -49,7 +49,7 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 - Do not modify planning contract files (`implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`, `tasks/Tx-*.md`).
 - Use `geeky-coder` for implementation work and avoid pausing between tasks unless blocked.
 - Do not push and do not use `--amend`.
-- Update `kanban.md` and `handoff.md` on every task state change.
+- On every lane move, update `kanban.md` and run `validate-kanban`. Before a Done move, write the task's notes file and run `check-dod`. On every Done or Blocked move, add a `handoff.md` line naming each task ID.
 - **Re-invocation is a resume, never a restart.** Read kanban/handoff first; skip Done tasks; reconcile orphaned In Progress tasks against git/file ground truth (protocol step 2b).
 - Prefer the bundled validator **scripts** over the `geeky_*` MCP tools (no permission prompts, immune to the plugin-root interpolation bug).
 - Maintain the **heartbeat**: write `<folder>/.heartbeat` (JSON: `{"ts":"<ISO>","task":"T<x>","status":"running"}`) at run start, refresh `ts`+`task` at every task transition, set `status` to `"paused"` (deliberate stop) or `"done"` (run complete) before ending. External watchdogs key on this file.
@@ -57,7 +57,7 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 ## Review and batching rules
 
 - Task review checks the task template's ACs and defined tests. Supporting reads do not expand the review into the full implementation chain.
-- Phase review checks the phase requirements collectively and must answer **Can we move to the next phase?** Record **READY TO ADVANCE** or **BLOCKED** before advancing.
+- Phase review checks the phase requirements collectively and must answer **Can we move to the next phase?** Record **READY TO ADVANCE** or **BLOCKED** in the step-17 `handoff.md` phase block before advancing.
 - Final implementation review uses `impl-review`. Do not create a second final-review process.
 - Batch compatible reviews and fixes by owner. Keep separate task verdicts and evidence. A shared review batch holds every included task until the whole batch clears; isolate shared test resources.
 - Use one `tasks/T<n>.events.jsonl` per task for consequential collaboration updates, following the execution protocol. Leave task-note behavior unchanged.

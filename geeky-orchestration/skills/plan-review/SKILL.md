@@ -138,8 +138,10 @@ After all phases complete, if any files were modified (same command on all platf
 
 ```
 git add <modified-spec-files>
-git commit -m "chore(plan): Plan review — align documents, fix sequencing" -m "[summary of Phase 1 fixes]" -m "[summary of Phase 3 adjustments]"
+git commit -m "chore(plan): Plan review — align documents, fix sequencing" -m "[summary of Phase 1 fixes]" -m "[summary of Phase 3 adjustments]" -m "Tasks: <IDs touched>"
 ```
+
+Use the subject verbatim, em dash included.
 
 ## Rules
 

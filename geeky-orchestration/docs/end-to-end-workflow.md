@@ -275,7 +275,8 @@ If files changed, commit:
 git add <modified-spec-files>
 git commit -m "chore(plan): Plan review — align documents, fix sequencing" \
   -m "<summary of Phase 1 fixes>" \
-  -m "<summary of Phase 3 adjustments>"
+  -m "<summary of Phase 3 adjustments>" \
+  -m "Tasks: <IDs touched>"
 ```
 
 ### Rules
@@ -490,7 +491,8 @@ If missing:
 
 ```bash
 git commit -m "fix(spec): Address N critical review findings from impl-review" \
-  -m "<1-line summary per fix>"
+  -m "<1-line summary per fix>" \
+  -m "Tasks: <IDs touched>"
 ```
 
 ### Rules
