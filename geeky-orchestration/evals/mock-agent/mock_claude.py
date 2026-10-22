@@ -28,6 +28,8 @@ Scenarios (composable, comma-separated; run in the order given):
   gate-fail  plans with a kanban error that it does not fix, then stops
   crash      exits 3 mid-run with no result event
   slow       sleeps MOCK_SLOW_SECONDS (default 600) without output
+  bg-wait    ends its turn with a background subagent running; like claude -p, waits for it when
+             CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0, otherwise prints the stop message on stderr
   all        env-probe,grants,pwsh,python,git,gates,mcp
 Env knobs: MOCK_LATENCY_MS (simulated model latency per call, default 40).
 """
@@ -55,7 +57,7 @@ VERSION = "0.0.0-mock"
 DEFAULT_MODEL = "claude-mock-5-5"
 SUB_MODEL = "claude-mock-haiku"
 ALL = ["env-probe", "grants", "pwsh", "python", "git", "gates", "mcp"]
-KNOWN = set(ALL) | {"network", "happy", "gate-fail", "crash", "slow"}
+KNOWN = set(ALL) | {"network", "happy", "gate-fail", "crash", "slow", "bg-wait"}
 STAGES = ["spec-research", "geeky-plan", "plan-review", "geeky-implement", "impl-review"]
 GATES = ["validate-planning-folder", "validate-task-schema", "validate-kanban", "check-dod", "check-commit"]
 BUILTIN_SKILLS = ["debug", "simplify", "code-review", "verify"]
@@ -557,6 +559,10 @@ def sc_env_probe(a: Agent) -> None:
             t.check(f"env.writable.{label}", "pass", str(d))
         except OSError as e:
             t.check(f"env.writable.{label}", "fail", f"{d}: {e}")
+    ceiling = os.environ.get("CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS")
+    t.check("env.bg_wait_ceiling", "pass" if ceiling == "0" else "fail",
+            f"CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS={ceiling}" + ("" if ceiling == "0" else
+            " (claude -p stops background subagents 10 min after the main turn ends)"))
     keys = ["CLAUDE_CONFIG_DIR", "TEMP", "VIRTUAL_ENV", "XDG_CONFIG_HOME", "CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER",
             "GIT_CONFIG_COUNT", "GIT_CONFIG_VALUE_0", "GIT_AUTHOR_NAME", "LOCALAPPDATA", "USERPROFILE"]
     t.check("env.vars", "info", "; ".join(f"{k}={os.environ.get(k, '')}" for k in keys))
@@ -891,6 +897,21 @@ def sc_slow(a: Agent) -> None:
     a.t.check("slow.completed", "info", f"slept {secs:g}s without being stopped")
 
 
+def sc_bg_wait(a: Agent) -> None:
+    # claude -p stops background tasks still running CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS (default 10 min)
+    # after the main agent's last turn; 0 waits indefinitely and resumes the main agent when they finish.
+    a.say("The implementation run is in the background. Waiting for its completion report.")
+    if os.environ.get("CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS") == "0":
+        a.subagent("general-purpose", "Run geeky-implement full", lambda parent, meta: "Background run done.")
+        a.say("Background run finished; continuing.")
+        a.t.check("bg-wait.resumed", "pass", "waited for the background subagent")
+    else:
+        print('Background tasks still running 10m after the last turn (subagent "Run geeky-implement full"); '
+              "stopping them. Set CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0 to wait indefinitely.",
+              file=sys.stderr, flush=True)
+        a.t.check("bg-wait.stopped", "info", "ceiling not 0: background subagent stopped")
+
+
 def plan_stage(a: Agent, folder: str, pkg: str, lanes: dict) -> Path:
     for rel, body in package_files(a.plugin, pkg, lanes).items():
         a.write(os.path.join(folder, rel), body)
@@ -1012,7 +1033,7 @@ def sc_happy(a: Agent, broken_kanban: bool = False) -> None:
 
 SCENARIOS = {"env-probe": sc_env_probe, "grants": sc_grants, "pwsh": sc_pwsh, "python": sc_python,
              "git": sc_git, "gates": sc_gates, "mcp": sc_mcp, "network": sc_network, "crash": sc_crash,
-             "slow": sc_slow, "happy": sc_happy, "gate-fail": lambda a: sc_happy(a, broken_kanban=True)}
+             "slow": sc_slow, "bg-wait": sc_bg_wait, "happy": sc_happy, "gate-fail": lambda a: sc_happy(a, broken_kanban=True)}
 
 
 # ----------------------------------------------------------------------------- init / result

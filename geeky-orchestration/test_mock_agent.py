@@ -57,7 +57,7 @@ class MockRun:
         (self.ws / ".gitignore").write_text("__pycache__/\n", encoding="utf-8")
         self.env = dict(os.environ)
         self.env.update({
-            "CLAUDE_CONFIG_DIR": str(self.cfg), "MOCK_LATENCY_MS": "2",
+            "CLAUDE_CONFIG_DIR": str(self.cfg), "MOCK_LATENCY_MS": "2", "CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS": "0",
             "GIT_AUTHOR_NAME": "mock-test", "GIT_AUTHOR_EMAIL": "mock@test.local",
             "GIT_COMMITTER_NAME": "mock-test", "GIT_COMMITTER_EMAIL": "mock@test.local",
             # the mock runs python/pytest from PATH: make it this interpreter (it has pytest)
@@ -224,10 +224,23 @@ class ScenarioTests(unittest.TestCase):
         self.assertEqual(r.rc, 0)
         self.assertIsNotNone(r.result)
 
+    def test_bg_wait_resumes_when_ceiling_is_zero(self) -> None:
+        r = self.run_mock("bg-wait")
+        self.assertEqual(r.rc, 0)
+        self.assertEqual(r.checks["bg-wait.resumed"]["status"], "pass")
+        self.assertNotIn("stopping them", r.stderr)
+
+    def test_bg_wait_stops_background_without_ceiling(self) -> None:
+        r = self.run_mock("bg-wait", extra_env={"CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS": ""})
+        self.assertIsNotNone(r.result)
+        # the runner's bg_killed pattern
+        self.assertRegex(r.stderr, r"Background tasks still running .* stopping them")
+        self.assertIn("bg-wait.stopped", r.checks)
+
     def test_composable_checks_report_lines_and_summary(self) -> None:
         r = self.run_mock("env-probe,grants,python,git,gates")
         self.assertIsNotNone(r.result)
-        for name in ("env.python", "env.pytest", "env.git_identity", "grants.workspace_rw",
+        for name in ("env.python", "env.pytest", "env.git_identity", "env.bg_wait_ceiling", "grants.workspace_rw",
                      "grants.plugin_scandir.skills", "python.pytest_run", "git.commit_workspace",
                      "gate.validate-kanban.py", "gate.validate-kanban.py.rejects_bad", "gate.check-commit.py"):
             self.assertEqual(r.checks[name]["status"], "pass", r.checks.get(name))
@@ -283,6 +296,21 @@ class ScenarioTests(unittest.TestCase):
 @unittest.skipUnless(os.environ.get("GEEKY_EVAL_MXC") == "1", "set GEEKY_EVAL_MXC=1 to run the MXC integration test")
 class MxcIntegrationTests(unittest.TestCase):
     def test_run_baseline_mock_agent_happy(self) -> None:
+        run, out = self._run_baseline("happy")
+        self.assertTrue((out / "analysis.json").is_file())
+        self.assertEqual(run["exit_reason"], "completed", run)
+        self.assertEqual(run["geeky_skills_loaded"], 8)
+        self.assertEqual([s["name"] for s in run["stages"]], STAGES)
+        summary = json.loads((out / "mock-summary.json").read_text(encoding="utf-8-sig"))
+        self.assertTrue(summary["ok"], summary["failed"])
+
+    def test_run_baseline_waits_for_background_subagent(self) -> None:
+        run, out = self._run_baseline("bg-wait")
+        self.assertEqual(run["exit_reason"], "completed", run)
+        summary = json.loads((out / "mock-summary.json").read_text(encoding="utf-8-sig"))
+        self.assertIn("bg-wait.resumed", [c["name"] for c in summary["checks"] if c["status"] == "pass"])
+
+    def _run_baseline(self, scenario: str) -> tuple[dict, Path]:
         pwsh = find_pwsh()
         self.assertIsNotNone(pwsh)
         script = PLUGIN / "evals" / "scripts" / "run-baseline.ps1"
@@ -292,7 +320,7 @@ class MxcIntegrationTests(unittest.TestCase):
         system32 = str(Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32")
         env["PATH"] = system32 + os.pathsep + env.get("PATH", "")
         p = subprocess.run([pwsh, "-NoProfile", "-File", str(script), "-Case", "c1-csvledger", "-MockAgent",
-                            "-MockScenario", "happy"], capture_output=True, text=True, timeout=1800, env=env)
+                            "-MockScenario", scenario], capture_output=True, text=True, timeout=1800, env=env)
         m = re.search(r"stored: (.+)", p.stdout)
         self.assertIsNotNone(m, p.stdout + p.stderr)
         out = Path(m.group(1).strip())
@@ -300,13 +328,7 @@ class MxcIntegrationTests(unittest.TestCase):
         stamp = out.name
         self.addCleanup(self._cleanup, out, ws, Path(r"C:\repos") / f".eval-cfg-{stamp}")
         self.assertEqual(p.returncode, 0, p.stderr)
-        run = json.loads((out / "run.json").read_text(encoding="utf-8-sig"))
-        self.assertTrue((out / "analysis.json").is_file())
-        self.assertEqual(run["exit_reason"], "completed", run)
-        self.assertEqual(run["geeky_skills_loaded"], 8)
-        self.assertEqual([s["name"] for s in run["stages"]], STAGES)
-        summary = json.loads((out / "mock-summary.json").read_text(encoding="utf-8-sig"))
-        self.assertTrue(summary["ok"], summary["failed"])
+        return json.loads((out / "run.json").read_text(encoding="utf-8-sig")), out
 
     @staticmethod
     def _cleanup(out: Path, ws: Path, cfg: Path) -> None:
