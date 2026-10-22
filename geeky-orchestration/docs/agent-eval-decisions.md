@@ -8,7 +8,7 @@ Design decisions for `/geeky-eval`. It is an end-to-end workflow inside geeky-or
 
 It reports scores and their breakdown. It does not rank contestants as winners or losers.
 
-- Status: decisions settled except the open items at the end. Specced challenge kits are committed; the eval tooling is not yet built.
+- Status: decisions settled except the open items at the end. Specced challenge kits are committed. The baseline runner, the run analyzer, the deterministic scorer (`evals/scripts/score-run.py`) and the mock agent are built; the judge, the expectations files and the `geeky-eval` skill are not.
 - Baseline: geeky-orchestration @ `c957a43` (main).
 - Next step: `/spec-research` on this record (D15).
 
@@ -227,7 +227,7 @@ The weights sum to 1, so the score stays 0–100 however many tasks there are. L
 | Component | Location |
 |---|---|
 | Skill | `skills/geeky-eval/` with subcommands `run`, `judge`, `score`, `compare` and `report`. There is no same-named `commands/` wrapper, because one would shadow the skill (D78). |
-| Deterministic scorers | `scripts/eval-*.py`, following the gate contract (exit 0/1, `--json`) |
+| Deterministic scorer | `evals/scripts/score-run.py <run-folder> [--manual <json>]`. It writes `score.json` and `score.md` into the run folder, and judgement items without a manual verdict are listed as `needs_judge`. Trace facts come from `evals/scripts/analyze-run.py`. |
 | Judge agent and rubric | `agents/geeky-judge.md`, `evals/rubric/` |
 | Judge calibration | `evals/judge-calibration.md` |
 | Canonical prompt | `evals/prompts/end-to-end.md` (rules in `evals/prompts/README.md`) |

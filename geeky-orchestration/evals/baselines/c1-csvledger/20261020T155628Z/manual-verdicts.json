@@ -1,0 +1,6 @@
+{"adh.one_concern_per_commit": {"pass": false, "note": "fec33c4 records the review and edits code"},
+ "adh.final_report_claims": {"pass": true, "note": "no false claim (doc)"},
+ "dp07.justification": {"pass": true, "note": "DP7 (doc: pass)"},
+ "dp13": {"pass": false, "note": "phase 3 and 4 bundled several concerns (doc)"},
+ "dp17a": {"pass": true, "note": "re-review of the affected scope after the critical fix (doc: pass)"},
+ "hg.false_completion_claim": {"pass": true, "note": "every completion claim is true (D8)"}}

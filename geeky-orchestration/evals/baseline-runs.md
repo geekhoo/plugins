@@ -34,11 +34,13 @@ What it does:
 - Sets git's `safe.directory` through environment variables, because inside the container git reports the workspace as having "dubious ownership".
 - Records `geeky_skills_loaded`. A run in which no geeky skill loaded is never reference-eligible.
 - Sets `CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1`. Without it, every PowerShell tool call in MXC reports `Exit code 5` even when it succeeds.
+- Passes `--disallowedTools Bash`. Git Bash cannot start in MXC (microsoft/mxc#1061), so every Bash call fails with exit 66. In C1 run 3 that wasted 8 calls, and one write silently did nothing. With Bash hidden, the agent uses PowerShell from the start.
 - Sets `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`. Headless `claude -p` otherwise stops background subagents still running 10 minutes after the main agent's last turn, which cut C1 run 3 off mid-implementation. The main agent is resumed when the subagents finish. The MXC `--timeout` still bounds the run. A run whose background work was stopped is recorded with `exit_reason = bg_killed`.
 - Puts `C:\repos\.eval-tools\agent-py`, a venv with pytest built offline, first on the sandbox `PATH`. The sandbox Python has no pytest, and `pip` can't install inside MXC.
 - Sets `TMPDIR` to a per-run writable folder. MXC forces `TEMP` and `TMP` to the AppContainer's own temp folder, where pytest `tmp_path` and other `mkdtemp()` folders can't be written.
 - Sets a neutral commit identity, `geeky-eval-agent <agent@geeky-eval.local>`, through the `GIT_AUTHOR_*` and `GIT_COMMITTER_*` environment variables.
 - Reads its limits from `evals/cases/<case>/case.json`. After each run it calls `evals/scripts/analyze-run.py`, which writes `analysis.json` and fills the derived `run.json` fields.
+- **Scoring is a separate step.** Run `python evals/scripts/score-run.py <run-folder> --manual <verdicts.json>`. It writes `score.json` and `score.md` into the run folder. Without `--manual`, judgement items are listed as `needs_judge` and left out of their denominators. To re-analyse a stored run without touching `run.json`, use `analyze-run.py --analysis-only`.
 
 Run it once per repeat, from a fresh shell.
 
