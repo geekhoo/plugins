@@ -98,9 +98,40 @@
     "sub": 26
   },
   "gate_invocations": {
-    "validate-task-schema": 5,
-    "validate-kanban": 2,
-    "check-commit": 6
+    "validate-planning-folder": 4,
+    "validate-task-schema": 4,
+    "validate-kanban": 6,
+    "check-commit": 10
+  },
+  "gate_results": {
+    "validate-planning-folder": {
+      "pass": 4,
+      "fail": 0,
+      "unknown": 0,
+      "main": 4,
+      "sub": 0
+    },
+    "validate-task-schema": {
+      "pass": 4,
+      "fail": 0,
+      "unknown": 0,
+      "main": 4,
+      "sub": 0
+    },
+    "validate-kanban": {
+      "pass": 5,
+      "fail": 1,
+      "unknown": 0,
+      "main": 6,
+      "sub": 0
+    },
+    "check-commit": {
+      "pass": 3,
+      "fail": 2,
+      "unknown": 5,
+      "main": 10,
+      "sub": 0
+    }
   },
   "duration_api_ms": 1867866
 }
