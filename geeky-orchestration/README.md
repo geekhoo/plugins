@@ -74,7 +74,7 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 ## Operating profile (baked into `/geeky-implement`)
 
 - **Autonomy:** fully autonomous until the backlog is empty or a task lands in Blocked.
-- **Reviewer:** per-task code-review on every task's diff + PM-level review at each phase boundary.
+- **Reviewer:** per-task code-review on every task's diff + a `code-reviewer` subagent phase review at every phase boundary, including the last.
 - **Commits:** per phase, split into multiple small commits (one concern per commit). Never push, never amend, never `--no-verify`.
 - **Parallelism:** up to 3 concurrent `geeky-coder` subagents, gated by a checklist (no shared deps, no file-surface overlap, no shared mutable artifacts).
 
@@ -164,7 +164,7 @@ Requirements:
 ## Other notes
 
 - `geeky-coder` is renamed from a generic `coder` agent to avoid clobbering any personal `coder` agent the user may have configured.
-- Reviewer delegation looks for the same agent type `/geeky-plan` used (development project manager / planning-coordinator). If your environment doesn't ship one, the per-task `code-review` skill still runs; only the phase-boundary PM sweep degrades.
+- Phase review dispatches this plugin's `geeky-orchestration:code-reviewer` agent; its READY TO ADVANCE / BLOCKED verdict and agent ID are recorded in `handoff.md`.
 
 ## Cross-harness agent registration (Codex / Claude / Copilot / Cursor)
 

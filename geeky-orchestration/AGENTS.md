@@ -41,7 +41,7 @@ fields and checkpoint markers remain unchanged.
 | Review | Judgment of evidence against an assigned scope. Task review checks ACs/tests; phase review decides readiness to advance; final implementation review uses `impl-review`. Plan review evaluates the planning package. |
 | Acceptance | The decision that required outcomes and gates for the stated scope are satisfied. Task Done, phase READY TO ADVANCE and final review PASS have different scopes; none grants release or deployment approval. |
 | Finding | An evidenced discrepancy. A blocking finding prevents the current contract from being met; an optional improvement is a follow-up. Severity labels retain their review-stage meanings, not an automatic cross-stage mapping. |
-| Execution batch / review batch | Tasks dispatched together / tasks sharing a reviewer assignment. A shared review batch holds all members' progression until the whole batch clears, preserving individual verdicts. |
+| Execution batch / review batch | Tasks dispatched together / tasks sharing a reviewer assignment. A shared review batch holds all members' progression until the whole batch clears, preserving individual verdicts. Review-batch members may not depend on each other. |
 | Orchestrator / worker / reviewer | Coordinates and accepts work / performs a bounded assignment / evaluates it. `geeky-coder` is the implementation worker; PM describes a planning or phase-review perspective. |
 | Task event log | One `tasks/T<n>.events.jsonl` per task for consequential collaboration events, preserving the sender. It does not replace task notes or Kanban state. |
 
@@ -74,7 +74,7 @@ Use `python3` where `python` is not on PATH; use `pwsh` (PowerShell 7+) for the 
 | Task-file schema | end of plan; start of implement | `python scripts/validate-task-schema.py --path "<folder>"` | `pwsh -File scripts/validate-task-schema.ps1 -Path "<folder>"` |
 | Kanban integrity | after every lane move | `python scripts/validate-kanban.py --path "<folder>"` | `pwsh -File scripts/validate-kanban.ps1 -Path "<folder>"` |
 | Definition of Done | before moving a task to Done | `python scripts/check-dod.py --path "<folder>" --task <ID>` | `pwsh -File scripts/check-dod.ps1 -Path "<folder>" -Task <ID>` |
-| Commit message | before each commit | `python scripts/check-commit.py <FILE>` | `pwsh -File scripts/check-commit.ps1 <FILE>` |
+| Commit message | before each commit | `python scripts/check-commit.py --message "<msg>"` (or `<FILE>`) | `pwsh -File scripts/check-commit.ps1 -Message "<msg>"` (or `<FILE>`) |
 
 **Feedback loop:** when a gate exits non-zero, read its output, fix the artifact,
 and re-run the same gate until it exits 0 before proceeding.
@@ -105,5 +105,7 @@ task moves to Blocked. Verify task validation evidence against the tested revisi
 commands and results; a coder's bare PASS claim is insufficient. Reuse valid evidence
 and record the reason for any rerun. Task review checks ACs and defined tests. Phase
 review checks collective requirements and must return READY TO ADVANCE before the
-next phase starts. Final implementation review uses `impl-review`. Batch independent
+next phase starts; that verdict comes from a reviewer subagent whose agent ID is
+recorded, and the last phase is included. Final implementation review uses `impl-review`.
+The orchestrator never edits product code or tests; fixes go to `geeky-coder`. Batch independent
 work and compatible fixes while preserving each task's verdict and resource isolation.

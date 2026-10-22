@@ -126,7 +126,7 @@ After all 3 reviewers complete:
 
 If critical issues are found, present the list and ask the user whether to apply fixes. If the user declines, report the findings and stop.
 
-If approved, apply fixes directly and commit (same command on all platforms — duplication is intentional for per-environment copy/paste clarity):
+If approved, dispatch `geeky-coder` with the approved critical findings; do not edit product code or tests directly. Validate the affected scope, then commit (same command on all platforms — duplication is intentional for per-environment copy/paste clarity):
 
 ```bash
 # Linux/macOS (bash) or Windows (pwsh) — identical command
@@ -160,4 +160,4 @@ The examples below illustrate how reviewer selection adapts to different work do
 - **Non-overlapping** — if two reviewers would look at the same files for the same reason, merge them and pick a different third.
 - **Run in parallel** — all 3 subagents dispatch in a single turn for maximum speed.
 - **Evidence-based** — reviewers must cite specific file paths and line numbers, not vague observations.
-- **Fix only critical** — suggestions and warnings are reported but not auto-fixed.
+- **Fix only critical** — through `geeky-coder`; suggestions and warnings are reported as follow-ups, not auto-fixed.

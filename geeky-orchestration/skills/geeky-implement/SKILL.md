@@ -48,8 +48,10 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 
 - Do not modify planning contract files (`implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`, `tasks/Tx-*.md`).
 - Use `geeky-coder` for implementation work and avoid pausing between tasks unless blocked.
+- The orchestrator never edits product code or tests; every fix, including a reviewer's one-line suggestion, goes to `geeky-coder`. Non-blocking findings go to follow-ups.
 - Do not push and do not use `--amend`.
-- On every lane move, update `kanban.md` and run `validate-kanban`. Before a Done move, write the task's notes file and run `check-dod`. On every Done or Blocked move, add a `handoff.md` line naming each task ID.
+- On every lane move, update `kanban.md` and run `validate-kanban`. Never move a task across more than one lane in a single edit. Before a Done move, write the task's notes file and run `check-dod`. On every Done or Blocked move, add a `handoff.md` line naming each task ID.
+- Before every commit, run `check-commit`: `python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py" --message "<msg>"`.
 - **Re-invocation is a resume, never a restart.** Read kanban/handoff first; skip Done tasks; reconcile orphaned In Progress tasks against git/file ground truth (protocol step 2b).
 - Prefer the bundled validator **scripts** over the `geeky_*` MCP tools (no permission prompts, immune to the plugin-root interpolation bug).
 - Maintain the **heartbeat**: write `<folder>/.heartbeat` (JSON: `{"ts":"<ISO>","task":"T<x>","status":"running"}`) at run start, refresh `ts`+`task` at every task transition, set `status` to `"paused"` (deliberate stop) or `"done"` (run complete) before ending. External watchdogs key on this file.
@@ -57,9 +59,9 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 ## Review and batching rules
 
 - Task review checks the task template's ACs and defined tests. Supporting reads do not expand the review into the full implementation chain.
-- Phase review checks the phase requirements collectively and must answer **Can we move to the next phase?** Record **READY TO ADVANCE** or **BLOCKED** in the step-17 `handoff.md` phase block before advancing.
-- Final implementation review uses `impl-review`. Do not create a second final-review process.
-- Batch compatible reviews and fixes by owner. Keep separate task verdicts and evidence. A shared review batch holds every included task until the whole batch clears; isolate shared test resources.
+- Phase review checks the phase requirements collectively and must answer **Can we move to the next phase?** The **READY TO ADVANCE** or **BLOCKED** verdict must come from a `geeky-orchestration:code-reviewer` subagent, for every phase including the last; record it with the reviewer's agent ID in the step-17 `handoff.md` phase block before advancing.
+- Final implementation review uses `impl-review`; it does not replace the last phase review. Do not create a second final-review process.
+- Batch compatible reviews and fixes by owner. Keep separate task verdicts and evidence. A shared review batch holds every included task until the whole batch clears; isolate shared test resources. A review batch may include only tasks with no dependency on each other; a dependent task waits for its predecessor's task verdict and Done move.
 - Use one `tasks/T<n>.events.jsonl` per task for consequential collaboration updates, following the execution protocol. Leave task-note behavior unchanged.
 - Verify saved test evidence before rerunning. Reuse it while the tested code, dependencies and relevant environment remain valid; record why a rerun is needed.
 

@@ -33,14 +33,14 @@ Optional inline flags inside `$ARGUMENTS` (parse loosely from the string):
 
 ## Context
 
-To execute the planning package produced by `geeky-plan`: walk the kanban, delegate implementation to `geeky-coder` subagents, validate, run code review and PM-level review, consolidate findings, and keep the kanban, handoff, and per-task notes current.
+To execute the planning package produced by `geeky-plan`: walk the kanban, delegate implementation to `geeky-coder` subagents, validate, run code review and phase review, consolidate findings, and keep the kanban, handoff, and per-task notes current.
 
 Operating profile (DO NOT prompt to change mid-run; only respect inline flags above):
 
 - **Autonomy:** fully autonomous from start until the backlog is empty, a task is moved to Blocked, or a validation/review step cannot be auto-resolved. Do not pause for confirmation between tasks.
 - **Session grain:** default ONE phase per session. At each phase boundary: checkpoint `handoff.md`, set `.heartbeat` to `paused`, and prefer resuming in a fresh session over pushing through context compaction or token expiry. If the user explicitly asks for a full multi-phase run in one session, honor it — but remind them of the >1h re-auth preflight first.
 - **Heartbeat:** maintain `<folder>/.heartbeat` (JSON `{"ts":"<ISO-8601 UTC>","task":"T<x>","status":"running|paused|done"}`). Write `running` at run start, refresh `ts`+`task` on EVERY lane move (same moments you update kanban), set `paused` on deliberate mid-run stop, `done` at run end. External watchdog hooks key on this file — a stale `running` heartbeat is how a dead run gets detected.
-- **Review boundaries:** task review answers whether the task meets its ACs and passes its defined tests. Phase review checks the complete phase requirements and decides whether the next phase may start. Final implementation review belongs to `impl-review`; do not add another final-review layer.
+- **Review boundaries:** task review answers whether the task meets its ACs and passes its defined tests. Phase review checks the complete phase requirements and decides whether the next phase may start; the last phase is reviewed like any other. Final implementation review belongs to `impl-review` and does not replace any phase review; do not add another final-review layer.
 - **Commits:** commit per phase, split into multiple small logically-grouped commits (e.g. one for schemas, one for service, one for tests), one concern per commit. **NEVER push to remote.** Never `--no-verify`, never amend, never force.
 - **Parallelism:** up to 3 concurrent `geeky-coder` subagents when safe (see Parallelization Rules). Otherwise serial.
 
@@ -57,6 +57,7 @@ Hard rules — violations are bugs:
 5. **Stop on Blocked.** When any task moves to Blocked, finalize state (handoff, kanban) and return to the user with a summary. Do not silently skip blocked tasks to keep going.
 6. **One source of truth for status:** `kanban.md`. If `handoff.md` and `kanban.md` disagree, trust kanban and reconcile handoff.
 7. **Delegate implementation using the canonical `geeky-coder` instructions.** Check the live harness role catalog before dispatch. A TOML file or generated projection does not prove the role is callable. If the role is unavailable, do not retry guessed or namespaced variants. Use an available generic role with the canonical agent body and task brief, preserving requested model settings. If the user requires the registered role itself, report the registration blocker instead of substituting it.
+8. **The orchestrator never edits product code or tests.** Every fix, including a reviewer's one-line suggestion, goes to `geeky-coder`. Non-blocking findings go to follow-ups.
 
 ## Task events
 
@@ -117,12 +118,12 @@ For each phase, in plan order:
    - Use the harness's actual dispatch schema and callable role name. Apply the canonical-instructions fallback above only when needed; record the substitution once.
    - The absolute path of `tasks/T<n>.events.jsonl`, created now if absent (see Task events).
 
-8. **Verify the task's validation evidence** after each coder returns. Require the tested revision or file hashes, exact commands, exit status and results. Inspect the saved output; a bare claim of PASS is insufficient. Reuse passing evidence for unchanged code, dependencies and relevant environment. Execute missing checks or rerun only when evidence is invalidated, unreliable, or independent execution is explicitly required. Before repeating a test or review, record what changed or remains unproved, which evidence is invalidated, and the smallest check that resolves it. Reuse valid evidence unless a required check is missing or independent execution is explicitly mandated. If a required command fails:
+8. **Verify the task's validation evidence** after each coder returns. Append the worker's `EVENTS` lines to `tasks/T<n>.events.jsonl`, and append one dispatch event and one verdict event per task yourself. Require the tested revision or file hashes, exact commands, exit status and results. Inspect the saved output; a bare claim of PASS is insufficient. Reuse passing evidence for unchanged code, dependencies and relevant environment. Execute missing checks or rerun only when evidence is invalidated, unreliable, or independent execution is explicitly required. Before repeating a test or review, record what changed or remains unproved, which evidence is invalidated, and the smallest check that resolves it. Reuse valid evidence unless a required check is missing or independent execution is explicitly mandated. If a required command fails:
    - Capture the failure output.
    - Re-delegate to `geeky-coder` once with the failure context for a fix attempt.
    - If it still fails, move the task to **Blocked** with a kanban note that includes the validation command and the failure summary, finalize state per the Constitution, and return to the user.
 
-9. **Move the task(s) from In Progress to In Review.** Group compatible tasks into shared reviewer assignments when their context and timing make that useful; use separate assignments otherwise. A shared review batch holds progression of every included task until all its blocking findings are resolved and every task has passing required tests and a PASS verdict. Do not move any member to Done or advance its dependents before the batch clears. Preserve individual verdicts and valid evidence; only affected scope needs re-review. Record batch members and the hold/release in each task’s event log. For each assignment:
+9. **Move the task(s) from In Progress to In Review.** Group compatible tasks into shared reviewer assignments when their context and timing make that useful; use separate assignments otherwise. A shared review batch holds progression of every included task until all its blocking findings are resolved and every task has passing required tests and a PASS verdict. Do not move any member to Done or advance its dependents before the batch clears. A review batch may include only tasks with no dependency on each other; a dependent task waits for its predecessor's task verdict and Done move. Preserve individual verdicts and valid evidence; only affected scope needs re-review. Record batch members and the hold/release in each task’s event log. For each assignment:
    - Give the reviewer the task template, task diff, ACs and validation evidence. Its decision is: **Does this task meet every AC and pass its defined tests?** Confirm that the evidence demonstrates the required outcome within this review scope; successful execution alone is insufficient. Return an AC-by-AC result, test result and PASS or NEEDS FIXES. Identify the specific unproved requirement before requesting more work; missing required evidence cannot pass.
    - Inspect immediate dependencies only as needed to answer that question. Do not review the entire implementation chain or add acceptance requirements. Route unrelated findings separately; block this task only when a finding prevents its contract from being met or makes acceptance unsafe under an existing requirement.
    - Every blocking finding must cite the violated AC, defined test or existing mandatory constraint, concrete evidence, and the smallest necessary correction. Severity alone does not authorize extra scope. Record optional improvements as follow-ups.
@@ -152,9 +153,9 @@ Acceptance must wait until all required tests have passing evidence, even when t
 
 13. **Repeat steps 5–12** until the current phase has no eligible Ready tasks left.
 
-### Phase 2 — End of phase: PM review + commits
+### Phase 2 — End of phase: phase review + commits
 
-14. **PM-level review** at phase end. Delegate to the same agent type used in `geeky-plan` step 6 (development project manager / planning-coordinator). Brief it with:
+14. **Phase review** at the end of every phase, including the last; `impl-review` does not replace it. Dispatch a `geeky-orchestration:code-reviewer` subagent. The **READY TO ADVANCE** or **BLOCKED** verdict must come from that subagent, never from the orchestrator; record its agent ID in the step-17 `handoff.md` phase block. Brief it with:
     - Phase name and the list of Done task IDs.
     - The aggregated diff for the phase (`git diff` from the phase's starting commit to HEAD).
     - The per-task notes files for the phase.
@@ -175,19 +176,20 @@ Acceptance must wait until all required tests have passing evidence, even when t
 
     Name several tasks on the `Tasks:` line only when their changes form one concern.
 
-    Use HEREDOC to pass multiline messages. Do NOT push. Do NOT amend. If a pre-commit hook fails, fix the underlying issue and create a NEW commit — do not skip hooks.
+    Use HEREDOC to pass multiline messages. Do NOT push. Do NOT amend. If a pre-commit hook fails, have `geeky-coder` fix any product code or test cause, then create a NEW commit — do not skip hooks.
 
-    Before each commit, validate the message with the **commit gate** (pipe the message via stdin or pass `--message`); fix until it exits 0:
+    Before each commit, validate the message with the **commit gate** (`--message` works in PowerShell and bash; in bash you may pipe the message via stdin instead); fix until it exits 0:
 
     ```
-    printf '%s' "$msg" | python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py"
+    python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py" --message "<msg>"
+    printf '%s' "$msg" | python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py"   # bash alternative
     ```
 
 17. **Update `handoff.md`** with a phase summary block:
     - Phase name, date, duration.
     - Tasks completed, tasks blocked (if any).
     - Commits created (short SHAs).
-    - Phase review verdict, supporting evidence and any advancement blockers.
+    - Phase review verdict, reviewer agent ID, supporting evidence and any advancement blockers.
     - Deferred follow-ups added in this phase.
     - End with a single checkpoint line so any future session can resume with zero re-prompting: `RESUME: <next phase or "run complete"> — next eligible: <task IDs or none>`. Replace the previous `RESUME:` line each time (it is a cursor, not a log).
 
@@ -200,6 +202,7 @@ Acceptance must wait until all required tests have passing evidence, even when t
     - Append a "Run Summary" section to `handoff.md` with: total tasks completed, total commits, blocked items, deferred follow-ups, suggested next-session start steps.
     - Verify `kanban.md` lane counts add up to the original task count.
     - Print to the user: a short status (Done count, Blocked count, Deferred count) and the path to the updated handoff. Suggest the `geeky-status` skill (`/geeky-status <folder>`) as the lightweight follow-up.
+    - State review and gate claims only as recorded in `handoff.md`, citing reviewer agent IDs. List any skipped or self-issued gate under Deviations.
 
 ## Parallelization rules
 
@@ -225,7 +228,7 @@ After two unsuccessful correction cycles on the same issue, diagnose the cause b
 
 These are recoverable — handle inline, do not stop the run:
 - Coder reports a typo or import error → re-delegate once with the error log.
-- Pre-commit hook fails on whitespace/lint → fix and create a new commit.
+- Pre-commit hook fails on whitespace/lint → route the fix to `geeky-coder` and create a new commit.
 - Code-review surfaces minor/nit findings → log under Deferred, proceed.
 - A gate/validator script CRASHES (traceback, missing module) → one-line surface, manual check of the same criteria, note it, continue; flag the plugin for a fix at run end. Never a silent stall.
 - 401/auth-expiry symptoms mid-run → FIRST append a resume block to `handoff.md` (current task, exact state, next command) and set `.heartbeat` to `paused`; the session may be unrecoverable and the handoff is what survives.

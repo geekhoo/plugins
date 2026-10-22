@@ -361,7 +361,7 @@ For each phase, in plan order:
    - re-delegate once with failure context,
    - if it still fails, move the task to Blocked, update handoff, report, and stop.
 10. Move task(s) to In Review.
-11. Review task ACs and defined tests. Compatible tasks may share an assignment, with separate verdicts. Hold all included tasks until the shared batch clears; follow the execution protocol for batching and per-task `tasks/T<n>.events.jsonl` collaboration.
+11. Review task ACs and defined tests. Compatible tasks may share an assignment, with separate verdicts. Hold all included tasks until the shared batch clears. A review batch may include only tasks with no dependency on each other; a dependent task waits for its predecessor's task verdict and Done move. Follow the execution protocol for batching and per-task `tasks/T<n>.events.jsonl` collaboration.
 12. Consolidate findings as blocker, major, minor, or nit.
 13. Create `tasks/Tx-*.notes.md` for each touched task, including:
    - parallelization decision,
@@ -382,9 +382,9 @@ python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.py" --path "<folder>"
 17. Move to Done only when validation is green and no blocker/major review findings remain.
 18. Repeat until no eligible Ready tasks remain in the phase.
 
-### Phase 2 — phase-end PM review and commits
+### Phase 2 — phase-end phase review and commits
 
-1. At phase end, run PM-level review using the same reviewer type used during planning where possible.
+1. At the end of every phase, including the last, dispatch a `geeky-orchestration:code-reviewer` subagent for the phase review; `impl-review` does not replace it. The READY TO ADVANCE or BLOCKED verdict must come from that subagent; record its agent ID in the `handoff.md` phase block.
 2. Provide the reviewer:
    - phase name,
    - Done task IDs,
@@ -392,13 +392,13 @@ python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.py" --path "<folder>"
    - per-task notes,
    - relevant plan section.
 3. Ask for cross-task consistency, integration risk, and anything per-task review could miss.
-4. Fix PM blockers/majors before proceeding.
+4. Fix phase-review blockers/majors through `geeky-coder` before proceeding; the orchestrator never edits product code or tests.
 5. Log deferred minors/nits in `handoff.md`.
 6. Commit the phase diff as small logically grouped commits. One concern per commit.
 7. Validate each commit message:
 
 ```bash
-printf '%s' "$msg" | python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py"
+python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py" --message "<msg>"
 ```
 
 8. Commit format:
@@ -487,7 +487,7 @@ If missing:
    - present unified report.
 10. Overall verdict is either PASS or NEEDS FIXES.
 11. If critical issues exist, ask the user whether to apply fixes.
-12. If approved, fix only critical issues and commit:
+12. If approved, dispatch `geeky-coder` to fix only the critical issues, validate the affected scope, and commit:
 
 ```bash
 git commit -m "fix(spec): Address N critical review findings from impl-review" \
@@ -501,7 +501,7 @@ git commit -m "fix(spec): Address N critical review findings from impl-review" \
 - Reviewers must be non-overlapping.
 - Run all reviewers in parallel.
 - Findings must be evidence-based.
-- Fix only critical issues automatically after user approval; warnings and suggestions are reported, not auto-fixed.
+- Fix only critical issues, through `geeky-coder`, after user approval; warnings and suggestions are reported, not auto-fixed.
 
 ---
 

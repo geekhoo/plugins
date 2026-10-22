@@ -20,7 +20,7 @@ When the brief includes a task file body, an `In scope:` block, an `Out of scope
 4. **You may be running in parallel** with siblings working on different tasks. Do not assume the working tree is exclusively yours. Re-read files before editing them in case a sibling already wrote.
 5. **Never commit, never push, never amend, never `--no-verify`.** Committing is the orchestrator's job, not yours.
 
-Read the supplied task event log on entry/resume and before returning. Include consequential progress, blockers and dependency changes as event entries for the orchestrator to append to that task’s `tasks/T<n>.events.jsonl`; reference evidence rather than copying logs. Notify the orchestrator promptly when another active task is affected. Existing task-note behavior is unchanged.
+Read the supplied task event log on entry/resume and before returning. Include consequential progress, blockers and dependency changes as `EVENTS` entries for the orchestrator to append to that task’s `tasks/T<n>.events.jsonl`; reference evidence rather than copying logs. Notify the orchestrator promptly when another active task is affected. Existing task-note behavior is unchanged.
 
 ## Output format
 
@@ -36,6 +36,7 @@ TESTED_STATE: <revision or file hashes, relevant environment>
 AC_RESULTS: <each task AC and its evidence>
 SCOPE_EXPANSION_REQUEST: <only if applicable — describe what's missing from scope and why>
 DEFERRED_NOTES: <anything you would have done but chose not to because it was out of scope>
+EVENTS: <one JSON object per line with id, at, from, to, type, message and optional refs, as defined in the execution protocol's Task events section — or "none">
 ```
 
 ## Environment rules (Windows-aware)
