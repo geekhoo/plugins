@@ -193,6 +193,78 @@ class HappyScenarioTests(unittest.TestCase):
         self.assertTrue(analysis["validation_runs"])
 
 
+class AnalyzeGateCountTests(unittest.TestCase):
+    """Gate runs counted from tool results, on a small synthetic stream."""
+
+    S = "C:/cfg/plugin/geeky-orchestration/scripts"
+    CALLS = [  # (tool name, input, result text, subagent)
+        ("PowerShell", {"command": f"python {S}/validate-kanban.py --path f; python {S}/check-dod.py --path f --task T1"},
+         "OK: 3 task(s) tracked, 3 task file(s). Backlog=0, Done=1\nDOD_OK: T1", False),
+        ("PowerShell", {"command": f"foreach($t in 'T1','T2'){{ python {S}/check-dod.py --path f --task $t | Select -Last 1 }}"},
+         "    | - `python -m pytest -q`\n    | - `python -m pytest -q`", False),
+        ("PowerShell", {"command": f"Get-Content {S}/check-commit.py | Select -First 120"},
+         '        print("OK: commit message valid." if report["ok"] else "INVALID_COMMIT_MESSAGE:")', False),
+        ("Read", {"file_path": f"{S}/check-dod.py"}, 'summary = f"DOD_OK: {task_id}"', False),
+        ("mcp__plugin_geeky-orchestration_geeky__geeky_check_dod", {"folder": "f", "task": "T3"},
+         '{"ok": false, "task": "T3", "errors": ["T3 is not in the Done lane"]}', False),
+        ("mcp__geeky__geeky_validate_kanban", {"folder": "f"}, '{"ok": true, "errors": []}', False),
+        ("Bash", {"command": f"python3 {S}/check-commit.py msg.txt"},
+         "INVALID_COMMIT_MESSAGE:\n  ERROR:   no task reference", True),
+        ("PowerShell", {"command": f'function C($m){{ $r=$m | python {S}/check-commit.py; "gate=$LASTEXITCODE $r" }}\n'
+                                   'C "feat: a"; C "feat: b"'},
+         "gate=0 OK: commit message valid.\ngate=0 OK: commit message valid.", False),
+    ]
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.root = Path(tempfile.mkdtemp(prefix="analyze-gates-"))
+        events = []
+        for i, (name, inp, out, sub) in enumerate(cls.CALLS):
+            parent = "toolu_agent" if sub else None
+            events.append({"type": "assistant", "parent_tool_use_id": parent, "message": {"content": [
+                {"type": "tool_use", "id": f"toolu_{i}", "name": name, "input": inp}]}})
+            events.append({"type": "user", "parent_tool_use_id": parent, "message": {"content": [
+                {"type": "tool_result", "tool_use_id": f"toolu_{i}", "content": [{"type": "text", "text": out}]}]}})
+        events.append({"type": "result", "modelUsage": {}})
+        (cls.root / "stream.jsonl").write_text("\n".join(json.dumps(e) for e in events), encoding="utf-8")
+        cls.run_json = json.dumps({"tokens": {"total": 7}})
+        (cls.root / "run.json").write_text(cls.run_json, encoding="utf-8")
+        p = subprocess.run([sys.executable, str(ANALYZE), str(cls.root), "--analysis-only"], capture_output=True, text=True)
+        cls.rc, cls.stderr = p.returncode, p.stderr
+        cls.analysis = json.loads((cls.root / "analysis.json").read_text(encoding="utf-8")) if p.returncode == 0 else {}
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        rmtree(cls.root)
+
+    def test_analysis_only_leaves_run_json(self) -> None:
+        self.assertEqual(self.rc, 0, self.stderr)
+        self.assertEqual((self.root / "run.json").read_text(encoding="utf-8"), self.run_json)
+
+    def test_two_gates_in_one_command_both_count(self) -> None:
+        self.assertEqual(self.analysis["gate_results"]["validate-kanban"]["pass"], 2)  # command + MCP
+        self.assertEqual(self.analysis["gate_results"]["check-dod"]["pass"], 1)
+
+    def test_loop_counts_each_iteration_with_hidden_verdict(self) -> None:
+        self.assertEqual(self.analysis["gate_results"]["check-dod"]["unknown"], 2)
+
+    def test_mcp_call_keyed_by_gate_with_verdict(self) -> None:
+        self.assertEqual(self.analysis["gate_results"]["check-dod"]["fail"], 1)
+        self.assertEqual(self.analysis["gate_invocations"]["check-dod"], 4)
+        self.assertNotIn("geeky_check_dod", self.analysis["gate_invocations"])
+
+    def test_reading_a_gate_script_does_not_count(self) -> None:
+        commit = self.analysis["gate_results"]["check-commit"]
+        self.assertEqual(self.analysis["gate_invocations"]["check-commit"], 3)  # subagent run + two helper calls
+        self.assertEqual((commit["pass"], commit["fail"], commit["unknown"]), (2, 1, 0))
+
+    def test_main_and_subagent_split(self) -> None:
+        commit = self.analysis["gate_results"]["check-commit"]
+        self.assertEqual((commit["main"], commit["sub"]), (2, 1))
+        self.assertEqual(self.analysis["gate_results"]["check-dod"]["sub"], 0)
+        self.assertNotIn("validate-planning-folder", self.analysis["gate_invocations"])
+
+
 class ScenarioTests(unittest.TestCase):
     def run_mock(self, *args, **kwargs) -> MockRun:
         r = MockRun(*args, **kwargs)

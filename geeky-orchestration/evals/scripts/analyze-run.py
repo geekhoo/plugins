@@ -1,11 +1,19 @@
 """Derive baseline-run measures from a run folder and merge them into run.json.
 
-Usage: python analyze-run.py <run-folder> [--token-ceiling N]
+Usage: python analyze-run.py <run-folder> [--token-ceiling N] [--analysis-only]
 
 Reads stream.jsonl (claude stream-json) and session.jsonl (Claude session transcript, which
 carries the timestamps the stream lacks). Writes analysis.json and updates these run.json fields:
 tokens (summed over every model in result.modelUsage), model_calls, latency_median_ms,
 max_idle_gap_s, stages, impl_review_rounds, token_ceiling, over_token_ceiling.
+--analysis-only writes analysis.json and leaves run.json untouched (re-analysing a stored run).
+
+Gate runs are counted from each tool call's result: every gate summary line (OK/INVALID_*,
+DOD_OK/DOD_INCOMPLETE, the check-commit verdict) is one run with its pass/fail. When a command
+executes a gate but its output hides the summary, the run is counted from the command text
+(each <gate>.py/.ps1 execution, multiplied by literal foreach lists and helper-function calls)
+with an unknown result. Reading a gate script does not count. MCP gate tools count by their
+"ok" field.
 Stdlib only.
 """
 import argparse
@@ -40,6 +48,125 @@ def tool_uses(event):
     return [c for c in content if isinstance(c, dict) and c.get("type") == "tool_use"]
 
 
+def tool_results(event):
+    """{tool_use_id: (text, is_error)} for the tool_result blocks of a user event."""
+    content = (event.get("message") or {}).get("content")
+    out = {}
+    for c in content if isinstance(content, list) else []:
+        if isinstance(c, dict) and c.get("type") == "tool_result":
+            text = c.get("content")
+            if isinstance(text, list):
+                text = "\n".join(x.get("text", "") for x in text if isinstance(x, dict))
+            out[c.get("tool_use_id")] = (text if isinstance(text, str) else "", bool(c.get("is_error")))
+    return out
+
+
+GATES = ("validate-planning-folder", "validate-task-schema", "validate-kanban", "check-dod", "check-commit")
+MCP_PREFIXES = ("mcp__geeky__", "mcp__plugin_geeky-orchestration_geeky__")
+# One summary line per gate run (scripts/*.py and *.ps1 print the same text); group 1 is the verdict.
+GATE_LINES = {
+    "validate-task-schema": re.compile(r"\b(OK|INVALID_TASK_SCHEMA): \d+ task file\(s\) checked"),
+    "validate-kanban": re.compile(r"\b(OK|INVALID_KANBAN): (?:\d+ task\(s\) tracked|[^{\s].* not found\.)"),
+    "validate-planning-folder": re.compile(r"\b(OK: planning folder valid\.|INVALID_PLANNING_FOLDER: )"),
+    "check-dod": re.compile(r"\b(DOD_OK|DOD_INCOMPLETE): \S"),
+    "check-commit": re.compile(r"\b(OK: commit message valid\.|INVALID_COMMIT_MESSAGE:)"),
+}
+CODE_LINE = re.compile(r"print\(|Write-Output|Write-Host|\bf\"")
+# A statement starting with one of these only reads or lists a gate script.
+READER = re.compile(r"^(?:Get-Content|gc|cat|type|head|tail|less|more|Select-String|sls|grep|rg|findstr|"
+                    r"Get-Item|Get-ChildItem|ls|dir|Test-Path|wc|sed|awk|echo|Write-Output|Write-Host)\b", re.I)
+GATE_FILE = re.compile(r"(%s)\.(?:py|ps1)\b" % "|".join(GATES))
+RUNNER = re.compile(r"(?:^|[\s&])(?:python[\d.]*|py|pwsh|powershell|bash|sh|uv)(?:\.exe)?\b|^&|^[\"']?[\w$:./\\{}()-]*$", re.I)
+
+
+def _block(text, start):
+    """End index (exclusive) of the {...} block whose opening brace is at text[start]."""
+    depth = 0
+    for i in range(start, len(text)):
+        depth += {"{": 1, "}": -1}.get(text[i], 0)
+        if depth == 0:
+            return i + 1
+    return len(text)
+
+
+def _executed(text):
+    """Counter of gate-script executions written literally in text (reads excluded)."""
+    found = collections.Counter()
+    for stmt in re.split(r"[;\n|{}]|&&", text):
+        stmt = re.sub(r"^[\s(]*(?:\$[\w:]+\s*=\s*)?", "", stmt)
+        if READER.match(stmt):
+            continue
+        for m in GATE_FILE.finditer(stmt):
+            # run by an interpreter or invoked directly as the statement's first word
+            if RUNNER.search(stmt[:m.start()]):
+                found[m.group(1)] += 1
+    return found
+
+
+def _loop_items(spec):
+    quoted = re.findall(r"['\"]([^'\"]*)['\"]", spec)
+    if quoted:
+        return quoted
+    bare = [s for s in re.split(r"[,\s]+", spec.strip()) if s]
+    return bare if bare and not any(s.startswith("$") for s in bare) else [None]
+
+
+def static_gate_runs(cmd):
+    """Gate executions implied by a shell command: literal calls, loops and helper functions."""
+    runs = collections.Counter()
+    # Helper functions: count the body's gate runs once per call of the function.
+    for m in list(re.finditer(r"\bfunction\s+([\w-]+)\s*(?:\([^)]*\))?\s*\{", cmd, re.I)):
+        end = _block(cmd, m.end() - 1)
+        body = cmd[m.end():end - 1]
+        rest = cmd[:m.start()] + cmd[end:]
+        calls = len(re.findall(r"(?:^|[;{(|]|&&)\s*%s(?![\w:.\\/-])" % re.escape(m.group(1)), rest, re.M))
+        for gate, n in static_gate_runs(body).items():
+            runs[gate] += n * calls
+        cmd = cmd[:m.start()] + " " * (end - m.start()) + cmd[end:]
+    # Loops over literal lists: PowerShell foreach / ForEach-Object, bash for.
+    loops = [(m, m.group(2), m.group(1)) for m in re.finditer(r"\bforeach\s*\(\s*\$(\w+)\s+in\s+([^)]*)\)\s*\{", cmd, re.I)]
+    loops += [(m, m.group(1), "_") for m in re.finditer(
+        r"((?:['\"][^'\"\n]*['\"]\s*,\s*)*['\"][^'\"\n]*['\"])\s*\|\s*(?:ForEach-Object|%)\s*\{", cmd, re.I)]
+    for m, spec, var in sorted(loops, key=lambda x: x[0].start(), reverse=True):
+        end = _block(cmd, m.end() - 1)
+        body, items = cmd[m.end():end - 1], _loop_items(spec)
+        if re.search(r"\$(?:\{%s\}|\(\$%s\)|%s)\.(?:py|ps1)\b" % ((re.escape(var),) * 3), body):
+            runs.update(i for i in items if i in GATES)  # foreach($s in 'validate-kanban',...){ python "$p/$s.py" }
+        for gate, n in _executed(body).items():
+            runs[gate] += n * len(items)
+        cmd = cmd[:m.start()] + " " * (end - m.start()) + cmd[end:]
+    for m in reversed(list(re.finditer(r"\bfor\s+(\w+)\s+in\s+([^;\n]*?)\s*;?\s*do\b(.*?)\bdone\b", cmd, re.S))):
+        items = m.group(2).split() or [None]
+        if re.search(r"\$\{?%s\}?\.(?:py|ps1)\b" % re.escape(m.group(1)), m.group(3)):
+            runs.update(i for i in items if i in GATES)
+        for gate, n in _executed(m.group(3)).items():
+            runs[gate] += n * len(items)
+        cmd = cmd[:m.start()] + " " * (m.end() - m.start()) + cmd[m.end():]
+    runs.update(_executed(cmd))
+    return runs
+
+
+def gate_outcomes(name, inp, result):
+    """[(gate, passed)] for one tool call; passed is None when the run happened but its verdict is hidden."""
+    text, is_error = result if result else ("", False)
+    if name and name.startswith(MCP_PREFIXES):
+        gate = name.split("__")[-1].removeprefix("geeky_").replace("_", "-")
+        m = re.search(r'"ok"\s*:\s*(true|false)', text)
+        return [(gate, None if is_error or not m else m.group(1) == "true")]
+    cmd = inp.get("command", "") if isinstance(inp, dict) else ""
+    if not isinstance(cmd, str) or not cmd:
+        return []
+    static = static_gate_runs(cmd)
+    out = []
+    for gate in GATES:
+        if not static[gate]:
+            continue  # only results of gates this command executes (not a cat of handoff.md, not a read of the script)
+        seen = [m.group(1).startswith(("OK", "DOD_OK")) for line in text.splitlines() if not CODE_LINE.search(line)
+                for m in [GATE_LINES[gate].search(line)] if m]
+        out += [(gate, p) for p in seen] + [(gate, None)] * max(0, static[gate] - len(seen))
+    return out
+
+
 def analyze(run_dir: Path):
     stream = load_jsonl(run_dir / "stream.jsonl")
     session = load_jsonl(run_dir / "session.jsonl")
@@ -66,7 +193,11 @@ def analyze(run_dir: Path):
     # Tool calls, subagents, skills and validations from the stream
     main_tools, sub_tools, subagents, skills = (collections.Counter() for _ in range(4))
     validations = collections.Counter()
-    gates = collections.Counter()
+    results = {}
+    for e in stream:
+        if e.get("type") == "user":
+            results.update(tool_results(e))
+    gates = collections.defaultdict(lambda: dict.fromkeys(("pass", "fail", "unknown", "main", "sub"), 0))
     for e in stream:
         if e.get("type") != "assistant":
             continue
@@ -79,13 +210,12 @@ def analyze(run_dir: Path):
             if name == "Skill":
                 skills[str(inp.get("skill", "")).split(":")[-1]] += 1
             cmd = inp.get("command", "") if isinstance(inp, dict) else ""
-            if re.search(r"pytest|unittest", cmd):
+            if isinstance(cmd, str) and re.search(r"pytest|unittest", cmd):
                 validations["sub" if sub else "main"] += 1
-            m = re.search(r"(validate-planning-folder|validate-task-schema|validate-kanban|check-dod|check-commit)", cmd)
-            if m:
-                gates[m.group(1)] += 1
-            elif name and name.startswith("mcp__geeky__"):
-                gates[name.split("__")[-1]] += 1
+            for gate, passed in gate_outcomes(name, inp, results.get(c.get("id"))):
+                g = gates[gate]
+                g[{True: "pass", False: "fail", None: "unknown"}[passed]] += 1
+                g["sub" if sub else "main"] += 1
 
     # Stages: Skill invocations on the main thread, timed from the session file
     stamps = [t for t in (ts(e) for e in session) if t]
@@ -132,7 +262,8 @@ def analyze(run_dir: Path):
         "tool_calls_subagents": dict(sub_tools.most_common()),
         "subagent_dispatches": dict(subagents),
         "validation_runs": dict(validations),
-        "gate_invocations": dict(gates),
+        "gate_invocations": {k: v["main"] + v["sub"] for k, v in gates.items()},
+        "gate_results": dict(gates),
         "duration_api_ms": result.get("duration_api_ms"),
     }
 
@@ -141,10 +272,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("run_dir", type=Path)
     ap.add_argument("--token-ceiling", type=int)
+    ap.add_argument("--analysis-only", action="store_true", help="write analysis.json only; leave run.json as stored")
     args = ap.parse_args()
 
     analysis = analyze(args.run_dir)
     (args.run_dir / "analysis.json").write_text(json.dumps(analysis, indent=2), encoding="utf-8")
+    if args.analysis_only:
+        print(json.dumps({k: analysis[k] for k in ("gate_invocations", "gate_results")}, indent=2))
+        return
 
     run_path = args.run_dir / "run.json"
     run = json.loads(run_path.read_text(encoding="utf-8-sig"))
