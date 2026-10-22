@@ -13,7 +13,7 @@
   deleted at the end unless -Keep.
 
   Checks (comma-separated): env-probe, grants, pwsh, python, git, gates, mcp, network, happy,
-  gate-fail, crash, slow, all (= env-probe,grants,pwsh,python,git,gates,mcp).
+  gate-fail, crash, slow, bg-wait, all (= env-probe,grants,pwsh,python,git,gates,mcp).
 
 .EXAMPLE
   pwsh -File dry-run.ps1 -InMxc
@@ -101,7 +101,7 @@ if ($Case) { $mockArgs += @('--mock-case', $Case) }
 # The runner's sandbox environment, verbatim
 $envPairs = [ordered]@{
     GIT_CONFIG_COUNT = '1'; GIT_CONFIG_KEY_0 = 'safe.directory'; GIT_CONFIG_VALUE_0 = ($ws -replace '\\', '/')
-    XDG_CONFIG_HOME = $cfg; CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER = '1'
+    XDG_CONFIG_HOME = $cfg; CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER = '1'; CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS = '0'
     PATH = "$agentPy\Scripts;$env:PATH"; VIRTUAL_ENV = $agentPy
     GIT_AUTHOR_NAME = 'geeky-eval-agent'; GIT_AUTHOR_EMAIL = 'agent@geeky-eval.local'
     GIT_COMMITTER_NAME = 'geeky-eval-agent'; GIT_COMMITTER_EMAIL = 'agent@geeky-eval.local'

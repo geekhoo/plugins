@@ -131,6 +131,9 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host
     # Claude's Windows shell launcher makes every PowerShell tool call report "Exit code 5" inside MXC
     # even on success; without it the tool returns the command's real exit code.
     '--env', 'CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1',
+    # claude -p stops background subagents still running 10 min after the main agent's last turn; the
+    # main agent is resumed when they finish, so wait indefinitely (the MXC --timeout still bounds the run).
+    '--env', 'CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0',
     # pytest for the agents' own tests: the sandbox Python has none and pip cannot install inside MXC.
     '--env', "PATH=$agentPy\Scripts;$env:PATH", '--env', "VIRTUAL_ENV=$agentPy",
     # Neutral commit identity (the seed repo has none); set via env so no repo or global config changes.
@@ -179,7 +182,8 @@ $py = Get-ChildItem $ws -Recurse -Filter *.py -File | Where-Object { $_.FullName
 $isTest = { param($f) $f.Name -like 'test_*' -or $f.Name -like '*_test.py' -or $f.FullName -match '\\tests?\\' }
 $srcLoc = ($py | Where-Object { $_.FullName -like "$ws\$pkg\*" -and -not (& $isTest $_) } | Get-Content | Measure-Object -Line).Lines
 $testLoc = ($py | Where-Object { & $isTest $_ } | Get-Content | Measure-Object -Line).Lines
-$exitReason = if ($exitCode -eq 124) { 'timeout' } elseif ($result -and -not $result.is_error) { 'completed' } elseif (-not $result) { 'crash' } else { 'aborted' }
+$bgKilled = Select-String -Path (Join-Path $out 'stderr.txt') -Pattern 'Background tasks still running .* stopping them' -Quiet
+$exitReason = if ($exitCode -eq 124) { 'timeout' } elseif ($bgKilled) { 'bg_killed' } elseif ($result -and -not $result.is_error) { 'completed' } elseif (-not $result) { 'crash' } else { 'aborted' }
 $o = $runs[0]
 $clean = $stable -and $o.failed -eq 0 -and $o.errors -eq 0 -and $o.passed -gt 0
 $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.ToLower() } }
