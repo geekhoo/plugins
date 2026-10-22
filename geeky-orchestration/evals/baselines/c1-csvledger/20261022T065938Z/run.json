@@ -1,0 +1,90 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c1-csvledger",
+  "harness": "claude-code",
+  "harness_version": "2.1.304",
+  "model": "claude-sonnet-5-5",
+  "reasoning": "default",
+  "approach": "canonical-prompt",
+  "plugin_sha": "e674b86ae870c4d6b8c308b63afe92331675d4df",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "geeky_skills_loaded": 8,
+  "workspace": "C:\\repos\\eval-c1-csvledger-20261022T065938Z",
+  "seed_sha": "327689ed148411cc7fe48e3e06ae2ca6759773c3",
+  "session_id": "707de032-a69d-4e55-8a27-13b25b78c058",
+  "started_utc": "2026-10-22T06:59:41.0935025Z",
+  "ended_utc": "2026-10-22T07:33:43.1441788Z",
+  "wall_time_s": 2042,
+  "tokens": {
+    "input": 9914522,
+    "cached_input": 9080092,
+    "cache_creation": 531637,
+    "output": 204912,
+    "total": 10119434,
+    "cost_usd_estimate": 4.329,
+    "reasoning": 247
+  },
+  "model_calls": 64,
+  "latency_median_ms": 2976,
+  "max_idle_gap_s": 283,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-22T06:59:52.600000+00:00",
+      "ended_utc": "2026-10-22T07:03:14.048000+00:00",
+      "minutes": 3.4
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-22T07:03:14.048000+00:00",
+      "ended_utc": "2026-10-22T07:06:34.299000+00:00",
+      "minutes": 3.3
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-22T07:06:34.299000+00:00",
+      "ended_utc": "2026-10-22T07:08:50.391000+00:00",
+      "minutes": 2.3
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-22T07:08:50.391000+00:00",
+      "ended_utc": "2026-10-22T07:30:35.534000+00:00",
+      "minutes": 21.8
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-22T07:30:35.534000+00:00",
+      "ended_utc": "2026-10-22T07:33:42.439000+00:00",
+      "minutes": 3.1
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 118,
+    "passed": 118,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 356,
+    "test": 1030,
+    "files_changed": 52
+  },
+  "commits": 17,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "abfcbf639dfd164f82d3d088a2ffe37d3c12183b7f6f4b4b21841bf7d8796ccc",
+    "session": "0253f143d68f2562f9ca4e820158f31d73d2659d862b0e5a9aac6872a36c6dfe"
+  },
+  "interventions": 0,
+  "reference_eligible": true,
+  "token_ceiling": 12000000,
+  "over_token_ceiling": false
+}
