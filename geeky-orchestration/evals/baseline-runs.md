@@ -34,6 +34,7 @@ What it does:
 - Sets git's `safe.directory` through environment variables, because inside the container git reports the workspace as having "dubious ownership".
 - Records `geeky_skills_loaded`. A run in which no geeky skill loaded is never reference-eligible.
 - Sets `CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1`. Without it, every PowerShell tool call in MXC reports `Exit code 5` even when it succeeds.
+- Sets `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`. Headless `claude -p` otherwise stops background subagents still running 10 minutes after the main agent's last turn, which cut C1 run 3 off mid-implementation. The main agent is resumed when the subagents finish. The MXC `--timeout` still bounds the run. A run whose background work was stopped is recorded with `exit_reason = bg_killed`.
 - Puts `C:\repos\.eval-tools\agent-py`, a venv with pytest built offline, first on the sandbox `PATH`. The sandbox Python has no pytest, and `pip` can't install inside MXC.
 - Sets `TMPDIR` to a per-run writable folder. MXC forces `TEMP` and `TMP` to the AppContainer's own temp folder, where pytest `tmp_path` and other `mkdtemp()` folders can't be written.
 - Sets a neutral commit identity, `geeky-eval-agent <agent@geeky-eval.local>`, through the `GIT_AUTHOR_*` and `GIT_COMMITTER_*` environment variables.
@@ -134,6 +135,8 @@ A run can become the reference solution only when its oracle result is clean and
 
 Store everything in `geeky-orchestration/evals/baselines/<case>/<YYYYMMDDTHHMMSSZ>/`. Contestants never see this folder, because D50 excludes `evals/` from the plugin export.
 
+A run that is invalid for an environment reason, rather than for the contestant's own behaviour, moves to `evals/baselines/archive/<case>-<stamp>-<exit_reason>/` so that `<case>/` holds only real baselines. Keep `run.json`, `analysis.json`, `notes.md`, `stderr.txt`, `stream.jsonl` and `solution.bundle`. Drop the duplicate `session.jsonl` and an oracle log that adds nothing. Delete the run's workspace, its `.eval-cfg-<stamp>` folder and its `~/.mxc-sandbox/home/projects` entry.
+
 | File | Content |
 |---|---|
 | `solution.bundle` | `git bundle create solution.bundle --all`, taken in the workspace: the full repo, including the agent's planning folder and commits |
@@ -164,7 +167,7 @@ Store everything in `geeky-orchestration/evals/baselines/<case>/<YYYYMMDDTHHMMSS
 | `oracle` | `collected`, `passed`, `failed`, `skipped` | step 3 |
 | `loc.source_non_test`, `loc.test`, `files_changed` | final code size | `git` in the workspace |
 | `commits` | the number of commits | `git rev-list --count HEAD` |
-| `exit_reason` | `completed`, `timeout`, `idle`, `budget`, `crash` or `aborted` | you / process exit |
+| `exit_reason` | `completed`, `timeout`, `idle`, `budget`, `bg_killed`, `crash` or `aborted` | you / process exit |
 | `raw_sha256` | SHA-256 of `stream.jsonl` and `session.jsonl` | computed when stored |
 | `interventions` | the count of human interventions, with reasons in `notes.md` | you |
 | `reference_eligible` | `true` only if the oracle result is clean and there were no interventions | you |

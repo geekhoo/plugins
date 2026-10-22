@@ -1,0 +1,98 @@
+{
+  "tokens": {
+    "input": 4688919,
+    "cached_input": 4112170,
+    "cache_creation": 392848,
+    "output": 140708,
+    "total": 4829627,
+    "by_model": {
+      "claude-sonnet-5-5": {
+        "inputTokens": 222,
+        "cacheReadInputTokens": 4112170,
+        "cacheCreationInputTokens": 392848,
+        "outputTokens": 129971
+      },
+      "claude-haiku-5-5": {
+        "inputTokens": 183679,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "outputTokens": 10737
+      }
+    },
+    "cost_usd_estimate": 2.8857
+  },
+  "model_calls": 24,
+  "latency_median_ms": 1676,
+  "latency_samples": 43,
+  "max_idle_gap_s": 69,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-21T19:00:19.039000+00:00",
+      "ended_utc": "2026-10-21T19:03:16.407000+00:00",
+      "minutes": 3.0
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-21T19:03:16.407000+00:00",
+      "ended_utc": "2026-10-21T19:06:20.308000+00:00",
+      "minutes": 3.1
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-21T19:06:20.308000+00:00",
+      "ended_utc": "2026-10-21T19:08:20.941000+00:00",
+      "minutes": 2.0
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-21T19:08:20.941000+00:00",
+      "ended_utc": "2026-10-21T19:09:12.738000+00:00",
+      "minutes": 0.9
+    }
+  ],
+  "impl_review_rounds": null,
+  "skill_invocations": {
+    "spec-research": 1,
+    "geeky-plan": 1,
+    "plan-review": 1,
+    "geeky-implement": 1
+  },
+  "tool_calls_main": {
+    "Write": 19,
+    "PowerShell": 9,
+    "Agent": 6,
+    "Skill": 4,
+    "Read": 3,
+    "Bash": 2
+  },
+  "tool_calls_subagents": {
+    "Read": 54,
+    "PowerShell": 21,
+    "Agent": 9,
+    "WebFetch": 6,
+    "Glob": 3,
+    "ToolSearch": 1,
+    "Bash": 1,
+    "Grep": 1
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 2,
+    "geeky-orchestration:code-reviewer": 5,
+    "geeky-orchestration:code-architect": 1,
+    "geeky-orchestration:geeky-implement-orchestrator": 1,
+    "geeky-orchestration:geeky-coder": 5
+  },
+  "validation_runs": {
+    "main": 4,
+    "sub": 10
+  },
+  "gate_invocations": {
+    "validate-task-schema": 3,
+    "validate-kanban": 7,
+    "check-dod": 2,
+    "check-commit": 1
+  },
+  "duration_api_ms": 947266
+}

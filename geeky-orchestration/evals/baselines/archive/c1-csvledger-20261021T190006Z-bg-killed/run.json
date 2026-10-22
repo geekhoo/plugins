@@ -1,0 +1,84 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c1-csvledger",
+  "harness": "claude-code",
+  "harness_version": "2.1.304",
+  "model": "claude-sonnet-5-5",
+  "reasoning": "default",
+  "approach": "canonical-prompt",
+  "plugin_sha": "c9c87943c2134c3358c3aaf668666edb44558621",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "geeky_skills_loaded": 8,
+  "workspace": "C:\\repos\\eval-c1-csvledger-20261021T190006Z",
+  "seed_sha": "667d4e1234d4e3b1dae6e98ab23a057c44100c79",
+  "session_id": "c8eb765f-dfb5-4fc0-bbc9-16d3ebc8a541",
+  "started_utc": "2026-10-21T19:00:09.4021981Z",
+  "ended_utc": "2026-10-21T19:19:14.8915108Z",
+  "wall_time_s": 1145,
+  "tokens": {
+    "input": 4688919,
+    "cached_input": 4112170,
+    "cache_creation": 392848,
+    "output": 140708,
+    "total": 4829627,
+    "cost_usd_estimate": 2.8857,
+    "reasoning": 607
+  },
+  "model_calls": 24,
+  "latency_median_ms": 1676,
+  "max_idle_gap_s": 69,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-22T03:00:19.039+08:00",
+      "ended_utc": "2026-10-22T03:03:16.407+08:00",
+      "minutes": 3.0
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-22T03:03:16.407+08:00",
+      "ended_utc": "2026-10-22T03:06:20.308+08:00",
+      "minutes": 3.1
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-22T03:06:20.308+08:00",
+      "ended_utc": "2026-10-22T03:08:20.941+08:00",
+      "minutes": 2.0
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-22T03:08:20.941+08:00",
+      "ended_utc": "2026-10-22T03:09:12.738+08:00",
+      "minutes": 0.9
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 118,
+    "passed": 0,
+    "failed": 118,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 185,
+    "test": 246,
+    "files_changed": 44
+  },
+  "commits": 7,
+  "exit_code": 0,
+  "exit_reason": "bg_killed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "cc262416a27c8123b099b92626bc392c6da40ebecb06900dbae81ac10268dd29",
+    "session": "4ff338fdb9c4d0ed9bd6c2932f3fa269737ac443d11c32c182cc0365e4a52d64"
+  },
+  "interventions": 0,
+  "reference_eligible": false,
+  "token_ceiling": 12000000,
+  "over_token_ceiling": false
+}
