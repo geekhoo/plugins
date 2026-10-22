@@ -74,10 +74,11 @@ class Crash(Exception):
 def parse_args(argv: list[str]) -> dict:
     opts = {"prompt": None, "session_id": None, "plugin_dirs": [], "settings": None,
             "mcp_configs": [], "permission_mode": "default", "model": None,
-            "scenario": None, "case": None, "summary": None, "unknown": []}
+            "scenario": None, "case": None, "summary": None, "disallowed": [], "unknown": []}
     takes = {"-p": "prompt", "--print": "prompt", "--session-id": "session_id",
              "--plugin-dir": "plugin_dirs", "--settings": "settings", "--mcp-config": "mcp_configs",
              "--permission-mode": "permission_mode", "--model": "model",
+             "--disallowedTools": "disallowed", "--disallowed-tools": "disallowed",
              "--mock-scenario": "scenario", "--mock-case": "case", "--mock-summary": "summary",
              "--output-format": None, "--input-format": None, "--max-turns": None}
     i = 0
@@ -91,6 +92,8 @@ def parse_args(argv: list[str]) -> dict:
             dest = takes[key]
             if dest in ("plugin_dirs", "mcp_configs"):
                 opts[dest].append(val)
+            elif dest == "disallowed":
+                opts[dest] += re.split(r"[,\s]+", val.strip())
             elif dest:
                 opts[dest] = val
         else:
@@ -1087,7 +1090,7 @@ def main(argv: list[str]) -> int:
     skills, agents, plugins = plugin_meta(a.plugin)
     servers = mcp_servers(a)
     t.stream({"type": "system", "subtype": "init", "cwd": str(cwd), "session_id": t.sid,
-              "tools": TOOLS + [f"mcp__{n}__probe" for n in servers],
+              "tools": [x for x in TOOLS if x not in opts["disallowed"]] + [f"mcp__{n}__probe" for n in servers],
               "mcp_servers": [{"name": n, "status": "pending", "source": "dynamic"} for n in servers],
               "model": t.model, "permissionMode": opts["permission_mode"],
               "slash_commands": skills + BUILTIN_SKILLS, "apiKeySource": "none", "claude_code_version": VERSION,

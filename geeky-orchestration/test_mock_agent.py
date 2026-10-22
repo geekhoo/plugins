@@ -335,6 +335,12 @@ class ScenarioTests(unittest.TestCase):
         self.assertTrue((r.ws / "mockpkg" / "__init__.py").is_file())
         self.assertIn("--some-future-flag", r.init["mock_unknown_args"])
 
+    def test_disallowed_tools_hidden_from_init(self) -> None:
+        r = self.run_mock("python", extra_args=["--disallowedTools", "Bash"])
+        self.assertNotIn("Bash", r.init["tools"])
+        self.assertIn("PowerShell", r.init["tools"])
+        self.assertNotIn("--disallowedTools", r.init["mock_unknown_args"])
+
     def test_unknown_scenario_is_a_failed_check(self) -> None:
         r = self.run_mock("nope")
         self.assertEqual(r.checks["scenario.nope"]["status"], "fail")

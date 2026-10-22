@@ -106,7 +106,9 @@ $promptSha = [BitConverter]::ToString([Security.Cryptography.SHA256]::HashData([
 $sid = [guid]::NewGuid().ToString()
 $claudeArgs = @('-p', $prompt, '--session-id', $sid, '--plugin-dir', $pluginRun,
     '--settings', (Join-Path $cfg 'settings.json'), '--strict-mcp-config', '--mcp-config', (Join-Path $cfg 'mcp.json'),
-    '--permission-mode', 'bypassPermissions', '--output-format', 'stream-json', '--verbose')
+    '--permission-mode', 'bypassPermissions', '--output-format', 'stream-json', '--verbose',
+    # Git Bash cannot start in MXC (microsoft/mxc#1061), so every Bash call fails with exit 66; hide the tool.
+    '--disallowedTools', 'Bash')
 if ($Model) { $claudeArgs += @('--model', $Model) }
 if ($MockAgent) {
     # MXC_CLAUDE_EXE must be an .exe: the agent-py python runs the mock, copied under the read-only

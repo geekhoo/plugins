@@ -95,7 +95,7 @@ $prompt = (Get-Content (Join-Path $plugin 'evals\prompts\end-to-end.md') -Raw) -
 $sid = [guid]::NewGuid().ToString()
 $mockArgs = @((Join-Path $mockDir 'mock_claude.py'), '-p', $prompt, '--session-id', $sid, '--plugin-dir', $pluginRun,
     '--settings', (Join-Path $cfg 'settings.json')) + $mcpCfgArgs + @('--permission-mode', 'bypassPermissions',
-    '--output-format', 'stream-json', '--verbose', '--mock-scenario', $Checks)
+    '--output-format', 'stream-json', '--verbose', '--disallowedTools', 'Bash', '--mock-scenario', $Checks)
 if ($Case) { $mockArgs += @('--mock-case', $Case) }
 
 # The runner's sandbox environment, verbatim
