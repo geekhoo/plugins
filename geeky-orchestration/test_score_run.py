@@ -151,6 +151,36 @@ class ValidationRunTests(unittest.TestCase):
         self.assertEqual(v["outcome"], "pass")
 
 
+class TaskCommitTests(unittest.TestCase):
+    """H1: each task's validation block re-runs at its own commit, not at final HEAD."""
+
+    ROWS = [{"sha": "p" * 40, "ct": 100, "tasks": ["T1", "T2"]},          # plan review, before any work
+            {"sha": "a" * 40, "ct": 200, "tasks": ["T1"]},
+            {"sha": "b" * 40, "ct": 300, "tasks": ["T1", "T2", "T3"]},  # phase commit
+            {"sha": "c" * 40, "ct": 400, "tasks": ["T4"]},
+            {"sha": "f" * 40, "ct": 500, "tasks": ["T1", "T2", "T3", "T4"]}]  # final review
+
+    def test_own_commit_before_done(self):
+        cm, basis = sr.task_commit(self.ROWS, "T1", done_ts=250, start_ts=150)
+        self.assertEqual((cm["sha"][0], basis), ("a", "last commit naming it before its Done move"))
+        self.assertEqual(sr.task_commit(self.ROWS, "T4", done_ts=450, start_ts=350)[0]["sha"][0], "c")
+
+    def test_only_in_phase_commit(self):
+        self.assertEqual(sr.task_commit(self.ROWS, "T3", done_ts=350, start_ts=150)[0]["sha"][0], "b")
+
+    def test_phase_committed_after_done(self):
+        # run 4: Done moves precede the phase's commits; the plan-review commit predates the task's start
+        cm, basis = sr.task_commit(self.ROWS, "T2", done_ts=180, start_ts=150)
+        self.assertEqual(cm["sha"][0], "b")
+        self.assertIn("after its Done move", basis)
+
+    def test_no_tasks_commit_falls_back(self):
+        cm, basis = sr.task_commit(self.ROWS, "T5", done_ts=450, start_ts=150)
+        self.assertIsNone(cm)
+        self.assertIn("no commit", basis)
+        self.assertIsNone(sr.task_commit(self.ROWS[:2], "T3", done_ts=None)[0])
+
+
 class OrchestratorEditTests(unittest.TestCase):
     """D87: main-thread writes to product code or tests, found in shell commands."""
 

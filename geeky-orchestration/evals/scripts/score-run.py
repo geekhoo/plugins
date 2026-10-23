@@ -488,6 +488,35 @@ def commits(ws):
     return rows
 
 
+def task_commit(rows, task, done_ts, start_ts=None):
+    """The commit whose tree re-runs <task>'s validation block (H1, amends D27): the last commit naming
+    the task in a Tasks: line before its Done move. Commits older than the task's start (e.g. the
+    plan-review commit) do not count; when the run commits a phase only after moving its tasks to Done,
+    the first commit naming the task after the move stands. Returns (row or None, basis)."""
+    named = [c for c in rows if task in c["tasks"] and (start_ts is None or c["ct"] >= start_ts - 1)]
+    if not named:
+        return None, "no commit with a Tasks: line naming it"
+    if done_ts is None:
+        return named[-1], "last commit naming it (no Done move)"
+    before = [c for c in named if c["ct"] <= done_ts]
+    if before:
+        return before[-1], "last commit naming it before its Done move"
+    return named[0], "first commit naming it after its Done move (phase committed after the move)"
+
+
+def checkout(ws, sha):
+    """A clean detached worktree of <sha> under %TEMP%; the workspace's tree and HEAD stay as they are."""
+    wt = Path(tempfile.mkdtemp(prefix="score-rerun-")) / sha[:7]
+    git(ws, "worktree", "add", "--detach", str(wt), sha)
+    return wt
+
+
+def drop_checkout(ws, wt):
+    git(ws, "worktree", "remove", "--force", str(wt), check=False)
+    git(ws, "worktree", "prune", check=False)
+    shutil.rmtree(wt.parent, ignore_errors=True)
+
+
 def run_script(name, *args):
     r = subprocess.run([sys.executable, str(SCRIPTS / name), *args], capture_output=True, text=True,
                        encoding="utf-8", errors="replace")
@@ -790,7 +819,7 @@ class Scorer:
                 if t in self.d87_by_task:
                     self.d87_by_task[t].append(c.idx)
 
-    # ---- re-run validation blocks (D27)
+    # ---- re-run validation blocks (D27, amended by H1: at each task's own commit)
     def validation_commands(self, t):
         text = self.task_files[t].read_text(encoding="utf-8", errors="replace")
         lines = text.splitlines()
@@ -808,6 +837,17 @@ class Scorer:
                     cmds.append(cmd.strip())
         return cmds
 
+    def rerun_commit(self, t):
+        """(sha, fell_back, basis) for task t's re-run: its own commit (task_commit), else final HEAD."""
+        done = self.done_call.get(t)
+        starts = [d.ts or d.rts for d in self.coders.get(t, [])] + ([self.inprog[t].ts] if t in self.inprog else [])
+        starts = [s for s in starts if s]
+        cm, basis = task_commit(self.commits, t, done.ts.timestamp() if done and done.ts else None,
+                                min(starts).timestamp() if starts else None)
+        if cm:
+            return cm["sha"], False, basis
+        return git(self.ws, "rev-parse", "HEAD").strip(), True, f"{basis}; fell back to final HEAD"
+
     def rerun_blocks(self):
         self.rerun_results = {}
         if not self.rerun:
@@ -816,17 +856,25 @@ class Scorer:
         env["PATH"] = str(Path(sys.executable).parent) + os.pathsep + env.get("PATH", "")
         env["PYTHONDONTWRITEBYTECODE"] = "1"
         env["PYTEST_ADDOPTS"] = (env.get("PYTEST_ADDOPTS", "") + " -p no:cacheprovider").strip()
-        for t in self.tasks:
-            res = []
-            for cmd in self.validation_commands(t):
-                try:
-                    r = subprocess.run(cmd, shell=True, cwd=self.ws, env=env, capture_output=True, text=True,
-                                       encoding="utf-8", errors="replace", timeout=900)
-                    tail = (r.stdout.strip().splitlines() or r.stderr.strip().splitlines() or [""])[-1]
-                    res.append({"command": cmd, "exit": r.returncode, "tail": tail[:160]})
-                except subprocess.TimeoutExpired:
-                    res.append({"command": cmd, "exit": None, "tail": "timeout"})
-            self.rerun_results[t] = res
+        trees = {}
+        try:
+            for t in self.tasks:
+                sha, fell_back, basis = self.rerun_commit(t)
+                res = []
+                for cmd in self.validation_commands(t):
+                    if sha not in trees:
+                        trees[sha] = checkout(self.ws, sha)
+                    try:
+                        r = subprocess.run(cmd, shell=True, cwd=trees[sha], env=env, capture_output=True,
+                                           text=True, encoding="utf-8", errors="replace", timeout=900)
+                        tail = (r.stdout.strip().splitlines() or r.stderr.strip().splitlines() or [""])[-1]
+                        res.append({"command": cmd, "exit": r.returncode, "tail": tail[:160]})
+                    except subprocess.TimeoutExpired:
+                        res.append({"command": cmd, "exit": None, "tail": "timeout"})
+                self.rerun_results[t] = {"commit": sha[:7], "fallback": fell_back, "basis": basis, "results": res}
+        finally:
+            for wt in trees.values():
+                drop_checkout(self.ws, wt)
 
     # ---- dimensions
     def quality(self):
@@ -845,10 +893,12 @@ class Scorer:
         loc = (self.run.get("loc") or {}).get("source_non_test") or self.count_source_loc()
         S = min(1.0, ref / loc) if loc else 0.0
         if self.rerun:
-            fails = [(t, r["command"]) for t, rs in self.rerun_results.items() for r in rs if r["exit"] != 0]
-            ncmd = sum(len(rs) for rs in self.rerun_results.values())
-            D_ev = f"{ncmd - len(fails)}/{ncmd} validation commands pass when re-run" + (
-                f"; failing: {fails}" if fails else "")
+            rr = self.rerun_results
+            fails = [(t, r["command"]) for t, x in rr.items() for r in x["results"] if r["exit"] != 0]
+            ncmd = sum(len(x["results"]) for x in rr.values())
+            fb = [t for t, x in rr.items() if x["fallback"]]
+            D_ev = f"{ncmd - len(fails)}/{ncmd} validation commands pass when re-run at each task's commit" + (
+                f"; failing: {fails}" if fails else "") + (f"; at final HEAD (no own commit): {fb}" if fb else "")
         else:
             fails = [(t, "recorded") for t in self.tasks if t not in self.first_pass]
             D_ev = "not re-run (--no-rerun): defects counted from recorded evidence (tasks with no passing run)"
@@ -1178,7 +1228,8 @@ class Scorer:
             counted = [(i, v) for i, v in self.runs.get(t, []) if not v["excluded"]]
             excluded = [(i, v["excluded"]) for i, v in self.runs.get(t, []) if v["excluded"]]
             a = len(counted) + len(self.d87_by_task.get(t, []))
-            rerun_ok = all(r["exit"] == 0 for r in self.rerun_results.get(t, [])) if self.rerun else True
+            rerun_ok = all(r["exit"] == 0 for r in self.rerun_results.get(t, {}).get("results", [])) \
+                if self.rerun else True
             passed = t in self.first_pass and rerun_ok
             V = v_score(a, passed)
             rv = [r for r in self.reviews if t in r["ids"]]
