@@ -135,7 +135,7 @@ For each phase, in plan order:
 
 Acceptance must wait until all required tests have passing evidence, even when the task is not in the Blocked lane. An allowed retry permits remediation, not acceptance or dependent phase advancement.
 
-12. **Move to Done** in `kanban.md` only after the phase review clears (steps 14–15): validation is green AND the task has a PASS verdict AND no blocker/major findings remain. Run the **Definition-of-Done** gate for the task first and edit `kanban.md` only after it exits 0; then run the **kanban-integrity** gate on the moved board. Fix until both exit 0:
+12. **Move to Done** in `kanban.md` only after the phase review clears (steps 14–15): validation is green AND the task has a PASS verdict AND no blocker/major findings remain. The **Definition-of-Done** gate verifies the task in the Done lane, so run it in the same step as the Done move, followed by the **kanban-integrity** gate. If `check-dod` does not exit 0, move the task back and fix before trying again; never leave a task in Done with a failing gate. Fix until both exit 0:
 
     ```
     python "${CLAUDE_PLUGIN_ROOT}/scripts/check-dod.py" --path "<folder>" --task T<x>
