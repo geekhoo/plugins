@@ -25,7 +25,6 @@ Check IDs (stable). Kind: det = deterministic, judge = from --manual.
     adh.dod.<T>                  check-dod <T> on the final folder                           det
     adh.handoff_batch.<T>        handoff.md written naming <T> in its Done call or the next (D82) det
     adh.notes.<T>                tasks/<T>-*.notes.md exists and is non-empty                det
-    adh.events.<T>               tasks/<T>.events.jsonl exists and is non-empty (EP:63)      det
     adh.task_review.<T>          a reviewer subagent verdict during implement names <T> (EP:124) det
     adh.phase_verdict.P<k>       reviewer READY/PASS covering phase k AND recorded in handoff/notes (EP:158) det
     adh.gates_before_done.<T>    check-dod <T> + validate-kanban in the Done call or after the last code edit (D86) det
@@ -47,7 +46,7 @@ Check IDs (stable). Kind: det = deterministic, judge = from --manual.
     dp03 PM review artifact present                                                          det
     dp04 plan-review subagents (>=2 dispatches)                                              det
     dp05 * plan-review commit exact message                                                  det
-    dp06 event logs for every task                                                           det
+    (dp06, task event logs, was retired with the event-log requirement: D91)
     dp07 batching <=3 parallel (det) and justification noted (judge: dp07.justification)     det+judge
     dp08 In Progress lane move with timestamp for every task                                 det
     dp09 * task review for every task                                                        det
@@ -957,11 +956,6 @@ class Scorer:
             self.check(f"adh.notes.{t}", A, "pass" if notes else "fail",
                        notes[0].name if notes else f"no tasks/{t}-*.notes.md")
         for t in self.tasks:
-            ev = [p for p in tdir.glob(f"{t}*.events.jsonl") if re.match(rf"{t}\b", p.name)]
-            lines = sum(1 for p in ev for l in p.read_text(encoding="utf-8", errors="replace").splitlines() if l.strip())
-            self.check(f"adh.events.{t}", A, "pass" if lines else "fail",
-                       f"{ev[0].name}: {lines} entries" if ev else f"no tasks/{t}.events.jsonl")
-        for t in self.tasks:
             rv = [r for r in self.reviews if t in r["ids"]]
             ok = any(r["pass"] for r in rv)
             self.check(f"adh.task_review.{t}", A, "pass" if ok else "fail",
@@ -1137,8 +1131,6 @@ class Scorer:
            f"{len(prv)} plan-review dispatches")
         dp("dp05", "Plan-review commit, exact message", self.prescribed["plan_review"],
            "see adh.prescribed_msg.plan_review")
-        ev_fail = [t for t in self.tasks if self.status(f"adh.events.{t}") != "pass"]
-        dp("dp06", "Event logs created on dispatch", "fail" if ev_fail else "pass", f"missing/empty: {ev_fail or 'none'}")
         coders = [d for ds in self.coders.values() for d in ds if T.stage_of(d) == "geeky-implement"]
         conc = concurrency(list({d.id: d for d in coders}.values()))
         det7 = conc <= 3

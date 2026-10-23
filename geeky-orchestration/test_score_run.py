@@ -234,13 +234,14 @@ class Run3IntegrationTest(unittest.TestCase):
     def tearDownClass(cls):
         shutil.rmtree(cls.tmp, ignore_errors=True)
 
-    def test_dimensions_match_hand_scoring(self):
+    def test_dimensions_match_recorded_scores(self):
+        # comparison-20261022T0800Z.md after D91 retired the event-log checks
         d = self.score["dimensions"]
-        for got, want in ((d["quality"]["capped"], 97.6), (d["adherence"]["capped"], 80.3),
-                          (d["consistency"]["score"], 67.3), (d["task_tier"]["score"], 72.6),
-                          (self.score["composite"], 83.0)):
+        for got, want in ((d["quality"]["capped"], 97.6), (d["adherence"]["capped"], 89.7),
+                          (d["consistency"]["score"], 69.5), (d["task_tier"]["score"], 72.6),
+                          (self.score["composite"], 86.7)):
             self.assertAlmostEqual(got, want, delta=0.5)
-        self.assertEqual((d["adherence"]["passed"], d["adherence"]["applicable"]), (61, 76))
+        self.assertEqual((d["adherence"]["passed"], d["adherence"]["applicable"]), (61, 68))
         self.assertEqual(self.score["needs_judge"], [])
 
     def test_key_verdicts(self):
