@@ -34,6 +34,8 @@ What it does:
 - Sets git's `safe.directory` through environment variables, because inside the container git reports the workspace as having "dubious ownership".
 - Records `geeky_skills_loaded`. A run in which no geeky skill loaded is never reference-eligible.
 - Sets `CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1`. Without it, every PowerShell tool call in MXC reports `Exit code 5` even when it succeeds.
+- Copies every subagent transcript into `subagents/` in the run folder: `agent-<id>.jsonl`, plus a `meta.json` naming the tool call that spawned it. When a subagent dispatches its own subagents, as `geeky-implement-orchestrator` did in C1 run 6, their calls appear only there and not in `stream.jsonl`.
+- Sets `PYTHONDONTWRITEBYTECODE=1`, and the plugin tamper check ignores `__pycache__`. C1 run 6 was flagged as tampered only because the gate scripts' bytecode was written into the read-write export.
 - Passes `--disallowedTools Bash`. Git Bash cannot start in MXC (microsoft/mxc#1061), so every Bash call fails with exit 66. In C1 run 3 that wasted 8 calls, and one write silently did nothing. With Bash hidden, the agent uses PowerShell from the start.
 - Sets `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`. Headless `claude -p` otherwise stops background subagents still running 10 minutes after the main agent's last turn, which cut C1 run 3 off mid-implementation. The main agent is resumed when the subagents finish. The MXC `--timeout` still bounds the run. A run whose background work was stopped is recorded with `exit_reason = bg_killed`.
 - Puts `C:\repos\.eval-tools\agent-py`, a venv with pytest built offline, first on the sandbox `PATH`. The sandbox Python has no pytest, and `pip` can't install inside MXC.

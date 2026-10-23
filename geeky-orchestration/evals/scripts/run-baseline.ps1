@@ -95,7 +95,8 @@ $export = Join-Path $cfg 'plugin'
 New-Item -ItemType Directory -Force $export | Out-Null
 git -C $repoRoot archive --format=tar $pluginSha geeky-orchestration ':(exclude)geeky-orchestration/evals' | tar -x -C $export
 $pluginRun = Join-Path $export 'geeky-orchestration'
-$hashTree = { param($dir) (Get-ChildItem $dir -Recurse -File | Sort-Object FullName | ForEach-Object { (Get-FileHash $_.FullName -Algorithm SHA256).Hash }) -join '' }
+# Bytecode caches are not plugin changes (the agent's tooling may compile the gate scripts).
+$hashTree = { param($dir) (Get-ChildItem $dir -Recurse -File | Where-Object { $_.FullName -notmatch '\\__pycache__\\' } | Sort-Object FullName | ForEach-Object { (Get-FileHash $_.FullName -Algorithm SHA256).Hash }) -join '' }
 $exportHash = & $hashTree $pluginRun
 $boot = "import site,runpy,sys; site.addsitedir(r'$ToolsDir\geeky-mcp\Lib\site-packages'); sys.path.insert(0, r'$pluginRun\mcp'); sys.argv=[r'$pluginRun\mcp\server.py']; runpy.run_path(sys.argv[0], run_name='__main__')"
 @{ mcpServers = @{ geeky = @{ command = $mcpPython; args = @('-u', '-c', $boot) } } } | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $cfg 'mcp.json')
@@ -128,6 +129,7 @@ New-Item -ItemType Directory -Force $runTmp | Out-Null
 $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host-loopback',
     '--rw', $export, '--ro', $cfg, '--rw', $runTmp, '--ro', $ToolsDir, '--timeout', $TimeoutSec,
     '--env', "TMPDIR=$runTmp",
+    '--env', 'PYTHONDONTWRITEBYTECODE=1',   # keep __pycache__ out of the read-write plugin export and the workspace
     '--env', 'GIT_CONFIG_COUNT=1', '--env', 'GIT_CONFIG_KEY_0=safe.directory', '--env', "GIT_CONFIG_VALUE_0=$($ws -replace '\\','/')",
     '--env', "XDG_CONFIG_HOME=$cfg",   # host ~/.config/git is unreadable in the container; avoid per-command warnings
     # Claude's Windows shell launcher makes every PowerShell tool call report "Exit code 5" inside MXC
@@ -165,7 +167,12 @@ if ($MockAgent) {
 
 $pluginTampered = (& $hashTree $pluginRun) -ne $exportHash
 $session = Get-ChildItem (Join-Path $env:USERPROFILE '.mxc-sandbox\home\projects') -Recurse -Filter "$sid.jsonl" -ErrorAction SilentlyContinue | Select-Object -First 1
-if ($session) { Copy-Item $session.FullName (Join-Path $out 'session.jsonl') }
+if ($session) {
+    Copy-Item $session.FullName (Join-Path $out 'session.jsonl')
+    # Each subagent's transcript (with a meta.json naming the spawning tool call); nested subagents appear only here.
+    $subDir = Join-Path $session.DirectoryName "$sid\subagents"
+    if (Test-Path $subDir) { Copy-Item $subDir (Join-Path $out 'subagents') -Recurse }
+}
 
 # 4. Oracle 3x
 $oracleFile = Join-Path $out 'oracle-output.txt'
