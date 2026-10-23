@@ -135,7 +135,7 @@ For each phase, in plan order:
 
 Acceptance must wait until all required tests have passing evidence, even when the task is not in the Blocked lane. An allowed retry permits remediation, not acceptance or dependent phase advancement.
 
-12. **Move to Done** in `kanban.md` only after the phase review clears (steps 14–15): validation is green AND the task has a PASS verdict AND no blocker/major findings remain. Before finalizing each move, run the **Definition-of-Done** gate for the task and the **kanban-integrity** gate, and fix until both exit 0:
+12. **Move to Done** in `kanban.md` only after the phase review clears (steps 14–15): validation is green AND the task has a PASS verdict AND no blocker/major findings remain. Run the **Definition-of-Done** gate for the task first and edit `kanban.md` only after it exits 0; then run the **kanban-integrity** gate on the moved board. Fix until both exit 0:
 
     ```
     python "${CLAUDE_PLUGIN_ROOT}/scripts/check-dod.py" --path "<folder>" --task T<x>
@@ -178,7 +178,7 @@ Acceptance must wait until all required tests have passing evidence, even when t
 
     Use HEREDOC to pass multiline messages. Do NOT push. Do NOT amend. If a pre-commit hook fails, have `geeky-coder` fix any product code or test cause, then create a NEW commit — do not skip hooks.
 
-    Before each commit, validate the message with the **commit gate** (`--message` works in PowerShell and bash; in bash you may pipe the message via stdin instead); fix until it exits 0:
+    Before each commit, validate the message with the **commit gate** (`--message` works in PowerShell and bash; in bash you may pipe the message via stdin instead). A non-zero exit blocks that commit: fix the message and re-run the gate until it exits 0, then commit.
 
     ```
     python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py" --message "<msg>"

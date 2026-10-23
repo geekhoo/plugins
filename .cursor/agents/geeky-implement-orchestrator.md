@@ -145,11 +145,11 @@ Move tasks to Done only after the phase review (section 6) clears. Before each D
 - `tasks/Tx-*.notes.md` exists and is current;
 - `handoff.md` mentions the completion.
 
-Then move the task to Done and run:
+Then run the DoD gate first, and move the task to Done only after it exits 0; validate the board after the move:
 
 ```bash
-python geeky-orchestration/scripts/check-dod.py --path "<folder>" --task T<x>
-python geeky-orchestration/scripts/validate-kanban.py --path "<folder>"
+python geeky-orchestration/scripts/check-dod.py --path "<folder>" --task T<x>   # must exit 0 before the Done move
+python geeky-orchestration/scripts/validate-kanban.py --path "<folder>"         # after the move
 ```
 
 If a gate fails, fix mutable artifacts or route implementation issues to `geeky-coder`, and re-run the same gate until it exits 0. Never fix a failed DoD by editing frozen task bodies.
@@ -168,7 +168,7 @@ Tasks: T<x>, T<y>
 Refs: docs/<planning-folder>/tasks/Tx-*.md
 ```
 
-4. Validate each commit message before committing:
+4. Validate each commit message before committing. A non-zero exit blocks that commit: fix the message and re-run the gate until it exits 0.
 
 ```bash
 python geeky-orchestration/scripts/check-commit.py --message "<msg>"

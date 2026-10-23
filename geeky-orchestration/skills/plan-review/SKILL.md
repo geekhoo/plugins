@@ -127,7 +127,7 @@ Overall: READY FOR IMPLEMENTATION / NEEDS ATTENTION (list remaining items)
 
 - **Phase 1**: Deploy as a background subagent (`geeky-orchestration:code-reviewer` type) — it reads all files without editing
 - **Phase 2**: Execute fixes directly (the orchestrator applies edits based on Phase 1 findings)
-- **Phase 3**: Deploy as a background subagent (`geeky-orchestration:code-architect` type) — independent analysis of sequencing
+- **Phase 3**: Deploy as a background subagent (`geeky-orchestration:code-architect` type) — independent analysis of sequencing. Always dispatch it as its own subagent, separate from Phase 1, even when Phase 1 found nothing; the orchestrator does not do the sequencing review inline.
 - **Phase 4**: Execute directly — final verification pass
 
 If Phase 1 finds no critical issues and Phase 2 corrections do not affect sequencing inputs, Phase 3 may run in parallel. Otherwise, complete Phase 2 first.
