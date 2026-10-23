@@ -135,6 +135,8 @@ Run the oracle **3 times** against the final workspace. Any result that differs 
 
 A run can become the reference solution only when its oracle result is clean and stable.
 
+For the traps behind each runner setting and the open TODOs, see [lessons-learned.md](lessons-learned.md).
+
 ### 4. Store the baseline
 
 Store everything in `geeky-orchestration/evals/baselines/<case>/<YYYYMMDDTHHMMSSZ>/`. Contestants never see this folder, because D50 excludes `evals/` from the plugin export.
