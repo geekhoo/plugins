@@ -108,7 +108,8 @@ def _loop_items(spec):
     if quoted:
         return quoted
     bare = [s for s in re.split(r"[,\s]+", spec.strip()) if s]
-    return bare if bare and not any(s.startswith("$") for s in bare) else [None]
+    # a single variable is a collection of unknown size; a comma list of variables ($m1,$m2) has one item each
+    return bare if bare and (len(bare) > 1 or not bare[0].startswith("$")) else [None]
 
 
 def static_gate_runs(cmd):
