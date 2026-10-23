@@ -217,7 +217,8 @@ LANES = r"Backlog|Ready|In Progress|In Review|Blocked|Done"
 
 def helper_moves(raw, helpers):
     """Lane moves made by calling a kanban helper script with `<task> <lane>` arguments, e.g.
-    `python $kb $f T2 Done` or `foreach($t in 'T4','T5'){ python $kb $f $t "In Progress" }`.
+    `python $kb $f T2 Done` or `foreach($t in 'T4','T5'){ python $kb $f $t "In Progress" }`, or with named
+    arguments, e.g. `pwsh -File kmove.ps1 -Task $t -To Done`.
     Only statements that invoke a helper (by file name or a variable holding its path) count."""
     text = raw.replace("`r", "").replace("`n", "\n")
     names = [re.escape(h) for h in helpers]
@@ -231,12 +232,18 @@ def helper_moves(raw, helpers):
         s = stmt.group(0)
         if not (re.search("|".join(names), s, re.I) or any(re.search(r"\$%s\b" % v, s) for v in hvars)):
             continue
-        for m in re.finditer(r"(?:\b(T\d+)\b|\$(\w+))['\"]?\s+['\"]?(%s)\b" % LANES, s):
-            if m.group(1):
-                ids = [m.group(1)]
+        found = [(m.group(1), m.group(2), m.group(3))
+                 for m in re.finditer(r"(?:\b(T\d+)\b|\$(\w+))['\"]?\s+['\"]?(%s)\b" % LANES, s)]
+        task = re.search(r"-Task\s+['\"]?(?:\b(T\d+)\b|\$(\w+))", s, re.I)
+        lane = re.search(r"-(?:To|Lane)\s+['\"]?(%s)\b" % LANES, s, re.I)
+        if task and lane:
+            found = [(task.group(1), task.group(2), lane.group(1))]
+        for tid, var, ln in found:
+            if tid:
+                ids = [tid]
             else:  # the loop variable's nearest enclosing foreach
-                ids = next((i for p, v, i in reversed(loops) if v == m.group(2) and p < stmt.start()), [])
-            moves += [(t, m.group(3)) for t in ids]
+                ids = next((i for p, v, i in reversed(loops) if v == var and p < stmt.start()), [])
+            moves += [(t, ln) for t in ids]
     return moves
 
 
@@ -679,17 +686,27 @@ class Scorer:
                     self.d87.append((c, paths))
         # kanban writes, Done / In Progress markers, handoff writes
         helpers = set()
+        kanban_gating = set()  # helpers whose own source runs validate-kanban
         self.kanban_calls, self.done_call, self.inprog, self.done_moves = [], {}, {}, {}
         self.handoff_calls = []
         done_now = set()
         for c in T.mains():
             raw = c.raw
             if "kanban.md" in raw and WRITE_VERB.search(raw):
-                helpers.update(n.lower() for n in re.findall(r"([\w-]+\.ps1)\b", raw)
-                               if not re.match(r"(?i)(validate|check|preflight)", n))
+                found = {n.lower() for n in re.findall(r"([\w-]+\.ps1)\b", raw)
+                         if not re.match(r"(?i)(validate|check|preflight)", n)}
                 # a Python helper counts only when this call writes the script itself
-                helpers.update(n.lower() for n in re.findall(
-                    r"(?:Set-Content|Out-File|WriteAll\w*|>)\s*[\"']?[^\"'\s;]*?([\w-]+\.py)\b", raw))
+                found |= {n.lower() for n in re.findall(
+                    r"(?:Set-Content|Out-File|WriteAll\w*|>)\s*[\"']?[^\"'\s;]*?([\w-]+\.py)\b", raw)}
+                helpers |= found
+                # only the helper's own source counts: a Write tool's content, or a here-string piped into it
+                written = str(c.inp.get("file_path", "")).replace("\\", "/").rsplit("/", 1)[-1].lower()
+                if c.name == "Write" and written in found and "validate-kanban" in str(c.inp.get("content", "")):
+                    kanban_gating.add(written)
+                for m in re.finditer(r"@(['\"])\r?\n(.*?)\r?\n\1@\s*\|\s*(?:Set-Content|Out-File)\s+[^\n;|]*?([\w-]+\.(?:ps1|py))",
+                                     raw.replace("`r", "").replace("`n", "\n"), re.S):
+                    if "validate-kanban" in m.group(2):
+                        kanban_gating.add(m.group(3).lower())
             writes_kanban = (str(c.inp.get("file_path", "")).replace("\\", "/").endswith("kanban.md") or
                              ("kanban.md" in raw and re.search(
                                  r"(?:Set-Content|Out-File|WriteAll\w*|Add-Content|>)[^\n;]*kanban\.md|"
@@ -747,6 +764,11 @@ class Scorer:
                 for t in ids | set(verdicts):
                     if t in self.dod_runs:
                         self.dod_runs[t].append((c.top.idx, verdicts.get(t)))
+        # a helper whose source runs validate-kanban runs it on every move it makes (verdict not shown)
+        if kanban_gating:
+            for c in self.kanban_calls:
+                n = len(helper_moves(c.raw, kanban_gating))
+                self.kanban_gate_runs += [(c.top.idx, None)] * n
         # reviewers during implement
         self.reviews = []
         for c in T.agents("geeky-implement"):

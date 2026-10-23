@@ -118,6 +118,12 @@ class HelperMoveTests(unittest.TestCase):
                          [("T4", "Done"), ("T5", "Done"), ("T6", "Ready"), ("T7", "Ready"),
                           ("T6", "In Progress"), ("T7", "In Progress"), ("T8", "In Review")])
 
+    def test_named_arguments(self):
+        cmd = ("foreach($t in \"T3\",\"T4\"){ pwsh -NoProfile -File .tools/kmove.ps1 -Task $t -To Done | Out-Null }\n"
+               "pwsh -NoProfile -File .tools/kmove.ps1 -Task T5 -To \"In Progress\"")
+        self.assertEqual(sr.helper_moves(cmd, {"kmove.ps1"}),
+                         [("T3", "Done"), ("T4", "Done"), ("T5", "In Progress")])
+
     def test_no_helper_no_moves(self):
         self.assertEqual(sr.helper_moves("Add-Content handoff.md '- T2 Done'", {"kb.py"}), [])
 
