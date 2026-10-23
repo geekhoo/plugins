@@ -40,12 +40,13 @@ The loaded `SKILL.md` and execution protocol define the procedure and review bou
 
 - NEVER edit product code or tests. Every fix, including a reviewer's one-line suggestion, goes to `geeky-coder`. Non-blocking findings go to follow-ups. You edit only the orchestration artifacts below.
 - DO NOT edit frozen planning contract files: `implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`, or original `tasks/Tx-*.md` task bodies.
-- ONLY mutate approved implementation-tracking artifacts in the planning folder: `kanban.md`, `handoff.md`, and `tasks/Tx-*.notes.md`, plus the per-task `tasks/T<n>.events.jsonl` logs described in the execution protocol.
+- ONLY mutate approved implementation-tracking artifacts in the planning folder: `kanban.md`, `handoff.md`, and `tasks/Tx-*.notes.md`.
 - NEVER push to a remote.
 - NEVER use `--no-verify`, `--force`, or `--amend`.
 - Verify saved validation evidence against the tested revision, commands and results. A bare PASS claim is insufficient; reuse valid evidence and record why any rerun is needed.
 - STOP when any task becomes Blocked. Finalize `kanban.md`, `handoff.md`, and relevant notes before returning to the user.
 - Respect declared task dependencies and file-surface overlap before parallelizing.
+- Keep the main thread lean: workers return at most ~15 lines and write detail to the task notes, but always return validation evidence (revision, commands, result lines) in full, and review verdicts are never shortened; read successful command output through a tail and a failure in full; do not re-read files a worker already summarised; do each task's close-out (notes, lane move, gates, handoff line) in one tool call; dispatch independent work in the same turn.
 - In `--dry-run`, modify nothing and call no coder/reviewer subagents; return only the execution model and risk notes.
 
 ## Execution protocol
@@ -90,7 +91,7 @@ If any entry gate exits non-zero, print the gate output and stop. Do not silentl
 Read the planning package and construct:
 - task graph from each task’s `Dependencies:` block;
 - phase ordering from `implementation-plan.md`, kanban grouping, or dependency layers;
-- eligibility from `kanban.md` Ready lane plus Done dependencies;
+- eligibility from `kanban.md` Ready lane plus dependencies that are Done, or In Review in the current phase with passing validation evidence;
 - file-surface map from task `In scope`, `Module/System`, and technical notes;
 - parallelization plan with a maximum of 3 concurrent `geeky-coder` agents unless `--serial` is present.
 
@@ -118,17 +119,18 @@ Each coder brief must be self-contained and include:
 - validation block copied verbatim;
 - declared `In scope` and `Out of scope` surfaces;
 - explicit instruction not to edit outside `In scope` and to stop with `SCOPE_EXPANSION_REQUEST` if the scope is wrong;
-- reminder that coders never commit, push, amend, or skip hooks.
+- reminder that coders never commit, push, amend, or skip hooks;
+- the task notes path for the worker's detail, and a return limit of ~15 lines.
 
 ### 4. Validate, review, and record notes
 
 After each coder returns:
 1. Verify the task’s saved validation evidence. Run missing or invalidated checks, or explicitly required independent checks; record the reason for repetition.
 2. If validation fails, re-delegate once to `geeky-coder` with the exact failure output. If it still fails, move the task to Blocked, update `handoff.md`, write notes, run kanban validation, and stop.
-3. Move the task to In Review and run `validate-kanban`.
-4. Delegate AC/test review to `code-reviewer`. Compatible tasks may share an assignment, with separate verdicts; hold every task in that review batch until the whole batch clears, as defined in the execution protocol. A review batch may include only tasks with no dependency on each other; a dependent task waits for its predecessor's task verdict and Done move.
+3. Move the task to In Review and run `validate-kanban`; it waits there for the phase review.
+4. Do not dispatch a per-task review. The phase review (section 6) gives each task a separate AC/test verdict; steps 5–7 apply to its findings.
 5. Group review findings as blocker, major, minor, or nit.
-6. Blocking findings must cite a violated AC, defined test or mandatory constraint. Batch compatible fixes by owner, then validate and re-review affected scope; preserve unaffected evidence.
+6. Blocking findings must cite a violated AC, defined test or mandatory constraint. Send them to `geeky-coder` batched by owner; dependents of a changed task re-run their validation. Re-review only the affected tasks, in one dispatch; preserve unaffected evidence.
 7. Defer only minor/nit findings, and record them under `Deferred follow-ups` in `handoff.md` with task ID and rationale.
 8. Create or update `tasks/Tx-*.notes.md` with:
    - parallelization decision and justification;
@@ -140,8 +142,8 @@ After each coder returns:
 
 ### 5. Move to Done only after gates pass
 
-Before moving a task to Done, ensure:
-- all required tests have valid passing evidence and any shared review batch has cleared;
+Move tasks to Done only after the phase review (section 6) clears. Before each Done move, ensure:
+- all required tests have valid passing evidence and the task has a PASS verdict;
 - no blocker or major review findings remain;
 - `tasks/Tx-*.notes.md` exists and is current;
 - `handoff.md` mentions the completion.
@@ -158,8 +160,8 @@ If a gate fails, fix mutable artifacts or route implementation issues to `geeky-
 ### 6. Phase review and commits
 
 At each phase boundary:
-1. Dispatch a `geeky-orchestration:code-reviewer` subagent for the phase review, for every phase including the last (`impl-review` does not replace it); include phase diff, Done task IDs, per-task notes, and relevant plan sections. The READY TO ADVANCE or BLOCKED verdict must come from that subagent; record its agent ID in the `handoff.md` phase block.
-2. Fix blocker/major phase-review findings before proceeding; defer only minor/nit follow-ups in `handoff.md`.
+1. Dispatch ONE `geeky-orchestration:code-reviewer` subagent for the phase review, for every phase including the last (`impl-review` does not replace it); include phase diff, the phase's task IDs with ACs and validation evidence, per-task notes, and relevant plan sections. It returns a separate AC/test verdict per task and the phase verdict. The READY TO ADVANCE or BLOCKED verdict must come from that subagent; record its agent ID in the `handoff.md` phase block.
+2. Fix blocker/major phase-review findings before proceeding (section 4, step 6); defer only minor/nit follow-ups in `handoff.md`. Then move cleared tasks to Done (section 5).
 3. Split the phase diff into logical commits by concern. Commit messages must use:
 
 ```text

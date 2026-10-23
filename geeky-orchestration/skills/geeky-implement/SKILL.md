@@ -51,6 +51,7 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 - The orchestrator never edits product code or tests; every fix, including a reviewer's one-line suggestion, goes to `geeky-coder`. Non-blocking findings go to follow-ups.
 - Do not push and do not use `--amend`.
 - On every lane move, update `kanban.md` and run `validate-kanban`. Never move a task across more than one lane in a single edit. Before a Done move, write the task's notes file and run `check-dod`. On every Done or Blocked move, add a `handoff.md` line naming each task ID.
+- **Main-thread budget:** workers return at most ~15 lines (verdict, files, evidence summary) and write detail to the task notes. Validation evidence (tested revision, commands, result lines) is always returned in full, and review verdicts are never shortened. Read successful command output through a tail (e.g. `Select-Object -Last 20`); read a failure in full. Do not re-read files a worker already summarised. Do each task's close-out (notes, lane move, gates, handoff line) in one tool call. Dispatch independent work in the same turn.
 - Before every commit, run `check-commit`: `python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py" --message "<msg>"`.
 - **Re-invocation is a resume, never a restart.** Read kanban/handoff first; skip Done tasks; reconcile orphaned In Progress tasks against git/file ground truth (protocol step 2b).
 - Prefer the bundled validator **scripts** over the `geeky_*` MCP tools (no permission prompts, immune to the plugin-root interpolation bug).
@@ -60,9 +61,11 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 
 - Task review checks the task template's ACs and defined tests. Supporting reads do not expand the review into the full implementation chain.
 - Phase review checks the phase requirements collectively and must answer **Can we move to the next phase?** The **READY TO ADVANCE** or **BLOCKED** verdict must come from a `geeky-orchestration:code-reviewer` subagent, for every phase including the last; record it with the reviewer's agent ID in the step-17 `handoff.md` phase block before advancing.
+- Review cadence: ONE `code-reviewer` dispatch at each phase end reviews every task in the phase, with a separate verdict per task against its ACs and defined tests, and issues the phase verdict. There is no per-task review dispatch. A phase of more than 4 tasks, or one too large to review AC by AC in one pass, is split into dispatches of at most 4 related tasks.
+- A task is eligible when every dependency is Done, or is In Review in the current phase with passing validation evidence. Tasks wait in In Review until the phase review; Done moves follow once it clears.
 - Final implementation review uses `impl-review`; it does not replace the last phase review. Do not create a second final-review process.
-- Batch compatible reviews and fixes by owner. Keep separate task verdicts and evidence. A shared review batch holds every included task until the whole batch clears; isolate shared test resources. A review batch may include only tasks with no dependency on each other; a dependent task waits for its predecessor's task verdict and Done move.
-- Use one `tasks/T<n>.events.jsonl` per task for consequential collaboration updates, following the execution protocol. Leave task-note behavior unchanged.
+- Send blocking findings to `geeky-coder`, batched by owner. Re-review only the affected tasks, in one dispatch; dependents of a changed task re-run their validation. Keep separate task verdicts and evidence; isolate shared test resources.
+- Record a consequence for another task in that task's notes and in `handoff.md`.
 - Verify saved test evidence before rerunning. Reuse it while the tested code, dependencies and relevant environment remain valid; record why a rerun is needed.
 
 Blocking findings must cite the task contract and evidence. Repeated work needs a reason and the smallest useful check. After two unsuccessful correction cycles, diagnose the cause without extending existing retry limits. Once authorized gates pass, close out; optional improvements do not reopen acceptance. Keep these decisions in existing task notes.

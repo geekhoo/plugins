@@ -41,9 +41,8 @@ fields and checkpoint markers remain unchanged.
 | Review | Judgment of evidence against an assigned scope. Task review checks ACs/tests; phase review decides readiness to advance; final implementation review uses `impl-review`. Plan review evaluates the planning package. |
 | Acceptance | The decision that required outcomes and gates for the stated scope are satisfied. Task Done, phase READY TO ADVANCE and final review PASS have different scopes; none grants release or deployment approval. |
 | Finding | An evidenced discrepancy. A blocking finding prevents the current contract from being met; an optional improvement is a follow-up. Severity labels retain their review-stage meanings, not an automatic cross-stage mapping. |
-| Execution batch / review batch | Tasks dispatched together / tasks sharing a reviewer assignment. A shared review batch holds all members' progression until the whole batch clears, preserving individual verdicts. Review-batch members may not depend on each other. |
+| Execution batch / review batch | Tasks dispatched together / tasks sharing a reviewer assignment. Each phase has one review batch, the phase review: members wait in In Review until it clears, and each keeps its own verdict. |
 | Orchestrator / worker / reviewer | Coordinates and accepts work / performs a bounded assignment / evaluates it. `geeky-coder` is the implementation worker; PM describes a planning or phase-review perspective. |
-| Task event log | One `tasks/T<n>.events.jsonl` per task for consequential collaboration events, preserving the sender. It does not replace task notes or Kanban state. |
 
 ## The planning-folder contract
 
@@ -56,7 +55,7 @@ kanban **Blocked** lane + `handoff.md` instead of editing the contract.
 `kanban.md` (single source of truth for lane status), `handoff.md` (running log),
 and `tasks/Tx-*.notes.md` (per-task notes — these are writable, unlike the task bodies).
 
-Task collaboration uses one append-only `tasks/T<n>.events.jsonl` per task. Follow the execution protocol for entries and cross-task notifications; existing notes remain unchanged.
+Record a consequence for another task in that task's notes and in `handoff.md`.
 
 ## Deterministic quality gates (run these — don't self-report)
 
@@ -103,7 +102,8 @@ Never push to a remote. Never `--no-verify`, `--force`, or `--amend`. Respect ea
 task's declared `Dependencies:`. Stop and finalize state (kanban + handoff) when a
 task moves to Blocked. Verify task validation evidence against the tested revision,
 commands and results; a coder's bare PASS claim is insufficient. Reuse valid evidence
-and record the reason for any rerun. Task review checks ACs and defined tests. Phase
+and record the reason for any rerun. Task review checks ACs and defined tests; one reviewer dispatch at
+phase end gives each task its verdict and the phase verdict. Phase
 review checks collective requirements and must return READY TO ADVANCE before the
 next phase starts; that verdict comes from a reviewer subagent whose agent ID is
 recorded, and the last phase is included. Final implementation review uses `impl-review`.

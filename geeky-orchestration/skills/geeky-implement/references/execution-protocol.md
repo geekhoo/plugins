@@ -40,9 +40,10 @@ Operating profile (DO NOT prompt to change mid-run; only respect inline flags ab
 - **Autonomy:** fully autonomous from start until the backlog is empty, a task is moved to Blocked, or a validation/review step cannot be auto-resolved. Do not pause for confirmation between tasks.
 - **Session grain:** default ONE phase per session. At each phase boundary: checkpoint `handoff.md`, set `.heartbeat` to `paused`, and prefer resuming in a fresh session over pushing through context compaction or token expiry. If the user explicitly asks for a full multi-phase run in one session, honor it — but remind them of the >1h re-auth preflight first.
 - **Heartbeat:** maintain `<folder>/.heartbeat` (JSON `{"ts":"<ISO-8601 UTC>","task":"T<x>","status":"running|paused|done"}`). Write `running` at run start, refresh `ts`+`task` on EVERY lane move (same moments you update kanban), set `paused` on deliberate mid-run stop, `done` at run end. External watchdog hooks key on this file — a stale `running` heartbeat is how a dead run gets detected.
-- **Review boundaries:** task review answers whether the task meets its ACs and passes its defined tests. Phase review checks the complete phase requirements and decides whether the next phase may start; the last phase is reviewed like any other. Final implementation review belongs to `impl-review` and does not replace any phase review; do not add another final-review layer.
+- **Review boundaries:** task review answers whether the task meets its ACs and passes its defined tests. Phase review checks the complete phase requirements and decides whether the next phase may start; the last phase is reviewed like any other. One reviewer dispatch at phase end does both (step 14). Final implementation review belongs to `impl-review` and does not replace any phase review; do not add another final-review layer.
 - **Commits:** commit per phase, split into multiple small logically-grouped commits (e.g. one for schemas, one for service, one for tests), one concern per commit. **NEVER push to remote.** Never `--no-verify`, never amend, never force.
 - **Parallelism:** up to 3 concurrent `geeky-coder` subagents when safe (see Parallelization Rules). Otherwise serial.
+- **Main-thread budget:** workers return at most ~15 lines (verdict, files, evidence summary) and write detail to the task notes. The validation evidence (tested revision, exact commands and their result lines) is always returned in full and does not count toward the limit; review verdicts are never shortened. Read successful command output through a tail (e.g. `Select-Object -Last 20`); read a failure in full. Do not re-read files a worker already summarised. Do each task's close-out (notes, lane move, gates, handoff line) in one tool call, still one lane per edit. Dispatch independent work in the same turn.
 
 ## Constitution
 
@@ -53,19 +54,15 @@ Hard rules — violations are bugs:
 1. **Never modify** `implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`, or any `tasks/Tx-*.md` file body. These are the planning contract. The bundled PreToolUse guard will warn if you try. If a task is wrong, add a note in `kanban.md` under Blocked and surface to the user.
 2. **Always update** `kanban.md` on every lane move and `handoff.md` on every task completion or block.
 3. **Never push** to a remote. Never use `--no-verify`, `--force`, or `--amend`.
-4. **Respect declared dependencies.** A task is only eligible when every entry in its `Dependencies:` block is in the Done lane of `kanban.md`.
+4. **Respect declared dependencies.** A task is only eligible when every entry in its `Dependencies:` block is in the Done lane of `kanban.md`, or is In Review in the current phase with passing validation evidence (its review comes in the phase review).
 5. **Stop on Blocked.** When any task moves to Blocked, finalize state (handoff, kanban) and return to the user with a summary. Do not silently skip blocked tasks to keep going.
 6. **One source of truth for status:** `kanban.md`. If `handoff.md` and `kanban.md` disagree, trust kanban and reconcile handoff.
 7. **Delegate implementation using the canonical `geeky-coder` instructions.** Check the live harness role catalog before dispatch. A TOML file or generated projection does not prove the role is callable. If the role is unavailable, do not retry guessed or namespaced variants. Use an available generic role with the canonical agent body and task brief, preserving requested model settings. If the user requires the registered role itself, report the registration blocker instead of substituting it.
 8. **The orchestrator never edits product code or tests.** Every fix, including a reviewer's one-line suggestion, goes to `geeky-coder`. Non-blocking findings go to follow-ups.
 
-## Task events
+## Cross-task consequences
 
-Use one append-only `tasks/T<n>.events.jsonl` per task, for example `tasks/T3.events.jsonl`. The orchestrator creates it if absent on dispatch and includes its absolute path in coder/reviewer briefs. Participants read new entries when starting or resuming work and before returning a result. Record consequential progress, findings, blockers, decisions and inbound/outbound dependency changes; omit routine status chatter and reference evidence instead of copying logs.
-
-Each line is a JSON object with `id` (unique within the task), `at` (UTC), `from`, `to`, `type`, `message`, and optional `refs`. Coders and read-only reviewers return event entries with their updates; the orchestrator appends them, preserving the sender and serializing complete-line writes. Do not rewrite previous entries. No acknowledgements are required unless a decision or action needs a response.
-
-For cross-task consequences, append a linked event to each affected task's log and notify an active worker when its work must change. A log entry alone does not wake an agent. Events do not change frozen contracts, Kanban state or acceptance; keep existing notes behavior unchanged.
+Record a consequence for another task in the affected task's notes and in `handoff.md`, and notify an active worker when its work must change.
 
 ## Tasks
 
@@ -91,7 +88,7 @@ For cross-task consequences, append a linked event to each affected task's log a
    - **Task graph** — node per `Tx-*.md`, edges from each task's `Dependencies:` block.
    - **Phase grouping** — derive from `implementation-plan.md` headings if it has explicit phases, else from kanban grouping comments, else by dependency layer (tasks with no unmet deps = layer 0, etc.).
    - **File-overlap inference** — for each task, scan its `In scope` / `Module/System` / `Technical Notes` for filenames, modules, or package paths. Two tasks are file-conflicting if their declared surfaces overlap.
-   - **Eligibility** — task is eligible iff it sits in kanban Ready AND every dependency is Done.
+   - **Eligibility** — task is eligible iff it sits in kanban Ready AND every dependency is Done, or is In Review in the current phase with passing validation evidence.
 
 4. If `--dry-run` is set, print the execution model (phase order, per-phase batches, parallel groups with justifications) and STOP. Otherwise continue.
 
@@ -116,20 +113,16 @@ For each phase, in plan order:
    - Explicit instruction: *do not modify files outside the declared In Scope surface; if you discover the scope is wrong, stop and report — do not silently expand.*
    - Give the worker authority to finish the bounded assignment, including compatible fixes and required checks. Ask for a consolidated return; interrupt only for blockers, scope decisions or ownership conflicts, not each small edit. Contact the worker only for new information, a blocker, a decision or a completed result; use completion waits instead of repeated status requests. User progress updates do not require another worker round trip.
    - Use the harness's actual dispatch schema and callable role name. Apply the canonical-instructions fallback above only when needed; record the substitution once.
-   - The absolute path of `tasks/T<n>.events.jsonl`, created now if absent (see Task events).
+   - The absolute path of `tasks/Tx-*.notes.md`, where the worker writes its detail, and a return limit of ~15 lines (see Main-thread budget).
 
-8. **Verify the task's validation evidence** after each coder returns. Append the worker's `EVENTS` lines to `tasks/T<n>.events.jsonl`, and append one dispatch event and one verdict event per task yourself. Require the tested revision or file hashes, exact commands, exit status and results. Inspect the saved output; a bare claim of PASS is insufficient. Reuse passing evidence for unchanged code, dependencies and relevant environment. Execute missing checks or rerun only when evidence is invalidated, unreliable, or independent execution is explicitly required. Before repeating a test or review, record what changed or remains unproved, which evidence is invalidated, and the smallest check that resolves it. Reuse valid evidence unless a required check is missing or independent execution is explicitly mandated. If a required command fails:
+8. **Verify the task's validation evidence** after each coder returns. Require the tested revision or file hashes, exact commands, exit status and results. Inspect the saved output through a tail; a bare claim of PASS is insufficient. Reuse passing evidence for unchanged code, dependencies and relevant environment. Execute missing checks or rerun only when evidence is invalidated, unreliable, or independent execution is explicitly required. Before repeating a test or review, record what changed or remains unproved, which evidence is invalidated, and the smallest check that resolves it. Reuse valid evidence unless a required check is missing or independent execution is explicitly mandated. If a required command fails:
    - Capture the failure output.
    - Re-delegate to `geeky-coder` once with the failure context for a fix attempt.
    - If it still fails, move the task to **Blocked** with a kanban note that includes the validation command and the failure summary, finalize state per the Constitution, and return to the user.
 
-9. **Move the task(s) from In Progress to In Review.** Group compatible tasks into shared reviewer assignments when their context and timing make that useful; use separate assignments otherwise. A shared review batch holds progression of every included task until all its blocking findings are resolved and every task has passing required tests and a PASS verdict. Do not move any member to Done or advance its dependents before the batch clears. A review batch may include only tasks with no dependency on each other; a dependent task waits for its predecessor's task verdict and Done move. Preserve individual verdicts and valid evidence; only affected scope needs re-review. Record batch members and the hold/release in each task’s event log. For each assignment:
-   - Give the reviewer the task template, task diff, ACs and validation evidence. Its decision is: **Does this task meet every AC and pass its defined tests?** Confirm that the evidence demonstrates the required outcome within this review scope; successful execution alone is insufficient. Return an AC-by-AC result, test result and PASS or NEEDS FIXES. Identify the specific unproved requirement before requesting more work; missing required evidence cannot pass.
-   - Inspect immediate dependencies only as needed to answer that question. Do not review the entire implementation chain or add acceptance requirements. Route unrelated findings separately; block this task only when a finding prevents its contract from being met or makes acceptance unsafe under an existing requirement.
-   - Every blocking finding must cite the violated AC, defined test or existing mandatory constraint, concrete evidence, and the smallest necessary correction. Severity alone does not authorize extra scope. Record optional improvements as follow-ups.
-   - Collect one complete finding set per task before remediation. Group findings by severity and keep a separate verdict for each task, even when reviews share a dispatch.
+9. **Move the task from In Progress to In Review** once its validation evidence passes. It waits there for the phase review (step 14); do not dispatch a per-task review. Its dependents in this phase may start now (step 3 eligibility).
 
-10. **Write a per-task notes file** `tasks/Tx-*.notes.md` (creating it, NOT editing the original task file) containing:
+10. **Write a per-task notes file** `tasks/Tx-*.notes.md` (creating it if the worker has not, NOT editing the original task file) containing:
     - Parallelization decision and justification.
     - Coder summary (one paragraph).
     - Validation results (command + pass/fail).
@@ -138,11 +131,11 @@ For each phase, in plan order:
     - Final diff scope (list of touched files).
     Keep review scope, any reopened evidence and the next action in these existing notes. Do not create another ledger or approval gate.
 
-11. **Resolve findings:** batch compatible in-scope fixes from the completed review passes into one assignment per owner. Respect dependencies and shared files; do not dispatch one correction at a time when they can be fixed together. Rerun affected checks and review the changed scope plus the original findings. Preserve unaffected evidence. Blockers and majors within the review contract must be resolved before Done; record unrelated findings separately. Log deferred minors and nits in `handoff.md`.
+11. **Resolve findings:** send blocking findings from the phase review to `geeky-coder`, batching compatible in-scope fixes into one assignment per owner. Respect dependencies and shared files; do not dispatch one correction at a time when they can be fixed together. Rerun affected checks; dependents of a changed task re-run their validation. Re-review only the affected tasks, in one dispatch, against the changed scope plus the original findings. Preserve unaffected evidence. Blockers and majors within the review contract must be resolved before Done; record unrelated findings separately. Log deferred minors and nits in `handoff.md`.
 
 Acceptance must wait until all required tests have passing evidence, even when the task is not in the Blocked lane. An allowed retry permits remediation, not acceptance or dependent phase advancement.
 
-12. **Move to Done** in `kanban.md` only when validation is green AND no blocker/major findings remain AND any shared review batch has cleared. Before finalizing the move, run the **Definition-of-Done** gate for the task and the **kanban-integrity** gate, and fix until both exit 0:
+12. **Move to Done** in `kanban.md` only after the phase review clears (steps 14–15): validation is green AND the task has a PASS verdict AND no blocker/major findings remain. Before finalizing each move, run the **Definition-of-Done** gate for the task and the **kanban-integrity** gate, and fix until both exit 0:
 
     ```
     python "${CLAUDE_PLUGIN_ROOT}/scripts/check-dod.py" --path "<folder>" --task T<x>
@@ -151,19 +144,26 @@ Acceptance must wait until all required tests have passing evidence, even when t
 
     `check-dod` also prints the task's validation block. Match it to the verified evidence from step 8; printing the commands does not require another execution. Run `validate-kanban` after every lane move, not only at Done, so the board never drifts from truth. Refresh `.heartbeat` on the Done move. If either gate CRASHES (traceback / missing module rather than a clean non-zero): say so in one line, run the equivalent manual check (read the DoD block and verify each item; eyeball lane membership), record the crash in the per-task notes, and continue VISIBLY — a crashed gate must never become a silent stall.
 
-13. **Repeat steps 5–12** until the current phase has no eligible Ready tasks left.
+13. **Repeat steps 5–10** until the current phase has no eligible Ready tasks left, then go to step 14. Steps 11–12 run on the phase review's findings and verdicts.
 
 ### Phase 2 — End of phase: phase review + commits
 
-14. **Phase review** at the end of every phase, including the last; `impl-review` does not replace it. Dispatch a `geeky-orchestration:code-reviewer` subagent. The **READY TO ADVANCE** or **BLOCKED** verdict must come from that subagent, never from the orchestrator; record its agent ID in the step-17 `handoff.md` phase block. Brief it with:
-    - Phase name and the list of Done task IDs.
+14. **Phase review** at the end of every phase, including the last; `impl-review` does not replace it. Dispatch ONE `geeky-orchestration:code-reviewer` subagent that reviews every task in the phase and issues the phase verdict. If the phase has more than 4 tasks, or its diff is too large to review AC by AC in one pass, split it into dispatches of at most 4 related tasks; the last dispatch issues the phase verdict using the others' task verdicts as inputs. The **READY TO ADVANCE** or **BLOCKED** verdict must come from that subagent, never from the orchestrator; record its agent ID in the step-17 `handoff.md` phase block. Brief it with:
+    - Phase name and the phase's task IDs (In Review, plus any already Done).
+    - For each task: the task template, ACs and validation evidence.
     - The aggregated diff for the phase (`git diff` from the phase's starting commit to HEAD).
     - The per-task notes files for the phase.
     - The relevant section of `implementation-plan.md`.
-    Review the complete phase requirements, combined behavior, cross-task interactions, shared contracts and phase-level validation. Use accepted task verdicts as inputs; do not repeat task reviews without changed dependencies, contradictory evidence or a concrete defect affecting the phase.
-    Answer explicitly: **Can we move to the next phase?** Return **READY TO ADVANCE** or **BLOCKED**, with evidence for requirement coverage and any unmet requirement or dependency. All phase tasks must be accounted for; an unfinished required task cannot pass this gate.
 
-15. **Integrate phase findings** in compatible batches using step 11. Resolve failures within the approved scope, then obtain an updated phase verdict. Do not start the next phase until **READY TO ADVANCE** is recorded in the step-17 `handoff.md` phase block. If a blocker cannot be resolved under the existing task contracts, mark Blocked and return with the exact unmet requirement. Minors that do not prevent advancement remain deferred.
+    **Task verdicts** — one per task, kept separate:
+    - The decision is: **Does this task meet every AC and pass its defined tests?** Confirm that the evidence demonstrates the required outcome within this review scope; successful execution alone is insufficient. Return an AC-by-AC result, test result and PASS or NEEDS FIXES. Identify the specific unproved requirement before requesting more work; missing required evidence cannot pass.
+    - Inspect immediate dependencies only as needed to answer that question. Do not review the entire implementation chain or add acceptance requirements. Route unrelated findings separately; block a task only when a finding prevents its contract from being met or makes acceptance unsafe under an existing requirement.
+    - Every blocking finding must cite the violated AC, defined test or existing mandatory constraint, concrete evidence, and the smallest necessary correction. Severity alone does not authorize extra scope. Record optional improvements as follow-ups.
+    - Return one complete finding set per task, grouped by severity.
+
+    **Phase verdict** — review the complete phase requirements, combined behavior, cross-task interactions, shared contracts and phase-level validation, using the task verdicts as inputs. Answer explicitly: **Can we move to the next phase?** Return **READY TO ADVANCE** or **BLOCKED**, with evidence for requirement coverage and any unmet requirement or dependency. All phase tasks must be accounted for; an unfinished required task cannot pass this gate.
+
+15. **Integrate phase findings** using step 11. Resolve failures within the approved scope; the re-review dispatch covers only the affected tasks and returns an updated phase verdict. Do not repeat task reviews without changed code or dependencies, contradictory evidence or a concrete defect affecting the phase. Do not start the next phase until **READY TO ADVANCE** is recorded in the step-17 `handoff.md` phase block. If a blocker cannot be resolved under the existing task contracts, mark Blocked and return with the exact unmet requirement. Minors that do not prevent advancement remain deferred. Then move each cleared task to Done (step 12) before committing.
 
 16. **Commit the phase diff, split into multiple small logically-grouped commits.** Decide grouping by reading the diff yourself (one commit per concern: e.g. schemas, service, endpoints, tests, docs). Each commit message format:
 
@@ -218,7 +218,7 @@ When deciding whether to parallelize a batch, apply this checklist explicitly an
 
 If any check fails for a candidate pair, demote to serial for that pair.
 
-Task reviews may run together on stable diffs. Tests or reviewer probes that mutate the same database, fixtures, ports or files must be isolated or serialized. Phase review runs after its task verdicts are available.
+Task reviews run together inside the phase review, on stable diffs. Tests or reviewer probes that mutate the same database, fixtures, ports or files must be isolated or serialized.
 
 Batch independent reads and compatible checks in one dispatch. A shared validation run may satisfy several tasks only when its command, configuration and tested revision meet each task's contract; retain a result for every task. Collect independent failures before remediation when safe. Stop dependent or destructive checks on failure. Separate product defects from harness and environment faults, then fix each compatible set together. Reserve broad final gates for a stable candidate unless the plan explicitly requires them earlier.
 

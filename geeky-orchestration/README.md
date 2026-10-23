@@ -74,7 +74,7 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 ## Operating profile (baked into `/geeky-implement`)
 
 - **Autonomy:** fully autonomous until the backlog is empty or a task lands in Blocked.
-- **Reviewer:** per-task code-review on every task's diff + a `code-reviewer` subagent phase review at every phase boundary, including the last.
+- **Reviewer:** one `code-reviewer` subagent dispatch at every phase boundary, including the last, giving each task a verdict against its ACs and defined tests plus the phase verdict.
 - **Commits:** per phase, split into multiple small commits (one concern per commit). Never push, never amend, never `--no-verify`.
 - **Parallelism:** up to 3 concurrent `geeky-coder` subagents, gated by a checklist (no shared deps, no file-surface overlap, no shared mutable artifacts).
 

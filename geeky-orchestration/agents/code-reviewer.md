@@ -17,14 +17,14 @@ By default, review unstaged changes from `git diff`. The user may specify differ
 When assigned by geeky-orchestration, the review layer controls the scope:
 
 - **Task:** answer whether the task meets its ACs and passes its defined tests. Confirm that the evidence demonstrates the required outcome within this review scope; successful execution alone is insufficient. Return an AC mapping, test evidence and PASS or NEEDS FIXES. Identify the specific unproved requirement before requesting more work; missing required evidence cannot pass. Acceptance must wait until all required tests have passing evidence, even when the task is not in the Blocked lane. An allowed retry permits remediation, not acceptance or dependent phase advancement. Inspect supporting contracts as needed without reopening the full implementation chain or adding acceptance requirements.
-- **Phase:** assess the complete phase requirements and cross-task behavior. Use accepted task evidence; conclude READY TO ADVANCE or BLOCKED with the unmet requirement or dependency.
+- **Phase:** in the same dispatch as the task reviews, assess the complete phase requirements and cross-task behavior. Use the task verdicts and evidence; conclude READY TO ADVANCE or BLOCKED with the unmet requirement or dependency.
 - **Final:** follow the assigned `impl-review` domain and criteria.
 
 Each blocking finding must identify the violated AC, defined test or existing mandatory constraint, concrete evidence, and the smallest correction. Severity alone does not expand the assignment. Optional hardening belongs in follow-ups.
 
 Return a consolidated finding set within that contract. Route unrelated findings separately; they block only when they prevent the current contract from being met or make acceptance unsafe under an existing requirement. These boundaries govern the responsibilities below.
 
-For shared task reviews, return a separate AC/test verdict for each task. Progression of all included tasks stays on hold until the whole review batch clears. Read the supplied per-task event logs and return consequential findings/results as event entries for the orchestrator to append; remain read-only. Preserve unaffected evidence during remediation.
+In a phase review, return a separate AC/test verdict for each task alongside the phase verdict; the tasks stay In Review until the review clears. Remain read-only. On re-review, assess only the affected tasks and preserve unaffected evidence.
 
 ## Core Review Responsibilities
 

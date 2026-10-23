@@ -330,7 +330,7 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File "${CLAUDE_PLUGIN_ROOT}/scripts/val
    - task graph from `Dependencies:`,
    - phase grouping from plan headings, kanban comments, or dependency layers,
    - file-overlap inference from task scope fields,
-   - eligibility where task is Ready and dependencies are Done.
+   - eligibility where task is Ready and dependencies are Done, or In Review in the current phase with passing validation evidence.
 5. If `--dry-run`, print phase order, batches, parallel groups, and justifications; then stop.
 
 ### Phase 1 — execute tasks by phase
@@ -354,14 +354,15 @@ For each phase, in plan order:
    - acceptance criteria verbatim,
    - validation block verbatim,
    - instruction not to modify outside declared scope,
+   - the task notes path for worker detail and a return of at most ~15 lines,
    - `subagent_type: "geeky-coder"`.
 8. Verify each coder’s saved validation evidence against its tested revision, commands and results. Reuse valid evidence; run missing or invalidated checks, or explicitly required independent checks.
 9. If validation fails:
    - capture output,
    - re-delegate once with failure context,
    - if it still fails, move the task to Blocked, update handoff, report, and stop.
-10. Move task(s) to In Review.
-11. Review task ACs and defined tests. Compatible tasks may share an assignment, with separate verdicts. Hold all included tasks until the shared batch clears. A review batch may include only tasks with no dependency on each other; a dependent task waits for its predecessor's task verdict and Done move. Follow the execution protocol for batching and per-task `tasks/T<n>.events.jsonl` collaboration.
+10. Move task(s) to In Review; they wait there for the phase review.
+11. Task ACs and defined tests are reviewed in the phase review (Phase 2), with a separate verdict per task; there is no per-task review dispatch. Keep the main thread lean: read command output through a tail, do not re-read files a worker already summarised, and do each task's close-out in one tool call.
 12. Consolidate findings as blocker, major, minor, or nit.
 13. Create `tasks/Tx-*.notes.md` for each touched task, including:
    - parallelization decision,
@@ -370,7 +371,7 @@ For each phase, in plan order:
    - review findings,
    - fixed vs deferred findings,
    - final touched files.
-14. Blocking findings must cite an AC, required test or mandatory constraint. Batch compatible corrections, validate and re-review affected scope, and preserve unaffected evidence. Resolve blockers/majors and any shared review batch before Done.
+14. Blocking findings must cite an AC, required test or mandatory constraint. Send them to `geeky-coder` batched by owner; dependents of a changed task re-run their validation. Re-review only the affected tasks, in one dispatch, and preserve unaffected evidence. Resolve blockers/majors before Done.
 15. Minor/nit findings may be deferred, but must be logged in `handoff.md` under Deferred follow-ups.
 16. Before moving a task to Done, run:
 
@@ -379,20 +380,20 @@ python "${CLAUDE_PLUGIN_ROOT}/scripts/check-dod.py" --path "<folder>" --task T<x
 python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.py" --path "<folder>"
 ```
 
-17. Move to Done only when validation is green and no blocker/major review findings remain.
+17. Move to Done only after the phase review clears, when validation is green and no blocker/major review findings remain.
 18. Repeat until no eligible Ready tasks remain in the phase.
 
 ### Phase 2 — phase-end phase review and commits
 
-1. At the end of every phase, including the last, dispatch a `geeky-orchestration:code-reviewer` subagent for the phase review; `impl-review` does not replace it. The READY TO ADVANCE or BLOCKED verdict must come from that subagent; record its agent ID in the `handoff.md` phase block.
+1. At the end of every phase, including the last, dispatch ONE `geeky-orchestration:code-reviewer` subagent for the phase review; it gives each task a verdict against its ACs and defined tests, and the phase verdict; `impl-review` does not replace it. The READY TO ADVANCE or BLOCKED verdict must come from that subagent; record its agent ID in the `handoff.md` phase block.
 2. Provide the reviewer:
    - phase name,
-   - Done task IDs,
+   - the phase's task IDs with ACs and validation evidence,
    - aggregated phase diff,
    - per-task notes,
    - relevant plan section.
-3. Ask for cross-task consistency, integration risk, and anything per-task review could miss.
-4. Fix phase-review blockers/majors through `geeky-coder` before proceeding; the orchestrator never edits product code or tests.
+3. Ask for cross-task consistency, integration risk, and anything the task verdicts could miss.
+4. Fix phase-review blockers/majors through `geeky-coder` before proceeding; the orchestrator never edits product code or tests. Then move cleared tasks to Done (`check-dod` before each move).
 5. Log deferred minors/nits in `handoff.md`.
 6. Commit the phase diff as small logically grouped commits. One concern per commit.
 7. Validate each commit message:
