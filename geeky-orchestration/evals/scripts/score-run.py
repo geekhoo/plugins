@@ -233,7 +233,7 @@ def helper_moves(raw, helpers):
         if not (re.search("|".join(names), s, re.I) or any(re.search(r"\$%s\b" % v, s) for v in hvars)):
             continue
         found = [(m.group(1), m.group(2), m.group(3))
-                 for m in re.finditer(r"(?:\b(T\d+)\b|\$(\w+))['\"]?\s+['\"]?(%s)\b" % LANES, s)]
+                 for m in re.finditer(r"(?:\b(T\d+)(?:-[\w-]+)?\b|\$(\w+))['\"]?\s+['\"]?(%s)\b" % LANES, s)]
         task = re.search(r"-Task\s+['\"]?(?:\b(T\d+)\b|\$(\w+))", s, re.I)
         lane = re.search(r"-(?:To|Lane)\s+['\"]?(%s)\b" % LANES, s, re.I)
         if task and lane:
@@ -363,9 +363,13 @@ def is_code_path(rel):
 # ----------------------------------------------------------------------------- trace model
 
 class Call:
-    __slots__ = ("idx", "id", "name", "inp", "parent", "ts", "rts", "text", "is_error", "top")
+    """One tool call. main: made by the main thread. orch: made on an orchestrator thread, i.e. the main thread
+    or a geeky-implement-orchestrator subagent (K2/K3). root: the main-thread ancestor (stage anchor).
+    top: the nearest orchestrator-thread ancestor or self, so a worker's calls resolve to its dispatch."""
+    __slots__ = ("idx", "id", "name", "inp", "parent", "ts", "rts", "text", "is_error", "top", "root", "orch")
 
     def __init__(self, **kw):
+        self.root = self.orch = None
         for k, v in kw.items():
             setattr(self, k, v)
 
@@ -411,26 +415,66 @@ class Trace:
                                        inp=c.get("input") or {}, parent=e.get("parent_tool_use_id"),
                                        ts=parse_ts(e.get("timestamp")), rts=rts.get(c.get("id")),
                                        text=text, is_error=err, top=None))
+        self.merge_transcripts(run_dir)
         self.by_id = {c.id: c for c in self.calls}
-        for c in self.calls:  # top-level main-thread ancestor (nested subagents resolve upward)
-            p, seen = c, set()
+        # K2/K3: a geeky-implement-orchestrator subagent's own calls are orchestrator-thread calls
+        self.orch_agents = {c.id for c in self.calls
+                            if c.name in ("Agent", "Task") and AR.is_orchestrator_type(c.inp.get("subagent_type"))}
+        for c in self.calls:
+            c.orch = c.parent is None or c.parent in self.orch_agents
+        for c in self.calls:  # root: main-thread ancestor; top: nearest orchestrator-thread ancestor
+            p, seen, top = c, set(), c if c.orch else None
             while p.parent and p.parent in self.by_id and p.parent not in seen:
                 seen.add(p.parent)
                 p = self.by_id[p.parent]
-            c.top = p
+                if top is None and p.orch:
+                    top = p
+            c.root, c.top = p, top or p
         tid = {v: k for k, v in started.items()}
         self.agent_end = {}
         self.agent_summary = {}
         for c in self.calls:
             if c.name in ("Agent", "Task"):
                 end = ended.get(tid.get(c.id))
-                self.agent_end[c.id] = (dt.datetime.fromtimestamp(end / 1000, dt.timezone.utc) if end else c.rts)
+                meta_end = parse_ts((self.agent_meta.get(c.id) or {}).get("_end"))
+                self.agent_end[c.id] = (dt.datetime.fromtimestamp(end / 1000, dt.timezone.utc) if end
+                                        else c.rts or meta_end)
                 self.agent_summary[c.id] = notes.get(c.id) or c.text or ""
         self.skills = [(c.idx, str(c.inp.get("skill", "")).split(":")[-1], c.ts, str(c.inp.get("args", "")))
                        for c in self.calls if c.main and c.name == "Skill"]
 
+    def merge_transcripts(self, run_dir):
+        """Add calls found only in subagents/*.jsonl (nested dispatches the stream omits), placed by timestamp
+        among the stream's calls; the stream's own order is kept. Calls already in the stream are skipped."""
+        extra, self.agent_meta = AR.transcript_calls(run_dir, {c.id for c in self.calls})
+        if not extra:
+            return
+        new = []
+        for x in extra:
+            text, err = x["result"] or ("", False)
+            new.append(Call(idx=None, id=x["id"], name=x["name"], inp=x["input"], parent=x["parent"],
+                            ts=parse_ts(x["timestamp"]), rts=parse_ts(x["result_timestamp"]),
+                            text=text, is_error=err, top=None))
+        merged, i = [], 0
+        for c in self.calls:
+            while i < len(new) and c.ts and new[i].ts and new[i].ts < c.ts:
+                merged.append(new[i])
+                i += 1
+            merged.append(c)
+        merged += new[i:]
+        for k, c in enumerate(merged):
+            c.idx = k
+        self.calls = merged
+
+    def dispatch_start(self, c):
+        """When a dispatched agent started work: the call time for a foreground agent known from its transcript
+        (its tool result arrives only at the end), else the launch acknowledgement as before."""
+        if (self.agent_meta.get(c.id) or {}).get("requestShape") == "foreground":
+            return c.ts or c.rts
+        return c.rts or c.ts
+
     def stage_of(self, call):
-        anchor = call.top.idx
+        anchor = call.root.idx
         name = None
         for idx, skill, _, _ in self.skills:
             if idx <= anchor:
@@ -441,13 +485,16 @@ class Trace:
         return next((ts for _, s, ts, _ in self.skills if s == stage), None)
 
     def mains(self, stage=None):
-        return [c for c in self.calls if c.main and (stage is None or self.stage_of(c) == stage)]
+        """Orchestrator-thread calls (main thread and geeky-implement-orchestrator subagents)."""
+        return [c for c in self.calls if c.orch and (stage is None or self.stage_of(c) == stage)]
 
     def next_main(self, call):
-        return next((c for c in self.calls[call.idx + 1:] if c.main), None)
+        """The next orchestrator-thread call on the same thread."""
+        return next((c for c in self.calls[call.idx + 1:] if c.orch and c.parent == call.parent), None)
 
     def agents(self, stage):
-        return [c for c in self.mains(stage) if c.name in ("Agent", "Task")]
+        """Worker and reviewer dispatches from an orchestrator thread (not the orchestrator dispatch itself)."""
+        return [c for c in self.mains(stage) if c.name in ("Agent", "Task") and c.id not in self.orch_agents]
 
 
 # ----------------------------------------------------------------------------- workspace / git
@@ -604,9 +651,11 @@ class Scorer:
                 if cur:
                     phases.setdefault(cur, set()).update(expand_ids(h.group(1)))
                 continue
-            row = re.match(r"^\|\s*(?:Phase\s*)?(\d+)\b", line, re.I)
+            # a phase row: a table row, a numbered item ("1. **Foundations (T1-T2)**") or a "- Phase 1" bullet
+            row = re.match(r"^\|\s*(?:Phase\s*)?(\d+)\b|^\s*(?:[-*]\s+)?(?:\*\*)?(?:Phase\s*(\d+)\b|(\d+)[.)]\s)",
+                           line, re.I)
             if in_phase_section and row:
-                phases.setdefault(f"P{row.group(1)}", set()).update(expand_ids(line))
+                phases.setdefault(f"P{next(g for g in row.groups() if g)}", set()).update(expand_ids(line))
             elif cur:
                 phases[cur].update(expand_ids(line))
         seen, out = set(), {}
@@ -654,7 +703,7 @@ class Scorer:
         for t, dispatches in self.coders.items():
             ids = {d.id for d in dispatches}
             for c in T.calls:
-                if not c.main and c.top.id in ids:
+                if not c.orch and c.top.id in ids:
                     for p in self.call_writes(c):
                         self.coder_writes.setdefault(p, (c.idx, t))
                         if self.coder_writes[p][0] > c.idx:
@@ -680,7 +729,7 @@ class Scorer:
         # main-thread code edits during implement / impl-review (D87)
         self.d87 = []
         for c in impl:
-            if c.main:
+            if c.orch:
                 paths = [p for p in self.call_writes(c) if is_code_path(p)]
                 if paths:
                     self.d87.append((c, paths))
@@ -707,7 +756,8 @@ class Scorer:
                                      raw.replace("`r", "").replace("`n", "\n"), re.S):
                     if "validate-kanban" in m.group(2):
                         kanban_gating.add(m.group(3).lower())
-            writes_kanban = (str(c.inp.get("file_path", "")).replace("\\", "/").endswith("kanban.md") or
+            writes_kanban = ((c.name in ("Edit", "Write", "MultiEdit") and  # a Read of kanban.md is no lane move
+                              str(c.inp.get("file_path", "")).replace("\\", "/").endswith("kanban.md")) or
                              ("kanban.md" in raw and re.search(
                                  r"(?:Set-Content|Out-File|WriteAll\w*|Add-Content|>)[^\n;]*kanban\.md|"
                                  r"kanban\.md['\"]?\s*,", raw)) or
@@ -810,7 +860,7 @@ class Scorer:
     def attempts(self):
         T = self.trace
         coder_ids = {t: {d.id for d in ds} for t, ds in self.coders.items()}
-        first_ack = {t: min((d.rts or d.ts) for d in ds) for t, ds in self.coders.items()}
+        first_ack = {t: min(T.dispatch_start(d) for d in ds) for t, ds in self.coders.items()}
         coder_end = {t: max(T.agent_end.get(d.id) or d.rts or d.ts for d in ds) for t, ds in self.coders.items()}
         self.runs = {t: [] for t in self.tasks}
         self.first_pass = {}
@@ -821,7 +871,7 @@ class Scorer:
             stage = T.stage_of(c)
             if stage not in ("geeky-implement", "impl-review"):
                 continue
-            if not c.main:
+            if not c.orch:
                 owners = [t for t, ids in coder_ids.items() if c.top.id in ids]
             elif stage == "geeky-implement":
                 owners = [t for t in self.tasks if t in first_ack and first_ack[t] <= c.ts
@@ -1101,7 +1151,7 @@ class Scorer:
         idxs = []
         ids = {d.id for d in self.coders.get(t, [])}
         for c in self.trace.calls[:before]:
-            if (not c.main and c.top.id in ids) or c.main:
+            if (not c.orch and c.top.id in ids) or c.orch:
                 if any(is_code_path(p) and self.owner.get(p) == t for p in self.call_writes(c)):
                     idxs.append(c.idx)
         return max(idxs) if idxs else None
@@ -1138,7 +1188,7 @@ class Scorer:
                         "evidence": self.checks[-1]["evidence"]})
 
         def concurrency(calls):
-            iv = [((c.rts or c.ts), T.agent_end.get(c.id) or c.rts or c.ts) for c in calls]
+            iv = [(T.dispatch_start(c), T.agent_end.get(c.id) or c.rts or c.ts) for c in calls]
             return max((sum(1 for s, e in iv if s <= s0 < e) for s0, _ in iv), default=0)
 
         spec = T.agents("spec-research")
@@ -1249,7 +1299,7 @@ class Scorer:
             rv = [r for r in self.reviews if t in r["ids"]]
             first_ok = next((k for k, r in enumerate(rv, 1) if r["pass"]), None)
             R = r_score(first_ok)
-            start = min(((d.rts or d.ts) for d in self.coders.get(t, [])), default=None)
+            start = min((self.trace.dispatch_start(d) for d in self.coders.get(t, [])), default=None)
             ends = []
             if t in self.first_pass:
                 ends.append(self.first_pass[t].rts)

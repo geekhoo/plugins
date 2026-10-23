@@ -214,6 +214,140 @@ class OrchestratorEditTests(unittest.TestCase):
         self.assertEqual(sr.expand_ids("Tasks: T5, T6 and T8\u2013T9"), {"T5", "T6", "T8", "T9"})
 
 
+def _use(cid, name, inp, t, parent=None, sidechain=False):
+    e = {"type": "assistant", "timestamp": t,
+         "message": {"content": [{"type": "tool_use", "id": cid, "name": name, "input": inp}]}}
+    e.update({"isSidechain": True} if sidechain else {"parent_tool_use_id": parent})
+    return e
+
+
+def _result(cid, text, t):
+    return {"type": "user", "timestamp": t,
+            "message": {"content": [{"type": "tool_result", "tool_use_id": cid, "content": text}]}}
+
+
+def _ts(s):
+    return f"2026-10-23T11:00:{s:02d}.000Z"
+
+
+class SubagentTranscriptTests(unittest.TestCase):
+    """K2/K3: the main thread delegates geeky-implement to a geeky-implement-orchestrator subagent, which
+    dispatches a coder. The stream carries the orchestrator's calls; the coder's calls are only in its
+    transcript under subagents/."""
+
+    def setUp(self):
+        self.run = Path(tempfile.mkdtemp(prefix="score-run-k2-"))
+        orch = "geeky-orchestration:geeky-implement-orchestrator"
+        stream = [
+            _use("m1", "Skill", {"skill": "geeky-orchestration:geeky-implement"}, _ts(0)), _result("m1", "ok", _ts(1)),
+            _use("O", "Agent", {"subagent_type": orch, "description": "Run geeky-implement"}, _ts(2)),
+            _result("O", "Async agent launched", _ts(3)),
+            _use("o1", "Agent", {"subagent_type": "geeky-orchestration:geeky-coder", "description": "Implement T1 x"},
+                 _ts(4), parent="O"),
+            _result("o1", "T1 PASS", _ts(20)),
+            _use("o2", "PowerShell", {"command": "python check-dod.py --path f --task T1"}, _ts(21), parent="O"),
+            _result("o2", "DOD_OK: T1", _ts(22)),
+            _use("m2", "Skill", {"skill": "geeky-orchestration:impl-review"}, _ts(40)), _result("m2", "ok", _ts(41)),
+            {"type": "result", "modelUsage": {"m": {"inputTokens": 5, "outputTokens": 7}}},
+        ]
+        (self.run / "stream.jsonl").write_text("\n".join(json.dumps(e) for e in stream), encoding="utf-8")
+        sub = self.run / "subagents"
+        sub.mkdir()
+        coder = [_use("c1", "PowerShell", {"command": "python -m pytest -q"}, _ts(8), sidechain=True),
+                 _result("c1", "1 failed, 2 passed in 0.1s", _ts(9)),
+                 _use("c2", "PowerShell", {"command": "python -m pytest -q"}, _ts(12), sidechain=True),
+                 _result("c2", "3 passed in 0.1s", _ts(13))]
+        dup = [_use("o2", "PowerShell", {"command": "python check-dod.py --path f --task T1"}, _ts(21), sidechain=True),
+               _result("o2", "DOD_OK: T1", _ts(22))]
+        for aid, events, meta in (("ac", coder, {"agentType": "geeky-orchestration:geeky-coder", "toolUseId": "o1",
+                                                 "spawnDepth": 2, "requestShape": "foreground"}),
+                                  ("ao", dup, {"agentType": orch, "toolUseId": "O", "spawnDepth": 1})):
+            (sub / f"agent-{aid}.jsonl").write_text("\n".join(json.dumps(e) for e in events), encoding="utf-8")
+            (sub / f"agent-{aid}.meta.json").write_text(json.dumps(meta), encoding="utf-8")
+
+    def tearDown(self):
+        shutil.rmtree(self.run, ignore_errors=True)
+
+    def test_transcript_calls_link_and_dedupe(self):
+        calls, metas = sr.AR.transcript_calls(self.run, {"m1", "O", "o1", "o2", "m2"})
+        self.assertEqual([(c["id"], c["parent"]) for c in calls], [("c1", "o1"), ("c2", "o1")])
+        self.assertEqual(calls[1]["result"], ("3 passed in 0.1s", False))
+        self.assertEqual(metas["o1"]["_end"], _ts(13))
+        self.assertEqual(sr.AR.transcript_calls(self.run.parent / "no-such-run")[0], [])
+
+    def test_orchestrator_subagent_is_an_orchestrator_thread(self):
+        T = sr.Trace(self.run)
+        by = {c.id: c for c in T.calls}
+        self.assertEqual([c.id for c in T.calls], ["m1", "O", "o1", "c1", "c2", "o2", "m2"])  # merged by time
+        self.assertEqual([c.idx for c in T.calls], list(range(7)))
+        self.assertTrue(by["o2"].orch and by["o1"].orch and by["m1"].orch)
+        self.assertFalse(by["c1"].orch)
+        self.assertIs(by["c1"].top, by["o1"])   # a worker's call resolves to its dispatch
+        self.assertIs(by["c1"].root, by["O"])   # stage anchor stays on the main thread
+        self.assertIs(by["o2"].top, by["o2"])
+        self.assertEqual(T.stage_of(by["c2"]), "geeky-implement")
+        self.assertEqual([c.id for c in T.agents("geeky-implement")], ["o1"])  # orchestrator dispatch excluded
+        self.assertIs(T.next_main(by["o1"]), by["o2"])  # same thread, workers skipped
+        self.assertEqual(T.dispatch_start(by["o1"]).second, 4)  # foreground: started at the call, not the result
+        self.assertEqual(T.agent_end["o1"].second, 20)
+
+    def test_attempts_come_from_the_nested_transcript(self):
+        s = sr.Scorer.__new__(sr.Scorer)
+        s.trace, s.tasks, s.d87 = sr.Trace(self.run), ["T1"], []
+        s.coders = {"T1": [c for c in s.trace.calls if c.id == "o1"]}
+        s.attempts()
+        self.assertEqual([s.trace.calls[i].id for i, _ in s.runs["T1"]], ["c1", "c2"])
+        self.assertEqual(s.first_pass["T1"].id, "c2")
+
+    def test_analyzer_counts_and_split(self):
+        a = sr.AR.analyze(self.run)
+        self.assertEqual(a["tokens"]["total"], 12)  # tokens still from the result event only
+        self.assertEqual(a["validation_runs"], {"sub": 2})
+        self.assertEqual(a["gate_invocations"], {"check-dod": 1})  # o2 not counted twice
+        th = a["subagent_transcripts"]["threads"]
+        self.assertEqual(th["orchestrator"]["dispatches"], {"geeky-orchestration:geeky-coder": 1})
+        self.assertEqual(th["orchestrator"]["gates"], {"check-dod": 1})
+        self.assertEqual(th["workers"]["tool_calls"], {"PowerShell": 2})
+        self.assertEqual(th["main"]["tool_calls"], {"Skill": 2, "Agent": 1})
+
+    def test_no_transcripts_leaves_analysis_unchanged(self):
+        shutil.rmtree(self.run / "subagents")
+        a = sr.AR.analyze(self.run)
+        self.assertNotIn("subagent_transcripts", a)
+        self.assertEqual(a["validation_runs"], {})
+        T = sr.Trace(self.run)
+        self.assertEqual([c.id for c in T.calls], ["m1", "O", "o1", "o2", "m2"])
+
+    def test_orchestrator_type_names(self):
+        self.assertTrue(sr.AR.is_orchestrator_type("geeky-implement-orchestrator"))
+        self.assertTrue(sr.AR.is_orchestrator_type("geeky-orchestration:geeky-implement-orchestrator"))
+        self.assertFalse(sr.AR.is_orchestrator_type("geeky-orchestration:geeky-orchestrator"))
+        self.assertFalse(sr.AR.is_orchestrator_type(None))
+
+
+class Run6ShapeTests(unittest.TestCase):
+    """C1 run 6 shapes: helper moves with slugged task names, phases as a numbered list."""
+
+    def test_slugged_helper_moves(self):
+        cmd = ('& "$d\\move.ps1" T2-csv-reader "In Review"; & "$d\\move.ps1" T3-transactions-rules Ready\n'
+               '$m="$env:TEMP\\orch\\move.ps1"\nforeach($t in "T1-skeleton","T2-csv-reader"){ & $m $t Done }')
+        self.assertEqual(sr.helper_moves(cmd, {"move.ps1"}),
+                         [("T2", "In Review"), ("T3", "Ready"), ("T1", "Done"), ("T2", "Done")])
+
+    def test_numbered_phase_list(self):
+        tmp = Path(tempfile.mkdtemp(prefix="score-run-phases-"))
+        try:
+            (tmp / "implementation-plan.md").write_text(
+                "# Plan\n\n## Phases\n1. **Foundations (T1-T2):** a.\n2. **Domain (T3):** b.\n\n"
+                "## Task order\n| Task | Depends on |\n|---|---|\n| T3 | T1, T2 |\n", encoding="utf-8")
+            s = sr.Scorer.__new__(sr.Scorer)
+            s.folder, s.task_files = tmp, {t: tmp / f"{t}.md" for t in ("T1", "T2", "T3")}
+            s.tasks = ["T1", "T2", "T3"]
+            self.assertEqual(s.parse_phases(), {"P1": ["T1", "T2"], "P2": ["T3"]})
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
 @unittest.skipUnless((RUN3 / "run.json").exists() and (RUN3 / "stream.jsonl").exists(), "C1 run 3 folder missing")
 class Run3IntegrationTest(unittest.TestCase):
     """Reproduces comparison-20261022T0800Z.md for run 3 within 0.5 per dimension."""

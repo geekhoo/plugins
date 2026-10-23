@@ -8,6 +8,12 @@ tokens (summed over every model in result.modelUsage), model_calls, latency_medi
 max_idle_gap_s, stages, impl_review_rounds, token_ceiling, over_token_ceiling.
 --analysis-only writes analysis.json and leaves run.json untouched (re-analysing a stored run).
 
+Subagent transcripts: when the run folder has subagents/agent-<id>.jsonl (+ .meta.json), tool calls found
+only there (e.g. calls of workers dispatched by a subagent, which the stream omits) are added to the tool,
+dispatch, validation and gate counts, deduplicated by tool_use id, and analysis.json gains
+"subagent_transcripts" with a main / orchestrator-subagent / worker split. Tokens, model calls and latency
+still come from the result event and session.jsonl only.
+
 Gate runs are counted from each tool call's result: every gate summary line (OK/INVALID_*,
 DOD_OK/DOD_INCOMPLETE, the check-commit verdict) is one run with its pass/fail. When a command
 executes a gate but its output hides the summary, the run is counted from the command text
@@ -59,6 +65,67 @@ def tool_results(event):
                 text = "\n".join(x.get("text", "") for x in text if isinstance(x, dict))
             out[c.get("tool_use_id")] = (text if isinstance(text, str) else "", bool(c.get("is_error")))
     return out
+
+
+ORCHESTRATOR_AGENT = "geeky-implement-orchestrator"
+
+
+def is_orchestrator_type(subagent_type):
+    """True for the plugin's geeky-implement orchestrator subagent (plain or plugin-qualified name)."""
+    return str(subagent_type or "").split(":")[-1] == ORCHESTRATOR_AGENT
+
+
+def load_subagents(run_dir):
+    """[(meta, events)] for each subagents/agent-<id>.jsonl (a Claude Code subagent session transcript) with
+    its agent-<id>.meta.json (agentType, description, toolUseId of the spawning Agent call, spawnDepth)."""
+    folder = Path(run_dir) / "subagents"
+    out = []
+    if not folder.is_dir():
+        return out
+    for f in sorted(folder.glob("agent-*.jsonl")):
+        mp = f.with_name(f.name[:-len(".jsonl")] + ".meta.json")
+        try:
+            meta = json.loads(mp.read_text(encoding="utf-8-sig")) if mp.exists() else {}
+        except ValueError:
+            meta = {}
+        meta.setdefault("agentId", f.name[len("agent-"):-len(".jsonl")])
+        out.append((meta, load_jsonl(f)))
+    return out
+
+
+def transcript_calls(run_dir, known_ids=()):
+    """Tool calls recorded only in subagent transcripts, with their results.
+
+    Returns (calls, metas). Each call is a dict {id, name, input, parent, timestamp, result, result_timestamp}
+    whose parent is the meta.toolUseId of the transcript, i.e. the Agent call that spawned the subagent, so
+    calls nested under a subagent's own dispatches link to that dispatch. Calls whose id is in known_ids (the
+    stream already carries them) are skipped, as is any id seen in an earlier transcript. metas maps
+    toolUseId -> meta, with "_end" set to the transcript's last timestamp."""
+    known = set(known_ids)
+    calls, metas = [], {}
+    for meta, events in load_subagents(run_dir):
+        parent = meta.get("toolUseId")
+        stamps = [e["timestamp"] for e in events if e.get("timestamp")]
+        if parent:
+            metas[parent] = dict(meta, _end=max(stamps) if stamps else None)
+        results = {}
+        for e in events:
+            if e.get("type") == "user":
+                for k, v in tool_results(e).items():
+                    results[k] = (v, e.get("timestamp"))
+        for e in events:
+            if e.get("type") != "assistant":
+                continue
+            for c in tool_uses(e):
+                if c.get("id") in known:
+                    continue
+                known.add(c.get("id"))
+                res, rts = results.get(c.get("id"), (None, None))
+                calls.append({"id": c.get("id"), "name": c.get("name"), "input": c.get("input") or {},
+                              "parent": parent, "timestamp": e.get("timestamp"), "result": res,
+                              "result_timestamp": rts})
+    calls.sort(key=lambda c: c["timestamp"] or "")
+    return calls, metas
 
 
 GATES = ("validate-planning-folder", "validate-task-schema", "validate-kanban", "check-dod", "check-commit")
@@ -168,6 +235,22 @@ def gate_outcomes(name, inp, result):
     return out
 
 
+def thread_split(flat):
+    """Tool calls, dispatches and gate runs split by thread: main (no parent), orchestrator (made by a
+    geeky-implement-orchestrator subagent) and workers (any other subagent). flat: [(id, name, input, parent, result)]."""
+    orch = {cid for cid, name, inp, _, _ in flat if name in ("Agent", "Task") and is_orchestrator_type(inp.get("subagent_type"))}
+    out = {k: {"tool_calls": collections.Counter(), "dispatches": collections.Counter(), "gates": collections.Counter()}
+           for k in ("main", "orchestrator", "workers")}
+    for cid, name, inp, parent, res in flat:
+        t = out["main" if not parent else "orchestrator" if parent in orch else "workers"]
+        t["tool_calls"][name] += 1
+        if name in ("Agent", "Task"):
+            t["dispatches"][str(inp.get("subagent_type") or "general-purpose")] += 1
+        for gate, _ in gate_outcomes(name, inp, res):
+            t["gates"][gate] += 1
+    return {k: {kk: dict(vv.most_common()) for kk, vv in v.items()} for k, v in out.items()}
+
+
 def analyze(run_dir: Path):
     stream = load_jsonl(run_dir / "stream.jsonl")
     session = load_jsonl(run_dir / "session.jsonl")
@@ -199,24 +282,26 @@ def analyze(run_dir: Path):
         if e.get("type") == "user":
             results.update(tool_results(e))
     gates = collections.defaultdict(lambda: dict.fromkeys(("pass", "fail", "unknown", "main", "sub"), 0))
-    for e in stream:
-        if e.get("type") != "assistant":
-            continue
-        sub = bool(e.get("parent_tool_use_id"))
-        for c in tool_uses(e):
-            name, inp = c.get("name"), c.get("input") or {}
-            (sub_tools if sub else main_tools)[name] += 1
-            if name in ("Agent", "Task"):
-                subagents[inp.get("subagent_type") or "general-purpose"] += 1
-            if name == "Skill":
-                skills[str(inp.get("skill", "")).split(":")[-1]] += 1
-            cmd = inp.get("command", "") if isinstance(inp, dict) else ""
-            if isinstance(cmd, str) and re.search(r"pytest|unittest", cmd):
-                validations["sub" if sub else "main"] += 1
-            for gate, passed in gate_outcomes(name, inp, results.get(c.get("id"))):
-                g = gates[gate]
-                g[{True: "pass", False: "fail", None: "unknown"}[passed]] += 1
-                g["sub" if sub else "main"] += 1
+    # (id, name, input, parent, result) for every call: the stream's, then calls only in subagent transcripts
+    flat = [(c.get("id"), c.get("name"), c.get("input") or {}, e.get("parent_tool_use_id"), results.get(c.get("id")))
+            for e in stream if e.get("type") == "assistant" for c in tool_uses(e)]
+    extra, metas = transcript_calls(run_dir, {f[0] for f in flat})
+    flat += [(c["id"], c["name"], c["input"], c["parent"], c["result"]) for c in extra]
+    for cid, name, inp, parent, res in flat:
+        sub = bool(parent)
+        (sub_tools if sub else main_tools)[name] += 1
+        if name in ("Agent", "Task"):
+            subagents[inp.get("subagent_type") or "general-purpose"] += 1
+        if name == "Skill":
+            skills[str(inp.get("skill", "")).split(":")[-1]] += 1
+        cmd = inp.get("command", "") if isinstance(inp, dict) else ""
+        if isinstance(cmd, str) and re.search(r"pytest|unittest", cmd):
+            validations["sub" if sub else "main"] += 1
+        for gate, passed in gate_outcomes(name, inp, res):
+            g = gates[gate]
+            g[{True: "pass", False: "fail", None: "unknown"}[passed]] += 1
+            g["sub" if sub else "main"] += 1
+    threads = thread_split(flat) if metas else None
 
     # Stages: Skill invocations on the main thread, timed from the session file
     stamps = [t for t in (ts(e) for e in session) if t]
@@ -250,7 +335,7 @@ def analyze(run_dir: Path):
     model_calls = len({(e.get("message") or {}).get("id") for e in session
                        if e.get("type") == "assistant" and (e.get("message") or {}).get("id")})
 
-    return {
+    out = {
         "tokens": tokens,
         "model_calls": model_calls or None,
         "latency_median_ms": round(statistics.median(latencies)) if latencies else None,
@@ -267,6 +352,11 @@ def analyze(run_dir: Path):
         "gate_results": dict(gates),
         "duration_api_ms": result.get("duration_api_ms"),
     }
+    if metas:  # subagent transcripts present: the counts above include their calls
+        out["subagent_transcripts"] = {"transcripts": len(metas), "calls_only_in_transcripts": len(extra),
+                                       "by_type": dict(collections.Counter(str(m.get("agentType")) for m in metas.values())),
+                                       "threads": threads}
+    return out
 
 
 def main():
