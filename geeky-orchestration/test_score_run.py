@@ -105,6 +105,23 @@ class GateTimingTests(unittest.TestCase):
         self.assertEqual(sr.done_after('$k=$k -replace "x","- [x] T5-cli`n"', {"T1"}), {"T1", "T5"})
 
 
+class HelperMoveTests(unittest.TestCase):
+    """Lane moves made through a kanban helper script (C1 run 4)."""
+
+    def test_direct_and_looped_moves(self):
+        cmd = ("$kb=\"$env:TEMP\\gk\\kb.py\"\n"
+               "Add-Content $f/handoff.md \"- T4 Done (parsing).\"\n"
+               "foreach($t in 'T4','T5'){ python $kb $f $t Done; python check-dod.py --task $t }\n"
+               "foreach($t in 'T6','T7'){ python $kb $f $t Ready; python $kb $f $t \"In Progress\" }\n"
+               "python $kb $f T8 'In Review'")
+        self.assertEqual(sr.helper_moves(cmd, {"kb.py"}),
+                         [("T4", "Done"), ("T5", "Done"), ("T6", "Ready"), ("T7", "Ready"),
+                          ("T6", "In Progress"), ("T7", "In Progress"), ("T8", "In Review")])
+
+    def test_no_helper_no_moves(self):
+        self.assertEqual(sr.helper_moves("Add-Content handoff.md '- T2 Done'", {"kb.py"}), [])
+
+
 class ValidationRunTests(unittest.TestCase):
     def test_pass_and_fail(self):
         v = sr.classify_validation("python -m pytest tests/test_money.py -q", "30 passed in 0.07s")

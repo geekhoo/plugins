@@ -213,6 +213,34 @@ def done_after(body, before):
     return set(before) | set(re.findall(r"\[x\]\s*(T\d+)\b", text))
 
 
+LANES = r"Backlog|Ready|In Progress|In Review|Blocked|Done"
+
+
+def helper_moves(raw, helpers):
+    """Lane moves made by calling a kanban helper script with `<task> <lane>` arguments, e.g.
+    `python $kb $f T2 Done` or `foreach($t in 'T4','T5'){ python $kb $f $t "In Progress" }`.
+    Only statements that invoke a helper (by file name or a variable holding its path) count."""
+    text = raw.replace("`r", "").replace("`n", "\n")
+    names = [re.escape(h) for h in helpers]
+    if not names:
+        return []
+    hvars = set(re.findall(r"\$(\w+)\s*=\s*[\"'][^\"'\n]*(?:%s)" % "|".join(names), text, re.I))
+    loops = [(m.start(), m.group(1), re.findall(r"\bT\d+\b", m.group(2)))
+             for m in re.finditer(r"foreach\s*\(\s*\$(\w+)\s+in\s+([^)]*)\)", text, re.I)]
+    moves = []
+    for stmt in re.finditer(r"[^;\n{}]+", text):
+        s = stmt.group(0)
+        if not (re.search("|".join(names), s, re.I) or any(re.search(r"\$%s\b" % v, s) for v in hvars)):
+            continue
+        for m in re.finditer(r"(?:\b(T\d+)\b|\$(\w+))['\"]?\s+['\"]?(%s)\b" % LANES, s):
+            if m.group(1):
+                ids = [m.group(1)]
+            else:  # the loop variable's nearest enclosing foreach
+                ids = next((i for p, v, i in reversed(loops) if v == m.group(2) and p < stmt.start()), [])
+            moves += [(t, m.group(3)) for t in ids]
+    return moves
+
+
 def gate_before_done(done_idx, last_edit_idx, dod_runs, kanban_runs):
     """D86: check-dod for the task and validate-kanban each ran (not failed) in the Done call, or after
     the task's last code edit and before the Done call. *_runs: [(call_idx, passed True|False|None)]."""
@@ -631,6 +659,9 @@ class Scorer:
             if "kanban.md" in raw and WRITE_VERB.search(raw):
                 helpers.update(n.lower() for n in re.findall(r"([\w-]+\.ps1)\b", raw)
                                if not re.match(r"(?i)(validate|check|preflight)", n))
+                # a Python helper counts only when this call writes the script itself
+                helpers.update(n.lower() for n in re.findall(
+                    r"(?:Set-Content|Out-File|WriteAll\w*|>)\s*[\"']?[^\"'\s;]*?([\w-]+\.py)\b", raw))
             writes_kanban = (str(c.inp.get("file_path", "")).replace("\\", "/").endswith("kanban.md") or
                              ("kanban.md" in raw and re.search(
                                  r"(?:Set-Content|Out-File|WriteAll\w*|Add-Content|>)[^\n;]*kanban\.md|"
@@ -642,11 +673,18 @@ class Scorer:
                 self.kanban_calls.append(c)
                 body = c.inp.get("new_string", "") + c.inp.get("content", "") if c.name in ("Edit", "Write") else raw
                 after = done_after(body, done_now)
+                ip = set(re.findall(r"\b(T\d+)\b[^\n]{0,80}?in_progress", body))
+                for t, lane in helper_moves(raw, helpers):
+                    if lane == "Done":
+                        after.add(t)
+                    elif lane == "In Progress":
+                        ip.add(t)
+                    else:
+                        after.discard(t)
                 for t in sorted(after - done_now, key=task_key):  # a move into Done; the last one stands
                     self.done_moves.setdefault(t, []).append(c)
                     self.done_call[t] = c
                 done_now = after
-                ip = set(re.findall(r"\b(T\d+)\b[^\n]{0,80}?in_progress", body))
                 for m in re.finditer(r"-Inprog\s+([\"']?)([^\"'\n;]*)\1", body):
                     ip |= expand_ids(m.group(2))
                 for t in ip:
@@ -763,7 +801,9 @@ class Scorer:
         for line in lines[start:]:
             if re.match(r"^\s*[#*\s]*(Estimate|Priority)\b", line, re.I) or re.match(r"^\s{0,3}#{1,6}\s+\S", line):
                 break
-            for cmd in re.findall(r"`([^`]+)`", line):
+            # a bullet's command is its leading code span; spans later in the prose are commentary
+            lead = re.match(r"^\s*(?:[-*]|\d+\.)\s*`([^`]+)`", line)
+            for cmd in [lead.group(1)] if lead else [] if re.match(r"^\s*(?:[-*]|\d+\.)\s", line) else re.findall(r"`([^`]+)`", line):
                 if re.match(r"\s*(python|py|pytest|pwsh|bash|sh|node|npm|uv)\b", cmd):
                     cmds.append(cmd.strip())
         return cmds
