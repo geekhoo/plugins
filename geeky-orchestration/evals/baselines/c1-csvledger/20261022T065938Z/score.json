@@ -5,14 +5,14 @@
   "plugin_sha": "e674b86ae870c4d6b8c308b63afe92331675d4df",
   "harness": "claude-code",
   "model": "claude-sonnet-5-5",
-  "scored_utc": "2026-10-22T12:16:34Z",
+  "scored_utc": "2026-10-23T05:31:21Z",
   "scorer": "evals/scripts/score-run.py",
   "workspace": "C:\\repos\\eval-c1-csvledger-20261022T065938Z",
   "workspace_source": "run.json workspace",
   "planning_folder": "docs/spec-001-feature",
   "validation_rerun": true,
   "manual_file_used": true,
-  "composite": 82.97942521640296,
+  "composite": 86.73459522699092,
   "dimensions": {
     "quality": {
       "score": 97.64044943820224,
@@ -23,21 +23,21 @@
       "evidence": {
         "P": "oracle 118/118 (collected 118, skipped 0)",
         "S": "min(1, 300 / 356 non-test LOC)",
-        "D": "9/9 validation commands pass when re-run"
+        "D": "9/9 validation commands pass when re-run at each task's commit"
       },
       "capped": 97.64044943820224
     },
     "adherence": {
       "passed": 61,
-      "applicable": 76,
-      "score": 80.26315789473684,
+      "applicable": 68,
+      "score": 89.70588235294117,
       "needs_judge": [],
-      "capped": 80.26315789473684
+      "capped": 89.70588235294117
     },
     "consistency": {
-      "score": 67.27272727272728,
-      "DPC": 0.5909090909090909,
-      "DPC_fraction": "13/22",
+      "score": 69.52380952380952,
+      "DPC": 0.6190476190476191,
+      "DPC_fraction": "13/21",
       "OC": 1.0,
       "observed_sequence": [
         "spec-research",
@@ -322,13 +322,6 @@
       "evidence": "see adh.prescribed_msg.plan_review"
     },
     {
-      "id": "dp06",
-      "name": "Event logs created on dispatch",
-      "weight": 1,
-      "status": "fail",
-      "evidence": "missing/empty: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8']"
-    },
-    {
       "id": "dp07",
       "name": "Batching <=3 parallel, justification noted",
       "weight": 1,
@@ -609,62 +602,6 @@
       "kind": "det",
       "status": "pass",
       "evidence": "T8-error-usage-determinism-tests.notes.md"
-    },
-    {
-      "id": "adh.events.T1",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "T1.events.jsonl: 0 entries"
-    },
-    {
-      "id": "adh.events.T2",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T2.events.jsonl"
-    },
-    {
-      "id": "adh.events.T3",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T3.events.jsonl"
-    },
-    {
-      "id": "adh.events.T4",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T4.events.jsonl"
-    },
-    {
-      "id": "adh.events.T5",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T5.events.jsonl"
-    },
-    {
-      "id": "adh.events.T6",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T6.events.jsonl"
-    },
-    {
-      "id": "adh.events.T7",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T7.events.jsonl"
-    },
-    {
-      "id": "adh.events.T8",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T8.events.jsonl"
     },
     {
       "id": "adh.task_review.T1",
@@ -996,13 +933,6 @@
       "evidence": "see adh.prescribed_msg.plan_review"
     },
     {
-      "id": "dp06",
-      "dimension": "consistency",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "missing/empty: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8']"
-    },
-    {
       "id": "dp07",
       "dimension": "consistency",
       "kind": "det",
@@ -1096,67 +1026,107 @@
   ],
   "needs_judge": [],
   "rerun_results": {
-    "T1": [
-      {
-        "command": "python -m pytest tests/test_csvio.py -q",
-        "exit": 0,
-        "tail": "19 passed, 1 skipped in 0.12s"
-      }
-    ],
-    "T2": [
-      {
-        "command": "python -m pytest tests/test_money.py -q",
-        "exit": 0,
-        "tail": "30 passed in 0.05s"
-      }
-    ],
-    "T3": [
-      {
-        "command": "python -m pytest tests/test_transactions.py -q",
-        "exit": 0,
-        "tail": "23 passed in 0.12s"
-      }
-    ],
-    "T4": [
-      {
-        "command": "python -m pytest tests/test_rules.py -q",
-        "exit": 0,
-        "tail": "24 passed in 0.15s"
-      }
-    ],
-    "T5": [
-      {
-        "command": "python -m pytest tests/test_report.py tests/test_render.py -q",
-        "exit": 0,
-        "tail": "10 passed in 0.03s"
-      }
-    ],
-    "T6": [
-      {
-        "command": "python -m pytest -q",
-        "exit": 0,
-        "tail": "231 passed, 1 skipped in 26.18s"
-      },
-      {
-        "command": "python -m csvledger --help",
-        "exit": 0,
-        "tail": "  -h, --help           show this help message and exit"
-      }
-    ],
-    "T7": [
-      {
-        "command": "python -m pytest tests/test_oracles.py -q",
-        "exit": 0,
-        "tail": "17 passed in 4.42s"
-      }
-    ],
-    "T8": [
-      {
-        "command": "python -m pytest -q",
-        "exit": 0,
-        "tail": "231 passed, 1 skipped in 26.04s"
-      }
-    ]
+    "T1": {
+      "commit": "1f9ffd6",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_csvio.py -q",
+          "exit": 0,
+          "tail": "19 passed, 1 skipped in 0.15s"
+        }
+      ]
+    },
+    "T2": {
+      "commit": "4a8c632",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_money.py -q",
+          "exit": 0,
+          "tail": "30 passed in 0.07s"
+        }
+      ]
+    },
+    "T3": {
+      "commit": "e5e4757",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_transactions.py -q",
+          "exit": 0,
+          "tail": "23 passed in 0.15s"
+        }
+      ]
+    },
+    "T4": {
+      "commit": "f877a0c",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_rules.py -q",
+          "exit": 0,
+          "tail": "24 passed in 0.17s"
+        }
+      ]
+    },
+    "T5": {
+      "commit": "487822e",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_report.py tests/test_render.py -q",
+          "exit": 0,
+          "tail": "10 passed in 0.07s"
+        }
+      ]
+    },
+    "T6": {
+      "commit": "2249865",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest -q",
+          "exit": 0,
+          "tail": "127 passed, 1 skipped in 1.31s"
+        },
+        {
+          "command": "python -m csvledger --help",
+          "exit": 0,
+          "tail": "  -h, --help           show this help message and exit"
+        }
+      ]
+    },
+    "T7": {
+      "commit": "8e7e5b3",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_oracles.py -q",
+          "exit": 0,
+          "tail": "17 passed in 4.82s"
+        }
+      ]
+    },
+    "T8": {
+      "commit": "455d4a0",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest -q",
+          "exit": 0,
+          "tail": "127 passed, 1 skipped in 1.50s"
+        }
+      ]
+    }
   },
   "breakdown": {
     "tokens_total": 10119434,

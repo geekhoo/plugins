@@ -1,14 +1,14 @@
 # Score: 20261020T114232Z (c1-csvledger)
 
-Plugin `24c4e6d`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T12:14:36Z by `score-run.py`. Workspace: run.json workspace. Validation blocks re-run. Manual verdicts: yes.
+Plugin `24c4e6d`, claude-code / claude-sonnet-5-5. Scored 2026-10-23T05:30:24Z by `score-run.py`. Workspace: run.json workspace. Validation blocks re-run. Manual verdicts: yes.
 
 | Dimension | Weight | Score | Detail |
 |---|---|---|---|
 | Quality | 0.35 | 97.9 | P 1.000, S 0.860, D 1.00 |
-| Adherence | 0.35 | 61.4 | 43/70 |
-| Consistency | 0.20 | 63.6 | DPC 12/22 = 0.545, OC 1.00 |
+| Adherence | 0.35 | 68.3 | 43/63 |
+| Consistency | 0.20 | 65.7 | DPC 12/21 = 0.571, OC 1.00 |
 | Task tier | 0.10 | 58.9 | L_run 2714 ms, L_ref 2678 ms |
-| **Composite** | | **74.4** | |
+| **Composite** | | **77.2** | |
 
 ## Hard gates
 
@@ -47,13 +47,6 @@ Plugin `24c4e6d`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T12:14:36Z b
 | adh.notes.T5 | ✓ | T5-money-report-render.notes.md |
 | adh.notes.T6 | ✓ | T6-cli-entrypoint.notes.md |
 | adh.notes.T7 | ✓ | T7-acceptance-tests.notes.md |
-| adh.events.T1 | ✗ | no tasks/T1.events.jsonl |
-| adh.events.T2 | ✗ | no tasks/T2.events.jsonl |
-| adh.events.T3 | ✗ | no tasks/T3.events.jsonl |
-| adh.events.T4 | ✗ | no tasks/T4.events.jsonl |
-| adh.events.T5 | ✗ | no tasks/T5.events.jsonl |
-| adh.events.T6 | ✗ | no tasks/T6.events.jsonl |
-| adh.events.T7 | ✗ | no tasks/T7.events.jsonl |
 | adh.task_review.T1 | ✗ | no reviewer verdict named this task during geeky-implement |
 | adh.task_review.T2 | ✗ | no reviewer verdict named this task during geeky-implement |
 | adh.task_review.T3 | ✗ | no reviewer verdict named this task during geeky-implement |
@@ -104,7 +97,6 @@ Plugin `24c4e6d`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T12:14:36Z b
 | dp03 | PM review artifact | 1 | ✓ | review-development-project-manager.md |
 | dp04 | Plan-review subagents, phases 1 and 3 | 1 | ✓ | 2 plan-review dispatches |
 | dp05 | Plan-review commit, exact message | 2 | ✓ | see adh.prescribed_msg.plan_review |
-| dp06 | Event logs created on dispatch | 1 | ✗ | missing/empty: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'] |
 | dp07 | Batching <=3 parallel, justification noted | 1 | ✓ | max 2 concurrent coders; justification: DP7 batching justification noted (doc: pass) |
 | dp08 | In Progress lane move with timestamp | 1 | ✓ | no In Progress move: none |
 | dp09 | Task review, per task | 2 | ✗ | not reviewed: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'] |

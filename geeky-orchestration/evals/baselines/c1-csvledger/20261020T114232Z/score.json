@@ -5,14 +5,14 @@
   "plugin_sha": "24c4e6daa6199be8196970ece35c79d6f184e8a4",
   "harness": "claude-code",
   "model": "claude-sonnet-5-5",
-  "scored_utc": "2026-10-22T12:14:36Z",
+  "scored_utc": "2026-10-23T05:30:24Z",
   "scorer": "evals/scripts/score-run.py",
   "workspace": "C:\\repos\\eval-c1-csvledger-20261020T114232Z",
   "workspace_source": "run.json workspace",
   "planning_folder": "docs/spec-001-feature",
   "validation_rerun": true,
   "manual_file_used": true,
-  "composite": 74.38434840097368,
+  "composite": 77.18882170544698,
   "dimensions": {
     "quality": {
       "score": 97.89398280802291,
@@ -23,21 +23,21 @@
       "evidence": {
         "P": "oracle 118/118 (collected 118, skipped 0)",
         "S": "min(1, 300 / 349 non-test LOC)",
-        "D": "9/9 validation commands pass when re-run"
+        "D": "9/9 validation commands pass when re-run at each task's commit"
       },
       "capped": 97.89398280802291
     },
     "adherence": {
       "passed": 43,
-      "applicable": 70,
-      "score": 61.42857142857143,
+      "applicable": 63,
+      "score": 68.25396825396825,
       "needs_judge": [],
-      "capped": 61.42857142857143
+      "capped": 68.25396825396825
     },
     "consistency": {
-      "score": 63.63636363636363,
-      "DPC": 0.5454545454545454,
-      "DPC_fraction": "12/22",
+      "score": 65.71428571428571,
+      "DPC": 0.5714285714285714,
+      "DPC_fraction": "12/21",
       "OC": 1.0,
       "observed_sequence": [
         "spec-research",
@@ -311,13 +311,6 @@
       "evidence": "see adh.prescribed_msg.plan_review"
     },
     {
-      "id": "dp06",
-      "name": "Event logs created on dispatch",
-      "weight": 1,
-      "status": "fail",
-      "evidence": "missing/empty: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7']"
-    },
-    {
       "id": "dp07",
       "name": "Batching <=3 parallel, justification noted",
       "weight": 1,
@@ -577,55 +570,6 @@
       "kind": "det",
       "status": "pass",
       "evidence": "T7-acceptance-tests.notes.md"
-    },
-    {
-      "id": "adh.events.T1",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T1.events.jsonl"
-    },
-    {
-      "id": "adh.events.T2",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T2.events.jsonl"
-    },
-    {
-      "id": "adh.events.T3",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T3.events.jsonl"
-    },
-    {
-      "id": "adh.events.T4",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T4.events.jsonl"
-    },
-    {
-      "id": "adh.events.T5",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T5.events.jsonl"
-    },
-    {
-      "id": "adh.events.T6",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T6.events.jsonl"
-    },
-    {
-      "id": "adh.events.T7",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T7.events.jsonl"
     },
     {
       "id": "adh.task_review.T1",
@@ -943,13 +887,6 @@
       "evidence": "see adh.prescribed_msg.plan_review"
     },
     {
-      "id": "dp06",
-      "dimension": "consistency",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "missing/empty: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7']"
-    },
-    {
       "id": "dp07",
       "dimension": "consistency",
       "kind": "det",
@@ -1043,65 +980,100 @@
   ],
   "needs_judge": [],
   "rerun_results": {
-    "T1": [
-      {
-        "command": "python -m pytest tests/test_errors.py -q",
-        "exit": 0,
-        "tail": "3 passed in 0.02s"
-      },
-      {
-        "command": "python -c \"import csvledger.errors\"",
-        "exit": 0,
-        "tail": ""
-      }
-    ],
-    "T2": [
-      {
-        "command": "python -m pytest tests/test_csvio.py -q",
-        "exit": 0,
-        "tail": "17 passed in 0.12s"
-      }
-    ],
-    "T3": [
-      {
-        "command": "python -m pytest tests/test_transactions.py -q",
-        "exit": 0,
-        "tail": "29 passed in 0.20s"
-      }
-    ],
-    "T4": [
-      {
-        "command": "python -m pytest tests/test_rules.py -q",
-        "exit": 0,
-        "tail": "18 passed in 0.16s"
-      }
-    ],
-    "T5": [
-      {
-        "command": "python -m pytest tests/test_render.py -q",
-        "exit": 0,
-        "tail": "10 passed in 0.07s"
-      }
-    ],
-    "T6": [
-      {
-        "command": "python -m pytest tests/test_cli.py -q",
-        "exit": 0,
-        "tail": "23 passed in 5.44s"
-      },
-      {
-        "command": "python -m csvledger --help",
-        "exit": 0,
-        "tail": "  -h, --help           show this help message and exit"
-      }
-    ],
-    "T7": [
-      {
-        "command": "python -m pytest -q",
-        "exit": 0,
-        "tail": "273 passed in 55.28s"
-      }
-    ]
+    "T1": {
+      "commit": "75d9b91",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_errors.py -q",
+          "exit": 0,
+          "tail": "3 passed in 0.03s"
+        },
+        {
+          "command": "python -c \"import csvledger.errors\"",
+          "exit": 0,
+          "tail": ""
+        }
+      ]
+    },
+    "T2": {
+      "commit": "08ffcab",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_csvio.py -q",
+          "exit": 0,
+          "tail": "17 passed in 0.13s"
+        }
+      ]
+    },
+    "T3": {
+      "commit": "c9d0d39",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_transactions.py -q",
+          "exit": 0,
+          "tail": "29 passed in 0.19s"
+        }
+      ]
+    },
+    "T4": {
+      "commit": "2466a9d",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_rules.py -q",
+          "exit": 0,
+          "tail": "18 passed in 0.14s"
+        }
+      ]
+    },
+    "T5": {
+      "commit": "8886c56",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_render.py -q",
+          "exit": 0,
+          "tail": "10 passed in 0.07s"
+        }
+      ]
+    },
+    "T6": {
+      "commit": "abdae5a",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_cli.py -q",
+          "exit": 0,
+          "tail": "23 passed in 5.29s"
+        },
+        {
+          "command": "python -m csvledger --help",
+          "exit": 0,
+          "tail": "  -h, --help           show this help message and exit"
+        }
+      ]
+    },
+    "T7": {
+      "commit": "d46b1ca",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest -q",
+          "exit": 0,
+          "tail": "273 passed in 48.03s"
+        }
+      ]
+    }
   },
   "breakdown": {
     "tokens_total": 10064673,

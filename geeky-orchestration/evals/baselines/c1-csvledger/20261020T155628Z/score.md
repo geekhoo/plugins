@@ -1,14 +1,14 @@
 # Score: 20261020T155628Z (c1-csvledger)
 
-Plugin `24c4e6d`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T12:15:24Z by `score-run.py`. Workspace: run.json workspace. Validation blocks re-run. Manual verdicts: yes.
+Plugin `24c4e6d`, claude-code / claude-sonnet-5-5. Scored 2026-10-23T05:30:58Z by `score-run.py`. Workspace: run.json workspace. Validation blocks re-run. Manual verdicts: yes.
 
 | Dimension | Weight | Score | Detail |
 |---|---|---|---|
 | Quality | 0.35 | 95.9 | P 1.000, S 0.725, D 1.00 |
-| Adherence | 0.35 | 55.7 | 44/79 |
-| Consistency | 0.20 | 66.7 | DPC 14/24 = 0.583, OC 1.00 |
+| Adherence | 0.35 | 62.9 | 44/70 |
+| Consistency | 0.20 | 68.7 | DPC 14/23 = 0.609, OC 1.00 |
 | Task tier | 0.10 | 77.1 | L_run 2641 ms, L_ref 2678 ms |
-| **Composite** | | **74.1** | |
+| **Composite** | | **77.0** | |
 
 ## Hard gates
 
@@ -53,15 +53,6 @@ Plugin `24c4e6d`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T12:15:24Z b
 | adh.notes.T7 | ✓ | T7-renderers.notes.md |
 | adh.notes.T8 | ✓ | T8-cli.notes.md |
 | adh.notes.T9 | ✓ | T9-acceptance-and-determinism.notes.md |
-| adh.events.T1 | ✗ | no tasks/T1.events.jsonl |
-| adh.events.T2 | ✗ | no tasks/T2.events.jsonl |
-| adh.events.T3 | ✗ | no tasks/T3.events.jsonl |
-| adh.events.T4 | ✗ | no tasks/T4.events.jsonl |
-| adh.events.T5 | ✗ | no tasks/T5.events.jsonl |
-| adh.events.T6 | ✗ | no tasks/T6.events.jsonl |
-| adh.events.T7 | ✗ | no tasks/T7.events.jsonl |
-| adh.events.T8 | ✗ | no tasks/T8.events.jsonl |
-| adh.events.T9 | ✗ | no tasks/T9.events.jsonl |
 | adh.task_review.T1 | ✓ | call 173 'Review phases 1-2' (prompt) PASS |
 | adh.task_review.T2 | ✓ | call 173 'Review phases 1-2' (prompt) PASS |
 | adh.task_review.T3 | ✓ | call 173 'Review phases 1-2' (prompt) PASS |
@@ -112,7 +103,6 @@ Plugin `24c4e6d`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T12:15:24Z b
 | dp03 | PM review artifact | 1 | ✓ | review-development-project-manager.md |
 | dp04 | Plan-review subagents, phases 1 and 3 | 1 | ✓ | 2 plan-review dispatches |
 | dp05 | Plan-review commit, exact message | 2 | ✗ | see adh.prescribed_msg.plan_review |
-| dp06 | Event logs created on dispatch | 1 | ✗ | missing/empty: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9'] |
 | dp07 | Batching <=3 parallel, justification noted | 1 | ✓ | max 2 concurrent coders; justification: DP7 (doc: pass) |
 | dp08 | In Progress lane move with timestamp | 1 | ✓ | no In Progress move: none |
 | dp09 | Task review, per task | 2 | ✓ | not reviewed: none |

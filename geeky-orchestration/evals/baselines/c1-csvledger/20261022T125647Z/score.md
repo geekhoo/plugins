@@ -1,14 +1,14 @@
 # Score: 20261022T125647Z (c1-csvledger)
 
-Plugin `e572902`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T13:46:51Z by `score-run.py`. Workspace: run.json workspace. Validation blocks re-run. Manual verdicts: yes.
+Plugin `e572902`, claude-code / claude-sonnet-5-5. Scored 2026-10-23T05:32:06Z by `score-run.py`. Workspace: run.json workspace. Validation blocks re-run. Manual verdicts: yes.
 
 | Dimension | Weight | Score | Detail |
 |---|---|---|---|
-| Quality | 0.35 | 94.8 | P 1.000, S 0.855, D 0.80 |
-| Adherence | 0.35 | 87.9 | 80/91 |
-| Consistency | 0.20 | 96.4 | DPC 21/22 = 0.955, OC 1.00 |
-| Task tier | 0.10 | 88.9 | L_run 2832 ms, L_ref 2678 ms |
-| **Composite** | | **92.1** | |
+| Quality | 0.35 | 97.8 | P 1.000, S 0.855, D 1.00 |
+| Adherence | 0.35 | 98.8 | 80/81 |
+| Consistency | 0.20 | 100.0 | DPC 21/21 = 1.000, OC 1.00 |
+| Task tier | 0.10 | 90.9 | L_run 2832 ms, L_ref 2678 ms |
+| **Composite** | | **97.9** | |
 
 ## Hard gates
 
@@ -56,16 +56,6 @@ Plugin `e572902`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T13:46:51Z b
 | adh.notes.T8 | ✓ | T8-cli-wiring.notes.md |
 | adh.notes.T9 | ✓ | T9-oracle-and-acceptance-tests.notes.md |
 | adh.notes.T10 | ✓ | T10-error-and-edge-case-tests.notes.md |
-| adh.events.T1 | ✗ | no tasks/T1.events.jsonl |
-| adh.events.T2 | ✗ | no tasks/T2.events.jsonl |
-| adh.events.T3 | ✗ | no tasks/T3.events.jsonl |
-| adh.events.T4 | ✗ | no tasks/T4.events.jsonl |
-| adh.events.T5 | ✗ | no tasks/T5.events.jsonl |
-| adh.events.T6 | ✗ | no tasks/T6.events.jsonl |
-| adh.events.T7 | ✗ | no tasks/T7.events.jsonl |
-| adh.events.T8 | ✗ | no tasks/T8.events.jsonl |
-| adh.events.T9 | ✗ | no tasks/T9.events.jsonl |
-| adh.events.T10 | ✗ | no tasks/T10.events.jsonl |
 | adh.task_review.T1 | ✓ | call 111 'Review T1' (description) not PASS; call 176 'Phase 1 review' (prompt) PASS |
 | adh.task_review.T2 | ✓ | call 140 'Review T2' (description) PASS; call 176 'Phase 1 review' (prompt) PASS |
 | adh.task_review.T3 | ✓ | call 166 'Review T3' (description) PASS; call 176 'Phase 1 review' (prompt) PASS |
@@ -125,7 +115,6 @@ Plugin `e572902`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T13:46:51Z b
 | dp03 | PM review artifact | 1 | ✓ | review-development-project-manager.md |
 | dp04 | Plan-review subagents, phases 1 and 3 | 1 | ✓ | 2 plan-review dispatches |
 | dp05 | Plan-review commit, exact message | 2 | ✓ | see adh.prescribed_msg.plan_review |
-| dp06 | Event logs created on dispatch | 1 | ✗ | missing/empty: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10'] |
 | dp07 | Batching <=3 parallel, justification noted | 1 | ✓ | max 2 concurrent coders; justification: max 2 concurrent coders; T4/T5, T6/T7, T9/T10 notes record no dependency and dis |
 | dp08 | In Progress lane move with timestamp | 1 | ✓ | no In Progress move: none |
 | dp09 | Task review, per task | 2 | ✓ | not reviewed: none |
@@ -144,7 +133,7 @@ Plugin `e572902`, claude-code / claude-sonnet-5-5. Scored 2026-10-22T13:46:51Z b
 
 | Task | attempts | V | R | d (s) | T | D | s | LOC | w |
 |---|---|---|---|---|---|---|---|---|---|
-| T1 | 1 (calls [109]) | 0.00 | 0.5 | 469 | 0.63 | 1 | 37.6 | 65 | 0.049 |
+| T1 | 1 (calls [109]) | 1.00 | 0.5 | 469 | 0.63 | 1 | 77.6 | 65 | 0.049 |
 | T2 | 1 (calls [138]) | 1.00 | 1.0 | 102 | 0.92 | 1 | 98.4 | 156 | 0.070 |
 | T3 | 2 (calls [162, 164]) | 0.75 | 1.0 | 151 | 0.88 | 1 | 87.6 | 193 | 0.112 |
 | T4 | 2 (calls [220, 222]) | 0.75 | 1.0 | 73 | 0.94 | 1 | 88.8 | 144 | 0.100 |

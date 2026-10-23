@@ -5,14 +5,14 @@
   "plugin_sha": "24c4e6daa6199be8196970ece35c79d6f184e8a4",
   "harness": "claude-code",
   "model": "claude-sonnet-5-5",
-  "scored_utc": "2026-10-22T12:15:24Z",
+  "scored_utc": "2026-10-23T05:30:58Z",
   "scorer": "evals/scripts/score-run.py",
   "workspace": "C:\\repos\\eval-c1-csvledger-20261020T155628Z",
   "workspace_source": "run.json workspace",
   "planning_folder": "docs/spec-001-feature",
   "validation_rerun": true,
   "manual_file_used": true,
-  "composite": 74.0936278732795,
+  "composite": 77.00575408865282,
   "dimensions": {
     "quality": {
       "score": 95.86956521739131,
@@ -23,21 +23,21 @@
       "evidence": {
         "P": "oracle 118/118 (collected 118, skipped 0)",
         "S": "min(1, 300 / 414 non-test LOC)",
-        "D": "12/12 validation commands pass when re-run"
+        "D": "11/11 validation commands pass when re-run at each task's commit"
       },
       "capped": 95.86956521739131
     },
     "adherence": {
       "passed": 44,
-      "applicable": 79,
-      "score": 55.69620253164557,
+      "applicable": 70,
+      "score": 62.857142857142854,
       "needs_judge": [],
-      "capped": 55.69620253164557
+      "capped": 62.857142857142854
     },
     "consistency": {
-      "score": 66.66666666666667,
-      "DPC": 0.5833333333333334,
-      "DPC_fraction": "14/24",
+      "score": 68.69565217391305,
+      "DPC": 0.6086956521739131,
+      "DPC_fraction": "14/23",
       "OC": 1.0,
       "observed_sequence": [
         "spec-research",
@@ -379,13 +379,6 @@
       "evidence": "see adh.prescribed_msg.plan_review"
     },
     {
-      "id": "dp06",
-      "name": "Event logs created on dispatch",
-      "weight": 1,
-      "status": "fail",
-      "evidence": "missing/empty: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9']"
-    },
-    {
       "id": "dp07",
       "name": "Batching <=3 parallel, justification noted",
       "weight": 1,
@@ -687,69 +680,6 @@
       "kind": "det",
       "status": "pass",
       "evidence": "T9-acceptance-and-determinism.notes.md"
-    },
-    {
-      "id": "adh.events.T1",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T1.events.jsonl"
-    },
-    {
-      "id": "adh.events.T2",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T2.events.jsonl"
-    },
-    {
-      "id": "adh.events.T3",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T3.events.jsonl"
-    },
-    {
-      "id": "adh.events.T4",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T4.events.jsonl"
-    },
-    {
-      "id": "adh.events.T5",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T5.events.jsonl"
-    },
-    {
-      "id": "adh.events.T6",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T6.events.jsonl"
-    },
-    {
-      "id": "adh.events.T7",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T7.events.jsonl"
-    },
-    {
-      "id": "adh.events.T8",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T8.events.jsonl"
-    },
-    {
-      "id": "adh.events.T9",
-      "dimension": "adherence",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "no tasks/T9.events.jsonl"
     },
     {
       "id": "adh.task_review.T1",
@@ -1067,13 +997,6 @@
       "evidence": "see adh.prescribed_msg.plan_review"
     },
     {
-      "id": "dp06",
-      "dimension": "consistency",
-      "kind": "det",
-      "status": "fail",
-      "evidence": "missing/empty: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9']"
-    },
-    {
       "id": "dp07",
       "dimension": "consistency",
       "kind": "det",
@@ -1167,84 +1090,124 @@
   ],
   "needs_judge": [],
   "rerun_results": {
-    "T1": [
-      {
-        "command": "python --version",
-        "exit": 0,
-        "tail": "Python 3.13.15"
-      },
-      {
-        "command": "python -m pytest --version",
-        "exit": 0,
-        "tail": "pytest 9.0.3"
-      },
-      {
-        "command": "python -m pytest -q",
-        "exit": 0,
-        "tail": "139 passed in 15.51s"
-      }
-    ],
-    "T2": [
-      {
-        "command": "python -m pytest tests/test_money.py -q",
-        "exit": 0,
-        "tail": "9 passed in 0.03s"
-      }
-    ],
-    "T3": [
-      {
-        "command": "python -m pytest tests/test_tabular.py -q",
-        "exit": 0,
-        "tail": "20 passed in 0.18s"
-      }
-    ],
-    "T4": [
-      {
-        "command": "python -m pytest tests/test_transactions.py -q",
-        "exit": 0,
-        "tail": "33 passed in 0.23s"
-      }
-    ],
-    "T5": [
-      {
-        "command": "python -m pytest tests/test_rules.py -q",
-        "exit": 0,
-        "tail": "16 passed in 0.12s"
-      }
-    ],
-    "T6": [
-      {
-        "command": "python -m pytest tests/test_ledger.py tests/test_aggregate.py -q",
-        "exit": 0,
-        "tail": "13 passed in 0.06s"
-      }
-    ],
-    "T7": [
-      {
-        "command": "python -m pytest tests/test_render.py -q",
-        "exit": 0,
-        "tail": "8 passed in 0.04s"
-      }
-    ],
-    "T8": [
-      {
-        "command": "python -m pytest tests/test_cli.py -q",
-        "exit": 0,
-        "tail": "17 passed in 2.96s"
-      },
-      {
-        "command": "python -m csvledger --help",
-        "exit": 0,
-        "tail": "  -h, --help           show this help message and exit"
-      }
-    ],
-    "T9": [
-      {
-        "command": "python -m pytest -q",
-        "exit": 0,
-        "tail": "139 passed in 15.15s"
-      }
-    ]
+    "T1": {
+      "commit": "aa384de",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python --version",
+          "exit": 0,
+          "tail": "Python 3.13.15"
+        },
+        {
+          "command": "python -m pytest -q",
+          "exit": 0,
+          "tail": "11 passed in 0.13s"
+        }
+      ]
+    },
+    "T2": {
+      "commit": "aa384de",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_money.py -q",
+          "exit": 0,
+          "tail": "9 passed in 0.04s"
+        }
+      ]
+    },
+    "T3": {
+      "commit": "3c02a1d",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_tabular.py -q",
+          "exit": 0,
+          "tail": "20 passed in 0.14s"
+        }
+      ]
+    },
+    "T4": {
+      "commit": "3c02a1d",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_transactions.py -q",
+          "exit": 0,
+          "tail": "32 passed in 0.22s"
+        }
+      ]
+    },
+    "T5": {
+      "commit": "3c02a1d",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_rules.py -q",
+          "exit": 0,
+          "tail": "15 passed in 0.16s"
+        }
+      ]
+    },
+    "T6": {
+      "commit": "4702a0e",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_ledger.py tests/test_aggregate.py -q",
+          "exit": 0,
+          "tail": "13 passed in 0.10s"
+        }
+      ]
+    },
+    "T7": {
+      "commit": "4702a0e",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_render.py -q",
+          "exit": 0,
+          "tail": "8 passed in 0.06s"
+        }
+      ]
+    },
+    "T8": {
+      "commit": "26ff927",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_cli.py -q",
+          "exit": 0,
+          "tail": "17 passed in 3.19s"
+        },
+        {
+          "command": "python -m csvledger --help",
+          "exit": 0,
+          "tail": "  -h, --help           show this help message and exit"
+        }
+      ]
+    },
+    "T9": {
+      "commit": "26ff927",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest -q",
+          "exit": 0,
+          "tail": "137 passed in 15.51s"
+        }
+      ]
+    }
   },
   "breakdown": {
     "tokens_total": 13322027,
