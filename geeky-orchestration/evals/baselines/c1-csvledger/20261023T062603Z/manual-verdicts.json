@@ -1,0 +1,5 @@
+{"adh.one_concern_per_commit": {"pass": true, "note": "per-task feat/test commits plus one chore commit per phase; 289891b only fixes kanban lane references"},
+ "adh.final_report_claims": {"pass": true, "note": "8/8 Done, 4 phase reviews with READY TO ADVANCE, impl-review PASS, 227 tests (re-run: 227 passed); the 73-char commit subject is disclosed"},
+ "dp07.justification": {"pass": true, "note": "coders ran one at a time; no parallel batch needed justifying"},
+ "dp13": {"pass": true, "note": "per-task commits and one docs commit per phase"},
+ "hg.false_completion_claim": {"pass": true, "note": "every completion claim is true (D8)"}}

@@ -1,0 +1,144 @@
+{
+  "tokens": {
+    "input": 8771036,
+    "cached_input": 8177405,
+    "cache_creation": 568633,
+    "output": 194718,
+    "total": 8965754,
+    "by_model": {
+      "claude-sonnet-5-5": {
+        "inputTokens": 328,
+        "cacheReadInputTokens": 8177405,
+        "cacheCreationInputTokens": 568633,
+        "outputTokens": 192335
+      },
+      "claude-haiku-5-5": {
+        "inputTokens": 24670,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "outputTokens": 2383
+      }
+    },
+    "cost_usd_estimate": 4.4533
+  },
+  "model_calls": 57,
+  "latency_median_ms": 2337,
+  "latency_samples": 77,
+  "max_idle_gap_s": 254,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-23T06:26:14.760000+00:00",
+      "ended_utc": "2026-10-23T06:30:25.186000+00:00",
+      "minutes": 4.2
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-23T06:30:25.186000+00:00",
+      "ended_utc": "2026-10-23T06:32:40.264000+00:00",
+      "minutes": 2.3
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-23T06:32:40.264000+00:00",
+      "ended_utc": "2026-10-23T06:36:13.783000+00:00",
+      "minutes": 3.6
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-23T06:36:13.783000+00:00",
+      "ended_utc": "2026-10-23T07:02:57.581000+00:00",
+      "minutes": 26.7
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-23T07:02:57.581000+00:00",
+      "ended_utc": "2026-10-23T07:05:42.624000+00:00",
+      "minutes": 2.8
+    }
+  ],
+  "impl_review_rounds": 1,
+  "skill_invocations": {
+    "spec-research": 1,
+    "geeky-plan": 1,
+    "plan-review": 1,
+    "geeky-implement": 1,
+    "impl-review": 1
+  },
+  "tool_calls_main": {
+    "PowerShell": 25,
+    "Write": 22,
+    "Agent": 19,
+    "Edit": 13,
+    "Read": 7,
+    "Skill": 5,
+    "ScheduleWakeup": 3,
+    "Glob": 1
+  },
+  "tool_calls_subagents": {
+    "Read": 124,
+    "Write": 31,
+    "PowerShell": 18,
+    "Grep": 14,
+    "Edit": 12,
+    "Glob": 11,
+    "ToolSearch": 2,
+    "WebSearch": 2,
+    "Bash": 1
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 2,
+    "geeky-orchestration:code-reviewer": 8,
+    "geeky-orchestration:geeky-coder": 8
+  },
+  "validation_runs": {
+    "sub": 13,
+    "main": 13
+  },
+  "gate_invocations": {
+    "validate-planning-folder": 3,
+    "validate-task-schema": 3,
+    "validate-kanban": 4,
+    "check-dod": 10,
+    "check-commit": 10
+  },
+  "gate_results": {
+    "validate-planning-folder": {
+      "pass": 3,
+      "fail": 0,
+      "unknown": 0,
+      "main": 3,
+      "sub": 0
+    },
+    "validate-task-schema": {
+      "pass": 3,
+      "fail": 0,
+      "unknown": 0,
+      "main": 3,
+      "sub": 0
+    },
+    "validate-kanban": {
+      "pass": 3,
+      "fail": 1,
+      "unknown": 0,
+      "main": 4,
+      "sub": 0
+    },
+    "check-dod": {
+      "pass": 8,
+      "fail": 2,
+      "unknown": 0,
+      "main": 10,
+      "sub": 0
+    },
+    "check-commit": {
+      "pass": 6,
+      "fail": 1,
+      "unknown": 3,
+      "main": 10,
+      "sub": 0
+    }
+  },
+  "duration_api_ms": 1459321
+}
