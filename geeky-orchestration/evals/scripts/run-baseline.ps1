@@ -166,7 +166,8 @@ if ($MockAgent) {
 }
 
 $pluginTampered = (& $hashTree $pluginRun) -ne $exportHash
-$session = Get-ChildItem (Join-Path $env:USERPROFILE '.mxc-sandbox\home\projects') -Recurse -Filter "$sid.jsonl" -ErrorAction SilentlyContinue | Select-Object -First 1
+$mxcStateRoot = if ($env:MXC_SANDBOX_HOME) { $env:MXC_SANDBOX_HOME } else { Join-Path $env:USERPROFILE '.mxc-sandbox' }
+$session = Get-ChildItem (Join-Path $mxcStateRoot 'home\projects') -Recurse -Filter "$sid.jsonl" -ErrorAction SilentlyContinue | Select-Object -First 1
 if ($session) {
     Copy-Item $session.FullName (Join-Path $out 'session.jsonl')
     # Each subagent's transcript (with a meta.json naming the spawning tool call); nested subagents appear only here.

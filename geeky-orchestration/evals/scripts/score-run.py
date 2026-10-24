@@ -71,6 +71,8 @@ Stdlib only.
 import argparse
 import datetime as dt
 import importlib.util
+import hashlib
+import shlex
 import json
 import os
 import re
@@ -388,9 +390,12 @@ class Call:
 
 
 class Trace:
-    def __init__(self, run_dir):
-        self.stream = AR.load_jsonl(run_dir / "stream.jsonl")
-        self.session = AR.load_jsonl(run_dir / "session.jsonl")
+    def __init__(self, run_dir, harness=None, process_path=None):
+        codex = AR.codex_trace(run_dir, process_path) if AR.harness_name(run_dir, harness) == 'codex' else None
+        if codex is not None and not codex['trace_complete']:
+            raise ValueError('Incomplete Codex trace: ' + '; '.join(codex['trace_errors']))
+        self.stream = codex['stream'] if codex is not None else AR.load_jsonl(run_dir / "stream.jsonl")
+        self.session = codex['session'] if codex is not None else AR.load_jsonl(run_dir / "session.jsonl")
         results, rts = {}, {}
         started, ended, notes = {}, {}, {}
         for e in self.stream:
@@ -415,11 +420,18 @@ class Trace:
                                        inp=c.get("input") or {}, parent=e.get("parent_tool_use_id"),
                                        ts=parse_ts(e.get("timestamp")), rts=rts.get(c.get("id")),
                                        text=text, is_error=err, top=None))
-        self.merge_transcripts(run_dir)
+        if codex is not None:
+            self.agent_meta = codex['metas']
+        else:
+            self.merge_transcripts(run_dir)
         self.by_id = {c.id: c for c in self.calls}
+        self.process = codex.get('process_evidence') if codex is not None else AR.trace_adapter().process_evidence(
+            run_dir, set(self.by_id), process_path) if process_path or (Path(run_dir) / 'process-evidence.json').exists() else None
+        self.contexts = {x['call_id']: x for x in (self.process or {}).get('contexts', [])}
         # K2/K3: a geeky-implement-orchestrator subagent's own calls are orchestrator-thread calls
         self.orch_agents = {c.id for c in self.calls
                             if c.name in ("Agent", "Task") and AR.is_orchestrator_type(c.inp.get("subagent_type"))}
+        self.orch_agents |= {cid for cid, context in self.contexts.items() if context.get('role') == 'orchestrator'}
         for c in self.calls:
             c.orch = c.parent is None or c.parent in self.orch_agents
         for c in self.calls:  # root: main-thread ancestor; top: nearest orchestrator-thread ancestor
@@ -432,12 +444,16 @@ class Trace:
             c.root, c.top = p, top or p
         tid = {v: k for k, v in started.items()}
         self.agent_end = {}
+        self.agent_start = {}
         self.agent_summary = {}
         for c in self.calls:
             if c.name in ("Agent", "Task"):
                 end = ended.get(tid.get(c.id))
                 meta_end = parse_ts((self.agent_meta.get(c.id) or {}).get("_end"))
-                self.agent_end[c.id] = (dt.datetime.fromtimestamp(end / 1000, dt.timezone.utc) if end
+                native = (self.agent_meta.get(c.id) or {}).get('lifetime_source') == 'codex-task-events'
+                if native:
+                    self.agent_start[c.id] = parse_ts(self.agent_meta[c.id].get('_start'))
+                self.agent_end[c.id] = (meta_end if native and meta_end else dt.datetime.fromtimestamp(end / 1000, dt.timezone.utc) if end
                                         else c.rts or meta_end)
                 self.agent_summary[c.id] = notes.get(c.id) or c.text or ""
         self.skills = [(c.idx, str(c.inp.get("skill", "")).split(":")[-1], c.ts, str(c.inp.get("args", "")))
@@ -469,11 +485,37 @@ class Trace:
     def dispatch_start(self, c):
         """When a dispatched agent started work: the call time for a foreground agent known from its transcript
         (its tool result arrives only at the end), else the launch acknowledgement as before."""
+        if self.agent_start.get(c.id):
+            return self.agent_start[c.id]
         if (self.agent_meta.get(c.id) or {}).get("requestShape") == "foreground":
             return c.ts or c.rts
         return c.rts or c.ts
 
     def stage_of(self, call):
+        context = self.contexts.get(call.id, {})
+        if context.get('stage'):
+            return context['stage']
+        ancestors, cursor = [], call
+        while cursor and cursor.id not in ancestors:
+            ancestors.append(cursor.id)
+            cursor = self.by_id.get(cursor.parent)
+        candidates = []
+        for interval in (self.process or {}).get('stage_intervals', []):
+            scope = interval.get('scope_call_id')
+            if call.ts and parse_ts(interval['start']['timestamp']) <= call.ts < parse_ts(interval['end']['timestamp']):
+                if scope in ancestors:
+                    candidates.append((ancestors.index(scope), interval['stage']))
+                elif scope is None and call.parent is None:
+                    candidates.append((len(ancestors) + 1, interval['stage']))
+        if candidates:
+            rank = min(x[0] for x in candidates)
+            stages = {stage for depth, stage in candidates if depth == rank}
+            if len(stages) != 1:
+                raise ValueError('Ambiguous reviewed stage interval for ' + call.id)
+            return stages.pop()
+        for ancestor in ancestors[1:]:
+            if self.contexts.get(ancestor, {}).get('stage'):
+                return self.contexts[ancestor]['stage']
         anchor = call.root.idx
         name = None
         for idx, skill, _, _ in self.skills:
@@ -495,6 +537,9 @@ class Trace:
     def agents(self, stage):
         """Worker and reviewer dispatches from an orchestrator thread (not the orchestrator dispatch itself)."""
         return [c for c in self.mains(stage) if c.name in ("Agent", "Task") and c.id not in self.orch_agents]
+
+    def role(self, call):
+        return self.contexts.get(call.id, {}).get('role') or str(call.inp.get('subagent_type', ''))
 
 
 # ----------------------------------------------------------------------------- workspace / git
@@ -541,6 +586,12 @@ def commits(ws):
     return rows
 
 
+def native_lane_write(call, reviewed_ids):
+    """Native JS envelopes and Get-Content lists are not additional filesystem writes."""
+    return (call.id in reviewed_ids or call.name in ('Edit', 'Write', 'MultiEdit') or
+            (call.name != 'CodexExec' and bool(WRITE_VERB.search(call.raw))))
+
+
 def task_commit(rows, task, done_ts, start_ts=None):
     """The commit whose tree re-runs <task>'s validation block (H1, amends D27): the last commit naming
     the task in a Tasks: line before its Done move. Commits older than the task's start (e.g. the
@@ -579,15 +630,20 @@ def run_script(name, *args):
 # ----------------------------------------------------------------------------- the scorer
 
 class Scorer:
-    def __init__(self, run_dir, manual=None, rerun=True, workspace=None, ref_loc=None):
+    def __init__(self, run_dir, manual=None, rerun=True, workspace=None, ref_loc=None, harness=None,
+                 process_path=None, validation_cache=None, require_complete=False, output_dir=None):
         self.run_dir = Path(run_dir)
         self.run = json.loads((self.run_dir / "run.json").read_text(encoding="utf-8-sig"))
         ap = self.run_dir / "analysis.json"
-        self.analysis = json.loads(ap.read_text(encoding="utf-8")) if ap.exists() else AR.analyze(self.run_dir)
+        is_codex = AR.harness_name(self.run_dir, harness) == 'codex'
+        self.analysis = AR.analyze(self.run_dir, harness='codex', process_path=process_path) if is_codex else (json.loads(ap.read_text(encoding="utf-8")) if ap.exists() else AR.analyze(self.run_dir))
         self.manual = manual or {}
         self.rerun = rerun
         self.ref_loc_arg = ref_loc
-        self.trace = Trace(self.run_dir)
+        self.trace = Trace(self.run_dir, harness=harness, process_path=process_path)
+        self.strict = require_complete or self.trace.process is not None
+        self.validation_cache_path = Path(validation_cache) if validation_cache else None
+        self.output_dir = Path(output_dir) if output_dir else None
         self.ws, self.ws_source = resolve_workspace(self.run_dir, self.run, workspace)
         init_cwd = {e.get("cwd") for e in self.trace.stream if e.get("type") == "system" and e.get("subtype") == "init"}
         self.ws_names = [w for w in {self.run.get("workspace") or "", str(self.ws), *init_cwd} if w]
@@ -633,9 +689,23 @@ class Scorer:
         self.tasks = sorted(self.task_files, key=task_key)
         self.phases = self.parse_phases()
         self.commits = commits(self.ws)
+        if (self.trace.process or {}).get('origin') == 'automatic-raw-trace':
+            entries = list(self.trace.process.get('implementation_commits', {}).values()) + self.trace.process.get('expected_implementation_commits', [])
+            for entry in entries:
+                matches = [c for c in self.commits if c['sha'].startswith(entry['sha']) and c['subject'] == entry['subject']]
+                if len(matches) != 1:
+                    raise ValueError('Automatic commit prefix/subject must identify one solution commit')
+                entry['captured_prefix'] = entry['sha']
+                entry['sha'] = matches[0]['sha']
         for c in self.commits:
             c["call"] = self.commit_call(c)
             c["stage"] = self.trace.stage_of(c["call"]) if c["call"] else self.stage_by_time(c["ct"])
+        expected = {x['sha'] for x in (self.trace.process or {}).get('expected_implementation_commits', [])}
+        for cm in self.commits:
+            if cm['sha'] in expected:
+                cm['stage'] = 'geeky-implement'
+        if expected - {cm['sha'] for cm in self.commits}:
+            raise ValueError('Reviewed expected implementation commit is absent from solution history')
 
     def parse_phases(self):
         plan = self.folder / "implementation-plan.md"
@@ -690,12 +760,18 @@ class Scorer:
         # coder dispatches per task
         self.coders = {}
         for c in T.agents("geeky-implement") + T.agents("impl-review"):
-            st = str(c.inp.get("subagent_type", ""))
+            st = T.role(c)
             desc = str(c.inp.get("description", ""))
             if "coder" not in st and not re.match(r"(?i)(implement|fix|code)\b", desc):
                 continue
             ids = expand_ids(desc) & set(self.tasks) or (lambda s: s if len(s) == 1 else set())(
                 expand_ids(str(c.inp.get("prompt", ""))) & set(self.tasks))
+            if not ids and self.run.get('harness') == 'codex':
+                evidence = (T.agent_meta.get(c.id) or {}).get('task_ownership') or {}
+                if evidence.get('method') == 'unique-task-body-read-and-notes-write':
+                    ids = set(evidence.get('tasks', [])) & set(self.tasks)
+            if not ids:
+                ids = set(T.contexts.get(c.id, {}).get('tasks', [])) & set(self.tasks)
             for t in ids:
                 self.coders.setdefault(t, []).append(c)
         # file ownership: earliest single-task commit, else first coder that wrote it
@@ -738,6 +814,10 @@ class Scorer:
         kanban_gating = set()  # helpers whose own source runs validate-kanban
         self.kanban_calls, self.done_call, self.inprog, self.done_moves = [], {}, {}, {}
         self.handoff_calls = []
+        self.handoff_tasks = {x['call_id']: set(x['tasks']) for x in (T.process or {}).get('handoff_calls', [])}
+        reviewed_moves = {}
+        for move in (T.process or {}).get('lane_moves', []):
+            reviewed_moves.setdefault(move['call_id'], []).append((move['task'], move['lane']))
         done_now = set()
         for c in T.mains():
             raw = c.raw
@@ -762,6 +842,9 @@ class Scorer:
                                  r"(?:Set-Content|Out-File|WriteAll\w*|Add-Content|>)[^\n;]*kanban\.md|"
                                  r"kanban\.md['\"]?\s*,", raw)) or
                              (c.name in ("PowerShell", "Bash") and any(h in raw.lower() for h in helpers)))
+            if self.run.get('harness') == 'codex':
+                writes_kanban = writes_kanban and native_lane_write(c, reviewed_moves)
+            writes_kanban = writes_kanban or c.id in reviewed_moves
             if T.stage_of(c) not in ("geeky-implement",):
                 writes_kanban = False
             if writes_kanban:
@@ -769,7 +852,7 @@ class Scorer:
                 body = c.inp.get("new_string", "") + c.inp.get("content", "") if c.name in ("Edit", "Write") else raw
                 after = done_after(body, done_now)
                 ip = set(re.findall(r"\b(T\d+)\b[^\n]{0,80}?in_progress", body))
-                for t, lane in helper_moves(raw, helpers):
+                for t, lane in helper_moves(raw, helpers) + reviewed_moves.get(c.id, []):
                     if lane == "Done":
                         after.add(t)
                     elif lane == "In Progress":
@@ -787,7 +870,7 @@ class Scorer:
             if T.stage_of(c) in ("geeky-implement", "impl-review") and (
                     str(c.inp.get("file_path", "")).replace("\\", "/").endswith("handoff.md") or
                     re.search(r"(?:Set-Content|Add-Content|Out-File|WriteAll\w*|AppendAllText|>)[^\n;]*handoff\.md",
-                              raw)):
+                    raw) or c.id in self.handoff_tasks):
                 self.handoff_calls.append(c)
         # gate runs per call
         self.dod_runs = {t: [] for t in self.tasks}
@@ -822,7 +905,7 @@ class Scorer:
         # reviewers during implement
         self.reviews = []
         for c in T.agents("geeky-implement"):
-            st = str(c.inp.get("subagent_type", ""))
+            st = T.role(c)
             desc = str(c.inp.get("description", ""))
             if "coder" in st or not ("reviewer" in st or re.search(r"(?i)\breview", desc)):
                 continue
@@ -830,6 +913,8 @@ class Scorer:
             source = "description"
             if not ids:
                 ids, source = expand_ids(str(c.inp.get("prompt", ""))) & set(self.tasks), "prompt"
+            if not ids:
+                ids, source = set(T.contexts.get(c.id, {}).get('tasks', [])) & set(self.tasks), 'reviewed-process-evidence'
             summ = T.agent_summary.get(c.id, "")
             passed = bool(re.search(r"READY TO ADVANCE|\bPASS\b", summ)) and not re.search(
                 r"NEEDS FIXES|(?:verdict|overall)\W{0,6}(?:\*\*)?\s*BLOCKED", summ, re.I)
@@ -841,6 +926,17 @@ class Scorer:
                                  f"reviewer '{desc}' names no task", kind="judge")
                 rec["ids"] = set(self.manual.get(f"review_map.{c.idx}", {}).get("tasks", [])) if st_ == "pass" else set()
             self.reviews.append(rec)
+        reviewed = (T.process or {}).get('reviews', [])
+        if reviewed:
+            mapped = {r['call_id'] for r in reviewed}
+            self.reviews = [r for r in self.reviews if r['call'].id not in mapped]
+            for r in reviewed:
+                call = T.by_id[r['call_id']]
+                self.reviews.append({'call': call, 'ids': set(r['tasks']) & set(self.tasks),
+                    'source': 'reviewed-process-evidence', 'pass': r['verdict'] == 'pass',
+                    'ready': r.get('ready') is True, 'end': parse_ts(r['result_ref']['timestamp']),
+                    'desc': str(call.inp.get('description', '')), 'phase': r.get('phase')})
+            self.reviews.sort(key=lambda r: r['end'] or dt.datetime.min.replace(tzinfo=dt.timezone.utc))
 
     def call_writes(self, c):
         if c.name in ("Edit", "Write", "MultiEdit", "NotebookEdit"):
@@ -865,6 +961,8 @@ class Scorer:
         self.runs = {t: [] for t in self.tasks}
         self.first_pass = {}
         for c in T.calls:
+            if self.run.get('harness') == 'codex' and c.name != 'PowerShell':
+                continue  # Native completed commands own attempts; JS/poll wrappers do not.
             v = classify_validation(c.cmd, c.text)
             if v is None:
                 continue
@@ -898,18 +996,41 @@ class Scorer:
         cmds = []
         if start is None:
             return cmds
+        native = self.run.get('harness') == 'codex'
+        fenced = False
         for line in lines[start:]:
             if re.match(r"^\s*[#*\s]*(Estimate|Priority)\b", line, re.I) or re.match(r"^\s{0,3}#{1,6}\s+\S", line):
                 break
+            if native and re.match(r'^\s*```', line):
+                fenced = not fenced
+                continue
             # a bullet's command is its leading code span; spans later in the prose are commentary
             lead = re.match(r"^\s*(?:[-*]|\d+\.)\s*`([^`]+)`", line)
             for cmd in [lead.group(1)] if lead else [] if re.match(r"^\s*(?:[-*]|\d+\.)\s", line) else re.findall(r"`([^`]+)`", line):
                 if re.match(r"\s*(python|py|pytest|pwsh|bash|sh|node|npm|uv)\b", cmd):
                     cmds.append(cmd.strip())
+            if native and not lead and '`' not in line:
+                plain = re.sub(r'^\s*(?:[-*]|\d+\.)\s+', '', line).strip()
+                if (fenced or re.match(r'^\s*(?:[-*]|\d+\.)\s+', line)) and re.match(
+                        r'^(?:python(?:\d+(?:\.\d+)*)?|py|pytest|pwsh|bash|sh|node|npm|uv)(?:\.exe)?(?:\s|$)', plain):
+                    cmds.append(plain)
         return cmds
 
     def rerun_commit(self, t):
         """(sha, fell_back, basis) for task t's re-run: its own commit (task_commit), else final HEAD."""
+        if self.strict:
+            explicit = (self.trace.process or {}).get('implementation_commits', {}).get(t)
+            candidates = [c for c in self.commits if c['stage'] == 'geeky-implement' and t in c['tasks']
+                          and any(is_code_path(f) for f, _ in c['files'])]
+            if explicit:
+                candidates = [c for c in candidates if c['sha'] == explicit['sha']]
+            if not candidates:
+                raise ValueError(f'{t}: no source-supported implementation commit; final HEAD fallback forbidden')
+            done = self.done_call.get(t)
+            cm, basis = task_commit(candidates, t, done.ts.timestamp() if done and done.ts else None)
+            if not cm:
+                raise ValueError(f'{t}: unresolved implementation commit')
+            return cm['sha'], False, 'reviewed implementation commit' if explicit else basis
         done = self.done_call.get(t)
         starts = [d.ts or d.rts for d in self.coders.get(t, [])] + ([self.inprog[t].ts] if t in self.inprog else [])
         starts = [s for s in starts if s]
@@ -919,8 +1040,92 @@ class Scorer:
             return cm["sha"], False, basis
         return git(self.ws, "rev-parse", "HEAD").strip(), True, f"{basis}; fell back to final HEAD"
 
+    def cached_validation(self):
+        """Reuse immutable recorded results, keyed by exact task blob, full commit and command.
+
+        schema geeky-eval.validation-cache/1; entries contain task, commit, task_file_sha256,
+        command, exit_code, output_scope (full/summary/tail), hashed stdout/stderr paths,
+        provenance, and hashed source_document with JSON record_pointer. Missing stderr is
+        unknown, never synthesized. Source pointers can inherit commit from an ancestor.
+        """
+        path = self.validation_cache_path.resolve()
+        root = path.parent
+        data = json.loads(path.read_text(encoding='utf-8-sig'))
+        if data.get('schema') != 'geeky-eval.validation-cache/1':
+            raise ValueError('unsupported validation-cache schema')
+        def document(rel, digest):
+            target = (root / rel).resolve()
+            if not target.is_relative_to(root) or not digest or hashlib.sha256(target.read_bytes()).hexdigest() != digest:
+                raise ValueError('validation cache file hash/path mismatch')
+            return target
+        def equivalent(command, recorded):
+            if isinstance(recorded, str):
+                return recorded == command
+            if not isinstance(recorded, list):
+                return False
+            expected = shlex.split(command, posix=False)
+            actual = [str(x) for x in recorded]
+            if expected and actual and expected[0] in ('python', 'py') and re.fullmatch(r'python(?:[0-9.]*)?(?:\.exe)?', Path(actual[0]).name, re.I):
+                actual[0] = expected[0]
+            return actual == expected
+        entries = data.get('entries', [])
+        self.rerun_results = {}
+        for task in self.tasks:
+            sha, _, basis = self.rerun_commit(task)
+            relative = self.task_files[task].relative_to(self.ws).as_posix()
+            blob = subprocess.run(['git', 'show', f'{sha}:{relative}'], cwd=self.ws, capture_output=True, check=True).stdout
+            blob_sha = hashlib.sha256(blob).hexdigest()
+            results = []
+            commands = self.validation_commands(task)
+            if not commands:
+                raise ValueError(f'{task}: no executable frozen validation commands')
+            for command in commands:
+                hits = [e for e in entries if e.get('task') == task and e.get('commit') == sha and e.get('command') == command]
+                if len(hits) != 1:
+                    raise ValueError(f'{task}: expected one cached result for {sha} {command!r}')
+                e = hits[0]
+                if e.get('task_file_sha256') != blob_sha or e.get('output_scope') not in ('full', 'summary', 'tail') or not e.get('provenance') or type(e.get('exit_code')) is not int:
+                    raise ValueError(f'{task}: invalid cache task hash/result/provenance')
+                outputs = {}
+                for stream in ('stdout', 'stderr'):
+                    rel, digest = e.get(stream + '_path'), e.get(stream + '_sha256')
+                    if (rel is None) != (digest is None):
+                        raise ValueError('cache output path/hash must both be present or null')
+                    outputs[stream] = document(rel, digest).read_text(encoding='utf-8-sig') if rel else None
+                source = e.get('source_document') or {}
+                source_file = document(source.get('path', ''), source.get('sha256'))
+                row = json.loads(source_file.read_text(encoding='utf-8-sig'))
+                ancestors = [row]
+                for token in source.get('record_pointer', '').strip('/').split('/'):
+                    if not token:
+                        continue
+                    token = token.replace('~1', '/').replace('~0', '~')
+                    row = row[int(token)] if isinstance(row, list) else row[token]
+                    ancestors.append(row)
+                commit = next((a.get('commit') for a in reversed(ancestors) if isinstance(a, dict) and a.get('commit')), None)
+                if not commit or len(commit) < 7 or not sha.startswith(commit):
+                    raise ValueError(f'{task}: source document does not prove own commit')
+                candidates = row.get('results', []) if isinstance(row, dict) and 'results' in row else [row]
+                source_hits = [r for r in candidates if isinstance(r, dict) and equivalent(command, r.get('command')) and r.get('exit_code', r.get('exit')) == e['exit_code']]
+                if len(source_hits) != 1:
+                    raise ValueError(f'{task}: source document command/result mismatch')
+                recorded = source_hits[0]
+                saved = outputs['stdout']
+                expected_output = recorded.get('stdout') if e['output_scope'] == 'full' else recorded.get('tail', recorded.get('summary', recorded.get('stdout')))
+                if isinstance(expected_output, str) and saved is not None and saved.strip() != expected_output.strip():
+                    raise ValueError(f'{task}: cached output differs from source document')
+                tail = ((saved or '').strip().splitlines() or [''])[-1]
+                results.append({'command': command, 'exit': e['exit_code'], 'tail': tail[:160], 'reused': True,
+                                'output_scope': e['output_scope'], 'stderr_known': outputs['stderr'] is not None,
+                                'duration_ms': e.get('duration_ms'), 'provenance': e['provenance']})
+            self.rerun_results[task] = {'commit': sha, 'fallback': False, 'basis': basis, 'results': results}
+        self.rerun = True
+
     def rerun_blocks(self):
         self.rerun_results = {}
+        if getattr(self, "validation_cache_path", None):
+            self.cached_validation()
+            return
         if not self.rerun:
             return
         env = dict(os.environ)
@@ -932,7 +1137,10 @@ class Scorer:
             for t in self.tasks:
                 sha, fell_back, basis = self.rerun_commit(t)
                 res = []
-                for cmd in self.validation_commands(t):
+                commands = self.validation_commands(t)
+                if self.run.get('harness') == 'codex' and not commands:
+                    raise ValueError(f'No executable Tests/Validation commands found for {t}; refusing a vacuous 0/0 validation')
+                for cmd in commands:
                     if sha not in trees:
                         trees[sha] = checkout(self.ws, sha)
                     try:
@@ -968,7 +1176,7 @@ class Scorer:
             fails = [(t, r["command"]) for t, x in rr.items() for r in x["results"] if r["exit"] != 0]
             ncmd = sum(len(x["results"]) for x in rr.values())
             fb = [t for t, x in rr.items() if x["fallback"]]
-            D_ev = f"{ncmd - len(fails)}/{ncmd} validation commands pass when re-run at each task's commit" + (
+            D_ev = f"{ncmd - len(fails)}/{ncmd} validation commands pass at each task's commit" + (
                 f"; failing: {fails}" if fails else "") + (f"; at final HEAD (no own commit): {fb}" if fb else "")
         else:
             fails = [(t, "recorded") for t in self.tasks if t not in self.first_pass]
@@ -1017,7 +1225,7 @@ class Scorer:
                 self.check(f"adh.handoff_batch.{t}", A, "fail", "no Done move found in the trace")
                 continue
             window = [dc, self.trace.next_main(dc)]
-            hit = next((h for h in self.handoff_calls if h in window and t in expand_ids(h.raw)), None)
+            hit = next((h for h in self.handoff_calls if h in window and t in self.handoff_tasks.get(h.id, expand_ids(h.raw))), None)
             self.check(f"adh.handoff_batch.{t}", A, "pass" if hit else "fail",
                        f"Done move call {dc.idx}; handoff naming {t} in call {hit.idx}" if hit else
                        f"Done move call {dc.idx}; no handoff.md write naming {t} in calls {dc.idx}/"
@@ -1119,7 +1327,7 @@ class Scorer:
         self.check("adh.heartbeat_final", A, "pass" if status in ("done", "paused") else "fail",
                    f".heartbeat status={status}")
         ho = self.folder / "handoff.md"
-        rs = ho.exists() and re.search(r"^#{1,6}\s*Run Summary", ho.read_text(encoding="utf-8", errors="replace"),
+        rs = ho.exists() and re.search((r"^#{1,6}\s*(?:Implementation\s+)?Run Summary" if self.strict else r"^#{1,6}\s*Run Summary"), ho.read_text(encoding="utf-8", errors="replace"),
                                        re.M | re.I)
         self.check("adh.run_summary", A, "pass" if rs else "fail", "Run Summary heading in handoff.md"
                    if rs else "no Run Summary heading in handoff.md")
@@ -1157,6 +1365,8 @@ class Scorer:
         return max(idxs) if idxs else None
 
     def impl_review_critical(self):
+        if (self.trace.process or {}).get('critical_findings'):
+            return True
         for c in self.trace.agents("impl-review"):
             s = self.trace.agent_summary.get(c.id, "")
             if re.search(r"Verdict\W{0,6}(?:\*\*)?\s*NEEDS FIXES", s, re.I):
@@ -1349,6 +1559,25 @@ class Scorer:
         qc, ac = apply_caps(q["score"], a["score"], gates)
         q["capped"], a["capped"] = qc, ac
         comp = composite(qc, ac, c["score"], t["score"])
+        incomplete = []
+        if self.strict:
+            incomplete.extend((self.trace.process or {}).get('missing', []))
+            for row in t['tasks']:
+                task = row['task']
+                if not self.coders.get(task): incomplete.append(f'{task}: missing coder ownership')
+                if not row['attempts']: incomplete.append(f'{task}: missing validation attempts')
+                if row['d_s'] is None: incomplete.append(f'{task}: missing task duration')
+                if not any(task in r['ids'] for r in self.reviews): incomplete.append(f'{task}: missing review results')
+                if task not in self.done_call: incomplete.append(f'{task}: missing Done evidence')
+                if not self.rerun_results.get(task, {}).get('results'): incomplete.append(f'{task}: missing own-commit validation results')
+            expected = (self.trace.process or {}).get('expected_implementation_commits', [])
+            for entry in expected:
+                if self.status('adh.commit_msg.' + entry['sha'][:7]) is None:
+                    incomplete.append('missing implementation commit check: ' + entry['sha'])
+            if not expected and not any(c['stage'] == 'geeky-implement' for c in self.commits):
+                incomplete.append('missing implementation commit coverage')
+        formula_comp = comp
+        if incomplete: comp = None
         judge = [ch["id"] for ch in self.checks if ch["status"] == "needs_judge"]
         return {
             "schema": "geeky-eval.score/1",
@@ -1356,9 +1585,13 @@ class Scorer:
             "harness": self.run.get("harness"), "model": self.run.get("model"),
             "scored_utc": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "scorer": "evals/scripts/score-run.py", "workspace": str(self.ws), "workspace_source": self.ws_source,
-            "planning_folder": self.folder_rel, "validation_rerun": self.rerun,
+            "planning_folder": self.folder_rel, "validation_rerun": self.rerun and not bool(self.validation_cache_path),
+            "validation_evidence": "reused recorded results" if self.validation_cache_path else "fresh rerun" if self.rerun else "trace only",
             "manual_file_used": bool(self.manual),
             "composite": comp,
+            "process_completeness": {'required': self.strict, 'complete': not incomplete, 'missing': incomplete},
+            "process_evidence_origin": (self.trace.process or {}).get('origin', 'legacy'),
+            "formula_composite_noncomparable": formula_comp if incomplete else None,
             "dimensions": {"quality": q, "adherence": a, "consistency": {k: v for k, v in c.items()
                                                                          if k != "decision_points"},
                            "task_tier": {k: v for k, v in t.items() if k != "tasks"}},
@@ -1387,7 +1620,7 @@ def render_md(s):
     out = [f"# Score: {s['run']} ({s['case']})", "",
            f"Plugin `{(s['plugin_sha'] or '')[:7]}`, {s['harness']} / {s['model']}. Scored {s['scored_utc']} by "
            f"`score-run.py`. Workspace: {s['workspace_source']}. Validation blocks "
-           f"{'re-run' if s['validation_rerun'] else 'NOT re-run (--no-rerun)'}. "
+           f"{s.get('validation_evidence', 're-run' if s['validation_rerun'] else 'NOT re-run (--no-rerun)')}. "
            f"Manual verdicts: {'yes' if s['manual_file_used'] else 'none'}.", "",
            "| Dimension | Weight | Score | Detail |", "|---|---|---|---|",
            f"| Quality | 0.35 | {fmt(q['capped'])} | P {q['P']:.3f}, S {q['S']:.3f}, D {q['D']:.2f} |",
@@ -1424,22 +1657,30 @@ def main(argv=None):
     ap.add_argument("--out", type=Path, help="output folder (default: the run folder)")
     ap.add_argument("--workspace", type=Path, help="override the workspace path")
     ap.add_argument("--ref-loc", type=int, help="reference non-test LOC (default: case spec band upper bound)")
+    ap.add_argument('--harness', choices=('claude-code', 'codex'))
+    ap.add_argument('--process-evidence', type=Path)
+    ap.add_argument('--validation-cache', type=Path)
+    ap.add_argument('--require-complete', action='store_true')
     args = ap.parse_args(argv)
     if not (args.run_dir / "run.json").exists() or not (args.run_dir / "stream.jsonl").exists():
         print(f"not a run folder (run.json + stream.jsonl): {args.run_dir}", file=sys.stderr)
         return 2
     manual = json.loads(args.manual.read_text(encoding="utf-8-sig")) if args.manual else {}
-    s = Scorer(args.run_dir, manual, rerun=not args.no_rerun, workspace=args.workspace, ref_loc=args.ref_loc).score()
+    try:
+        s = Scorer(args.run_dir, manual, rerun=not args.no_rerun, workspace=args.workspace, ref_loc=args.ref_loc, harness=args.harness, process_path=args.process_evidence, validation_cache=args.validation_cache, require_complete=args.require_complete, output_dir=args.out).score()
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
     out = args.out or args.run_dir
     out.mkdir(parents=True, exist_ok=True)
     (out / "score.json").write_text(json.dumps(s, indent=2, default=str), encoding="utf-8")
     (out / "score.md").write_text(render_md(s), encoding="utf-8")
     d = s["dimensions"]
-    print(json.dumps({"composite": round(s["composite"], 1), "quality": round(d["quality"]["capped"], 1),
+    print(json.dumps({"composite": round(s["composite"], 1) if s["composite"] is not None else None, "quality": round(d["quality"]["capped"], 1),
                       "adherence": round(d["adherence"]["capped"], 1),
                       "consistency": round(d["consistency"]["score"], 1),
                       "task_tier": round(d["task_tier"]["score"], 1), "needs_judge": s["needs_judge"]}, indent=2))
-    return 0
+    return 1 if args.require_complete and s['composite'] is None else 0
 
 
 if __name__ == "__main__":

@@ -28,6 +28,7 @@ import datetime as dt
 import json
 import re
 import statistics
+import importlib.util
 from pathlib import Path
 
 
@@ -251,9 +252,28 @@ def thread_split(flat):
     return {k: {kk: dict(vv.most_common()) for kk, vv in v.items()} for k, v in out.items()}
 
 
-def analyze(run_dir: Path):
-    stream = load_jsonl(run_dir / "stream.jsonl")
-    session = load_jsonl(run_dir / "session.jsonl")
+def harness_name(run_dir, override=None):
+    if override:
+        return override
+    path = Path(run_dir) / 'run.json'
+    return json.loads(path.read_text(encoding='utf-8-sig')).get('harness', 'claude-code') if path.exists() else 'claude-code'
+
+
+def trace_adapter():
+    spec = importlib.util.spec_from_file_location('codex_trace', Path(__file__).with_name('codex-trace.py'))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def codex_trace(run_dir, process_path=None):
+    return trace_adapter().load(run_dir, process_path)
+
+
+def analyze(run_dir: Path, harness=None, process_path=None):
+    codex = codex_trace(run_dir, process_path) if harness_name(run_dir, harness) == 'codex' else None
+    stream = codex['stream'] if codex is not None else load_jsonl(run_dir / "stream.jsonl")
+    session = codex['session'] if codex is not None else load_jsonl(run_dir / "session.jsonl")
     result = next((e for e in reversed(stream) if e.get("type") == "result"), {})
 
     # Tokens: modelUsage covers every model and every turn; result.usage is the last turn only.
@@ -285,7 +305,7 @@ def analyze(run_dir: Path):
     # (id, name, input, parent, result) for every call: the stream's, then calls only in subagent transcripts
     flat = [(c.get("id"), c.get("name"), c.get("input") or {}, e.get("parent_tool_use_id"), results.get(c.get("id")))
             for e in stream if e.get("type") == "assistant" for c in tool_uses(e)]
-    extra, metas = transcript_calls(run_dir, {f[0] for f in flat})
+    extra, metas = ([], codex['metas']) if codex is not None else transcript_calls(run_dir, {f[0] for f in flat})
     flat += [(c["id"], c["name"], c["input"], c["parent"], c["result"]) for c in extra]
     for cid, name, inp, parent, res in flat:
         sub = bool(parent)
@@ -356,6 +376,14 @@ def analyze(run_dir: Path):
         out["subagent_transcripts"] = {"transcripts": len(metas), "calls_only_in_transcripts": len(extra),
                                        "by_type": dict(collections.Counter(str(m.get("agentType")) for m in metas.values())),
                                        "threads": threads}
+    if codex is not None:
+        out.update(tokens=codex['tokens'] or {k: None for k in
+                   ('input', 'cached_input', 'cache_creation', 'output', 'reasoning', 'total', 'by_model', 'cost_usd_estimate')},
+                   model_calls=codex['model_calls'], latency_median_ms=None, latency_samples=0,
+                   max_idle_gap_s=codex['max_idle_gap_s'], trace_complete=codex['trace_complete'],
+                   trace_errors=codex['trace_errors'], trace_warnings=codex['trace_warnings'],
+                   harness='codex', usage_by_thread=codex['usage_by_thread'],
+                   skill_evidence='successful explicit SKILL.md reads; no workflow completion inferred')
     return out
 
 
@@ -364,10 +392,15 @@ def main():
     ap.add_argument("run_dir", type=Path)
     ap.add_argument("--token-ceiling", type=int)
     ap.add_argument("--analysis-only", action="store_true", help="write analysis.json only; leave run.json as stored")
+    ap.add_argument('--harness', choices=('claude-code', 'codex'))
+    ap.add_argument('--out', type=Path, help='write derived files here, preserving the input run folder')
+    ap.add_argument('--process-evidence', type=Path)
     args = ap.parse_args()
 
-    analysis = analyze(args.run_dir)
-    (args.run_dir / "analysis.json").write_text(json.dumps(analysis, indent=2), encoding="utf-8")
+    analysis = analyze(args.run_dir, harness=args.harness, process_path=args.process_evidence)
+    output = args.out or args.run_dir
+    output.mkdir(parents=True, exist_ok=True)
+    (output / "analysis.json").write_text(json.dumps(analysis, indent=2), encoding="utf-8")
     if args.analysis_only:
         print(json.dumps({k: analysis[k] for k in ("gate_invocations", "gate_results")}, indent=2))
         return
@@ -375,14 +408,21 @@ def main():
     run_path = args.run_dir / "run.json"
     run = json.loads(run_path.read_text(encoding="utf-8-sig"))
     tokens = {k: v for k, v in analysis["tokens"].items() if k != "by_model"}
-    tokens["reasoning"] = run.get("tokens", {}).get("reasoning")
+    tokens["reasoning"] = analysis['tokens'].get('reasoning') if analysis.get('harness') == 'codex' else (run.get("tokens") or {}).get("reasoning")
     run["tokens"] = tokens
     for key in ("model_calls", "latency_median_ms", "max_idle_gap_s", "stages", "impl_review_rounds"):
         run[key] = analysis[key]
     if args.token_ceiling:
         run["token_ceiling"] = args.token_ceiling
-        run["over_token_ceiling"] = tokens["total"] > args.token_ceiling
-    run_path.write_text(json.dumps(run, indent=2), encoding="utf-8")
+        run["over_token_ceiling"] = tokens["total"] > args.token_ceiling if tokens['total'] is not None else None
+    if analysis.get('harness') == 'codex':
+        run['analysis_status'] = 'complete' if analysis['trace_complete'] else 'incomplete'
+        run['trace_complete'] = analysis['trace_complete']
+        run['trace_errors'] = analysis['trace_errors']
+        run['token_ceiling_policy'] = 'informational-until-codex-baseline'
+        if not analysis['trace_complete']:
+            run['reference_eligible'] = False
+    (output / 'run.json').write_text(json.dumps(run, indent=2), encoding="utf-8")
     print(json.dumps({k: run.get(k) for k in ("tokens", "model_calls", "latency_median_ms",
                                               "max_idle_gap_s", "impl_review_rounds",
                                               "token_ceiling", "over_token_ceiling")}, indent=2))

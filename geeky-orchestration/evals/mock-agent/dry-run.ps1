@@ -118,7 +118,8 @@ if ($InMxc) {
     $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host-loopback') + $grantArgs +
         @('--ro', $cfg, '--rw', $runTmp, '--ro', $ToolsDir, '--timeout', $TimeoutSec)
     foreach ($k in $envPairs.Keys) { $hostArgs += @('--env', "$k=$($envPairs[$k])") }
-    $sessionRoot = Join-Path $env:USERPROFILE '.mxc-sandbox\home\projects'
+    $mxcStateRoot = if ($env:MXC_SANDBOX_HOME) { $env:MXC_SANDBOX_HOME } else { Join-Path $env:USERPROFILE '.mxc-sandbox' }
+    $sessionRoot = Join-Path $mxcStateRoot 'home\projects'
     $saved = $env:MXC_CLAUDE_EXE
     $env:MXC_CLAUDE_EXE = $agentPython
     try { & $mxc @hostArgs -- @mockArgs > $stream 2> $stderr; $exitCode = $LASTEXITCODE }
