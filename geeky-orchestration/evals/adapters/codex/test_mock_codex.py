@@ -96,3 +96,31 @@ def test_skills_reads_unicode_role_as_utf8_with_optional_bom(tmp_path, monkeypat
     monkeypatch.setenv('HOME', str(home))
     monkeypatch.setenv('CLAUDE_PLUGIN_ROOT', str(plugin))
     assert '1 registered roles readable' in mock.perform('skills', args, tmp_path)
+
+
+def _telemetry_args(tmp_path, hook_body):
+    hook = tmp_path / 'fake_tracer.py'
+    hook.write_text(hook_body, encoding='utf-8')
+    command = mock.shlex.join([mock.sys.executable, str(hook)]) if mock.os.name != 'nt' else \
+        mock.subprocess.list2cmdline([mock.sys.executable, str(hook)])
+    return mock.parse_args(['--cd', str(tmp_path), '-c', 'model_reasoning_summary="detailed"',
+        '-c', 'hooks={Stop=[{hooks=[{type="command",command=' + json.dumps(command) + ',timeout=30}]}]}', 'prompt text'])
+
+
+def test_telemetry_requires_the_tracer_to_record_the_turn(tmp_path, capsys):
+    # A stand-in for the Langfuse tracer: reads the Stop payload and marks the turn delivered.
+    args = _telemetry_args(tmp_path, 'import json,sys\np=json.load(sys.stdin)\n'
+        'open(p["transcript_path"]+".langfuse","a").write(p["turn_id"]+"\\n")\n')
+    trace = mock.Trace(tmp_path / 'codex', tmp_path, 'gpt-x', args.prompt)
+    trace.complete_turn('done')
+    assert 'delivered turn' in mock.check_telemetry(args, trace)
+    kinds = [json.loads(line)['payload'].get('type') for line in trace.path.read_text().splitlines()]
+    assert kinds.index('task_started') < kinds.index('user_message') and kinds[-1] == 'task_complete'
+
+
+def test_telemetry_fails_when_nothing_is_delivered(tmp_path):
+    args = _telemetry_args(tmp_path, 'import sys\nsys.stdin.read()\n')
+    trace = mock.Trace(tmp_path / 'codex', tmp_path)
+    trace.complete_turn('done')
+    with pytest.raises(RuntimeError, match='not recorded'):
+        mock.check_telemetry(args, trace)

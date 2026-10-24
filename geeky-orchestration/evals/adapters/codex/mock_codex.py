@@ -4,6 +4,10 @@ Accepts exec --json --cd ... -c key=TOML plus --mock-scenario happy (default)
 or comma-separated env,skills,guard,pwsh,python,git,mcp. --mock-report stores a
 summary. Repeat --mock-forbidden-path to verify denied host/oracle access.
 Every check performs real I/O; no workflow, review or solution is simulated.
+The rollout has Codex's turn shape (task_started, user_message, one function
+call per check, task_complete). When the -c overrides declare a Stop hook (the
+Langfuse tracer), a final telemetry check runs it on that rollout as Codex does
+and requires the hook's delivery sidecar to record the turn.
 """
 from __future__ import annotations
 
@@ -13,6 +17,7 @@ import json
 import os
 from pathlib import Path
 import queue
+import shlex
 import shutil
 import subprocess
 import sys
@@ -35,7 +40,8 @@ def parse_args(argv):
     # These take values; ignoring them individually would misread their values.
     p.add_argument('--model', '-m')
     p.add_argument('--sandbox')
-    a, _ = p.parse_known_args(argv)
+    a, rest = p.parse_known_args(argv)
+    a.prompt = next((x for x in reversed(rest) if not x.startswith('-')), '')
     config = {}
     for raw in a.config:
         parsed = tomllib.loads(raw)
@@ -58,8 +64,9 @@ def now():
 
 
 class Trace:
-    def __init__(self, codex_home, cwd):
+    def __init__(self, codex_home, cwd, model='mock', prompt=''):
         self.sid = str(uuid.uuid4())
+        self.turn_id = 'turn-' + uuid.uuid4().hex[:12]
         date = dt.datetime.now(dt.timezone.utc)
         folder = codex_home / 'sessions' / date.strftime('%Y/%m/%d')
         folder.mkdir(parents=True, exist_ok=True)
@@ -69,6 +76,27 @@ class Trace:
             'originator': 'mock-codex', 'cli_version': '0.0.0-mock', 'model_provider': 'mock'})
         self.emit({'type': 'thread.started', 'thread_id': self.sid})
         self.emit({'type': 'turn.started'})
+        self.record('event_msg', {'type': 'task_started', 'turn_id': self.turn_id})
+        self.record('turn_context', {'model': model, 'effort': 'mock'})
+        self.record('event_msg', {'type': 'user_message', 'message': prompt or '(no prompt)'})
+
+    def tool_call(self, name, result):
+        call_id = 'call-' + uuid.uuid4().hex[:12]
+        self.record('response_item', {'type': 'function_call', 'name': 'mock_check', 'call_id': call_id,
+                                      'arguments': json.dumps({'check': name})})
+        self.record('response_item', {'type': 'function_call_output', 'call_id': call_id,
+                                      'output': json.dumps(result)})
+
+    def complete_turn(self, text):
+        self.record('response_item', {'type': 'reasoning', 'summary': [{'type': 'summary_text',
+                                      'text': 'Mock reasoning summary: report the check results.'}]})
+        self.record('response_item', {'type': 'message', 'role': 'assistant',
+                                      'content': [{'type': 'output_text', 'text': text}]})
+        self.record('event_msg', {'type': 'agent_message', 'message': text})
+        self.record('event_msg', {'type': 'token_count', 'info': {
+            'total_token_usage': {**ZERO_USAGE, 'reasoning_output_tokens': 0, 'total_tokens': 0},
+            'last_token_usage': {**ZERO_USAGE, 'reasoning_output_tokens': 0, 'total_tokens': 0}}})
+        self.record('event_msg', {'type': 'task_complete', 'turn_id': self.turn_id})
 
     def record(self, kind, payload):
         self.file.write(json.dumps({'timestamp': now(), 'type': kind, 'payload': payload}) + '\n')
@@ -200,7 +228,8 @@ def perform(name, a, scratch):
         for leaf, warning in [('implementation-plan.md', True), ('tasks/T1-a.notes.md', False)]:
             payload = {'tool_name': 'apply_patch', 'cwd': str(a.cd), 'tool_input': {
                 'command': f'*** Begin Patch\n*** Update File: docs/spec-001-feature/{leaf}\n@@\n-old\n+new\n*** End Patch'}}
-            result = run(command, stdin=json.dumps(payload))
+            # Windows CreateProcess takes the command line as is; POSIX needs it split.
+            result = run(command if os.name == 'nt' else shlex.split(command), stdin=json.dumps(payload))
             require(result.returncode == 0, 'Guard bridge failed')
             content = json.loads(result.stdout)['hookSpecificOutput']['additionalContext'] if result.stdout.strip() else ''
             require(bool(content) == warning, f'Guard warning mismatch for {leaf}')
@@ -237,10 +266,32 @@ def perform(name, a, scratch):
     raise ValueError(name)
 
 
+def stop_hooks(config):
+    return [h for group in (config.get('hooks') or {}).get('Stop') or []
+            for h in group.get('hooks') or [] if h.get('type') == 'command']
+
+
+def check_telemetry(a, trace):
+    """Run each Stop hook on the completed turn; the Langfuse tracer marks a delivered turn in its sidecar."""
+    require(a.config.get('model_reasoning_summary') == 'detailed', 'model_reasoning_summary is not detailed')
+    payload = json.dumps({'session_id': trace.sid, 'transcript_path': str(trace.path), 'turn_id': trace.turn_id,
+                          'hook_event_name': 'Stop', 'cwd': str(a.cd), 'stop_hook_active': False})
+    for hook in stop_hooks(a.config):
+        # Fail loudly here: the tracer otherwise fails open and would hide an upload error.
+        result = subprocess.run(hook['command'], shell=True, input=payload, text=True, encoding='utf-8',
+                                capture_output=True, timeout=hook.get('timeout', 600), check=False,
+                                env={**os.environ, 'LANGFUSE_CODEX_FAIL_ON_ERROR': 'true'})
+        require(result.returncode == 0, f'Stop hook exit {result.returncode}: {(result.stdout + result.stderr)[-800:]}')
+    sidecar = Path(str(trace.path) + '.langfuse')
+    delivered = sidecar.read_text(encoding='utf-8').split() if sidecar.exists() else []
+    require(trace.turn_id in delivered, f'turn {trace.turn_id} not recorded in {sidecar.name}')
+    return f'Stop hook delivered turn {trace.turn_id} of thread {trace.sid}'
+
+
 def main(argv=None):
     a = parse_args(sys.argv[1:] if argv is None else argv)
     os.chdir(a.cd)
-    trace = Trace(Path(os.environ['CODEX_HOME']), a.cd)
+    trace = Trace(Path(os.environ['CODEX_HOME']), a.cd, a.model or 'mock', a.prompt)
     checks = []
     scratch = Path(os.environ['TMPDIR']) / ('mock-codex-' + uuid.uuid4().hex)
     scratch.mkdir()  # Avoid Python's Windows user-only mkdtemp ACL inside MXC.
@@ -251,9 +302,18 @@ def main(argv=None):
         except Exception as exc:
             result = {'name': name, 'passed': False, 'detail': f'{type(exc).__name__}: {exc}'}
         checks.append(result)
+        trace.tool_call(name, result)
         trace.emit({'type': 'mock_check', **result})
         trace.emit({'type': 'item.completed', 'item': {'id': 'mock-' + name,
             'type': 'agent_message', 'text': f"Mock {name}: {'PASS' if result['passed'] else 'FAIL'}"}})
+    trace.complete_turn('Mock checks: ' + ', '.join(f"{c['name']}={'PASS' if c['passed'] else 'FAIL'}" for c in checks))
+    if stop_hooks(a.config):
+        try:
+            result = {'name': 'telemetry', 'passed': True, 'detail': check_telemetry(a, trace)}
+        except Exception as exc:
+            result = {'name': 'telemetry', 'passed': False, 'detail': f'{type(exc).__name__}: {exc}'}
+        checks.append(result)
+        trace.emit({'type': 'mock_check', **result})
     summary = trace.finish(checks)
     summary['scratch'] = str(scratch)
     if a.mock_report:

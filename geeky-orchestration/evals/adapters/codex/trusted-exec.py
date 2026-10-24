@@ -46,7 +46,9 @@ def main():
             or proof['version_returncode'] != 0 or proof['version_stderr'].strip()):
         raise RuntimeError('Runtime denial/version proof failed; no contestant launched')
     helper.install_local_plugin(a.codex, profile['codex_config_overrides'], a.output)
-    trust = helper.resolve_hook_trust(a.codex, profile['codex_config_overrides'], a.workspace, a.output)
+    telemetry_command = (profile.get('telemetry') or {}).get('hook_command')
+    trust = helper.resolve_hook_trust(a.codex, profile['codex_config_overrides'], a.workspace, a.output,
+                                      *([telemetry_command] if telemetry_command else []))
     command = [a.codex, '--no-daemon', 'exec', '--json', '--sandbox', 'danger-full-access',
                '--ignore-user-config', '--ignore-rules', '--strict-config', '--cd', str(a.workspace)]
     for override in profile['codex_config_overrides']:

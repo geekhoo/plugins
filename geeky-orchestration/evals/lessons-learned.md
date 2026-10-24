@@ -121,6 +121,15 @@ Do these in this order. Skipping the mock has cost money before.
 
 The cut-off run from before the background-wait fix is archived in `evals/baselines/archive/`.
 
+## Telemetry and Linux MXC (2026-10-24)
+
+- **Langfuse telemetry is opt-in by host env** (`TRACE_TO_LANGFUSE=true`) and covers both harnesses through Langfuse's own pinned hooks (D101, [telemetry README](telemetry/README.md)). Install the hooks once with `telemetry/install-telemetry-tools.ps1`.
+- **`claude -p` drops thinking text.** It requests `display: "omitted"`, so all 124 thinking blocks in C1 run 6 were empty signatures. `showThinkingSummaries: true` in the run settings restores summaries. Codex runs used `summary: none`; telemetry runs set `model_reasoning_summary = "detailed"`.
+- **The Claude hook exits 0 even when an upload fails**, and it defers a turn with pending Agent calls until `SessionEnd`. Judge delivery from the Langfuse readback (`run.json.telemetry.delivered`), not from the hook's exit code. The Codex tracer marks a delivered turn in `<rollout>.langfuse`.
+- **Langfuse v4 events-only servers have no `/api/public/traces`.** Read sessions through `/api/public/v2/observations?sessionId=...`.
+- **MXC runs on Linux** with Bubblewrap (D102). Install `bubblewrap slirp4netns iproute2 iptables`. The sandbox sees only system folders and gets its own `HOME`, so runtimes under `/opt` or `/usr/local` need grants; the host grants the CLI, its symlink target and the PATH runtimes. A TLS-inspecting proxy's CA must be passed through (`SSL_CERT_FILE` and friends) or the hooks' HTTPS fails inside the sandbox.
+- **Mock matrix:** `scripts/run-mock-matrix.ps1` runs both harnesses on C1-C3 with no model calls and fails any run whose mock checks fail or whose session never reached Langfuse.
+
 ## Open TODOs
 
 - [x] **Codex C1 on `bee7b14` (after `f54747e`).** Three completed runs now exercise the later plugin: 96.3, 98.0, and 99.6 reviewed for run 3 (`20261023T230041Z-2c3b5489`). See [the Claude review](analyses/c1-claude-review-20261024.md). This does not establish a new Claude repeat on that SHA; D92 remains move/check/revert.

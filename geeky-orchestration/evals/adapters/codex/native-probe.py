@@ -244,7 +244,7 @@ def install_local_plugin(codex, overrides, output):
         raise RuntimeError('Pinned local plugin installation failed; see native-plugin-install evidence')
 
 
-def resolve_hook_trust(codex, overrides, workspace, output):
+def resolve_hook_trust(codex, overrides, workspace, output, telemetry_command=None):
     """Ask the native hook catalogue for exact IDs/hashes; no thread or model turn."""
     auth_free_home = output / 'hook-catalog-home'
     auth_free_home.mkdir()
@@ -298,8 +298,13 @@ def resolve_hook_trust(codex, overrides, workspace, output):
                 # This profile declares exactly the vetted warn bridge and no other hook.
                 if str(hook.get('eventName', '')).lower() == 'pretooluse' and 'guard-bridge.py' in str(hook.get('command')):
                     states[hook['key']] = {'trusted_hash': hook['currentHash'], 'enabled': True}
-        if len(states) != 1:
-            raise RuntimeError('Expected exactly one vetted native guard hook')
+                # The optional Langfuse Stop hook is trusted only by its exact generated command.
+                elif (telemetry_command and str(hook.get('eventName', '')).lower() == 'stop'
+                      and str(hook.get('command')) == telemetry_command):
+                    states[hook['key']] = {'trusted_hash': hook['currentHash'], 'enabled': True}
+        if len(states) != 1 + bool(telemetry_command):
+            raise RuntimeError('Expected exactly one vetted native guard hook'
+                               + (' and one Langfuse Stop hook' if telemetry_command else ''))
         return 'hooks.state={' + ','.join(json.dumps(k) + '={trusted_hash=' +
             json.dumps(v['trusted_hash']) + ',enabled=true}' for k, v in states.items()) + '}'
     finally:

@@ -283,6 +283,13 @@ The weights sum to 1, so the score stays 0–100 however many tasks there are. L
 | D100 | Match existing guard scope | No guard rewrite is needed for the approved final-pair match: existing edit/patch warn behavior, retained native guard-context proof and 64 offline tests cover the corresponding paths. Shared shell bypass remains documented. Catalog untrusted status precedes exact trust-hash override and does not prove launch trust failure. Paid-session invocation remains unverified; no MXC or paid run was launched to extend that claim. |
 
 
+## Telemetry and platform decisions (2026-10-24)
+
+| ID | Decision | Evidence and limits |
+|---|---|---|
+| D101 | Langfuse telemetry on eval runs | With `TRACE_TO_LANGFUSE=true` both runners add Langfuse's own pinned transcript hook (Claude `Stop`/`SessionEnd` via `--settings`; Codex `Stop` via the profile, trusted by exact command) and upload untruncated turns, subagents, tool I/O and thinking/reasoning summaries (`showThinkingSummaries`, `model_reasoning_summary=detailed`). Delivery is read back into `langfuse.json` and `run.json.telemetry`. This changes the contestant configuration (one extra hook, summarized thinking), so telemetry runs are not directly comparable with the stored baselines (D60). See `evals/telemetry/README.md`. |
+| D102 | MXC runs on Linux and macOS too | The `mxc-sandbox` host uses the native default backend outside Windows (Bubblewrap on Linux, Seatbelt on macOS) with POSIX quoting and symlink-target grants; both runners pick paths, venv layout and `tar` per platform. Verified on Ubuntu 24.04 (bwrap 0.9, slirp4netns, iproute2, iptables): read-only grants enforced, ungranted paths absent, egress allowed. The C1-C3 mock matrix passes for both harnesses there. Windows behaviour is unchanged but was not re-run in this change. |
+
 ## Open items
 
 | ID | Item |

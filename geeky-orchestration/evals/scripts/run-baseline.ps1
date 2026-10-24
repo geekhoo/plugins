@@ -14,7 +14,13 @@
   Fields that need the ATIF ingest tool (latency, idle gaps, stages, tasks) are left null.
 
   Requires: CLAUDE_CODE_OAUTH_TOKEN (process or User env), the mxc-sandbox plugin, Python with
-  pytest on PATH, and C:\repos\.eval-tools\geeky-mcp (prebuilt venv for geeky_mcp, see D75).
+  pytest on PATH, and <ToolsDir>/geeky-mcp (prebuilt venv for geeky_mcp, see D75). Runs on Windows
+  (ProcessContainer) and on Linux/macOS (Bubblewrap/Seatbelt); ToolsDir and WorkRoot default to
+  C:\repos\.eval-tools and C:\repos on Windows, ~/repos/.eval-tools and ~/repos elsewhere.
+
+  Telemetry: with TRACE_TO_LANGFUSE=true on the host (and LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY,
+  LANGFUSE_BASE_URL), the pinned Langfuse Stop/SessionEnd hook uploads every turn, subagent, tool
+  call and thinking summary untruncated (evals/telemetry/README.md). -NoTelemetry turns it off.
 
 .EXAMPLE
   pwsh -File run-baseline.ps1 -Case c1-csvledger -DryRun
@@ -25,28 +31,41 @@ param(
     [Parameter(Mandatory)][ValidateSet('c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
     [string]$Model,
     [int]$TimeoutSec,
-    [string]$ToolsDir = 'C:\repos\.eval-tools',
-    [string]$WorkRoot = 'C:\repos',
+    [string]$ToolsDir,
+    [string]$WorkRoot,
     [switch]$DryRun,
+    [switch]$NoTelemetry,
     # Run evals/mock-agent/mock_claude.py as the MXC workload instead of claude: no model calls,
     # no token needed. Scenarios are comma-separated (see mock_claude.py); default happy.
     [switch]$MockAgent,
     [string]$MockScenario = 'happy'
 )
 $ErrorActionPreference = 'Stop'
+$onWindows = $IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop'
+if (-not $ToolsDir) { $ToolsDir = if ($onWindows) { 'C:\repos\.eval-tools' } else { Join-Path $HOME 'repos/.eval-tools' } }
+if (-not $WorkRoot) { $WorkRoot = if ($onWindows) { 'C:\repos' } else { Join-Path $HOME 'repos' } }
+$venvPython = { param($venv) if ($onWindows) { Join-Path $venv 'Scripts\python.exe' } else { Join-Path $venv 'bin/python' } }
+$tar = if ($onWindows) { Join-Path $env:SystemRoot 'System32\tar.exe' } else { 'tar' }   # never MSYS tar for a C: path (O22)
 
-$plugin = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path          # geeky-orchestration
+$plugin = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path          # geeky-orchestration
 $repoRoot = (Resolve-Path (Join-Path $plugin '..')).Path
-$caseDir = Join-Path $plugin "evals\cases\$Case"
-$mxc = Join-Path $repoRoot 'mxc-sandbox\scripts\mxc.ps1'
+$caseDir = Join-Path $plugin "evals/cases/$Case"
+$mxc = Join-Path $repoRoot 'mxc-sandbox/scripts/mxc.ps1'
 # Oracle needs a Python with pytest; geeky_mcp must run on the venv's own base interpreter (D75).
-$python = @((Get-Command python -All -ErrorAction SilentlyContinue).Source; 'C:\Python314\python.exe') |
+$python = @((Get-Command python, python3 -All -ErrorAction SilentlyContinue).Source; if ($onWindows) { 'C:\Python314\python.exe' }
+    & $venvPython (Join-Path $ToolsDir 'agent-py')) |
     Where-Object { $_ -and (Test-Path $_) } | Where-Object { & $_ -c 'import pytest' 2>$null; -not $LASTEXITCODE } | Select-Object -First 1
 if (-not $python) { throw 'no Python with pytest found' }
-$venvHome = ((Get-Content (Join-Path $ToolsDir 'geeky-mcp\pyvenv.cfg')) -match '^home\s*=' -replace '^home\s*=\s*', '').Trim()
-$mcpPython = Join-Path $venvHome 'python.exe'
+# Windows: the venv launcher cannot start inside MXC, so geeky_mcp runs on the base interpreter. Elsewhere
+# the venv's python is a symlink to a system interpreter the sandbox can see.
+$mcpPython = if ($onWindows) {
+    $venvHome = ((Get-Content (Join-Path $ToolsDir 'geeky-mcp\pyvenv.cfg')) -match '^home\s*=' -replace '^home\s*=\s*', '').Trim()
+    Join-Path $venvHome 'python.exe'
+} else { & $venvPython (Join-Path $ToolsDir 'geeky-mcp') }
+$mcpSitePackages = (& (& $venvPython (Join-Path $ToolsDir 'geeky-mcp')) -c "import sysconfig; print(sysconfig.get_paths()['purelib'])").Trim()
 $agentPy = Join-Path $ToolsDir 'agent-py'   # venv with pytest, first on the sandbox PATH
-if (-not (Test-Path (Join-Path $agentPy 'Scripts\python.exe'))) { throw "missing $agentPy (uv venv + uv pip install --offline pytest)" }
+$agentPython = & $venvPython $agentPy
+if (-not (Test-Path $agentPython)) { throw "missing $agentPy (uv venv + uv pip install --offline pytest)" }
 $caseCfg = Get-Content (Join-Path $caseDir 'case.json') -Raw | ConvertFrom-Json   # D66 limits
 if (-not $TimeoutSec) { $TimeoutSec = [int]$caseCfg.wall_time_ceiling_s }
 # The slow scenario exists to hit the timeout; keep it short unless one was given.
@@ -93,16 +112,30 @@ New-Item -ItemType Directory -Force $cfg | Out-Null
 $pluginSha = git -C $repoRoot rev-parse HEAD
 $export = Join-Path $cfg 'plugin'
 New-Item -ItemType Directory -Force $export | Out-Null
-git -C $repoRoot archive --format=tar $pluginSha geeky-orchestration ':(exclude)geeky-orchestration/evals' | tar -x -C $export
+$pluginTar = Join-Path $cfg 'plugin.tar'
+git -C $repoRoot archive --format=tar "--output=$pluginTar" $pluginSha geeky-orchestration ':(exclude)geeky-orchestration/evals'
+& $tar -xf $pluginTar -C $export
+if ($LASTEXITCODE) { throw 'plugin export extraction failed' }
+Remove-Item $pluginTar
 $pluginRun = Join-Path $export 'geeky-orchestration'
 # Bytecode caches are not plugin changes (the agent's tooling may compile the gate scripts).
-$hashTree = { param($dir) (Get-ChildItem $dir -Recurse -File | Where-Object { $_.FullName -notmatch '\\__pycache__\\' } | Sort-Object FullName | ForEach-Object { (Get-FileHash $_.FullName -Algorithm SHA256).Hash }) -join '' }
+$hashTree = { param($dir) (Get-ChildItem $dir -Recurse -File | Where-Object { $_.FullName -notmatch '[\\/]__pycache__[\\/]' } | Sort-Object FullName | ForEach-Object { (Get-FileHash $_.FullName -Algorithm SHA256).Hash }) -join '' }
 $exportHash = & $hashTree $pluginRun
-$boot = "import site,runpy,sys; site.addsitedir(r'$ToolsDir\geeky-mcp\Lib\site-packages'); sys.path.insert(0, r'$pluginRun\mcp'); sys.argv=[r'$pluginRun\mcp\server.py']; runpy.run_path(sys.argv[0], run_name='__main__')"
+$mcpDir = Join-Path $pluginRun 'mcp'
+$boot = "import site,runpy,sys; site.addsitedir(r'$mcpSitePackages'); sys.path.insert(0, r'$mcpDir'); sys.argv=[r'$(Join-Path $mcpDir 'server.py')']; runpy.run_path(sys.argv[0], run_name='__main__')"
 @{ mcpServers = @{ geeky = @{ command = $mcpPython; args = @('-u', '-c', $boot) } } } | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $cfg 'mcp.json')
-'{"env": {"MCP_TIMEOUT": "120000"}}' | Set-Content (Join-Path $cfg 'settings.json')
+. (Join-Path $plugin 'evals/telemetry/telemetry.ps1')
+$telemetry = Resolve-EvalTelemetry -Harness claude-code -ToolsDir $ToolsDir -Case $Case -Stamp $stamp -PluginSha $pluginSha `
+    -ConfigDir $cfg -StateDir (Join-Path $cfg 'langfuse') -Model $Model -Mock:$MockAgent -Disabled:$NoTelemetry
+$settings = [ordered]@{ env = @{ MCP_TIMEOUT = '120000' } }
+if ($telemetry) {
+    $settings.hooks = $telemetry.SettingsHooks
+    # claude -p otherwise requests display "omitted" thinking, leaving only signatures in the transcript.
+    $settings.showThinkingSummaries = $true
+}
+$settings | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $cfg 'settings.json')
 
-$prompt = (Get-Content (Join-Path $plugin 'evals\prompts\end-to-end.md') -Raw) -replace '\{\{PLANNING_FOLDER\}\}', 'docs/spec-001-feature/'
+$prompt = (Get-Content (Join-Path $plugin 'evals/prompts/end-to-end.md') -Raw) -replace '\{\{PLANNING_FOLDER\}\}', 'docs/spec-001-feature/'
 $promptSha = [BitConverter]::ToString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($prompt))).Replace('-', '').ToLower()
 $sid = [guid]::NewGuid().ToString()
 $claudeArgs = @('-p', $prompt, '--session-id', $sid, '--plugin-dir', $pluginRun,
@@ -116,7 +149,7 @@ if ($MockAgent) {
     # config grant so the sandbox can read it (the repo itself is not granted).
     $mockDir = Join-Path $cfg 'mock-agent'
     New-Item -ItemType Directory -Force $mockDir | Out-Null
-    Copy-Item (Join-Path $plugin 'evals\mock-agent\mock_claude.py') $mockDir
+    Copy-Item (Join-Path $plugin 'evals/mock-agent/mock_claude.py') $mockDir
     $claudeArgs = @((Join-Path $mockDir 'mock_claude.py')) + $claudeArgs + @('--mock-scenario', $MockScenario, '--mock-case', $Case)
 }
 # Git sees the workspace as owned by another identity inside the container ("dubious ownership").
@@ -139,10 +172,11 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host
     # main agent is resumed when they finish, so wait indefinitely (the MXC --timeout still bounds the run).
     '--env', 'CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0',
     # pytest for the agents' own tests: the sandbox Python has none and pip cannot install inside MXC.
-    '--env', "PATH=$agentPy\Scripts;$env:PATH", '--env', "VIRTUAL_ENV=$agentPy",
+    '--env', "PATH=$(Split-Path $agentPython)$([IO.Path]::PathSeparator)$env:PATH", '--env', "VIRTUAL_ENV=$agentPy",
     # Neutral commit identity (the seed repo has none); set via env so no repo or global config changes.
     '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
+if ($telemetry) { $hostArgs += @('--rw', $telemetry.StateDir) + @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs }
 
 if ($DryRun) {
     Write-Host "DRY RUN. Would launch (timeout ${TimeoutSec}s):`n  $mxc $($hostArgs -join ' ') -- <claude args: session $sid, plugin $pluginRun>"
@@ -151,10 +185,10 @@ if ($DryRun) {
 }
 
 # Run
-$out = Join-Path $plugin "evals\baselines\$Case\$stamp"
+$out = Join-Path $plugin "evals/baselines/$Case/$stamp"
 New-Item -ItemType Directory -Force $out | Out-Null
 $started = (Get-Date).ToUniversalTime()
-if ($MockAgent) { $savedExe = $env:MXC_CLAUDE_EXE; $env:MXC_CLAUDE_EXE = Join-Path $agentPy 'Scripts\python.exe' }
+if ($MockAgent) { $savedExe = $env:MXC_CLAUDE_EXE; $env:MXC_CLAUDE_EXE = $agentPython }
 try {
     & $mxc @hostArgs -- @claudeArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
     $exitCode = $LASTEXITCODE
@@ -166,12 +200,12 @@ if ($MockAgent) {
 }
 
 $pluginTampered = (& $hashTree $pluginRun) -ne $exportHash
-$mxcStateRoot = if ($env:MXC_SANDBOX_HOME) { $env:MXC_SANDBOX_HOME } else { Join-Path $env:USERPROFILE '.mxc-sandbox' }
-$session = Get-ChildItem (Join-Path $mxcStateRoot 'home\projects') -Recurse -Filter "$sid.jsonl" -ErrorAction SilentlyContinue | Select-Object -First 1
+$mxcStateRoot = if ($env:MXC_SANDBOX_HOME) { $env:MXC_SANDBOX_HOME } else { Join-Path $(if ($onWindows) { $env:USERPROFILE } else { $HOME }) '.mxc-sandbox' }
+$session = Get-ChildItem (Join-Path $mxcStateRoot 'home/projects') -Recurse -Filter "$sid.jsonl" -ErrorAction SilentlyContinue | Select-Object -First 1
 if ($session) {
     Copy-Item $session.FullName (Join-Path $out 'session.jsonl')
     # Each subagent's transcript (with a meta.json naming the spawning tool call); nested subagents appear only here.
-    $subDir = Join-Path $session.DirectoryName "$sid\subagents"
+    $subDir = Join-Path $session.DirectoryName "$sid/subagents"
     if (Test-Path $subDir) { Copy-Item $subDir (Join-Path $out 'subagents') -Recurse }
 }
 
@@ -188,15 +222,17 @@ $result = $lines | Where-Object { $_ -match '"type":"result"' } | Select-Object 
 $u = $result.usage
 $inputTotal = [long]$u.input_tokens + [long]$u.cache_creation_input_tokens + [long]$u.cache_read_input_tokens
 $pkg = $Case.Substring(3)
-$py = Get-ChildItem $ws -Recurse -Filter *.py -File | Where-Object { $_.FullName -notmatch '\\\.git\\' }
-$isTest = { param($f) $f.Name -like 'test_*' -or $f.Name -like '*_test.py' -or $f.FullName -match '\\tests?\\' }
-$srcLoc = ($py | Where-Object { $_.FullName -like "$ws\$pkg\*" -and -not (& $isTest $_) } | Get-Content | Measure-Object -Line).Lines
+$py = Get-ChildItem $ws -Recurse -Filter *.py -File | Where-Object { $_.FullName -notmatch '[\\/]\.git[\\/]' }
+$isTest = { param($f) $f.Name -like 'test_*' -or $f.Name -like '*_test.py' -or $f.FullName -match '[\\/]tests?[\\/]' }
+$pkgDir = (Join-Path $ws $pkg) + [IO.Path]::DirectorySeparatorChar
+$srcLoc = ($py | Where-Object { $_.FullName.StartsWith($pkgDir) -and -not (& $isTest $_) } | Get-Content | Measure-Object -Line).Lines
 $testLoc = ($py | Where-Object { & $isTest $_ } | Get-Content | Measure-Object -Line).Lines
 $bgKilled = Select-String -Path (Join-Path $out 'stderr.txt') -Pattern 'Background tasks still running .* stopping them' -Quiet
 $exitReason = if ($exitCode -eq 124) { 'timeout' } elseif ($bgKilled) { 'bg_killed' } elseif ($result -and -not $result.is_error) { 'completed' } elseif (-not $result) { 'crash' } else { 'aborted' }
 $o = $runs[0]
 $clean = $stable -and $o.failed -eq 0 -and $o.errors -eq 0 -and $o.passed -gt 0
 $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.ToLower() } }
+if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $(if ($session) { $sid }) -OutDir $out -Python $python }
 
 [ordered]@{
     schema = 'geeky-eval.baseline/1'; case = $Case
@@ -217,6 +253,7 @@ $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.
     exit_code = $exitCode; exit_reason = $exitReason; is_error = $result.is_error
     raw_sha256 = [ordered]@{ stream = & $sha (Join-Path $out 'stream.jsonl'); session = & $sha (Join-Path $out 'session.jsonl') }
     interventions = 0
+    telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })
     reference_eligible = (-not $MockAgent -and $clean -and $exitReason -eq 'completed' -and -not $pluginTampered -and @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count -gt 0)
 } | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $out 'run.json')
 

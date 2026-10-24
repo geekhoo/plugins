@@ -30,6 +30,9 @@ Scenarios (composable, comma-separated; run in the order given):
   slow       sleeps MOCK_SLOW_SECONDS (default 600) without output
   bg-wait    ends its turn with a background subagent running; like claude -p, waits for it when
              CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0, otherwise prints the stop message on stderr
+  telemetry  runs the --settings Stop hooks on this transcript, as claude does after a turn, and checks
+             the Langfuse hook log reports processed turns; added after the other scenarios whenever
+             the settings declare a Stop hook (the run's final Stop and SessionEnd hooks always fire)
   all        env-probe,grants,pwsh,python,git,gates,mcp
 Env knobs: MOCK_LATENCY_MS (simulated model latency per call, default 40).
 """
@@ -57,7 +60,7 @@ VERSION = "0.0.0-mock"
 DEFAULT_MODEL = "claude-mock-5-5"
 SUB_MODEL = "claude-mock-haiku"
 ALL = ["env-probe", "grants", "pwsh", "python", "git", "gates", "mcp"]
-KNOWN = set(ALL) | {"network", "happy", "gate-fail", "crash", "slow", "bg-wait"}
+KNOWN = set(ALL) | {"network", "happy", "gate-fail", "crash", "slow", "bg-wait", "telemetry"}
 STAGES = ["spec-research", "geeky-plan", "plan-review", "geeky-implement", "impl-review"]
 GATES = ["validate-planning-folder", "validate-task-schema", "validate-kanban", "check-dod", "check-commit"]
 BUILTIN_SKILLS = ["debug", "simplify", "code-review", "verify"]
@@ -1034,9 +1037,66 @@ def sc_happy(a: Agent, broken_kanban: bool = False) -> None:
     a.say("All stages ran. impl-review: PASS.")
 
 
+def settings_hooks(opts: dict) -> dict:
+    try:
+        return json.loads(Path(opts["settings"]).read_text(encoding="utf-8-sig")).get("hooks") or {}
+    except (TypeError, OSError, ValueError):
+        return {}
+
+
+def run_hooks(a: Agent, event: str) -> list[tuple[int, str]]:
+    """Run the --settings hooks for one event the way claude does: payload on stdin, the hook's shell."""
+    payload = json.dumps({"session_id": a.t.sid, "transcript_path": str(a.t.session_path), "cwd": str(a.cwd),
+                          "hook_event_name": event, "stop_hook_active": False})
+    results = []
+    for group in settings_hooks(a.opts).get(event) or []:
+        for hook in group.get("hooks") or []:
+            if hook.get("type") != "command":
+                continue
+            if hook.get("shell") == "powershell":
+                argv = [a.pwsh or "powershell", "-NoProfile", "-NonInteractive", "-Command", hook["command"]]
+            else:
+                argv = ["bash", "-c", hook["command"]]
+            try:
+                r = subprocess.run(argv, input=payload, capture_output=True, text=True, encoding="utf-8",
+                                   errors="replace", timeout=hook.get("timeout", 600))
+                results.append((r.returncode, (r.stdout + r.stderr).strip()))
+            except (OSError, subprocess.TimeoutExpired) as e:
+                results.append((-1, f"{type(e).__name__}: {e}"))
+    return results
+
+
+def sc_telemetry(a: Agent) -> None:
+    t = a.t
+    if not settings_hooks(a.opts).get("Stop"):
+        t.check("telemetry.configured", "info", "no Stop hook in --settings; telemetry off")
+        return
+    t.check("telemetry.thinking_summaries", "pass" if json.loads(Path(a.opts["settings"]).read_text(encoding="utf-8-sig"))
+            .get("showThinkingSummaries") is True else "fail", "showThinkingSummaries in --settings")
+    state = os.environ.get("CC_LANGFUSE_STATE_DIR")
+    log = Path(state) / "langfuse_hook.log" if state else None
+    offset = log.stat().st_size if log and log.exists() else 0
+    # The turn so far has every scenario's tool calls; close it the way a model reply would.
+    t.assistant([{"type": "thinking", "thinking": "Mock thinking summary for the telemetry probe.", "signature": "mock"},
+                 {"type": "text", "text": "Telemetry probe: this turn ends here so the Stop hook uploads it."}])
+    # The hook exits 0 even when an upload fails, so its output decides. Delivery itself is confirmed on
+    # the host, which reads the session back from Langfuse after the run (the turn may only flush at
+    # SessionEnd while subagent results are pending).
+    for rc, out in run_hooks(a, "Stop"):
+        ok = rc == 0 and not re.search(r"(?i)\berror\b|traceback", out)
+        t.check("telemetry.stop_hook", "pass" if ok else "fail", f"exit {rc}" + (f": {out[-1500:]}" if out else ""))
+    if not log:
+        t.check("telemetry.hook_log", "fail", "CC_LANGFUSE_STATE_DIR is not set")
+        return
+    text = log.read_text(encoding="utf-8", errors="replace")[offset:] if log.exists() else ""
+    ok = "Processed " in text and not re.search(r"(?i)failed|traceback|disabled|\berror\b", text)
+    t.check("telemetry.hook_log", "pass" if ok else "fail", text.strip()[-1500:] or f"no new lines in {log}")
+
+
 SCENARIOS = {"env-probe": sc_env_probe, "grants": sc_grants, "pwsh": sc_pwsh, "python": sc_python,
              "git": sc_git, "gates": sc_gates, "mcp": sc_mcp, "network": sc_network, "crash": sc_crash,
-             "slow": sc_slow, "bg-wait": sc_bg_wait, "happy": sc_happy, "gate-fail": lambda a: sc_happy(a, broken_kanban=True)}
+             "slow": sc_slow, "bg-wait": sc_bg_wait, "happy": sc_happy, "gate-fail": lambda a: sc_happy(a, broken_kanban=True),
+             "telemetry": sc_telemetry}
 
 
 # ----------------------------------------------------------------------------- init / result
@@ -1084,6 +1144,8 @@ def main(argv: list[str]) -> int:
     opts = parse_args(argv)
     spec = opts["scenario"] or os.environ.get("MOCK_SCENARIO") or "happy"
     scenarios = expand_scenarios(spec)
+    if settings_hooks(opts).get("Stop") and "telemetry" not in scenarios:
+        scenarios.append("telemetry")
     cwd = Path(os.getcwd())
     t = Transcript(opts, cwd, scenarios)
     a = Agent(t, opts, cwd)
@@ -1133,6 +1195,11 @@ def main(argv: list[str]) -> int:
     text = (f"Mock run ({', '.join(scenarios)}): {summary['counts']['pass']} passed, {len(failed)} failed"
             + (f": {', '.join(failed)}" if failed else "."))
     t.say(text)
+    # claude fires Stop after the final reply and SessionEnd on exit; the final turn uploads here.
+    for event in ("Stop", "SessionEnd"):
+        for rc, out in run_hooks(a, event):
+            if rc:
+                print(f"mock-claude: {event} hook exit {rc}: {out[-500:]}", file=sys.stderr, flush=True)
     model_usage = token_usage(scenarios, t.model)
     last = {"input_tokens": 6, "cache_creation_input_tokens": 1200, "cache_read_input_tokens": 40000,
             "output_tokens": 800, "output_tokens_details": {"thinking_tokens": 50}, "service_tier": "standard"}

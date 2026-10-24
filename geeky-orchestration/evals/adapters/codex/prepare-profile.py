@@ -7,11 +7,30 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
+import shlex
 import shutil
 import subprocess
 import sys
 import tomllib
+
+WINDOWS = os.name == 'nt'
+
+
+def venv_python(venv):
+    return venv / ('Scripts/python.exe' if WINDOWS else 'bin/python')
+
+
+def site_packages(venv):
+    if WINDOWS:
+        return venv / 'Lib/site-packages'
+    return next(iter(sorted(venv.glob('lib/python*/site-packages'))), venv / 'lib/site-packages')
+
+
+def cmdline(args):
+    # Codex runs hook commands through the platform shell.
+    return subprocess.list2cmdline(args) if WINDOWS else shlex.join(args)
 
 
 def toml(value):
@@ -38,7 +57,8 @@ def digest(root):
 
 
 def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
-            worker_model=None, worker_reasoning=None, reviewer_reasoning=None):
+            worker_model=None, worker_reasoning=None, reviewer_reasoning=None,
+            telemetry_node=None, telemetry_hook=None):
     worker_model = model if worker_model is None else worker_model
     worker_reasoning = reasoning if worker_reasoning is None else worker_reasoning
     reviewer_roles = ['code-reviewer', 'code-architect-reviewer']
@@ -80,7 +100,10 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
                 'scripts/sync-agents.py', 'hooks/guard-planning-contract.py', 'mcp/server.py']
     check('export_components', all((plugin / p).exists() for p in required), required)
     check('fresh_home', not home.exists(), str(home))
-    check('python', (tools / 'agent-py/Scripts/python.exe').is_file(), 'agent-py interpreter')
+    check('python', venv_python(tools / 'agent-py').is_file(), 'agent-py interpreter')
+    if telemetry_hook:
+        check('telemetry_hook', Path(telemetry_node).is_file() and Path(telemetry_hook).is_file(),
+              {'node': str(telemetry_node), 'hook': str(telemetry_hook)})
     check('mcp_venv', (tools / 'geeky-mcp/pyvenv.cfg').is_file(), 'geeky-mcp bootstrap venv')
     report = {'ok': False, 'runtime_verified': False, 'checks': checks,
               'codex_config_overrides': [], 'extra_args': [], 'model': model,
@@ -116,6 +139,9 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
     config = defaults
     config['model'] = model
     config['model_reasoning_effort'] = reasoning
+    if telemetry_hook:
+        # Plaintext reasoning summaries for the trace; the raw reasoning stays provider-encrypted.
+        config['model_reasoning_summary'] = 'detailed'
     shutil.copyfile(plugin / 'AGENTS.md', home / 'AGENTS.md')
     config['developer_instructions'] = (plugin / 'AGENTS.md').read_text(encoding='utf-8') + review_policy
     # Windows native skill discovery uses KnownFolder HOME, ignoring env HOME.
@@ -162,26 +188,42 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
         effort = reviewer_reasoning if reviewer_reasoning and role.stem in reviewer_roles else worker_reasoning
         layer = {'model': worker_model, 'model_reasoning_effort': effort,
                  'developer_instructions': data['developer_instructions'] + review_policy, 'agents': agents}
+        if telemetry_hook:
+            layer['model_reasoning_summary'] = 'detailed'
         rendered_role = '\n'.join(f'{k}={toml(v)}' for k, v in layer.items()) + '\n'
         tomllib.loads(rendered_role)
         role.write_text(rendered_role, encoding='utf-8')
-    pyvenv = (tools / 'geeky-mcp/pyvenv.cfg').read_text()
-    base = next(line.partition('=')[2].strip() for line in pyvenv.splitlines()
-                if line.partition('=')[0].strip() == 'home')
-    interpreter = str(Path(base) / 'python.exe')
+    if WINDOWS:
+        # The venv launcher cannot start inside MXC; use the venv's base interpreter.
+        pyvenv = (tools / 'geeky-mcp/pyvenv.cfg').read_text()
+        base = next(line.partition('=')[2].strip() for line in pyvenv.splitlines()
+                    if line.partition('=')[0].strip() == 'home')
+        interpreter = str(Path(base) / 'python.exe')
+    else:
+        interpreter = str(venv_python(tools / 'geeky-mcp'))
     bootstrap = home / 'mcp-bootstrap.py'
     shutil.copyfile(profile / 'mcp-bootstrap.py', bootstrap)
     # The bootstrap lives in granted run HOME and processes the venv's .pth files.
     config['mcp_servers'] = {'geeky': {'command': interpreter,
         'args': ['-u', str(bootstrap),
-                 '--site-packages', str(tools / 'geeky-mcp/Lib/site-packages'),
+                 '--site-packages', str(site_packages(tools / 'geeky-mcp')),
                  '--server', str(plugin / 'mcp/server.py')], 'startup_timeout_sec': 120}}
     bridge = home / 'guard-bridge.py'
     shutil.copyfile(Path(__file__).with_name('guard-bridge.py'), bridge)
-    command = subprocess.list2cmdline([str(tools / 'agent-py/Scripts/python.exe'),
+    command = cmdline([str(venv_python(tools / 'agent-py')),
         str(bridge), '--guard', str(plugin / 'hooks/guard-planning-contract.py')])
     config['hooks'] = {'PreToolUse': [{'matcher': 'Edit|Write|NotebookEdit|apply_patch',
         'hooks': [{'type': 'command', 'command': command, 'timeout': 5}]}]}
+    telemetry = None
+    if telemetry_hook:
+        # Langfuse's Codex Stop hook; it uploads the rollout (and child threads) after each turn.
+        tracer = home / 'langfuse-tracer.py'
+        shutil.copyfile(Path(__file__).with_name('langfuse-tracer.py'), tracer)
+        tracer.with_suffix('.json').write_text(json.dumps({'node': str(telemetry_node), 'hook': str(telemetry_hook)}),
+                                               encoding='utf-8')
+        telemetry_command = cmdline([str(venv_python(tools / 'agent-py')), str(tracer)])
+        config['hooks']['Stop'] = [{'hooks': [{'type': 'command', 'command': telemetry_command, 'timeout': 600}]}]
+        telemetry = {'hook_command': telemetry_command, 'reasoning_summary': 'detailed'}
     # Parent CLI overrides register all roles explicitly; projection folders alone do not.
     overrides = [f'{k}={toml(v)}' for k, v in config.items()]
     rendered = '\n'.join(overrides) + '\n'
@@ -196,7 +238,7 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
     check('agent_registration', len(roles) == len(list((plugin / 'agents').glob('*.md'))) + bool(reviewer_reasoning), roles)
     check('hook_configuration', True, 'Warn guard bridge configured; runtime proof pending CP2.')
     report.update(ok=all(c['passed'] for c in checks), codex_config_overrides=overrides,
-        extra_args=[],
+        extra_args=[], telemetry=telemetry,
         profile_sha256=hashlib.sha256((digest(profile) + digest(home)).encode()).hexdigest(),
         reachability={'claude': required, 'codex': required,
                       'runtime_proof': 'UNVERIFIED until checkpoint 2'},
@@ -217,9 +259,14 @@ def main():
     p.add_argument('--worker-reasoning', help='Subagent effort at every depth; defaults to --reasoning.')
     p.add_argument('--reviewer-reasoning', choices=('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra'),
                    help='Optional effort for reviewer roles; ordinary worker defaults remain independent.')
+    p.add_argument('--telemetry-node', type=Path, help='Node.js 22+ that runs the Langfuse Stop hook.')
+    p.add_argument('--telemetry-hook', type=Path, help="Langfuse Codex plugin's dist/index.mjs.")
     a = p.parse_args()
+    if bool(a.telemetry_node) != bool(a.telemetry_hook):
+        p.error('--telemetry-node and --telemetry-hook go together')
     result = prepare(a.plugin, a.home, a.codex_home, a.tools_dir, a.profile, a.model, a.reasoning,
-                     a.worker_model, a.worker_reasoning, a.reviewer_reasoning)
+                     a.worker_model, a.worker_reasoning, a.reviewer_reasoning,
+                     a.telemetry_node, a.telemetry_hook)
     a.output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({'ok': result['ok'], 'report': str(a.output)}))
     return 0 if result['ok'] else 1

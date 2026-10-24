@@ -1,6 +1,7 @@
 """Offline worker matrix generation and CLI wiring; never starts Codex or MXC."""
 import importlib.util
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -28,8 +29,9 @@ class WorkerConfigTests(unittest.TestCase):
         for part in ('AGENTS.md', 'geeky.manifest.json'):
             shutil.copyfile(PLUGIN / part, self.export / part)
         self.tools = self.root / 'tools'
-        (self.tools / 'agent-py/Scripts').mkdir(parents=True)
-        (self.tools / 'agent-py/Scripts/python.exe').touch()
+        agent_python = self.tools / ('agent-py/Scripts/python.exe' if os.name == 'nt' else 'agent-py/bin/python')
+        agent_python.parent.mkdir(parents=True)
+        agent_python.touch()
         (self.tools / 'geeky-mcp').mkdir()
         (self.tools / 'geeky-mcp/pyvenv.cfg').write_text('home = C:\\Python314\n')
         self.signed = self.root / 'signed-in'
