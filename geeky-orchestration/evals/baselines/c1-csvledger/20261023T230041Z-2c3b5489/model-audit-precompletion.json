@@ -1,0 +1,366 @@
+{
+  "ok": false,
+  "threads": 16,
+  "own_contexts": 19,
+  "errors": [],
+  "records": [
+    {
+      "thread_id": "01a16afe-d497-7060-a485-258f70023d21",
+      "parent_thread_id": null,
+      "role": "general-purpose",
+      "agent_path": null,
+      "own_history_start_ordinal": null,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "medium",
+      "source": "session.jsonl",
+      "source_sha256": "d988eb34fa8e79f04418573a2002ff011dd42ca88f629564d220fe6a6c936e50",
+      "contexts": [
+        {
+          "physical_line": 10,
+          "ordinal": 9,
+          "timestamp": "2026-10-23T23:00:50.720Z",
+          "model": "gpt-6.1-sol",
+          "effort": "high"
+        }
+      ],
+      "passed": false
+    },
+    {
+      "thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "parent_thread_id": "01a16afe-d497-7060-a485-258f70023d21",
+      "role": "geeky-orchestrator",
+      "agent_path": "/root/orchestrator",
+      "own_history_start_ordinal": 23,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "medium",
+      "source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+      "source_sha256": "2cc34a35446d4c1100d534fdf5d03ae87364206778f6fd5a34e8d4232143eeea",
+      "contexts": [
+        {
+          "physical_line": 29,
+          "ordinal": 28,
+          "timestamp": "2026-10-23T23:01:14.610Z",
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16aff-583d-7771-924e-3367dbd14859",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "code-explorer",
+      "agent_path": "/root/orchestrator/codebase_research",
+      "own_history_start_ordinal": 37,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "medium",
+      "source": "subagents/rollout-01a16aff-583d-7771-924e-3367dbd14859.jsonl",
+      "source_sha256": "f5b10fcc6300adfef66738ff15d724a59ef1a00d71e49a8c5d62e50c3c29cff4",
+      "contexts": [
+        {
+          "physical_line": 41,
+          "ordinal": 40,
+          "timestamp": "2026-10-23T23:01:22.890Z",
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16aff-6783-72e0-97a2-21198b8c65dd",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "default",
+      "agent_path": "/root/orchestrator/money_research",
+      "own_history_start_ordinal": 40,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "medium",
+      "source": "subagents/rollout-01a16aff-6783-72e0-97a2-21198b8c65dd.jsonl",
+      "source_sha256": "359d470fde51aa104cdeb4a8373b0b9acfce1affac71942f577578069697ee93",
+      "contexts": [
+        {
+          "physical_line": 44,
+          "ordinal": 43,
+          "timestamp": "2026-10-23T23:01:26.732Z",
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16aff-7c6a-7213-93af-392c39278436",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "default",
+      "agent_path": "/root/orchestrator/io_research",
+      "own_history_start_ordinal": 43,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "medium",
+      "source": "subagents/rollout-01a16aff-7c6a-7213-93af-392c39278436.jsonl",
+      "source_sha256": "8400f33d42d1f58d4c3ab24fc104df7cf0460750b72b9dd9c2c5514e981f5474",
+      "contexts": [
+        {
+          "physical_line": 47,
+          "ordinal": 46,
+          "timestamp": "2026-10-23T23:01:32.241Z",
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b02-2b02-7c50-93e7-0b9815354e49",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "code-reviewer",
+      "agent_path": "/root/orchestrator/planning_pm",
+      "own_history_start_ordinal": 74,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "xhigh",
+      "source": "subagents/rollout-01a16b02-2b02-7c50-93e7-0b9815354e49.jsonl",
+      "source_sha256": "e2b50aee652f53c2e6b11c10f361b802585114dba9e25a7da8e1de7879c7ea54",
+      "contexts": [
+        {
+          "physical_line": 78,
+          "ordinal": 77,
+          "timestamp": "2026-10-23T23:04:41.554Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b02-ff9d-7d41-a1ca-cfba2a8d0414",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "code-reviewer",
+      "agent_path": "/root/orchestrator/plan_alignment",
+      "own_history_start_ordinal": 94,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "xhigh",
+      "source": "subagents/rollout-01a16b02-ff9d-7d41-a1ca-cfba2a8d0414.jsonl",
+      "source_sha256": "08f4a5f075fa14f092373378529c4ce9d37cb9be26155975d68715f78ea5ec24",
+      "contexts": [
+        {
+          "physical_line": 98,
+          "ordinal": 97,
+          "timestamp": "2026-10-23T23:05:24.069Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b03-1a63-7d32-bdec-02beda99a796",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "code-architect-reviewer",
+      "agent_path": "/root/orchestrator/plan_sequence",
+      "own_history_start_ordinal": 97,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "xhigh",
+      "source": "subagents/rollout-01a16b03-1a63-7d32-bdec-02beda99a796.jsonl",
+      "source_sha256": "3769fe1b49185a9185186366946fa98ccdf466e83dc8ed4c279a45b5af73e382",
+      "contexts": [
+        {
+          "physical_line": 101,
+          "ordinal": 100,
+          "timestamp": "2026-10-23T23:05:31.085Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b04-6715-7421-958f-39cce0bfc2eb",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "geeky-coder",
+      "agent_path": "/root/orchestrator/coder_t1",
+      "own_history_start_ordinal": 119,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "medium",
+      "source": "subagents/rollout-01a16b04-6715-7421-958f-39cce0bfc2eb.jsonl",
+      "source_sha256": "bfa39febfd2e195efc52d1914cf568da2e75f47eae576730f68b840c1bcc31bf",
+      "contexts": [
+        {
+          "physical_line": 123,
+          "ordinal": 122,
+          "timestamp": "2026-10-23T23:07:12.608Z",
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        },
+        {
+          "physical_line": 158,
+          "ordinal": 157,
+          "timestamp": "2026-10-23T23:19:51.220Z",
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b06-876c-7f72-b889-8fd011912fb9",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "code-reviewer",
+      "agent_path": "/root/orchestrator/phase1_review",
+      "own_history_start_ordinal": 146,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "xhigh",
+      "source": "subagents/rollout-01a16b06-876c-7f72-b889-8fd011912fb9.jsonl",
+      "source_sha256": "f47eaa8a1cbaeea12b6005b47a002e3147f6a2152392945ba33cdca5d1d59ecd",
+      "contexts": [
+        {
+          "physical_line": 150,
+          "ordinal": 149,
+          "timestamp": "2026-10-23T23:09:13.814Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b07-7de8-7063-8db1-7390ee2365a5",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "geeky-coder",
+      "agent_path": "/root/orchestrator/coder_t2",
+      "own_history_start_ordinal": 166,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "medium",
+      "source": "subagents/rollout-01a16b07-7de8-7063-8db1-7390ee2365a5.jsonl",
+      "source_sha256": "320383998232a5c2e5b86c5085100a0c0c8387bdbfffad6c314a5b3fca499524",
+      "contexts": [
+        {
+          "physical_line": 170,
+          "ordinal": 169,
+          "timestamp": "2026-10-23T23:10:16.750Z",
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b09-cd43-7641-843b-56cc56b0378d",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "geeky-coder",
+      "agent_path": "/root/orchestrator/coder_t3",
+      "own_history_start_ordinal": 194,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "medium",
+      "source": "subagents/rollout-01a16b09-cd43-7641-843b-56cc56b0378d.jsonl",
+      "source_sha256": "c82302e709ac76f754a63cf700a7f00dc2b3a1eccc48f6e79b88ae285439e0f9",
+      "contexts": [
+        {
+          "physical_line": 198,
+          "ordinal": 197,
+          "timestamp": "2026-10-23T23:12:48.173Z",
+          "model": "gpt-6.1-sol",
+          "effort": "medium"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b0d-0227-78b2-9e62-d0628590669f",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "code-reviewer",
+      "agent_path": "/root/orchestrator/phase2_review",
+      "own_history_start_ordinal": 230,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "xhigh",
+      "source": "subagents/rollout-01a16b0d-0227-78b2-9e62-d0628590669f.jsonl",
+      "source_sha256": "fd83127d80e320ec29bddc08a2a68865f59f6d782f0859bb180f98d126be5c8e",
+      "contexts": [
+        {
+          "physical_line": 234,
+          "ordinal": 233,
+          "timestamp": "2026-10-23T23:16:18.331Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b0e-98c0-7262-9c93-1b7394765b1a",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "code-reviewer",
+      "agent_path": "/root/orchestrator/final_inputs",
+      "own_history_start_ordinal": 255,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "xhigh",
+      "source": "subagents/rollout-01a16b0e-98c0-7262-9c93-1b7394765b1a.jsonl",
+      "source_sha256": "bd828e74e3deb6b6239a325f1b1542d27969c097f2f470c5c05318265e06f580",
+      "contexts": [
+        {
+          "physical_line": 259,
+          "ordinal": 258,
+          "timestamp": "2026-10-23T23:18:02.403Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        },
+        {
+          "physical_line": 303,
+          "ordinal": 302,
+          "timestamp": "2026-10-23T23:22:17.156Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b0e-b574-7490-8c75-dbd34be1fffa",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "code-reviewer",
+      "agent_path": "/root/orchestrator/final_money",
+      "own_history_start_ordinal": 258,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "xhigh",
+      "source": "subagents/rollout-01a16b0e-b574-7490-8c75-dbd34be1fffa.jsonl",
+      "source_sha256": "0ded391d79f0d360d79f6c6aa25e11b8d6b6938f61190838bdc986cc5fc6a7dc",
+      "contexts": [
+        {
+          "physical_line": 262,
+          "ordinal": 261,
+          "timestamp": "2026-10-23T23:18:09.676Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "thread_id": "01a16b0e-d4d6-78d3-96fc-8a09312fc32a",
+      "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+      "role": "code-reviewer",
+      "agent_path": "/root/orchestrator/final_cli",
+      "own_history_start_ordinal": 261,
+      "expected_model": "gpt-6.1-sol",
+      "expected_effort": "xhigh",
+      "source": "subagents/rollout-01a16b0e-d4d6-78d3-96fc-8a09312fc32a.jsonl",
+      "source_sha256": "ab446516cb6bf8121049d2e81fcd53e3fa62372e1c33c79c1ef86037db18fc71",
+      "contexts": [
+        {
+          "physical_line": 265,
+          "ordinal": 264,
+          "timestamp": "2026-10-23T23:18:17.832Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        },
+        {
+          "physical_line": 300,
+          "ordinal": 299,
+          "timestamp": "2026-10-23T23:22:25.632Z",
+          "model": "gpt-6.1-sol",
+          "effort": "xhigh"
+        }
+      ],
+      "passed": true
+    }
+  ],
+  "scope": "Actual own-history contexts checked by registered role. Review assignment purposes must also be checked against physical dispatch/verdict evidence."
+}

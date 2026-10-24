@@ -1,0 +1,89 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "model_matrix",
+      "passed": true
+    },
+    {
+      "name": "plugin_sha",
+      "passed": true
+    },
+    {
+      "name": "static_profiles",
+      "passed": true
+    },
+    {
+      "name": "native_21_checks",
+      "passed": true
+    },
+    {
+      "name": "native_exact_denied_root",
+      "passed": true
+    },
+    {
+      "name": "native_version_model_free",
+      "passed": true
+    },
+    {
+      "name": "native_build",
+      "passed": true
+    },
+    {
+      "name": "native_provenance",
+      "passed": true
+    },
+    {
+      "name": "launch_provenance",
+      "passed": true
+    },
+    {
+      "name": "native_sdk",
+      "passed": true
+    },
+    {
+      "name": "native_manifest",
+      "passed": true
+    },
+    {
+      "name": "launch_manifest",
+      "passed": true
+    },
+    {
+      "name": "current_source",
+      "passed": true
+    },
+    {
+      "name": "current_launch_binaries",
+      "passed": true
+    }
+  ],
+  "native_proof_folder": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194241Z-2ae86a5e\\native-attempts\\native-probe-233830ce",
+  "files": [
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194241Z-2ae86a5e\\native-attempts\\native-probe-233830ce\\native-summary.json",
+      "copy": "native-summary.json",
+      "sha256": "5207A4F7EC788AE7A93D7A642182E8DA2A630AB02DFAB9DD18522DB14B3DBE1C"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194241Z-2ae86a5e\\native-attempts\\native-probe-233830ce\\mxc-build-proof.json",
+      "copy": "mxc-build-proof.json",
+      "sha256": "2BFA214ECA5D488D3695D36FF8C0E6AEE5AEE51C5FD29F9EC3AD38C9288B4FF4"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194241Z-2ae86a5e\\native-attempts\\native-probe-233830ce\\mxc-build-provenance.json",
+      "copy": "mxc-build-provenance.json",
+      "sha256": "FF7D9DD51846D2953A7B398B23DFEBF9BD3AF7262BD8D520D66F48884DBC20FB"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194241Z-2ae86a5e\\run.json",
+      "copy": "proof-run.json",
+      "sha256": "B6C85D3DA954C68105B6BEFDEF3B856FC5E3AA06AAB0B72F741A3323C042BC44"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194241Z-2ae86a5e\\parity-preflight.json",
+      "copy": "proof-profile.json",
+      "sha256": "5F8AD4BC1396BA51BCEBF61AE60E9CF877774E48B7902BA9DE5C81912C2D23C8"
+    }
+  ]
+}

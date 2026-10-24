@@ -1,0 +1,8 @@
+{
+  "run1_identical": true,
+  "run1_files": 58,
+  "source_drift": [],
+  "head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "contestant_git_status": "",
+  "scope": "No repository staging/commits/push/cleanup; only run-local evidence and disposable clone created; pre-existing dirty files preserved."
+}

@@ -1,0 +1,35 @@
+{
+  "schema": "geeky-eval.scoring-status/1",
+  "status": "scored-provisional",
+  "run": "20261023T194430Z-c5e04f3f",
+  "scorer_exit_code": 0,
+  "needs_judge": [],
+  "dimensions": {
+    "quality": 100.0,
+    "adherence": 96.66666666666667,
+    "consistency": 100.0,
+    "task_tier": 10.0
+  },
+  "composite": 89.83333333333334,
+  "rounded_composite": 89.8,
+  "manual_verdicts": "manual-verdicts.json",
+  "manual_count": 25,
+  "automatic_score": "automatic-score/score.json",
+  "source_bound_stage_attribution": "operator-evidence/stage-attribution.json",
+  "standard_stage_evidence_applied": false,
+  "limitations": [
+    "Stage parser treats early bulk skill prereads as active stages. Exact source-bound stage-attribution.json and manual verdicts resolve evidenced process checks; no standard stage-evidence.json was forged because earlier announcements do not satisfy its narrow grammar. Automatic analysis.json/run.json stage durations remain invalid.",
+    "Task tier10.0 remains parser-limited: invalid automatic stage membership prevents coder attempt/time attribution despite verified42/62/128 own-commit tests. It is not an actual absence-of-validation/performance result.",
+    "Some implementation per-commit adherence rows are omitted by stage parsing; independent gate audit proves all four implementation commit gates. Manual dp12 records evidence; denominator remains existing scorer output.",
+    "Existing same-command D86 rule passes DoD checks executed after Done writes in same batch. Literal pre-Done instruction violated for all three tasks. dp08 passes timestamp presence although lane labels are future-dated.",
+    "Final-report claim automatic hook configuration unavailable is inaccurate; adh.final_report_claims fails. No false task/test/commit completion hard gate applies.",
+    "API latency and cost unknown; cached input and reasoning output are subsets. Total tokens exceed12M informational ceiling. Reference eligibility false; calibration only and separate from other model configurations."
+  ],
+  "reference_eligible": false,
+  "paid_contestant_launches": 1,
+  "paid_smokes_retries_resumes_judges": 0,
+  "model_audit": "operator-evidence/model-audit.json",
+  "all_17_contexts_sol_medium": true,
+  "independent_validation": "operator-evidence/independent-validation.json",
+  "run1_preserved": true
+}

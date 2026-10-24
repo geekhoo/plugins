@@ -1,0 +1,114 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c1-csvledger",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "approach": "canonical-prompt",
+  "plugin_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "worker_model": "gpt-6-luna",
+  "worker_reasoning": "max",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "workers": {
+      "model": "gpt-6-luna",
+      "reasoning": "max",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "workspace": "C:\\repos\\eval-c1-csvledger-codex-20261023T175251Z-2941f32c",
+  "config_directory": "C:\\repos\\.eval-cfg-codex-20261023T175251Z-2941f32c",
+  "seed_sha": "40158a20ae08a1e28552ba8e1cb3432839c825f8",
+  "session_id": "01a169e4-ff27-7841-8ee2-750dbbceb2ed",
+  "started_utc": "2026-10-23T17:52:54.9071988Z",
+  "ended_utc": "2026-10-23T17:54:16.5013669Z",
+  "wall_time_s": 82,
+  "tokens": {
+    "input": 1733608,
+    "cached_input": 1604608,
+    "cache_creation": 0,
+    "output": 6321,
+    "reasoning": 2116,
+    "total": 1739929,
+    "cost_usd_estimate": null
+  },
+  "model_calls": 37,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 5,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-23T17:53:04.751000+00:00",
+      "ended_utc": "2026-10-23T17:53:18.232000+00:00",
+      "minutes": 0.2
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-23T17:53:18.232000+00:00",
+      "ended_utc": "2026-10-23T17:53:18.232000+00:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-23T17:53:18.232000+00:00",
+      "ended_utc": "2026-10-23T17:54:15.440000+00:00",
+      "minutes": 1.0
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 2,
+  "oracle": {
+    "collected": 118,
+    "passed": 0,
+    "failed": 0,
+    "errors": 118,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 0,
+  "exit_code": 1,
+  "exit_reason": "operator-stop-diagnostic-count",
+  "is_error": true,
+  "raw_sha256": {
+    "stream": "c7ae957886bc7f957eed464e7fcee95c073e70a793429d9808edb738b7353109",
+    "session": "5f0d7521e8b52dead92e04ef12574171c8a52b4afd42e76f1a9fd327b7ccadd4"
+  },
+  "interventions": 1,
+  "token_ceiling": 12000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "incomplete",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "842e876c4caac916b147d762d6e126d632567cc827b81c6a0349a7dbbccb3606",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "runner_exit_reason": "crash",
+  "operator_stop": {
+    "reason": "Paid exec stderr contains two denied-user-skills-root diagnostics; exact approved exec count is one. No exception broadened and no retry.",
+    "mxc_host_pid": 23912,
+    "method": "taskkill /PID 23912 /T /F",
+    "observed_count": 2,
+    "approved_count": 1
+  },
+  "over_token_ceiling": false,
+  "trace_complete": false,
+  "trace_errors": [
+    "Missing task_complete: 01a169e4-ff27-7841-8ee2-750dbbceb2ed",
+    "Missing task_complete: 01a169e5-3b8e-7080-b17b-dfa038224e82",
+    "Missing task_complete: 01a169e5-b019-77b3-a8f8-848b1b04efd7",
+    "Missing task_complete: 01a169e5-bcd8-7de1-a3aa-521599eb5b6d",
+    "Missing tool output: call_9f13eccbefb64d05959c0bf2690a3ea2",
+    "Missing tool output: call_ab7e0272bda04e14be80d5927950a538",
+    "Missing tool timestamps: 01a169e4-ff27-7841-8ee2-750dbbceb2ed:call_ab7e0272bda04e14be80d5927950a538",
+    "Missing tool timestamps: 01a169e5-3b8e-7080-b17b-dfa038224e82:call_9f13eccbefb64d05959c0bf2690a3ea2",
+    "Missing turn.completed stream event"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "schema": "geeky-eval.scoring-status/1",
+  "status": "scored-provisional",
+  "run": "20261023T182024Z-5fa13924",
+  "scorer_exit_code": 0,
+  "needs_judge": [],
+  "dimensions": {
+    "quality": 95.9,
+    "adherence": 81.5,
+    "consistency": 78.2,
+    "task_tier": 40.0
+  },
+  "composite": 81.7,
+  "stage_evidence_sha256": "a355bd2a65cbb64e045e10149619a927e8d61d31f3808eed8156eb82d8c8dacf",
+  "raw_score_file": "score-generated.md",
+  "limitations": [
+    "Opaque coder briefs contain no visible task IDs. Existing scorer derives no coder-owned validation attempts/durations, so task tier40.0 is parser-limited and not an actual absence of tests.",
+    "Plain-bullet task validation commands are missed by the code-span parser: automatic rerun_results contains zero commands. Independent bundle-clone exact-command reruns passed at each own commit and final HEAD; see independent-validation.json.",
+    "Zero calculated researcher concurrency, missing lane/Done attribution, and unrecognized critical-finding status are saved parser results; they are not all established contestant failures. No broad parser fix or unsupported manual override was applied.",
+    "Reviewed stage annotations validate exact immutable main plaintext/ordinals/timestamps/hash and distinguish prereads. Original prefetch-based derivation retained separately.",
+    "API latency/cost unknown; reference eligibility false pending Codex calibration. Separate model configuration excluded from Claude means/stability."
+  ],
+  "independent_validation": "independent-validation.json",
+  "reference_eligible": false,
+  "paid_calls_during_scoring": 0
+}

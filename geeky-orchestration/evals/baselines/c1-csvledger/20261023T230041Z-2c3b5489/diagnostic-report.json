@@ -1,0 +1,215 @@
+{
+  "ok": true,
+  "known_diagnostics": [
+    {
+      "stage": "exec",
+      "raw": "2026-10-23T23:00:48.894377Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)",
+      "path": "file:///C:/Users/gerald.khoo/.agents/skills",
+      "count": 1,
+      "version": "0.164.0",
+      "pattern": "codex-0.164.0-denied-user-skills-root-v1"
+    },
+    {
+      "stage": "exec",
+      "raw": "2026-10-23T23:01:13.143692Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)",
+      "path": "file:///C:/Users/gerald.khoo/.agents/skills",
+      "count": 2,
+      "version": "0.164.0",
+      "pattern": "codex-0.164.0-denied-user-skills-root-v1"
+    }
+  ],
+  "unexpected_errors": [],
+  "count_policy": {
+    "plugin-install": {
+      "exact": 0
+    },
+    "hook-catalogue": {
+      "exact": 0
+    },
+    "exec": {
+      "minimum": 1
+    }
+  },
+  "observed_counts": {
+    "plugin-install": 0,
+    "hook-catalogue": 0,
+    "exec": 2
+  },
+  "candidate_tool_failures": [],
+  "proof_errors": [],
+  "native_proof": {
+    "ok": true,
+    "checks": [
+      {
+        "name": "model_matrix",
+        "passed": true
+      },
+      {
+        "name": "plugin_sha",
+        "passed": true
+      },
+      {
+        "name": "static_profiles",
+        "passed": true
+      },
+      {
+        "name": "native_21_checks",
+        "passed": true
+      },
+      {
+        "name": "native_reviewer_requests",
+        "passed": true
+      },
+      {
+        "name": "native_exact_denied_root",
+        "passed": true
+      },
+      {
+        "name": "native_version_model_free",
+        "passed": true
+      },
+      {
+        "name": "native_build",
+        "passed": true
+      },
+      {
+        "name": "native_provenance",
+        "passed": true
+      },
+      {
+        "name": "launch_provenance",
+        "passed": true
+      },
+      {
+        "name": "native_sdk",
+        "passed": true
+      },
+      {
+        "name": "native_manifest",
+        "passed": true
+      },
+      {
+        "name": "launch_manifest",
+        "passed": true
+      },
+      {
+        "name": "current_source",
+        "passed": true
+      },
+      {
+        "name": "current_launch_binaries",
+        "passed": true
+      },
+      {
+        "name": "architect_model_matrix",
+        "passed": true
+      },
+      {
+        "name": "architect_plugin_sha",
+        "passed": true
+      },
+      {
+        "name": "architect_static_profiles",
+        "passed": true
+      },
+      {
+        "name": "architect_native_21_checks",
+        "passed": true
+      },
+      {
+        "name": "architect_native_reviewer_requests",
+        "passed": true
+      },
+      {
+        "name": "architect_native_exact_denied_root",
+        "passed": true
+      },
+      {
+        "name": "architect_native_version_model_free",
+        "passed": true
+      },
+      {
+        "name": "architect_native_build",
+        "passed": true
+      },
+      {
+        "name": "architect_native_provenance",
+        "passed": true
+      },
+      {
+        "name": "architect_launch_provenance",
+        "passed": true
+      },
+      {
+        "name": "architect_native_sdk",
+        "passed": true
+      },
+      {
+        "name": "architect_native_manifest",
+        "passed": true
+      },
+      {
+        "name": "architect_launch_manifest",
+        "passed": true
+      },
+      {
+        "name": "architect_current_source",
+        "passed": true
+      },
+      {
+        "name": "architect_current_launch_binaries",
+        "passed": true
+      }
+    ]
+  },
+  "runtime_denial_verified": true,
+  "version_verified": true,
+  "skill_read_evidence": [
+    {
+      "id": "01a16afe-d497-7060-a485-258f70023d21:exec-247d7d75-12cb-47bc-becd-4dce4327f23c:skill",
+      "timestamp": "2026-10-23T23:00:57.334000+00:00",
+      "skill": "spec-research",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16aff-374e-7831-ab5f-3a8210ec6913:exec-2bd41024-be6c-40e8-8f5c-bd344f341c94:skill",
+      "timestamp": "2026-10-23T23:01:17.741000+00:00",
+      "skill": "geeky-plan",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16aff-374e-7831-ab5f-3a8210ec6913:exec-27d31936-d72c-4e7e-980e-21c3d061faaa:skill",
+      "timestamp": "2026-10-23T23:01:35.771000+00:00",
+      "skill": "plan-review",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16aff-374e-7831-ab5f-3a8210ec6913:exec-27d31936-d72c-4e7e-980e-21c3d061faaa:skill",
+      "timestamp": "2026-10-23T23:01:35.771000+00:00",
+      "skill": "geeky-implement",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16aff-374e-7831-ab5f-3a8210ec6913:exec-854c29c2-6b20-4d63-bac2-e855abb850db:skill",
+      "timestamp": "2026-10-23T23:01:43.274000+00:00",
+      "skill": "impl-review",
+      "evidence": "successful-skill-file-read"
+    }
+  ],
+  "skill_evidence_scope": "stage-entry-only",
+  "trace_complete": true,
+  "trace_errors": [],
+  "raw_capture_sha256": {
+    "native-hook-catalog-stderr.txt": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "native-hook-catalog.json": "B76A6A3261A8CD25D58371D9E5D05D2D911B963F670A8E2C15E632CBE2324ECF",
+    "native-plugin-install-stderr.txt": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "native-plugin-install.json": "FC95CA16B4D2C6FE8CCCB04B708094EC73C20A45F8E84FE5423B683E9A46B167",
+    "runtime-denial-proof.json": "F862345CB6FB289F5BAB02DD8111297C1ACFF726E2431BE14EACF7231A4DE641"
+  },
+  "stderr_sha256": "77A25F016FC179EB73253F4F4D63BB2BD7A1060CF56A5BACC3EAC5E0CE4A2E2C",
+  "raw_diagnostics": {
+    "plugin-install": "",
+    "hook-catalogue": "",
+    "exec": "Reading additional input from stdin...\n2026-10-23T23:00:48.894377Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)\n2026-10-23T23:01:13.143692Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)\n"
+  }
+}

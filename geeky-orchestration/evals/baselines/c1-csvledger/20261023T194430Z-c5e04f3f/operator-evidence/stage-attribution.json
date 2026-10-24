@@ -1,0 +1,44 @@
+{
+  "schema": "geeky-eval.operator-stage-attribution/1",
+  "session_sha256": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80",
+  "stages": [
+    {
+      "stage": "spec-research",
+      "source_ordinal": 14,
+      "source_timestamp": "2026-10-23T19:44:42.820Z",
+      "source_text": "I\u2019ll use the geeky-orchestration workflows to take the root requirements through specification, planning, implementation, and review, treating `contract.md` as authoritative throughout.\n",
+      "session_sha256": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80"
+    },
+    {
+      "stage": "geeky-plan",
+      "source_ordinal": 120,
+      "source_timestamp": "2026-10-23T19:46:29.945Z",
+      "source_text": "The specification is committed. All three researchers agreed on the contract\u2019s requirements. Planning is now defining task ownership, validation commands, and multiple implementation phases, followed by separate alignment and sequencing reviews.\n",
+      "session_sha256": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80"
+    },
+    {
+      "stage": "plan-review",
+      "source_ordinal": 224,
+      "source_timestamp": "2026-10-23T19:50:24.402Z",
+      "source_text": "Planning has passed the PM review and all three deterministic gates. The planning package is committed. Plan-review is now checking document alignment and dependency sequencing before implementation starts.\n",
+      "session_sha256": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80"
+    },
+    {
+      "stage": "geeky-implement",
+      "source_ordinal": 248,
+      "source_timestamp": "2026-10-23T19:51:26.904Z",
+      "source_text": "Plan-review returned **READY FOR IMPLEMENTATION** with no findings. I\u2019m starting the full two-phase run; each phase will receive a delegated review before advancement.\n",
+      "session_sha256": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80"
+    },
+    {
+      "stage": "impl-review",
+      "source_ordinal": 564,
+      "source_timestamp": "2026-10-23T20:05:17.205Z",
+      "source_text": "All three tasks are Done, and both phases received **READY TO ADVANCE** from their reviewers. I\u2019m now using `impl-review` for the final review, split across input/error handling, financial correctness, and CLI/output behavior.\n",
+      "session_sha256": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80"
+    }
+  ],
+  "application": "Manual source-bound attribution used in verdicts. Not supplied as stage-evidence.json: existing affirmative grammar rejects actual wording for earlier stages. No fabricated announcements or source edits. Automatic task-tier remains parser-limited.",
+  "research_start_precision": "Initial broad workflow announcement; first successful spec-research read at 19:44:45.322Z supplies narrower active research start.",
+  "encoding": "Source plaintext decoded explicitly as UTF-8; exact text verified against immutable source ordinal and timestamp."
+}

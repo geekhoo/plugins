@@ -1,0 +1,158 @@
+{
+  "schema": "geeky-eval.mxc-build-copy/1",
+  "verified": true,
+  "source_directory": "C:\\repos\\.eval-cfg-codex-20261023T162259Z-60b450bc\\mxc-native-probe\\bin",
+  "destination_directory": "C:\\repos\\.eval-cfg-codex-20261023T224720Z-e569fde0\\mxc-native-probe-275eb041\\bin",
+  "pin_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\profile\\mxc-pin.json",
+  "source_hash": "74FD0C547C88E044ECF4B559D03C9FBB73D440971AFEF00BD1A6F941D7B6422BD49F4D20D6E439F906931F1CB64BEF3400903C5B1A3B1FB61A04F1F98FE4CBBE",
+  "exe_sha256": "015811E7C058B582E5280D87C0AA188F9334FFC5FEABAAB4F0CAC44F4D0B9125",
+  "dll_sha256": "26AEC8C60EEFDC47800F0A4F3F8ADE537CB011C7EAB2531E8F8FB917E667B243",
+  "source_manifest": [
+    {
+      "path": ".source-hash",
+      "sha256": "E34C58989F5F1918141484FB6AE9AAC94497AD56D6E64864612FCBD19FD23E5E"
+    },
+    {
+      "path": "Microsoft.Mxc.Sdk.dll",
+      "sha256": "59761D9A868CDE01EF05139775AD6D072F9425B5B73B911BDF465B29B4BF20A6"
+    },
+    {
+      "path": "MxcClaude.deps.json",
+      "sha256": "8D6044EAB0483E09BB5F6EB20BD6999E6155B9806A83BE2C39C897ACB6D03EAB"
+    },
+    {
+      "path": "MxcClaude.dll",
+      "sha256": "26AEC8C60EEFDC47800F0A4F3F8ADE537CB011C7EAB2531E8F8FB917E667B243"
+    },
+    {
+      "path": "MxcClaude.exe",
+      "sha256": "015811E7C058B582E5280D87C0AA188F9334FFC5FEABAAB4F0CAC44F4D0B9125"
+    },
+    {
+      "path": "MxcClaude.pdb",
+      "sha256": "3A1B2028CF624BEA99648CC5E38C11A1E786FD517514390350D61F259F7F552E"
+    },
+    {
+      "path": "MxcClaude.runtimeconfig.json",
+      "sha256": "C230A317A54DD960BCBEB5F347F52E18DC665A26F7EFDA2159FCED9A5AC7E097"
+    },
+    {
+      "path": "runtimes/linux-arm64/native/libmxc_ffi.so",
+      "sha256": "ABE1B604297C62A3B8BDD94E3EDD8A91F625EBD38E2EA19177675291DEC83FD7"
+    },
+    {
+      "path": "runtimes/linux-x64/native/libmxc_ffi.so",
+      "sha256": "18A1CBA8F2980AF79570141C4EEC9CD3982872162AE6B63634D45862913002BC"
+    },
+    {
+      "path": "runtimes/osx-arm64/native/libmxc_ffi.dylib",
+      "sha256": "FF3009D8966D5DD8E45CC4A5E2982AEFDBD207C4CFB391C1A37A95C2C82A776E"
+    },
+    {
+      "path": "runtimes/win-arm64/native/mxc_ffi.dll",
+      "sha256": "1BECAF695AD9AB6F6FE21CA4AD2E838D9218996A5D42CB82E609DF1EB4D3DB6B"
+    },
+    {
+      "path": "runtimes/win-arm64/native/plm.exe",
+      "sha256": "8818982C6B91C78D9198DC03D5EFC8A9A34A1075AFB4A6A3E9F1A750C5462532"
+    },
+    {
+      "path": "runtimes/win-arm64/native/wslcsdk.dll",
+      "sha256": "AD440E116A64AF004FE021B95914163021C2E8F40B0F8B6D8ECE210EE5CAE3D4"
+    },
+    {
+      "path": "runtimes/win-arm64/native/wxc-wslc-daemon.exe",
+      "sha256": "AD9A7A42A607C2670E493B9F4D5EB4F2CD959C9D05B8882DF42F9D8ECC1F6FEF"
+    },
+    {
+      "path": "runtimes/win-x64/native/mxc_ffi.dll",
+      "sha256": "BD45522F06DC9CC8001DCD5D7320BC2BF303FB08A39BF10F3404BD9A8001812C"
+    },
+    {
+      "path": "runtimes/win-x64/native/plm.exe",
+      "sha256": "BEFFC9C9AB974CA9E7455089FD8ECB36EB8C92811DDD1705DB91370A689692C3"
+    },
+    {
+      "path": "runtimes/win-x64/native/wslcsdk.dll",
+      "sha256": "8D4D55D4283FB32A5909B57E78B576D01363D7B28BB9B2595115E80FAF61DB5B"
+    },
+    {
+      "path": "runtimes/win-x64/native/wxc-wslc-daemon.exe",
+      "sha256": "84F61C1BC13ABDE8DA1C3F2FF100E6D59368ECAABDBFECA939E6FDB696202D0C"
+    }
+  ],
+  "destination_manifest": [
+    {
+      "path": ".source-hash",
+      "sha256": "E34C58989F5F1918141484FB6AE9AAC94497AD56D6E64864612FCBD19FD23E5E"
+    },
+    {
+      "path": "Microsoft.Mxc.Sdk.dll",
+      "sha256": "59761D9A868CDE01EF05139775AD6D072F9425B5B73B911BDF465B29B4BF20A6"
+    },
+    {
+      "path": "MxcClaude.deps.json",
+      "sha256": "8D6044EAB0483E09BB5F6EB20BD6999E6155B9806A83BE2C39C897ACB6D03EAB"
+    },
+    {
+      "path": "MxcClaude.dll",
+      "sha256": "26AEC8C60EEFDC47800F0A4F3F8ADE537CB011C7EAB2531E8F8FB917E667B243"
+    },
+    {
+      "path": "MxcClaude.exe",
+      "sha256": "015811E7C058B582E5280D87C0AA188F9334FFC5FEABAAB4F0CAC44F4D0B9125"
+    },
+    {
+      "path": "MxcClaude.pdb",
+      "sha256": "3A1B2028CF624BEA99648CC5E38C11A1E786FD517514390350D61F259F7F552E"
+    },
+    {
+      "path": "MxcClaude.runtimeconfig.json",
+      "sha256": "C230A317A54DD960BCBEB5F347F52E18DC665A26F7EFDA2159FCED9A5AC7E097"
+    },
+    {
+      "path": "runtimes/linux-arm64/native/libmxc_ffi.so",
+      "sha256": "ABE1B604297C62A3B8BDD94E3EDD8A91F625EBD38E2EA19177675291DEC83FD7"
+    },
+    {
+      "path": "runtimes/linux-x64/native/libmxc_ffi.so",
+      "sha256": "18A1CBA8F2980AF79570141C4EEC9CD3982872162AE6B63634D45862913002BC"
+    },
+    {
+      "path": "runtimes/osx-arm64/native/libmxc_ffi.dylib",
+      "sha256": "FF3009D8966D5DD8E45CC4A5E2982AEFDBD207C4CFB391C1A37A95C2C82A776E"
+    },
+    {
+      "path": "runtimes/win-arm64/native/mxc_ffi.dll",
+      "sha256": "1BECAF695AD9AB6F6FE21CA4AD2E838D9218996A5D42CB82E609DF1EB4D3DB6B"
+    },
+    {
+      "path": "runtimes/win-arm64/native/plm.exe",
+      "sha256": "8818982C6B91C78D9198DC03D5EFC8A9A34A1075AFB4A6A3E9F1A750C5462532"
+    },
+    {
+      "path": "runtimes/win-arm64/native/wslcsdk.dll",
+      "sha256": "AD440E116A64AF004FE021B95914163021C2E8F40B0F8B6D8ECE210EE5CAE3D4"
+    },
+    {
+      "path": "runtimes/win-arm64/native/wxc-wslc-daemon.exe",
+      "sha256": "AD9A7A42A607C2670E493B9F4D5EB4F2CD959C9D05B8882DF42F9D8ECC1F6FEF"
+    },
+    {
+      "path": "runtimes/win-x64/native/mxc_ffi.dll",
+      "sha256": "BD45522F06DC9CC8001DCD5D7320BC2BF303FB08A39BF10F3404BD9A8001812C"
+    },
+    {
+      "path": "runtimes/win-x64/native/plm.exe",
+      "sha256": "BEFFC9C9AB974CA9E7455089FD8ECB36EB8C92811DDD1705DB91370A689692C3"
+    },
+    {
+      "path": "runtimes/win-x64/native/wslcsdk.dll",
+      "sha256": "8D4D55D4283FB32A5909B57E78B576D01363D7B28BB9B2595115E80FAF61DB5B"
+    },
+    {
+      "path": "runtimes/win-x64/native/wxc-wslc-daemon.exe",
+      "sha256": "84F61C1BC13ABDE8DA1C3F2FF100E6D59368ECAABDBFECA939E6FDB696202D0C"
+    }
+  ]
+}

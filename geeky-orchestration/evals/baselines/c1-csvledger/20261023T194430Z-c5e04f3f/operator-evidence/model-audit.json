@@ -1,0 +1,257 @@
+[
+  {
+    "file": "session.jsonl",
+    "sha256": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80",
+    "thread_id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "parent": null,
+    "cutoff": 0,
+    "contexts": [
+      {
+        "ordinal": 9,
+        "timestamp": "2026-10-23T19:44:40.070Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a4b-888e-7bf2-9e24-02e7511fa69c.jsonl",
+    "sha256": "90749ee96e169e68d50c4680a031607f6415c5b3812803762c162262fb726d3c",
+    "thread_id": "01a16a4b-888e-7bf2-9e24-02e7511fa69c",
+    "parent": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "cutoff": 23,
+    "contexts": [
+      {
+        "ordinal": 28,
+        "timestamp": "2026-10-23T19:44:58.772Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a4b-996d-7640-8444-60d3a47ed47e.jsonl",
+    "sha256": "3c8e55cd42ddcfb0d046374c50a541367d39d51d3910cfa959b8a0ed0061cb74",
+    "thread_id": "01a16a4b-996d-7640-8444-60d3a47ed47e",
+    "parent": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "cutoff": 25,
+    "contexts": [
+      {
+        "ordinal": 30,
+        "timestamp": "2026-10-23T19:45:03.060Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a4b-a648-7e03-9381-7ff3d205605c.jsonl",
+    "sha256": "ccb3d0e769d2736c6de4cc2e08898efb63c7ae0e9c9764c69b559b5ea8404be8",
+    "thread_id": "01a16a4b-a648-7e03-9381-7ff3d205605c",
+    "parent": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "cutoff": 28,
+    "contexts": [
+      {
+        "ordinal": 33,
+        "timestamp": "2026-10-23T19:45:06.348Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl",
+    "sha256": "b169db233788fae44cc8f0f04fecba81e6ff08ae54cdd7012979212290ae2344",
+    "thread_id": "01a16a4c-e099-7bc3-bfeb-c07b79860c78",
+    "parent": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "cutoff": 58,
+    "contexts": [
+      {
+        "ordinal": 63,
+        "timestamp": "2026-10-23T19:46:26.718Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a4e-76d4-7972-88b1-df848fa6f98a.jsonl",
+    "sha256": "c68a42b5e5b360f033f43316f7a8698073b70f20ef9fdb39bc649ab3e0503cd3",
+    "thread_id": "01a16a4e-76d4-7972-88b1-df848fa6f98a",
+    "parent": "01a16a4c-e099-7bc3-bfeb-c07b79860c78",
+    "cutoff": 77,
+    "contexts": [
+      {
+        "ordinal": 80,
+        "timestamp": "2026-10-23T19:48:10.779Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a4f-aaf7-7bf3-95da-74c0076e4455.jsonl",
+    "sha256": "58b1c4c2bfe0e93e9ede805890a999e70b6c8d3bb293c87c4bcd9daa91bc03e8",
+    "thread_id": "01a16a4f-aaf7-7bf3-95da-74c0076e4455",
+    "parent": "01a16a4c-e099-7bc3-bfeb-c07b79860c78",
+    "cutoff": 93,
+    "contexts": [
+      {
+        "ordinal": 96,
+        "timestamp": "2026-10-23T19:49:29.767Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a50-3c26-7f72-81b8-edb1e7b85278.jsonl",
+    "sha256": "0019eb265b0a7b70c4c488d298f1a84e95c044331c5f23adaed73d1526c0c6b7",
+    "thread_id": "01a16a50-3c26-7f72-81b8-edb1e7b85278",
+    "parent": "01a16a4c-e099-7bc3-bfeb-c07b79860c78",
+    "cutoff": 106,
+    "contexts": [
+      {
+        "ordinal": 109,
+        "timestamp": "2026-10-23T19:50:07.208Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+    "sha256": "27f587dc489e07c2bc360979f6336983448c62528947cd4bda8c454341a2412e",
+    "thread_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba",
+    "parent": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "cutoff": 119,
+    "contexts": [
+      {
+        "ordinal": 124,
+        "timestamp": "2026-10-23T19:51:34.968Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a52-5d4a-77f2-a1c8-d9457d234257.jsonl",
+    "sha256": "8991e1b6fe834df41260d2e08b4a3440b5f338a853fefa49ecc6325e7760612b",
+    "thread_id": "01a16a52-5d4a-77f2-a1c8-d9457d234257",
+    "parent": "01a16a51-7a02-7db1-b28d-2275ecaa1cba",
+    "cutoff": 137,
+    "contexts": [
+      {
+        "ordinal": 140,
+        "timestamp": "2026-10-23T19:52:35.056Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a54-f980-7560-9eda-b3f103c70fa1.jsonl",
+    "sha256": "7589fb4cdf5f64f9648056b12a6e228684fadf7e19ca535532ea7b31273b81e8",
+    "thread_id": "01a16a54-f980-7560-9eda-b3f103c70fa1",
+    "parent": "01a16a51-7a02-7db1-b28d-2275ecaa1cba",
+    "cutoff": 162,
+    "contexts": [
+      {
+        "ordinal": 165,
+        "timestamp": "2026-10-23T19:55:17.383Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a57-45f0-7693-be34-68c7ff4de408.jsonl",
+    "sha256": "640e577445ef926cb24af9ffcbdff2360309ed55eb2aca64bd5b302c90b7468b",
+    "thread_id": "01a16a57-45f0-7693-be34-68c7ff4de408",
+    "parent": "01a16a51-7a02-7db1-b28d-2275ecaa1cba",
+    "cutoff": 182,
+    "contexts": [
+      {
+        "ordinal": 185,
+        "timestamp": "2026-10-23T19:57:48.165Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a58-d714-7370-97d6-eb152efc6e03.jsonl",
+    "sha256": "f14360187c446f18a2f9fe0786764bd6dfd0c93f0ea30d8fe0a36c3366b2ceca",
+    "thread_id": "01a16a58-d714-7370-97d6-eb152efc6e03",
+    "parent": "01a16a51-7a02-7db1-b28d-2275ecaa1cba",
+    "cutoff": 197,
+    "contexts": [
+      {
+        "ordinal": 200,
+        "timestamp": "2026-10-23T19:59:30.882Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a5c-c0df-7b90-9c8a-073635e89db1.jsonl",
+    "sha256": "a29363ea36c45292ed92e61224cdb0831578c4d93bfc4853adbccd19caf2caed",
+    "thread_id": "01a16a5c-c0df-7b90-9c8a-073635e89db1",
+    "parent": "01a16a51-7a02-7db1-b28d-2275ecaa1cba",
+    "cutoff": 228,
+    "contexts": [
+      {
+        "ordinal": 231,
+        "timestamp": "2026-10-23T20:03:51.487Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a5e-3a09-72a0-a9ec-8632f7db0e2e.jsonl",
+    "sha256": "f27c77dffb4d5bdc0365d4e33d4cc729e944b2ad98f5984b081b8b4ac07a8f15",
+    "thread_id": "01a16a5e-3a09-72a0-a9ec-8632f7db0e2e",
+    "parent": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "cutoff": 256,
+    "contexts": [
+      {
+        "ordinal": 261,
+        "timestamp": "2026-10-23T20:05:23.747Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a5e-53b4-7e80-9adf-1a0b91c4d804.jsonl",
+    "sha256": "e693cd7d098e1d7d10fb8e1023b9ea9af298806a2de30876e33325659c64a87e",
+    "thread_id": "01a16a5e-53b4-7e80-9adf-1a0b91c4d804",
+    "parent": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "cutoff": 260,
+    "contexts": [
+      {
+        "ordinal": 265,
+        "timestamp": "2026-10-23T20:05:30.325Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  },
+  {
+    "file": "subagents\\rollout-01a16a5e-6c84-7fe0-810a-3d82d6a912d1.jsonl",
+    "sha256": "ba26c4b12b2b30c27e6348288323df80aeecff3cf63e64712903023b15a8188d",
+    "thread_id": "01a16a5e-6c84-7fe0-810a-3d82d6a912d1",
+    "parent": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "cutoff": 263,
+    "contexts": [
+      {
+        "ordinal": 268,
+        "timestamp": "2026-10-23T20:05:36.820Z",
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      }
+    ]
+  }
+]

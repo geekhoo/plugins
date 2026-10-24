@@ -1,0 +1,127 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c1-csvledger",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "approach": "canonical-prompt",
+  "plugin_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "worker_model": "gpt-6-luna",
+  "worker_reasoning": "max",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "workers": {
+      "model": "gpt-6-luna",
+      "reasoning": "max",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "workspace": "C:\\repos\\eval-c1-csvledger-codex-20261023T182024Z-5fa13924",
+  "config_directory": "C:\\repos\\.eval-cfg-codex-20261023T182024Z-5fa13924",
+  "seed_sha": "5b4f3875dbed6e2707e34e0a44064d1e468dd094",
+  "session_id": "01a169fe-3649-7481-aab5-d22c634b16d4",
+  "started_utc": "2026-10-23T18:20:27.6083974Z",
+  "ended_utc": "2026-10-23T18:42:56.2290905Z",
+  "wall_time_s": 1349,
+  "tokens": {
+    "input": 17624209,
+    "cached_input": 16576640,
+    "cache_creation": 0,
+    "output": 105005,
+    "reasoning": 40577,
+    "total": 17729214,
+    "cost_usd_estimate": null
+  },
+  "model_calls": 205,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 67,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-23T18:20:41.009000+00:00",
+      "ended_utc": "2026-10-23T18:22:23.953000+00:00",
+      "minutes": 1.7
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-23T18:22:23.953000+00:00",
+      "ended_utc": "2026-10-23T18:24:15.534000+00:00",
+      "minutes": 1.9
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-23T18:24:15.534000+00:00",
+      "ended_utc": "2026-10-23T18:25:13.043000+00:00",
+      "minutes": 1.0
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-23T18:25:13.043000+00:00",
+      "ended_utc": "2026-10-23T18:36:10.957000+00:00",
+      "minutes": 11.0
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-23T18:36:10.957000+00:00",
+      "ended_utc": "2026-10-23T18:41:10.123000+00:00",
+      "minutes": 5.0
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-23T18:41:10.123000+00:00",
+      "ended_utc": "2026-10-23T18:42:54.840000+00:00",
+      "minutes": 1.7
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 2,
+  "oracle": {
+    "collected": 118,
+    "passed": 118,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 7,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "ccc695b69e21eb25d5cada23351af1c54c636015c7d6940985aa57662288ea60",
+    "session": "0ee75b714b75d4add9719e0ddd8d5f5997d3d697f5e5078f14bae36ed9b06590"
+  },
+  "interventions": 0,
+  "token_ceiling": 12000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "complete",
+  "parity_passed": true,
+  "runtime_parity_verified": true,
+  "profile_sha256": "41cc1f28c9ab5bf79542b0488d6c37a527fde71053ff2c72b23cbbe3ee03810d",
+  "mock_agent": false,
+  "runtime_toolchain_verified": true,
+  "diagnostics_passed": true,
+  "native_proof_folder": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T181850Z-b1cc7126\\native-attempts\\native-probe-2d8b2571",
+  "diagnostic_readjudication": {
+    "original_run": "automatic-run.json",
+    "original_report": "automatic-diagnostic-report.json",
+    "reason": "Two candidate apply_patch verification failures require exact request/response source correlation; raw captures preserved.",
+    "result": "passed",
+    "classification": "candidate_tool_failure",
+    "candidate_failures": 2,
+    "unclassified_errors": 0,
+    "raw_capture_bytes_preserved": true,
+    "report_sha256": "b69df4e6ef0b43942d4b66da0ceea0a9f046faa3cc50ca76bdc6df6d7c20ffbd"
+  },
+  "over_token_ceiling": true,
+  "trace_complete": true,
+  "trace_errors": []
+}

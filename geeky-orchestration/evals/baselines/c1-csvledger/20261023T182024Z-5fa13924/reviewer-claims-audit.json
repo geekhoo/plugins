@@ -1,0 +1,644 @@
+{
+  "schema": "geeky-eval.reviewer-claims-audit/1",
+  "created_utc": "2026-10-23T18:56:33.618525+00:00",
+  "run": "20261023T182024Z-5fa13924",
+  "workspace": "C:\\repos\\eval-c1-csvledger-codex-20261023T182024Z-5fa13924",
+  "method": "Read-only audit of captured run-local own histories, plaintext reports, completed command outputs, committed file groups, and current artifact hashes. No opaque messages decrypted; no tests/runtime launched.",
+  "result": {
+    "false_final_completion_claim_found": false,
+    "reviewer_paths_and_reports_verified": true,
+    "recorded_final_test_count": 76,
+    "current_files_match_recorded_test_hashes": true,
+    "thread_count": 14,
+    "child_count": 13,
+    "claims_scope": "Product/workflow report claims; harness diagnostic acceptance and comparable scoring are separate parent-owned decisions."
+  },
+  "source_files": [
+    {
+      "source": "session.jsonl",
+      "sha256": "0ee75b714b75d4add9719e0ddd8d5f5997d3d697f5e5078f14bae36ed9b06590",
+      "bytes": 1105514,
+      "thread_id": "01a169fe-3649-7481-aab5-d22c634b16d4",
+      "agent_path": null,
+      "own_history_start_ordinal": null
+    },
+    {
+      "source": "subagents/rollout-01a169fe-72e0-7dc3-bdef-cd3737ec5f67.jsonl",
+      "sha256": "58e273e0153afb8b2ef20b9892901d7d0292db2910124c23035dc4d523cc076f",
+      "bytes": 273171,
+      "thread_id": "01a169fe-72e0-7dc3-bdef-cd3737ec5f67",
+      "agent_path": "/root/codebase_research",
+      "own_history_start_ordinal": 20
+    },
+    {
+      "source": "subagents/rollout-01a169fe-84cd-7471-b0be-8ddc36ed4a9d.jsonl",
+      "sha256": "fd8a2f30ccf740cc9292e94c7d665311d30796578a27b0b82cc18bd0f2f1d5ae",
+      "bytes": 330179,
+      "thread_id": "01a169fe-84cd-7471-b0be-8ddc36ed4a9d",
+      "agent_path": "/root/csv_research",
+      "own_history_start_ordinal": 22
+    },
+    {
+      "source": "subagents/rollout-01a169fe-94a0-7f71-96c2-ac67626d5911.jsonl",
+      "sha256": "07578ff8f22dbc59958f79abfa4f826df899902db6592f23be3cc7b966ee40d0",
+      "bytes": 316119,
+      "thread_id": "01a169fe-94a0-7f71-96c2-ac67626d5911",
+      "agent_path": "/root/money_research",
+      "own_history_start_ordinal": 25
+    },
+    {
+      "source": "subagents/rollout-01a16a01-1799-7f42-951d-c636efad34f5.jsonl",
+      "sha256": "656bf427c65ab86c10d35c42d125c25c53f21ee63341cdd5589f6cb55338b330",
+      "bytes": 414632,
+      "thread_id": "01a16a01-1799-7f42-951d-c636efad34f5",
+      "agent_path": "/root/pm_plan_review",
+      "own_history_start_ordinal": 49
+    },
+    {
+      "source": "subagents/rollout-01a16a01-b19a-7293-aed3-a6b5f77e7b5a.jsonl",
+      "sha256": "1963a3fe3f79baee9a770add1cc63dbbf374c713be66fad5072b6da7d3e70216",
+      "bytes": 467408,
+      "thread_id": "01a16a01-b19a-7293-aed3-a6b5f77e7b5a",
+      "agent_path": "/root/plan_alignment",
+      "own_history_start_ordinal": 65
+    },
+    {
+      "source": "subagents/rollout-01a16a01-c587-7010-a0ea-d63dd59c6eb8.jsonl",
+      "sha256": "60c05195120f804035c9bf195ccbd5eaeebb8d12c4a2271cfdadb8cecaf6a08c",
+      "bytes": 422868,
+      "thread_id": "01a16a01-c587-7010-a0ea-d63dd59c6eb8",
+      "agent_path": "/root/plan_sequence",
+      "own_history_start_ordinal": 68
+    },
+    {
+      "source": "subagents/rollout-01a16a02-dec1-7ea1-a273-df311d61c1bb.jsonl",
+      "sha256": "98ee732d3b78a07e40b4e2927487d9f769976de3869b7c4910fa2cd4700c82f6",
+      "bytes": 821680,
+      "thread_id": "01a16a02-dec1-7ea1-a273-df311d61c1bb",
+      "agent_path": "/root/core_coder",
+      "own_history_start_ordinal": 84
+    },
+    {
+      "source": "subagents/rollout-01a16a05-718c-7862-9e67-46a7f5bac107.jsonl",
+      "sha256": "fb71000cb51fa809c4a3452c9c757ee0936fb2a1d6262675ec1a1f3875007afb",
+      "bytes": 618563,
+      "thread_id": "01a16a05-718c-7862-9e67-46a7f5bac107",
+      "agent_path": "/root/core_phase_review",
+      "own_history_start_ordinal": 122
+    },
+    {
+      "source": "subagents/rollout-01a16a06-b192-70a0-8d10-58bcd309ef80.jsonl",
+      "sha256": "6abd43ff7e0aa9106f7e024268d94edc4240da091d4895c8cb122faf33a5462f",
+      "bytes": 1306028,
+      "thread_id": "01a16a06-b192-70a0-8d10-58bcd309ef80",
+      "agent_path": "/root/cli_coder",
+      "own_history_start_ordinal": 137
+    },
+    {
+      "source": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+      "sha256": "171afacffb81fd4b1f4ed49048e3f3af03529b92680612d54573dab603d33a15",
+      "bytes": 811750,
+      "thread_id": "01a16a09-75e6-7ae3-8bcf-d5fa86efce4b",
+      "agent_path": "/root/cli_phase_review",
+      "own_history_start_ordinal": 156
+    },
+    {
+      "source": "subagents/rollout-01a16a0c-d6b3-7543-bd2d-0f172cc5022f.jsonl",
+      "sha256": "d69a559e6d01da35f39c0f10cd65945444b626ac1f51e9d68f443b99a8fae17f",
+      "bytes": 885670,
+      "thread_id": "01a16a0c-d6b3-7543-bd2d-0f172cc5022f",
+      "agent_path": "/root/final_csv_review",
+      "own_history_start_ordinal": 192
+    },
+    {
+      "source": "subagents/rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl",
+      "sha256": "a3ba15327a626902b257f0c51b952b494d81b0a1761fcf93d9b1e4f98773bdf6",
+      "bytes": 962506,
+      "thread_id": "01a16a0c-fcea-7292-af39-8fc63788eff1",
+      "agent_path": "/root/final_money_review",
+      "own_history_start_ordinal": 195
+    },
+    {
+      "source": "subagents/rollout-01a16a0d-1ee8-7840-8460-8d099fadedb1.jsonl",
+      "sha256": "422f663716ae8c0155c608b84607e7db92c00778f457ca2e268a44bdc4b22873",
+      "bytes": 894587,
+      "thread_id": "01a16a0d-1ee8-7840-8460-8d099fadedb1",
+      "agent_path": "/root/final_cli_review",
+      "own_history_start_ordinal": 198
+    }
+  ],
+  "workspace_artifacts": [
+    {
+      "workspace_relative_path": "docs/spec-001-feature/handoff.md",
+      "sha256": "68d06d912858a9c6d77bddec029a4e54a984dc33279acef27ff1cae7c7e350c8"
+    },
+    {
+      "workspace_relative_path": "docs/spec-001-feature/review-impl.md",
+      "sha256": "5d071ae974054fcd00fe31e3c52149e63eab8b39f499d0310ca95c3aa4ca4b5a"
+    },
+    {
+      "workspace_relative_path": "docs/spec-001-feature/tasks/T1-core.notes.md",
+      "sha256": "82d64842a712a9dbe5a828e07f545c9350450c803da152a284dd6ef025e724ce"
+    },
+    {
+      "workspace_relative_path": "docs/spec-001-feature/tasks/T2-cli.notes.md",
+      "sha256": "b26d89da533c8da598fe119a8c7afc96cba2f90fc7c04d10feba67c88ae7c304"
+    }
+  ],
+  "verified_tested_files": [
+    {
+      "workspace_relative_path": "csvledger/core.py",
+      "sha256": "9f6933d8d4fc54398f1592dadbb63cee2719a49dde32b57dae7ab496f849cd30",
+      "recorded_notes_sha256": "9f6933d8d4fc54398f1592dadbb63cee2719a49dde32b57dae7ab496f849cd30",
+      "matches_recorded_test_state": true
+    },
+    {
+      "workspace_relative_path": "csvledger/__init__.py",
+      "sha256": "bc72761ad0d18a8adc2ed345333aee928d8f5075b9697858c310765f7f43fe81",
+      "recorded_notes_sha256": "bc72761ad0d18a8adc2ed345333aee928d8f5075b9697858c310765f7f43fe81",
+      "matches_recorded_test_state": true
+    },
+    {
+      "workspace_relative_path": "csvledger/cli.py",
+      "sha256": "32d2eeeddbef27bcbfde21b009352b86f5b2d938eb47f4794d994ccbc2c624b2",
+      "recorded_notes_sha256": "32d2eeeddbef27bcbfde21b009352b86f5b2d938eb47f4794d994ccbc2c624b2",
+      "matches_recorded_test_state": true
+    },
+    {
+      "workspace_relative_path": "csvledger/render.py",
+      "sha256": "d69f211784c12102f702f2d002ddc58ac9aecd776019223833d696ab7e1b9157",
+      "recorded_notes_sha256": "d69f211784c12102f702f2d002ddc58ac9aecd776019223833d696ab7e1b9157",
+      "matches_recorded_test_state": true
+    },
+    {
+      "workspace_relative_path": "csvledger/__main__.py",
+      "sha256": "3d2438ae92f4746e9ffaa1f837b1fe803f6281091d1f31f8c95643716f257d9a",
+      "recorded_notes_sha256": "3d2438ae92f4746e9ffaa1f837b1fe803f6281091d1f31f8c95643716f257d9a",
+      "matches_recorded_test_state": true
+    },
+    {
+      "workspace_relative_path": "tests/test_core.py",
+      "sha256": "40b13c27ab4b998a6161c5feebc450639bc342a1bdcdc9391496a4f3d138b1be",
+      "recorded_notes_sha256": "40b13c27ab4b998a6161c5feebc450639bc342a1bdcdc9391496a4f3d138b1be",
+      "matches_recorded_test_state": true
+    },
+    {
+      "workspace_relative_path": "tests/test_cli.py",
+      "sha256": "56b4ab8266e8f7d67f96c871439063b320b65269c7fdae9b1789df1123e4f928",
+      "recorded_notes_sha256": "56b4ab8266e8f7d67f96c871439063b320b65269c7fdae9b1789df1123e4f928",
+      "matches_recorded_test_state": true
+    },
+    {
+      "workspace_relative_path": "README.md",
+      "sha256": "557f37f0630365bc607b8d5b018e3171fe258f9576836f812a39c214672c72b9",
+      "recorded_notes_sha256": "557f37f0630365bc607b8d5b018e3171fe258f9576836f812a39c214672c72b9",
+      "matches_recorded_test_state": true
+    }
+  ],
+  "reviewers": [
+    {
+      "scope": "T1-phase",
+      "task": "T1",
+      "thread_id": "01a16a05-718c-7862-9e67-46a7f5bac107",
+      "agent_path": "/root/core_phase_review",
+      "own_history_start_ordinal": 122,
+      "reports": [
+        {
+          "source": "subagents/rollout-01a16a05-718c-7862-9e67-46a7f5bac107.jsonl",
+          "line": 163,
+          "ordinal": 162,
+          "timestamp": "2026-10-23T18:28:54.360Z",
+          "kind": "plaintext-report",
+          "plaintext_sha256": "022094f6bfd77d251c7ee7e07634f9dd980d3fe81ccd0cb2348358b74fd3fc17",
+          "plaintext": "## T1-core task and Phase 1 review\n\n**T1 ACs**\n\n- CSV validation, error codes, diagnostic order, and header-only files: **PASS**. The loader checks headers and fields in contract order, reports physical CSV line numbers, and translates read and decoding failures into `LedgerError`.\n- Rule matching: **PASS**. Matching uses casefolded contains rules or compiled case-insensitive regexes; higher priority wins, and equal priorities retain the earliest rule.\n- Deduplication: **PASS**. Identity uses date, stripped description, and numeric `Decimal` amount; the first row is kept and the skipped count returned.\n- Exact money: **PASS**. Aggregation uses context-sized Decimal arithmetic; formatting applies `ROUND_HALF_UP` and normalizes rounded zero. Tests cover large values, cancellation, and O5 rounding.\n- Required unit coverage: **PASS**. Tests cover malformed input, UTF-8, multiline line numbers, rule precedence, duplicate identity, and exact arithmetic.\n\n**Validation evidence:** `python -m pytest tests/test_core.py -q` exited 0 with 23 passed. The tested-file SHA256 hashes in the task notes match the reviewed files.\n\n**Task verdict: PASS.** No blocking findings.\n\n**Phase verdict: READY TO ADVANCE. Can we move to the next phase? Yes.**"
+        }
+      ]
+    },
+    {
+      "scope": "T2-phase",
+      "task": "T2",
+      "thread_id": "01a16a09-75e6-7ae3-8bcf-d5fa86efce4b",
+      "agent_path": "/root/cli_phase_review",
+      "own_history_start_ordinal": 156,
+      "reports": [
+        {
+          "source": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+          "line": 200,
+          "ordinal": 199,
+          "timestamp": "2026-10-23T18:33:27.640Z",
+          "kind": "plaintext-report",
+          "plaintext_sha256": "5bd120e6c72ad9e772d4e6ec5a341bf6e06e286c6b61228981e0a94917198d08",
+          "plaintext": "**Review scope:** T2 CLI integration, tests, README, and the Phase 2 acceptance gate.\n\nThe implementation and recorded test run support the functional criteria: commands and help, O1/O5 output, JSON ordering, filtering, stable transaction ordering, duplicate warnings, rules-first loading, and ordinary `-` filenames. The required commands passed: `python -m pytest -q` reported 34 passed, and `python -m csvledger --help` exited 0. The reviewed file hashes match the evidence in T2’s notes.\n\n**Finding — Important (confidence 90):** T2’s acceptance criterion requires tests for “all error branches,” but the CLI tests exercise only some of the contract’s input errors. They do not cover the CLI’s exact exit code, stderr, and empty-stdout behavior for cases such as unreadable files and rules-file header errors. The tests also repeat O1, but do not verify byte-identical output across the other oracle cases as required by AC10. Add subprocess coverage for the missing error cases and repeat the oracle cases, asserting exit code, stdout, and stderr.\n\n**T2 AC verdict:** Functional behavior is supported by the passing suite; the required error-branch and repeatability test coverage is incomplete. **NEEDS FIXES.**\n\n**Phase verdict: BLOCKED.** Can we move to final review? **No.** After the coverage fix, rerun the required validation and review the updated tests."
+        },
+        {
+          "source": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+          "line": 219,
+          "ordinal": 218,
+          "timestamp": "2026-10-23T18:35:46.802Z",
+          "kind": "plaintext-report",
+          "plaintext_sha256": "ffdbed093fb243971b22bec28c74713ed7a6758b0f0726e7ad7ab54a7994c65a",
+          "plaintext": "**Re-review:** T2’s subprocess tests now cover the previously missing transaction and rules error branches, including exact exit codes, stderr, and empty stdout. They also check validation order and run O1, O3, O4, and O5 twice, comparing exit code and output bytes and checking for carriage returns. The updated test file’s SHA-256 matches the recorded evidence.\n\nThe earlier functional review remains valid. All T2 acceptance criteria are now supported, including the required error-branch and repeatability coverage. Validation passed: `python -m pytest -q` reported 72 passed; `python -m csvledger --help` exited 0 and listed both commands.\n\n**Task verdict: PASS. Phase verdict: READY TO ADVANCE. Can we move to final review? Yes.**"
+        }
+      ]
+    },
+    {
+      "scope": "final-csv",
+      "task": null,
+      "thread_id": "01a16a0c-d6b3-7543-bd2d-0f172cc5022f",
+      "agent_path": "/root/final_csv_review",
+      "own_history_start_ordinal": 192,
+      "reports": [
+        {
+          "source": "subagents/rollout-01a16a0c-d6b3-7543-bd2d-0f172cc5022f.jsonl",
+          "line": 244,
+          "ordinal": 243,
+          "timestamp": "2026-10-23T18:37:01.907Z",
+          "kind": "plaintext-report",
+          "plaintext_sha256": "425e5e8390eb0bbbd013f319aa7295cacb038c6a91ac7cf5f5722f16a8f29670",
+          "plaintext": "## CSV Validation and Error Semantics Review\n\nReviewed revision `20ed68beff50666ef8c3ea159adb3fa8226c21b4`. SHA-256 hashes for `core.py`, `cli.py`, `test_core.py`, and `test_cli.py` match the recorded implementation evidence. I reused the passing 72-test run; this review found no concrete issue that would invalidate it.\n\n**Critical issues:** None.\n\n**Warnings:** None.\n\n**Suggestions:** None.\n\nThe review found that CSV files use UTF-8 with optional BOM support, `newline=\"\"`, and default `csv.reader` behavior. Header checks, row validation order, physical line numbers, exact argv paths, exit codes, and rules-first loading follow the contract. Input errors are translated to clean diagnostics, and invalid input produces no stdout. Regexes compile when rules load. The reviewed CSV and CLI paths use Python 3.11-compatible standard-library APIs.\n\n**Verdict: PASS.**"
+        },
+        {
+          "source": "subagents/rollout-01a16a0c-d6b3-7543-bd2d-0f172cc5022f.jsonl",
+          "line": 265,
+          "ordinal": 264,
+          "timestamp": "2026-10-23T18:41:31.480Z",
+          "kind": "plaintext-report",
+          "plaintext_sha256": "1ec81d40941b7fe3a3f92ef26240f3d8d543c9c7a600f4abf566fe0d748f8464",
+          "plaintext": "## Affected-Domain Re-review\n\nReviewed revision `663206c01c2e3e40dab4b6f8f6788262af71bd67` and the correction from `20ed68b`. The date parser still applies the contract’s `\\d{4}-\\d{2}-\\d{2}` grammar and calendar validation. It preserves the original stripped value in invalid-date diagnostics, then stores valid dates in canonical ISO form for identity, grouping, ordering, and filtering. The month option accepts the same year digits and normalizes them for filtering.\n\n**Critical issues:** None.  \n**Warnings:** None.  \n**Suggestions:** None.\n\nThe correction introduces no narrower date grammar or changed error behavior in this review’s scope. I reused the recorded validation: 24 core tests, 76 full-suite tests, and help passed. **Verdict: PASS.**"
+        }
+      ]
+    },
+    {
+      "scope": "final-money",
+      "task": null,
+      "thread_id": "01a16a0c-fcea-7292-af39-8fc63788eff1",
+      "agent_path": "/root/final_money_review",
+      "own_history_start_ordinal": 195,
+      "reports": [
+        {
+          "source": "subagents/rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl",
+          "line": 263,
+          "ordinal": 262,
+          "timestamp": "2026-10-23T18:37:44.317Z",
+          "kind": "plaintext-report",
+          "plaintext_sha256": "c855055441d93117247d8e6bb8b032c3327e397368e6a101e5cf0192505ee817",
+          "plaintext": "## Ledger correctness and exact money review\n\n**Reviewed revision:** `20ed68beff50666ef8c3ea159adb3fa8226c21b4`  \n**Scope:** Deduplication, rule matching, Decimal arithmetic, aggregation, filtering and transaction ordering.  \n**Evidence reused:** Prior phase reviews and the recorded 72-test run; no full test rerun. A focused probe confirmed the finding below. Core hash: `077602C817FADBD3A73EB3C61518F3A9F3E50ABD4EC83DC5AAE73DD0D65D5335`.\n\n### Critical issue\n\n- **R5/R6/R7 — Accepted Unicode-digit dates are not canonicalized** (confidence 90). At [core.py](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/csvledger/core.py:212), `\\d` accepts Arabic-Indic digits and `date(...)` validates them, but the loader retains the original spelling. Deduplication at [core.py](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/csvledger/core.py:266) therefore treats `2026-01-01` and `٢٠٢٦-٠١-٠١` as different dates. A focused probe confirmed both rows remain, with zero duplicates skipped. The raw spelling also reaches month grouping at [core.py](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/csvledger/core.py:281) and date sorting at [render.py](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/csvledger/render.py:95). Use the validated calendar date’s canonical ISO form for stored dates, deduplication, grouping and sorting; retain the original field for diagnostics.\n\n### Other criteria\n\nRule priority and tie handling, casefold and regex matching, exact Decimal aggregation, rounding, negative-zero formatting, raw month totals, filtering order and stable input ties satisfy the assigned criteria.\n\n**Verdict: NEEDS FIXES** until the R5 date identity defect is corrected and the affected behavior is verified."
+        },
+        {
+          "source": "subagents/rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl",
+          "line": 291,
+          "ordinal": 290,
+          "timestamp": "2026-10-23T18:41:41.944Z",
+          "kind": "plaintext-report",
+          "plaintext_sha256": "79f9e2f31f0e4aa28e6eeeea79702bcda206a7045bef06f2347285e8b4bfb17e",
+          "plaintext": "## Ledger correctness and exact money re-review\n\n**Reviewed revision:** `663206c01c2e3e40dab4b6f8f6788262af71bd67`  \n**C1 status:** Resolved.\n\n`load_transactions()` now stores the validated date’s canonical ISO form, so Unicode and ASCII spellings of the same date share deduplication, month grouping, and sorting keys. The CLI also maps accepted Unicode decimal year digits in `--month` to ASCII, so an option such as `٢٠٢٦-01` filters the same transactions as `2026-01`, without narrowing the contract’s `\\d` grammar.\n\nAdded tests cover duplicate first retention, canonical grouping, stable chronological ties, Unicode-year month filtering, and year zero’s lexical month form. I verified the current core, CLI, and test hashes against the recorded evidence. The 76-test run and help check passed; no rerun was needed.\n\nThe unaffected money, priority, rule matching, and aggregation review remains valid. **No critical issues, warnings, or suggestions remain for this domain. Verdict: PASS.**"
+        }
+      ]
+    },
+    {
+      "scope": "final-cli",
+      "task": null,
+      "thread_id": "01a16a0d-1ee8-7840-8460-8d099fadedb1",
+      "agent_path": "/root/final_cli_review",
+      "own_history_start_ordinal": 198,
+      "reports": [
+        {
+          "source": "subagents/rollout-01a16a0d-1ee8-7840-8460-8d099fadedb1.jsonl",
+          "line": 242,
+          "ordinal": 241,
+          "timestamp": "2026-10-23T18:37:16.548Z",
+          "kind": "plaintext-report",
+          "plaintext_sha256": "ea3a96780d97dd686630f8cbc90281d02047e07b63f8c85937d4b04155fbad19",
+          "plaintext": "## CLI Determinism and Acceptance Coverage Review\n\nReviewed revision `20ed68beff50666ef8c3ea159adb3fa8226c21b4`, including the CLI, renderers, README, and subprocess tests. The reviewed file hashes match the evidence in T2’s notes.\n\nNo critical or important issues found. The CLI uses the contracted parser and options, preserves rules-first loading and deduplication before month filtering, and renders tables and JSON with the required ordering and empty-result behavior. It configures UTF-8/LF streams and flushes successful output before duplicate warnings. The README documents invocation, inputs, money, warnings, exit codes, and tests.\n\nThe recorded validation is valid for this revision: `python -m pytest -q` passed with 72 tests, and `python -m csvledger --help` exited 0 and listed both commands. The added tests cover all four oracle cases twice, exact error output, usage errors, empty results, ordinary `-` filenames, and UTF-8/LF output.\n\n**Suggestions:** None.\n\n**Verdict: PASS.**"
+        },
+        {
+          "source": "subagents/rollout-01a16a0d-1ee8-7840-8460-8d099fadedb1.jsonl",
+          "line": 273,
+          "ordinal": 272,
+          "timestamp": "2026-10-23T18:41:55.507Z",
+          "kind": "plaintext-report",
+          "plaintext_sha256": "76e1bc284c57ef1a413b6b790f97fa2a2a48454502a1ab11b9306aa99f013bc5",
+          "plaintext": "## CLI Month and Accepted-Date Re-review\n\nReviewed revision `663206c01c2e3e40dab4b6f8f6788262af71bd67` and the changes since `20ed68beff50666ef8c3ea159adb3fa8226c21b4`. The updated CLI, core, and test hashes match T2’s notes.\n\n**Critical issues:** None.\n\n**Warnings:** None.\n\nThe core now canonicalizes each valid date with `date.isoformat()` after validating the contract’s Unicode-aware `\\d` pattern. The CLI converts accepted Unicode decimal year digits to ASCII before filtering; the month portion still follows the contract’s literal ASCII `[0-9]` grammar. This makes equivalent Unicode and ASCII dates deduplicate, group by calendar month, and sort consistently while preserving first-input retention.\n\nThe added tests cover those behaviors, stable ordering, ASCII/Unicode month-filter equivalence, and the lexically valid year-zero month option. The recorded validation for this revision is `python -m pytest -q` with 76 passed and `python -m csvledger --help` exiting 0. I reused that evidence; no broader rerun was needed.\n\nThe earlier verdict for output layout, schema, and documentation remains valid.\n\n**Suggestions:** None.\n\n**Verdict: PASS.**"
+        }
+      ]
+    }
+  ],
+  "all_thread_final_reports": [
+    {
+      "source": "session.jsonl",
+      "line": 643,
+      "ordinal": 642,
+      "timestamp": "2026-10-23T18:42:54.840Z",
+      "thread_id": "01a169fe-3649-7481-aab5-d22c634b16d4",
+      "agent_path": null,
+      "plaintext_sha256": "093b588cd5676bc981566e634ce0d4a073e41cbcecb6921c3c39eb70069dcb49",
+      "plaintext": "Completed and accepted. All changes are committed; the working tree is clean.\n\n1. **spec-research — COMPLETE.** Three researchers informed the specification in `docs/spec-001-feature/`. `contract.md` remained authoritative.\n\n2. **geeky-plan — COMPLETE.** Created two tasks across two phases, full requirement coverage, and tracking artifacts. All planning gates passed.\n\n3. **plan-review — READY FOR IMPLEMENTATION.** Corrected one stale documentation status. Coverage, dependencies, and sequencing passed.\n\n4. **geeky-implement — COMPLETE.** Both tasks reached Done after independent phase reviews returned READY TO ADVANCE. Resolved a test coverage gap before acceptance; DoD gates passed.\n\n5. **impl-review, first run — NEEDS FIXES.** Found one critical defect: equivalent Unicode and ASCII dates could count separately. Fixed date normalization and related month filtering, then committed the correction.\n\n6. **impl-review, final run — PASS.** All three reviewers passed; no remaining findings. **76 tests passed**, and CLI help passed. Validation ran on Windows with Python 3.13; native macOS/Linux and Python 3.11 runs were not performed.\n\n   Full report: [review-impl.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/docs/spec-001-feature/review-impl.md)."
+    },
+    {
+      "source": "subagents/rollout-01a169fe-72e0-7dc3-bdef-cd3737ec5f67.jsonl",
+      "line": 54,
+      "ordinal": 53,
+      "timestamp": "2026-10-23T18:21:04.295Z",
+      "thread_id": "01a169fe-72e0-7dc3-bdef-cd3737ec5f67",
+      "agent_path": "/root/codebase_research",
+      "plaintext_sha256": "7c6e23d776b32e9d7af35f4ec9205d719faed832f3ea0e4fe315334e3d5b53d9",
+      "plaintext": "## Codebase analyst report\n\n### Key findings\n\n1. The repository has no existing application code, tests, packaging configuration, or documentation beyond the root inputs. The only tracked project inputs are `brief.md`, `contract.md`, and `.gitignore`; the recent history contains only the seed commit. There are no existing CLI, CSV, or testing conventions to preserve.\n\n2. The brief describes a standard-library Python CLI with two commands and pytest tests; the interface contract supplies the detailed behavior. The implementation belongs in a flat `csvledger/` package, runnable from the repository root with `python -m csvledger` ([brief.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/brief.md:1), [contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:5)).\n\n3. The CLI should load rules before transaction files, preserve input-file order, and validate all input before writing report output. This supports the required first-error behavior and guarantees invalid inputs leave stdout empty ([contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:32), [contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:88)).\n\n4. Transaction handling has several observable edge cases: optional UTF-8 BOM, blank-line skipping, strict header and field-count checks, regex-first date validation plus calendar validity, and exact decimal amounts. Duplicate identity uses date, stripped description, and numeric amount; deduplication must happen before month filtering ([contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:50), [contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:53), [contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:15)).\n\n5. Rule selection must preserve file order for priority ties. `contains` matching uses Unicode `casefold`; regex rules use case-insensitive search and must compile during rule-file loading so errors happen before transaction processing ([contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:61), [contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:63), [contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:36)).\n\n6. Deterministic output depends on explicit ordering and formatting rules, not just stable aggregation: UTF-8 stdout with `\\n`, fixed JSON key order, code-point sorting for report rows, input-order ties for categorized transactions, exact `Decimal` aggregation, and `ROUND_HALF_UP` formatting once at presentation ([contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:20), [contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:68), [contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:72), [contract.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/contract.md:80)).\n\n### Constraints discovered\n\n- Python 3.11+, standard library only for the application; pytest is permitted for tests.\n- Package path must be `csvledger/` at repository root, with `python -m csvledger` as the entry point.\n- The contract is authoritative for command syntax, parsing, matching, error text and exit codes, output schemas, ordering, money formatting, and acceptance cases.\n- The repository has no existing code or tests to extend; new structure can follow the contract directly.\n- Error details and validation order are part of the public interface, including the exact argv path and CSV reader line number.\n\n### Recommendations\n\n- Keep parsing, validation, deduplication, classification, aggregation, rendering, and CLI error translation in small standard-library modules or clearly separated functions, so contract-specific checks and their ordering remain visible.\n- Preserve raw `Decimal` values through deduplication and aggregation; avoid rounding until each displayed value is produced.\n- Store each transaction’s original input sequence index to preserve stable tie ordering after sorting by date.\n- Add pytest coverage for both the ten acceptance criteria and edge cases explicitly specified in the contract, especially simultaneous input errors, malformed headers, blank rows, duplicate normalization, and output bytes.\n- Use the provided oracle cases O1, O3, O4, and O5 as exact regression fixtures; their expected outputs expose formatting and rounding requirements.\n\n**Sources:** repository scan; `brief.md:1`; `contract.md:5-119`, with detailed oracle cases at `contract.md:121-195`. No existing implementation files or project conventions were found."
+    },
+    {
+      "source": "subagents/rollout-01a169fe-84cd-7471-b0be-8ddc36ed4a9d.jsonl",
+      "line": 61,
+      "ordinal": 60,
+      "timestamp": "2026-10-23T18:21:15.330Z",
+      "thread_id": "01a169fe-84cd-7471-b0be-8ddc36ed4a9d",
+      "agent_path": "/root/csv_research",
+      "plaintext_sha256": "f07e208707da3dee6b2ba14841d107453d72e46e6f25e19b8e133dc61091542b",
+      "plaintext": "Research report sent to the parent. The official Python docs support the contract’s CSV parsing, date validation, regex, and argparse requirements."
+    },
+    {
+      "source": "subagents/rollout-01a169fe-94a0-7f71-96c2-ac67626d5911.jsonl",
+      "line": 54,
+      "ordinal": 53,
+      "timestamp": "2026-10-23T18:21:20.034Z",
+      "thread_id": "01a169fe-94a0-7f71-96c2-ac67626d5911",
+      "agent_path": "/root/money_research",
+      "plaintext_sha256": "3833fbfefb284941aaf5f0608a8f3a2b6ad45a56270ac31d5baeffd3b4affe57",
+      "plaintext": "## Money and deterministic output research\n\n1. **`Decimal` preserves input digits, but ordinary arithmetic uses a context.** Constructing a `Decimal` from a string preserves its digits regardless of context precision. Addition and other arithmetic operations can round to the active context precision; the default precision is 28. A `sum()` of valid inputs therefore may fail the contract’s exact-sum requirement when values exceed that precision. [Python 3.11 `decimal` documentation](https://docs.python.org/3.11/library/decimal.html)\n\n2. **`quantize()` matches fixed-cent formatting, with a size limit to account for.** `Decimal.quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)` rounds to two decimal places. It can signal `InvalidOperation` if the resulting coefficient exceeds the context precision. Since the amount regex has no limit on integer digits or fractional digits, implementation needs adequate precision for both aggregation and final quantization; otherwise large valid inputs can fail or produce rounded sums. [Python 3.11 `decimal` documentation](https://docs.python.org/3.11/library/decimal.html)\n\n3. **Use the specified rounding mode explicitly.** The default Decimal context uses `ROUND_HALF_EVEN`, so relying on it would violate the contract’s `ROUND_HALF_UP` requirement. Decimal contexts govern arithmetic precision and rounding; the docs describe `localcontext()` for temporary context changes. [Python 3.11 `decimal` documentation](https://docs.python.org/3.11/library/decimal.html)\n\n4. **JSON output can follow the required key order.** Python dictionaries preserve insertion order, and `json.dumps()` preserves mapping order by default when `sort_keys=False`. Build each object in contract key order, and pass `indent=2, ensure_ascii=False` as specified. `json.dumps()` returns a string; UTF-8 encoding and newline handling remain the caller’s responsibility. [Python 3.11 data model](https://docs.python.org/3.11/reference/datamodel.html#dictionaries), [Python 3.11 `json` documentation](https://docs.python.org/3.11/library/json.html)\n\n5. **Avoid locale-aware formatting.** Python’s numeric `n` format uses the current locale. Fixed-point formatting and ordinary string padding avoid locale separators; the contract’s explicit code-point sorting and widths should be implemented directly. [Python 3.11 `string` documentation](https://docs.python.org/3.11/library/string.html#format-specification-mini-language)\n\n### Constraints and recommendations\n\n- Preserve transaction amounts as `Decimal` values created from the original strings, without converting through `float`.\n- Ensure aggregation has enough Decimal precision for the accepted input magnitudes and scales, and ensure final cent quantization can represent the integer portion. The contract defines no input-size cap, so a fixed low precision such as the default 28 is not sufficient for every syntactically valid amount.\n- Quantize only for display; retain raw exact sums for aggregation.\n- Build JSON mappings in the required key order, keep `sort_keys` disabled, and write the resulting text through UTF-8 stdout configured for `\\n`.\n- Use explicit table sorting and non-locale-aware string formatting to keep output independent of machine locale."
+    },
+    {
+      "source": "subagents/rollout-01a16a01-1799-7f42-951d-c636efad34f5.jsonl",
+      "line": 69,
+      "ordinal": 68,
+      "timestamp": "2026-10-23T18:23:53.999Z",
+      "thread_id": "01a16a01-1799-7f42-951d-c636efad34f5",
+      "agent_path": "/root/pm_plan_review",
+      "plaintext_sha256": "7996889db3e4d30b1d42e11e4d9a7580391c313435f5267686113800aae9089c",
+      "plaintext": "## PM Review — csvledger planning package\n\n**Coverage:** The plan maps R1–R11, AC1–AC10, the stated constraints, and the grouped interface clauses to T1 and T2. T1 covers parsing, rules, classification, deduplication, and exact arithmetic; T2 covers the CLI, filtering, rendering, and integrated acceptance tests.\n\n**Sequencing:** The T1 → T2 dependency is valid. The tasks have distinct file ownership, and T2 requires T1’s core APIs, so two serial phases are appropriate. The validation commands are achievable with the repository’s Python and pytest setup.\n\n**Scope and risks:** The plan preserves the contract’s load order, validation order, output requirements, and requirement to deduplicate before month filtering. It also calls out Decimal precision beyond the default context. The contract does not prescribe a specific diagnostic for `csv.Error`; the specification records a clean-error decision for that unspecified case.\n\n**Finding:** No blocking coverage, sequencing, dependency, or scope gaps found. Task-to-plan boundaries and validation blocks align.\n\n**Recommendation:** Ready for plan-review."
+    },
+    {
+      "source": "subagents/rollout-01a16a01-b19a-7293-aed3-a6b5f77e7b5a.jsonl",
+      "line": 87,
+      "ordinal": 86,
+      "timestamp": "2026-10-23T18:24:34.805Z",
+      "thread_id": "01a16a01-b19a-7293-aed3-a6b5f77e7b5a",
+      "agent_path": "/root/plan_alignment",
+      "plaintext_sha256": "02b4b911a28c1a77b949694fda26031bce180a45ba2ac093d0c279b3f62f7110",
+      "plaintext": "## Plan alignment audit\n\n**Critical:** 0 · **Warnings:** 1 · **Suggestions:** 0\n\n- **Warning — stale package status and next steps.** [README.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/docs/spec-001-feature/README.md) says “not yet planned” and points to `geeky-plan`, though the planning package is complete. The `handoff.md` planning-complete section also says plan review is next. Update these status and next-step notes to reflect the current workflow stage.\n\nTask IDs and dependencies align across the plan, task files, and kanban. The coverage matrix maps R1–R11, AC1–AC10, constraints, and grouped interface clauses to tasks. The declared file surfaces are disjoint across the T1 → T2 dependency, and referenced implementation files are explicitly designated as new. I found no contradictory contract requirements or orphaned or phantom tasks.\n\n**Verdict:** No blocking alignment issues. Resolve the stale status warning before proceeding to implementation."
+    },
+    {
+      "source": "subagents/rollout-01a16a01-c587-7010-a0ea-d63dd59c6eb8.jsonl",
+      "line": 89,
+      "ordinal": 88,
+      "timestamp": "2026-10-23T18:24:35.347Z",
+      "thread_id": "01a16a01-c587-7010-a0ea-d63dd59c6eb8",
+      "agent_path": "/root/plan_sequence",
+      "plaintext_sha256": "fb3d1a9fde1d1a23ad05f0f42a59501eab953c43313aa27375a87d3048dce041",
+      "plaintext": "## Sequencing review\n\n- **Dependency graph:** PASS; acyclic. T1-core has no dependencies, and T2-cli correctly depends on T1-core because it consumes the core APIs.\n- **Critical path:** T1-core → T2-cli; depth 2.\n- **Parallelization:** No safe parallel group exists: the only two tasks are dependent. Actual and dependency-constrained theoretical concurrency are both 1, so the plan uses the available parallelism.\n- **Ordering and phase gates:** PASS. The kanban starts T1 in Ready and T2 in Backlog; each phase requires task review and a reviewer’s READY TO ADVANCE verdict before commit and progression.\n- **Validation:** PASS. T1’s core test command and T2’s full pytest and help commands are achievable from the repository root. T2 adds the subprocess integration and oracle checks that cannot be validated before the CLI exists.\n- **Estimates:** T1 M seems reasonable. T2 M may be optimistic given its six-file scope and broad contract coverage; consider L, though this does not block sequencing.\n\n**Verdict:** Sequencing is valid and safe. One non-blocking estimate suggestion for T2."
+    },
+    {
+      "source": "subagents/rollout-01a16a02-dec1-7ea1-a273-df311d61c1bb.jsonl",
+      "line": 255,
+      "ordinal": 254,
+      "timestamp": "2026-10-23T18:38:42.287Z",
+      "thread_id": "01a16a02-dec1-7ea1-a273-df311d61c1bb",
+      "agent_path": "/root/core_coder",
+      "plaintext_sha256": "8fe0d7d1fd2e63d8aec093d1f160c52b3f59ce2b0d6cf5c233d1fa0d657af0c2",
+      "plaintext": "SUMMARY: Fixed C1 by canonicalizing valid dates with `date.isoformat()` while preserving raw values in validation errors. Added regression coverage for Unicode/ASCII date deduplication, chronological ordering, and month aggregation.\n\nFILES_TOUCHED:\n- `csvledger/core.py`\n- `tests/test_core.py`\n- `docs/spec-001-feature/tasks/T1-core.notes.md`\n\nVALIDATION:\n- `python -m pytest tests/test_core.py -q`: PASS; exit 0; 24 passed.\n\nTESTED_STATE: HEAD `20ed68beff50666ef8c3ea159adb3fa8226c21b4`. Updated file hashes and results are recorded in the T1 notes. No commit made."
+    },
+    {
+      "source": "subagents/rollout-01a16a05-718c-7862-9e67-46a7f5bac107.jsonl",
+      "line": 163,
+      "ordinal": 162,
+      "timestamp": "2026-10-23T18:28:54.360Z",
+      "thread_id": "01a16a05-718c-7862-9e67-46a7f5bac107",
+      "agent_path": "/root/core_phase_review",
+      "plaintext_sha256": "022094f6bfd77d251c7ee7e07634f9dd980d3fe81ccd0cb2348358b74fd3fc17",
+      "plaintext": "## T1-core task and Phase 1 review\n\n**T1 ACs**\n\n- CSV validation, error codes, diagnostic order, and header-only files: **PASS**. The loader checks headers and fields in contract order, reports physical CSV line numbers, and translates read and decoding failures into `LedgerError`.\n- Rule matching: **PASS**. Matching uses casefolded contains rules or compiled case-insensitive regexes; higher priority wins, and equal priorities retain the earliest rule.\n- Deduplication: **PASS**. Identity uses date, stripped description, and numeric `Decimal` amount; the first row is kept and the skipped count returned.\n- Exact money: **PASS**. Aggregation uses context-sized Decimal arithmetic; formatting applies `ROUND_HALF_UP` and normalizes rounded zero. Tests cover large values, cancellation, and O5 rounding.\n- Required unit coverage: **PASS**. Tests cover malformed input, UTF-8, multiline line numbers, rule precedence, duplicate identity, and exact arithmetic.\n\n**Validation evidence:** `python -m pytest tests/test_core.py -q` exited 0 with 23 passed. The tested-file SHA256 hashes in the task notes match the reviewed files.\n\n**Task verdict: PASS.** No blocking findings.\n\n**Phase verdict: READY TO ADVANCE. Can we move to the next phase? Yes.**"
+    },
+    {
+      "source": "subagents/rollout-01a16a06-b192-70a0-8d10-58bcd309ef80.jsonl",
+      "line": 523,
+      "ordinal": 522,
+      "timestamp": "2026-10-23T18:40:49.888Z",
+      "thread_id": "01a16a06-b192-70a0-8d10-58bcd309ef80",
+      "agent_path": "/root/cli_coder",
+      "plaintext_sha256": "fea19f3480c7cbd3b94c37f2eded825371a5c34d3def3f70b0d206f5eee2696a",
+      "plaintext": "SUMMARY: Implemented the C1 CLI correction by normalizing Unicode decimal digits in `--month` while preserving the contract’s accepted syntax. Added subprocess tests for Unicode date deduplication and first-row retention, month grouping, stable sorting, month-option equivalence, and year 0000.\n\nFILES_TOUCHED:\n- `csvledger/cli.py`\n- `tests/test_cli.py`\n- `docs/spec-001-feature/tasks/T2-cli.notes.md`\n\nVALIDATION:\n- `python -m pytest -q`: PASS, exit 0; 76 passed in 17.99s.\n- `python -m csvledger --help`: PASS, exit 0; lists both commands.\n- `git diff --check`: PASS, exit 0.\n\nTESTED_STATE: HEAD `20ed68beff50666ef8c3ea159adb3fa8226c21b4`; updated core, CLI, and test hashes are recorded in T2 notes. No commit made.\n\nSCOPE_EXPANSION_REQUEST: None.\n\nDEFERRED_NOTES: None."
+    },
+    {
+      "source": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+      "line": 219,
+      "ordinal": 218,
+      "timestamp": "2026-10-23T18:35:46.802Z",
+      "thread_id": "01a16a09-75e6-7ae3-8bcf-d5fa86efce4b",
+      "agent_path": "/root/cli_phase_review",
+      "plaintext_sha256": "ffdbed093fb243971b22bec28c74713ed7a6758b0f0726e7ad7ab54a7994c65a",
+      "plaintext": "**Re-review:** T2’s subprocess tests now cover the previously missing transaction and rules error branches, including exact exit codes, stderr, and empty stdout. They also check validation order and run O1, O3, O4, and O5 twice, comparing exit code and output bytes and checking for carriage returns. The updated test file’s SHA-256 matches the recorded evidence.\n\nThe earlier functional review remains valid. All T2 acceptance criteria are now supported, including the required error-branch and repeatability coverage. Validation passed: `python -m pytest -q` reported 72 passed; `python -m csvledger --help` exited 0 and listed both commands.\n\n**Task verdict: PASS. Phase verdict: READY TO ADVANCE. Can we move to final review? Yes.**"
+    },
+    {
+      "source": "subagents/rollout-01a16a0c-d6b3-7543-bd2d-0f172cc5022f.jsonl",
+      "line": 265,
+      "ordinal": 264,
+      "timestamp": "2026-10-23T18:41:31.480Z",
+      "thread_id": "01a16a0c-d6b3-7543-bd2d-0f172cc5022f",
+      "agent_path": "/root/final_csv_review",
+      "plaintext_sha256": "1ec81d40941b7fe3a3f92ef26240f3d8d543c9c7a600f4abf566fe0d748f8464",
+      "plaintext": "## Affected-Domain Re-review\n\nReviewed revision `663206c01c2e3e40dab4b6f8f6788262af71bd67` and the correction from `20ed68b`. The date parser still applies the contract’s `\\d{4}-\\d{2}-\\d{2}` grammar and calendar validation. It preserves the original stripped value in invalid-date diagnostics, then stores valid dates in canonical ISO form for identity, grouping, ordering, and filtering. The month option accepts the same year digits and normalizes them for filtering.\n\n**Critical issues:** None.  \n**Warnings:** None.  \n**Suggestions:** None.\n\nThe correction introduces no narrower date grammar or changed error behavior in this review’s scope. I reused the recorded validation: 24 core tests, 76 full-suite tests, and help passed. **Verdict: PASS.**"
+    },
+    {
+      "source": "subagents/rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl",
+      "line": 291,
+      "ordinal": 290,
+      "timestamp": "2026-10-23T18:41:41.944Z",
+      "thread_id": "01a16a0c-fcea-7292-af39-8fc63788eff1",
+      "agent_path": "/root/final_money_review",
+      "plaintext_sha256": "79f9e2f31f0e4aa28e6eeeea79702bcda206a7045bef06f2347285e8b4bfb17e",
+      "plaintext": "## Ledger correctness and exact money re-review\n\n**Reviewed revision:** `663206c01c2e3e40dab4b6f8f6788262af71bd67`  \n**C1 status:** Resolved.\n\n`load_transactions()` now stores the validated date’s canonical ISO form, so Unicode and ASCII spellings of the same date share deduplication, month grouping, and sorting keys. The CLI also maps accepted Unicode decimal year digits in `--month` to ASCII, so an option such as `٢٠٢٦-01` filters the same transactions as `2026-01`, without narrowing the contract’s `\\d` grammar.\n\nAdded tests cover duplicate first retention, canonical grouping, stable chronological ties, Unicode-year month filtering, and year zero’s lexical month form. I verified the current core, CLI, and test hashes against the recorded evidence. The 76-test run and help check passed; no rerun was needed.\n\nThe unaffected money, priority, rule matching, and aggregation review remains valid. **No critical issues, warnings, or suggestions remain for this domain. Verdict: PASS.**"
+    },
+    {
+      "source": "subagents/rollout-01a16a0d-1ee8-7840-8460-8d099fadedb1.jsonl",
+      "line": 273,
+      "ordinal": 272,
+      "timestamp": "2026-10-23T18:41:55.507Z",
+      "thread_id": "01a16a0d-1ee8-7840-8460-8d099fadedb1",
+      "agent_path": "/root/final_cli_review",
+      "plaintext_sha256": "76e1bc284c57ef1a413b6b790f97fa2a2a48454502a1ab11b9306aa99f013bc5",
+      "plaintext": "## CLI Month and Accepted-Date Re-review\n\nReviewed revision `663206c01c2e3e40dab4b6f8f6788262af71bd67` and the changes since `20ed68beff50666ef8c3ea159adb3fa8226c21b4`. The updated CLI, core, and test hashes match T2’s notes.\n\n**Critical issues:** None.\n\n**Warnings:** None.\n\nThe core now canonicalizes each valid date with `date.isoformat()` after validating the contract’s Unicode-aware `\\d` pattern. The CLI converts accepted Unicode decimal year digits to ASCII before filtering; the month portion still follows the contract’s literal ASCII `[0-9]` grammar. This makes equivalent Unicode and ASCII dates deduplicate, group by calendar month, and sort consistently while preserving first-input retention.\n\nThe added tests cover those behaviors, stable ordering, ASCII/Unicode month-filter equivalence, and the lexically valid year-zero month option. The recorded validation for this revision is `python -m pytest -q` with 76 passed and `python -m csvledger --help` exiting 0. I reused that evidence; no broader rerun was needed.\n\nThe earlier verdict for output layout, schema, and documentation remains valid.\n\n**Suggestions:** None.\n\n**Verdict: PASS.**"
+    }
+  ],
+  "completed_validation_evidence": [
+    {
+      "source": "subagents/rollout-01a16a02-dec1-7ea1-a273-df311d61c1bb.jsonl",
+      "line": 191,
+      "ordinal": 190,
+      "timestamp": "2026-10-23T18:27:55.054Z",
+      "kind": "completed-command",
+      "command": "git rev-parse HEAD; Get-FileHash csvledger/core.py,csvledger/__init__.py,tests/test_core.py -Algorithm SHA256 | ForEach-Object { \"$($_.Path) $($_.Hash)\" }; python -m pytest tests/test_core.py -q",
+      "exit_code": 0,
+      "output_sha256": "f19d7f07068a37410b3c01f33ea894dbeeee34bb0c51b9cadb38b3501d8d1ddb",
+      "output_excerpt": "1aa17d5b6e763bcf319392a112cd27d464b7ec94\nC:\\repos\\eval-c1-csvledger-codex-20261023T182024Z-5fa13924\\csvledger\\core.py 077602C817FADBD3A73EB3C61518F3A9F3E50ABD4EC83DC5AAE73DD0D65D5335\r\nC:\\repos\\eval-c1-csvledger-codex-20261023T182024Z-5fa13924\\csvledger\\__init__.py BC72761AD0D18A8ADC2ED345333AEE928D8F5075B9697858C310765F7F43FE81\r\nC:\\repos\\eval-c1-csvledger-codex-20261023T182024Z-5fa13924\\tests\\test_core.py DABD53CD32FB7D50E94ABFA1BAADB50D17ED56622E952D1259805E15B49C506A\r\n.......................                                                  [100%]\r\n23 passed in 0.17s\r\n"
+    },
+    {
+      "source": "subagents/rollout-01a16a02-dec1-7ea1-a273-df311d61c1bb.jsonl",
+      "line": 237,
+      "ordinal": 236,
+      "timestamp": "2026-10-23T18:38:33.175Z",
+      "kind": "completed-command",
+      "command": "python -m pytest tests/test_core.py -q; Get-FileHash csvledger/core.py,tests/test_core.py -Algorithm SHA256 | ForEach-Object { \"$($_.Path) $($_.Hash)\" }; git rev-parse HEAD",
+      "exit_code": 0,
+      "output_sha256": "cc1c149ef96a6c7ac367851826fc8a011c4375bc1a1631dcdbcd6e072df1723c",
+      "output_excerpt": "........................                                                 [100%]\r\n24 passed in 0.51s\r\nC:\\repos\\eval-c1-csvledger-codex-20261023T182024Z-5fa13924\\csvledger\\core.py 9F6933D8D4FC54398F1592DADBB63CEE2719A49DDE32B57DAE7AB496F849CD30\r\nC:\\repos\\eval-c1-csvledger-codex-20261023T182024Z-5fa13924\\tests\\test_core.py 40B13C27AB4B998A6161C5FEEBC450639BC342A1BDCDC9391496A4F3D138B1BE\r\n20ed68beff50666ef8c3ea159adb3fa8226c21b4\n"
+    },
+    {
+      "source": "subagents/rollout-01a16a06-b192-70a0-8d10-58bcd309ef80.jsonl",
+      "line": 347,
+      "ordinal": 346,
+      "timestamp": "2026-10-23T18:35:07.346Z",
+      "kind": "completed-command",
+      "command": "python -m pytest -q",
+      "exit_code": 0,
+      "output_sha256": "bb464b1aa94a34c5e41c70c2e0d44325828b3b1adcece62cd6256e20211e7c9c",
+      "output_excerpt": "........................................................................ [100%]\r\n72 passed in 17.95s\r\n"
+    },
+    {
+      "source": "subagents/rollout-01a16a06-b192-70a0-8d10-58bcd309ef80.jsonl",
+      "line": 473,
+      "ordinal": 472,
+      "timestamp": "2026-10-23T18:39:42.635Z",
+      "kind": "completed-command",
+      "command": "python -m csvledger --help",
+      "exit_code": 0,
+      "output_sha256": "7099847e58ed6464fa71bc7b2533d0e395b36b0af90cbdd7318110f5b3ad2ea0",
+      "output_excerpt": "usage: csvledger [-h] {report,categorize} ...\n\npositional arguments:\n  {report,categorize}\n\noptions:\n  -h, --help           show this help message and exit\n"
+    },
+    {
+      "source": "subagents/rollout-01a16a06-b192-70a0-8d10-58bcd309ef80.jsonl",
+      "line": 474,
+      "ordinal": 473,
+      "timestamp": "2026-10-23T18:40:01.004Z",
+      "kind": "completed-command",
+      "command": "python -m pytest -q",
+      "exit_code": 0,
+      "output_sha256": "3ca00a6bf3bc20ade76902d62ee165186248809286c8ce21bc18d11591969e15",
+      "output_excerpt": "........................................................................ [ 94%]\r\n....                                                                     [100%]\r\n76 passed in 17.99s\r\n"
+    }
+  ],
+  "main_final_report": {
+    "source": "session.jsonl",
+    "line": 643,
+    "ordinal": 642,
+    "timestamp": "2026-10-23T18:42:54.840Z",
+    "kind": "plaintext-report",
+    "plaintext_sha256": "093b588cd5676bc981566e634ce0d4a073e41cbcecb6921c3c39eb70069dcb49",
+    "plaintext": "Completed and accepted. All changes are committed; the working tree is clean.\n\n1. **spec-research — COMPLETE.** Three researchers informed the specification in `docs/spec-001-feature/`. `contract.md` remained authoritative.\n\n2. **geeky-plan — COMPLETE.** Created two tasks across two phases, full requirement coverage, and tracking artifacts. All planning gates passed.\n\n3. **plan-review — READY FOR IMPLEMENTATION.** Corrected one stale documentation status. Coverage, dependencies, and sequencing passed.\n\n4. **geeky-implement — COMPLETE.** Both tasks reached Done after independent phase reviews returned READY TO ADVANCE. Resolved a test coverage gap before acceptance; DoD gates passed.\n\n5. **impl-review, first run — NEEDS FIXES.** Found one critical defect: equivalent Unicode and ASCII dates could count separately. Fixed date normalization and related month filtering, then committed the correction.\n\n6. **impl-review, final run — PASS.** All three reviewers passed; no remaining findings. **76 tests passed**, and CLI help passed. Validation ran on Windows with Python 3.13; native macOS/Linux and Python 3.11 runs were not performed.\n\n   Full report: [review-impl.md](/C:/repos/eval-c1-csvledger-codex-20261023T182024Z-5fa13924/docs/spec-001-feature/review-impl.md)."
+  },
+  "commit_groups": [
+    {
+      "sha_prefix": "c4f054e",
+      "concern": "Specification"
+    },
+    {
+      "sha_prefix": "c34c933",
+      "concern": "Planning package"
+    },
+    {
+      "sha_prefix": "1aa17d5",
+      "concern": "Plan review"
+    },
+    {
+      "sha_prefix": "a8a5f34",
+      "concern": "T1 core phase"
+    },
+    {
+      "sha_prefix": "20ed68b",
+      "concern": "T2 CLI phase"
+    },
+    {
+      "sha_prefix": "663206c",
+      "concern": "Single final-review Unicode-date correction across core and CLI"
+    },
+    {
+      "sha_prefix": "d05528f",
+      "concern": "Accepted review documentation closeout"
+    }
+  ],
+  "scoring_mapping_snapshot": {
+    "scorer_sha256": "6ac0d4aed1bac7b7634db33b9e0152c7de76231a27c100c887fde6b08d5b98b5",
+    "codex_trace_sha256": "0589b12f0a5d88dec2fcab407d2f09dede2a4adea7cd6fef6299c74a90096fc2",
+    "phase_review_calls": [
+      {
+        "normalized_index": 126,
+        "normalized_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_657e1944050f40a1b467e17bdefe7f6a",
+        "task_name": "core_phase_review",
+        "actual_normalized_stage": "impl-review",
+        "evidenced_task": "T1",
+        "review_map_status": "pending-stage-attribution"
+      },
+      {
+        "normalized_index": 188,
+        "normalized_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_dc52a55bce46455f82c4d45b24347693",
+        "task_name": "cli_phase_review",
+        "actual_normalized_stage": "impl-review",
+        "evidenced_task": "T2",
+        "review_map_status": "pending-stage-attribution"
+      }
+    ],
+    "stage_read_limitation": "Main prefetched all five workflow skills in two early commands; file reads do not prove workflow stage commencement or completion. Current normalization stages phase reviewers as impl-review, so review_map entries are pending.",
+    "coder_mapping_limitation": "core_coder and cli_coder dispatch descriptions contain no task IDs, and their messages are opaque. Own plaintext reports and task-note/file ownership support T1/T2 mappings; current parser does not derive them.",
+    "manual_stage_evidence": [
+      {
+        "source": "session.jsonl",
+        "line": 88,
+        "ordinal": 87,
+        "timestamp": "2026-10-23T18:22:23.953Z",
+        "kind": "plaintext-stage-declaration",
+        "plaintext_sha256": "8d3bf03bcaf09ba7473217b93fa7dae866882a6716aba3204bd0889cda9846f0",
+        "plaintext": "The specification is written and committed. I’m now using `geeky-plan` to create two implementation phases: core parsing and arithmetic, then CLI integration and output. Both phases will receive task and phase review before final implementation review.\n"
+      },
+      {
+        "source": "session.jsonl",
+        "line": 134,
+        "ordinal": 133,
+        "timestamp": "2026-10-23T18:24:15.534Z",
+        "kind": "plaintext-stage-declaration",
+        "plaintext_sha256": "54ab3d311e891cc12e5479d65acc7b0c144cdd6bdabfc0b33009d55217b4e154",
+        "plaintext": "The planning package passes all three deterministic gates, and the PM review found no coverage or dependency gaps. I’m now using `plan-review` for independent document alignment and sequencing checks.\n"
+      },
+      {
+        "source": "session.jsonl",
+        "line": 180,
+        "ordinal": 179,
+        "timestamp": "2026-10-23T18:25:13.043Z",
+        "kind": "plaintext-stage-declaration",
+        "plaintext_sha256": "db94766bc0c87e8f5e424ae762ef17924140b33baa0078ab674ac420b6c767f6",
+        "plaintext": "Plan review is complete: READY FOR IMPLEMENTATION. It found one stale README status, which I corrected. I’m now using `geeky-implement`; preflight passed, and the core task is starting first.\n"
+      },
+      {
+        "source": "session.jsonl",
+        "line": 433,
+        "ordinal": 432,
+        "timestamp": "2026-10-23T18:36:10.957Z",
+        "kind": "plaintext-stage-declaration",
+        "plaintext_sha256": "a2546797e1b53488f5ea4afb1faec7a627e72bf1476e600660f9ae18418f05d1",
+        "plaintext": "Both implementation phases are accepted and committed. The board has 2 Done and 0 Blocked tasks, and both DoD gates passed. I’m now using `impl-review` for the authorized final review across three distinct domains.\n"
+      },
+      {
+        "source": "session.jsonl",
+        "line": 589,
+        "ordinal": 588,
+        "timestamp": "2026-10-23T18:41:10.123Z",
+        "kind": "plaintext-stage-declaration",
+        "plaintext_sha256": "ecb558d33e383a18512b312474dd125bdeae1fb53fba5a09e440488558a1860d",
+        "plaintext": "The corrected implementation is committed, and all 76 tests passed. I’m running `impl-review` again on the affected date and month behavior. Earlier Decimal and rendering findings remain valid; the reviewers will check the correction and its integration.\n"
+      }
+    ],
+    "task_validation_parser_gap": "Frozen task validation commands are plain bullets; shared scorer expects code spans. Parent independently verifies exact commands at own commits; this audit makes no rerun claim."
+  },
+  "manual_adjudication_ids": [
+    "adh.one_concern_per_commit",
+    "adh.final_report_claims",
+    "dp07.justification",
+    "dp13",
+    "dp17a",
+    "hg.false_completion_claim"
+  ]
+}

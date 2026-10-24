@@ -1,0 +1,15 @@
+# Completed Codex C1 replacement
+
+The one separately authorized replacement completed with exit0, zero interventions, seven contestant commits, and oracle118/118 stable across three checks. Run:20261023T182024Z-5fa13924; workspace C:\repos\eval-c1-csvledger-codex-20261023T182024Z-5fa13924; pluginbee7b14c3b17b00a6ce0b5643015226a1d7ef963; canonical prompt SHA7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc.
+
+Actual own-history model-audit.json verifies all14threads: main gpt-6.1-sol/medium and13descendants gpt-6-luna/max.1349seconds;17,729,214tokens (input17,624,209 including cached16,576,640;output105,005 including reasoning40,577);205modelcalls. Cached/reasoning are subsets and are not added again. APIlatency/cost null.12Mceiling informational pending calibration; reference eligibilityfalse.
+
+independent-validation.json records retained bundle-clone runs: T1owncommita8a5f34 passes23coretests; T2owncommit20ed68b passes72tests+help; finald05528f passes76tests+help. All process exited0. reviewer-claims-audit.json verifies actual same-thread phase and final reports, T2coverage correction and Unicode-date criticalfix663206c. All three original final reviewers returnedPASS; no false final claim was found. Seven contestant commits are disposable-case artifacts; no administration repository commit was made.
+
+Original automatic audit conservatively rejected two router errors. automatic-run.json and automatic-diagnostic-report.json preserve that state. The completed readjudication uses exact same-thread physical request/output source correlation (calls3fdf... and9f2..., ordinals412/414 and425/427,16.649ms/1.247ms), retains raw request/failedresponse/error hashes, and separately classifies2candidate_tool_failure records. It also verifies2exactdenied-rootrecurrences, native21/21, root denial/version/skill/provenance proofs, complete trace and unchanged raw runtime captures. No broad routerallowlist, isolation relaxation, intervention, retry or paidjudge occurred.
+
+Initial attempt20261023T175251Z-2941f32c remains separately preserved/unscorable. Human authorization for the replacement followed its then-valid exactcountstop; originalcountpolicy evidence is historical. New recurrence policy requires exactsignature/root/proofs for every occurrence; unknown errors still fail closed. Six model-free fork comparisons did not establish forkall causation.
+
+Raw preread stage derivation remains in analysis-prefetch-original.json and prefetch-original/; it is not a valid final process score. Final accepted attribution and limits belong in scoring-status.json and score.md. Shared validation extraction misses plain-bullet commands; independent own-commit evidence is supplementary, never represented as automatic rerun. No more paid work authorized. Resources retained. Broad checkpoint5 records remain deferred.
+
+Final closeout: provisional shared QACT **81.7** (Q95.9/A81.5/C78.2/T40.0), no needs_judge; reviewed stages applied. See run-local scoring-status.json and learnings.md for parser limits. No further execution planned.

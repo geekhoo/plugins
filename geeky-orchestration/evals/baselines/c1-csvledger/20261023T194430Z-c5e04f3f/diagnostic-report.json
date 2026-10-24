@@ -1,0 +1,169 @@
+{
+  "ok": true,
+  "known_diagnostics": [
+    {
+      "stage": "exec",
+      "raw": "2026-10-23T19:44:38.466527Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)",
+      "path": "file:///C:/Users/gerald.khoo/.agents/skills",
+      "count": 1,
+      "version": "0.164.0",
+      "pattern": "codex-0.164.0-denied-user-skills-root-v1"
+    },
+    {
+      "stage": "exec",
+      "raw": "2026-10-23T19:44:57.471929Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)",
+      "path": "file:///C:/Users/gerald.khoo/.agents/skills",
+      "count": 2,
+      "version": "0.164.0",
+      "pattern": "codex-0.164.0-denied-user-skills-root-v1"
+    }
+  ],
+  "unexpected_errors": [],
+  "count_policy": {
+    "plugin-install": {
+      "exact": 0
+    },
+    "hook-catalogue": {
+      "exact": 0
+    },
+    "exec": {
+      "minimum": 1
+    }
+  },
+  "observed_counts": {
+    "plugin-install": 0,
+    "hook-catalogue": 0,
+    "exec": 2
+  },
+  "candidate_tool_failures": [],
+  "proof_errors": [],
+  "native_proof": {
+    "ok": true,
+    "checks": [
+      {
+        "name": "model_matrix",
+        "passed": true
+      },
+      {
+        "name": "plugin_sha",
+        "passed": true
+      },
+      {
+        "name": "static_profiles",
+        "passed": true
+      },
+      {
+        "name": "native_21_checks",
+        "passed": true
+      },
+      {
+        "name": "native_exact_denied_root",
+        "passed": true
+      },
+      {
+        "name": "native_version_model_free",
+        "passed": true
+      },
+      {
+        "name": "native_build",
+        "passed": true
+      },
+      {
+        "name": "native_provenance",
+        "passed": true
+      },
+      {
+        "name": "launch_provenance",
+        "passed": true
+      },
+      {
+        "name": "native_sdk",
+        "passed": true
+      },
+      {
+        "name": "native_manifest",
+        "passed": true
+      },
+      {
+        "name": "launch_manifest",
+        "passed": true
+      },
+      {
+        "name": "current_source",
+        "passed": true
+      },
+      {
+        "name": "current_launch_binaries",
+        "passed": true
+      }
+    ]
+  },
+  "runtime_denial_verified": true,
+  "version_verified": true,
+  "skill_read_evidence": [
+    {
+      "id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:exec-f566d78d-bb75-4be7-be9c-64d6d92e36a6:skill",
+      "timestamp": "2026-10-23T19:44:45.322000+00:00",
+      "skill": "spec-research",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:exec-4b29ce74-8042-4d88-9f58-e37fa22a8be0:skill",
+      "timestamp": "2026-10-23T19:44:53.022000+00:00",
+      "skill": "geeky-plan",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:exec-29692d74-0022-46aa-be63-de69dd97864c:skill",
+      "timestamp": "2026-10-23T19:45:10.552000+00:00",
+      "skill": "plan-review",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:exec-29692d74-0022-46aa-be63-de69dd97864c:skill",
+      "timestamp": "2026-10-23T19:45:10.552000+00:00",
+      "skill": "geeky-implement",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:exec-29692d74-0022-46aa-be63-de69dd97864c:skill",
+      "timestamp": "2026-10-23T19:45:10.552000+00:00",
+      "skill": "impl-review",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16a4c-e099-7bc3-bfeb-c07b79860c78:exec-dc9e7f31-c53c-493c-9a64-99e7aa7b0453:skill",
+      "timestamp": "2026-10-23T19:46:31.313000+00:00",
+      "skill": "geeky-plan",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16a4c-e099-7bc3-bfeb-c07b79860c78:exec-dc9e7f31-c53c-493c-9a64-99e7aa7b0453:skill",
+      "timestamp": "2026-10-23T19:46:31.313000+00:00",
+      "skill": "plan-review",
+      "evidence": "successful-skill-file-read"
+    },
+    {
+      "id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-f5c53e6c-bc0b-4c78-b387-50b7bdbf3dd5:skill",
+      "timestamp": "2026-10-23T19:51:42.221000+00:00",
+      "skill": "geeky-implement",
+      "evidence": "successful-skill-file-read"
+    }
+  ],
+  "skill_evidence_scope": "stage-entry-only",
+  "trace_complete": true,
+  "trace_errors": [],
+  "raw_capture_sha256": {
+    "native-hook-catalog-stderr.txt": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "native-hook-catalog.json": "698ACF1799DF61F922D1D5CBD80FEBD13415AE7D4233BBCC01A9F2518B3B3A0F",
+    "native-plugin-install-stderr.txt": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855",
+    "native-plugin-install.json": "FC95CA16B4D2C6FE8CCCB04B708094EC73C20A45F8E84FE5423B683E9A46B167",
+    "runtime-denial-proof.json": "F862345CB6FB289F5BAB02DD8111297C1ACFF726E2431BE14EACF7231A4DE641"
+  },
+  "stderr_sha256": "AF6E966AB60B8CDC1A329B3F74D1BF6A17B92675E9D0086B6D3BA55BF67D274A",
+  "raw_diagnostics": {
+    "plugin-install": "",
+    "hook-catalogue": "",
+    "exec": "Reading additional input from stdin...\n2026-10-23T19:44:38.466527Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)\n2026-10-23T19:44:57.471929Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)\n"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "workspace": "C:\\repos\\c1-run2-independent-5y0pjts5",
+  "checks": [
+    {
+      "task": "T1",
+      "commit": "97185c1",
+      "command": "python -m pytest tests/test_input.py -q",
+      "exit_code": 0,
+      "stdout": "42 passed in 0.41s",
+      "provenance": "parent tool execution 99abaa; record serialization stopped later on T3 lookup, no T1 retry"
+    },
+    {
+      "task": "T2",
+      "commit": "4dc447d",
+      "command": "python -m pytest tests/test_input.py tests/test_engine.py -q",
+      "exit_code": 0,
+      "stdout": "62 passed in 0.33s",
+      "provenance": "parent tool execution 99abaa; record serialization stopped later on T3 lookup, no T2 retry"
+    },
+    {
+      "task": "T3",
+      "commit": "c39a486391fc8a72c66ad33a4c35a4c17f7af313",
+      "command": [
+        "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stdout": "........................................................................ [ 56%]\n........................................................                 [100%]\n128 passed in 12.66s\n",
+      "stderr": "",
+      "started_utc": "2026-10-23T20:10:10.561477+00:00",
+      "duration_s": 13.244414
+    },
+    {
+      "task": "T3",
+      "commit": "c39a486391fc8a72c66ad33a4c35a4c17f7af313",
+      "command": [
+        "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+        "-m",
+        "csvledger",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout": "usage: csvledger [-h] {report,categorize} ...\n\npositional arguments:\n  {report,categorize}\n\noptions:\n  -h, --help           show this help message and exit\n",
+      "stderr": "",
+      "started_utc": "2026-10-23T20:10:23.806901+00:00",
+      "duration_s": 0.20921
+    },
+    {
+      "task": "final",
+      "commit": "7c34d2b197174c02f27909dee38beb95fe9596a5",
+      "command": [
+        "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "stdout": "........................................................................ [ 56%]\n........................................................                 [100%]\n128 passed in 14.00s\n",
+      "stderr": "",
+      "started_utc": "2026-10-23T20:10:24.077861+00:00",
+      "duration_s": 14.616274
+    },
+    {
+      "task": "final",
+      "commit": "7c34d2b197174c02f27909dee38beb95fe9596a5",
+      "command": [
+        "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+        "-m",
+        "csvledger",
+        "--help"
+      ],
+      "exit_code": 0,
+      "stdout": "usage: csvledger [-h] {report,categorize} ...\n\npositional arguments:\n  {report,categorize}\n\noptions:\n  -h, --help           show this help message and exit\n",
+      "stderr": "",
+      "started_utc": "2026-10-23T20:10:38.695326+00:00",
+      "duration_s": 0.30475
+    }
+  ]
+}

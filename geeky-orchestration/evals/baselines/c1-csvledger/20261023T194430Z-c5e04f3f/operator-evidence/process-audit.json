@@ -1,0 +1,55 @@
+{
+  "implementation_source": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+  "own_history_cutoff": 119,
+  "lane_command_output_ordinals": [
+    [
+      139,
+      142
+    ],
+    [
+      199,
+      202
+    ],
+    [
+      245,
+      248
+    ],
+    [
+      276,
+      278
+    ],
+    [
+      283,
+      285
+    ],
+    [
+      356,
+      359
+    ],
+    [
+      383,
+      385
+    ]
+  ],
+  "moves": 11,
+  "literal_deviations": [
+    "DoD executed after Done writes within same command batches for all tasks; existing same-call scorer accepts this.",
+    "In Progress labels ahead of actual write times: T1 04:02 versus03:52; T2 04:08 versus03:55; T3 04:15 versus03:59 SGT."
+  ],
+  "commit_gate_pairs": [
+    [
+      276,
+      278
+    ],
+    [
+      383,
+      385
+    ],
+    [
+      390,
+      393
+    ]
+  ],
+  "reviewers": "See physical-thread-reports.json; each task/phase and final domain reviewer physically completes in own history.",
+  "final_report_inaccuracy": "Hook configuration unavailable claim contradicted by retained enabled guard-bridge configuration and native trust evidence."
+}

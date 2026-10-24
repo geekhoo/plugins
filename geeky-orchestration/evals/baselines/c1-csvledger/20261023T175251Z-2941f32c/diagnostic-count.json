@@ -1,0 +1,23 @@
+{
+  "approved_counts": {
+    "plugin-install": 0,
+    "hook-catalogue": 0,
+    "exec": 1
+  },
+  "observed_counts": {
+    "plugin-install": 0,
+    "hook-catalogue": 0,
+    "exec": 2
+  },
+  "raw_matching_lines": {
+    "plugin-install": [],
+    "hook-catalogue": [],
+    "exec": [
+      "2026-10-23T17:52:58.533272Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)",
+      "2026-10-23T17:53:39.443409Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)"
+    ]
+  },
+  "exception_accepted": false,
+  "decision": "Operator stopped on second exec occurrence; classifier, filesystem grants and pin remain unchanged.",
+  "native_denial_proof": "../20261023T174928Z-5c5b81d8/native-attempts/native-probe-fdd13673/native-summary.json"
+}

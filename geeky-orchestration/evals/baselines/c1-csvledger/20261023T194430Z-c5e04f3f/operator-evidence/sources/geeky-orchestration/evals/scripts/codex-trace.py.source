@@ -1,0 +1,503 @@
+"""Run-local Codex rollout ingestion into the existing rubric's event interface.
+
+Rollout timestamps, completed runtime items and cumulative usage are authoritative.
+Stream events fill missing item shapes, never missing timestamps or usage. Child
+rollouts must be captured under subagents/; no signed-in home is searched here.
+
+Optional reviewed stage-evidence.json schema:
+  {"schema":"geeky-eval.stage-evidence/1", "session_sha256":"<session.jsonl SHA256>",
+   "stages":[{"stage":"geeky-plan", "kind":"announcement", "source_ordinal":87,
+     "source_timestamp":"<exact record timestamp>", "timestamp":"<same timestamp>",
+     "source_text":"<exact plaintext assistant message>"}, ...]}
+Entries must cover STAGES in order; only impl-review may repeat. The initial
+spec-research entry may instead use kind=skill-read, referencing the first main
+successful CommandExecution skill read: source_timestamp is its record timestamp,
+timestamp is the normalized read start from that record's started_at_ms (or native
+request). source_text is unnecessary for that entry. Announcements use a narrow
+affirmative present-tense grammar, not automatic inference from arbitrary prose.
+When the artifact exists, every skill read becomes CodexSkillRead; only validated
+reviewed annotations feed the rubric's Skill interface. These synthetic annotations
+carry explicit provenance and do not claim native Skill tool execution. Invalid
+artifacts fail trace completeness without falling back to skill-read transitions.
+
+Native worker lifetime spans the first own task_started through the last own
+task_complete. A reused worker's span includes idle waits and later repairs; it
+does not represent continuous active work or a task-specific elapsed duration.
+The complete lifecycle records remain attached to the worker metadata.
+"""
+import datetime as dt
+import hashlib
+import json
+import re
+from pathlib import Path
+
+STAGES = ('spec-research', 'geeky-plan', 'plan-review', 'geeky-implement', 'impl-review')
+
+
+def read_jsonl(path, errors):
+    if not path.is_file():
+        errors.append('Missing trace: ' + path.name)
+        return []
+    rows = []
+    for number, line in enumerate(path.read_text(encoding='utf-8-sig').splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+            if not isinstance(row, dict):
+                raise ValueError('not an object')
+            rows.append(row)
+        except ValueError:
+            errors.append(f'Malformed JSONL: {path.name}:{number}')
+    return rows
+
+
+def text(value):
+    if isinstance(value, str):
+        return value
+    if isinstance(value, list):
+        return '\n'.join(text(v) for v in value)
+    if isinstance(value, dict):
+        return value.get('text') or json.dumps(value, ensure_ascii=False)
+    return '' if value is None else str(value)
+
+
+def stamp(value):
+    if not value:
+        return None
+    try:
+        parsed = dt.datetime.fromisoformat(value.replace('Z', '+00:00'))
+        return parsed if parsed.utcoffset() is not None else None
+    except (ValueError, TypeError):
+        return None
+
+
+def post_change_text(change):
+    """Visible post-change hunk text, not a reconstruction of omitted file lines."""
+    if change.get('type') in ('delete', 'remove'):
+        return ''
+    if isinstance(change.get('content'), str):
+        return change['content']
+    diff = change.get('unified_diff') or change.get('diff') or ''
+    lines = []
+    for line in diff.splitlines():
+        if line.startswith(('@@', '--- ', '+++ ', 'diff ', 'index ', '\\ No newline')):
+            continue
+        if line.startswith('-'):
+            continue
+        lines.append(line[1:] if line.startswith(('+', ' ')) else line)
+    return '\n'.join(lines)
+
+
+def reviewed_stages(path, session_path, rows, events, root_id):
+    """Validate a reviewed artifact entirely against immutable main-session records."""
+    artifact = json.loads(path.read_text(encoding='utf-8-sig'))
+    if not isinstance(artifact, dict) or artifact.get('schema') != 'geeky-eval.stage-evidence/1':
+        raise ValueError('Unsupported stage evidence schema')
+    digest = hashlib.sha256(session_path.read_bytes()).hexdigest()
+    if artifact.get('session_sha256') != digest:
+        raise ValueError('Stage evidence session SHA256 mismatch')
+    entries = artifact.get('stages')
+    if not isinstance(entries, list) or not entries:
+        raise ValueError('Stage evidence has no stages')
+    sequence, previous, accepted = [], None, []
+    reads = [(e, c) for e in events if not e.get('parent_tool_use_id')
+             for c in (e.get('message') or {}).get('content', [])
+             if c.get('type') == 'tool_use' and c.get('name') == 'CodexSkillRead']
+    first_read = min(reads, key=lambda pair: stamp(pair[0]['timestamp'])) if reads else None
+    for index, entry in enumerate(entries):
+        if not isinstance(entry, dict) or entry.get('stage') not in STAGES:
+            raise ValueError('Invalid reviewed stage')
+        stage, kind = entry['stage'], entry.get('kind')
+        ordinal = entry.get('source_ordinal')
+        matches = [r for r in rows if type(ordinal) is int and r.get('ordinal') == ordinal]
+        if len(matches) != 1:
+            raise ValueError('Stage source ordinal must identify exactly one main record')
+        source = matches[0]
+        if source.get('timestamp') != entry.get('source_timestamp'):
+            raise ValueError('Stage source timestamp mismatch')
+        timestamp = entry.get('timestamp')
+        current = stamp(timestamp)
+        if not current or previous is not None and current <= previous:
+            raise ValueError('Stage timestamps must increase strictly')
+        previous = current
+        p = source.get('payload') or {}
+        if kind == 'announcement':
+            content = p.get('content')
+            if (source.get('type') != 'response_item' or p.get('type') != 'message'
+                    or p.get('role') != 'assistant' or p.get('channel') == 'final'
+                    or not isinstance(content, list) or not content
+                    or any(not isinstance(c, dict) or c.get('type') not in ('text', 'output_text')
+                           or not isinstance(c.get('text'), str) for c in content)):
+                raise ValueError('Stage source must be a main plaintext assistant announcement')
+            plaintext = text(content)
+            if entry.get('source_text') != plaintext or timestamp != source.get('timestamp'):
+                raise ValueError('Stage announcement text/timestamp mismatch')
+            token = r'`?' + re.escape(stage) + r'`?(?![\w-])'
+            affirmative = re.search(r'(?:^|[.!?]\s+)(?:I[\u2019\x27]m|I am) '
+                r'(?:now using ' + token + r'|running ' + token + r' again\b)', plaintext)
+            clause_tail = re.split(r'[.!?\n]', plaintext[affirmative.end():], maxsplit=1)[0] if affirmative else ''
+            if (not affirmative or re.search(r'\b(?:later|tomorrow|next|eventually|after|once|when|if|not|never|will|would)\b', clause_tail, re.I)
+                    or re.search(r'(?im)^\s*(?:#+\s*)?(?:final (?:report|summary)|summary)\b', plaintext)):
+                raise ValueError('Stage source is not an affirmative present-tense announcement')
+        elif kind == 'skill-read':
+            item = p.get('item') or {}
+            expected_id = f'{root_id}:{item.get("id")}:skill'
+            if (index != 0 or stage != 'spec-research' or source.get('type') != 'event_msg'
+                    or p.get('type') != 'item_completed' or item.get('type') != 'CommandExecution'
+                    or item.get('status') != 'completed' or item.get('exit_code') != 0
+                    or first_read is None or first_read[1].get('id') != expected_id
+                    or first_read[1]['input'].get('skill') != stage
+                    or stamp(first_read[0]['timestamp']) != current):
+                raise ValueError('Initial research must reference the first successful main skill read')
+        else:
+            raise ValueError('Unsupported stage source kind')
+        if not sequence or stage != sequence[-1]:
+            sequence.append(stage)
+        elif stage != 'impl-review':
+            raise ValueError('Only impl-review may repeat')
+        accepted.append({**entry, 'session_sha256': digest})
+    if tuple(sequence) != STAGES:
+        raise ValueError('Reviewed stages must cover the five workflow stages in order')
+    return accepted
+
+
+def task_ownership_evidence(thread):
+    """A coder's own canonical-task read plus matching notes/product writes.
+
+    A general preread, notes read, prose task mention, inherited history or ambiguous
+    multi-task work never supplies ownership. No encrypted content is inspected.
+    """
+    if 'coder' not in thread['role']:
+        return None
+    reads, notes, product = {}, {}, []
+    for row in thread['rows']:
+        payload = row.get('payload') or {}
+        item = payload.get('item') or {}
+        if payload.get('type') != 'item_completed' or item.get('status') != 'completed':
+            continue
+        source = {'ordinal': row.get('ordinal'), 'timestamp': row.get('timestamp'), 'item_id': item.get('id')}
+        if item.get('type') == 'CommandExecution' and item.get('exit_code') == 0:
+            command = item.get('command') or ''
+            command = command[-1] if isinstance(command, list) else command
+            for statement in re.split(r'[;\n|]', command):
+                if not re.match(r'^\s*(?:Get-Content|cat|type)\s', statement, re.I):
+                    continue
+                for match in re.finditer(r'(?:/|\\)tasks(?:/|\\)(T\d+)-[^\s;\"\x27/\\]+(?<!\.notes)\.md\b', statement, re.I):
+                    reads.setdefault(match[1].upper(), []).append(source)
+        elif item.get('type') == 'FileChange':
+            changes = item.get('changes') or {}
+            if isinstance(changes, list):
+                changes = {c['path']: c for c in changes}
+            for path, change in changes.items():
+                if change.get('type') in ('delete', 'remove'):
+                    continue
+                normalized = path.replace('\\', '/')
+                match = re.search(r'/tasks/(T\d+)-[^/]+\.notes\.md$', normalized, re.I)
+                if match:
+                    notes.setdefault(match[1].upper(), []).append({**source, 'path': path})
+                elif '/docs/' not in normalized and not normalized.startswith('docs/'):
+                    product.append({**source, 'path': path})
+    if len(reads) != 1 or set(reads) != set(notes) or not product:
+        return None
+    task = next(iter(reads))
+    return {'method': 'unique-task-body-read-and-notes-write', 'tasks': [task],
+            'task_reads': reads[task], 'notes_writes': notes[task], 'product_writes': product}
+
+
+def load(run_dir):
+    run_dir = Path(run_dir)
+    errors, warnings = [], []
+    stage_path = run_dir / 'stage-evidence.json'
+    reviewed_mode = stage_path.exists()
+    stream = read_jsonl(run_dir / 'stream.jsonl', errors)
+    paths = [run_dir / 'session.jsonl']
+    child_root = run_dir / 'subagents'
+    if child_root.is_dir():
+        paths += sorted(child_root.rglob('*.jsonl'))
+    threads = {}
+    for path in paths:
+        rows = read_jsonl(path, errors)
+        meta = next((r.get('payload', {}) for r in rows if r.get('type') == 'session_meta'), {})
+        sid = meta.get('id') or meta.get('session_id')
+        if not sid:
+            errors.append('Missing session metadata: ' + path.name)
+            continue
+        if sid in threads:
+            errors.append('Duplicate thread rollout: ' + sid)
+            continue
+        spawn = ((meta.get('source') or {}).get('subagent', {}).get('thread_spawn', {})
+                 if isinstance(meta.get('source'), dict) else {})
+        cutoff = meta.get('subagent_history_start_ordinal') if spawn or meta.get('parent_thread_id') else None
+        if (spawn or meta.get('parent_thread_id')) and cutoff is None and sum(r.get('type') == 'session_meta' for r in rows) > 1:
+            errors.append('Inherited child history has no boundary: ' + sid)
+        if cutoff is not None:
+            rows = [r for r in rows if r.get('type') == 'session_meta' and r.get('payload', {}).get('id') == sid
+                    or isinstance(r.get('ordinal'), int) and r['ordinal'] >= cutoff]
+        threads[sid] = {'meta': meta, 'rows': rows, 'path': path,
+                        'parent': meta.get('parent_thread_id') or spawn.get('parent_thread_id'),
+                        'agent_path': meta.get('agent_path') or spawn.get('agent_path'),
+                        'role': meta.get('agent_role') or spawn.get('agent_role') or 'general-purpose'}
+    root_meta = next((r.get('payload', {}) for r in threads.get(next(iter(threads), ''), {}).get('rows', [])
+                      if r.get('type') == 'session_meta'), {})
+    root_id = root_meta.get('id')
+    declared = next((r.get('thread_id') for r in stream if r.get('type') == 'thread.started'), None)
+    if declared and root_id and declared != root_id:
+        errors.append('Stream thread ID differs from main rollout')
+    events, metas, dispatches = [], {}, {}
+    usage_by_thread, model_counts = {}, []
+    all_stamps = []
+
+    def event(kind, sid, timestamp, content, **extra):
+        parent = threads[sid].get('dispatch')
+        value = {'type': kind, 'timestamp': timestamp, 'parent_tool_use_id': parent,
+                 'isSidechain': bool(parent), 'message': {'id': f'{sid}:{len(events)}', 'content': content}}
+        value.update(extra)
+        events.append(value)
+
+    def call(sid, local_id, name, inp, start, stop, output='', failed=False, provenance=None):
+        cid = f'{sid}:{local_id}'
+        if not stamp(start) or not stamp(stop):
+            errors.append('Missing tool timestamps: ' + cid)
+        event('assistant', sid, start, [{'type': 'tool_use', 'id': cid, 'name': name, 'input': inp}],
+              **({'codex_provenance': provenance} if provenance else {}))
+        event('user', sid, stop, [{'type': 'tool_result', 'tool_use_id': cid,
+                                'content': output, 'is_error': failed}])
+        return cid
+
+    # Resolve explicit spawn records before processing children; nested parents are allowed.
+    for sid, thread in threads.items():
+        for row in thread['rows']:
+            p = row.get('payload') or {}
+            if row.get('type') == 'response_item' and p.get('type') == 'function_call' and p.get('name') == 'spawn_agent':
+                try:
+                    inp = json.loads(p.get('arguments') or '{}')
+                except ValueError:
+                    errors.append('Invalid spawn arguments: ' + str(p.get('call_id')))
+                    continue
+                dispatches[(sid, p.get('call_id'))] = inp
+            item = p.get('item') or {}
+            if item.get('type') == 'SubAgentActivity' and item.get('kind') == 'started':
+                child = item.get('agent_thread_id')
+                if child not in threads:
+                    errors.append('Missing dispatched child rollout: ' + str(child))
+                else:
+                    threads[child]['dispatch'] = f'{sid}:{item.get("id")}'
+        # Older stream schemas expose receiver UUIDs without SubAgentActivity.
+    for sid, thread in threads.items():
+        if thread['parent'] and thread['parent'] not in threads:
+            errors.append('Child parent rollout missing: ' + sid)
+        if thread['parent'] and not thread.get('dispatch'):
+            candidates = [(parent, cid) for (parent, cid), args in dispatches.items()
+                          if parent == thread['parent'] and thread['agent_path']
+                          and str(thread['agent_path']).endswith('/' + str(args.get('task_name', '\0')))]
+            if len(candidates) == 1:
+                thread['dispatch'] = ':'.join(candidates[0])
+            else:
+                errors.append('Unresolved child dispatch: ' + sid)
+        if thread.get('dispatch') and not thread['dispatch'].startswith(str(thread['parent']) + ':'):
+            errors.append('Child parent metadata differs from dispatch: ' + sid)
+    for parent, cid in dispatches:
+        linked = [t for t in threads.values() if t.get('dispatch') == f'{parent}:{cid}']
+        if len(linked) != 1:
+            errors.append('Spawn lacks exactly one captured child: ' + f'{parent}:{cid}')
+
+    for sid, thread in threads.items():
+        rows = thread['rows']
+        responses, outputs, completed, usage, response_ids = {}, {}, {}, None, set()
+        for row in rows:
+            timestamp = row.get('timestamp')
+            if row.get('type') in ('event_msg', 'response_item', 'token_usage_record') and not stamp(timestamp):
+                errors.append('Missing/invalid rollout timestamp: ' + sid)
+            if stamp(timestamp):
+                all_stamps.append(stamp(timestamp))
+            p = row.get('payload') or {}
+            if row.get('type') == 'response_item':
+                if p.get('type') in ('function_call', 'custom_tool_call'):
+                    responses[p.get('call_id')] = (row, p)
+                elif p.get('type') in ('function_call_output', 'custom_tool_call_output'):
+                    outputs[p.get('call_id')] = (row, p)
+                elif p.get('type') == 'message' and p.get('role') == 'assistant':
+                    event('assistant', sid, timestamp, [{'type': 'text', 'text': text(p.get('content'))}])
+                elif p.get('type') == 'agent_message':
+                    # Preserve delegation notifications; do not treat messages as tool executions.
+                    event('user', sid, timestamp, [{'type': 'text', 'text': text(p.get('content'))}])
+            if row.get('type') == 'event_msg' and p.get('type') == 'item_completed':
+                item = p.get('item') or {}
+                completed[item.get('id')] = (row, item)
+            if row.get('type') == 'event_msg' and p.get('type') == 'token_count':
+                total = (p.get('info') or {}).get('total_token_usage')
+                if isinstance(total, dict):
+                    if usage and any(total.get(k, 0) < usage.get(k, 0) for k in ('input_tokens', 'output_tokens')):
+                        errors.append('Cumulative usage decreased: ' + sid)
+                    usage = total
+            if row.get('type') == 'token_usage_record' and p.get('response_id'):
+                if p.get('thread_id', sid) == sid:
+                    response_ids.add(p['response_id'])
+        if usage is None:
+            errors.append('Missing cumulative token_count: ' + sid)
+        else:
+            fields = ('input_tokens', 'output_tokens', 'cached_input_tokens', 'reasoning_output_tokens')
+            if not all(k in usage for k in ('input_tokens', 'output_tokens')) or not all(isinstance(usage.get(k, 0), int) and usage.get(k, 0) >= 0 for k in fields):
+                errors.append('Invalid usage values: ' + sid)
+            elif usage.get('cached_input_tokens', 0) > usage.get('input_tokens', 0) or usage.get('reasoning_output_tokens', 0) > usage.get('output_tokens', 0):
+                errors.append('Usage subsets exceed totals: ' + sid)
+            else:
+                usage_by_thread[sid] = usage
+        model_counts.append(len(response_ids) if response_ids else None)
+        if any(row.get('type') == 'event_msg' and (row.get('payload') or {}).get('type') in ('turn_aborted', 'error') for row in rows):
+            errors.append('Aborted/error rollout: ' + sid)
+        if not any(row.get('type') == 'event_msg' and (row.get('payload') or {}).get('type') == 'task_complete' for row in rows):
+            errors.append('Missing task_complete: ' + sid)
+
+        # Completed runtime items include tools nested inside functions.exec.
+        handled = set()
+        last_skill = None
+        for local_id, (row, item) in completed.items():
+            kind = item.get('type')
+            timestamp = row.get('timestamp')
+            original, request = responses.get(local_id, (row, {}))
+            start = original.get('timestamp') if local_id in responses else None
+            if local_id not in responses:
+                start_ms = (row.get('payload') or {}).get('started_at_ms')
+                if start_ms is not None:
+                    start = dt.datetime.fromtimestamp(start_ms / 1000, dt.timezone.utc).isoformat()
+            failed = item.get('status') in ('failed', 'declined') or item.get('exit_code', 0) not in (None, 0)
+            if kind == 'CommandExecution':
+                cmd = item.get('command') or ''
+                cmd = cmd[-1] if isinstance(cmd, list) else cmd
+                out = text(item.get('aggregated_output') or item.get('stdout')) + text(item.get('stderr'))
+                if not out and local_id in outputs:
+                    out = text(outputs[local_id][1].get('output'))
+                if not failed and re.search(r'\b(?:Get-Content|cat|type)\b', cmd, re.I):
+                    for skill in STAGES:
+                        if re.search(r'(?:/|\\)' + re.escape(skill) + r'(?:/|\\)SKILL\.md', cmd, re.I) and skill != last_skill:
+                            call(sid, str(local_id) + ':skill', 'CodexSkillRead' if reviewed_mode else 'Skill', {'skill': skill, 'args': '', 'evidence': 'successful-skill-file-read'}, start, timestamp)
+                            last_skill = skill
+                call(sid, local_id, 'PowerShell', {'command': cmd}, start, timestamp, out, failed)
+                handled.add(local_id)
+            elif kind == 'FileChange':
+                changes = item.get('changes') or {}
+                if isinstance(changes, list):
+                    changes = {c['path']: c for c in changes}
+                for index, (path, change) in enumerate(changes.items()):
+                    post = post_change_text(change)
+                    call(sid, f'{local_id}:file{index}', 'Write' if change.get('type') == 'add' else 'Edit',
+                         {'file_path': path, 'content': post if change.get('type') == 'add' else '',
+                          'new_string': post if change.get('type') != 'add' else '',
+                          'change_evidence': 'full-content' if 'content' in change else 'post-change-hunk-lines'}, start, timestamp,
+                         text(item.get('stdout')), failed,
+                         provenance={'raw_diff': change.get('unified_diff') or change.get('diff', '')})
+                handled.add(local_id)
+            elif kind == 'McpToolCall':
+                result = item.get('result') or {}
+                arguments = item.get('arguments') or {}
+                normalized = arguments['params'] if set(arguments) == {'params'} and isinstance(arguments.get('params'), dict) else arguments
+                inp = dict(normalized)
+                call(sid, local_id, f'mcp__{item.get("server") or "geeky"}__{item.get("tool")}', inp,
+                     start, timestamp, json.dumps(result.get('structuredContent') or result.get('structured_content') or result),
+                     failed or bool(item.get('error')), provenance={'original_arguments': arguments})
+                handled.add(local_id)
+        for local_id, (row, request) in responses.items():
+            if local_id in handled:
+                continue
+            outrow, out = outputs.get(local_id, ({}, {}))
+            name = request.get('name')
+            try:
+                inp = json.loads(request.get('arguments') or '{}') if request.get('type') == 'function_call' else {'command': request.get('input', '')}
+            except ValueError:
+                errors.append('Invalid tool arguments: ' + str(local_id))
+                continue
+            if name == 'spawn_agent':
+                name = 'Agent'
+                inp = {**inp, 'subagent_type': inp.get('agent_type') or 'general-purpose',
+                       'prompt': inp.get('message', ''), 'description': inp.get('task_name', '')}
+            elif name == 'exec_command':
+                name, inp = 'PowerShell', {**inp, 'command': inp.get('cmd', '')}
+            elif name == 'apply_patch':
+                # No completed FileChange means patch outcome/content cannot be scored as a successful edit.
+                warnings.append('Patch lacks completed FileChange: ' + str(local_id))
+                errors.append('Unresolved patch write evidence: ' + str(local_id))
+                name = 'CodexPatch'
+            elif name == 'exec':
+                name = 'CodexExec'
+            if local_id not in outputs:
+                errors.append('Missing tool output: ' + str(local_id))
+            call(sid, local_id, name or 'unknown', inp, row.get('timestamp'), outrow.get('timestamp'),
+                 text(out.get('output')), bool(out.get('is_error')) or bool(re.search(
+                     r'(?:Process exited with code|Exit code:)\s*[1-9]\d*\b', text(out.get('output')))))
+        if thread.get('dispatch'):
+            final = [text((r.get('payload') or {}).get('content')) for r in rows
+                     if r.get('type') == 'response_item' and (r.get('payload') or {}).get('role') == 'assistant']
+            end = max((r.get('timestamp') for r in rows if stamp(r.get('timestamp'))), default=None)
+            lifecycle = [r for r in rows if r.get('type') == 'event_msg'
+                         and (r.get('payload') or {}).get('type') in ('task_started', 'task_complete')
+                         and stamp(r.get('timestamp'))]
+            starts = [r for r in lifecycle if r['payload']['type'] == 'task_started']
+            stops = [r for r in lifecycle if r['payload']['type'] == 'task_complete']
+            metas[thread['dispatch']] = {'agentId': sid, 'agentType': thread['role'], '_end': end,
+                                        'toolUseId': thread['dispatch']}
+            if starts and stops:
+                metas[thread['dispatch']].update(_start=min(r['timestamp'] for r in starts),
+                    _end=max(r['timestamp'] for r in stops), lifetime_source='codex-task-events',
+                    lifetime_scope='first-start-through-last-complete-including-idle-and-resumes',
+                    lifetime_records=[{'ordinal': r.get('ordinal'), 'timestamp': r['timestamp'],
+                                       'event': r['payload']['type']} for r in lifecycle])
+            ownership = task_ownership_evidence(thread)
+            if ownership:
+                metas[thread['dispatch']]['task_ownership'] = ownership
+            events.append({'type': 'system', 'subtype': 'task_notification', 'tool_use_id': thread['dispatch'],
+                           'summary': final[-1] if final else '', 'timestamp': end})
+    # Minimal stream-only files remain readable, but cannot silently become complete evidence.
+    if not events and stream:
+        errors.append('No usable rollout events')
+        for row in stream:
+            item = row.get('item') or {}
+            if item.get('type') == 'agent_message':
+                events.append({'type': 'assistant', 'message': {'content': [{'type': 'text', 'text': item.get('text', '')}]}})
+            elif row.get('type') == 'item.completed' and item.get('type') in ('command_execution', 'file_change'):
+                changes = item.get('changes') or []
+                calls = [('PowerShell', {'command': item.get('command', '')})] if item['type'] == 'command_execution' else [
+                    ('Edit', {'file_path': change.get('path', '')}) for change in changes]
+                for index, (name, inp) in enumerate(calls):
+                    cid = f'stream:{item.get("id")}:{index}'
+                    events.append({'type': 'assistant', 'message': {'content': [{'type': 'tool_use', 'id': cid, 'name': name, 'input': inp}]}})
+                    events.append({'type': 'user', 'message': {'content': [{'type': 'tool_result', 'tool_use_id': cid,
+                        'content': item.get('aggregated_output', ''), 'is_error': item.get('exit_code') not in (None, 0)}]}})
+    reviewed = []
+    if reviewed_mode:
+        try:
+            if root_id not in threads or threads[root_id]['parent']:
+                raise ValueError('Reviewed stages require a verified main session')
+            reviewed = reviewed_stages(stage_path, run_dir / 'session.jsonl',
+                                       threads[root_id]['rows'], events, root_id)
+            for index, evidence in enumerate(reviewed):
+                call(root_id, f'reviewed-stage:{index}', 'Skill',
+                     {'skill': evidence['stage'], 'args': '', 'evidence': 'reviewed-stage-annotation',
+                      'synthetic_annotation': True}, evidence['timestamp'], evidence['timestamp'],
+                     'Reviewed source-backed stage transition; not a native Skill tool call',
+                     provenance={'normalization': 'reviewed-stage-annotation', **evidence})
+        except (ValueError, OSError, TypeError, KeyError) as exc:
+            errors.append('Invalid stage evidence: ' + str(exc))
+    events.sort(key=lambda e: stamp(e.get('timestamp')) or dt.datetime.min.replace(tzinfo=dt.timezone.utc))
+    totals = None
+    if usage_by_thread and len(usage_by_thread) == len(threads):
+        sums = {k: sum(u.get(k, 0) for u in usage_by_thread.values()) for k in
+                ('input_tokens', 'cached_input_tokens', 'cache_write_input_tokens', 'output_tokens', 'reasoning_output_tokens')}
+        totals = {'input': sums['input_tokens'], 'cached_input': sums['cached_input_tokens'],
+                  'cache_creation': sums['cache_write_input_tokens'], 'output': sums['output_tokens'],
+                  'reasoning': sums['reasoning_output_tokens'], 'total': sums['input_tokens'] + sums['output_tokens'],
+                  'cost_usd_estimate': None, 'by_model': None}
+    if not declared:
+        errors.append('Missing thread.started stream event')
+    if not any(r.get('type') == 'turn.completed' for r in stream):
+        errors.append('Missing turn.completed stream event')
+    if any(r.get('type') in ('turn.failed', 'error') or (r.get('item') or {}).get('type') == 'error' for r in stream):
+        errors.append('Failed/error stream')
+    return {'stream': events, 'session': events, 'metas': metas, 'tokens': totals,
+            'stage_evidence_mode': 'reviewed' if reviewed_mode else 'legacy-skill-file-read',
+            'reviewed_stage_evidence': reviewed,
+            'model_calls': sum(model_counts) if model_counts and all(n is not None for n in model_counts) else None,
+            'trace_complete': not errors, 'trace_errors': sorted(set(errors)), 'trace_warnings': sorted(set(warnings)),
+            'threads': len(threads), 'usage_by_thread': usage_by_thread,
+            'max_idle_gap_s': round(max(((b - a).total_seconds() for a, b in zip(sorted(all_stamps), sorted(all_stamps)[1:])), default=0)) if all_stamps else None}

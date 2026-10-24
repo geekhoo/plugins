@@ -1,0 +1,66 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c1-csvledger",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "approach": "canonical-prompt",
+  "plugin_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "worker_model": "gpt-6-luna",
+  "worker_reasoning": "max",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "workers": {
+      "model": "gpt-6-luna",
+      "reasoning": "max",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "workspace": "C:\\repos\\eval-c1-csvledger-codex-20261023T175251Z-2941f32c",
+  "config_directory": "C:\\repos\\.eval-cfg-codex-20261023T175251Z-2941f32c",
+  "seed_sha": "40158a20ae08a1e28552ba8e1cb3432839c825f8",
+  "session_id": "01a169e4-ff27-7841-8ee2-750dbbceb2ed",
+  "started_utc": "2026-10-23T17:52:54.9071988Z",
+  "ended_utc": "2026-10-23T17:54:16.5013669Z",
+  "wall_time_s": 82,
+  "tokens": null,
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 118,
+    "passed": 0,
+    "failed": 0,
+    "errors": 118,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 0,
+  "exit_code": 1,
+  "exit_reason": "crash",
+  "is_error": true,
+  "raw_sha256": {
+    "stream": "c7ae957886bc7f957eed464e7fcee95c073e70a793429d9808edb738b7353109",
+    "session": "5f0d7521e8b52dead92e04ef12574171c8a52b4afd42e76f1a9fd327b7ccadd4"
+  },
+  "interventions": 0,
+  "token_ceiling": 12000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "awaiting-rollout",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "842e876c4caac916b147d762d6e126d632567cc827b81c6a0349a7dbbccb3606",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false
+}

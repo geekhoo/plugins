@@ -1,0 +1,51 @@
+{
+  "schema": "geeky-eval.scoring-status/1",
+  "status": "refused-incomplete-trace",
+  "scorer_exit_code": 2,
+  "composite": null,
+  "dimensions": {
+    "quality": null,
+    "adherence": null,
+    "consistency": null,
+    "task_tier": null
+  },
+  "reason": "Operator stopped this sole paid attempt for diagnostic frequency outside the exact approved exception. Shared scorer refuses incomplete trace. No score.json is fabricated.",
+  "trace_errors": [
+    "Missing task_complete: 01a169e4-ff27-7841-8ee2-750dbbceb2ed",
+    "Missing task_complete: 01a169e5-3b8e-7080-b17b-dfa038224e82",
+    "Missing task_complete: 01a169e5-b019-77b3-a8f8-848b1b04efd7",
+    "Missing task_complete: 01a169e5-bcd8-7de1-a3aa-521599eb5b6d",
+    "Missing tool output: call_9f13eccbefb64d05959c0bf2690a3ea2",
+    "Missing tool output: call_ab7e0272bda04e14be80d5927950a538",
+    "Missing tool timestamps: 01a169e4-ff27-7841-8ee2-750dbbceb2ed:call_ab7e0272bda04e14be80d5927950a538",
+    "Missing tool timestamps: 01a169e5-3b8e-7080-b17b-dfa038224e82:call_9f13eccbefb64d05959c0bf2690a3ea2",
+    "Missing turn.completed stream event"
+  ],
+  "manual_verdicts": "manual-verdicts.json",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "workers": {
+      "model": "gpt-6-luna",
+      "reasoning": "max",
+      "scope": "all-descendants"
+    }
+  },
+  "last_recorded_tokens": 1739929,
+  "final_usage_complete": false,
+  "api_latency_ms": null,
+  "cost_usd": null,
+  "oracle": {
+    "collected": 118,
+    "passed": 0,
+    "failed": 0,
+    "errors": 118,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "paid_attempts": 1,
+  "paid_retries": 0,
+  "judge_calls": 0
+}

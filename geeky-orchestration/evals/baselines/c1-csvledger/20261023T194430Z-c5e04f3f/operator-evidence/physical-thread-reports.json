@@ -1,0 +1,580 @@
+[
+  {
+    "file": "session.jsonl",
+    "sha256": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80",
+    "thread": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+    "role": null,
+    "own_history_cutoff": 0,
+    "lifecycles": [
+      {
+        "ordinal": 1,
+        "timestamp": "2026-10-23T19:44:39.020Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 628,
+        "timestamp": "2026-10-23T20:07:02.948Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T20:07:02.948Z",
+      "ordinal": 628,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "last_agent_message": "1. **spec-research \u2014 COMPLETE**  \n   Three researchers informed the [specification](docs/spec-001-feature/feature-specification.md). `contract.md` remained authoritative; no disagreements remained. Commit: `9e83476`.\n\n2. **geeky-plan \u2014 PASS**  \n   Created three tasks across two implementation phases, with full requirement coverage. PM review and all planning validators passed. Commit: `aaa9a83`.\n\n3. **plan-review \u2014 READY FOR IMPLEMENTATION**  \n   Alignment and sequencing reviews found no critical issues, warnings, or suggestions. Dependencies were acyclic; final sanity checks were clean. [Report](docs/spec-001-feature/review-plan.md). Commit: `a2e51d3`.\n\n4. **geeky-implement \u2014 COMPLETE**  \n   Three tasks Done; zero blocked or deferred. Both phases received delegated **READY TO ADVANCE** verdicts.\n\n   - Input tests: **42 passed**\n   - Input and engine tests: **62 passed**\n   - Full suite: **128 passed**\n   - Module help: exit **0**\n   - Required gates passed; frozen artifacts remained unchanged.\n\n   Automatic hook configuration was unavailable; explicit guard calls and hash comparisons verified contract preservation. Changes are committed locally, with nothing pushed. [Handoff](docs/spec-001-feature/handoff.md).\n\n5. **impl-review \u2014 PASS**\n\n   | Review domain | Verdict |\n   |---|---|\n   | CSV validation and error integrity | PASS |\n   | Exact money and ledger semantics | PASS |\n   | CLI and deterministic presentation | PASS |\n\n   No critical issues, warnings, or requested fixes. Reviewers verified and reused the saved test evidence; no remediation cycle was needed. The implementation is accepted, and the working tree is clean. [Final review](docs/spec-001-feature/review-impl.md). Closeout commit: `7c34d2b`.",
+        "started_at": 1792784678,
+        "completed_at": 1792786022,
+        "duration_ms": 1344303,
+        "time_to_first_token_ms": 3201
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a4b-888e-7bf2-9e24-02e7511fa69c.jsonl",
+    "sha256": "90749ee96e169e68d50c4680a031607f6415c5b3812803762c162262fb726d3c",
+    "thread": "01a16a4b-888e-7bf2-9e24-02e7511fa69c",
+    "role": "code-explorer",
+    "own_history_cutoff": 23,
+    "lifecycles": [
+      {
+        "ordinal": 24,
+        "timestamp": "2026-10-23T19:44:57.998Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 42,
+        "timestamp": "2026-10-23T19:45:25.329Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:45:25.329Z",
+      "ordinal": 42,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a4b-8a5b-73f1-990e-32deb94d7eb1",
+        "last_agent_message": "1. Repository findings\n\n- The repository contains only `brief.md`, `contract.md`, `.gitignore`, and Git metadata. There is no existing package, CLI, configuration, or test suite to integrate with.\n- Required entry point is a new root-level `csvledger/` package, invoked with `python -m csvledger`; runtime dependencies must remain Python 3.11+ standard library only (`contract.md:5`\u2013`7`).\n- `.gitignore:1` ignores `__pycache__/` only. Pytest cache handling may be added during implementation.\n\n2. Required execution flow\n\n1. Configure stdout as UTF-8 with LF newlines; parse arguments using `argparse` with `prog=\"csvledger\"` (`contract.md:35`).\n2. Load and fully validate rules before transaction files; process transaction files in argv order (`contract.md:36`).\n3. Normalize CSV headers, validate duplicate headers before missing columns, and validate records in the exact specified field order (`contract.md:50`, `contract.md:88`).\n4. Deduplicate every input transaction before month filtering using date, stripped description, and numeric Decimal amount; retain the first occurrence (`contract.md:15`).\n5. Assign one category using highest priority, preserving file order for priority ties (`contract.md:14`).\n6. Produce category/month aggregates or date-sorted transactions, retaining input order for equal dates (`contract.md:16`\u2013`17`).\n7. Render output completely before writing stdout, then emit any duplicate warning (`contract.md:88`, `contract.md:106`).\n\n3. Important implementation risks\n\n- **Decimal precision:** Decimal construction is exact, but ordinary arithmetic uses context precision. The contract places no size limit on valid amounts; default precision can round aggregates or fail during quantization. Choose precision from input magnitudes, fractional scales, and transaction count (`contract.md:20`, `contract.md:68`).\n- **Atomic output:** Valid early records must never reach stdout if a later file or row fails. Read, validate, categorize, aggregate, and render before emission (`contract.md:12`\u2013`13`, `contract.md:88`).\n- **Deduplication semantics:** `-4.50` and `-4.5` are equal; description matching for duplicate identity is case sensitive after stripping. Warnings include duplicates outside `--month` (`contract.md:15`).\n- **CSV line reporting:** Use `csv.reader.line_num`, particularly for quoted multiline records; physical record start positions are insufficient (`contract.md:88`).\n- **Formatting:** Negative expenses stay negative, rounded zero becomes `0.00`, table widths use code-point lengths, and JSON insertion order is observable (`contract.md:68`, `contract.md:72`, `contract.md:80`\u2013`84`).\n- **First error:** Validate malformed rule priority before compiling regex; duplicate headers before missing columns; transaction dates before amounts (`contract.md:88`).\n- **Regex/date matching:** Validate complete lexical forms before parsing. `date.fromisoformat` alone accepts forms outside the required date shape (`contract.md:53`).\n- **Default CSV behavior:** The contract expressly requires `csv.reader` defaults; enabling `strict=True` would change accepted inputs (`contract.md:50`).\n\n4. Recommendations\n\nUse small modules for CSV validation/models, categorization and aggregation, rendering, and the CLI. Keep shared CSV header/record validation centralized so rules and transactions follow identical structural behavior.\n\nUse subprocess pytest cases to assert raw stdout/stderr bytes and exit status. Cover every supplied oracle, validation precedence, BOMs, header-only files, multiline CSV records, priority ties, overlapping exports, duplicates outside a month filter, Unicode casefold behavior, equal-date stability, large/exact amounts, and repeatable LF-only output.\n\nEssential sources: `brief.md:1`; `contract.md:5`, `contract.md:11`, `contract.md:32`, `contract.md:50`, `contract.md:60`, `contract.md:68`, `contract.md:72`, `contract.md:80`, `contract.md:88`, `contract.md:110`.",
+        "started_at": 1792784697,
+        "completed_at": 1792784725,
+        "duration_ms": 27330,
+        "time_to_first_token_ms": 3059
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a4b-996d-7640-8444-60d3a47ed47e.jsonl",
+    "sha256": "3c8e55cd42ddcfb0d046374c50a541367d39d51d3910cfa959b8a0ed0061cb74",
+    "thread": "01a16a4b-996d-7640-8444-60d3a47ed47e",
+    "role": null,
+    "own_history_cutoff": 25,
+    "lifecycles": [
+      {
+        "ordinal": 26,
+        "timestamp": "2026-10-23T19:45:02.294Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 50,
+        "timestamp": "2026-10-23T19:45:35.871Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:45:35.871Z",
+      "ordinal": 50,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a4b-9b22-7941-a3cd-68a46e35f2f9",
+        "last_agent_message": "1. CSV parsing must preserve the documented reader semantics: use `csv.reader` defaults with `open(path, encoding=\"utf-8-sig\", newline=\"\")`. `reader.line_num` counts physical source lines, so multiline quoted records must report their ending line. Default `strict=False` permits some unusual quoting; adding strict parsing would change the contract. [Python CSV documentation](https://docs.python.org/3.11/library/csv.html)\n\n2. `utf-8-sig` accepts UTF-8 with or without an initial BOM. Catch decoding errors during iteration, not merely at `open()`. Keep the argv path string for diagnostics. [Python codecs documentation](https://docs.python.org/3.11/library/codecs.html#encodings.utf_8_sig)\n\n3. Use `ArgumentParser(prog=\"csvledger\")`, required subcommands, positional `FILE` with `nargs=\"+\"`, `choices` for format, and a month validator raising `ArgumentTypeError`. Argparse supplies help exit 0 and usage error exit 2. Keep file paths as strings; `argparse.FileType` would violate rules-first loading and ordinary-file treatment of `-`. [Python argparse documentation](https://docs.python.org/3.11/library/argparse.html)\n\n4. Validate dates against the required regex before calendar validation. Python 3.11 `date.fromisoformat` also accepts compact dates and ISO week dates, which the contract excludes. [Python datetime documentation](https://docs.python.org/3.11/library/datetime.html#datetime.date.fromisoformat)\n\n5. Compile regex rules with `re.IGNORECASE` only after validating category, type, pattern, and priority. Use compiled `.search(description)`. Contains rules use Unicode `.casefold()`, as required. Python regex `\\d` accepts Unicode decimal digits; do not silently substitute ASCII-only `[0-9]` unless documenting a contract interpretation. [Python regular expression documentation](https://docs.python.org/3.11/library/re.html)\n\n6. Configure stdout before argparse can print help: `sys.stdout.reconfigure(encoding=\"utf-8\", newline=\"\\n\")`. Explicit newline configuration prevents platform translation. Build all successful output only after all rules and transaction inputs validate; flush stdout before writing duplicate warnings. [Python I/O documentation](https://docs.python.org/3.11/library/io.html#io.TextIOWrapper.reconfigure)\n\nConstraints and recommendations:\n\n- `contract.md` controls every error string and validation order. Shared CSV mechanics should preserve header duplicate detection before missing-column detection, and field counts before field values.\n- A zero-field first record is a present header, so it should fail missing-column validation; skip blank records only after the header.\n- Test rules-first errors, later-file errors with empty stdout, multiline row numbers, BOM, blank rows, reordered/extra columns, ordinary `-` filenames, Unicode descriptions, and byte-level subprocess output.\n- The contract omits a specific diagnostic for `csv.Error` such as an oversized field. Record an explicit implementation decision for this case rather than allowing a traceback or enabling stricter CSV parsing.\n- Preserve first occurrence and original transaction sequence through deduplication; apply month filtering afterward. This sequencing is stipulated by root `contract.md`, not inferred from Python documentation.\n\nNo files modified.",
+        "started_at": 1792784702,
+        "completed_at": 1792784735,
+        "duration_ms": 33577,
+        "time_to_first_token_ms": 3225
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a4b-a648-7e03-9381-7ff3d205605c.jsonl",
+    "sha256": "ccb3d0e769d2736c6de4cc2e08898efb63c7ae0e9c9764c69b559b5ea8404be8",
+    "thread": "01a16a4b-a648-7e03-9381-7ff3d205605c",
+    "role": null,
+    "own_history_cutoff": 28,
+    "lifecycles": [
+      {
+        "ordinal": 29,
+        "timestamp": "2026-10-23T19:45:05.602Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 55,
+        "timestamp": "2026-10-23T19:45:35.495Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:45:35.495Z",
+      "ordinal": 55,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a4b-a80f-7b12-8f8b-5ef54f4b5cde",
+        "last_agent_message": "1. `Decimal` construction from validated strings preserves all digits, but arithmetic uses context precision, default 28. Merely avoiding float does not guarantee R10. Use input-derived `localcontext` precision before all additions and quantization. A sufficient global precision is maximum integer digits + maximum fractional digits + digit-count of transaction count + 2; include at least two fractional digits. This bound is an implementation inference from the documented arithmetic behavior. [Python 3.11 Decimal](https://docs.python.org/3.11/library/decimal.html).\n\n2. Formatting must call `quantize(Decimal(\"0.01\"), ROUND_HALF_UP)` only after raw aggregation, then normalize any result equal to zero to `\"0.00\"`. Quantization may raise `InvalidOperation` if its resulting coefficient exceeds context precision, so test amounts longer than 28 significant digits and cancellation. Do not pre-round transactions for report sums. [Decimal quantize](https://docs.python.org/3.11/library/decimal.html#decimal.Decimal.quantize).\n\n3. JSON preserves dictionary insertion order. Construct keys in the contract\u2019s exact order; explicitly sort months/categories; use precisely `json.dumps(obj, indent=2, ensure_ascii=False) + \"\\n\"`. Money must already be formatted strings. [Python 3.11 JSON](https://docs.python.org/3.11/library/json.html).\n\n4. Test actual CLI executions with `subprocess.run([sys.executable, \"-m\", \"csvledger\", ...], capture_output=True, cwd=repository_root)` and retain binary stdout/stderr. Avoid `text=True`: universal-newline decoding could hide Windows CRLF violations. `tmp_path` supplies isolated input files. [Python subprocess](https://docs.python.org/3.11/library/subprocess.html), [pytest tmp_path](https://docs.pytest.org/en/stable/how-to/tmp_path.html).\n\nConstraints and recommendations: authoritative `contract.md` supplies the actual requirements; external documentation only confirms mechanisms. Include O1/O5 byte oracles, ordered JSON keys, Unicode output, empty outputs, negative zero, repeated-execution byte equality, numeric-value duplicate equivalence, duplicate counts outside the selected month, and a large-precision cancellation case. No disagreement with the contract was found. No files modified.",
+        "started_at": 1792784705,
+        "completed_at": 1792784735,
+        "duration_ms": 29893,
+        "time_to_first_token_ms": 3064
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl",
+    "sha256": "b169db233788fae44cc8f0f04fecba81e6ff08ae54cdd7012979212290ae2344",
+    "thread": "01a16a4c-e099-7bc3-bfeb-c07b79860c78",
+    "role": null,
+    "own_history_cutoff": 58,
+    "lifecycles": [
+      {
+        "ordinal": 59,
+        "timestamp": "2026-10-23T19:46:26.042Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 197,
+        "timestamp": "2026-10-23T19:51:13.111Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:51:13.111Z",
+      "ordinal": 197,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a4c-e245-73d0-ab18-4aaf8666e436",
+        "last_agent_message": "geeky-plan complete: **PASS**.\n\n- Created the frozen package with 3 tasks across 2 implementation phases.\n- Coverage includes R1\u2013R11, AC1\u2013AC10, detailed interface/error constraints and all supplied oracles.\n- PM reviewer `/root/plan_workflows/pm_review`: PASS, no findings.\n- Task-schema, kanban and planning-folder gates: exit 0.\n- Commit: `aaa9a83`.\n\nPlan Review Complete: **READY FOR IMPLEMENTATION**.\n\n- Documents reviewed: 13 requirements/package documents; final sanity included the new review report.\n- Phase 1: 0 critical, 0 warnings, 0 suggestions.\n- Phase 2: no corrections required.\n- Phase 3: PASS; acyclic critical path T1 \u2192 T2 \u2192 T3; safe concurrency 1/1; no recommendations.\n- Phase 4: clean; no unresolved links or conflicts.\n- Reviewers: `/root/plan_workflows/alignment_review`, `/root/plan_workflows/sequencing_review`.\n- All deterministic gates passed again.\n- Commit: `a2e51d3`.\n\nReports and current instructions are in `docs/spec-001-feature/review-plan.md` and `handoff.md`. Working tree is clean. Next authorized stage is the full two-phase `geeky-implement` run.",
+        "started_at": 1792784786,
+        "completed_at": 1792785073,
+        "duration_ms": 287068,
+        "time_to_first_token_ms": 2874
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a4e-76d4-7972-88b1-df848fa6f98a.jsonl",
+    "sha256": "c68a42b5e5b360f033f43316f7a8698073b70f20ef9fdb39bc649ab3e0503cd3",
+    "thread": "01a16a4e-76d4-7972-88b1-df848fa6f98a",
+    "role": null,
+    "own_history_cutoff": 77,
+    "lifecycles": [
+      {
+        "ordinal": 78,
+        "timestamp": "2026-10-23T19:48:10.040Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 94,
+        "timestamp": "2026-10-23T19:48:25.239Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:48:25.239Z",
+      "ordinal": 94,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a4e-7889-7a42-a926-6ed45a11a655",
+        "last_agent_message": "PM review verdict: **PASS**\n\n1. **Critical findings:** None. All R1\u2013R11, AC1\u2013AC10, constraints, interface details, error cases, and supplied oracles map to task ownership in `draft.md`.\n2. **Warnings:** None. T1 \u2192 T2 \u2192 T3 dependencies match the two implementation phases, and the plan permits T2 to consume validated T1 work within Phase 1 while preserving the phase acceptance gate.\n3. **Suggestions:** None required.\n\nCoverage includes exact Decimal aggregation beyond default precision, global deduplication before filtering, rule ties, validation precedence, physical CSV line numbers, atomic stdout, JSON key order, table formatting, UTF-8/LF output, and binary subprocess acceptance evidence.\n\nOwnership is explicit and non-overlapping. Dependency defects return to their owners. Required pytest commands are concrete and achievable; all new product/test paths are expressly identified as files to create. Each phase, including the last, requires delegated task verdicts and **READY TO ADVANCE** before acceptance.",
+        "started_at": 1792784890,
+        "completed_at": 1792784905,
+        "duration_ms": 15199,
+        "time_to_first_token_ms": 2740
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a4f-aaf7-7bf3-95da-74c0076e4455.jsonl",
+    "sha256": "58b1c4c2bfe0e93e9ede805890a999e70b6c8d3bb293c87c4bcd9daa91bc03e8",
+    "thread": "01a16a4f-aaf7-7bf3-95da-74c0076e4455",
+    "role": "code-reviewer",
+    "own_history_cutoff": 93,
+    "lifecycles": [
+      {
+        "ordinal": 94,
+        "timestamp": "2026-10-23T19:49:29.063Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 117,
+        "timestamp": "2026-10-23T19:49:48.685Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:49:48.685Z",
+      "ordinal": 117,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a4f-ad25-72c3-a188-44a953597bd9",
+        "last_agent_message": "Reviewed all 11 planning-package documents plus root `brief.md` and `contract.md` at revision `aaa9a83`.\n\n- **Critical:** None.\n- **Warnings:** None.\n- **Suggestions:** None required.\n\nT1/T2/T3 match across the plan, task files, kanban and coverage matrix. Dependencies and two-phase gates agree; initial Ready/Backlog placement respects them. New product/test paths are explicitly identified for creation. Every R1\u2013R11, AC1\u2013AC10 and detailed interface, CSV, error, money and output requirement has task coverage. References resolve, and there are no orphaned or phantom tasks.\n\n**Phase 1 semantic alignment: PASS.**",
+        "started_at": 1792784969,
+        "completed_at": 1792784988,
+        "duration_ms": 19622,
+        "time_to_first_token_ms": 2783
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a50-3c26-7f72-81b8-edb1e7b85278.jsonl",
+    "sha256": "0019eb265b0a7b70c4c488d298f1a84e95c044331c5f23adaed73d1526c0c6b7",
+    "thread": "01a16a50-3c26-7f72-81b8-edb1e7b85278",
+    "role": "code-architect",
+    "own_history_cutoff": 106,
+    "lifecycles": [
+      {
+        "ordinal": 107,
+        "timestamp": "2026-10-23T19:50:06.364Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 130,
+        "timestamp": "2026-10-23T19:50:34.860Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:50:34.860Z",
+      "ordinal": 130,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a50-3ebf-72a0-abac-408eb238e061",
+        "last_agent_message": "Phase 3 sequencing: **PASS**\n\n- Graph: T1 \u2192 T2, T1 \u2192 T3, T2 \u2192 T3. Acyclic; task declarations, plan and kanban agree.\n- Critical path: **T1 \u2192 T2 \u2192 T3**, depth **3 tasks / 2 edges**, matching the plan.\n- Parallelization: **1 actual / 1 dependency-permitted concurrent task (100%)**. T2 consumes T1 records/loaders; T3 integrates both. These are behavioral dependencies, despite non-overlapping files. Preparation cannot bypass frozen prerequisites.\n- Ordering and gates: T2 may consume T1 only after passing validation in In Review. Phase 2 waits for accepted Phase 1 tasks in Done. Both phases require delegated task verdicts and **READY TO ADVANCE**.\n- Validation is achievable: Python **3.13.15** and pytest **9.0.3** are installed. Required commands target explicitly planned files.\n- Estimates: M is reasonable for each bounded module/task; no S multi-module task or unnecessarily broad L task requires correction.\n\n**Recommendations:** No sequencing changes or task splits required.",
+        "started_at": 1792785006,
+        "completed_at": 1792785034,
+        "duration_ms": 28496,
+        "time_to_first_token_ms": 3159
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+    "sha256": "27f587dc489e07c2bc360979f6336983448c62528947cd4bda8c454341a2412e",
+    "thread": "01a16a51-7a02-7db1-b28d-2275ecaa1cba",
+    "role": "geeky-implement-orchestrator",
+    "own_history_cutoff": 119,
+    "lifecycles": [
+      {
+        "ordinal": 120,
+        "timestamp": "2026-10-23T19:51:34.227Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 405,
+        "timestamp": "2026-10-23T20:05:21.718Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T20:05:21.718Z",
+      "ordinal": 405,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a51-9614-73b0-9aec-d64b5a67f0e4",
+        "last_agent_message": "Stage: **geeky-implement \u2014 COMPLETE**  \nFolder: `docs/spec-001-feature/`  \nMode: full two-phase run.\n\n- Tasks: **3 Done**, 0 Blocked, 0 In Progress, 0 Deferred.\n- Phase 1: T1/T2 PASS; **READY TO ADVANCE** from `/root/implement_workflow/phase1_review`.\n- Phase 2: T3 PASS; **READY TO ADVANCE** from `/root/implement_workflow/phase2_review`.\n- Preflight, planning-folder/schema, every lane move, all DoD gates and commit-message gates passed.\n- All seven frozen artifact SHA256 hashes remained unchanged.\n\nValidation evidence:\n\n| Command | Result |\n|---|---|\n| `python -m pytest tests/test_input.py -q` | Exit 0; 42 passed |\n| `python -m pytest tests/test_input.py tests/test_engine.py -q` | Exit 0; 62 passed |\n| `python -m pytest -q` | Exit 0; 128 passed in 16.66s |\n| `python -m csvledger --help` | Exit 0; both commands listed; stderr empty |\n\nExact tested source/dependency hashes are saved in each task\u2019s `.notes.md`. One bounded correction fixed two new test expectation mistakes; no dependency/product defect required remediation.\n\nCommits, **not pushed**:\n\n- `97185c1` validated CSV input\n- `4dc447d` exact ledger engine\n- `c39a486` deterministic CLI and acceptance suite\n- `6f179ac` implementation closeout\n\nDeviations: runtime hook configuration was unavailable, so the bundled frozen guard ran explicitly and final SHA256/content comparisons confirmed no frozen edits. PowerShell preflight warned it could not detect Python, while actual Python validators passed. No task or phase gate was skipped or self-issued.\n\nTracking, notes and heartbeat are finalized; working tree is clean. Root should now run the already-authorized **impl-review**. Final package acceptance awaits that verdict.",
+        "started_at": 1792785094,
+        "completed_at": 1792785921,
+        "duration_ms": 827487,
+        "time_to_first_token_ms": 2772
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a52-5d4a-77f2-a1c8-d9457d234257.jsonl",
+    "sha256": "8991e1b6fe834df41260d2e08b4a3440b5f338a853fefa49ecc6325e7760612b",
+    "thread": "01a16a52-5d4a-77f2-a1c8-d9457d234257",
+    "role": "geeky-coder",
+    "own_history_cutoff": 137,
+    "lifecycles": [
+      {
+        "ordinal": 138,
+        "timestamp": "2026-10-23T19:52:34.172Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 177,
+        "timestamp": "2026-10-23T19:54:45.768Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:54:45.768Z",
+      "ordinal": 177,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a52-8034-7090-abdf-d13545e848bf",
+        "last_agent_message": "SUMMARY: Implemented validated CSV loaders, immutable models, exact diagnostics, Unicode matching, and unrestricted integer priorities. No scope expansion or deferred work.\n\nFILES_TOUCHED: `csvledger/__init__.py`, `csvledger/input.py`, `tests/test_input.py`, `.gitignore`, `docs/spec-001-feature/tasks/T1-validated-input.notes.md`.\n\nVALIDATION: `python -m pytest tests/test_input.py -q` \u2014 exit 0; `42 passed in 0.28s`; stderr empty.\n\nTESTED_STATE: Baseline `a2e51d3f4743cd967d7cc7286daad959ef3b9c0d`; Python 3.13.15, pytest 9.0.3. SHA256 hashes and complete evidence saved in task notes.\n\nAC_RESULTS: T1-AC1 through T1-AC4 PASS. Phase review pending.\n\nAPI: `Transaction(date, description, amount, sequence)`, `Rule(category, type, pattern, priority, regex=None)` with `.matches()`, `InputError(message, exit_code)`, `load_transactions(paths)`, and `load_rules(path)`.",
+        "started_at": 1792785154,
+        "completed_at": 1792785285,
+        "duration_ms": 131595,
+        "time_to_first_token_ms": 2916
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a54-f980-7560-9eda-b3f103c70fa1.jsonl",
+    "sha256": "7589fb4cdf5f64f9648056b12a6e228684fadf7e19ca535532ea7b31273b81e8",
+    "thread": "01a16a54-f980-7560-9eda-b3f103c70fa1",
+    "role": "geeky-coder",
+    "own_history_cutoff": 162,
+    "lifecycles": [
+      {
+        "ordinal": 163,
+        "timestamp": "2026-10-23T19:55:16.702Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 204,
+        "timestamp": "2026-10-23T19:57:25.829Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:57:25.829Z",
+      "ordinal": 204,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a54-fb2f-7d70-b80a-7443f4a56c87",
+        "last_agent_message": "SUMMARY: Implemented deterministic categorization, global deduplication, month filtering, stable sorting, exact Decimal aggregation, and final money formatting.\n\nFILES_TOUCHED: `csvledger/engine.py`, `tests/test_engine.py`, `docs/spec-001-feature/tasks/T2-exact-engine.notes.md`.\n\nVALIDATION: `python -m pytest tests/test_input.py tests/test_engine.py -q` \u2014 PASS; exit 0; `62 passed in 0.33s`; stderr empty.\n\nTESTED_STATE: Baseline `a2e51d3f4743cd967d7cc7286daad959ef3b9c0d`; Python 3.13.15, pytest 9.0.3. Full SHA256 evidence saved in task notes.\n\nAC_RESULTS: T2-AC1 through T2-AC4 PASS. Phase review pending.\n\nAPI: `categorize_transactions(...)`, `aggregate_report(...)`, `format_money(...)`; detailed signatures and result structures documented in notes.\n\nDEFERRED_NOTES: None. No dependency files or frozen artifacts changed.",
+        "started_at": 1792785316,
+        "completed_at": 1792785445,
+        "duration_ms": 129126,
+        "time_to_first_token_ms": 2636
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a57-45f0-7693-be34-68c7ff4de408.jsonl",
+    "sha256": "640e577445ef926cb24af9ffcbdff2360309ed55eb2aca64bd5b302c90b7468b",
+    "thread": "01a16a57-45f0-7693-be34-68c7ff4de408",
+    "role": "code-reviewer",
+    "own_history_cutoff": 182,
+    "lifecycles": [
+      {
+        "ordinal": 183,
+        "timestamp": "2026-10-23T19:57:47.418Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 211,
+        "timestamp": "2026-10-23T19:58:21.837Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T19:58:21.837Z",
+      "ordinal": 211,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a57-47ee-7940-b79c-83bd4dd91c82",
+        "last_agent_message": "Reviewed Phase 1\u2019s full T1/T2 additions, task contracts, root requirements, tests, and saved validation evidence at baseline `a2e51d3` plus the recorded file hashes. Current hashes match both notes files. No additional test run was needed.\n\n| Task | AC | Result and evidence |\n|---|---|---|\n| T1 | AC1 | PASS \u2014 BOM, normalized headers, blank rows, field counts, exact values, and input order implemented and tested. |\n| T1 | AC2 | PASS \u2014 diagnostic codes/messages, validation precedence, original paths, and physical ending-line numbers covered. |\n| T1 | AC3 | PASS \u2014 load-time regex compilation, Unicode matching, arbitrary-length integer priorities, and header-only files covered. |\n| T1 | AC4 | PASS \u2014 meaningful valid/invalid input tests include encoding, multiline records, precedence, and loader silence. |\n| T2 | AC1 | PASS \u2014 rule priority/ties, numeric deduplication before filtering, global duplicate count, and stable date ordering covered. |\n| T2 | AC2 | PASS \u2014 category/month raw totals use sufficient local Decimal precision, including large values and cancellation. |\n| T2 | AC3 | PASS \u2014 final HALF_UP quantization and normalized zero match O5 and formatting cases. |\n| T2 | AC4 | PASS \u2014 tests cover required rules, deduplication, ordering, grouping, empty/zero, O1/O5, and precision behavior. |\n\nRequired validation evidence:\n\n- T1: `python -m pytest tests/test_input.py -q` \u2014 exit 0, **42 passed**.\n- T2: `python -m pytest tests/test_input.py tests/test_engine.py -q` \u2014 exit 0, **62 passed**.\n\nFindings for both tasks: **no blockers, majors, minors, or nits**.\n\n**T1: PASS. T2: PASS.**\n\nThe loaders and engine integrate through the documented records without output side effects or premature rounding. Phase 1 satisfies its collective requirements.\n\n**Can we move to the next phase? Yes \u2014 READY TO ADVANCE.**",
+        "started_at": 1792785467,
+        "completed_at": 1792785501,
+        "duration_ms": 34418,
+        "time_to_first_token_ms": 2816
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a58-d714-7370-97d6-eb152efc6e03.jsonl",
+    "sha256": "f14360187c446f18a2f9fe0786764bd6dfd0c93f0ea30d8fe0a36c3366b2ceca",
+    "thread": "01a16a58-d714-7370-97d6-eb152efc6e03",
+    "role": "geeky-coder",
+    "own_history_cutoff": 197,
+    "lifecycles": [
+      {
+        "ordinal": 198,
+        "timestamp": "2026-10-23T19:59:30.156Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 269,
+        "timestamp": "2026-10-23T20:03:24.323Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T20:03:24.323Z",
+      "ordinal": 269,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a58-d929-78f1-b66f-1c2f37d4fc80",
+        "last_agent_message": "SUMMARY: Implemented deterministic CLI commands, table/JSON rendering, atomic errors, duplicate warnings and user documentation.\n\nFILES_TOUCHED: `csvledger/__main__.py`, `csvledger/cli.py`, `csvledger/render.py`, `tests/test_cli.py`, `README.md`, and T3 notes.\n\nVALIDATION:\n- `python -m pytest -q` \u2014 PASS; exit 0; **128 passed in 16.66s**; stderr empty.\n- `python -m csvledger --help` \u2014 PASS; exit 0; help includes both commands; stderr empty.\n- Full evidence, initial expectation corrections, and SHA256 hashes: `docs/spec-001-feature/tasks/T3-cli-acceptance.notes.md`.\n\nTESTED_STATE: Baseline `4dc447dc6ecb418b180b0c810e2176487bc0dfe5` plus recorded files; Python 3.13.15, pytest 9.0.3.\n\nAC_RESULTS: T3-AC1 through T3-AC5 PASS; phase review pending.\n\nDEFERRED_NOTES: None. Dependency files and frozen artifacts unchanged; no commits made.",
+        "started_at": 1792785570,
+        "completed_at": 1792785804,
+        "duration_ms": 234166,
+        "time_to_first_token_ms": 2612
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a5c-c0df-7b90-9c8a-073635e89db1.jsonl",
+    "sha256": "a29363ea36c45292ed92e61224cdb0831578c4d93bfc4853adbccd19caf2caed",
+    "thread": "01a16a5c-c0df-7b90-9c8a-073635e89db1",
+    "role": "code-reviewer",
+    "own_history_cutoff": 228,
+    "lifecycles": [
+      {
+        "ordinal": 229,
+        "timestamp": "2026-10-23T20:03:50.728Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 259,
+        "timestamp": "2026-10-23T20:04:22.173Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T20:04:22.173Z",
+      "ordinal": 259,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a5c-d306-7a00-8464-6ce4ab1681b3",
+        "last_agent_message": "Reviewed T3\u2019s complete additions and Phase 2 integration against its task contract and `contract.md`. Current file hashes match the saved validation evidence.\n\n| T3 criterion | Verdict | Evidence |\n|---|---|---|\n| AC1 | PASS | CLI arguments, rules-first loading, exact diagnostics/exits, and atomic stdout are implemented and exercised. |\n| AC2 | PASS | Both tables and JSON formats cover ordering, empty results, Unicode, filtering, warnings, and deterministic LF bytes. |\n| AC3 | PASS | Subprocess tests exercise AC1\u2013AC10 and exact O1/O3/O4/O5 oracles. |\n| AC4 | PASS | Tests cover validation precedence, CSV edge cases, deduplication, stable ordering, large money/priorities, and repeated output. |\n| AC5 | PASS | README documents usage/testing; runtime imports and APIs meet Python 3.11 standard-library constraints. |\n\nRequired validation:\n\n- `python -m pytest -q` \u2014 exit 0; **128 passed in 16.66s**.\n- `python -m csvledger --help` \u2014 exit 0; both commands listed; stderr empty.\n\nValid evidence was reused without rerunning tests. No blockers, majors, minors, or nits found.\n\n**T3: PASS. Phase 2: READY TO ADVANCE.**\n\nThe implementation can advance to the separately authorized final `impl-review`.",
+        "started_at": 1792785830,
+        "completed_at": 1792785862,
+        "duration_ms": 31444,
+        "time_to_first_token_ms": 2991
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a5e-3a09-72a0-a9ec-8632f7db0e2e.jsonl",
+    "sha256": "f27c77dffb4d5bdc0365d4e33d4cc729e944b2ad98f5984b081b8b4ac07a8f15",
+    "thread": "01a16a5e-3a09-72a0-a9ec-8632f7db0e2e",
+    "role": "code-reviewer",
+    "own_history_cutoff": 256,
+    "lifecycles": [
+      {
+        "ordinal": 257,
+        "timestamp": "2026-10-23T20:05:23.062Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 282,
+        "timestamp": "2026-10-23T20:05:53.275Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T20:05:53.275Z",
+      "ordinal": 282,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a5e-3bc6-7790-be1b-dd75f4ef73ca",
+        "last_agent_message": "## CSV Validation and Error Integrity Review\n\nReviewed revision `6f179ac0e50c36cfb9926f1c16da792f7bd8a18d`.\n\n### Critical Issues\nNone found.\n\n### Warnings\nNone found.\n\n### Suggestions\nNone required.\n\nThe input pipeline preserves default CSV parsing, BOM handling, ending physical line numbers, validation precedence, exact diagnostics, and unrestricted priority conversion. CLI integration loads rules first and completes validation before emitting stdout.\n\nVerified current hashes match saved evidence:\n\n- `csvledger/input.py`: `718998FC\u2026057D7F`\n- `tests/test_input.py`: `A8553B8F\u2026719E2`\n- `csvledger/cli.py`: `2D61A2E7\u20266EAD8F9`\n\nReused valid evidence: 42 input tests and the full 128-test suite passed. No additional probes or reruns were warranted.\n\n### Verdict: PASS",
+        "started_at": 1792785923,
+        "completed_at": 1792785953,
+        "duration_ms": 30213,
+        "time_to_first_token_ms": 2936
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a5e-53b4-7e80-9adf-1a0b91c4d804.jsonl",
+    "sha256": "e693cd7d098e1d7d10fb8e1023b9ea9af298806a2de30876e33325659c64a87e",
+    "thread": "01a16a5e-53b4-7e80-9adf-1a0b91c4d804",
+    "role": "code-reviewer",
+    "own_history_cutoff": 260,
+    "lifecycles": [
+      {
+        "ordinal": 261,
+        "timestamp": "2026-10-23T20:05:29.630Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 286,
+        "timestamp": "2026-10-23T20:05:50.116Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T20:05:50.116Z",
+      "ordinal": 286,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a5e-556b-7a81-b31c-04d8de4289ad",
+        "last_agent_message": "## Exact Money & Ledger Semantics Review\n\nReviewed revision `6f179ac0e50c36cfb9926f1c16da792f7bd8a18d`, primarily `csvledger/engine.py` and `tests/test_engine.py`, with input/render/CLI integration checked as dependencies.\n\n### Critical Issues\nNone found.\n\n### Warnings\nNone found.\n\n### Suggestions\nNone required.\n\nInput-derived local precision preserves raw category/month sums and cancellation. Formatting applies HALF_UP at the display boundary and normalizes signed zero. Global numeric-value deduplication precedes filtering; rule ties and transaction date ties preserve original order; months/categories sort deterministically.\n\nVerified current SHA256 hashes match saved evidence:\n\n- Engine: `3189E2425AAF52B8AE6CE44D4C2B77ED79BC6A1093F102D9A09BE6E5F60F8C19`\n- Engine tests: `45A114532829D289551EFE401F7BECB0CACA419F6F4D73F0F9AEBCFB177D3E8C`\n\nReused valid evidence: input/engine validation **62 passed**, full integration suite **128 passed**, both exit 0. No concrete defect or contradictory evidence justified additional tests.\n\n### Verdict: PASS",
+        "started_at": 1792785929,
+        "completed_at": 1792785950,
+        "duration_ms": 20486,
+        "time_to_first_token_ms": 3146
+      }
+    }
+  },
+  {
+    "file": "subagents\\rollout-01a16a5e-6c84-7fe0-810a-3d82d6a912d1.jsonl",
+    "sha256": "ba26c4b12b2b30c27e6348288323df80aeecff3cf63e64712903023b15a8188d",
+    "thread": "01a16a5e-6c84-7fe0-810a-3d82d6a912d1",
+    "role": "code-reviewer",
+    "own_history_cutoff": 263,
+    "lifecycles": [
+      {
+        "ordinal": 264,
+        "timestamp": "2026-10-23T20:05:36.068Z",
+        "type": "task_started"
+      },
+      {
+        "ordinal": 289,
+        "timestamp": "2026-10-23T20:05:59.086Z",
+        "type": "task_complete"
+      }
+    ],
+    "final": {
+      "timestamp": "2026-10-23T20:05:59.086Z",
+      "ordinal": 289,
+      "type": "event_msg",
+      "payload": {
+        "type": "task_complete",
+        "root_turn_id": "01a16a4b-3ee8-7503-b318-003c107dec82",
+        "turn_id": "01a16a5e-6e84-7343-8d59-81ca1eac5ebb",
+        "last_agent_message": "## CLI and Deterministic Presentation Review\n\nReviewed `6f179ac0e50c36cfb9926f1c16da792f7bd8a18d`; working tree clean. Current SHA-256 hashes for CLI, renderers, entry point, README and CLI tests match saved T3 evidence.\n\n### Critical Issues\nNone found.\n\n### Warnings\nNone found.\n\n### Suggestions\nNone required.\n\nThe CLI satisfies the assigned contract:\n\n- `csvledger/cli.py:19\u201329`: UTF-8/LF configuration precedes argparse help; commands, options, month validation and usage exits match.\n- `csvledger/cli.py:31\u201344`: rules load first, inputs validate before rendering, errors leave stdout empty, and stdout flushes before duplicate warnings.\n- `csvledger/render.py:8\u201348`: table widths/alignment and JSON envelopes, key order, Unicode and final newline follow the contract.\n- `csvledger/__main__.py:3`: root module entry point uses compatible standard-library code.\n- `tests/test_cli.py`: independent byte assertions cover supplied oracles, empty output, errors, ordering, Unicode and repeatability.\n\nReused verified evidence: `python -m pytest -q` \u2192 exit 0, **128 passed**; module help \u2192 exit 0. No code changes or contradictory evidence justified rerunning tests.\n\n### Verdict: PASS",
+        "started_at": 1792785936,
+        "completed_at": 1792785959,
+        "duration_ms": 23018,
+        "time_to_first_token_ms": 3194
+      }
+    }
+  }
+]

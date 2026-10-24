@@ -1,0 +1,95 @@
+{
+  "schema": "geeky-eval.validation-cache/1",
+  "entries": [
+    {
+      "task": "T1",
+      "commit": "8691b4ae5c4622c5141e5bdc9c91c6ca8f2f415f",
+      "task_file_sha256": "f5d731e9408c0de8e088b2daa46a36cf678f4b9a41588bdc6d26110385b81960",
+      "command": "python -m pytest tests/test_core.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "stdout_path": "T1-0-stdout-tail.txt",
+      "stdout_sha256": "cdb65244086c9e7b017d1055004e3b279ff22b81729d816f3c440f2cb4c18a7b",
+      "stderr_path": null,
+      "stderr_sha256": null,
+      "provenance": "Fresh run3 scorer own-commit validation in dedicated bundle clone; only stored tail is available; stderr is explicitly unknown.",
+      "source_document": {
+        "path": "source-score.json",
+        "sha256": "81076fe810fcf63a1cf7df91f59a0be02bb336eadc4d02dc238a13c0eed16ac0",
+        "record_pointer": "/rerun_results/T1/results/0"
+      }
+    },
+    {
+      "task": "T2",
+      "commit": "0c1424716f4bd26b03694cac03a9acd79a35c62d",
+      "task_file_sha256": "e0d1c62c0c748480602dde3d8e442e417f5a1ca7cb81c457f11ed19a2c7765b2",
+      "command": "python -m pytest tests/test_core.py tests/test_output.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "stdout_path": "T2-0-stdout-tail.txt",
+      "stdout_sha256": "ea7d82a43b937b7c91e7db5b184586512093cbc3842be79c61475b296f9e6ede",
+      "stderr_path": null,
+      "stderr_sha256": null,
+      "provenance": "Fresh run3 scorer own-commit validation in dedicated bundle clone; only stored tail is available; stderr is explicitly unknown.",
+      "source_document": {
+        "path": "source-score.json",
+        "sha256": "81076fe810fcf63a1cf7df91f59a0be02bb336eadc4d02dc238a13c0eed16ac0",
+        "record_pointer": "/rerun_results/T2/results/0"
+      }
+    },
+    {
+      "task": "T3",
+      "commit": "5e1aa0dacabfbfb228c1164bba5a868975f3604b",
+      "task_file_sha256": "4dbdea7347f1551c90c9304cb3c2e7427b9ac97074d9cbec6cd6282d6d0e5548",
+      "command": "python -m pytest -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "stdout_path": "T3-0-stdout-tail.txt",
+      "stdout_sha256": "34fe3a72e52eac3fca6a62649cf02953232f1a3de2bc62ffbb8a536510de4ba2",
+      "stderr_path": null,
+      "stderr_sha256": null,
+      "provenance": "Fresh run3 scorer own-commit validation in dedicated bundle clone; only stored tail is available; stderr is explicitly unknown.",
+      "source_document": {
+        "path": "source-score.json",
+        "sha256": "81076fe810fcf63a1cf7df91f59a0be02bb336eadc4d02dc238a13c0eed16ac0",
+        "record_pointer": "/rerun_results/T3/results/0"
+      }
+    },
+    {
+      "task": "T3",
+      "commit": "5e1aa0dacabfbfb228c1164bba5a868975f3604b",
+      "task_file_sha256": "4dbdea7347f1551c90c9304cb3c2e7427b9ac97074d9cbec6cd6282d6d0e5548",
+      "command": "python -m csvledger --help",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "stdout_path": "T3-1-stdout-tail.txt",
+      "stdout_sha256": "f0dfa76e8f772459fc43f77baa54b9611f3944681805048b89d2d7ac154a5003",
+      "stderr_path": null,
+      "stderr_sha256": null,
+      "provenance": "Fresh run3 scorer own-commit validation in dedicated bundle clone; only stored tail is available; stderr is explicitly unknown.",
+      "source_document": {
+        "path": "source-score.json",
+        "sha256": "81076fe810fcf63a1cf7df91f59a0be02bb336eadc4d02dc238a13c0eed16ac0",
+        "record_pointer": "/rerun_results/T3/results/1"
+      }
+    },
+    {
+      "task": "T3",
+      "commit": "5e1aa0dacabfbfb228c1164bba5a868975f3604b",
+      "task_file_sha256": "4dbdea7347f1551c90c9304cb3c2e7427b9ac97074d9cbec6cd6282d6d0e5548",
+      "command": "python -m compileall -q csvledger",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "stdout_path": "T3-2-stdout-tail.txt",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_path": null,
+      "stderr_sha256": null,
+      "provenance": "Fresh run3 scorer own-commit validation in dedicated bundle clone; only stored tail is available; stderr is explicitly unknown.",
+      "source_document": {
+        "path": "source-score.json",
+        "sha256": "81076fe810fcf63a1cf7df91f59a0be02bb336eadc4d02dc238a13c0eed16ac0",
+        "record_pointer": "/rerun_results/T3/results/2"
+      }
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "created_utc": "2026-10-23T19:44:52.853518+00:00",
+  "head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "git_status": " M geeky-orchestration/README.md\n M geeky-orchestration/evals/baseline-runs.md\n M geeky-orchestration/evals/baselines/c1-csvledger/comparison-20261022T0800Z.md\n M geeky-orchestration/evals/codex-c1-kickoff.md\n M geeky-orchestration/evals/lessons-learned.md\n M geeky-orchestration/evals/mock-agent/dry-run.ps1\n M geeky-orchestration/evals/scripts/analyze-run.py\n M geeky-orchestration/evals/scripts/run-baseline.ps1\n M geeky-orchestration/evals/scripts/score-run.py\n M mxc-sandbox/README.md\n M mxc-sandbox/scripts/host/MxcClaude/Program.cs\n?? geeky-orchestration/evals/adapters/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T154159Z-b32cc92a/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T154525Z-2f68b6f5/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T155701Z-484517b0/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T160546Z-2d9082ab/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T162040Z-81ec77ad/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T162259Z-60b450bc/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T163202Z-2a0a12c1/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T164415Z/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T164824Z/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T174054Z-7256dd6d/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T174928Z-5c5b81d8/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T175251Z-2941f32c/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180416Z-bb2ca5d0/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180437Z-83d94cb2/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180504Z-3e05785c/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180526Z-b380e0c5/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180548Z-70a4c5d6/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180606Z-87165966/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T181850Z-b1cc7126/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T182024Z-5fa13924/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T192610Z-e3ec171a/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T194241Z-2ae86a5e/\n?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T194430Z-c5e04f3f/\n?? geeky-orchestration/evals/codex-c1-run1-retrospective.md\n?? geeky-orchestration/evals/codex-c1-run2-guide.md\n?? geeky-orchestration/evals/scripts/codex-trace.py\n?? geeky-orchestration/evals/scripts/run-codex-baseline.ps1\n?? geeky-orchestration/evals/scripts/test_codex_run2_prep.py\n?? geeky-orchestration/evals/scripts/test_codex_stage_evidence.py\n?? geeky-orchestration/evals/scripts/test_codex_trace.py\n",
+  "sources": {
+    "geeky-orchestration/evals/adapters/codex/capture-rollouts.py": {
+      "sha256": "b10299bbfeafbaabbd69170a648af3979eb79fc9a8c14ca6158aafb4b2cdb9e5",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\capture-rollouts.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/copy-vetted-mxc-build.ps1": {
+      "sha256": "ea99343bd0f3b82e92cbfcc1748e1ca41b77b3c8003e61b1450d3931fcfd2d23",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\copy-vetted-mxc-build.ps1.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/diagnostics.py": {
+      "sha256": "ae80f23768b9e474cb30ae760facf18f473c1a283af902d188ad541653b7e7e4",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\diagnostics.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/guard-bridge.py": {
+      "sha256": "eaec67f1d236a4599327e8f24af213cd87c44d1942c57e196500d7d2cddccaa1",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\guard-bridge.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/mock_codex.py": {
+      "sha256": "1360df0abb05aac97b43c2c9a2cbe0be1e19e430ec0546aa11615eda2993a54a",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\mock_codex.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/native-probe.py": {
+      "sha256": "08fa599d6a51c83837f3c4eeec5e3cb0d4cfed5dbc1a093b7e93c34394a9dcec",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\native-probe.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/paid-diagnostic-audit.py": {
+      "sha256": "176f349db103df57c5d269b056b77b3f880cb59f2afb5d818266fa101c057097",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\paid-diagnostic-audit.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/prepare-profile.py": {
+      "sha256": "6cfa994ea50fa940b0a5cb128d0c5a0fd6a2662d958babb9eca29de4262672ac",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\prepare-profile.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/profile/config.toml": {
+      "sha256": "17b5752d752a1c8377a5ce3beff46b3ecb1b61375688c38325dbbfac75c7bbcd",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\profile\\config.toml.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/profile/mcp-bootstrap.py": {
+      "sha256": "68213bb92ebde4bf08ac559aa56aaca929e4625137d28bff293ae721ce449faf",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\profile\\mcp-bootstrap.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/profile/mxc-pin.json": {
+      "sha256": "a2db3f8a29f833b3981ab41991421faff13831fb2b35a8a9bb771db96f1be04b",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\profile\\mxc-pin.json.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/run-native-probe.ps1": {
+      "sha256": "84c80bb7beeddfb915575b54d4d2ada44efbff073bfc154e1c564e418d5775b9",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\run-native-probe.ps1.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_capture_rollouts.py": {
+      "sha256": "0ff13b1c1d0a525bcf8e99fdf3709f8ae4fd989c665bd63b248a453b38321505",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\test_capture_rollouts.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_diagnostics.py": {
+      "sha256": "0b414778f1bcd79d9df7d7f7af57409555f14fe1a894f3f1c3a5d508863eb628",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\test_diagnostics.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_mock_codex.py": {
+      "sha256": "cce77ccfaab31df5a11561dfc017ea0fbd24a8bf410bae13d7a80ad9160cb878",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\test_mock_codex.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_mxc_build_copy.py": {
+      "sha256": "f2e6dec73ab79f33b10ab71516464355f8e2848cb3ceb774d00cd95b2fe3be99",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\test_mxc_build_copy.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_native_probe.py": {
+      "sha256": "ec49c1e40adf75e75aee428b7d2056dd1dafb3b085c7d5da74395ab5f78ebd5f",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\test_native_probe.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_paid_diagnostic_audit.py": {
+      "sha256": "b80bf93d94cd0a39ab211615ea9231c5e2a9ca11a568a88e953336a87d863f21",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\test_paid_diagnostic_audit.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_profile.py": {
+      "sha256": "ff2dae8d61949adeae01a47024c55ba6766f6ee55420439ba00599f22980673f",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\test_profile.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_trusted_exec.py": {
+      "sha256": "0a68e0a50a7d2bc0f0fb3fb645f79d9f1a9763d0e1961990fbd6f237c48f756a",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\test_trusted_exec.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_worker_config.py": {
+      "sha256": "64058b8a5ea2c135879b5bf0c1d37a1ba2e473bc6e9c4d89f6884ea58df675f0",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\test_worker_config.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/trusted-exec.py": {
+      "sha256": "27b79ca9dc6e49fa00cfaf814fb6347c6f0d01225706837162416ec1fcac0979",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\trusted-exec.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/verify-claude-regression.py": {
+      "sha256": "4a221826978fce2caabb4484c3a8ae8bee5b44f7792aa5c6e69d804f168f2995",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\adapters\\codex\\verify-claude-regression.py.source"
+    },
+    "geeky-orchestration/evals/scripts/analyze-run.py": {
+      "sha256": "ce2b6ee0113f97c9509523691a0d03d9035b7e8bbd2e0b8be9d3aaaceab15a2a",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\scripts\\analyze-run.py.source"
+    },
+    "geeky-orchestration/evals/scripts/codex-trace.py": {
+      "sha256": "3b52cbfea1cc9f41a62d4bb626f4e80da709b24278740a0d5fdd78d8ad510551",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\scripts\\codex-trace.py.source"
+    },
+    "geeky-orchestration/evals/scripts/run-codex-baseline.ps1": {
+      "sha256": "e19424311c724f49b7a63664c28543998465a352f0a807a0a6b4e89a8787c992",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\scripts\\run-codex-baseline.ps1.source"
+    },
+    "geeky-orchestration/evals/scripts/score-run.py": {
+      "sha256": "9bcb243214231926fb6886ba8013555434f811394ef829277fd7c1095aec3f11",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\scripts\\score-run.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_run2_prep.py": {
+      "sha256": "173c277fbb880721589458801370a56219ec2ff0404ece3029398e45352e1871",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\scripts\\test_codex_run2_prep.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_stage_evidence.py": {
+      "sha256": "6f71f8ec8fbcdd59f9c78d7a0c02c17898c108410a85035c9b8db8d441cd6a93",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\scripts\\test_codex_stage_evidence.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_trace.py": {
+      "sha256": "30ee90905e7546efd63e81782534c882e4528abbf6ecc3e4fb7bea7a48d71eb2",
+      "preparation_matches": true,
+      "snapshot": "sources\\geeky-orchestration\\evals\\scripts\\test_codex_trace.py.source"
+    }
+  },
+  "run1_before": {
+    "analysis-prefetch-original.json": "e090a7a1f2c292fb88c5cd02d98ab475c7a1185a931a576de6f1069bc8e524a0",
+    "analysis.json": "360a957d98a6f172c363acaba5baf4f09a4af45969854d3d5c817ca3385fa5d1",
+    "artifact-manifest.json": "663a400781b9b61f46729a09325d05d7bf1df465269129a90e6edc3a11781535",
+    "automatic-diagnostic-report.json": "74bd12af6d0fa3e7b3e7f11aa9eceb5de9bffc0674d30c1a40f888b5be2c161c",
+    "automatic-run.json": "50a93ee407ffb8a1d0157cd81c04ee27020a72dda805f49ce7ec645ba863d5bb",
+    "diagnostic-report.json": "b69df4e6ef0b43942d4b66da0ceea0a9f046faa3cc50ca76bdc6df6d7c20ffbd",
+    "final-help-validation.txt": "9943b28fc845353dce6d6fb746c666ca2799643ad338937e16a4c7be284c6529",
+    "final-suite-validation.txt": "58425c41d7c5b2390672ef6cf0ac6d6de3eff09b8c9111d2e61b182d3f05f347",
+    "independent-validation.json": "eca577ead6f735924d57eb83233e9e2e9568b552e392c1abe6e727f3e08cf560",
+    "learnings.md": "e38d1570f2babe859f66dc913e05dd5c45bd0e9deba34305556dae485994f408",
+    "manual-verdicts.json": "17acb8c10836c555533c5b2bea0d235277d7d924bb440511f4e47d5583241205",
+    "model-audit.json": "c9e46fcb697da3e2b299d4df87c807acc0453b8cf307fec620e5e8ae7ad276b1",
+    "mxc-build-provenance.json": "d75a056f14618fe9f3de4d5677e14ee2f663812c47dfc068ed33fe57bf8dcbe6",
+    "native-proof-validation.json": "57d4ba26dca0a27557a33d8e2afb6e0b09a36b72ccc573468a49446db39a8afc",
+    "notes.md": "c89fb58af2df1c105e3d0246f53708d9902b68d061c8e3bad2b5f670327f841c",
+    "oracle-output.txt": "c665584e0a39f8c5e8b1bb4729efab748dacec2bca095a914bcea80098de653e",
+    "oracle-seed-output.txt": "12c787f8c71416b146779807027691b521e5b8f34f2b9a2764a601e8ad4730f5",
+    "parity-preflight.json": "744c682c12c213e0d4f0a25b0b9802f64d8fe1aa481fc61fdc4a8399536cf355",
+    "reviewer-claims-audit.json": "01f7a80b4cc13543d7ebb28f72e3e58e8876305f61873edd690fa20e8cb0a87f",
+    "rollout-manifest.json": "4bb51de20c5157ee2be325beb809b017b173cf9ae2dddc2f3db717723bdba3f0",
+    "run.json": "e92d9660351fcdab7ca5bbbfd3a2a509c499d41423e6cdaffa705a03619f8987",
+    "score-generated.md": "badcd7947e13f97b68040ba5745ebab35223c478a153e5a836ed13e8178f1e8d",
+    "score.json": "912348920c1a3e4eb1bef73b9729bdaddb99ce9c916607d0b23badc15a7ac896",
+    "score.md": "1bf09a6ddb73eacb4f8fa03ecdba8f6e6b863119d4481c81d53791c837bae9c1",
+    "scoring-status.json": "4e08fe78e5cb4fd0e8bdc8726538b89bea87628ca508bc58244fab2f4ce5a394",
+    "session.jsonl": "0ee75b714b75d4add9719e0ddd8d5f5997d3d697f5e5078f14bae36ed9b06590",
+    "solution.bundle": "25b053ae01c9b0893442581c84d0824b4eb561903045c0fe3471c5c540178e88",
+    "stage-evidence.json": "a355bd2a65cbb64e045e10149619a927e8d61d31f3808eed8156eb82d8c8dacf",
+    "stderr.txt": "492125227c510aac8975e2e94ef301f2bc50704f4aa2e80423ef53a212ae4371",
+    "stream.jsonl": "ccc695b69e21eb25d5cada23351af1c54c636015c7d6940985aa57662288ea60",
+    "T1-own-commit-validation.txt": "14948cb5b22a8482f2d94e2e08eaeba3ffe9bf9065f33f3361761167a47a658e",
+    "T2-help-own-commit-validation.txt": "9943b28fc845353dce6d6fb746c666ca2799643ad338937e16a4c7be284c6529",
+    "T2-own-commit-validation.txt": "44ea79202d4f5fcb73248a3254d2199b8b3aff0a00a18a1648cc6c3ea828f94e",
+    "native-hook-trust\\native-hook-catalog-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-hook-trust\\native-hook-catalog.json": "b7511686c8c1418d39f7515dbbfb4f5a5232f0ca2908eb643cfc051e3bb2ca48",
+    "native-hook-trust\\native-plugin-install-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-hook-trust\\native-plugin-install.json": "fc95ca16b4d2c6fe8cccb04b708094ec73c20a45f8e84fe5423b683e9a46b167",
+    "native-hook-trust\\runtime-denial-proof.json": "f862345cb6fb289f5bab02dd8111297c1acff726e2431be14eacf7231a4de641",
+    "native-proof\\mxc-build-proof.json": "2bfa214eca5d488d3695d36ff8c0e6aee5aee51c5fd29f9ec3ad38c9288b4ff4",
+    "native-proof\\mxc-build-provenance.json": "1fa0b8af5643671e79dbebdc771921c19ad87df655fa6883ba5ea8a7e6a335bf",
+    "native-proof\\native-summary.json": "400bfb1280c3003181d377e2a1ea9a8fc1caed4f7f023fed49a52c1f2d39bb8d",
+    "native-proof\\proof-profile.json": "7fa01165e1bec4c35b2913922312cda93d964f26e644c9bb6935ce7f8fc9a971",
+    "native-proof\\proof-run.json": "c6d0ef4d65e8c9abd8d3ce6620f4797379e989170fa084c1e11f5d3440b48ff0",
+    "prefetch-original\\score.json": "5b10456f073819b9efe2996a02f1e7d52c9ca049bb2cdd25003feb32e8a25153",
+    "prefetch-original\\score.md": "e4e9c94cee377c8448c679d6332dd102538e7b269fd38de577f1d5816b37f4ff",
+    "subagents\\rollout-01a169fe-72e0-7dc3-bdef-cd3737ec5f67.jsonl": "58e273e0153afb8b2ef20b9892901d7d0292db2910124c23035dc4d523cc076f",
+    "subagents\\rollout-01a169fe-84cd-7471-b0be-8ddc36ed4a9d.jsonl": "fd8a2f30ccf740cc9292e94c7d665311d30796578a27b0b82cc18bd0f2f1d5ae",
+    "subagents\\rollout-01a169fe-94a0-7f71-96c2-ac67626d5911.jsonl": "07578ff8f22dbc59958f79abfa4f826df899902db6592f23be3cc7b966ee40d0",
+    "subagents\\rollout-01a16a01-1799-7f42-951d-c636efad34f5.jsonl": "656bf427c65ab86c10d35c42d125c25c53f21ee63341cdd5589f6cb55338b330",
+    "subagents\\rollout-01a16a01-b19a-7293-aed3-a6b5f77e7b5a.jsonl": "1963a3fe3f79baee9a770add1cc63dbbf374c713be66fad5072b6da7d3e70216",
+    "subagents\\rollout-01a16a01-c587-7010-a0ea-d63dd59c6eb8.jsonl": "60c05195120f804035c9bf195ccbd5eaeebb8d12c4a2271cfdadb8cecaf6a08c",
+    "subagents\\rollout-01a16a02-dec1-7ea1-a273-df311d61c1bb.jsonl": "98ee732d3b78a07e40b4e2927487d9f769976de3869b7c4910fa2cd4700c82f6",
+    "subagents\\rollout-01a16a05-718c-7862-9e67-46a7f5bac107.jsonl": "fb71000cb51fa809c4a3452c9c757ee0936fb2a1d6262675ec1a1f3875007afb",
+    "subagents\\rollout-01a16a06-b192-70a0-8d10-58bcd309ef80.jsonl": "6abd43ff7e0aa9106f7e024268d94edc4240da091d4895c8cb122faf33a5462f",
+    "subagents\\rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl": "171afacffb81fd4b1f4ed49048e3f3af03529b92680612d54573dab603d33a15",
+    "subagents\\rollout-01a16a0c-d6b3-7543-bd2d-0f172cc5022f.jsonl": "d69a559e6d01da35f39c0f10cd65945444b626ac1f51e9d68f443b99a8fae17f",
+    "subagents\\rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl": "a3ba15327a626902b257f0c51b952b494d81b0a1761fcf93d9b1e4f98773bdf6",
+    "subagents\\rollout-01a16a0d-1ee8-7840-8460-8d099fadedb1.jsonl": "422f663716ae8c0155c608b84607e7db92c00778f457ca2e268a44bdc4b22873"
+  },
+  "authorization": "One paid contestant run only; no retry/resume/judge; all MXC agents gpt-6.1-sol/medium",
+  "offline_reused": "285 tests +32 subtests; six Claude regressions unchanged; 30/30 source matches",
+  "fresh_mock": "20261023T194241Z-2ae86a5e",
+  "fresh_native": "native-probe-233830ce"
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "geeky-eval.scoring-status/1",
+  "run": "20261023T230041Z-2c3b5489",
+  "status": "complete-reviewed",
+  "composite": 99.56285551418439,
+  "process_evidence_origin": "operator-reviewed",
+  "strict_completeness": {
+    "required": true,
+    "complete": true,
+    "missing": []
+  },
+  "needs_judge": [],
+  "initial_automatic_status": {
+    "exit_code": 2,
+    "reason": "T1: no source-supported implementation commit; final HEAD fallback forbidden",
+    "cause": "Automatic extractor supports separate delegated implementation, not this one general orchestrator across all stages. Raw trace itself is complete.",
+    "preserved_log": "geeky-orchestration\\evals\\adapters\\codex\\evidence\\20261023T230039Z-run3-operator\\score-initial-output.txt"
+  },
+  "superseded_reviewed_v1": {
+    "score": 96.47589899244527,
+    "process": "process-reviewed-v1.json",
+    "score_path": "derived-reviewed-v1/score.json",
+    "reasons": [
+      "Completed-command stage boundaries excluded the command start; corrected to exact captured tool dispatch121/230/549.",
+      "The final-review regex correction was initially included in expected_implementation_commits, which forcibly reclassified it as implementation; it is now separately source-bound as a final-review fix.",
+      "Frozen dp12 parser undercounts the two separately successful commit-gate invocations in raw orchestrator535; final manual verdict states the deterministic correction explicitly."
+    ]
+  },
+  "manual_verdicts": "manual-verdicts.json",
+  "process_evidence": "process-reviewed.json",
+  "validation_cache": "validation-cache/validation-cache.json",
+  "validation_scope": "Five fresh own-commit results from this run, reused through hashed cache after annotation-only corrections; tail-only output, stderr unknown in those scorer records. Final accepted110-test/help/compile runs retain full combined output per command.",
+  "reference_eligible": false,
+  "over_token_ceiling": true,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "review_rounds": {
+    "actual": 2,
+    "structure": "Initial3domain reports,1critical finding,1codefix,2affected-domain re-reviews; prior money PASS retained after scoped dependency assessment.",
+    "automatic_summary": 1,
+    "automatic_limit": "Counts outer wrapper invocation as1; not a count of the two actual review rounds."
+  },
+  "limitations": [
+    "No claim of successful automatic process normalization",
+    "Stage boundaries are captured substantive tool-dispatch boundaries, not exact cognitive start times",
+    "Reused worker lifetime may include idle time and later correction; no active-time normalization",
+    "API latency and USD cost unavailable",
+    "Actual automatic hook invocation during paid work remains unverified; native proof/diagnostic pass does not establish it",
+    "Documented shell-write bypass remains",
+    "Single run with changed model/effort configuration is calibration evidence; no causal comparison"
+  ],
+  "checks": {
+    "execution_complete": true,
+    "diagnostics_passed": true,
+    "oracle_118_stable3": true,
+    "model_audit": true,
+    "all_review_purposes_xhigh": true,
+    "strict_score_complete": true,
+    "no_unresolved_judgments": true,
+    "own_commit_validation": true,
+    "final_validation": true,
+    "source_preservation": true,
+    "no_admin_commit": true,
+    "no_staging": true
+  }
+}
