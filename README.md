@@ -15,7 +15,7 @@ plugin has its own docs and checks.
 | `semantic-design-system` | Build, validate, and apply DTCG design tokens, including CSS output and optional MCP tools. | 0.2.7 | [README](semantic-design-system/README.md) |
 | `geeky-orchestration` | Plan, review, implement, track, and archive feature work. | 0.2.16 | [README](geeky-orchestration/README.md) |
 | `dev-workflows` | Reusable skills for planning, review, testing, browser and Figma work, environment setup, Git, docs, and session analysis. | 0.2.12 | [Packaging notes](dev-workflows/PACKAGING.md) |
-| `mxc-sandbox` | Run the Claude Code CLI inside a Microsoft MXC sandbox on Windows for isolated testing. | 0.1.0 | [README](mxc-sandbox/README.md) |
+| `mxc-sandbox` | Run the Claude Code CLI inside a Microsoft MXC sandbox (Windows, Linux, macOS) for isolated testing. | 0.2.0 | [README](mxc-sandbox/README.md) |
 
 The versions in this table come from
 `.claude-plugin/marketplace.json`. The Claude and Codex manifests inside each

@@ -3,9 +3,10 @@
   Build (when needed) and run the MxcClaude sandbox host.
 
 .DESCRIPTION
-  Copies the bundled .NET host source to %USERPROFILE%\.mxc-sandbox\src, builds it into
-  %USERPROFILE%\.mxc-sandbox\bin when the source hash changed, then runs it with the given
-  arguments. The plugin directory itself is never written to. Override the root with
+  Copies the bundled .NET host source to ~/.mxc-sandbox/src (%USERPROFILE% on Windows), builds it
+  into ~/.mxc-sandbox/bin when the source hash changed, then runs it with the given arguments.
+  Windows uses ProcessContainer; Linux uses Bubblewrap (needs bwrap, slirp4netns, ip and iptables
+  on PATH) and macOS uses Seatbelt. The plugin directory itself is never written to. Override the root with
   $env:MXC_SANDBOX_HOME (avoid %LOCALAPPDATA%: the container cannot write there).
 
 .EXAMPLE
@@ -24,13 +25,13 @@ $Rebuild = $args.Count -gt 0 -and $args[0] -eq '-Rebuild'
 [string[]]$HostArgs = if ($Rebuild) { $args | Select-Object -Skip 1 } else { $args }
 $ErrorActionPreference = 'Stop'
 
-if (-not $IsWindows -and $PSVersionTable.PSEdition -eq 'Core') { throw 'mxc-sandbox supports Windows hosts only.' }
-
-$pluginHost = Join-Path $PSScriptRoot 'host\MxcClaude'
-$stateRoot = if ($env:MXC_SANDBOX_HOME) { $env:MXC_SANDBOX_HOME } else { Join-Path $env:USERPROFILE '.mxc-sandbox' }
-$srcDir = Join-Path $stateRoot 'src\MxcClaude'
+$onWindows = $IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop'
+$pluginHost = Join-Path (Join-Path $PSScriptRoot 'host') 'MxcClaude'
+$userHome = if ($onWindows) { $env:USERPROFILE } else { $HOME }
+$stateRoot = if ($env:MXC_SANDBOX_HOME) { $env:MXC_SANDBOX_HOME } else { Join-Path $userHome '.mxc-sandbox' }
+$srcDir = Join-Path (Join-Path $stateRoot 'src') 'MxcClaude'
 $binDir = Join-Path $stateRoot 'bin'
-$exe = Join-Path $binDir 'MxcClaude.exe'
+$exe = Join-Path $binDir $(if ($onWindows) { 'MxcClaude.exe' } else { 'MxcClaude' })
 $stamp = Join-Path $binDir '.source-hash'
 
 $sources = Get-ChildItem $pluginHost -File | Where-Object Extension -in '.cs', '.csproj' | Sort-Object Name

@@ -1,16 +1,23 @@
 # mxc-sandbox
 
 Run the Claude Code CLI inside a [Microsoft MXC](https://github.com/microsoft/mxc) sandbox on
-Windows, for isolated testing of prompts, plugins, skills, hooks, and untrusted repositories.
+Windows, Linux or macOS, for isolated testing of prompts, plugins, skills, hooks, and untrusted repositories.
 
 The plugin bundles a small .NET host (`Microsoft.Mxc.Sdk` 1.0.1) and four skills that drive it.
 
 ## Requirements
 
 - Windows 11 (verified on 26H2, build 26300); BaseContainer tier needs no admin step
+- Or Linux, where `run` uses the Bubblewrap backend: `bwrap`, `slirp4netns`, `ip` (iproute2) and
+  `iptables` on PATH, and unprivileged user namespaces (verified on Ubuntu 24.04). macOS uses Seatbelt
+  (untested here). Outside Windows, `--allow-win32k`, `--no-enumerate-root` and `--host-loopback` are
+  accepted and ignored, `probe` lists the backends without the ProcessContainer probe, and `tui` is
+  Windows-only. Bubblewrap shows only system folders (`/usr`, `/bin`, `/etc`, ...); the host grants the
+  CLI's folder, its symlink target and the runtimes found on PATH read-only, so pass anything else with
+  `--ro`/`--rw`, including `PATH` via `--env` if the workload needs it
 - .NET 10 SDK (host targets `net10.0`; for SDK 8/9 edit `scripts/host/MxcClaude/MxcClaude.csproj`; the
   wrapper checks the SDK against the project's target)
-- Native Claude CLI at `%USERPROFILE%\.local\bin\claude.exe` (or set `MXC_CLAUDE_EXE`)
+- Native Claude CLI at `%USERPROFILE%\.local\bin\claude.exe` (`~/.local/bin/claude` elsewhere), or set `MXC_CLAUDE_EXE`
 
 ## Skills
 

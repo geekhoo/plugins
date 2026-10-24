@@ -1,4 +1,5 @@
-// Runs the Claude Code CLI inside a Microsoft MXC sandbox (Windows).
+// Runs the Claude Code CLI inside a Microsoft MXC sandbox: ProcessContainer on Windows, the native
+// default backend elsewhere (Bubblewrap on Linux, Seatbelt on macOS).
 //
 //   MxcClaude probe                          report host support, tier, and the grants run mode would apply
 //   MxcClaude run  [opts] -- <claude args>   headless claude in a ProcessContainer (filesystem + network policy)
@@ -29,7 +30,7 @@ var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 // Not under %LOCALAPPDATA%: BaseContainer redirects that tree, so read-write grants there cannot be written.
 var stateRoot = Environment.GetEnvironmentVariable("MXC_SANDBOX_HOME") ?? Path.Combine(home, ".mxc-sandbox");
 var claudeExe = Environment.GetEnvironmentVariable("MXC_CLAUDE_EXE")
-    ?? Path.Combine(home, ".local", "bin", "claude.exe");
+    ?? Path.Combine(home, ".local", "bin", OperatingSystem.IsWindows() ? "claude.exe" : "claude");
 
 // Shared mode: the host's real config dir is granted read-write so the existing login, settings,
 // plugins and sessions apply. ~/.claude.json cannot be granted on its own (BaseContainer denies the
@@ -79,13 +80,19 @@ int Probe()
         foreach (var warning in backend.Warnings) Console.WriteLine($"  warning: {warning}");
     }
 
-    var request = BuildProcessContainerRequest("cmd.exe /d /c echo probe");
-    var probe = MxcContainer.Probe(request);
-    Console.WriteLine($"processContainer tier: {probe.Tier?.ToString() ?? "-"}, needsDaclAugmentation: {probe.NeedsDaclAugmentation}");
-    Console.WriteLine($"baseContainer api: {probe.Probes.BaseContainerApiPresent}, enumeratePaths: {probe.Probes.BaseContainerSupportsEnumeratePaths}, isolationSession: {probe.Probes.IsolationSessionAvailable}");
+    var request = BuildProcessContainerRequest(OperatingSystem.IsWindows() ? "cmd.exe /d /c echo probe" : "/bin/sh -c 'echo probe'");
+    // The request-aware probe exists only for Windows ProcessContainer; elsewhere the backend list above is the report.
+    string? probeError = null;
+    if (OperatingSystem.IsWindows())
+    {
+        var probe = MxcContainer.Probe(request);
+        Console.WriteLine($"processContainer tier: {probe.Tier?.ToString() ?? "-"}, needsDaclAugmentation: {probe.NeedsDaclAugmentation}");
+        Console.WriteLine($"baseContainer api: {probe.Probes.BaseContainerApiPresent}, enumeratePaths: {probe.Probes.BaseContainerSupportsEnumeratePaths}, isolationSession: {probe.Probes.IsolationSessionAvailable}");
+        foreach (var warning in probe.Warnings) Console.WriteLine($"probe warning: {warning}");
+        probeError = probe.Error;
+        if (probeError is not null) Console.Error.WriteLine($"probe error: {probeError}");
+    }
     Console.WriteLine($"containment: {request.Containment.GetType().Name}");
-    foreach (var warning in probe.Warnings) Console.WriteLine($"probe warning: {warning}");
-    if (probe.Error is not null) Console.Error.WriteLine($"probe error: {probe.Error}");
 
     Console.WriteLine($"claude exe: {claudeExe} (exists: {File.Exists(claudeExe)})");
     Console.WriteLine($"config mode: {(opt.Isolated ? "isolated" : "shared")} (CLAUDE_CONFIG_DIR={configDir})");
@@ -99,7 +106,7 @@ int Probe()
         Console.WriteLine($"env pinned: {name}={value}");
     Console.WriteLine($"env token passthrough: {AuthSource() ?? "none"}");
     foreach (var name in opt.Env.Keys) Console.WriteLine($"env set: {name}");
-    return support.IsSupported && probe.Error is null ? 0 : 1;
+    return support.IsSupported && probeError is null ? 0 : 1;
 }
 
 async Task<int> RunHeadlessAsync()
@@ -173,7 +180,7 @@ ContainerRequest BuildProcessContainerRequest(string command)
     foreach (var dir in caches.Values) Directory.CreateDirectory(dir);
     var filesystem = new FilesystemPolicy();
     // Never grant a drive root: on BaseContainer a read-only grant on C:\ exposes every child folder.
-    AddDistinct(filesystem.ReadonlyPaths, [Path.GetDirectoryName(claudeExe)!, .. runtimeDirs, .. opt.ReadOnly]);
+    AddDistinct(filesystem.ReadonlyPaths, [Path.GetDirectoryName(claudeExe)!, Path.GetDirectoryName(ResolveLink(claudeExe))!, .. runtimeDirs, .. opt.ReadOnly]);
     AddDistinct(filesystem.ReadwritePaths, [opt.Workspace, configDir, .. caches.Values, .. opt.ReadWrite]);
 
     var environment = BaseEnvironment();
@@ -182,6 +189,23 @@ ContainerRequest BuildProcessContainerRequest(string command)
     // otherwise write their caches somewhere ungranted. Pin them to the granted folders.
     foreach (var (variable, dir) in caches) environment[variable] = dir;
     ApplyUserEnvironment(environment);
+
+    // Outside Windows the native default backend applies (Bubblewrap on Linux, Seatbelt on macOS); Win32k
+    // and drive-root enumeration are Windows concepts. Bubblewrap hides /usr/local, /opt and /home unless
+    // granted, which RuntimeGrants covers for the CLI's own runtimes.
+    if (!OperatingSystem.IsWindows())
+        return new ContainerRequest(command)
+        {
+            Filesystem = filesystem,
+            Network = new NetworkPolicy
+            {
+                Egress = new NetworkEgressPolicy { Default = opt.DenyNet ? NetworkAction.Deny : NetworkAction.Allow },
+            },
+            WorkingDirectory = opt.Workspace,
+            Environment = environment,
+            InheritDefaultEnvironment = true,
+            TimeoutMs = TimeoutMs(),
+        };
 
     // node's realpath lstat()s the drive root and fails with EPERM without it. Enumerate-only access lets
     // it read the root's attributes and child names without granting file contents.
@@ -231,6 +255,8 @@ static (List<string> RuntimeDirs, Dictionary<string, string> Caches) RuntimeGran
 
     var runtimeDirs = new[] { "node", "npx", "uv", "uvx", "python", "python3", "pwsh" }
         .SelectMany(FindOnPath)
+        // A symlinked launcher (/usr/local/bin/pwsh -> /opt/microsoft/powershell/7/pwsh) needs its target too.
+        .SelectMany(p => new[] { p, ResolveLink(p) })
         .Select(p => Path.GetDirectoryName(p)!)
         .Append(Path.Combine(roaming, "npm"))
         .Append(Environment.GetEnvironmentVariable("UV_PYTHON_INSTALL_DIR") ?? Path.Combine(roaming, "uv", "python"))
@@ -253,8 +279,10 @@ static (List<string> RuntimeDirs, Dictionary<string, string> Caches) RuntimeGran
 
 static IEnumerable<string> FindOnPath(string name)
 {
-    var extensions = (Environment.GetEnvironmentVariable("PATHEXT") ?? ".EXE;.CMD").Split(';').Prepend("");
-    foreach (var dir in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(';', StringSplitOptions.RemoveEmptyEntries))
+    var extensions = OperatingSystem.IsWindows()
+        ? (Environment.GetEnvironmentVariable("PATHEXT") ?? ".EXE;.CMD").Split(';').Prepend("")
+        : [""];
+    foreach (var dir in (Environment.GetEnvironmentVariable("PATH") ?? "").Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries))
     {
         foreach (var ext in extensions)
         {
@@ -266,6 +294,9 @@ static IEnumerable<string> FindOnPath(string name)
 
 static bool SupportsEnumeratePaths() =>
     MxcContainer.Probe(new ContainerRequest("cmd.exe /d /c rem")).Probes.BaseContainerSupportsEnumeratePaths;
+
+static string ResolveLink(string path) =>
+    File.ResolveLinkTarget(path, returnFinalTarget: true)?.FullName ?? path;
 
 static void AddDistinct(List<string> target, IEnumerable<string> paths)
 {
@@ -294,7 +325,7 @@ static string? AuthSource() =>
         .FirstOrDefault(n => !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(n)));
 
 string ClaudeCommand(string exe) =>
-    string.Join(' ', new[] { exe }.Concat(opt.ClaudeArgs).Select(QuoteArg));
+    string.Join(' ', new[] { exe }.Concat(opt.ClaudeArgs).Select(OperatingSystem.IsWindows() ? QuoteArg : (Func<string, string>)QuotePosix));
 
 // Copy the CLI under %ProgramData% (Users: read+execute by default) when missing or stale.
 static string StageForAgentUser(string source)
@@ -338,6 +369,11 @@ static async Task ForwardAsync(Stream? source, Stream destination)
     await source.CopyToAsync(destination);
     await destination.FlushAsync();
 }
+
+// POSIX shell-word quoting, which the Bubblewrap and Seatbelt backends use to split the command.
+static string QuotePosix(string arg) =>
+    arg.Length > 0 && arg.All(c => char.IsAsciiLetterOrDigit(c) || "-_./:=@%+,".Contains(c))
+        ? arg : "'" + arg.Replace("'", "'\\''") + "'";
 
 // Windows command-line quoting (CommandLineToArgvW rules).
 static string QuoteArg(string arg)
