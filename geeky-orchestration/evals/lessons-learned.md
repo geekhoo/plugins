@@ -1,5 +1,11 @@
 # Eval Runs: Lessons Learned
 
+Final-pair lesson: [automatic extraction](analyses/c1-final-parity-20261024/README.md) now replaces run-2 process annotations for supported shapes. Reject ambiguous task/commit/review mappings, do not count JS/poll wrappers twice, and fail strict scoring when withholding a composite. A pre-override untrusted hook catalog does not establish an untrusted launch.
+
+Measurement lessons: distinguish skill prereads from execution boundaries; merge nested worker ownership; count repeated reviews and polled outcomes; reject documentation-HEAD fallback; reuse exact task-commit validation once. Complete metric coverage does not prove hook execution or model superiority. See D94-D98 and the checkpoint 5 question-by-question disposition.
+
+> Current Codex reference (2026-10-24): [checkpoint 5 closeout](codex-c1-checkpoint5.md). Both C1 runs completed and the saved-trace repair yields 96.3/98.0; original scores remain historical. The frozen six-Claude replay supplements the complete four-run proof. Historical cleanup instructions do not apply to these preserved records. No further paid run is authorized.
+
 This page records what it took to run paid geeky-orchestration evals in the MXC sandbox on Windows: what broke, how each break was fixed, the traps that cost a run, and what is still open. Read it before a new case, a new harness or a new machine. [baseline-runs.md](baseline-runs.md) is the step-by-step procedure, and [agent-eval-decisions.md](../docs/agent-eval-decisions.md) holds the decisions (D-numbers below). This file covers what those two leave out: the reasons, the traps and the order things went wrong.
 
 Written 2026-10-23, after six paid C1 runs. Everything here was verified on this machine (Windows 11, Claude Code 2.1.304, `claude-sonnet-5-5`).
@@ -117,13 +123,14 @@ The cut-off run from before the background-wait fix is archived in `evals/baseli
 
 ## Open TODOs
 
-- [ ] **Run C1 on `f54747e` or later.** The corrected D92 gate order hasn't been through a paid run yet.
+- [x] **Codex C1 on `bee7b14` (after `f54747e`).** Three completed runs now exercise the later plugin: 96.3, 98.0, and 99.6 reviewed for run 3 (`20261023T230041Z-2c3b5489`). See [the Claude review](analyses/c1-claude-review-20261024.md). This does not establish a new Claude repeat on that SHA; D92 remains move/check/revert.
 - [ ] **Three runs on one SHA**, for a real mean and stability figure (D60).
 - [ ] **C2 (`c2-linkvault`) and C3 (`c3-minisql`) baselines.** The kits and oracles exist but neither has run. Do mock runs first; C2 and C3 have larger ceilings (25M, 50M).
 - [ ] **The judge (D57) and the expectations files (D34).** Neither exists, so `manual-verdicts.json` is hand-written for now.
-- [ ] **The `/geeky-eval` skill and the Codex adapter.** Not built. The runner only drives Claude Code.
+- [x] **Codex adapter and C1 saved-trace scoring.** Built and exercised in three completed calibration runs; checkpoint 5 records complete. Automatic process extraction covers run 2's shape only. Run 3's Python-heredoc kanban writes and collapsed stage detection are unsupported, so a strict raw score of run 3 exits 1. Runtime hook parity remains a separate documented gap.
+- [ ] **The `/geeky-eval` skill.** Still a future component; not implemented by the adapter closeout.
 - [ ] **O22 leftovers:** the MSYS tar PATH trap is documented but not guarded in the runner, and `model_calls` counts subagent messages.
-- [ ] **Stale `analysis.json` in run 5.** Regenerate it with `analyze-run.py --analysis-only`; scores are unaffected.
+- [ ] **Historical `analysis.json` in run 5.** Preserve it; any future derived refresh belongs in a new output folder. Frozen historical score reproduction is recorded separately.
 - [ ] **A conflicting rule in `agents/geeky-implement-orchestrator.md`:** it prefers the MCP gate tools while `SKILL.md` prefers the scripts. It predates the eval work.
 - [ ] **Unmerged side branches:** `claude/reverent-wright-14ac9b` (`618f1bf`, sync-agents test fix) and `claude/exciting-dewdney-adcbb0` (`c1cb0b0`, guard warn-mode). Merge or drop.
 - [ ] **Leftover folders:** the run workspaces under `C:\repos\eval-c1-csvledger-*`, their `C:\repos\.eval-cfg-*` folders and `C:\repos\mxc-probe`. Keep each run's workspace until it is scored, then delete it with its `.eval-cfg` and session folder.

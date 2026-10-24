@@ -12,6 +12,8 @@ It reports scores and their breakdown. It does not rank contestants as winners o
 - Baseline: geeky-orchestration @ `c957a43` (main).
 - Next step: `/spec-research` on this record (D15).
 
+> Current C1 records (2026-10-24): [checkpoint 5 closeout](../evals/codex-c1-checkpoint5.md) and D94-D98 record the Codex adapter, preserved four-run derivation and frozen six-Claude reproduction. Older live-probe facts below retain their dates; they are not current launch requirements.
+
 ## Decisions
 
 ### Purpose and scope
@@ -262,16 +264,35 @@ The weights sum to 1, so the score stays 0–100 however many tasks there are. L
 | G14 | Unattended runs execute on the host with broad permissions. | D52 |
 | G15 | The `sync-agents` test that the Codex path depends on is failing. | D54 |
 
+## C1 measurement closeout decisions (2026-10-24)
+
+| ID | Decision | Ruling and evidence |
+|---|---|---|
+| D94 | Frozen replay and preservation | All six historical Claude runs reproduce every raw dimension/composite under the unchanged current harness: 30/30 comparisons, 67 source files stable and 106 original files preserved. [Replay](../evals/analyses/c1-checkpoint5-20261024/README.md) uses saved judgments and `--no-rerun` in isolated copies/clones, including hashed matching-HEAD heartbeat inputs. This closes historical regression proof; it is not strict process completeness or a fresh own-commit validation. The prior complete four-run derivation and its 206-file preservation proof remain separate and unchanged. |
+| D95 | Complete measurements and judgment | Publish corrected Codex 1=96.3 and Codex 2=98.0 as source-backed, complete rubric measurements; retain 81.7/89.8 as history. Reuse validation bound to task, full SHA, committed task hash, exact command and recorded result. Reject absent attribution/commit mappings; never substitute documentation HEAD or invent 0/0 success. `--require-complete` permits legitimate judgment items; it does not require eliminating manual verdicts. The four-run repair removed 20 deterministic overrides, retained Codex 1's failed review round and Codex 2's false configuration claim. [Proof](../evals/analyses/c1-consistent-rescore-20261024/README.md). |
+| D96 | Parity and MXC qualification | D48 context reachability is not runtime equivalence. Both Codex preflights say runtime_verified=false; native fixture success/trust configuration cannot prove automatic hook execution in a paid run. Preserve calibration results with that caveat and post-run frozen-artifact checks. A future full-parity claim needs trust, actual invocation and shell-write coverage evidence; adapter work is deferred. Reconcile D52: retained Codex runs used danger-full-access and ignore-rules inside outer MXC with an explicit generated profile, as trusted-exec.py records, not an inner workspace-write sandbox. This documents the existing contained configuration, grants no new launch permission, and is not approval for standalone host execution. |
+| D97 | Stable rubric and comparison limits | Preserve dp08 timestamp-presence semantics, D92 move/check/revert, D53 flags and existing formulas. Timestamp plausibility or granularity normalization would be a separately versioned symmetric change. Task counts/denominators, worker model/delegation differences and API-latency fallback belong in the breakdown. Related tracking in functional commits does not alone violate one-concern: retain R2 PASS under execution-protocol.md unless unrelated concerns are established. No model-effect inference, no conversion of token totals into money, no equal-scope assumption for Codex all-thread versus Claude main-session call counts. Codex reference eligibility remains false pending calibration. |
+| D98 | Bounded provenance and operational closeout | Preserve original run files, scores, judgments and qualified prior reports. New records prefer exact visible assistant messages with source identity/hash/time; do not rewrite historical verdict pointers. Hash claims cover named files only; check time differs from snapshot-write time. Future launch preparation should inventory dirty files before launch and persist each exact validation result once. Current checkpoint 5 closes records, not guard redesign, full generic ingest, paid calibration or the unbuilt eval skill. [Question-by-question dispositions and remaining limits](../evals/codex-c1-checkpoint5.md). |
+
+
+## Final-pair parity decisions (2026-10-24)
+
+| ID | Decision | Evidence and limits |
+|---|---|---|
+| D99 | Automatic final Codex process normalization | The supported delegated run-2 shape is extracted from raw own-history rollouts without operator process mappings or per-run constants. Existing judgment items and exact saved validation remain inputs. Ambiguous mappings reject; strict withheld composites exit nonzero. Automatic facts match the annotated derivation except two documented dispatch/start anchors with no score effect. Codex 2=98.04000506482035; final Claude 6=98.27180923451854 unchanged. [Final-pair evidence](../evals/analyses/c1-final-parity-20261024/README.md). No general historical Codex support or new six-run proof claimed. |
+| D100 | Match existing guard scope | No guard rewrite is needed for the approved final-pair match: existing edit/patch warn behavior, retained native guard-context proof and 64 offline tests cover the corresponding paths. Shared shell bypass remains documented. Catalog untrusted status precedes exact trust-hash override and does not prove launch trust failure. Paid-session invocation remains unverified; no MXC or paid run was launched to extend that claim. |
+
+
 ## Open items
 
 | ID | Item |
 |---|---|
 | O2 | Mapping each harness's events into ATIF-v1.7 (D69): `steps[]` with `tool_calls`, `observation`, `metrics`, `subagent_trajectories` and `extra`. Goes to `/spec-research`. |
-| O7 | Ingest-only runs. **Recommendation:** a per-harness, per-version adapter turns the native session file into ATIF. Imported runs are marked `provenance=imported` and store the SHA-256 of each raw file. Unknown record types fail softly, and a truncated last line is ignored. Usage comes from Codex's cumulative `token_count` events. Existing references: Harbor trajectory loading, `cc-transcript`, `toolpath-codex`. Goes to `/spec-research`. |
+| O7 | Bounded Codex 0.164.0 rollout/descendant ingestion and C1 scoring now exist (D94-D95); general ATIF ingest remains open. Ingest-only runs. **Recommendation:** a per-harness, per-version adapter turns the native session file into ATIF. Imported runs are marked `provenance=imported` and store the SHA-256 of each raw file. Unknown record types fail softly, and a truncated last line is ignored. Usage comes from Codex's cumulative `token_count` events. Existing references: Harbor trajectory loading, `cc-transcript`, `toolpath-codex`. Goes to `/spec-research`. |
 | O13 | Run limits. Requirements and their derivation are in [evals/baseline-runs.md](../evals/baseline-runs.md): <ul><li>three layers: hard wall-time ceiling, idle watchdog, native caps;</li><li>a process-tree kill on Windows;</li><li>a recorded `exit_reason`.</li></ul>Values are provisional until O14 lands. |
 | O22 | Sandbox faults found by the mock agent (D83) and still open: <ul><li>`run-baseline.ps1` started from Git Bash picks up MSYS `tar`, which misreads `C:`.</li><li>`analyze-run.py`'s `model_calls` also counts subagent messages.</li></ul> The two temp faults are fixed by D84. |
 | O14 | The owner's baseline runs. The procedure, expected outcomes and measures are in [evals/baseline-runs.md](../evals/baseline-runs.md). |
-| O18 | MXC parity. **Done:** <ul><li>The OneDrive PowerShell config was renamed by the owner. In MXC pwsh now exits 0, and the effective policy is still `RemoteSigned` from LocalMachine.</li><li>`mxc-sandbox` gained `--env NAME[=VALUE]` (D73).</li><li>The geeky guard hook runs through `"shell": "powershell"` (D74).</li></ul> **Open:** <ul><li>The owner signs Codex in once with `CODEX_HOME=C:\repos\.eval-tools\codex-home` (`codex login`).</li></ul> |
+| O18 | MXC parity. **Done:** <ul><li>The OneDrive PowerShell config was renamed by the owner. In MXC pwsh now exits 0, and the effective policy is still `RemoteSigned` from LocalMachine.</li><li>`mxc-sandbox` gained `--env NAME[=VALUE]` (D73).</li><li>The geeky guard hook runs through `"shell": "powershell"` (D74).</li></ul> **Updated 2026-10-24:** the dedicated Codex sign-in was completed and two C1 runs are retained; no sign-in repetition is needed. Full paid-runtime guard parity remains open under D96. Historical probe details below retain their original date. |
 | O19 | Pre-existing limitation found while testing D74: in warn mode the guard writes plain stdout and exits 0. For `PreToolUse`, Claude Code does not show that output to the model, so the warning never reaches Claude. The fix would be to emit `hookSpecificOutput.additionalContext` JSON. It doesn't affect scoring (D23). Plugin follow-up. |
 
 ## Verified harness facts (live probes, 2026-10-20; Claude Code 2.1.293, codex-cli 0.163.0)

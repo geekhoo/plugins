@@ -1,8 +1,25 @@
 # geeky-orchestration
 
+C1 run 3 completed: **99.6 reviewed QACT**, oracle118/118 stable3, final110 tests, exact requested Sol/high–medium–xhigh matrix. [Report](evals/baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md) and [operator evidence](evals/adapters/codex/evidence/20261023T230039Z-run3-operator/README.md). The automatic extractor did not support this delegation shape; source-bound reviewed scoring is explicit. One paid attempt completed; no further launch authorized.
+
+Latest final-pair result: [automatic Codex 2 normalization](evals/analyses/c1-final-parity-20261024/README.md) reproduces 98.040005 without operator process mappings; Claude 6 remains 98.271809. Strict incomplete scoring fails nonzero. Guard fixtures pass; paid-session hook invocation remains unverified.
+
+C1 evaluation records are current through [checkpoint 5](evals/codex-c1-checkpoint5.md): corrected Codex scores 96.3/98.0, complete four-run measurement and a frozen six-Claude reproduction. Runtime guard parity and Codex calibration remain explicit follow-ups; no further execution is authorized by these records.
+
 End-to-end feature delivery: **plan it, execute it, track it**, with strong contracts between phases and conservative parallelism.
 
 Use the shared [workflow terminology](AGENTS.md#workflow-terminology).
+
+For the Codex C1 evaluation adapter and its current checkpoint limits, see
+[the adapter README](evals/adapters/codex/README.md). It is separate from the
+Claude runner. Model-free MXC checks are implemented; the strict clean-diagnostics
+gate uses the owner's exact denied user-skill-root recurrence policy and independent
+isolation proof; separately source-correlated rejected-patch records remain candidate
+tool failures. Unmatched diagnostics fail closed (see the adapter policy). Codex trace analysis and
+QACT scorer routing are implemented, and three paid C1 contestant runs are complete. Each further paid
+run needs the owner's go-ahead. Automatic Codex process extraction covers run 2's shape only: run 1
+uses hand-built process evidence, and run 3 uses reviewed corrections. An independent cross-check of all
+three runs is in [the Claude review](evals/analyses/c1-claude-review-20261024.md).
 
 ## What's in the box
 
@@ -195,3 +212,7 @@ Not yet implemented. Design decisions for evaluating, judging, and scoring codin
 - `spec.md`: the reference spec.
 - `brief.md` and `contract.md`: the only files contestants see.
 - `oracle/`: the hidden pytest suite. Run it from inside `oracle/` with `ORACLE_TARGET=<contestant repo root>`.
+
+## Consistent C1 saved-trace scoring (2026-10-24)
+
+[Four-run replay report](evals/analyses/c1-consistent-rescore-20261024/README.md): repaired Codex process attribution and cached own-commit validation; Codex1 96.3, Codex2 98.0, Claude6 98.3, Claude4 97.9. Original scores preserved, 306 tests + 32 subtests passed, no paid run.

@@ -1,5 +1,13 @@
 # Baseline Runs (O14) and Run Limits (O13)
 
+Latest Codex C1: [run3 completed report](baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md) — reviewed QACT99.6, oracle118/118 stable3, final110tests,1410s,18.116799M tokens. Main Sol/high, task/default Sol/medium, reviewers Sol/xhigh. Complete operator-reviewed scoring; automatic extraction unsupported for this shape. Token ceiling exceeded under informational calibration policy; reference eligibility remains false. Previous records below remain preserved.
+
+Final-pair update: [Codex 2 automatic process extraction](analyses/c1-final-parity-20261024/README.md) now works without operator process mappings. Use a fresh output directory, existing judgments/validation cache and `--require-complete`; a withheld strict composite exits nonzero. The prior six-run proof is tied to its saved source version.
+
+For saved-evidence scoring, use a separate `--out` directory. Bind reused validation to task, full commit SHA, exact command and source/output hashes with `--no-rerun --validation-cache`; use `--require-complete` for comparable repaired results and source-backed manual judgments for judge checks. Do not regenerate original baseline files. Historical `--no-rerun` score reproduction alone is not a fresh own-commit validation proof. Preserve retained workspaces and configs; the historical cleanup instructions below do not authorize deletion.
+
+> Current status, 2026-10-24: two Codex C1 calibration runs completed; corrected composites are 96.3 and 98.0. [Checkpoint 5 records and decisions](codex-c1-checkpoint5.md) link the frozen six-Claude reproduction and complete four-run derivation. The Codex runner is `scripts/run-codex-baseline.ps1`; its retained launch relies on outer MXC with explicit isolated configuration. The direct CLI/no-hooks examples below are historical, not current launch instructions. No further paid run is authorized.
+
 These are the baseline implementation runs for the three eval challenges: what to do, what each run must produce, and which measures to collect. The results set the reference solutions, token budgets and time limits that every contestant run is scored against.
 
 Decisions referenced: D41 (reference solutions), D53 (tokens as cost), D57 (judge baseline), D68 (task tier, `L_ref`), D37 (fail-fast), and O13 (run time limits). They are recorded in [docs/agent-eval-decisions.md](../docs/agent-eval-decisions.md).

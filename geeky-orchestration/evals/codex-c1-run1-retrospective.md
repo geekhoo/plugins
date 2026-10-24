@@ -1,0 +1,81 @@
+# Codex C1 run 1: issues, resolutions and run 2 preparation
+
+Updated 2026-10-24, Asia/Singapore. This consolidates the parent orientation/setup chat and its C1 execution child. Source checkout: `C:\Users\gerald.khoo\geekhoo-plugins`, shared `main`, verified HEAD `bee7b14c3b17b00a6ce0b5643015226a1d7ef963`. Read this before the historical kickoff or another Codex C1 attempt.
+
+The owner authorized reference updates, bounded harness fixes and model-free testing for run 2. **Run 2 has not been launched or authorized here.** No paid model/judge calls, repository staging, commits, pushes, sign-ins or cleanup were performed during this preparation. Disposable fixture Git commits are permitted. The owner is handling Claude coordination; do not contact the child chat again.
+
+## Outcome and evidence boundaries
+
+The initial paid attempt `20261023T175251Z-2941f32c` stopped after 82 seconds under the then-required exact diagnostic count and remains unscorable. The separately authorized replacement `20261023T182024Z-5fa13924` completed in 1,349 seconds with zero interventions, seven contestant commits and oracle **118/118 stable over three checks**. Independent bundle-clone checks passed 23 tests at T1's own commit, 72 at T2's own commit, and 76 at final HEAD. All 14 thread contexts match main `gpt-6.1-sol/medium` and 13 descendants `gpt-6-luna/max`; administration used Sol/high.
+
+The retained score is **81.7 provisional: Q95.9/A81.5/C78.2/T40.0**. It has no unresolved judge items, but process-parser gaps make direct ranking against Claude unsound. Total usage is 17,729,214 tokens; cached input and reasoning output are subsets. API latency and monetary cost are unknown. `reference_eligible=false` remains appropriate; 12M is informational until Codex calibration.
+
+Run 1's raw logs, score, manual verdicts and derived records are frozen. Its 57-file artifact manifest was rechecked unchanged during run 2 preparation. New parser behavior is tested read-only or in scratch; it does not replace run 1's published score. A future rerun of the newer scorer is a different derivation and must be stored separately with its source version.
+
+Primary evidence:
+
+- [Completed run notes](baselines/c1-csvledger/20261023T182024Z-5fa13924/notes.md), [score and limitations](baselines/c1-csvledger/20261023T182024Z-5fa13924/score.md), [scoring status](baselines/c1-csvledger/20261023T182024Z-5fa13924/scoring-status.json), [run-local learnings](baselines/c1-csvledger/20261023T182024Z-5fa13924/learnings.md).
+- [Checkpoint 2 runtime proof](adapters/codex/evidence/20261023T1651Z-checkpoint2/README.md), [checkpoint 3 scoring proof](adapters/codex/evidence/20261023T1722Z-checkpoint3/README.md), [checkpoint 4 closeout](adapters/codex/evidence/20261023T1738Z-checkpoint4/README.md).
+- [Run 2 preparation evidence](adapters/codex/evidence/20261023T1926Z-run2-preparation/README.md). Historical evidence remains a record of its checkpoint, including old diagnostic policy and superseded status.
+
+## Setup and isolation issues
+
+| Issue encountered | Resolution and verification | State |
+|---|---|---|
+| The first sign-in command assumed the owner's terminal had `codex` on PATH. It did not. | Use the verified absolute executable path and set the dedicated `CODEX_HOME`; the owner completed device sign-in. Terminal success was observed; auth contents were never inspected. | Resolved operationally; do not sign in again automatically. |
+| The desktop app's CLI differed from the intended contestant version; `codex update` could not identify the app-managed installation. | Keep app and contestant installations separate. Install and hash-pin the complete official Windows CLI 0.164.0 package. Use `C:\repos\.eval-tools\codex\0.164.0\bin\codex.exe` and `--no-daemon`. | Resolved; package/executable hashes in adapter README. |
+| Copying only `codex.exe` omitted the Code Mode host and resources. | Preserve the full release layout. Actual native tool execution, rather than `--version` alone, verifies the installation. | Resolved in CP2. |
+| Generated `.system` skills, cache and a projects-only config caused contamination preflight failures. | Permit generated cache storage while explicitly disabling bundled skills/default plugins and ignoring user config/rules. Continue rejecting unrelated skills, agents, hooks, memory and instruction files. | Resolved without deleting owner configuration. |
+| Windows Known Folder discovery ignored run-specific HOME/USERPROFILE. Merely enabling a plugin did not install it. | Create a run-home local marketplace; model-free `codex plugin add` materializes the exact export. Enable only that plugin. Verify eight native catalogue paths and a complete skill-body read. | Resolved; native proof distinguishes discovery from mock readability. |
+| The MCP venv launcher was inaccessible inside MXC. | Bootstrap with the vetted base Python and `site.addsitedir`; test initialize/list/call through the actual MCP transport. | Resolved; explicit registration is authoritative. |
+| Codex native patches and hook trust differ from Claude's payload. | Translate patch targets to the unchanged guard's file-path input; return native `additionalContext`. Query `hooks/list` for the declaration key/hash and trust only that declaration. The portable manifest prevents duplicate automatic hook/MCP loading. | Resolved; native patch warning and mutable-notes checks pass. |
+| Hook catalogue stderr could be read before reader threads finished. | Reap the process, drain/join both readers and fail on read errors or readers that remain alive. | Resolved; CP2 final proof and current tests. |
+| MXC requires working PowerShell, pytest, writable temp, loopback, scoped Git trust/identity and a writable plugin export. | Use vetted agent Python first on PATH, VIRTUAL_ENV, writable TMPDIR, XDG_CONFIG_HOME, Win32k/loopback and neutral Git identity; prohibit recursive root enumeration. Preserve the dedicated-home file lock and private MXC state. | Implemented and exercised; Claude defaults remain unchanged. |
+| MSYS `tar` misinterprets Windows drive paths; Python's cp1252 console can reject Unicode. | Use explicit `%SystemRoot%\System32\tar.exe`; use `PYTHONUTF8=1`, explicit UTF-8 file/subprocess encodings and safe shell quoting. | Implemented in relevant paths; UTF-8 set for preparation commands. |
+| A fresh MXC build from unchanged source had a different DLL hash because its absolute PDB path changed. | Copy the **complete vetted original build** into fresh private state. Verify source stamp, EXE/DLL pins, every copied file and destination contents. Do not weaken byte pins to accept a rebuild. | Resolved by `copy-vetted-mxc-build.ps1`; current native proof passes. |
+| Default worker settings originally inherited the main model/effort. | Separate main and worker parameters, cover role/default/nested inheritance, then verify each captured thread's own model context. A model-free catalogue checked advertised capability before the paid launch. | Resolved: Sol/medium main, Luna/max descendants. New native fixture confirms configuration, not fresh external capability. |
+
+## Diagnostics and execution recovery
+
+| Issue encountered | Resolution and verification | State |
+|---|---|---|
+| Codex logs ERROR when MXC denies the real user `.agents/skills` root. No supported skip was verified. | The owner allowed only the exact CLI 0.164.0 denied-root signature, with independent winerror 5 proof, exact root/version, native skill invocation, parity and pinned-build checks. Keep the raw diagnostic. | Expected isolation evidence; other errors still reject. |
+| The parent generalized a tiny fixture's exec count of one to all paid lifecycles. The initial paid attempt emitted two and was stopped. | Preserve the stopped attempt. After separate human authorization, install/catalogue remain exact zero and exec requires minimum one exact-signature occurrence; retain every recurrence. | Corrected policy; no blanket ERROR allowance. |
+| Six model-free default/fork-all comparisons each emitted one recurrence. | They do not explain the paid recurrence. Do not claim fork mode is the cause or run more paid probes to investigate. | Exact cause UNVERIFIED. |
+| Two candidate `apply_patch` context mismatches appeared as router ERROR lines, causing conservative automatic rejection after a successful run. | Preserve automatic rejection records. A supplementary audit links each diagnostic to one same-thread physical request/output, exact path, timestamp window, ordinals and hashes. Classify as recovered candidate tool failures, not isolation exceptions. Unknown/unmatched errors fail closed. | Resolved narrowly; both real failures remain visible. |
+| Recursive scratch cleanup was rejected by automatic approval review. A later board-post attempt was also rejected before execution. | Preserve resources and rejection status; do not retry or bypass. The board was reachable, but no scoring request/message ID was created. Owner took over coordination and prohibited further child-chat contact. | Operational blockers retained; not test failures. |
+| Cost/scope could expand during recovery. | Distinguish preparation, lightweight mock, native scripted fixture and actual contestant. Use explicit authorization for each paid attempt; no automatic retry, judge invocation or repository commit. Fixtures never count as a solved C1 baseline. | Maintained; no paid run 2 in this work. |
+
+## Trace analysis and scoring issues
+
+| Issue encountered | Resolution and verification | State |
+|---|---|---|
+| The scorer originally understood Claude only. Native Codex commands, patches, MCP and delegation use different shapes. | Route Codex through run-local `codex-trace.py` into the existing rubric interface. Keep weights, caps and judge rules unchanged. Incomplete/malformed/missing child evidence rejects scoring. | CP3 integrated; six-Claude regression required after shared changes. |
+| Child rollouts include inherited parent history; cumulative usage repeats. | Capture only metadata-proven descendants. Exclude inherited history and count each thread's final cumulative usage once; cached/reasoning remain subsets. Never invent API cost/latency. | Verified on retained native and paid traces. |
+| Deleted patch lines could masquerade as current board/handoff evidence; MCP task arguments were nested. | Normalize visible post-change lines only, preserve raw diff provenance, and unwrap MCP `params` for task attribution. | Fixed in CP3 with regressions. |
+| Bulk skill prereads were mistaken for stage starts. | Preserve original derivation; reviewed `stage-evidence.json` binds commencement announcements to exact session SHA, ordinals, timestamps and plaintext. Invalid evidence fails closed. Repeated final review is preserved. | Run 1 corrected transparently; automatic stage inference remains deferred. |
+| Spawn acknowledgment was treated as child completion, yielding zero research concurrency. | Use own native `task_started`/`task_complete` timestamps with explicit lifecycle provenance; consume these only on the Codex path. | Fixed for run 2; saved-trace integration finds at least three overlapping researchers. |
+| Encrypted/opaque coder briefs hid task IDs, losing owned validation attempts. | Infer ownership only when one own-history canonical task-body read, matching task-notes write and product write agree. Reject ambiguous, inherited, general-preread, notes-only or conflicting evidence. Never decode ciphertext or infer from names alone. | Fixed bounded case; saved T1/T2 ownership reaches shared derivation. Other ambiguous cases remain unknown. |
+| Plain-bullet task commands were ignored and automatic reruns reported 0/0 as success. | Codex parsing accepts explicit command bullets and fenced command blocks in Tests/Validation. No executable command now raises an error on a requested rerun instead of granting vacuous credit. Preserve historical Claude parsing. | Fixed for run 2; exact retained task commands are one for T1 and two for T2. |
+| A reused worker's first-start/last-complete span includes idle time and later repairs. | Retain all lifecycle source records and disclose that the span is not continuous activity or a task-specific duration. | Known limitation; do not treat duration as precise productive time. |
+| Native Python lane-helper shapes, some Done/handoff ordering, critical-finding and Run Summary formats are not fully recognized. | Keep parser uncertainty distinct from proved contestant failure. Use evidence-backed judge mappings only where the rubric permits. Add bounded fixtures before implementing further recognition. | Deferred; run 2 process score may still require qualified/manual review. |
+| Four historical Claude bundles omitted untracked `.heartbeat` files used by their scores. | Copy actual retained bytes to scratch only after workspace/bundle HEAD match; hash source and copy before/after. Do not fabricate heartbeat values. | Reproduction dependency recorded; original baselines untouched. |
+| Working-tree harness edits are not the exported contestant plugin. | Runner exports committed HEAD excluding evals. Record both plugin SHA and separate exact harness source snapshots/manifests. Check git status/log before every edit because other sessions share main. Never stage another session's changes. | Maintained; preparation source snapshot accompanies new evidence. |
+
+## Run 2 preparation and stop conditions
+
+The bounded code changes are in `scripts/codex-trace.py`, `scripts/score-run.py` and `scripts/test_codex_run2_prep.py`. Canonical prompt, skills, agents, rubric weights and the original run 1 artifacts remain unchanged. The same-shape mock regressions exercise lifecycle metadata through the shared scorer, ownership ambiguity rejection, command extraction and refusal of empty validation. Saved-run checks are read-only; they are not a rescore of the published run.
+
+Fresh model-free MXC evidence is `baselines/c1-csvledger/20261023T192610Z-e3ec171a`; its native attempt is `native-attempts/native-probe-a3cbfdc5`. Lightweight mock: seven groups passed, empty stderr, zero model calls/tokens. Native fixture: 21 checks passed, external egress denied, scripted local Responses only, exact main/child/grandchild/default settings, zero unexpected errors and one approved root-denial diagnostic. Lightweight mock analysis is intentionally incomplete for scoring; it does not contain a contestant workflow and its oracle setup failures are expected. The runtime checks passed; no C1 product score is claimed for it.
+
+Use the evidence index for final offline and six-Claude results and exact source snapshots. Run 1's stored composite remains 81.7 regardless of improvements in this newer scorer. Keep Claude results separate: 77.2, 77.0, 86.7, 97.9, 93.8 and 98.3; different plugin/model configurations are not a common mean.
+
+Before an owner-authorized paid run 2:
+
+1. Read this record, adapter handoff, current preparation evidence and the canonical C1 brief. Verify live git HEAD/ancestry/status and the intended committed plugin export. Preserve all existing dirty files.
+2. Confirm explicit authorization and exact model matrix. Run the tested mock/native commands from the preparation evidence when sources or environment changed. Revalidate any CLI/build/profile change; do not reuse stale pins or silently substitute a model.
+3. Retain source snapshots, raw stream/stderr, main and descendant rollouts, bundle, own-commit validation and manifests. Plan reviewed stage attribution and inspect remaining ownership/lane/finding uncertainties before accepting process metrics.
+4. Require the same narrow diagnostics policy and all proofs. Preserve candidate tool failures. Unknown errors or missing evidence stop acceptance, without automatic paid retry.
+5. Score only completed evidence, record manual judgments with physical sources, and qualify unmeasured metrics. Do not tune prompts, formulas or verdicts to improve a number.
+
+There is no current claim of fully automatic, directly comparable Codex process scoring. Remaining parser work, precise reused-thread active intervals, repeat-run stability and a paid run 2 are follow-ups. Do not treat a passing mock as their completion.
