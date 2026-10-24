@@ -16,3 +16,12 @@ The Codex rows are the rerun after the space-free tracer launcher (`adapters/cod
 Claude mock: 25 checks per case, including `telemetry.stop_hook`, `telemetry.hook_log` and `telemetry.thinking_summaries`; the session reached Langfuse with 63 generations and 58 tool calls.
 Codex mock: 8 checks per case; the `telemetry` check requires the tracer to record the turn in its `.langfuse` delivery sidecar.
 Token figures inside mock runs are synthetic. Windows ProcessContainer was not re-run for this record.
+
+## C0 (added with the case)
+
+| Harness | Case | Result | Checks passed | Telemetry | Langfuse observations | Wall (s) |
+|---|---|---|---:|---|---:|---:|
+| claude-code | c0-wordstat | PASS | 25 | delivered | 122 | 28 |
+| codex | c0-wordstat | PASS | 8 | delivered | 9 | 23 |
+
+The post-run coverage step ran on both. Mocks do not run the real workflow, so coverage is incomplete by design. The Claude mock misses only `nested_subagents`; the Codex mock has a single synthetic turn. `matrix-c0.json` holds the run.

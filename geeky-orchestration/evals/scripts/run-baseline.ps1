@@ -28,7 +28,7 @@
   pwsh -File run-baseline.ps1 -Case c3-minisql -Model claude-opus-5-5
 #>
 param(
-    [Parameter(Mandatory)][ValidateSet('c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
+    [Parameter(Mandatory)][ValidateSet('c0-wordstat', 'c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
     [string]$Model,
     [int]$TimeoutSec,
     [string]$ToolsDir,

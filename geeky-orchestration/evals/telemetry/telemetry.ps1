@@ -39,7 +39,9 @@ function Resolve-EvalTelemetry {
     $environment = if ($env:LANGFUSE_TRACING_ENVIRONMENT) { $env:LANGFUSE_TRACING_ENVIRONMENT } else { 'eval' }
     $userId = if ($codex -and $env:LANGFUSE_CODEX_USER_ID) { $env:LANGFUSE_CODEX_USER_ID } elseif ($env:LANGFUSE_USER_ID) { $env:LANGFUSE_USER_ID } else { 'geeky-eval-agent' }
 
-    $envArgs = @('--env', 'TRACE_TO_LANGFUSE=true', '--env', "LANGFUSE_TRACING_ENVIRONMENT=$environment")
+    # Both SDKs cap each OTLP export at LANGFUSE_TIMEOUT seconds (default 5); a full eval session's batch
+    # takes longer, and the hook then fails open with nothing delivered (C1 Codex run 3 replay).
+    $envArgs = @('--env', 'TRACE_TO_LANGFUSE=true', '--env', "LANGFUSE_TRACING_ENVIRONMENT=$environment", '--env', 'LANGFUSE_TIMEOUT=300')
     foreach ($name in $keyNames) { $envArgs += @('--env', $name) }
     # A host that trusts a private CA (a TLS-inspecting proxy) must hand it to the hooks too, or
     # their HTTPS uploads fail certificate verification inside the sandbox.
@@ -53,7 +55,7 @@ function Resolve-EvalTelemetry {
     $record = [ordered]@{
         enabled = $true; backend = 'langfuse'; base_url = $baseUrl; environment = $environment; tags = $tags
         user_id = $userId; full_content = $true; ca_passthrough = @($caNames); session_id = $null; summary = $null
-        delivered = $null; observations = $null
+        delivered = $null; observations = $null; coverage_complete = $null; coverage_missed = $null
     }
     $result = [ordered]@{ Harness = $Harness; KeyNames = $keyNames; BaseUrl = $baseUrl; Tags = $tags; Record = $record
         RoPaths = @($roPaths | Select-Object -Unique) }
@@ -125,5 +127,16 @@ function Save-EvalTelemetry {
         $observations = [int](Get-Content $summary -Raw | ConvertFrom-Json).observations
         $Telemetry.Record.observations = $observations
         $Telemetry.Record.delivered = $observations -gt 0
+    }
+    if ($Telemetry.Record.delivered) {
+        # Which harness points the session reached (cases/c0-wordstat/spec.md); informational, never fatal.
+        $coverage = Join-Path $OutDir 'langfuse-coverage.json'
+        & $Python (Join-Path $PSScriptRoot 'langfuse-coverage.py') --session-id $SessionId --output $coverage `
+            --public-key-env $Telemetry.KeyNames[0] --secret-key-env $Telemetry.KeyNames[1] --base-url-env $Telemetry.KeyNames[2] | Out-Null
+        if (Test-Path $coverage) {
+            $report = Get-Content $coverage -Raw | ConvertFrom-Json
+            $Telemetry.Record.coverage_complete = [bool]$report.complete
+            $Telemetry.Record.coverage_missed = @($report.missed)
+        }
     }
 }

@@ -50,6 +50,23 @@ python geeky-orchestration/evals/telemetry/langfuse-run.py --session-id <id> --o
 
 `langfuse-run.py` reads `/api/public/v2/observations`, the only read API on Langfuse v4 events-only deployments.
 
+## Harness coverage
+
+`langfuse-coverage.py` checks which harness points a session reached, using its Langfuse observations: all five skills, subagents, nested subagents, the coder and reviewer roles, planning gates, pytest, commits, file edits, reasoning summaries and token usage. It also reports MCP gate tools and encrypted Codex handoffs as information only. The runners call it after each run and write `langfuse-coverage.json`, plus `telemetry.coverage_complete` and `telemetry.coverage_missed` in `run.json`. Run it on demand too:
+
+```powershell
+python geeky-orchestration/evals/telemetry/langfuse-coverage.py --session-id <id>
+```
+
+It was calibrated on two real sessions, Claude C1 run 6 and Codex C1 run 3 (replayed through the pinned tracers under `environment=smoke`). Both hit every point except reasoning summaries, which those runs predate. `cases/c0-wordstat` is the minimal case built to hit every point; see its `spec.md`.
+
+## Known limits
+
+- **Codex inter-agent payloads are encrypted by the provider.** `spawn_agent`, `send_message` and `followup_task` arguments, and the `agent_message` a child thread receives, carry `encrypted_content` (`encrypted_function_args`), so no plaintext exists on disk or in Langfuse. Each thread's own messages, tool calls and outputs are plaintext. Coverage counts these handoffs as `encrypted_handoffs`.
+- **Raw reasoning stays encrypted**; only the summaries are plaintext.
+- **Export timeout.** Both SDKs cap one OTLP export at `LANGFUSE_TIMEOUT` seconds, 5 by default. A full session needs longer, so the runners pass `LANGFUSE_TIMEOUT=300`. Without it, the C1 Codex run 3 replay delivered nothing while the hook still exited 0.
+- **Proxies.** The Codex tracer's exporter uses Node's `http` module, which ignores `HTTPS_PROXY`. It needs direct egress to Langfuse, which the MXC sandbox provides.
+
 ## Mock runs
 
 The mocks exercise the real hooks with no model calls. `mock_claude.py` runs the `--settings` `Stop` hooks on its transcript and fails on any hook error. `mock_codex.py` runs the configured `Stop` hook on a turn-shaped rollout and requires the tracer's `.langfuse` delivery sidecar to record the turn. `run-mock-matrix.ps1` runs both harnesses on every case and fails a run whose session never reached Langfuse.

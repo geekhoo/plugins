@@ -18,7 +18,7 @@ Written 2026-10-23, after six paid C1 runs. Everything here was verified on this
 | Analyzer (tokens, timings, gate counts) | `evals/scripts/analyze-run.py` |
 | Scorer (QACT) | `evals/scripts/score-run.py` |
 | Mock agent and dry run | `evals/mock-agent/mock_claude.py`, `evals/mock-agent/dry-run.ps1` |
-| Cases and oracles | `evals/cases/<case>/` (`c1-csvledger`, `c2-linkvault`, `c3-minisql`) |
+| Cases and oracles | `evals/cases/<case>/` (`c0-wordstat` harness smoke test, `c1-csvledger`, `c2-linkvault`, `c3-minisql`) |
 | Stored runs | `evals/baselines/<case>/<UTC stamp>/` |
 | Invalid runs kept as evidence | `evals/baselines/archive/` |
 | Scorecard | `evals/baselines/c1-csvledger/comparison-20261022T0800Z.md` |
@@ -128,6 +128,8 @@ The cut-off run from before the background-wait fix is archived in `evals/baseli
 - **The Claude hook exits 0 even when an upload fails**, and it defers a turn with pending Agent calls until `SessionEnd`. Judge delivery from the Langfuse readback (`run.json.telemetry.delivered`), not from the hook's exit code. The Codex tracer marks a delivered turn in `<rollout>.langfuse`.
 - **Langfuse v4 events-only servers have no `/api/public/traces`.** Read sessions through `/api/public/v2/observations?sessionId=...`.
 - **MXC runs on Linux** with Bubblewrap (D102). Install `bubblewrap slirp4netns iproute2 iptables`. The sandbox sees only system folders and gets its own `HOME`, so runtimes under `/opt` or `/usr/local` need grants; the host grants the CLI, its symlink target and the PATH runtimes. A TLS-inspecting proxy's CA must be passed through (`SSL_CERT_FILE` and friends) or the hooks' HTTPS fails inside the sandbox.
+- **C0 first.** `c0-wordstat` is a three-task, two-phase case that drives every harness point we trace. Run it on a new harness or model before C1-C3, then check `langfuse-coverage.json`.
+- **Codex handoffs are provider-encrypted** (`encrypted_content` in `agent_message`), and both Langfuse SDKs time out a large export after 5 s unless `LANGFUSE_TIMEOUT` is raised. The runners pass `300`.
 - **Mock matrix:** `scripts/run-mock-matrix.ps1` runs both harnesses on C1-C3 with no model calls and fails any run whose mock checks fail or whose session never reached Langfuse.
 
 ## Open TODOs

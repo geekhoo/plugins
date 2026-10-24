@@ -14,7 +14,7 @@ child thread, tool call and reasoning summary untruncated (evals/telemetry/READM
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][ValidateSet('c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
+    [Parameter(Mandatory)][ValidateSet('c0-wordstat', 'c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
     [string]$Model = 'gpt-6.1-sol',
     [ValidateSet('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')][string]$Reasoning = 'high',
     [string]$WorkerModel,

@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Run the model-free mock baseline for every harness x case in MXC and report one matrix.
+  Run the model-free mock baseline for every harness x case (C0-C3) in MXC and report one matrix.
 
 .DESCRIPTION
   Calls run-baseline.ps1 -MockAgent (Claude Code) and run-codex-baseline.ps1 -MockAgent (Codex)
@@ -18,7 +18,7 @@
 #>
 param(
     [ValidateSet('claude-code', 'codex')][string[]]$Harness = @('claude-code', 'codex'),
-    [ValidateSet('c1-csvledger', 'c2-linkvault', 'c3-minisql')][string[]]$Case = @('c1-csvledger', 'c2-linkvault', 'c3-minisql'),
+    [ValidateSet('c0-wordstat', 'c1-csvledger', 'c2-linkvault', 'c3-minisql')][string[]]$Case = @('c0-wordstat', 'c1-csvledger', 'c2-linkvault', 'c3-minisql'),
     [string]$ToolsDir,
     [string]$WorkRoot,
     [string]$OutDir,
