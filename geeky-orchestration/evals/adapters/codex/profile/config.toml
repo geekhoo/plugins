@@ -1,0 +1,24 @@
+# Static contestant defaults. prepare-profile.py generates run-specific CLI overrides;
+# this file is never installed into the signed-in CODEX_HOME.
+model = "gpt-6.1-sol"
+model_reasoning_effort = "high"
+approval_policy = "never"
+sandbox_mode = "danger-full-access"
+cli_auth_credentials_store = "file"
+web_search = "live"
+
+[features]
+multi_agent = true
+hooks = true
+apps = false
+remote_plugin = false
+plugins = true
+
+[shell_environment_policy]
+inherit = "all"
+
+[skills.bundled]
+enabled = false
+
+[plugins._default]
+enabled = false

@@ -1,0 +1,390 @@
+"""Fail-closed paid-launch proof and post-run diagnostics audit; no native execution."""
+import argparse
+import datetime as dt
+import hashlib
+import importlib.util
+import json
+from pathlib import Path, PureWindowsPath
+import re
+import shutil
+
+from diagnostics import classify_diagnostics, patch_router_blocks
+
+NATIVE_CHECKS = {
+    'native_exit', 'native_version', 'native_user_skills_denied', 'local_responses_only',
+    'native_skill_discovery', 'native_patch', 'native_guard_context', 'native_shell',
+    'native_skill_invoked', 'native_mcp', 'native_subagent', 'native_completed',
+    'native_clean_diagnostics', 'native_nested_subagent',
+    *(f'native_{thread}_model_reasoning' for thread in ('main', 'child', 'grandchild', 'default')),
+    *(f'native_{thread}_registered_instructions' for thread in ('main', 'child', 'grandchild')),
+}
+
+
+def read_json(path):
+    return json.loads(Path(path).read_text(encoding='utf-8-sig'))
+
+
+def sha(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest().upper()
+
+
+def write_json(path, value):
+    Path(path).write_text(json.dumps(value, indent=2), encoding='utf-8')
+
+
+def native_files(folder, retained=False):
+    folder = Path(folder)
+    files = {name: folder / name for name in (
+        'native-summary.json', 'mxc-build-proof.json', 'mxc-build-provenance.json')}
+    files['proof-run.json'] = folder / 'proof-run.json' if retained else folder.parent.parent / 'run.json'
+    files['proof-profile.json'] = folder / 'proof-profile.json' if retained else folder.parent.parent / 'parity-preflight.json'
+    return files
+
+
+def expected_matrix(run):
+    matrix = {'orchestrator': {'model': run.get('model'), 'reasoning': run.get('reasoning')},
+              'workers': {'model': run.get('worker_model'), 'reasoning': run.get('worker_reasoning'),
+                          'scope': 'all-descendants'}}
+    if run.get('reviewer_reasoning'):
+        matrix['workers']['scope'] = 'all-descendants-except-reviewers'
+        matrix['reviewers'] = {'model': run.get('worker_model'), 'reasoning': run['reviewer_reasoning'],
+                               'roles': ['code-reviewer', 'code-architect-reviewer'], 'scope': 'review-assignments'}
+    if any(not isinstance(group[key], str) or not group[key] for group in matrix.values()
+           for key in ('model', 'reasoning')) or matrix != run.get('model_matrix'):
+        raise ValueError('Requested model matrix is missing or inconsistent')
+    return matrix
+
+
+def validate_native(run_folder, files, pin_path, source_directory, forbidden_root,
+                    reviewer_role='code-reviewer'):
+    """Validate retained evidence and current build without trusting summary flags alone."""
+    checks = []
+    def check(name, passed):
+        checks.append({'name': name, 'passed': bool(passed)})
+    try:
+        run_folder = Path(run_folder)
+        run = read_json(run_folder / 'run.json')
+        profile = read_json(run_folder / 'parity-preflight.json')
+        native = read_json(files['native-summary.json'])
+        proof_run = read_json(files['proof-run.json'])
+        proof_profile = read_json(files['proof-profile.json'])
+        proof = read_json(files['mxc-build-proof.json'])
+        provenance = read_json(files['mxc-build-provenance.json'])
+        launch = read_json(run_folder / 'mxc-build-provenance.json')
+        pin = read_json(pin_path)
+        matrix = expected_matrix(run)
+        check('model_matrix', all(row.get('model_matrix') == matrix
+              for row in (profile, native, proof_run, proof_profile)))
+        check('plugin_sha', bool(re.fullmatch(r'[0-9a-fA-F]{40}', run.get('plugin_sha', '')))
+              and proof_run.get('plugin_sha') == run['plugin_sha'])
+        check('static_profiles', profile.get('ok') is True and proof_profile.get('ok') is True)
+        native_checks = native.get('checks', [])
+        check('native_21_checks', len(native_checks) == 21
+              and {c.get('name') for c in native_checks} == NATIVE_CHECKS
+              and all(c.get('passed') is True for c in native_checks)
+              and native.get('ok') is True and native.get('functional_ok') is True)
+        if 'reviewers' in matrix:
+            reviewer = native.get('request_evidence', {}).get('grandchild', {})
+            requests = reviewer.get('requests', [])
+            expected = {key: matrix['reviewers'][key] for key in ('model', 'reasoning')}
+            check('native_reviewer_requests', native.get('roles', {}).get('grandchild') == reviewer_role
+                  and reviewer_role in matrix['reviewers']['roles']
+                  and reviewer.get('expected') == expected and bool(requests)
+                  and reviewer.get('model_reasoning_ok') is True and reviewer.get('instructions_ok') is True
+                  and all(row.get('registered_instructions') is True
+                          and all(row.get(key) == value for key, value in expected.items()) for row in requests))
+        denial = next((row.get('detail', {}) for row in native_checks
+                       if row.get('name') == 'native_user_skills_denied'), {})
+        check('native_exact_denied_root', denial.get('path') == str(forbidden_root)
+              and denial.get('winerror') == 5)
+        check('native_version_model_free', native.get('cli_version') == '0.164.0'
+              and type(native.get('paid_model_calls')) is int and native['paid_model_calls'] == 0
+              and not native.get('unexpected_errors'))
+        for label, build in (('native_build', proof), ('native_provenance', provenance), ('launch_provenance', launch)):
+            check(label, all(build.get(key) == pin.get(key) and bool(pin.get(key))
+                            for key in ('source_hash', 'exe_sha256', 'dll_sha256'))
+                  and build.get('pinned_build_verified' if label == 'native_build' else 'verified') is True)
+        check('native_sdk', proof.get('sdk_version') == pin.get('sdk_version'))
+        for label, build in (('native_manifest', provenance), ('launch_manifest', launch)):
+            source = build.get('source_manifest')
+            check(label, bool(source) and source == build.get('destination_manifest')
+                  and all(any(row.get('path') == name and row.get('sha256') == pin[key] for row in source)
+                          for name, key in (('MxcClaude.exe', 'exe_sha256'), ('MxcClaude.dll', 'dll_sha256'))))
+        source_files = sorted((path for path in Path(source_directory).iterdir()
+                               if path.is_file() and path.suffix in ('.cs', '.csproj')), key=lambda p: p.name)
+        check('current_source', bool(source_files) and ''.join(sha(path) for path in source_files) == pin['source_hash'])
+        build_root = Path(launch['destination_directory'])
+        check('current_launch_binaries', sha(build_root / 'MxcClaude.exe') == pin['exe_sha256']
+              and sha(build_root / 'MxcClaude.dll') == pin['dll_sha256']
+              and (build_root / '.source-hash').read_text(encoding='utf-8-sig').strip() == pin['source_hash'])
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        checks.append({'name': 'proof_read_or_shape', 'passed': False, 'detail': str(exc)})
+    return {'ok': bool(checks) and all(c['passed'] for c in checks), 'checks': checks}
+
+
+def prepare(run_folder, proof_folder, pin_path, source_directory, forbidden_root,
+            reviewer_proof_folder=None):
+    run_folder = Path(run_folder)
+    files = native_files(proof_folder)
+    report = validate_native(run_folder, files, pin_path, source_directory, forbidden_root)
+    report['native_proof_folder'] = str(Path(proof_folder).resolve())
+    report['files'] = []
+    reviewer_files = None
+    if read_json(run_folder / 'run.json').get('reviewer_reasoning'):
+        reviewer_files = native_files(reviewer_proof_folder) if reviewer_proof_folder else {}
+        secondary = validate_native(run_folder, reviewer_files, pin_path, source_directory,
+                                    forbidden_root, 'code-architect-reviewer')
+        report['checks'].extend({**row, 'name': 'architect_' + row['name']} for row in secondary['checks'])
+        report['ok'] = report['ok'] and secondary['ok']
+        report['reviewer_proof_folder'] = str(Path(reviewer_proof_folder).resolve()) if reviewer_proof_folder else None
+        report['reviewer_files'] = []
+    if report['ok']:
+        destination = run_folder / 'native-proof'
+        destination.mkdir(exist_ok=False)
+        for name, source in files.items():
+            target = destination / name
+            shutil.copyfile(source, target)
+            report['files'].append({'source': str(source.resolve()), 'copy': name, 'sha256': sha(target)})
+        if reviewer_files:
+            destination = run_folder / 'reviewer-native-proof'
+            destination.mkdir(exist_ok=False)
+            for name, source in reviewer_files.items():
+                target = destination / name
+                shutil.copyfile(source, target)
+                report['reviewer_files'].append({'source': str(source.resolve()), 'copy': name, 'sha256': sha(target)})
+    write_json(run_folder / 'native-proof-validation.json', report)
+    return report
+
+
+def skill_read_evidence(run_folder):
+    spec = importlib.util.spec_from_file_location('paid_codex_trace',
+        Path(__file__).resolve().parents[2] / 'scripts/codex-trace.py')
+    trace = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(trace)
+    result = trace.load(run_folder)
+    skills = []
+    successful = {content['tool_use_id'] for event in result['session']
+                  for content in event.get('message', {}).get('content', [])
+                  if content.get('type') == 'tool_result' and content.get('is_error') is False}
+    for event in result['session']:
+        for content in event.get('message', {}).get('content', []):
+            if (content.get('type') == 'tool_use' and content.get('name') == 'Skill'
+                    and content.get('id') in successful
+                    and content.get('input', {}).get('evidence') == 'successful-skill-file-read'):
+                skills.append({'id': content['id'], 'timestamp': event['timestamp'],
+                               'skill': content['input']['skill'], 'evidence': 'successful-skill-file-read'})
+    return skills, result['trace_complete'], result['trace_errors']
+
+
+def correlate_candidate_tool_failures(run_folder, stderr):
+    """Correlate exact router failures to physical failed calls, never inherited prose."""
+    run_folder = Path(run_folder)
+    blocks = patch_router_blocks(stderr)
+    if not blocks:
+        return []
+    workspace = PureWindowsPath(read_json(run_folder / 'run.json')['workspace'])
+    def under_workspace(value):
+        path = PureWindowsPath(value)
+        return (path.is_absolute() and path != workspace and path.is_relative_to(workspace)
+                and '..' not in path.parts and '.' not in value.replace('\\', '/').split('/'))
+    def timestamp(value):
+        if not isinstance(value, str) or not re.fullmatch(r'\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?Z', value):
+            raise ValueError('Missing or invalid physical tool timestamp')
+        return dt.datetime.fromisoformat(value.replace('Z', '+00:00'))
+    pairs = []
+    for file in [run_folder / 'session.jsonl', *sorted((run_folder / 'subagents').glob('*.jsonl'))]:
+        lines = file.read_text(encoding='utf-8-sig').splitlines()
+        rows = [(number, line, json.loads(line)) for number, line in enumerate(lines, 1) if line.strip()]
+        meta = next((row['payload'] for _, _, row in rows if row.get('type') == 'session_meta'), {})
+        if PureWindowsPath(meta.get('cwd', '')) != workspace:
+            continue
+        source = meta.get('source')
+        child = bool(meta.get('parent_thread_id') or isinstance(source, dict) and source.get('subagent'))
+        cutoff = meta.get('subagent_history_start_ordinal') if child else 0
+        if type(cutoff) is not int or not meta.get('id'):
+            continue
+        requests, outputs = {}, {}
+        for number, line, row in rows:
+            if (row.get('type') != 'response_item' or type(row.get('ordinal')) is not int
+                    or row['ordinal'] < cutoff):
+                continue
+            payload = row.get('payload', {})
+            if payload.get('type') in ('custom_tool_call', 'function_call'):
+                requests.setdefault(payload.get('call_id'), []).append((number, line, row))
+            elif payload.get('type') in ('custom_tool_call_output', 'function_call_output'):
+                outputs.setdefault(payload.get('call_id'), []).append((number, line, row))
+        for call_id, returned in outputs.items():
+            requested = requests.get(call_id, [])
+            if not call_id or len(requested) != 1 or len(returned) != 1:
+                continue
+            req_number, req_raw, request = requested[0]
+            out_number, out_raw, output = returned[0]
+            req, out = request['payload'], output['payload']
+            code = req.get('input', '')
+            if (req.get('name') != 'apply_patch' and not (
+                    req.get('name') == 'exec' and req.get('namespace') in (None, 'functions')
+                    and isinstance(code, str) and re.search(r'\btools\.apply_patch\s*\(', code))):
+                continue
+            content = out.get('output')
+            if (not isinstance(content, list) or len(content) != 2
+                    or any(part.get('type') != 'input_text' or not isinstance(part.get('text'), str) for part in content)
+                    or not re.fullmatch(r'Script failed\nWall time \d+(?:\.\d+)? seconds\nOutput:\n', content[0]['text'])
+                    or not content[1]['text'].startswith('Script error:\n')):
+                continue
+            req_turn = req.get('internal_chat_message_metadata_passthrough', {}).get('turn_id')
+            out_turn = out.get('internal_chat_message_metadata_passthrough', {}).get('turn_id')
+            if (not req_turn or req_turn != out_turn or req_number >= out_number
+                    or request['ordinal'] >= output['ordinal']):
+                continue
+            requested_at, returned_at = timestamp(request.get('timestamp')), timestamp(output.get('timestamp'))
+            if requested_at > returned_at:
+                continue
+            patch_files = re.findall(r'^\*\*\* Update File: ([^\r\n]+)$', code, re.M)
+            pairs.append({'thread_id': meta['id'], 'call_id': call_id, 'turn_id': req_turn,
+                'source_file': file.relative_to(run_folder).as_posix(), 'source_sha256': sha(file),
+                'request_line': req_number, 'response_line': out_number,
+                'request_ordinal': request['ordinal'], 'response_ordinal': output['ordinal'],
+                'request_timestamp': request['timestamp'], 'response_timestamp': output['timestamp'],
+                'request_sha256': hashlib.sha256(req_raw.encode('utf-8')).hexdigest(),
+                'response_sha256': hashlib.sha256(out_raw.encode('utf-8')).hexdigest(),
+                'failed_tool_record': output, 'paired_request_record': request,
+                'failure': content[1]['text'].removeprefix('Script error:\n'),
+                '_request_time': requested_at, '_response_time': returned_at, '_patch_files': patch_files})
+    result = []
+    for block in blocks:
+        if not under_workspace(block['path']):
+            continue
+        emitted_at = timestamp(block['timestamp'])
+        matched = [pair for pair in pairs if pair['failure'] == block['failure']
+                   and pair['_request_time'] <= emitted_at
+                   and 0 <= (pair['_response_time'] - emitted_at).total_seconds() <= .1
+                   and any(PureWindowsPath(workspace / path) == PureWindowsPath(block['path'])
+                           and '..' not in PureWindowsPath(path).parts for path in pair['_patch_files'])]
+        if len(matched) == 1:
+            pair = matched[0]
+            # One physical failure cannot explain more than one stderr occurrence.
+            eligible = [other for other in blocks if other['failure'] == pair['failure']
+                        and pair['_request_time'] <= timestamp(other['timestamp'])
+                        and 0 <= (pair['_response_time'] - timestamp(other['timestamp'])).total_seconds() <= .1]
+            if len(eligible) == 1:
+                result.append({**{key: value for key, value in pair.items() if not key.startswith('_')},
+                    **block, 'verified': True, 'workspace': str(workspace),
+                    'delta_ms': round((pair['_response_time'] - emitted_at).total_seconds() * 1000, 6),
+                    'stderr_block_sha256': hashlib.sha256(block['raw'].encode('utf-8')).hexdigest()})
+    return result
+
+
+def audit(run_folder, runtime_folder, forbidden_root, pin_path, source_directory):
+    run_folder, runtime_folder = Path(run_folder), Path(runtime_folder)
+    errors = []
+    run = read_json(run_folder / 'run.json')
+    if (run.get('exit_code') != 0 or run.get('is_error') is not False
+            or run.get('plugin_modified_during_run') is not False):
+        errors.append('Paid execution failed or plugin export changed')
+    captures = {}
+    saved = run_folder / 'native-hook-trust'
+    saved.mkdir(exist_ok=True)
+    # Preserve every available raw catalogue/install capture before inspecting it.
+    for name in ('native-plugin-install.json', 'native-plugin-install-stderr.txt',
+                 'native-hook-catalog.json', 'native-hook-catalog-stderr.txt', 'runtime-denial-proof.json'):
+        source = runtime_folder / name
+        if source.is_file():
+            target = saved / name
+            if target.exists():
+                if source.read_bytes() != target.read_bytes():
+                    errors.append('Retained runtime capture differs from source: ' + name)
+            else:
+                shutil.copyfile(source, target)
+        else:
+            errors.append('Missing runtime evidence: ' + name)
+    for stage, path in (('plugin-install', saved / 'native-plugin-install-stderr.txt'),
+                        ('hook-catalogue', saved / 'native-hook-catalog-stderr.txt'),
+                        ('exec', run_folder / 'stderr.txt')):
+        if path.is_file():
+            captures[stage] = path.read_text(encoding='utf-8-sig')
+    native = validate_native(run_folder, native_files(run_folder / 'native-proof', True),
+                             pin_path, source_directory, forbidden_root)
+    if read_json(run_folder / 'run.json').get('reviewer_reasoning'):
+        secondary = validate_native(run_folder, native_files(run_folder / 'reviewer-native-proof', True),
+                                    pin_path, source_directory, forbidden_root, 'code-architect-reviewer')
+        native['checks'].extend({**row, 'name': 'architect_' + row['name']} for row in secondary['checks'])
+        native['ok'] = native['ok'] and secondary['ok']
+    try:
+        retained = read_json(run_folder / 'native-proof-validation.json')
+        if retained.get('ok') is not True or not retained.get('files') or any(
+                sha(run_folder / 'native-proof' / row['copy']) != row['sha256'] for row in retained['files']):
+            errors.append('Retained native proof changed or never passed preflight')
+        if read_json(run_folder / 'run.json').get('reviewer_reasoning') and (
+                not retained.get('reviewer_files') or any(
+                    sha(run_folder / 'reviewer-native-proof' / row['copy']) != row['sha256']
+                    for row in retained['reviewer_files'])):
+            errors.append('Retained architect reviewer proof changed or never passed preflight')
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        errors.append('Retained native proof invalid: ' + str(exc))
+    proof = {}
+    try:
+        proof = read_json(saved / 'runtime-denial-proof.json')
+    except (OSError, ValueError) as exc:
+        errors.append('Runtime denial proof invalid: ' + str(exc))
+    denial_verified = (proof.get('root') == str(forbidden_root) and proof.get('denial_verified') is True
+                       and proof.get('error_type') == 'PermissionError' and proof.get('winerror') == 5)
+    version_verified = (proof.get('cli_version') == '0.164.0' and proof.get('version_returncode') == 0
+                        and proof.get('version_stdout', '').strip() == 'codex-cli 0.164.0'
+                        and not proof.get('version_stderr', '').strip())
+    skills, trace_complete, trace_errors = [], False, []
+    try:
+        skills, trace_complete, trace_errors = skill_read_evidence(run_folder)
+        stream = [json.loads(line) for line in (run_folder / 'stream.jsonl').read_text(encoding='utf-8-sig').splitlines() if line.strip()]
+        if not any(row.get('type') == 'turn.completed' for row in stream):
+            errors.append('Missing turn.completed stream event')
+        if any(row.get('type') in ('turn.failed', 'error') or (row.get('item') or {}).get('type') == 'error' for row in stream):
+            errors.append('Failed/error stream event')
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        errors.append('Trace or stream invalid: ' + str(exc))
+    if not trace_complete:
+        errors.append('Incomplete native trace')
+    if not version_verified:
+        errors.append('Runtime CLI version proof failed')
+    correlated = []
+    try:
+        correlated = correlate_candidate_tool_failures(run_folder, captures.get('exec', ''))
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        errors.append('Tool failure correlation invalid: ' + str(exc))
+    parity_ok = native['ok'] and not errors
+    diagnostics = classify_diagnostics(captures, str(forbidden_root), proof.get('cli_version'),
+                                       parity_ok, denial_verified, bool(skills), correlated)
+    report = {**diagnostics, 'ok': diagnostics['ok'] and not errors,
+              'proof_errors': errors, 'native_proof': native,
+              'runtime_denial_verified': denial_verified, 'version_verified': version_verified,
+              'skill_read_evidence': skills, 'skill_evidence_scope': 'stage-entry-only',
+              'trace_complete': trace_complete, 'trace_errors': trace_errors,
+              'raw_capture_sha256': {path.name: sha(path) for path in saved.iterdir() if path.is_file()},
+              'stderr_sha256': sha(run_folder / 'stderr.txt'),
+              'raw_diagnostics': captures}
+    write_json(run_folder / 'diagnostic-report.json', report)
+    return report
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--run-folder', type=Path, required=True)
+    parser.add_argument('--pin', type=Path, required=True)
+    parser.add_argument('--source-directory', type=Path, required=True)
+    parser.add_argument('--native-proof-folder', type=Path)
+    parser.add_argument('--reviewer-proof-folder', type=Path)
+    parser.add_argument('--runtime-evidence', type=Path)
+    parser.add_argument('--forbidden-skill-root', required=True)
+    args = parser.parse_args()
+    if args.native_proof_folder:
+        report = prepare(args.run_folder, args.native_proof_folder, args.pin,
+                         args.source_directory, args.forbidden_skill_root, args.reviewer_proof_folder)
+    else:
+        if args.runtime_evidence is None or args.forbidden_skill_root is None:
+            parser.error('Post-run audit requires runtime evidence and exact forbidden skill root')
+        report = audit(args.run_folder, args.runtime_evidence, args.forbidden_skill_root, args.pin, args.source_directory)
+    print(json.dumps({'ok': report['ok']}))
+    return 0 if report['ok'] else 1
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
