@@ -1,0 +1,120 @@
+{
+  "utc": "2026-10-23T17:26:38.7358041Z",
+  "base_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "source_files": [
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/capture-rollouts.py",
+      "sha256": "B10299BBFEAFBAABBD69170A648AF3979EB79FC9A8C14CA6158AAFB4B2CDB9E5"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/diagnostics.py",
+      "sha256": "F242A7102ACE991E1BAFC1F038B182AA6ACAAA51A2B5FA1EE6E12DB4AA85901D"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/guard-bridge.py",
+      "sha256": "EAEC67F1D236A4599327E8F24AF213CD87C44D1942C57E196500D7D2CDDCCAA1"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/handoff.md",
+      "sha256": "A8F01D0A8D55B7556060FE6716A5C1E4E8A32412586941EABCC09CF0534B3E4D"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/kanban.md",
+      "sha256": "1515F25EC63C79AB3E0436B79C32841C34841E09C987D1855E0D90A163CD5924"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/mock_codex.py",
+      "sha256": "1360DF0ABB05AAC97B43C2C9A2CBE0BE1E19E430EC0546AA11615EDA2993A54A"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/native-probe.py",
+      "sha256": "3D0B720456459A30070496954D33DD76A64FD6DC5EBDE0D96ED7757E478E0773"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/prepare-profile.py",
+      "sha256": "F7AAA5C2AB4664188C607FFF947F6A85C1A48236481CF8FD6B50D7FA0DE3074B"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/profile/config.toml",
+      "sha256": "17B5752D752A1C8377A5CE3BEFF46B3ECB1B61375688C38325DBBFAC75C7BBCD"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/profile/mcp-bootstrap.py",
+      "sha256": "68213BB92EBDE4BF08AC559AA56AACA929E4625137D28BFF293AE721CE449FAF"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/profile/mxc-pin.json",
+      "sha256": "A2DB3F8A29F833B3981AB41991421FAFF13831FB2B35A8A9BB771DB96F1BE04B"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/README.md",
+      "sha256": "80BFD26CBE85B7C351CBD5F2D93898C4D67D901CCCC9CB5757F711AB574954B6"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/references.md",
+      "sha256": "CCBC0B15C9348D5DF9C1CF60BA84F3699C822FF703D04A809D484A13639948D3"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/run-native-probe.ps1",
+      "sha256": "A5CEEB5C062682B08B6CD6D9B808B0FAE11DE05C7857FDA7FB3CC806171739D8"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_capture_rollouts.py",
+      "sha256": "0FF13B1C1D0A525BCF8E99FDF3709F8AE4FD989C665BD63B248A453B38321505"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_diagnostics.py",
+      "sha256": "7B9AA2570C42916929485937FCAEEA6154D59B159791EE03D743A549A1B54EA5"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_mock_codex.py",
+      "sha256": "CCE77CCFAAB31DF5A11561DFC017EA0FBD24A8BF410BAE13D7A80AD9160CB878"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_native_probe.py",
+      "sha256": "F378A8AE9294C926127992DC1ED493311B0D6FAD21636D802758873FB30A7FB3"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_profile.py",
+      "sha256": "8DE40094C8318BEADD6E4075116D56C0B85441EF5F8577A31DE3E1412697D0B6"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_trusted_exec.py",
+      "sha256": "458F54BC6CC53F1FEC0AAC41D7BDC8910166C54B9780B9A515512720FB47190B"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/trusted-exec.py",
+      "sha256": "56252A28184DD2B92EA5283BFBFB77D5154D1E6F273CDEAE6EFCEC947D1AD537"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/verify-claude-regression.py",
+      "sha256": "4A221826978FCE2CAABB4484C3A8AE8BEE5B44F7792AA5C6E69D804F168F2995"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/analyze-run.py",
+      "sha256": "CE2B6EE0113F97C9509523691A0D03D9035B7E8BBD2E0B8BE9D3AAACEAB15A2A"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/codex-trace.py",
+      "sha256": "54B3350A0A9E27BC7AFAD12028F4BE040EEACAAC02C3E54A16AA852F8C568561"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/run-codex-baseline.ps1",
+      "sha256": "6FC22FD31E793D3C21D575D720C534C13C00FD90064E9185A20769D189DED5E4"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/score-run.py",
+      "sha256": "6AC0D4AED1BAC7B7634DB33B9E0152C7DE76231A27C100C887FDE6B08D5B98B5"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/test_codex_trace.py",
+      "sha256": "30EE90905E7546EFD63E81782534C882E4528ABBF6ECC3E4FB7BEA7A48D71EB2"
+    },
+    {
+      "path": "geeky-orchestration/README.md",
+      "sha256": "68A88C71F3F5FCCE0B0E7EC003C252666F8218E5F0E0F24B11BEE2F22F1B221F"
+    }
+  ],
+  "paid_calls": 0,
+  "checkpoint": 3
+}

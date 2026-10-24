@@ -1,0 +1,46 @@
+{
+  "gate_invocations": {
+    "check-commit": 7,
+    "validate-task-schema": 5,
+    "validate-kanban": 28,
+    "validate-planning-folder": 7,
+    "check-dod": 3
+  },
+  "gate_results": {
+    "check-commit": {
+      "pass": 7,
+      "fail": 0,
+      "unknown": 0,
+      "main": 0,
+      "sub": 7
+    },
+    "validate-task-schema": {
+      "pass": 4,
+      "fail": 0,
+      "unknown": 1,
+      "main": 0,
+      "sub": 5
+    },
+    "validate-kanban": {
+      "pass": 18,
+      "fail": 6,
+      "unknown": 4,
+      "main": 0,
+      "sub": 28
+    },
+    "validate-planning-folder": {
+      "pass": 5,
+      "fail": 0,
+      "unknown": 2,
+      "main": 0,
+      "sub": 7
+    },
+    "check-dod": {
+      "pass": 3,
+      "fail": 0,
+      "unknown": 0,
+      "main": 0,
+      "sub": 3
+    }
+  }
+}

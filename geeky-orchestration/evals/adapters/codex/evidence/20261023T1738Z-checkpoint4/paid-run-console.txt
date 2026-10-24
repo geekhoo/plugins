@@ -1,0 +1,8 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'brief.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'contract.md', LF will be replaced by CRLF the next time Git touches it
+{"ok": true, "report": "C:\\repos\\.eval-cfg-codex-20261023T175251Z-2941f32c\\codex-profile.json"}
+workspace: C:\repos\eval-c1-csvledger-codex-20261023T175251Z-2941f32c (seed 40158a20ae08a1e28552ba8e1cb3432839c825f8)
+prepared: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c1-csvledger\20261023T175251Z-2941f32c
+{"main_thread_id": "01a169e4-ff27-7841-8ee2-750dbbceb2ed", "threads": [{"thread_id": "01a169e4-ff27-7841-8ee2-750dbbceb2ed", "parent_thread_id": null, "file": "session.jsonl"}, {"thread_id": "01a169e5-3b8e-7080-b17b-dfa038224e82", "parent_thread_id": "01a169e4-ff27-7841-8ee2-750dbbceb2ed", "file": "subagents/rollout-01a169e5-3b8e-7080-b17b-dfa038224e82.jsonl"}, {"thread_id": "01a169e5-a296-74c3-9cdb-1cd76d39121a", "parent_thread_id": "01a169e5-3b8e-7080-b17b-dfa038224e82", "file": "subagents/rollout-01a169e5-a296-74c3-9cdb-1cd76d39121a.jsonl"}, {"thread_id": "01a169e5-b019-77b3-a8f8-848b1b04efd7", "parent_thread_id": "01a169e5-3b8e-7080-b17b-dfa038224e82", "file": "subagents/rollout-01a169e5-b019-77b3-a8f8-848b1b04efd7.jsonl"}, {"thread_id": "01a169e5-bcd8-7de1-a3aa-521599eb5b6d", "parent_thread_id": "01a169e5-3b8e-7080-b17b-dfa038224e82", "file": "subagents/rollout-01a169e5-bcd8-7de1-a3aa-521599eb5b6d.jsonl"}]}
+stored: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c1-csvledger\20261023T175251Z-2941f32c (analysis recorded; score-run.py requires reviewed manual verdicts)

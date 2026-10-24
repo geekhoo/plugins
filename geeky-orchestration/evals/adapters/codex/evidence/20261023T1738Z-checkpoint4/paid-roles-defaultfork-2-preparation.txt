@@ -1,0 +1,8 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'brief.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'contract.md', LF will be replaced by CRLF the next time Git touches it
+{"ok": true, "report": "C:\\repos\\.eval-cfg-codex-20261023T180437Z-83d94cb2\\codex-profile.json"}
+workspace: C:\repos\eval-c1-csvledger-codex-20261023T180437Z-83d94cb2 (seed fe48ede5b072a69f5f47c6f552eb3341aa96cead)
+prepared: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c1-csvledger\20261023T180437Z-83d94cb2
+Preparation only; no MXC workload or model call launched.
+

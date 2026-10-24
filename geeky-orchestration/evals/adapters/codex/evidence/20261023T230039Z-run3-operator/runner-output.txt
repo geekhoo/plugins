@@ -1,0 +1,27 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'brief.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'contract.md', LF will be replaced by CRLF the next time Git touches it
+{"ok": true, "report": "C:\\repos\\.eval-cfg-codex-20261023T230041Z-2c3b5489\\codex-profile.json"}
+workspace: C:\repos\eval-c1-csvledger-codex-20261023T230041Z-2c3b5489 (seed 7649184c7281d3e869550c2c7966006ba48e6684)
+prepared: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c1-csvledger\20261023T230041Z-2c3b5489
+{"ok": true}
+{"main_thread_id": "01a16afe-d497-7060-a485-258f70023d21", "threads": [{"thread_id": "01a16afe-d497-7060-a485-258f70023d21", "parent_thread_id": null, "file": "session.jsonl"}, {"thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "parent_thread_id": "01a16afe-d497-7060-a485-258f70023d21", "file": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl"}, {"thread_id": "01a16aff-583d-7771-924e-3367dbd14859", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16aff-583d-7771-924e-3367dbd14859.jsonl"}, {"thread_id": "01a16aff-6783-72e0-97a2-21198b8c65dd", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16aff-6783-72e0-97a2-21198b8c65dd.jsonl"}, {"thread_id": "01a16aff-7c6a-7213-93af-392c39278436", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16aff-7c6a-7213-93af-392c39278436.jsonl"}, {"thread_id": "01a16b02-2b02-7c50-93e7-0b9815354e49", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b02-2b02-7c50-93e7-0b9815354e49.jsonl"}, {"thread_id": "01a16b02-ff9d-7d41-a1ca-cfba2a8d0414", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b02-ff9d-7d41-a1ca-cfba2a8d0414.jsonl"}, {"thread_id": "01a16b03-1a63-7d32-bdec-02beda99a796", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b03-1a63-7d32-bdec-02beda99a796.jsonl"}, {"thread_id": "01a16b04-6715-7421-958f-39cce0bfc2eb", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b04-6715-7421-958f-39cce0bfc2eb.jsonl"}, {"thread_id": "01a16b06-876c-7f72-b889-8fd011912fb9", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b06-876c-7f72-b889-8fd011912fb9.jsonl"}, {"thread_id": "01a16b07-7de8-7063-8db1-7390ee2365a5", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b07-7de8-7063-8db1-7390ee2365a5.jsonl"}, {"thread_id": "01a16b09-cd43-7641-843b-56cc56b0378d", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b09-cd43-7641-843b-56cc56b0378d.jsonl"}, {"thread_id": "01a16b0d-0227-78b2-9e62-d0628590669f", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b0d-0227-78b2-9e62-d0628590669f.jsonl"}, {"thread_id": "01a16b0e-98c0-7262-9c93-1b7394765b1a", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b0e-98c0-7262-9c93-1b7394765b1a.jsonl"}, {"thread_id": "01a16b0e-b574-7490-8c75-dbd34be1fffa", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b0e-b574-7490-8c75-dbd34be1fffa.jsonl"}, {"thread_id": "01a16b0e-d4d6-78d3-96fc-8a09312fc32a", "parent_thread_id": "01a16aff-374e-7831-ab5f-3a8210ec6913", "file": "subagents/rollout-01a16b0e-d4d6-78d3-96fc-8a09312fc32a.jsonl"}]}
+{"ok": true}
+{
+  "tokens": {
+    "input": 18043749,
+    "cached_input": 16958720,
+    "cache_creation": 0,
+    "output": 73050,
+    "reasoning": 12438,
+    "total": 18116799,
+    "cost_usd_estimate": null
+  },
+  "model_calls": 240,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 56,
+  "impl_review_rounds": 1,
+  "token_ceiling": 12000000,
+  "over_token_ceiling": true
+}
+stored: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c1-csvledger\20261023T230041Z-2c3b5489 (analysis status: awaiting-rollout; score-run.py requires reviewed manual verdicts)

@@ -1,0 +1,4 @@
+{"ok": true, "report": "C:\\repos\\.eval-cfg-codex-20261023T174928Z-5c5b81d8\\codex-profile.json"}
+workspace: C:\repos\eval-c1-csvledger-codex-20261023T174928Z-5c5b81d8 (seed b24a294dc95d3a75ad8f76ab7bc55a4c9c5f5fee)
+prepared: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c1-csvledger\20261023T174928Z-5c5b81d8
+Preparation only; no MXC workload or model call launched.

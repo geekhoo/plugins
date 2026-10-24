@@ -1,0 +1,13 @@
+{
+  "schema": "geeky-eval.run3-preparation/1",
+  "evidence": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\evidence\\20261023T223555Z-run3-readiness",
+  "prepared_run": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T223602Z-b1f45710",
+  "pwsh": "C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "worker_model": "gpt-6.1-sol",
+  "worker_reasoning": "medium",
+  "launch_requested": false,
+  "mock_requested": false,
+  "prepared_utc": "2026-10-23T22:36:14.6467202Z"
+}

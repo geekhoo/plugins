@@ -1,0 +1,476 @@
+Native probe exit: 0; evidence: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c1-csvledger\20261023T180504Z-3e05785c\native-attempts\native-probe-41fbe757
+{
+  "ok": true,
+  "functional_ok": true,
+  "checks": [
+    {
+      "name": "native_exit",
+      "passed": true,
+      "detail": "0"
+    },
+    {
+      "name": "native_version",
+      "passed": true,
+      "detail": "0.164.0"
+    },
+    {
+      "name": "native_user_skills_denied",
+      "passed": true,
+      "detail": {
+        "path": "C:\\Users\\gerald.khoo\\.agents\\skills",
+        "winerror": 5
+      }
+    },
+    {
+      "name": "local_responses_only",
+      "passed": true,
+      "detail": "13 loopback fixture requests; no forwarding"
+    },
+    {
+      "name": "native_skill_discovery",
+      "passed": true,
+      "detail": {
+        "expected_skill_paths": [
+          "archive",
+          "geeky-implement",
+          "geeky-plan",
+          "geeky-resume",
+          "geeky-status",
+          "impl-review",
+          "plan-review",
+          "spec-research"
+        ],
+        "missing": []
+      }
+    },
+    {
+      "name": "native_patch",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_guard_context",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_shell",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_skill_invoked",
+      "passed": true,
+      "detail": "Native shell read complete pinned geeky-plan SKILL.md"
+    },
+    {
+      "name": "native_mcp",
+      "passed": true,
+      "detail": "1 bounded discovery attempts"
+    },
+    {
+      "name": "native_subagent",
+      "passed": true,
+      "detail": "5"
+    },
+    {
+      "name": "native_completed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_main_model_reasoning",
+      "passed": true,
+      "detail": {
+        "expected": {
+          "model": "gpt-6.1-sol",
+          "reasoning": "medium"
+        },
+        "requests": [
+          {
+            "request_index": 0,
+            "model": "gpt-6.1-sol",
+            "reasoning": "medium",
+            "registered_instructions": true
+          },
+          {
+            "request_index": 1,
+            "model": "gpt-6.1-sol",
+            "reasoning": "medium",
+            "registered_instructions": true
+          },
+          {
+            "request_index": 2,
+            "model": "gpt-6.1-sol",
+            "reasoning": "medium",
+            "registered_instructions": true
+          },
+          {
+            "request_index": 3,
+            "model": "gpt-6.1-sol",
+            "reasoning": "medium",
+            "registered_instructions": true
+          },
+          {
+            "request_index": 4,
+            "model": "gpt-6.1-sol",
+            "reasoning": "medium",
+            "registered_instructions": true
+          },
+          {
+            "request_index": 12,
+            "model": "gpt-6.1-sol",
+            "reasoning": "medium",
+            "registered_instructions": true
+          }
+        ],
+        "model_reasoning_ok": true,
+        "instructions_ok": true
+      }
+    },
+    {
+      "name": "native_main_registered_instructions",
+      "passed": true,
+      "detail": {
+        "role": "orchestrator",
+        "request_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          12
+        ]
+      }
+    },
+    {
+      "name": "native_child_model_reasoning",
+      "passed": true,
+      "detail": {
+        "expected": {
+          "model": "gpt-6-luna",
+          "reasoning": "max"
+        },
+        "requests": [
+          {
+            "request_index": 5,
+            "model": "gpt-6-luna",
+            "reasoning": "max",
+            "registered_instructions": true
+          },
+          {
+            "request_index": 6,
+            "model": "gpt-6-luna",
+            "reasoning": "max",
+            "registered_instructions": true
+          },
+          {
+            "request_index": 8,
+            "model": "gpt-6-luna",
+            "reasoning": "max",
+            "registered_instructions": true
+          },
+          {
+            "request_index": 9,
+            "model": "gpt-6-luna",
+            "reasoning": "max",
+            "registered_instructions": true
+          },
+          {
+            "request_index": 11,
+            "model": "gpt-6-luna",
+            "reasoning": "max",
+            "registered_instructions": true
+          }
+        ],
+        "model_reasoning_ok": true,
+        "instructions_ok": true
+      }
+    },
+    {
+      "name": "native_child_registered_instructions",
+      "passed": true,
+      "detail": {
+        "role": "geeky-orchestrator",
+        "request_indices": [
+          5,
+          6,
+          8,
+          9,
+          11
+        ]
+      }
+    },
+    {
+      "name": "native_grandchild_model_reasoning",
+      "passed": true,
+      "detail": {
+        "expected": {
+          "model": "gpt-6-luna",
+          "reasoning": "max"
+        },
+        "requests": [
+          {
+            "request_index": 7,
+            "model": "gpt-6-luna",
+            "reasoning": "max",
+            "registered_instructions": true
+          }
+        ],
+        "model_reasoning_ok": true,
+        "instructions_ok": true
+      }
+    },
+    {
+      "name": "native_grandchild_registered_instructions",
+      "passed": true,
+      "detail": {
+        "role": "code-explorer",
+        "request_indices": [
+          7
+        ]
+      }
+    },
+    {
+      "name": "native_default_model_reasoning",
+      "passed": true,
+      "detail": {
+        "expected": {
+          "model": "gpt-6-luna",
+          "reasoning": "max"
+        },
+        "requests": [
+          {
+            "request_index": 10,
+            "model": "gpt-6-luna",
+            "reasoning": "max",
+            "registered_instructions": false
+          }
+        ],
+        "model_reasoning_ok": true,
+        "instructions_ok": false
+      }
+    },
+    {
+      "name": "native_nested_subagent",
+      "passed": true,
+      "detail": {
+        "grandchild_requests": 1,
+        "errors": []
+      }
+    },
+    {
+      "name": "native_clean_diagnostics",
+      "passed": true,
+      "detail": {
+        "known": [
+          {
+            "stage": "exec",
+            "raw": "2026-10-23T18:05:18.662555Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)",
+            "path": "file:///C:/Users/gerald.khoo/.agents/skills",
+            "count": 1,
+            "version": "0.164.0",
+            "pattern": "codex-0.164.0-denied-user-skills-root-v1"
+          }
+        ],
+        "unexpected": [],
+        "stream_errors": 0
+      }
+    }
+  ],
+  "elapsed_s": 6.2,
+  "paid_model_calls": 0,
+  "local_fixture_requests": 13,
+  "child_requests": 5,
+  "grandchild_requests": 1,
+  "default_requests": 1,
+  "variant": "paid-roles-defaultfork",
+  "roles": {
+    "child": "geeky-orchestrator",
+    "grandchild": "code-explorer"
+  },
+  "spawn_calls": [
+    {
+      "call_id": "cp2_spawn",
+      "request_index": 4,
+      "arguments": {
+        "agent_type": "geeky-orchestrator",
+        "task_name": "cp2_native_child",
+        "message": "CP2_NATIVE_CHILD_ONLY. Spawn the scripted grandchild, wait for its final answer, then return CP2_NATIVE_CHILD_OK."
+      }
+    },
+    {
+      "call_id": "cp2_nested_spawn",
+      "request_index": 6,
+      "arguments": {
+        "agent_type": "code-explorer",
+        "task_name": "cp2_native_grandchild",
+        "message": "CP2_NATIVE_GRANDCHILD_ONLY. Return CP2_NATIVE_GRANDCHILD_OK."
+      }
+    },
+    {
+      "call_id": "cp2_default_spawn",
+      "request_index": 9,
+      "arguments": {
+        "task_name": "cp2_native_default",
+        "message": "CP2_NATIVE_DEFAULT_ONLY. Return CP2_NATIVE_DEFAULT_OK.",
+        "agent_type": "default"
+      }
+    }
+  ],
+  "raw_diagnostics": {
+    "plugin-install": "",
+    "hook-catalogue": "",
+    "exec": "Reading additional input from stdin...\n2026-10-23T18:05:18.662555Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)\n"
+  },
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "workers": {
+      "model": "gpt-6-luna",
+      "reasoning": "max",
+      "scope": "all-descendants"
+    }
+  },
+  "request_evidence": {
+    "main": {
+      "expected": {
+        "model": "gpt-6.1-sol",
+        "reasoning": "medium"
+      },
+      "requests": [
+        {
+          "request_index": 0,
+          "model": "gpt-6.1-sol",
+          "reasoning": "medium",
+          "registered_instructions": true
+        },
+        {
+          "request_index": 1,
+          "model": "gpt-6.1-sol",
+          "reasoning": "medium",
+          "registered_instructions": true
+        },
+        {
+          "request_index": 2,
+          "model": "gpt-6.1-sol",
+          "reasoning": "medium",
+          "registered_instructions": true
+        },
+        {
+          "request_index": 3,
+          "model": "gpt-6.1-sol",
+          "reasoning": "medium",
+          "registered_instructions": true
+        },
+        {
+          "request_index": 4,
+          "model": "gpt-6.1-sol",
+          "reasoning": "medium",
+          "registered_instructions": true
+        },
+        {
+          "request_index": 12,
+          "model": "gpt-6.1-sol",
+          "reasoning": "medium",
+          "registered_instructions": true
+        }
+      ],
+      "model_reasoning_ok": true,
+      "instructions_ok": true
+    },
+    "child": {
+      "expected": {
+        "model": "gpt-6-luna",
+        "reasoning": "max"
+      },
+      "requests": [
+        {
+          "request_index": 5,
+          "model": "gpt-6-luna",
+          "reasoning": "max",
+          "registered_instructions": true
+        },
+        {
+          "request_index": 6,
+          "model": "gpt-6-luna",
+          "reasoning": "max",
+          "registered_instructions": true
+        },
+        {
+          "request_index": 8,
+          "model": "gpt-6-luna",
+          "reasoning": "max",
+          "registered_instructions": true
+        },
+        {
+          "request_index": 9,
+          "model": "gpt-6-luna",
+          "reasoning": "max",
+          "registered_instructions": true
+        },
+        {
+          "request_index": 11,
+          "model": "gpt-6-luna",
+          "reasoning": "max",
+          "registered_instructions": true
+        }
+      ],
+      "model_reasoning_ok": true,
+      "instructions_ok": true
+    },
+    "grandchild": {
+      "expected": {
+        "model": "gpt-6-luna",
+        "reasoning": "max"
+      },
+      "requests": [
+        {
+          "request_index": 7,
+          "model": "gpt-6-luna",
+          "reasoning": "max",
+          "registered_instructions": true
+        }
+      ],
+      "model_reasoning_ok": true,
+      "instructions_ok": true
+    },
+    "default": {
+      "expected": {
+        "model": "gpt-6-luna",
+        "reasoning": "max"
+      },
+      "requests": [
+        {
+          "request_index": 10,
+          "model": "gpt-6-luna",
+          "reasoning": "max",
+          "registered_instructions": false
+        }
+      ],
+      "model_reasoning_ok": true,
+      "instructions_ok": false
+    }
+  },
+  "model_capability_verified": false,
+  "cli_version": "0.164.0",
+  "known_diagnostics": [
+    {
+      "stage": "exec",
+      "raw": "2026-10-23T18:05:18.662555Z ERROR codex_skills_extension::loader::host: failed to walk skills root file:///C:/Users/gerald.khoo/.agents/skills: Access is denied. (os error 5)",
+      "path": "file:///C:/Users/gerald.khoo/.agents/skills",
+      "count": 1,
+      "version": "0.164.0",
+      "pattern": "codex-0.164.0-denied-user-skills-root-v1"
+    }
+  ],
+  "unexpected_errors": [],
+  "process_starts": [
+    "version",
+    "plugin-install",
+    "hook-catalogue",
+    "exec"
+  ]
+}

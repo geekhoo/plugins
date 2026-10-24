@@ -1,0 +1,16 @@
+{
+  "previous_original_files_checked": 206,
+  "previous_original_mismatches": [],
+  "launch_sources_checked": 32,
+  "launch_source_mismatches": [],
+  "raw_execution_evidence_files_hashed": 43,
+  "head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "staged_files": [],
+  "final_validation": {
+    "commit": "c9a67757e48b7b977c08842a6f47d7381615d9dd",
+    "python": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+    "pytest_exit": 0,
+    "help_exit": 0,
+    "compile_exit": 0
+  }
+}

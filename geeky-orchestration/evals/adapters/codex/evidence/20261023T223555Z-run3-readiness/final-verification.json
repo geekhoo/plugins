@@ -1,0 +1,19 @@
+{
+  "source_files_unchanged_after_freeze": true,
+  "source_snapshots": 32,
+  "existing_source_snapshots_preserved": true,
+  "local_links_ok": true,
+  "head_unchanged": true,
+  "no_staging": true,
+  "contestant_still_prepared": true,
+  "requested_catch_all": true,
+  "both_native_proofs_passed": true,
+  "combined_proof_passed": true,
+  "no_active_evaluation_processes_at_final_shell_check": true,
+  "home_lock_free_at_final_shell_check": true,
+  "git_diff_check_passed": true,
+  "source_mismatches": [],
+  "prior_snapshot_mismatches": [],
+  "missing_links": [],
+  "checked_utc": "2026-10-23T22:56:04.849619+00:00"
+}

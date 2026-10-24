@@ -1,0 +1,114 @@
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "reasoning": 0,
+    "total": 0,
+    "cost_usd_estimate": null,
+    "by_model": null
+  },
+  "model_calls": 7,
+  "latency_median_ms": null,
+  "latency_samples": 0,
+  "max_idle_gap_s": 1,
+  "stages": [
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-23T16:50:04.931000+00:00",
+      "ended_utc": "2026-10-23T16:50:06.523000+00:00",
+      "minutes": 0.0
+    }
+  ],
+  "impl_review_rounds": null,
+  "skill_invocations": {
+    "geeky-plan": 1
+  },
+  "tool_calls_main": {
+    "Write": 1,
+    "Skill": 1,
+    "PowerShell": 1,
+    "CodexExec": 1,
+    "mcp__geeky__geeky_check_commit": 1,
+    "Agent": 1,
+    "wait_agent": 1
+  },
+  "tool_calls_subagents": {},
+  "subagent_dispatches": {
+    "geeky-coder": 1
+  },
+  "validation_runs": {},
+  "gate_invocations": {
+    "check-commit": 1
+  },
+  "gate_results": {
+    "check-commit": {
+      "pass": 1,
+      "fail": 0,
+      "unknown": 0,
+      "main": 1,
+      "sub": 0
+    }
+  },
+  "duration_api_ms": null,
+  "subagent_transcripts": {
+    "transcripts": 1,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "geeky-coder": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Write": 1,
+          "Skill": 1,
+          "PowerShell": 1,
+          "CodexExec": 1,
+          "mcp__geeky__geeky_check_commit": 1,
+          "Agent": 1,
+          "wait_agent": 1
+        },
+        "dispatches": {
+          "geeky-coder": 1
+        },
+        "gates": {
+          "check-commit": 1
+        }
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      }
+    }
+  },
+  "trace_complete": true,
+  "trace_errors": [],
+  "trace_warnings": [],
+  "harness": "codex",
+  "usage_by_thread": {
+    "01a169ab-6437-7e63-8f80-249304340202": {
+      "input_tokens": 0,
+      "cached_input_tokens": 0,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 0,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 0
+    },
+    "01a169ab-7227-7771-a511-0fd8536167a9": {
+      "input_tokens": 0,
+      "cached_input_tokens": 0,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 0,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 0
+    }
+  },
+  "skill_evidence": "successful explicit SKILL.md reads; no workflow completion inferred"
+}

@@ -1,0 +1,151 @@
+{
+  "kind": "checkpoint2-evidence-never-score",
+  "utc": "2026-10-23T16:51:47.7034470Z",
+  "base_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "source_files": [
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/diagnostics.py",
+      "sha256": "F242A7102ACE991E1BAFC1F038B182AA6ACAAA51A2B5FA1EE6E12DB4AA85901D",
+      "git_blob": "4873b1e4630d08801131e130651947cfa2f7e110"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/guard-bridge.py",
+      "sha256": "EAEC67F1D236A4599327E8F24AF213CD87C44D1942C57E196500D7D2CDDCCAA1",
+      "git_blob": "088e41883ec5713d0762cb64226123bebedc4ce7"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/handoff.md",
+      "sha256": "43985403640713B3188C2B177853BCF0422975A02B593D570ACA38C4485B06C8",
+      "git_blob": "ced00d604638357024501b0010ed0ea459824ec6"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/kanban.md",
+      "sha256": "6356492EC602B95E9051D6473893E9A0FBEB2D5DF0C720957128FCE6D3C116B4",
+      "git_blob": "7bb7a848c00f67a6b712bca5c5e17c6f500f2542"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/mock_codex.py",
+      "sha256": "1360DF0ABB05AAC97B43C2C9A2CBE0BE1E19E430EC0546AA11615EDA2993A54A",
+      "git_blob": "f8a787b41e6d02883001c552e3e9ccc101ba8a4e"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/native-probe.py",
+      "sha256": "3D0B720456459A30070496954D33DD76A64FD6DC5EBDE0D96ED7757E478E0773",
+      "git_blob": "64599716eb820ea08f58524b6d406f45d651d1a2"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/prepare-profile.py",
+      "sha256": "F7AAA5C2AB4664188C607FFF947F6A85C1A48236481CF8FD6B50D7FA0DE3074B",
+      "git_blob": "4b8713e50a19dd09a7e23664a197857b7209a5bb"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/profile/config.toml",
+      "sha256": "17B5752D752A1C8377A5CE3BEFF46B3ECB1B61375688C38325DBBFAC75C7BBCD",
+      "git_blob": "62ee2a2ca7e77f5e80ce76ad37c10174c8f9e4db"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/profile/mcp-bootstrap.py",
+      "sha256": "68213BB92EBDE4BF08AC559AA56AACA929E4625137D28BFF293AE721CE449FAF",
+      "git_blob": "0ecc1a5f5bfa6a1d890ed2f5de66172363e62c4f"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/profile/mxc-pin.json",
+      "sha256": "A2DB3F8A29F833B3981AB41991421FAFF13831FB2B35A8A9BB771DB96F1BE04B",
+      "git_blob": "f5a052d274619c7d38a58f587c67f883e0a4bcbb"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/README.md",
+      "sha256": "A9682395EF9B67C631D222CD8202E7B7FECAFF545B6ECFF02F712EECA7DFA53F",
+      "git_blob": "8bc9592edb02b6d65560e49ee1a30c1f3d5a36ad"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/references.md",
+      "sha256": "FA7C0EE3503A768135602625672D693FA287C4B854E6344EC0B5000A400A2FD7",
+      "git_blob": "09ac785bdd273bbadf2d9b519184b926e99def47"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/run-native-probe.ps1",
+      "sha256": "A5CEEB5C062682B08B6CD6D9B808B0FAE11DE05C7857FDA7FB3CC806171739D8",
+      "git_blob": "ded373495d1bff5b9c83973b84b7830d933bb51c"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_diagnostics.py",
+      "sha256": "7B9AA2570C42916929485937FCAEEA6154D59B159791EE03D743A549A1B54EA5",
+      "git_blob": "28ca53b89e05a92a0251631352157e447da1c6ec"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_mock_codex.py",
+      "sha256": "CCE77CCFAAB31DF5A11561DFC017EA0FBD24A8BF410BAE13D7A80AD9160CB878",
+      "git_blob": "1804001adff0dd09daed2e4b90f1951b7640d71e"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_native_probe.py",
+      "sha256": "F378A8AE9294C926127992DC1ED493311B0D6FAD21636D802758873FB30A7FB3",
+      "git_blob": "bebf51faf6657ad98df1233ad8c168cb1d520fde"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_profile.py",
+      "sha256": "8DE40094C8318BEADD6E4075116D56C0B85441EF5F8577A31DE3E1412697D0B6",
+      "git_blob": "9874ce90ddb5e10f8abdffa1b863e95711734fc9"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_trusted_exec.py",
+      "sha256": "458F54BC6CC53F1FEC0AAC41D7BDC8910166C54B9780B9A515512720FB47190B",
+      "git_blob": "7675484a90ded86fb495c775f77044e34adaa951"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/trusted-exec.py",
+      "sha256": "56252A28184DD2B92EA5283BFBFB77D5154D1E6F273CDEAE6EFCEC947D1AD537",
+      "git_blob": "f5a97c8f6b8288d87f98fdfe5e82e9348c9717fa"
+    },
+    {
+      "path": "geeky-orchestration/evals/mock-agent/dry-run.ps1",
+      "sha256": "0E958D63BE41CD889BFF1BD7EB14099BF3797218966783C737D1F9B994F21625",
+      "git_blob": "b8a12bb99ad34b02738f0a7075060388e67e4792"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/run-baseline.ps1",
+      "sha256": "9FC0B20D2823264EA28B7A6D6CE393EDC40C1F0C32522E13DC35DB862CFC90AC",
+      "git_blob": "5898f6665487ddd5b0c25affc52a7ca236f2cc56"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/run-codex-baseline.ps1",
+      "sha256": "00C0DB369075A81B6B1FF313223D078F635A868DCAF1BF22E3C6082F5AF1551C",
+      "git_blob": "99a036c0996b6822544d8b2804f99e6a29df8bdb"
+    },
+    {
+      "path": "geeky-orchestration/README.md",
+      "sha256": "AAFACB4480E64CC945764D3C19FCF72EBB369FB0978E59D7C0037D22760C4DE0",
+      "git_blob": "4346821a7aa41e706a711838d5d1d28521b0933f"
+    },
+    {
+      "path": "mxc-sandbox/README.md",
+      "sha256": "C12B51FFE083BE0C7591AFFFAB3DF37EFDFA66898B80C8B39626088B0398E9B4",
+      "git_blob": "d8863f5bf6f5d6202df1b461d0b19f78efc30617"
+    },
+    {
+      "path": "mxc-sandbox/scripts/host/MxcClaude/Program.cs",
+      "sha256": "D49F4D20D6E439F906931F1CB64BEF3400903C5B1A3B1FB61A04F1F98FE4CBBE",
+      "git_blob": "f9953759b40d02d4e1ca527e1ffe739c54d58125"
+    }
+  ],
+  "native_attempt": "geeky-orchestration/evals/baselines/c1-csvledger/20261023T162259Z-60b450bc/native-attempts/native-probe-ead06d6b",
+  "codex_mock": "20261023T163202Z-2a0a12c1",
+  "claude_mock": "20261023T164824Z",
+  "codex_package_sha256": "700116be3143576d006467af8576f7f4c9dada1feddfdb7f69743bfde0997018",
+  "expected_stage_counts": {
+    "plugin-install": 0,
+    "exec": 1,
+    "hook-catalogue": 0
+  },
+  "paid_model_calls": 0,
+  "commands": [
+    "agent-py/python -m pytest -q -p no:cacheprovider evals/adapters/codex test_sync_agents.py",
+    "run-codex-baseline.ps1 -Case c1-csvledger -MockAgent",
+    "run-native-probe.ps1 -RunFolder 20261023T162259Z-60b450bc",
+    "dry-run.ps1 -Case c1-csvledger -InMxc -Checks all,happy -Keep",
+    "run-baseline.ps1 -Case c1-csvledger -MockAgent -MockScenario happy"
+  ],
+  "all_final_exit_codes": 0,
+  "remaining": "CP3 and paid runs unauthorized; cleanup blocked by approval review"
+}

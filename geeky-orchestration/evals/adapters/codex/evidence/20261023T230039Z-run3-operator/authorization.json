@@ -1,0 +1,20 @@
+{
+  "schema": "geeky-eval.run3-authorization/1",
+  "authorized_instruction": "Now start mxc contained c1 run 3, complete the run, monitor throughout, provide final report once run 3 complete",
+  "authorized_attempts": 1,
+  "authorized_utc": "2026-10-23T23:00:39.0510078Z",
+  "head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "preparation_evidence": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\evidence\\20261023T223555Z-run3-readiness",
+  "main_model": "gpt-6.1-sol",
+  "main_reasoning": "high",
+  "worker_model": "gpt-6.1-sol",
+  "worker_reasoning": "medium",
+  "reviewer_reasoning": "xhigh",
+  "native_proof": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-0fd25848",
+  "reviewer_proof": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-275eb041",
+  "vetted_mxc_build": "C:\\repos\\.eval-cfg-codex-20261023T162259Z-60b450bc\\mxc-native-probe\\bin",
+  "pwsh": "C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+  "operator_pid": 38656,
+  "no_retry": true,
+  "no_repository_commit_or_push": true
+}

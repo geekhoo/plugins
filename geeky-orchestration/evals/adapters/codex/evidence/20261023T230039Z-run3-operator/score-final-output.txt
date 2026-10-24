@@ -1,0 +1,8 @@
+{
+  "composite": 99.6,
+  "quality": 100.0,
+  "adherence": 100.0,
+  "consistency": 100.0,
+  "task_tier": 95.6,
+  "needs_judge": []
+}

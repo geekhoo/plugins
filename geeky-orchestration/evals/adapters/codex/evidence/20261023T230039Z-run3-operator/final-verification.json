@@ -1,0 +1,17 @@
+{
+  "checked_utc": "2026-10-23T23:48:30.292285+00:00",
+  "all_pass": true,
+  "raw_evidence_files_verified": 43,
+  "launch_sources_verified": 32,
+  "previous_originals_verified": 206,
+  "raw_mismatches": [],
+  "source_mismatches": [],
+  "previous_original_mismatches": [],
+  "missing_new_links": [],
+  "head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "staged": [],
+  "evaluation_and_monitor_processes": 0,
+  "dedicated_home_lock_released": true,
+  "final_composite": 99.56285551418439,
+  "origin": "operator-reviewed"
+}

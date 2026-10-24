@@ -1,0 +1,10 @@
+{
+  "geeky-orchestration/evals/scripts/run-codex-baseline.ps1": "e19424311c724f49b7a63664c28543998465a352f0a807a0a6b4e89a8787c992",
+  "geeky-orchestration/evals/adapters/codex/prepare-profile.py": "6cfa994ea50fa940b0a5cb128d0c5a0fd6a2662d958babb9eca29de4262672ac",
+  "geeky-orchestration/evals/adapters/codex/native-probe.py": "08fa599d6a51c83837f3c4eeec5e3cb0d4cfed5dbc1a093b7e93c34394a9dcec",
+  "geeky-orchestration/evals/adapters/codex/run-native-probe.ps1": "84c80bb7beeddfb915575b54d4d2ada44efbff073bfc154e1c564e418d5775b9",
+  "geeky-orchestration/evals/adapters/codex/paid-diagnostic-audit.py": "176f349db103df57c5d269b056b77b3f880cb59f2afb5d818266fa101c057097",
+  "geeky-orchestration/evals/adapters/codex/test_worker_config.py": "64058b8a5ea2c135879b5bf0c1d37a1ba2e473bc6e9c4d89f6884ea58df675f0",
+  "geeky-orchestration/evals/adapters/codex/test_native_probe.py": "ec49c1e40adf75e75aee428b7d2056dd1dafb3b085c7d5da74395ab5f78ebd5f",
+  "geeky-orchestration/evals/adapters/codex/test_paid_diagnostic_audit.py": "b80bf93d94cd0a39ab211615ea9231c5e2a9ca11a568a88e953336a87d863f21"
+}

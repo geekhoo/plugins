@@ -1,0 +1,78 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'brief.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'contract.md', LF will be replaced by CRLF the next time Git touches it
+PASS init.plugin_skills                                 8 plugin skills: geeky-orchestration:archive, geeky-orchestration:geeky-implement, geeky-orchestration:geeky-plan, geeky-orchestration:geeky-resume, geeky-orche...
+PASS env.pwsh                                           PSVersion=7.6.5 | USER=gerald.khoo
+PASS env.python                                         C:\repos\.eval-tools\agent-py\Scripts\python.EXE: 3.13.15 C:\repos\.eval-tools\agent-py\Scripts\python.EXE
+PASS env.pytest                                         pytest 9.0.3
+PASS env.git_identity                                   geeky-eval-agent <agent@geeky-eval.local> 1792773995 +0800
+PASS env.writable.TEMP                                  C:\repos\.eval-cfg-dryrun-20261023T164632Z\tmp
+PASS env.writable.workspace                             C:\repos\eval-dryrun-20261023T164632Z
+PASS env.bg_wait_ceiling                                CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0
+INFO env.vars                                           CLAUDE_CONFIG_DIR=C:\repos\.eval-tools\cp2-claude-regression-mxc\home; TEMP=C:\Users\gerald.khoo\AppData\Local\Packages\sandbox.{fd3eb325-5d5e-49cf-9e4d-948121f...
+INFO env.path                                           C:\repos\.eval-tools\agent-py\Scripts;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell;C:\Users\gerald.khoo\.code...
+PASS grants.workspace_rw                                C:\repos\eval-dryrun-20261023T164632Z
+PASS grants.plugin_scandir.skills                       8 entries: archive, geeky-implement, geeky-plan, geeky-resume, geeky-status, impl-review, plan-review, spec-research
+PASS grants.plugin_scandir.agents                       6 entries: code-architect.md, code-explorer.md, code-reviewer.md, geeky-coder.md, geeky-implement-orchestrator.md, geeky-orchestrator.md
+INFO grants.plugin_scandir.commands                     absent
+PASS grants.plugin_read                                 read 8 SKILL.md files
+PASS grants.config_dir_rw                               C:\repos\.eval-tools\cp2-claude-regression-mxc\home\projects\C--repos-eval-dryrun-20261023T164632Z
+PASS grants.settings_readable                           C:\repos\.eval-cfg-dryrun-20261023T164632Z\settings.json
+PASS grants.mcp_config_readable                         C:\repos\.eval-cfg-dryrun-20261023T164632Z\mcp.json
+PASS grants.temp_write                                  C:\repos\.eval-cfg-dryrun-20261023T164632Z\tmp\mock-exec-27168
+PASS grants.temp_exec_script                            exit 0: tempexec-ok
+PASS grants.temp_exec_binary                            exit 0: CPC-geral-J9OHY
+PASS grants.temp_mkdtemp                                C:\repos\.eval-cfg-dryrun-20261023T164632Z\tmp\mock-mkdtemp-rmnxhzez
+PASS pwsh.found                                         C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.EXE
+PASS pwsh.exit_0                                        exit 0 (expected 0)
+PASS pwsh.exit_7                                        exit 7 (expected 7)
+PASS pwsh.native_exit_3                                 exit 3 (expected 3)
+PASS pwsh.cmdlet_error                                  exit 1 (expected 1)
+PASS pwsh.profile_stderr                                exit 0; stderr: (empty)
+INFO pwsh.profile_path                                  C:\Users\gerald.khoo\OneDrive - Pippin Puffin Pte Ltd\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+PASS python.which                                       C:\repos\.eval-tools\agent-py\Scripts\python.EXE
+PASS python.version                                     Python 3.13.15
+PASS python.pytest_version                              pytest 9.0.3
+PASS python.pytest_run                                  exit 0: 1 passed in 0.01s
+PASS python.pytest_tmp_path                             exit 0: 1 passed in 0.02s 
+PASS git.version                                        git version 2.55.0.windows.5
+PASS git.identity                                       geeky-eval-agent <agent@geeky-eval.local> 1792774015 +0800
+PASS git.workspace_status                               ## master
+PASS git.commit_temp                                    C:\repos\.eval-cfg-dryrun-20261023T164632Z\tmp\mock-git-ff10821b59f0: 79d17b4b948cf622086790983ce42cd15bacccfd geeky-eval-agent <agent@geeky-eval.local>
+PASS git.commit_workspace                               C:\repos\eval-dryrun-20261023T164632Z\.git\mock-git-probe-b97cd43a: 820e8825bccb871baf6d325d1b2d0508beee51c3 geeky-eval-agent <agent@geeky-eval.local>
+PASS gate.validate-planning-folder.py                   exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.
+PASS gate.validate-task-schema.py                       exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.
+PASS gate.validate-kanban.py                            exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2
+PASS gate.check-dod.py                                  exit 0 (expected 0): DOD_OK: T1
+PASS gate.check-commit.py                               exit 0 (expected 0): OK: commit message valid.
+PASS gate.validate-kanban.py.rejects_bad                exit 1 (expected 1): INVALID_KANBAN: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=1, In Progress=0, In Review=0, Blocked=0, Done=2
+PASS gate.validate-planning-folder.ps1                  exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.
+PASS gate.validate-task-schema.ps1                      exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.
+PASS gate.validate-kanban.ps1                           exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2
+PASS gate.check-dod.ps1                                 exit 0 (expected 0): DOD_OK: T1
+PASS gate.check-commit.ps1                              exit 0 (expected 0): OK: commit message valid.
+PASS gate.validate-kanban.ps1.rejects_bad               exit 1 (expected 1): INVALID_KANBAN: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=1, In Progress=0, In Review=0, Blocked=0, Done=2
+PASS mcp.geeky.handshake                                geeky_mcp 0.3.0: 6 tools in 2.4s: geeky_validate_planning_folder, geeky_validate_task_schema, geeky_validate_kanban, geeky_check_dod, geeky_check_commit, geeky_...
+PASS skill.spec-research                                SKILL.md present and launched
+PASS skill.geeky-plan                                   SKILL.md present and launched
+PASS happy.validate-planning-folder                     exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.
+PASS happy.validate-task-schema                         exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.
+PASS happy.validate-kanban.plan                         exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=2, In Progress=0, In Review=0, Blocked=0, Done=0
+PASS happy.plan.check-commit                            exit 0 (expected 0): OK: commit message valid.
+PASS happy.plan.commit                                  exit 0: 
+PASS skill.plan-review                                  SKILL.md present and launched
+PASS happy.plan-review.validate-task-schema.ps1         exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.
+PASS skill.geeky-implement                              SKILL.md present and launched
+PASS happy.implement.validate-planning-folder           exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.
+PASS happy.validate-kanban.in-progress                  exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=2, In Review=0, Blocked=0, Done=0
+PASS happy.pytest                                       exit 0: 2 passed in 0.22s
+PASS happy.validate-kanban.done                         exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2
+PASS happy.check-dod.T1                                 exit 0 (expected 0): DOD_OK: T1
+PASS happy.check-dod.T2                                 exit 0 (expected 0): DOD_OK: T2
+PASS happy.implement.check-commit                       exit 0 (expected 0): OK: commit message valid.
+PASS happy.implement.commit                             exit 0: 
+PASS skill.impl-review                                  SKILL.md present and launched
+PASS happy.impl-review.check-commit                     exit 0 (expected 0): OK: commit message valid.
+PASS happy.impl-review.commit                           exit 0: 
+workload exit 0, completed; session file found; output in C:\repos\.eval-tools\codex-cp2-claude-regression-verified
+kept: C:\repos\.eval-cfg-dryrun-20261023T164632Z, C:\repos\eval-dryrun-20261023T164632Z

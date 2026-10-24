@@ -1,0 +1,148 @@
+{
+  "schema": "geeky-eval.run3-readiness/1",
+  "created_utc": "2026-10-23T22:54:48.253990+00:00",
+  "timezone": "Asia/Singapore",
+  "status": "ready-for-separately-authorized-launch",
+  "launch_authorized": false,
+  "contestant_started": false,
+  "paid_model_calls": 0,
+  "plugin_head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "xhigh",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "catch_all": {
+    "model": "gpt-6.1-sol",
+    "reasoning": "medium"
+  },
+  "prepared_run": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0",
+  "workspace": "C:\\repos\\eval-c1-csvledger-codex-20261023T224720Z-e569fde0",
+  "config_directory": "C:\\repos\\.eval-cfg-codex-20261023T224720Z-e569fde0",
+  "seed_sha": "0349ffac6ee7cdcab5f948f412290bfd0e6a39cc",
+  "workspace_role": "disposable preparation/native fixture; future launch creates a fresh workspace",
+  "static_profile": {
+    "passed": 12,
+    "total": 12
+  },
+  "role_layers": {
+    "code-architect": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "code-explorer": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "code-reviewer": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "xhigh"
+    },
+    "geeky-coder": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "geeky-implement-orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "geeky-orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "code-architect-reviewer": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "xhigh"
+    }
+  },
+  "tools": {
+    "pwsh": {
+      "path": "C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+      "version": "7.6.5"
+    },
+    "python": {
+      "path": "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+      "version": "3.13.15",
+      "pytest": "9.0.3"
+    },
+    "codex": {
+      "path": "C:/repos/.eval-tools/codex/0.164.0/bin/codex.exe",
+      "version": "0.164.0",
+      "archive_files_verified": 45
+    },
+    "git": "2.55.0.windows.5",
+    "dotnet_required": "Microsoft.NETCore.App 10.0.x; installed 10.0.8/10.0.11/10.0.13",
+    "dependency_checks": {
+      "agent-py": "uv pip check: 6 packages compatible",
+      "geeky-mcp": "uv pip check: 29 packages compatible",
+      "pip_module": "absent in existing uv environments; no installation needed"
+    }
+  },
+  "mxc": {
+    "source_unchanged": true,
+    "rebuilt": false,
+    "copied_manifest_entries": 18,
+    "source_hash": "74FD0C547C88E044ECF4B559D03C9FBB73D440971AFEF00BD1A6F941D7B6422BD49F4D20D6E439F906931F1CB64BEF3400903C5B1A3B1FB61A04F1F98FE4CBBE",
+    "exe_sha256": "015811E7C058B582E5280D87C0AA188F9334FFC5FEABAAB4F0CAC44F4D0B9125",
+    "dll_sha256": "26AEC8C60EEFDC47800F0A4F3F8ADE537CB011C7EAB2531E8F8FB917E667B243"
+  },
+  "fresh_model_free_native": {
+    "reviewer": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-0fd25848",
+    "architect_reviewer": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-275eb041",
+    "checks_each": 21,
+    "paid_model_calls_each": 0,
+    "request_evidence": "raw loopback requests retained in each attempt; main high, coder/default medium, selected reviewer xhigh",
+    "external_egress": "denied and checked in both native fixtures"
+  },
+  "combined_native_proof": {
+    "ok": true,
+    "passed": 30,
+    "total": 30,
+    "retained_files": 10
+  },
+  "offline_tests": {
+    "broader_check": "126 tests + 39 subtests passed in 112.57s",
+    "after_final_proof_gate_change": "106 affected native/audit tests passed in 4.40s",
+    "powershell_syntax": "runner, native wrapper and shell helper passed; helper executed without workload"
+  },
+  "scoring_source_hashes_match_prior_final_verification": {
+    "geeky-orchestration/evals/scripts/codex-process.py": true,
+    "geeky-orchestration/evals/scripts/codex-trace.py": true,
+    "geeky-orchestration/evals/scripts/score-run.py": true,
+    "geeky-orchestration/evals/scripts/test_codex_auto_process.py": true,
+    "geeky-orchestration/evals/scripts/analyze-run.py": true
+  },
+  "source_manifest_entries": 32,
+  "case_limits": {
+    "wall_time_s": 5400,
+    "token_ceiling": 12000000,
+    "token_ceiling_policy": "informational-until-codex-baseline",
+    "reference_eligible": false
+  },
+  "initial_preparation_superseded": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T223602Z-b1f45710",
+  "limits": [
+    "No live auth/provider check; auth contents never read",
+    "Actual automatic hook invocation during a paid contestant remains unverified",
+    "Existing shell-write bypass remains",
+    "Native fixture verifies configuration/tooling, not model capability or an unseen trace shape"
+  ],
+  "source_review": "Reviewer-proof coverage finding corrected and independently re-reviewed; no remaining blocker in that scope",
+  "repository_commits": false,
+  "staging": false,
+  "push": false
+}

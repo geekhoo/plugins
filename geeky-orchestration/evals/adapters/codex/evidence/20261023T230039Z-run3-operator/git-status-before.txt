@@ -1,0 +1,51 @@
+ M geeky-orchestration/README.md
+ M geeky-orchestration/docs/agent-eval-decisions.md
+ M geeky-orchestration/evals/baseline-runs.md
+ M geeky-orchestration/evals/baselines/c1-csvledger/comparison-20261022T0800Z.md
+ M geeky-orchestration/evals/codex-c1-kickoff.md
+ M geeky-orchestration/evals/lessons-learned.md
+ M geeky-orchestration/evals/mock-agent/dry-run.ps1
+ M geeky-orchestration/evals/scripts/analyze-run.py
+ M geeky-orchestration/evals/scripts/run-baseline.ps1
+ M geeky-orchestration/evals/scripts/score-run.py
+ M mxc-sandbox/README.md
+ M mxc-sandbox/scripts/host/MxcClaude/Program.cs
+?? geeky-orchestration/evals/adapters/
+?? geeky-orchestration/evals/analyses/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T154159Z-b32cc92a/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T154525Z-2f68b6f5/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T155701Z-484517b0/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T160546Z-2d9082ab/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T162040Z-81ec77ad/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T162259Z-60b450bc/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T163202Z-2a0a12c1/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T164415Z/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T164824Z/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T174054Z-7256dd6d/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T174928Z-5c5b81d8/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T175251Z-2941f32c/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180416Z-bb2ca5d0/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180437Z-83d94cb2/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180504Z-3e05785c/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180526Z-b380e0c5/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180548Z-70a4c5d6/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T180606Z-87165966/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T181850Z-b1cc7126/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T182024Z-5fa13924/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T192610Z-e3ec171a/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T194241Z-2ae86a5e/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T194430Z-c5e04f3f/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T223602Z-b1f45710/
+?? geeky-orchestration/evals/baselines/c1-csvledger/20261023T224720Z-e569fde0/
+?? geeky-orchestration/evals/codex-c1-checkpoint5.md
+?? geeky-orchestration/evals/codex-c1-run1-retrospective.md
+?? geeky-orchestration/evals/codex-c1-run2-guide.md
+?? geeky-orchestration/evals/codex-c1-run3-guide.md
+?? geeky-orchestration/evals/scripts/codex-process.py
+?? geeky-orchestration/evals/scripts/codex-trace.py
+?? geeky-orchestration/evals/scripts/run-codex-baseline.ps1
+?? geeky-orchestration/evals/scripts/test_codex_auto_process.py
+?? geeky-orchestration/evals/scripts/test_codex_run2_prep.py
+?? geeky-orchestration/evals/scripts/test_codex_stage_evidence.py
+?? geeky-orchestration/evals/scripts/test_codex_trace.py
+?? geeky-orchestration/evals/scripts/test_process_replay.py

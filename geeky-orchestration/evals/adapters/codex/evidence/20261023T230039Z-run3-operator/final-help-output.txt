@@ -1,0 +1,7 @@
+usage: csvledger [-h] {report,categorize} ...
+
+positional arguments:
+  {report,categorize}
+
+options:
+  -h, --help           show this help message and exit

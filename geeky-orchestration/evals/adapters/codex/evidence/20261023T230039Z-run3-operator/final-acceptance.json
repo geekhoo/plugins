@@ -1,0 +1,25 @@
+{
+  "checked_utc": "2026-10-23T23:45:11.265647+00:00",
+  "checks": {
+    "execution_complete": true,
+    "diagnostics_passed": true,
+    "oracle_118_stable3": true,
+    "model_audit": true,
+    "all_review_purposes_xhigh": true,
+    "strict_score_complete": true,
+    "no_unresolved_judgments": true,
+    "own_commit_validation": true,
+    "final_validation": true,
+    "source_preservation": true,
+    "no_admin_commit": true,
+    "no_staging": true
+  },
+  "all_pass": true,
+  "reviewer_source_review": "Accepted final source-bound annotation and dp12 corrections; execution remains parent-verified",
+  "monitor_snapshots": 32,
+  "model_group_threads": {
+    "main_high": 1,
+    "workers_medium": 7,
+    "reviewers_xhigh": 8
+  }
+}

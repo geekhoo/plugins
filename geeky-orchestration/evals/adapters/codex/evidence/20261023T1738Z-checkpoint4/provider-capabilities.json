@@ -1,0 +1,66 @@
+{
+  "verified_utc": "2026-10-23T17:38:34.253229+00:00",
+  "method": "Pinned Codex 0.164.0 app-server initialize + model/list includeHidden=true; no thread/start or turn/start",
+  "cache_fetched_at": "2026-10-23T17:36:52.968715700Z",
+  "cache_sha256": "bd60b676cecc1d025110501fee3fc438627194ff56eee671a5145d04db68a26b",
+  "models": [
+    {
+      "model": "gpt-6.1-sol",
+      "required_effort": "medium",
+      "supported_reasoning": [
+        {
+          "effort": "low",
+          "description": "Fast responses with lighter reasoning"
+        },
+        {
+          "effort": "medium",
+          "description": "Balances speed and reasoning depth for everyday tasks"
+        },
+        {
+          "effort": "high",
+          "description": "Greater reasoning depth for complex problems"
+        },
+        {
+          "effort": "xhigh",
+          "description": "Extra high reasoning depth for complex problems"
+        },
+        {
+          "effort": "max",
+          "description": "Maximum reasoning depth for the hardest problems"
+        },
+        {
+          "effort": "ultra",
+          "description": "Maximum reasoning with automatic task delegation"
+        }
+      ]
+    },
+    {
+      "model": "gpt-6-luna",
+      "required_effort": "max",
+      "supported_reasoning": [
+        {
+          "effort": "low",
+          "description": "Fast responses with lighter reasoning"
+        },
+        {
+          "effort": "medium",
+          "description": "Balances speed and reasoning depth for everyday tasks"
+        },
+        {
+          "effort": "high",
+          "description": "Greater reasoning depth for complex problems"
+        },
+        {
+          "effort": "xhigh",
+          "description": "Extra high reasoning depth for complex problems"
+        },
+        {
+          "effort": "max",
+          "description": "Maximum reasoning depth for the hardest problems"
+        }
+      ]
+    }
+  ],
+  "model_calls": 0,
+  "judge_calls": 0
+}

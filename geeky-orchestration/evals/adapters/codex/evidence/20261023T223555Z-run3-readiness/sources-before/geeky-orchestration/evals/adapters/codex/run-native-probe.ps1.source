@@ -1,0 +1,80 @@
+<# Model-free native Codex dispatch proof using a prepared run and loopback fixture. #>
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory)][string]$RunFolder,
+    [string]$ToolsDir = 'C:\repos\.eval-tools',
+    [string]$CodexHome = 'C:\repos\.eval-tools\codex-home',
+    [string]$MxcBuildSource,
+    [ValidateSet('default', 'paid-roles-defaultfork', 'paid-roles-forkall')][string]$Variant = 'default'
+)
+$ErrorActionPreference = 'Stop'
+$PSNativeCommandUseErrorActionPreference = $false
+$run = Get-Content (Join-Path $RunFolder 'run.json') -Raw | ConvertFrom-Json
+if ($run.harness -ne 'codex' -or $run.reference_eligible) { throw 'Expected disposable Codex preparation/mock record' }
+$cfg = $run.config_directory
+$ws = $run.workspace
+$runHome = Join-Path $cfg 'home'
+$runTmp = Join-Path $cfg 'tmp'
+$pluginRun = Join-Path $cfg 'plugin\geeky-orchestration'
+$probe = Join-Path $cfg 'native-probe.py'
+$output = Join-Path $runTmp ('native-probe-' + [guid]::NewGuid().ToString('N').Substring(0, 8))
+$attempt = Join-Path (Join-Path $RunFolder 'native-attempts') (Split-Path $output -Leaf)
+New-Item -ItemType Directory -Path $attempt | Out-Null
+$codex = Join-Path $ToolsDir 'codex\0.164.0\bin\codex.exe'
+$python = Join-Path $ToolsDir 'agent-py\Scripts\python.exe'
+$repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..\..')).Path
+$mxc = Join-Path $repoRoot 'mxc-sandbox\scripts\mxc.ps1'
+$pin = Get-Content (Join-Path $PSScriptRoot 'profile\mxc-pin.json') -Raw | ConvertFrom-Json
+$sourceHash = (Get-ChildItem (Join-Path $repoRoot 'mxc-sandbox\scripts\host\MxcClaude') -File |
+    Where-Object Extension -in '.cs', '.csproj' | Sort-Object Name |
+    ForEach-Object { (Get-FileHash $_.FullName -Algorithm SHA256).Hash }) -join ''
+if ($sourceHash -cne $pin.source_hash) { throw 'MXC source drift: denied-root exception requires revalidation.' }
+$mxcState = Join-Path $cfg 'mxc-native-probe'
+if ($MxcBuildSource) {
+    $mxcState = Join-Path $cfg ('mxc-' + (Split-Path $output -Leaf))
+    . (Join-Path $PSScriptRoot 'copy-vetted-mxc-build.ps1')
+    Copy-VettedMxcBuild -BuildSource $MxcBuildSource -StateRoot $mxcState `
+        -SourceDirectory (Join-Path $repoRoot 'mxc-sandbox\scripts\host\MxcClaude') `
+        -PinPath (Join-Path $PSScriptRoot 'profile\mxc-pin.json') `
+        -ReportPath (Join-Path $attempt 'mxc-build-provenance.json') | Out-Null
+}
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'native-probe.py') -Destination $probe
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'diagnostics.py') -Destination $cfg
+$hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--no-enumerate-root', '--host-loopback', '--deny-net',
+    '--rw', (Join-Path $cfg 'plugin'), '--ro', $cfg, '--rw', $runHome, '--rw', $runTmp,
+    '--ro', $ToolsDir, '--rw', $CodexHome, '--timeout', '240',
+    '--env', "CODEX_HOME=$CodexHome", '--env', "HOME=$runHome", '--env', "USERPROFILE=$runHome",
+    '--env', "CLAUDE_PLUGIN_ROOT=$pluginRun", '--env', "PLUGIN_ROOT=$pluginRun",
+    '--env', "TMPDIR=$runTmp", '--env', 'PYTHONDONTWRITEBYTECODE=1', '--env', "XDG_CONFIG_HOME=$runHome",
+    '--env', 'GIT_CONFIG_COUNT=1', '--env', 'GIT_CONFIG_KEY_0=safe.directory', '--env', "GIT_CONFIG_VALUE_0=$($ws.Replace('\','/'))",
+    '--env', "PATH=$ToolsDir\agent-py\Scripts;$env:PATH", '--env', "VIRTUAL_ENV=$ToolsDir\agent-py",
+    '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
+    '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
+$probeArgs = @($probe, '--codex', $codex, '--profile', (Join-Path $cfg 'codex-profile.json'),
+    '--workspace', $ws, '--output', $output,
+    '--variant', $Variant,
+    '--forbidden-skill-root', (Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)) '.agents\skills'))
+$saved = $env:MXC_CLAUDE_EXE
+$savedState = $env:MXC_SANDBOX_HOME
+$lock = [IO.File]::Open((Join-Path $ToolsDir '.codex-baseline.lock'), [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
+try {
+    $env:MXC_CLAUDE_EXE = $python
+    $env:MXC_SANDBOX_HOME = $mxcState
+    & $mxc @hostArgs -- @probeArgs > (Join-Path $attempt 'native-probe-stdout.txt') 2> (Join-Path $attempt 'native-probe-stderr.txt')
+    $code = $LASTEXITCODE
+} finally { $env:MXC_CLAUDE_EXE = $saved; $env:MXC_SANDBOX_HOME = $savedState; $lock.Dispose() }
+if (Test-Path -LiteralPath $output) {
+    Get-ChildItem -LiteralPath $output -File | Copy-Item -Destination $attempt
+}
+$build = Join-Path $mxcState 'bin'
+$exeHash = (Get-FileHash (Join-Path $build 'MxcClaude.exe') -Algorithm SHA256).Hash
+$dllHash = (Get-FileHash (Join-Path $build 'MxcClaude.dll') -Algorithm SHA256).Hash
+$buildVerified = $exeHash -ceq $pin.exe_sha256 -and $dllHash -ceq $pin.dll_sha256
+[ordered]@{ source_hash = $sourceHash; exe_sha256 = $exeHash; dll_sha256 = $dllHash;
+    sdk_version = $pin.sdk_version; pinned_build_verified = $buildVerified } |
+    ConvertTo-Json | Set-Content (Join-Path $attempt 'mxc-build-proof.json')
+if (-not $buildVerified) { $code = 1 }
+[ordered]@{ attempt = $attempt; exit_code = $code } | ConvertTo-Json | Set-Content (Join-Path $RunFolder 'latest-native-attempt.json')
+Write-Host "Native probe exit: $code; evidence: $attempt"
+if (Test-Path (Join-Path $attempt 'native-summary.json')) { Get-Content (Join-Path $attempt 'native-summary.json') }
+if ($code) { throw 'Native Codex loopback fixture failed; inspect native evidence.' }

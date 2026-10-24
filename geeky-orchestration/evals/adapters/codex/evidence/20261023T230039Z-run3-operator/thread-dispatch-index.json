@@ -1,0 +1,347 @@
+[
+  {
+    "thread": "01a16aff-374e-7831-ab5f-3a8210ec6913",
+    "role": "geeky-orchestrator",
+    "source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "parent_source": "session.jsonl",
+    "dispatches": [
+      {
+        "index": 29,
+        "ordinal": 29,
+        "timestamp": "2026-10-23T23:01:13.103Z",
+        "call_id": "call_e235ce0e48b946bcb9fed90d569432ac",
+        "task_name": "orchestrator"
+      }
+    ],
+    "completions": [
+      {
+        "index": 755,
+        "ordinal": 755,
+        "timestamp": "2026-10-23T23:24:02.934Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16aff-583d-7771-924e-3367dbd14859",
+    "role": "code-explorer",
+    "source": "subagents/rollout-01a16aff-583d-7771-924e-3367dbd14859.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 38,
+        "ordinal": 38,
+        "timestamp": "2026-10-23T23:01:21.556Z",
+        "call_id": "call_e3cd41384d9d4bd185470d6527710150",
+        "task_name": "codebase_research"
+      }
+    ],
+    "completions": [
+      {
+        "index": 55,
+        "ordinal": 55,
+        "timestamp": "2026-10-23T23:01:45.241Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16aff-6783-72e0-97a2-21198b8c65dd",
+    "role": "default",
+    "source": "subagents/rollout-01a16aff-6783-72e0-97a2-21198b8c65dd.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 44,
+        "ordinal": 44,
+        "timestamp": "2026-10-23T23:01:25.473Z",
+        "call_id": "call_406997a86477481ab329029d6948cd73",
+        "task_name": "money_research"
+      }
+    ],
+    "completions": [
+      {
+        "index": 71,
+        "ordinal": 71,
+        "timestamp": "2026-10-23T23:02:06.696Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16aff-7c6a-7213-93af-392c39278436",
+    "role": "default",
+    "source": "subagents/rollout-01a16aff-7c6a-7213-93af-392c39278436.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 50,
+        "ordinal": 50,
+        "timestamp": "2026-10-23T23:01:30.813Z",
+        "call_id": "call_708b93810f154b739117be93220b95d6",
+        "task_name": "io_research"
+      }
+    ],
+    "completions": [
+      {
+        "index": 71,
+        "ordinal": 71,
+        "timestamp": "2026-10-23T23:02:04.622Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b02-2b02-7c50-93e7-0b9815354e49",
+    "role": "code-reviewer",
+    "source": "subagents/rollout-01a16b02-2b02-7c50-93e7-0b9815354e49.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 128,
+        "ordinal": 128,
+        "timestamp": "2026-10-23T23:04:26.515Z",
+        "call_id": "call_cd4a244b06e34587a06bede39ab9b4d5",
+        "task_name": "planning_pm"
+      }
+    ],
+    "completions": [
+      {
+        "index": 98,
+        "ordinal": 98,
+        "timestamp": "2026-10-23T23:05:02.576Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b02-ff9d-7d41-a1ca-cfba2a8d0414",
+    "role": "code-reviewer",
+    "source": "subagents/rollout-01a16b02-ff9d-7d41-a1ca-cfba2a8d0414.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 176,
+        "ordinal": 176,
+        "timestamp": "2026-10-23T23:05:20.970Z",
+        "call_id": "call_34cebc3de1aa41038ae254705b28a2c7",
+        "task_name": "plan_alignment"
+      }
+    ],
+    "completions": [
+      {
+        "index": 111,
+        "ordinal": 111,
+        "timestamp": "2026-10-23T23:05:38.325Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b03-1a63-7d32-bdec-02beda99a796",
+    "role": "code-architect-reviewer",
+    "source": "subagents/rollout-01a16b03-1a63-7d32-bdec-02beda99a796.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 182,
+        "ordinal": 182,
+        "timestamp": "2026-10-23T23:05:27.847Z",
+        "call_id": "call_3a25f48cbd4145c99b755e335bbb4712",
+        "task_name": "plan_sequence"
+      }
+    ],
+    "completions": [
+      {
+        "index": 114,
+        "ordinal": 114,
+        "timestamp": "2026-10-23T23:05:44.281Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b04-6715-7421-958f-39cce0bfc2eb",
+    "role": "geeky-coder",
+    "source": "subagents/rollout-01a16b04-6715-7421-958f-39cce0bfc2eb.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 235,
+        "ordinal": 235,
+        "timestamp": "2026-10-23T23:06:52.875Z",
+        "call_id": "call_cdbaf29207884f208a1371b5dd466fd1",
+        "task_name": "coder_t1"
+      }
+    ],
+    "completions": [
+      {
+        "index": 154,
+        "ordinal": 154,
+        "timestamp": "2026-10-23T23:09:01.944Z"
+      },
+      {
+        "index": 238,
+        "ordinal": 238,
+        "timestamp": "2026-10-23T23:21:37.406Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b06-876c-7f72-b889-8fd011912fb9",
+    "role": "code-reviewer",
+    "source": "subagents/rollout-01a16b06-876c-7f72-b889-8fd011912fb9.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 298,
+        "ordinal": 298,
+        "timestamp": "2026-10-23T23:09:12.382Z",
+        "call_id": "call_d6072fad59de41778f17fcbdbc1c09b9",
+        "task_name": "phase1_review"
+      }
+    ],
+    "completions": [
+      {
+        "index": 170,
+        "ordinal": 170,
+        "timestamp": "2026-10-23T23:09:38.653Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b07-7de8-7063-8db1-7390ee2365a5",
+    "role": "geeky-coder",
+    "source": "subagents/rollout-01a16b07-7de8-7063-8db1-7390ee2365a5.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 346,
+        "ordinal": 346,
+        "timestamp": "2026-10-23T23:10:15.478Z",
+        "call_id": "call_946175a7120e4122a745dff6ea589a85",
+        "task_name": "coder_t2"
+      }
+    ],
+    "completions": [
+      {
+        "index": 211,
+        "ordinal": 211,
+        "timestamp": "2026-10-23T23:12:14.323Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b09-cd43-7641-843b-56cc56b0378d",
+    "role": "geeky-coder",
+    "source": "subagents/rollout-01a16b09-cd43-7641-843b-56cc56b0378d.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 412,
+        "ordinal": 412,
+        "timestamp": "2026-10-23T23:12:46.865Z",
+        "call_id": "call_98aeedc65e374d349d747d8b23b186b4",
+        "task_name": "coder_t3"
+      }
+    ],
+    "completions": [
+      {
+        "index": 262,
+        "ordinal": 262,
+        "timestamp": "2026-10-23T23:16:04.888Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b0d-0227-78b2-9e62-d0628590669f",
+    "role": "code-reviewer",
+    "source": "subagents/rollout-01a16b0d-0227-78b2-9e62-d0628590669f.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 496,
+        "ordinal": 496,
+        "timestamp": "2026-10-23T23:16:17.014Z",
+        "call_id": "call_122fe7577cea42c8bf54ae52410459b2",
+        "task_name": "phase2_review"
+      }
+    ],
+    "completions": [
+      {
+        "index": 260,
+        "ordinal": 260,
+        "timestamp": "2026-10-23T23:16:57.927Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b0e-98c0-7262-9c93-1b7394765b1a",
+    "role": "code-reviewer",
+    "source": "subagents/rollout-01a16b0e-98c0-7262-9c93-1b7394765b1a.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 554,
+        "ordinal": 554,
+        "timestamp": "2026-10-23T23:18:01.099Z",
+        "call_id": "call_fbae3e7601fa4b26a33409f23a19e24a",
+        "task_name": "final_inputs"
+      }
+    ],
+    "completions": [
+      {
+        "index": 300,
+        "ordinal": 300,
+        "timestamp": "2026-10-23T23:18:56.454Z"
+      },
+      {
+        "index": 316,
+        "ordinal": 316,
+        "timestamp": "2026-10-23T23:22:32.523Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b0e-b574-7490-8c75-dbd34be1fffa",
+    "role": "code-reviewer",
+    "source": "subagents/rollout-01a16b0e-b574-7490-8c75-dbd34be1fffa.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 560,
+        "ordinal": 560,
+        "timestamp": "2026-10-23T23:18:08.452Z",
+        "call_id": "call_7a50274156f042dd942c9776d4ec1918",
+        "task_name": "final_money"
+      }
+    ],
+    "completions": [
+      {
+        "index": 282,
+        "ordinal": 282,
+        "timestamp": "2026-10-23T23:18:37.408Z"
+      }
+    ]
+  },
+  {
+    "thread": "01a16b0e-d4d6-78d3-96fc-8a09312fc32a",
+    "role": "code-reviewer",
+    "source": "subagents/rollout-01a16b0e-d4d6-78d3-96fc-8a09312fc32a.jsonl",
+    "parent_source": "subagents/rollout-01a16aff-374e-7831-ab5f-3a8210ec6913.jsonl",
+    "dispatches": [
+      {
+        "index": 566,
+        "ordinal": 566,
+        "timestamp": "2026-10-23T23:18:16.479Z",
+        "call_id": "call_e22a48eaf91a4a4b8eaa80566257bf53",
+        "task_name": "final_cli"
+      }
+    ],
+    "completions": [
+      {
+        "index": 297,
+        "ordinal": 297,
+        "timestamp": "2026-10-23T23:19:08.615Z"
+      },
+      {
+        "index": 322,
+        "ordinal": 322,
+        "timestamp": "2026-10-23T23:22:47.801Z"
+      }
+    ]
+  }
+]

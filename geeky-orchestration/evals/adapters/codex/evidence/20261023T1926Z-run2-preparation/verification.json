@@ -1,0 +1,48 @@
+{
+  "verified_utc": "2026-10-23T19:34:34.687440+00:00",
+  "head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "offline": {
+    "command": "C:/repos/.eval-tools/agent-py/Scripts/python.exe -B -m pytest -q -p no:cacheprovider geeky-orchestration/evals/adapters/codex geeky-orchestration/evals/scripts/test_codex_trace.py geeky-orchestration/evals/scripts/test_codex_stage_evidence.py geeky-orchestration/evals/scripts/test_codex_run2_prep.py geeky-orchestration/test_score_run.py",
+    "exit_code": 0,
+    "stdout_summary": "285 passed, 32 subtests passed in 137.06s (0:02:17)",
+    "skips": 0,
+    "captured_proof_env": [
+      "CODEX_NATIVE_PROOF=C:/repos/.eval-tools/codex-cp3-native-proof",
+      "CODEX_STAGE_PROOF=C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T182024Z-5fa13924",
+      "CODEX_RUN2_SOURCE=C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T182024Z-5fa13924"
+    ]
+  },
+  "mock": {
+    "folder": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T192610Z-e3ec171a",
+    "checks": 7,
+    "passed": true,
+    "stderr_bytes": 0,
+    "model_calls": 0,
+    "tokens": 0
+  },
+  "native": {
+    "folder": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T192610Z-e3ec171a\\native-attempts\\native-probe-a3cbfdc5",
+    "checks": 21,
+    "passed": true,
+    "unexpected_errors": [],
+    "observed_counts": {
+      "plugin-install": 0,
+      "hook-catalogue": 0,
+      "exec": 1
+    },
+    "pinned_build_verified": true
+  },
+  "claude_regression": {
+    "report": "claude-regression.json",
+    "source_report": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\claude-c1-regression-dw380066\\regression-report.json",
+    "ok": true
+  },
+  "run1_preservation": {
+    "manifest": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T182024Z-5fa13924\\artifact-manifest.json",
+    "files_checked": 57,
+    "mismatches": []
+  },
+  "paid_inference_calls": 0,
+  "repository_commits": 0,
+  "pushes": 0
+}

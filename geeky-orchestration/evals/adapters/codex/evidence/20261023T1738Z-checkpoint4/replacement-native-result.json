@@ -1,0 +1,24 @@
+{
+  "run_folder": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T181850Z-b1cc7126",
+  "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T181850Z-b1cc7126\\native-attempts\\native-probe-2d8b2571",
+  "exit_code": 0,
+  "ok": true,
+  "checks": 21,
+  "count_policy": {
+    "plugin-install": {
+      "exact": 0
+    },
+    "hook-catalogue": {
+      "exact": 0
+    },
+    "exec": {
+      "minimum": 1
+    }
+  },
+  "observed_counts": {
+    "plugin-install": 0,
+    "hook-catalogue": 0,
+    "exec": 1
+  },
+  "paid_model_calls": 0
+}

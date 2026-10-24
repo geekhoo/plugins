@@ -1,0 +1,133 @@
+{
+  "created_utc": "2026-10-23T22:54:48.253101+00:00",
+  "files": {
+    "geeky-orchestration/evals/adapters/codex/capture-rollouts.py": {
+      "sha256": "b10299bbfeafbaabbd69170a648af3979eb79fc9a8c14ca6158aafb4b2cdb9e5",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/capture-rollouts.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/copy-vetted-mxc-build.ps1": {
+      "sha256": "ea99343bd0f3b82e92cbfcc1748e1ca41b77b3c8003e61b1450d3931fcfd2d23",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/copy-vetted-mxc-build.ps1.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/diagnostics.py": {
+      "sha256": "ae80f23768b9e474cb30ae760facf18f473c1a283af902d188ad541653b7e7e4",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/diagnostics.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/guard-bridge.py": {
+      "sha256": "eaec67f1d236a4599327e8f24af213cd87c44d1942c57e196500d7d2cddccaa1",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/guard-bridge.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/mock_codex.py": {
+      "sha256": "1360df0abb05aac97b43c2c9a2cbe0be1e19e430ec0546aa11615eda2993a54a",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/mock_codex.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/native-probe.py": {
+      "sha256": "21332f999dddfaf542117e82fd962b187cad2730a166f6020ab80befc7619596",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/native-probe.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/paid-diagnostic-audit.py": {
+      "sha256": "03fd1218a3574aea7782d518b43a00dd2233c30b9492e5260b82a1e2609f2a4f",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/paid-diagnostic-audit.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/prepare-profile.py": {
+      "sha256": "3b22fa80de4be1a44245e8ee966a0156ea35b030cca599a1758b4dcaf60603f3",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/prepare-profile.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/profile/config.toml": {
+      "sha256": "17b5752d752a1c8377a5ce3beff46b3ecb1b61375688c38325dbbfac75c7bbcd",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/profile/config.toml.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/profile/mcp-bootstrap.py": {
+      "sha256": "68213bb92ebde4bf08ac559aa56aaca929e4625137d28bff293ae721ce449faf",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/profile/mcp-bootstrap.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/profile/mxc-pin.json": {
+      "sha256": "a2db3f8a29f833b3981ab41991421faff13831fb2b35a8a9bb771db96f1be04b",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/profile/mxc-pin.json.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/run-native-probe.ps1": {
+      "sha256": "0670ada096c91d42b3f3f19d20fd2a6630590a40e47642f8ed4c19e4a38411e4",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/run-native-probe.ps1.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_capture_rollouts.py": {
+      "sha256": "0ff13b1c1d0a525bcf8e99fdf3709f8ae4fd989c665bd63b248a453b38321505",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/test_capture_rollouts.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_diagnostics.py": {
+      "sha256": "0b414778f1bcd79d9df7d7f7af57409555f14fe1a894f3f1c3a5d508863eb628",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/test_diagnostics.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_mock_codex.py": {
+      "sha256": "cce77ccfaab31df5a11561dfc017ea0fbd24a8bf410bae13d7a80ad9160cb878",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/test_mock_codex.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_mxc_build_copy.py": {
+      "sha256": "f2e6dec73ab79f33b10ab71516464355f8e2848cb3ceb774d00cd95b2fe3be99",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/test_mxc_build_copy.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_native_probe.py": {
+      "sha256": "7600ef6ec175388a5b52e26ef2dd152ab16d9598776e9bc2bae8b5a30a5eeed9",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/test_native_probe.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_paid_diagnostic_audit.py": {
+      "sha256": "e73a6f82cc354bef32dc9edf71044e2bf957185ee5ebc401659a02d50f4e65cc",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/test_paid_diagnostic_audit.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_profile.py": {
+      "sha256": "ff2dae8d61949adeae01a47024c55ba6766f6ee55420439ba00599f22980673f",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/test_profile.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_trusted_exec.py": {
+      "sha256": "0a68e0a50a7d2bc0f0fb3fb645f79d9f1a9763d0e1961990fbd6f237c48f756a",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/test_trusted_exec.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_worker_config.py": {
+      "sha256": "cc43a9654e4ead1d04b5eebfa7871be8c63858d678854ffd160780b981694929",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/test_worker_config.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/trusted-exec.py": {
+      "sha256": "27b79ca9dc6e49fa00cfaf814fb6347c6f0d01225706837162416ec1fcac0979",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/trusted-exec.py.source"
+    },
+    "geeky-orchestration/evals/adapters/codex/verify-claude-regression.py": {
+      "sha256": "4a221826978fce2caabb4484c3a8ae8bee5b44f7792aa5c6e69d804f168f2995",
+      "snapshot": "sources/geeky-orchestration/evals/adapters/codex/verify-claude-regression.py.source"
+    },
+    "geeky-orchestration/evals/scripts/analyze-run.py": {
+      "sha256": "f74fadd1eaa84004c452fd38ffc98dac425de35a5fea87d72692575cc096bf86",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/analyze-run.py.source"
+    },
+    "geeky-orchestration/evals/scripts/codex-process.py": {
+      "sha256": "b495fa02e31984718de488d6feb6557bdf8b1691953b3c26d42cca03bfc465d6",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/codex-process.py.source"
+    },
+    "geeky-orchestration/evals/scripts/codex-trace.py": {
+      "sha256": "4f600674872e0286da4a89981fd5857564324f2ee8cfba9c2548a021e947c398",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/codex-trace.py.source"
+    },
+    "geeky-orchestration/evals/scripts/run-codex-baseline.ps1": {
+      "sha256": "71d7690b431df6b45aafac4415c10b3be7f843f888f6173e94f736b825bdc78d",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/run-codex-baseline.ps1.source"
+    },
+    "geeky-orchestration/evals/scripts/score-run.py": {
+      "sha256": "cf11e6f719d34daf01f2432e632c207a82cdbfd8f6a4386198da418f6bcb29d9",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/score-run.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_auto_process.py": {
+      "sha256": "75a26a1442fe389a026dc77fec8e186125b4b2e7de6e4e8708a703d72e9271fe",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/test_codex_auto_process.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_run2_prep.py": {
+      "sha256": "173c277fbb880721589458801370a56219ec2ff0404ece3029398e45352e1871",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/test_codex_run2_prep.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_stage_evidence.py": {
+      "sha256": "6f71f8ec8fbcdd59f9c78d7a0c02c17898c108410a85035c9b8db8d441cd6a93",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/test_codex_stage_evidence.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_trace.py": {
+      "sha256": "30ee90905e7546efd63e81782534c882e4528abbf6ecc3e4fb7bea7a48d71eb2",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/test_codex_trace.py.source"
+    }
+  }
+}

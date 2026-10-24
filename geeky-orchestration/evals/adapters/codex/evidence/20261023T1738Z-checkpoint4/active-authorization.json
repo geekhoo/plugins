@@ -1,0 +1,21 @@
+{
+  "recorded_utc": "2026-10-23T18:09:21.788001+00:00",
+  "source": "Direct human authorization relayed through parent chat 01a16953-92b9-7841-a39b-5eb3246ee383",
+  "human_request": "please continue to assist child session and facilitate the c1 run (lets aim for one successful, scored run)",
+  "paid_attempts_already_used": 1,
+  "replacement_paid_attempts_authorized": 1,
+  "replacement_paid_attempts_started": 1,
+  "model_matrix": {
+    "orchestrator": "gpt-6.1-sol/medium",
+    "all_descendants": "gpt-6-luna/max"
+  },
+  "scope": "Model-free verification and narrow denied-root frequency accounting correction, then one replacement paid C1 and shared scoring. Preserve stopped attempt. Stop before another paid attempt on materially different blocker. No repository staging/commit/push or CP5 broad records.",
+  "diagnostic_policy_authorized": "Install/catalogue exact zero. Exec at least one; allow recurrence only of exact denied-user-skills-root signature with all original proof/version/build requirements; retain raw lines/counts and reject all unrelated errors. Frequency cause remains unverified after six passing model-free comparisons.",
+  "replacement_run": "20261023T182024Z-5fa13924",
+  "replacement_thread": "01a169fe-3649-7481-aab5-d22c634b16d4",
+  "replacement_confirmed_utc": "2026-10-23T18:21:46.772580+00:00",
+  "replacement_completed": true,
+  "replacement_score_status": "provisional",
+  "replacement_composite": 81.7,
+  "further_paid_attempts_authorized": 0
+}

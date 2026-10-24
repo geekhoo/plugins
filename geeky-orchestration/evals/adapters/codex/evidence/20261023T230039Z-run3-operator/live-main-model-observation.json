@@ -1,0 +1,14 @@
+{
+  "observed_utc": "2026-10-23T23:09:01.405944+00:00",
+  "source": "C:\\repos\\.eval-tools\\codex-home\\sessions\\2026\\10\\24\\rollout-2026-10-24T07-00-48-01a16afe-d497-7060-a485-258f70023d21.jsonl",
+  "main_thread": "01a16afe-d497-7060-a485-258f70023d21",
+  "contexts": [
+    {
+      "ordinal": 10,
+      "timestamp": "2026-10-23T23:00:50.720Z",
+      "model": "gpt-6.1-sol",
+      "effort": "high"
+    }
+  ],
+  "scope": "live main only; full own-history descendant audit follows frozen capture"
+}

@@ -1,0 +1,27 @@
+{
+  "run_folder": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T230041Z-2c3b5489",
+  "workspace": "C:\\repos\\eval-c1-csvledger-codex-20261023T230041Z-2c3b5489",
+  "config_directory": "C:\\repos\\.eval-cfg-codex-20261023T230041Z-2c3b5489",
+  "plugin_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "xhigh",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "launch_record": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\evidence\\20261023T230039Z-run3-operator\\authorization.json"
+}
