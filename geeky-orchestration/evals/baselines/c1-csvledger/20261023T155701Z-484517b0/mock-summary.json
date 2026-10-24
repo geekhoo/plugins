@@ -1,0 +1,45 @@
+{
+  "type": "mock_summary",
+  "checks": [
+    {
+      "name": "env",
+      "passed": true,
+      "detail": "isolated homes, writable TMPDIR, no evals export; explicit denied paths checked"
+    },
+    {
+      "name": "skills",
+      "passed": false,
+      "detail": "UnicodeDecodeError: 'charmap' codec can't decode byte 0x9d in position 887: character maps to <undefined>"
+    },
+    {
+      "name": "guard",
+      "passed": true,
+      "detail": "frozen patch warns, notes patch remains mutable; bridge invoked directly"
+    },
+    {
+      "name": "pwsh",
+      "passed": true,
+      "detail": "PowerShell output and exit 7 preserved"
+    },
+    {
+      "name": "python",
+      "passed": true,
+      "detail": "PATH Python executes real pytest with writable tmp_path"
+    },
+    {
+      "name": "git",
+      "passed": true,
+      "detail": "workspace trusted; disposable scratch commit has neutral identity"
+    },
+    {
+      "name": "mcp",
+      "passed": true,
+      "detail": "initialize, tools/list and geeky_check_commit tools/call responded"
+    }
+  ],
+  "passed": false,
+  "ok": false,
+  "model_calls": 0,
+  "tokens": 0,
+  "thread_id": "d0948fdc-56f8-466c-8787-2130b86c30e3"
+}

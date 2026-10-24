@@ -1,0 +1,62 @@
+{
+  "ok": false,
+  "runtime_verified": false,
+  "checks": [
+    {
+      "name": "home_separate",
+      "passed": true,
+      "detail": "Run HOME and signed-in CODEX_HOME must differ."
+    },
+    {
+      "name": "dedicated_codex_home",
+      "passed": false,
+      "detail": {
+        "unexpected_non_auth_paths": [
+          "skills",
+          "plugins",
+          "config.toml"
+        ],
+        "config_ignored": true
+      }
+    },
+    {
+      "name": "no_oracle_export",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "export_components",
+      "passed": true,
+      "detail": [
+        "AGENTS.md",
+        "geeky.manifest.json",
+        "skills",
+        "agents",
+        "templates",
+        "scripts/sync-agents.py",
+        "hooks/guard-planning-contract.py",
+        "mcp/server.py"
+      ]
+    },
+    {
+      "name": "fresh_home",
+      "passed": true,
+      "detail": "C:\\repos\\.eval-cfg-codex-20261023T154159Z-b32cc92a\\home"
+    },
+    {
+      "name": "python",
+      "passed": true,
+      "detail": "agent-py interpreter"
+    },
+    {
+      "name": "mcp_venv",
+      "passed": true,
+      "detail": "geeky-mcp bootstrap venv"
+    }
+  ],
+  "codex_config_overrides": [],
+  "extra_args": [],
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "profile_sha256": "665ac848a96d6d2757c2e15d410ea7c9276694011f1ffc8f4806f54331870694"
+}

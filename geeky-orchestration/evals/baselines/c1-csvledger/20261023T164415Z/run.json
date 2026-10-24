@@ -1,0 +1,59 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c1-csvledger",
+  "harness": "claude-code",
+  "harness_version": "0.0.0-mock",
+  "model": "claude-mock-5-5",
+  "reasoning": "default",
+  "approach": "mock-agent:happy",
+  "plugin_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "geeky_skills_loaded": 8,
+  "workspace": "C:\\repos\\eval-c1-csvledger-20261023T164415Z",
+  "seed_sha": "942e6798901362feff9df4f0b9fdb875239cbfb3",
+  "session_id": "1b598b33-c015-4eb9-b4bc-c1b8af4f22fc",
+  "started_utc": "2026-10-23T16:44:18.2343698Z",
+  "ended_utc": "2026-10-23T16:44:36.7361017Z",
+  "wall_time_s": 19,
+  "tokens": {
+    "input": 661608,
+    "cached_input": 580900,
+    "cache_creation": 48090,
+    "output": 30899,
+    "total": 692507,
+    "cost_usd_estimate": 0.8262,
+    "reasoning": 50
+  },
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 118,
+    "passed": 8,
+    "failed": 110,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 12,
+    "test": 7,
+    "files_changed": 14
+  },
+  "commits": 3,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "4065553cff30b03c9012dae1228bde2c94fee35ffc96a56cd2b86e2261a0f638",
+    "session": null
+  },
+  "interventions": 0,
+  "reference_eligible": false,
+  "token_ceiling": 12000000,
+  "over_token_ceiling": false
+}

@@ -1,0 +1,72 @@
+{
+  "ok": false,
+  "functional_ok": true,
+  "checks": [
+    {
+      "name": "native_exit",
+      "passed": true,
+      "detail": "0"
+    },
+    {
+      "name": "local_responses_only",
+      "passed": true,
+      "detail": "8 loopback fixture requests; no forwarding"
+    },
+    {
+      "name": "native_skill_discovery",
+      "passed": true,
+      "detail": {
+        "expected_skill_paths": [
+          "archive",
+          "geeky-implement",
+          "geeky-plan",
+          "geeky-resume",
+          "geeky-status",
+          "impl-review",
+          "plan-review",
+          "spec-research"
+        ],
+        "missing": []
+      }
+    },
+    {
+      "name": "native_patch",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_guard_context",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_shell",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_mcp",
+      "passed": true,
+      "detail": "2 bounded discovery attempts"
+    },
+    {
+      "name": "native_subagent",
+      "passed": true,
+      "detail": "1"
+    },
+    {
+      "name": "native_completed",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_clean_diagnostics",
+      "passed": false,
+      "detail": "1 stderr errors; 0 stream errors"
+    }
+  ],
+  "elapsed_s": 5.3,
+  "paid_model_calls": 0,
+  "local_fixture_requests": 8,
+  "child_requests": 1
+}

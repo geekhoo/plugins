@@ -1,0 +1,1894 @@
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE [ 61%]
+EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE                           [100%]
+=================================== ERRORS ====================================
+_________________ ERROR at setup of test_o1_categorize_table __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_o7_categorize_month __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________________ ERROR at setup of test_o1_categorize_json __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________ ERROR at setup of test_categorize_empty_json_and_table ____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______ ERROR at setup of test_o10_categorize_order_ties_keep_input_order ______
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_____________ ERROR at setup of test_o10_report_months_ascending ______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________ ERROR at setup of test_categorize_amount_never_negative_zero _________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________ ERROR at setup of test_description_stripped_and_may_be_empty _________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________________ ERROR at setup of test_help_lists_subcommands ________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________ ERROR at setup of test_bad_month_is_usage_error[2026-13] ___________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________ ERROR at setup of test_bad_month_is_usage_error[2026-00] ___________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________ ERROR at setup of test_bad_month_is_usage_error[2026-1] ___________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________ ERROR at setup of test_bad_month_is_usage_error[26-01] ____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________ ERROR at setup of test_bad_month_is_usage_error[2026/01] ___________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________ ERROR at setup of test_bad_month_is_usage_error[2026-01-01] _________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_bad_format_is_usage_error _______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_____ ERROR at setup of test_missing_file_argument_is_usage_error[report] _____
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___ ERROR at setup of test_missing_file_argument_is_usage_error[categorize] ___
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_____________ ERROR at setup of test_unknown_flag_is_usage_error ______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+____________ ERROR at setup of test_dash_is_a_file_name_not_stdin _____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_____________ ERROR at setup of test_no_rules_means_uncategorized _____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_o4_duplicate_across_files _______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________ ERROR at setup of test_duplicates_within_one_file_counted __________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______________ ERROR at setup of test_near_duplicates_are_kept _______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______________ ERROR at setup of test_first_occurrence_is_kept _______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________ ERROR at setup of test_dedupe_runs_before_month_filter ____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________ ERROR at setup of test_dedupe_counted_when_month_has_no_rows _________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______ ERROR at setup of test_twice_identical_and_no_cr[report-table] ________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________ ERROR at setup of test_twice_identical_and_no_cr[report-json] ________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_____ ERROR at setup of test_twice_identical_and_no_cr[categorize-table] ______
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______ ERROR at setup of test_twice_identical_and_no_cr[categorize-json] ______
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________________ ERROR at setup of test_o1_baseline_table ___________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______ ERROR at setup of test_o1_explicit_table_format_matches_default _______
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+____________________ ERROR at setup of test_o1_report_json ____________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_month_filter_report __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________________ ERROR at setup of test_month_filter_no_match _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_o2_empty_file_table __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________________ ERROR at setup of test_o2_empty_file_json __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_o5_rounding_and_sign _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________ ERROR at setup of test_zero_amount_counts_but_adds_to_neither ________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________________ ERROR at setup of test_exact_decimal_sums __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________ ERROR at setup of test_categories_sorted_by_code_point ____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+____________ ERROR at setup of test_non_ascii_width_and_utf8_json _____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_____________ ERROR at setup of test_o6_tie_goes_to_earliest_rule _____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_o6_tie_swapped_order _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_o6_higher_priority_wins_regardless_of_order[A,contains,shop,5\nB,regex,sho+p,6\n] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_o6_higher_priority_wins_regardless_of_order[B,regex,sho+p,6\nA,contains,shop,5\n] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______ ERROR at setup of test_negative_priorities_compare_numerically ________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________________ ERROR at setup of test_contains_uses_casefold ________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_regex_is_search_ignorecase ______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_no_match_is_uncategorized _______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______________ ERROR at setup of test_rule_fields_are_stripped _______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_rules_header_only_is_valid ______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______ ERROR at setup of test_rules_header_case_order_and_extra_columns _______
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_o8_rule_row_errors[Coffee,regex,(,1-invalid regex '('] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__ ERROR at setup of test_o8_rule_row_errors[X,glob,a,1-invalid type 'glob'] __
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_o8_rule_row_errors[X,Contains,a,1-invalid type 'Contains'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_o8_rule_row_errors[X,contains,a,1.5-invalid priority '1.5'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_o8_rule_row_errors[X,contains,a,+1-invalid priority '+1'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__ ERROR at setup of test_o8_rule_row_errors[  ,contains,a,1-empty category] __
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__ ERROR at setup of test_o8_rule_row_errors[X,contains,  ,1-empty pattern] ___
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_o8_rule_row_errors[X,contains,a-expected 4 fields, got 3] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_o8_rule_row_errors[X,contains,a,1,extra-expected 4 fields, got 5] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______ ERROR at setup of test_rule_check_order[,glob,,x-empty category] _______
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___ ERROR at setup of test_rule_check_order[X,glob,,x-invalid type 'glob'] ____
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______ ERROR at setup of test_rule_check_order[X,regex,,x-empty pattern] ______
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__ ERROR at setup of test_rule_check_order[X,regex,(,x-invalid priority 'x'] __
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_rules_missing_column _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________________ ERROR at setup of test_rules_missing_file __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+____________________ ERROR at setup of test_rules_not_utf8 ____________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_rules_missing_header _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______ ERROR at setup of test_rules_error_wins_over_transaction_error ________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_rules_header_check_order[category,type,Pattern,pattern,priority-duplicate column 'pattern'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_rules_header_check_order[type,TYPE-duplicate column 'type'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_rules_header_check_order[type,pattern-missing column 'category'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______________ ERROR at setup of test_o3_bad_date[2026-02-30] ________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________________ ERROR at setup of test_o3_bad_date[2026-2-01] ________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________________ ERROR at setup of test_o3_bad_date[20260201] _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_more_bad_dates[2026-13-01] ______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_more_bad_dates[2026-04-31] ______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_more_bad_dates[2025-02-29] ______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+____________ ERROR at setup of test_more_bad_dates[2026-01-01T00] _____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________________ ERROR at setup of test_more_bad_dates[x] ___________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+____________ ERROR at setup of test_leap_day_and_padded_date_valid ____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_o9_bad_amount[+5-+5] _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_____________ ERROR at setup of test_o9_bad_amount["1,000"-1,000] _____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_o9_bad_amount[.5-.5] _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_o9_bad_amount[5.-5.] _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________________ ERROR at setup of test_o9_bad_amount[$5-$5] _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________________ ERROR at setup of test_o9_bad_amount[1e3-1e3] ________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________________ ERROR at setup of test_o9_bad_amount[-] ___________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________________ ERROR at setup of test_o9_bad_amount[---] __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_o9_bad_amount[1.2.3-1.2.3] ______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______________ ERROR at setup of test_amount_value_is_stripped _______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_date_checked_before_amount ______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________ ERROR at setup of test_field_count_mismatch[2026-01-01,X-2] _________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+____ ERROR at setup of test_field_count_mismatch[2026-01-01,X,-1,extra-4] _____
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________ ERROR at setup of test_field_count_mismatch[2026-99-99-1] __________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_____ ERROR at setup of test_blank_lines_skipped_but_counted_in_line_num ______
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________ ERROR at setup of test_line_num_after_multiline_record ____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_________ ERROR at setup of test_header_case_order_and_extra_columns __________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+__________________ ERROR at setup of test_bom_and_crlf_input __________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______ ERROR at setup of test_missing_column[description,amount-date] ________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______ ERROR at setup of test_missing_column[date,amount-description] ________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______ ERROR at setup of test_missing_column[date,description-amount] ________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________ ERROR at setup of test_missing_column[amount,foo-date] ____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________________ ERROR at setup of test_duplicate_column ___________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+______________ ERROR at setup of test_missing_header_zero_bytes _______________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_______________________ ERROR at setup of test_not_utf8 _______________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_____________________ ERROR at setup of test_missing_file _____________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+________________ ERROR at setup of test_first_file_error_wins _________________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_header_check_order[date,date-duplicate column 'date'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_header_check_order[Amount,x, AMOUNT ,x-duplicate column 'amount'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_header_check_order[note,memo,MEMO,note,date,description,amount-duplicate column 'memo'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_header_check_order[x,X,amount-duplicate column 'x'] __
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___ ERROR at setup of test_header_check_order[amount-missing column 'date'] ___
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+_ ERROR at setup of test_header_check_order[description,memo-missing column 'date'] _
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+___________ ERROR at setup of test_relative_path_reported_as_given ____________
+
+    @pytest.fixture(scope="session")
+    def target() -> Path:
+        raw = os.environ.get("ORACLE_TARGET")
+        if not raw:
+            pytest.fail("ORACLE_TARGET is not set; point it at the contestant repo root")
+        root = Path(raw)
+        if not root.is_dir():
+            pytest.fail(f"ORACLE_TARGET={raw!r} does not exist or is not a directory")
+        if not (root / "csvledger").is_dir():
+>           pytest.fail(f"ORACLE_TARGET={raw!r} has no csvledger/ package at its root")
+E           Failed: ORACLE_TARGET='C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a' has no csvledger/ package at its root
+
+conftest.py:79: Failed
+=========================== short test summary info ===========================
+ERROR oracle_categorize.py::test_o1_categorize_table - Failed: ORACLE_TARGET=...
+ERROR oracle_categorize.py::test_o7_categorize_month - Failed: ORACLE_TARGET=...
+ERROR oracle_categorize.py::test_o1_categorize_json - Failed: ORACLE_TARGET='...
+ERROR oracle_categorize.py::test_categorize_empty_json_and_table - Failed: OR...
+ERROR oracle_categorize.py::test_o10_categorize_order_ties_keep_input_order
+ERROR oracle_categorize.py::test_o10_report_months_ascending - Failed: ORACLE...
+ERROR oracle_categorize.py::test_categorize_amount_never_negative_zero - Fail...
+ERROR oracle_categorize.py::test_description_stripped_and_may_be_empty - Fail...
+ERROR oracle_cli.py::test_help_lists_subcommands - Failed: ORACLE_TARGET='C:\...
+ERROR oracle_cli.py::test_bad_month_is_usage_error[2026-13] - Failed: ORACLE_...
+ERROR oracle_cli.py::test_bad_month_is_usage_error[2026-00] - Failed: ORACLE_...
+ERROR oracle_cli.py::test_bad_month_is_usage_error[2026-1] - Failed: ORACLE_T...
+ERROR oracle_cli.py::test_bad_month_is_usage_error[26-01] - Failed: ORACLE_TA...
+ERROR oracle_cli.py::test_bad_month_is_usage_error[2026/01] - Failed: ORACLE_...
+ERROR oracle_cli.py::test_bad_month_is_usage_error[2026-01-01] - Failed: ORAC...
+ERROR oracle_cli.py::test_bad_format_is_usage_error - Failed: ORACLE_TARGET='...
+ERROR oracle_cli.py::test_missing_file_argument_is_usage_error[report] - Fail...
+ERROR oracle_cli.py::test_missing_file_argument_is_usage_error[categorize] - ...
+ERROR oracle_cli.py::test_unknown_flag_is_usage_error - Failed: ORACLE_TARGET...
+ERROR oracle_cli.py::test_dash_is_a_file_name_not_stdin - Failed: ORACLE_TARG...
+ERROR oracle_cli.py::test_no_rules_means_uncategorized - Failed: ORACLE_TARGE...
+ERROR oracle_dedupe.py::test_o4_duplicate_across_files - Failed: ORACLE_TARGE...
+ERROR oracle_dedupe.py::test_duplicates_within_one_file_counted - Failed: ORA...
+ERROR oracle_dedupe.py::test_near_duplicates_are_kept - Failed: ORACLE_TARGET...
+ERROR oracle_dedupe.py::test_first_occurrence_is_kept - Failed: ORACLE_TARGET...
+ERROR oracle_dedupe.py::test_dedupe_runs_before_month_filter - Failed: ORACLE...
+ERROR oracle_dedupe.py::test_dedupe_counted_when_month_has_no_rows - Failed: ...
+ERROR oracle_determinism.py::test_twice_identical_and_no_cr[report-table] - F...
+ERROR oracle_determinism.py::test_twice_identical_and_no_cr[report-json] - Fa...
+ERROR oracle_determinism.py::test_twice_identical_and_no_cr[categorize-table]
+ERROR oracle_determinism.py::test_twice_identical_and_no_cr[categorize-json]
+ERROR oracle_report.py::test_o1_baseline_table - Failed: ORACLE_TARGET='C:\\r...
+ERROR oracle_report.py::test_o1_explicit_table_format_matches_default - Faile...
+ERROR oracle_report.py::test_o1_report_json - Failed: ORACLE_TARGET='C:\\repo...
+ERROR oracle_report.py::test_month_filter_report - Failed: ORACLE_TARGET='C:\...
+ERROR oracle_report.py::test_month_filter_no_match - Failed: ORACLE_TARGET='C...
+ERROR oracle_report.py::test_o2_empty_file_table - Failed: ORACLE_TARGET='C:\...
+ERROR oracle_report.py::test_o2_empty_file_json - Failed: ORACLE_TARGET='C:\\...
+ERROR oracle_report.py::test_o5_rounding_and_sign - Failed: ORACLE_TARGET='C:...
+ERROR oracle_report.py::test_zero_amount_counts_but_adds_to_neither - Failed:...
+ERROR oracle_report.py::test_exact_decimal_sums - Failed: ORACLE_TARGET='C:\\...
+ERROR oracle_report.py::test_categories_sorted_by_code_point - Failed: ORACLE...
+ERROR oracle_report.py::test_non_ascii_width_and_utf8_json - Failed: ORACLE_T...
+ERROR oracle_rules.py::test_o6_tie_goes_to_earliest_rule - Failed: ORACLE_TAR...
+ERROR oracle_rules.py::test_o6_tie_swapped_order - Failed: ORACLE_TARGET='C:\...
+ERROR oracle_rules.py::test_o6_higher_priority_wins_regardless_of_order[A,contains,shop,5\nB,regex,sho+p,6\n]
+ERROR oracle_rules.py::test_o6_higher_priority_wins_regardless_of_order[B,regex,sho+p,6\nA,contains,shop,5\n]
+ERROR oracle_rules.py::test_negative_priorities_compare_numerically - Failed:...
+ERROR oracle_rules.py::test_contains_uses_casefold - Failed: ORACLE_TARGET='C...
+ERROR oracle_rules.py::test_regex_is_search_ignorecase - Failed: ORACLE_TARGE...
+ERROR oracle_rules.py::test_no_match_is_uncategorized - Failed: ORACLE_TARGET...
+ERROR oracle_rules.py::test_rule_fields_are_stripped - Failed: ORACLE_TARGET=...
+ERROR oracle_rules.py::test_rules_header_only_is_valid - Failed: ORACLE_TARGE...
+ERROR oracle_rules.py::test_rules_header_case_order_and_extra_columns - Faile...
+ERROR oracle_rules.py::test_o8_rule_row_errors[Coffee,regex,(,1-invalid regex '(']
+ERROR oracle_rules.py::test_o8_rule_row_errors[X,glob,a,1-invalid type 'glob']
+ERROR oracle_rules.py::test_o8_rule_row_errors[X,Contains,a,1-invalid type 'Contains']
+ERROR oracle_rules.py::test_o8_rule_row_errors[X,contains,a,1.5-invalid priority '1.5']
+ERROR oracle_rules.py::test_o8_rule_row_errors[X,contains,a,+1-invalid priority '+1']
+ERROR oracle_rules.py::test_o8_rule_row_errors[  ,contains,a,1-empty category]
+ERROR oracle_rules.py::test_o8_rule_row_errors[X,contains,  ,1-empty pattern]
+ERROR oracle_rules.py::test_o8_rule_row_errors[X,contains,a-expected 4 fields, got 3]
+ERROR oracle_rules.py::test_o8_rule_row_errors[X,contains,a,1,extra-expected 4 fields, got 5]
+ERROR oracle_rules.py::test_rule_check_order[,glob,,x-empty category] - Faile...
+ERROR oracle_rules.py::test_rule_check_order[X,glob,,x-invalid type 'glob']
+ERROR oracle_rules.py::test_rule_check_order[X,regex,,x-empty pattern] - Fail...
+ERROR oracle_rules.py::test_rule_check_order[X,regex,(,x-invalid priority 'x']
+ERROR oracle_rules.py::test_rules_missing_column - Failed: ORACLE_TARGET='C:\...
+ERROR oracle_rules.py::test_rules_missing_file - Failed: ORACLE_TARGET='C:\\r...
+ERROR oracle_rules.py::test_rules_not_utf8 - Failed: ORACLE_TARGET='C:\\repos...
+ERROR oracle_rules.py::test_rules_missing_header - Failed: ORACLE_TARGET='C:\...
+ERROR oracle_rules.py::test_rules_error_wins_over_transaction_error - Failed:...
+ERROR oracle_rules.py::test_rules_header_check_order[category,type,Pattern,pattern,priority-duplicate column 'pattern']
+ERROR oracle_rules.py::test_rules_header_check_order[type,TYPE-duplicate column 'type']
+ERROR oracle_rules.py::test_rules_header_check_order[type,pattern-missing column 'category']
+ERROR oracle_transactions.py::test_o3_bad_date[2026-02-30] - Failed: ORACLE_T...
+ERROR oracle_transactions.py::test_o3_bad_date[2026-2-01] - Failed: ORACLE_TA...
+ERROR oracle_transactions.py::test_o3_bad_date[20260201] - Failed: ORACLE_TAR...
+ERROR oracle_transactions.py::test_more_bad_dates[2026-13-01] - Failed: ORACL...
+ERROR oracle_transactions.py::test_more_bad_dates[2026-04-31] - Failed: ORACL...
+ERROR oracle_transactions.py::test_more_bad_dates[2025-02-29] - Failed: ORACL...
+ERROR oracle_transactions.py::test_more_bad_dates[2026-01-01T00] - Failed: OR...
+ERROR oracle_transactions.py::test_more_bad_dates[x] - Failed: ORACLE_TARGET=...
+ERROR oracle_transactions.py::test_leap_day_and_padded_date_valid - Failed: O...
+ERROR oracle_transactions.py::test_o9_bad_amount[+5-+5] - Failed: ORACLE_TARG...
+ERROR oracle_transactions.py::test_o9_bad_amount["1,000"-1,000] - Failed: ORA...
+ERROR oracle_transactions.py::test_o9_bad_amount[.5-.5] - Failed: ORACLE_TARG...
+ERROR oracle_transactions.py::test_o9_bad_amount[5.-5.] - Failed: ORACLE_TARG...
+ERROR oracle_transactions.py::test_o9_bad_amount[$5-$5] - Failed: ORACLE_TARG...
+ERROR oracle_transactions.py::test_o9_bad_amount[1e3-1e3] - Failed: ORACLE_TA...
+ERROR oracle_transactions.py::test_o9_bad_amount[-] - Failed: ORACLE_TARGET='...
+ERROR oracle_transactions.py::test_o9_bad_amount[---] - Failed: ORACLE_TARGET...
+ERROR oracle_transactions.py::test_o9_bad_amount[1.2.3-1.2.3] - Failed: ORACL...
+ERROR oracle_transactions.py::test_amount_value_is_stripped - Failed: ORACLE_...
+ERROR oracle_transactions.py::test_date_checked_before_amount - Failed: ORACL...
+ERROR oracle_transactions.py::test_field_count_mismatch[2026-01-01,X-2] - Fai...
+ERROR oracle_transactions.py::test_field_count_mismatch[2026-01-01,X,-1,extra-4]
+ERROR oracle_transactions.py::test_field_count_mismatch[2026-99-99-1] - Faile...
+ERROR oracle_transactions.py::test_blank_lines_skipped_but_counted_in_line_num
+ERROR oracle_transactions.py::test_line_num_after_multiline_record - Failed: ...
+ERROR oracle_transactions.py::test_header_case_order_and_extra_columns - Fail...
+ERROR oracle_transactions.py::test_bom_and_crlf_input - Failed: ORACLE_TARGET...
+ERROR oracle_transactions.py::test_missing_column[description,amount-date] - ...
+ERROR oracle_transactions.py::test_missing_column[date,amount-description] - ...
+ERROR oracle_transactions.py::test_missing_column[date,description-amount] - ...
+ERROR oracle_transactions.py::test_missing_column[amount,foo-date] - Failed: ...
+ERROR oracle_transactions.py::test_duplicate_column - Failed: ORACLE_TARGET='...
+ERROR oracle_transactions.py::test_missing_header_zero_bytes - Failed: ORACLE...
+ERROR oracle_transactions.py::test_not_utf8 - Failed: ORACLE_TARGET='C:\\repo...
+ERROR oracle_transactions.py::test_missing_file - Failed: ORACLE_TARGET='C:\\...
+ERROR oracle_transactions.py::test_first_file_error_wins - Failed: ORACLE_TAR...
+ERROR oracle_transactions.py::test_header_check_order[date,date-duplicate column 'date']
+ERROR oracle_transactions.py::test_header_check_order[Amount,x, AMOUNT ,x-duplicate column 'amount']
+ERROR oracle_transactions.py::test_header_check_order[note,memo,MEMO,note,date,description,amount-duplicate column 'memo']
+ERROR oracle_transactions.py::test_header_check_order[x,X,amount-duplicate column 'x']
+ERROR oracle_transactions.py::test_header_check_order[amount-missing column 'date']
+ERROR oracle_transactions.py::test_header_check_order[description,memo-missing column 'date']
+ERROR oracle_transactions.py::test_relative_path_reported_as_given - Failed: ...
+118 errors in 1.18s
+

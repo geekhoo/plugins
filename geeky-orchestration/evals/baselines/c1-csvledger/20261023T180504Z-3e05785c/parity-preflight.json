@@ -1,0 +1,157 @@
+{
+  "ok": true,
+  "runtime_verified": false,
+  "checks": [
+    {
+      "name": "home_separate",
+      "passed": true,
+      "detail": "Run HOME and signed-in CODEX_HOME must differ."
+    },
+    {
+      "name": "cached_context_disabled",
+      "passed": true,
+      "detail": "Bundled skills and cached plugins disabled; user config ignored by runner."
+    },
+    {
+      "name": "dedicated_codex_home",
+      "passed": true,
+      "detail": {
+        "unexpected_non_auth_paths": [],
+        "config_ignored": true
+      }
+    },
+    {
+      "name": "no_oracle_export",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "export_components",
+      "passed": true,
+      "detail": [
+        "AGENTS.md",
+        "geeky.manifest.json",
+        "skills",
+        "agents",
+        "templates",
+        "scripts/sync-agents.py",
+        "hooks/guard-planning-contract.py",
+        "mcp/server.py"
+      ]
+    },
+    {
+      "name": "fresh_home",
+      "passed": true,
+      "detail": "C:\\repos\\.eval-cfg-codex-20261023T180504Z-3e05785c\\home"
+    },
+    {
+      "name": "python",
+      "passed": true,
+      "detail": "agent-py interpreter"
+    },
+    {
+      "name": "mcp_venv",
+      "passed": true,
+      "detail": "geeky-mcp bootstrap venv"
+    },
+    {
+      "name": "agent_projection",
+      "passed": true,
+      "detail": "{\n  \"ok\": true,\n  \"dry_run\": false,\n  \"source_dir\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\plugin\\\\geeky-orchestration\\\\agents\",\n  \"project_root\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\",\n  \"targets\": [\n    \"codex\"\n  ],\n  \"discovered_agent_count\": 6,\n  \"agent_filter\": [],\n  \"agent_count\": 6,\n  \"generated_count\": 6,\n  \"generated\": [\n    {\n      \"target\": \"codex\",\n      \"source\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\plugin\\\\geeky-orchestration\\\\agents\\\\code-architect.md\",\n      \"output\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\.codex\\\\agents\\\\code-architect.toml\"\n    },\n    {\n      \"target\": \"codex\",\n      \"source\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\plugin\\\\geeky-orchestration\\\\agents\\\\code-explorer.md\",\n      \"output\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\.codex\\\\agents\\\\code-explorer.toml\"\n    },\n    {\n      \"target\": \"codex\",\n      \"source\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\plugin\\\\geeky-orchestration\\\\agents\\\\code-reviewer.md\",\n      \"output\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\.codex\\\\agents\\\\code-reviewer.toml\"\n    },\n    {\n      \"target\": \"codex\",\n      \"source\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\plugin\\\\geeky-orchestration\\\\agents\\\\geeky-coder.md\",\n      \"output\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\.codex\\\\agents\\\\geeky-coder.toml\"\n    },\n    {\n      \"target\": \"codex\",\n      \"source\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\plugin\\\\geeky-orchestration\\\\agents\\\\geeky-implement-orchestrator.md\",\n      \"output\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\.codex\\\\agents\\\\geeky-implement-orchestrator.toml\"\n    },\n    {\n      \"target\": \"codex\",\n      \"source\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\plugin\\\\geeky-orchestration\\\\agents\\\\geeky-orchestrator.md\",\n      \"output\": \"C:\\\\Repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\.codex\\\\agents\\\\geeky-orchestrator.toml\"\n    }\n  ],\n  \"notes\": [\n    \"Claude projection preserves tools/model/color.\",\n    \"Copilot projection uses compatibility-safe frontmatter without explicit tool mapping.\",\n    \"Codex projection emits required TOML fields: name, description, developer_instructions.\",\n    \"Cursor projection is best-effort and should be validated against installed Cursor version.\",\n    \"Generic Markdown is for manual import or future adapters; automatic discovery is not implied.\"\n  ]\n}"
+    },
+    {
+      "name": "full_skills",
+      "passed": true,
+      "detail": [
+        "archive",
+        "geeky-implement",
+        "geeky-plan",
+        "geeky-resume",
+        "geeky-status",
+        "impl-review",
+        "plan-review",
+        "spec-research"
+      ]
+    },
+    {
+      "name": "agent_registration",
+      "passed": true,
+      "detail": [
+        "code-architect",
+        "code-explorer",
+        "code-reviewer",
+        "geeky-coder",
+        "geeky-implement-orchestrator",
+        "geeky-orchestrator"
+      ]
+    },
+    {
+      "name": "hook_configuration",
+      "passed": true,
+      "detail": "Warn guard bridge configured; runtime proof pending CP2."
+    }
+  ],
+  "codex_config_overrides": [
+    "model=\"gpt-6.1-sol\"",
+    "model_reasoning_effort=\"medium\"",
+    "approval_policy=\"never\"",
+    "sandbox_mode=\"danger-full-access\"",
+    "cli_auth_credentials_store=\"file\"",
+    "web_search=\"live\"",
+    "features={\"multi_agent\" = true, \"hooks\" = true, \"apps\" = false, \"remote_plugin\" = false, \"plugins\" = true}",
+    "shell_environment_policy={\"inherit\" = \"all\"}",
+    "skills={\"bundled\" = {\"enabled\" = false}}",
+    "plugins={\"_default\" = {\"enabled\" = false}, \"geeky-orchestration@geeky-eval\" = {\"enabled\" = true}}",
+    "developer_instructions=\"# AGENTS.md \u2014 geeky-orchestration\\n\\nGuidance for **any** AI coding agent (Claude Code, Codex CLI, Cursor, Windsurf,\\nCopilot CLI, Gemini CLI, or an SDK/LangGraph orchestrator) working with this\\nplugin's plan \u2192 execute \u2192 track workflow. Claude Code reads this via `@AGENTS.md`;\\nmost other CLI agents read `AGENTS.md` natively.\\n\\n## The workflow\\n\\n1. **spec-research** \u2014 research and write `feature-specification.md`.\\n2. **geeky-plan** \u2014 create the frozen planning package.\\n3. **plan-review** \u2014 validate alignment, coverage, sequencing, and readiness.\\n4. **geeky-status** \u2014 read-only status and resumption orientation at any packet stage.\\n5. **geeky-implement** \u2014 execute Ready tasks with validation and review gates.\\n6. **impl-review** \u2014 review delivered code through three domain-specific lanes.\\n7. **archive** \u2014 move completed planning artifacts into the archive structure.\\n\\nUse **geeky-orchestrator** when the requested entry point is unclear or when one\\nagent should administer the lifecycle. It examines repository evidence read-only\\nand recommends a workflow before mutation. Clear, explicit requests route to the\\nbest matching skill after prerequisite checks. Material ambiguity is clarified;\\nstages are not auto-chained without end-to-end authorization.\\n\\nFull procedures live in the portable Skills under `skills/<name>/SKILL.md`.\\n\\n## Workflow terminology\\n\\nUse these meanings across skills, briefs and reports. They describe the orchestration\\ndomain; retain the target project's own domain language. Existing filenames, schema\\nfields and checkpoint markers remain unchanged.\\n\\n| Term | Meaning |\\n|---|---|\\n| Planning package | Specification, plan, task contracts and tracking artifacts for one approved outcome. \\\"Packet\\\" is an alias; planning folder is its location. |\\n| Workflow stage | A lifecycle activity such as planning, implementation or final implementation review. Numbered \\\"phases\\\" inside a skill are procedure steps, not implementation phases. |\\n| Implementation phase | A group of tasks whose combined requirements are reviewed before advancement. \\\"Wave\\\" means a scheduling group unless the plan explicitly equates it with a phase. |\\n| Task | A bounded unit with an ID, scope, dependencies, acceptance criteria (ACs) and required validation. |\\n| Requirement / AC / Definition of Done | Required outcome or constraint / observable condition for satisfying it / completion conditions for the task. Required tests supply evidence; they do not replace ACs. |\\n| Task contract | The frozen task body and applicable approved requirements. A task brief conveys that contract to a worker. |\\n| Validation | Checks of the work. Validation evidence records what ran or was observed, against which inputs, and the result; a PASS claim alone is not evidence. |\\n| Review | Judgment of evidence against an assigned scope. Task review checks ACs/tests; phase review decides readiness to advance; final implementation review uses `impl-review`. Plan review evaluates the planning package. |\\n| Acceptance | The decision that required outcomes and gates for the stated scope are satisfied. Task Done, phase READY TO ADVANCE and final review PASS have different scopes; none grants release or deployment approval. |\\n| Finding | An evidenced discrepancy. A blocking finding prevents the current contract from being met; an optional improvement is a follow-up. Severity labels retain their review-stage meanings, not an automatic cross-stage mapping. |\\n| Execution batch / review batch | Tasks dispatched together / tasks sharing a reviewer assignment. Each phase has one review batch, the phase review: members wait in In Review until it clears, and each keeps its own verdict. |\\n| Orchestrator / worker / reviewer | Coordinates and accepts work / performs a bounded assignment / evaluates it. `geeky-coder` is the implementation worker; PM describes a planning or phase-review perspective. |\\n\\n## The planning-folder contract\\n\\n**Frozen** (never edit mid-run \u2014 they are the contract between plan and implement):\\n`implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`,\\nand every `tasks/Tx-*.md` body. If the plan is genuinely wrong, surface it via the\\nkanban **Blocked** lane + `handoff.md` instead of editing the contract.\\n\\n**Mutable** (update continuously during implement):\\n`kanban.md` (single source of truth for lane status), `handoff.md` (running log),\\nand `tasks/Tx-*.notes.md` (per-task notes \u2014 these are writable, unlike the task bodies).\\n\\nRecord a consequence for another task in that task's notes and in `handoff.md`.\\n\\n## Deterministic quality gates (run these \u2014 don't self-report)\\n\\nThese replace \\\"I updated the board / the task is done\\\" with fail-stop checks.\\nEvery gate: **arguments in, exit 0 = pass / exit 1 = fail, summary on stdout**,\\noptional `--json` / `-Json`. Each ships paired Python + PowerShell with identical\\nbehavior. `geeky.manifest.json` is the machine-readable index of the same list.\\n\\nPaths below are relative to this plugin root (`${CLAUDE_PLUGIN_ROOT}` in Claude Code).\\nUse `python3` where `python` is not on PATH; use `pwsh` (PowerShell 7+) for the `.ps1`.\\n\\n| Gate | When | Python | PowerShell |\\n|---|---|---|---|\\n| Planning-folder valid | start of implement/status | `python scripts/validate-planning-folder.py --path \\\"<folder>\\\"` | `pwsh -File scripts/validate-planning-folder.ps1 -Path \\\"<folder>\\\"` |\\n| Task-file schema | end of plan; start of implement | `python scripts/validate-task-schema.py --path \\\"<folder>\\\"` | `pwsh -File scripts/validate-task-schema.ps1 -Path \\\"<folder>\\\"` |\\n| Kanban integrity | after every lane move | `python scripts/validate-kanban.py --path \\\"<folder>\\\"` | `pwsh -File scripts/validate-kanban.ps1 -Path \\\"<folder>\\\"` |\\n| Definition of Done | before moving a task to Done | `python scripts/check-dod.py --path \\\"<folder>\\\" --task <ID>` | `pwsh -File scripts/check-dod.ps1 -Path \\\"<folder>\\\" -Task <ID>` |\\n| Commit message | before each commit | `python scripts/check-commit.py --message \\\"<msg>\\\"` (or `<FILE>`) | `pwsh -File scripts/check-commit.ps1 -Message \\\"<msg>\\\"` (or `<FILE>`) |\\n\\n**Feedback loop:** when a gate exits non-zero, read its output, fix the artifact,\\nand re-run the same gate until it exits 0 before proceeding.\\n\\n## How each agent type runs the gates\\n\\n- **Claude Code:** the frozen-artifact guard fires automatically via\\n  `hooks/hooks.json` (PreToolUse). Run the validators above as explicit steps.\\n- **Other CLI agents (Codex, Cursor, Windsurf, Copilot, Gemini):** add an\\n  equivalent pre-edit/stop hook in your tool's config pointing at\\n  `hooks/guard-planning-contract.{py,ps1}` (it reads tool-call JSON on stdin,\\n  `--mode block` denies via JSON / exit 2). Invoke the validators as shell steps.\\n- **SDK / graph orchestrators (OpenAI Agents SDK, LangGraph):** call any validator\\n  with `subprocess.run([...])` inside a guardrail / node; raise a tripwire or\\n  `interrupt()` on a non-zero exit.\\n- **Any MCP-capable agent:** a bundled stdio MCP server (`geeky_mcp`, see `mcp/server.py`,\\n  registered in `.mcp.json`) exposes the gates as tools \u2014 `geeky_validate_planning_folder`,\\n  `geeky_validate_task_schema`, `geeky_validate_kanban`, `geeky_check_dod`,\\n  `geeky_check_commit`, `geeky_check_frozen_artifact` \u2014 for tool-style invocation with\\n  no per-framework hook config. Run it with `uv run --with \\\"mcp>=1.2.0\\\" python mcp/server.py`\\n  (or `pip install mcp && python mcp/server.py`).\\n\\n## Hard rules for implement\\n\\nNever push to a remote. Never `--no-verify`, `--force`, or `--amend`. Respect each\\ntask's declared `Dependencies:`. Stop and finalize state (kanban + handoff) when a\\ntask moves to Blocked. Verify task validation evidence against the tested revision,\\ncommands and results; a coder's bare PASS claim is insufficient. Reuse valid evidence\\nand record the reason for any rerun. Task review checks ACs and defined tests; one reviewer dispatch at\\nphase end gives each task its verdict and the phase verdict. Phase\\nreview checks collective requirements and must return READY TO ADVANCE before the\\nnext phase starts; that verdict comes from a reviewer subagent whose agent ID is\\nrecorded, and the last phase is included. Final implementation review uses `impl-review`.\\nThe orchestrator never edits product code or tests; fixes go to `geeky-coder`. Batch independent\\nwork and compatible fixes while preserving each task's verdict and resource isolation.\\n\"",
+    "marketplaces={\"geeky-eval\" = {\"source_type\" = \"local\", \"source\" = \"C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\marketplace\"}}",
+    "agents={\"enabled\" = true, \"default_subagent_model\" = \"gpt-6-luna\", \"default_subagent_reasoning_effort\" = \"max\", \"max_depth\" = 3, \"max_concurrent_threads_per_session\" = 8, \"code-architect\" = {\"description\" = \"Designs feature architectures by analyzing existing codebase patterns and conventions, then providing comprehensive implementation blueprints with specific files to create/modify, component designs, data flows, and build sequences\", \"config_file\" = \"C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\roles\\\\code-architect.toml\"}, \"code-explorer\" = {\"description\" = \"Deeply analyzes existing codebase features by tracing execution paths, mapping architecture layers, understanding patterns and abstractions, and documenting dependencies to inform new development\", \"config_file\" = \"C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\roles\\\\code-explorer.toml\"}, \"code-reviewer\" = {\"description\" = \"Reviews code for bugs, logic errors, security vulnerabilities, code quality issues, and adherence to project conventions, using confidence-based filtering to report only high-priority issues that truly matter\", \"config_file\" = \"C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\roles\\\\code-reviewer.toml\"}, \"geeky-coder\" = {\"description\" = \"Portable coder subagent invoked by /geeky-implement. Treats the supplied task brief as authoritative scope; writes the minimum code necessary, runs the validation block, returns a structured summary. Designed to be safe to spawn in parallel against non-overlapping task surfaces.\", \"config_file\" = \"C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\roles\\\\geeky-coder.toml\"}, \"geeky-implement-orchestrator\" = {\"description\" = \"Use when executing, resuming, dry-running, or thoroughly orchestrating a geeky-plan planning package with the geeky-implement skill. Triggers: geeky-implement, implement the planning package, run the kanban, walk the kanban, execute tasks, resume implementation, dry-run implementation, phase implementation, validate DoD, commit per phase, orchestrate geeky-coder, review and commit completed tasks.\", \"config_file\" = \"C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\roles\\\\geeky-implement-orchestrator.toml\"}, \"geeky-orchestrator\" = {\"description\" = \"Use as the intelligent control plane for any geeky-orchestration entry point. Examines repository context, routes explicit requests to the best workflow, recommends a workflow when instructions are unclear, administers lifecycle state, and asks focused clarification questions when evidence cannot resolve a material choice.\", \"config_file\" = \"C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\roles\\\\geeky-orchestrator.toml\"}}",
+    "mcp_servers={\"geeky\" = {\"command\" = \"C:\\\\Users\\\\gerald.khoo\\\\AppData\\\\Local\\\\Programs\\\\Python\\\\Python313\\\\python.exe\", \"args\" = [\"-u\", \"C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\mcp-bootstrap.py\", \"--site-packages\", \"C:\\\\repos\\\\.eval-tools\\\\geeky-mcp\\\\Lib\\\\site-packages\", \"--server\", \"C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\plugin\\\\geeky-orchestration\\\\mcp\\\\server.py\"], \"startup_timeout_sec\" = 120}}",
+    "hooks={\"PreToolUse\" = [{\"matcher\" = \"Edit|Write|NotebookEdit|apply_patch\", \"hooks\" = [{\"type\" = \"command\", \"command\" = \"C:\\\\repos\\\\.eval-tools\\\\agent-py\\\\Scripts\\\\python.exe C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\home\\\\guard-bridge.py --guard C:\\\\repos\\\\.eval-cfg-codex-20261023T180504Z-3e05785c\\\\plugin\\\\geeky-orchestration\\\\hooks\\\\guard-planning-contract.py\", \"timeout\" = 5}]}]}"
+  ],
+  "extra_args": [],
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "worker_model": "gpt-6-luna",
+  "worker_reasoning": "max",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "workers": {
+      "model": "gpt-6-luna",
+      "reasoning": "max",
+      "scope": "all-descendants"
+    }
+  },
+  "profile_sha256": "b357b224c594e4e65194061725144f4e5f79c6dd03d9e3c34f124e9c24e368f8",
+  "reachability": {
+    "claude": [
+      "AGENTS.md",
+      "geeky.manifest.json",
+      "skills",
+      "agents",
+      "templates",
+      "scripts/sync-agents.py",
+      "hooks/guard-planning-contract.py",
+      "mcp/server.py"
+    ],
+    "codex": [
+      "AGENTS.md",
+      "geeky.manifest.json",
+      "skills",
+      "agents",
+      "templates",
+      "scripts/sync-agents.py",
+      "hooks/guard-planning-contract.py",
+      "mcp/server.py"
+    ],
+    "runtime_proof": "UNVERIFIED until checkpoint 2"
+  },
+  "capability_notes": [
+    "sync-agents omits canonical model/tool restrictions for Codex; generated role layers apply the worker model/reasoning and preserve nested defaults/registrations. Runtime inheritance requires native probe evidence.",
+    "Windows KnownFolder ignores HOME for skills; run-home local marketplace enables only pinned export. Its native cache is in dedicated CODEX_HOME.",
+    "Shell edits bypass guard as in Claude.",
+    "Codex patch warnings are wrapped as additionalContext; Claude plain stdout warnings may be invisible (O19)."
+  ]
+}

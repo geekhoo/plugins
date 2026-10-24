@@ -1,0 +1,10 @@
+{"type":"thread.started","thread_id":"01a16994-45e8-7e81-b6af-bb3fee7ec318"}
+{"type":"turn.started"}
+{"type":"item.started","item":{"id":"item_0","type":"file_change","changes":[{"path":"C:\\repos\\eval-c1-csvledger-codex-20261023T162259Z-60b450bc\\docs\\spec-001-feature\\draft.md","kind":"add"}],"status":"in_progress"}}
+{"type":"item.completed","item":{"id":"item_0","type":"file_change","changes":[{"path":"C:\\repos\\eval-c1-csvledger-codex-20261023T162259Z-60b450bc\\docs\\spec-001-feature\\draft.md","kind":"add"}],"status":"completed"}}
+{"type":"item.started","item":{"id":"item_1","type":"command_execution","command":"\"C:\\\\Users\\\\gerald.khoo\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -NoProfile -Command \"Write-Output 'CP2_NATIVE_EXEC_OK'\"","aggregated_output":"","exit_code":null,"status":"in_progress"}}
+{"type":"item.completed","item":{"id":"item_1","type":"command_execution","command":"\"C:\\\\Users\\\\gerald.khoo\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -NoProfile -Command \"Write-Output 'CP2_NATIVE_EXEC_OK'\"","aggregated_output":"CP2_NATIVE_EXEC_OK\r\n","exit_code":0,"status":"completed"}}
+{"type":"item.started","item":{"id":"item_2","type":"collab_tool_call","tool":"wait","sender_thread_id":"01a16994-45e8-7e81-b6af-bb3fee7ec318","receiver_thread_ids":[],"prompt":null,"agents_states":{},"status":"in_progress"}}
+{"type":"item.completed","item":{"id":"item_2","type":"collab_tool_call","tool":"wait","sender_thread_id":"01a16994-45e8-7e81-b6af-bb3fee7ec318","receiver_thread_ids":[],"prompt":null,"agents_states":{},"status":"completed"}}
+{"type":"item.completed","item":{"id":"item_3","type":"agent_message","text":"CP2_NATIVE_OK"}}
+{"type":"turn.completed","usage":{"input_tokens":0,"cached_input_tokens":0,"cache_write_input_tokens":0,"output_tokens":0,"reasoning_output_tokens":0}}

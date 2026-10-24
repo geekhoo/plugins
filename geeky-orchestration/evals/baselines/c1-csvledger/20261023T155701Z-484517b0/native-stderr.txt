@@ -1,0 +1,63 @@
+Reading additional input from stdin...
+2026-10-23T15:58:49.945542Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 501 Not Implemented: <!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Error response</title>
+    </head>
+    <body>
+        <h1>Error response</h1>
+        <p>Error code: 501</p>
+        <p>Message: Unsupported method ('GET').</p>
+        <p>Error code explanation: 501 - Server does not support this operation.</p>
+    </body>
+</html>, url: http://127.0.0.1:56442/v1/models?client_version=0.164.0
+2026-10-23T15:58:50.003279Z ERROR codex_models_manager::manager: failed to refresh available models: unexpected status 501 Not Implemented: <!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Error response</title>
+    </head>
+    <body>
+        <h1>Error response</h1>
+        <p>Error code: 501</p>
+        <p>Message: Unsupported method ('GET').</p>
+        <p>Error code explanation: 501 - Server does not support this operation.</p>
+    </body>
+</html>, url: http://127.0.0.1:56442/v1/models?client_version=0.164.0
+2026-10-23T15:58:50.789164Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\azure-observability\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789224Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\azure-postgres\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789234Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\claude-work-cleaner\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789240Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\figma-code-connect-components\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789246Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\figma-create-design-system-rules\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789251Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\figma-create-new-file\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789260Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\figma-design-to-code\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789281Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\figma-generate-design\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789288Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\figma-generate-library\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789294Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\figma-implement-design\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789313Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\figma-use\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789319Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\javascript-saas-browser-skill\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789323Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\microsoft-foundry\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789330Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\playwright-cli\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789348Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\podman-containers\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789355Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\pragmatic-scope-guard\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789361Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\simplify-code\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789378Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\source-command-docs-task-template\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789385Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\microsoft-foundry\finetuning\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789392Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\microsoft-foundry\models\deploy-model\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789410Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\microsoft-foundry\models\deploy-model\capacity\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789417Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\microsoft-foundry\models\deploy-model\customize\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.789437Z ERROR codex_core::session::session: failed to load skill C:\Users\gerald.khoo\.agents\skills\microsoft-foundry\models\deploy-model\preset\SKILL.md: failed to read file: Access is denied. (os error 5)
+2026-10-23T15:58:50.856525Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:58:51.114962Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:58:52.126627Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:58:52.129256Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:58:52.391891Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:58:53.416465Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:58:54.819249Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:58:55.073228Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:58:56.078608Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:59:00.249053Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))
+2026-10-23T15:59:00.414060Z ERROR codex_core::tools::router: error=unsupported call: mcp__geeky__geeky_check_commit
+2026-10-23T15:59:00.469821Z ERROR codex_core::tools::router: error=unsupported call: spawn_agent
+2026-10-23T15:59:00.515830Z ERROR rmcp::transport::worker: worker quit with fatal: Transport channel closed, when Client(HttpRequest(HttpRequest("http/request failed: error sending request for url (https://chatgpt.com/backend-api/ps/mcp)")))

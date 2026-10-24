@@ -1,0 +1,181 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "model_matrix",
+      "passed": true
+    },
+    {
+      "name": "plugin_sha",
+      "passed": true
+    },
+    {
+      "name": "static_profiles",
+      "passed": true
+    },
+    {
+      "name": "native_21_checks",
+      "passed": true
+    },
+    {
+      "name": "native_reviewer_requests",
+      "passed": true
+    },
+    {
+      "name": "native_exact_denied_root",
+      "passed": true
+    },
+    {
+      "name": "native_version_model_free",
+      "passed": true
+    },
+    {
+      "name": "native_build",
+      "passed": true
+    },
+    {
+      "name": "native_provenance",
+      "passed": true
+    },
+    {
+      "name": "launch_provenance",
+      "passed": true
+    },
+    {
+      "name": "native_sdk",
+      "passed": true
+    },
+    {
+      "name": "native_manifest",
+      "passed": true
+    },
+    {
+      "name": "launch_manifest",
+      "passed": true
+    },
+    {
+      "name": "current_source",
+      "passed": true
+    },
+    {
+      "name": "current_launch_binaries",
+      "passed": true
+    },
+    {
+      "name": "architect_model_matrix",
+      "passed": true
+    },
+    {
+      "name": "architect_plugin_sha",
+      "passed": true
+    },
+    {
+      "name": "architect_static_profiles",
+      "passed": true
+    },
+    {
+      "name": "architect_native_21_checks",
+      "passed": true
+    },
+    {
+      "name": "architect_native_reviewer_requests",
+      "passed": true
+    },
+    {
+      "name": "architect_native_exact_denied_root",
+      "passed": true
+    },
+    {
+      "name": "architect_native_version_model_free",
+      "passed": true
+    },
+    {
+      "name": "architect_native_build",
+      "passed": true
+    },
+    {
+      "name": "architect_native_provenance",
+      "passed": true
+    },
+    {
+      "name": "architect_launch_provenance",
+      "passed": true
+    },
+    {
+      "name": "architect_native_sdk",
+      "passed": true
+    },
+    {
+      "name": "architect_native_manifest",
+      "passed": true
+    },
+    {
+      "name": "architect_launch_manifest",
+      "passed": true
+    },
+    {
+      "name": "architect_current_source",
+      "passed": true
+    },
+    {
+      "name": "architect_current_launch_binaries",
+      "passed": true
+    }
+  ],
+  "native_proof_folder": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-0fd25848",
+  "files": [
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-0fd25848\\native-summary.json",
+      "copy": "native-summary.json",
+      "sha256": "B61D642FE9DADD0095DE01CDF4F8CE40DBC2A04782AFEF81438A85B4E18F2449"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-0fd25848\\mxc-build-proof.json",
+      "copy": "mxc-build-proof.json",
+      "sha256": "2BFA214ECA5D488D3695D36FF8C0E6AEE5AEE51C5FD29F9EC3AD38C9288B4FF4"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-0fd25848\\mxc-build-provenance.json",
+      "copy": "mxc-build-provenance.json",
+      "sha256": "232600C5E09A52669DB8FA534451B6A653FABB46364D4ACE43B186BCD81E3D12"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\run.json",
+      "copy": "proof-run.json",
+      "sha256": "2B0492A58385374E3FBAC1CAD3166837C8E87FFBC131567EDD575B52F49836E7"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\parity-preflight.json",
+      "copy": "proof-profile.json",
+      "sha256": "B26A2AA91A684775BC6DFE95F83D0F5F9F4FE4A20D97E6530DFA6C9C3B596C9F"
+    }
+  ],
+  "reviewer_proof_folder": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-275eb041",
+  "reviewer_files": [
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-275eb041\\native-summary.json",
+      "copy": "native-summary.json",
+      "sha256": "E73FBD1D19DFC177D46CAEADA5C4AE5DC2CCE0D1C007B21B43AD5780000F1D84"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-275eb041\\mxc-build-proof.json",
+      "copy": "mxc-build-proof.json",
+      "sha256": "2BFA214ECA5D488D3695D36FF8C0E6AEE5AEE51C5FD29F9EC3AD38C9288B4FF4"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\native-attempts\\native-probe-275eb041\\mxc-build-provenance.json",
+      "copy": "mxc-build-provenance.json",
+      "sha256": "A3EF7B463B458A8DE5998224906F3C268086DA3F16D9ABEE2DA64763C7A6598B"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\run.json",
+      "copy": "proof-run.json",
+      "sha256": "2B0492A58385374E3FBAC1CAD3166837C8E87FFBC131567EDD575B52F49836E7"
+    },
+    {
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T224720Z-e569fde0\\parity-preflight.json",
+      "copy": "proof-profile.json",
+      "sha256": "B26A2AA91A684775BC6DFE95F83D0F5F9F4FE4A20D97E6530DFA6C9C3B596C9F"
+    }
+  ]
+}

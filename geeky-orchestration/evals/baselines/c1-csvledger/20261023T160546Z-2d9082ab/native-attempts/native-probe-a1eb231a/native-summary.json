@@ -1,0 +1,54 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "name": "native_exit",
+      "passed": true,
+      "detail": "0"
+    },
+    {
+      "name": "local_responses_only",
+      "passed": true,
+      "detail": "7 loopback fixture requests; no forwarding"
+    },
+    {
+      "name": "native_skill_discovery",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_patch",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_guard_context",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_shell",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_mcp",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "native_subagent",
+      "passed": true,
+      "detail": "1"
+    },
+    {
+      "name": "native_completed",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "elapsed_s": 9.2,
+  "paid_model_calls": 0,
+  "local_fixture_requests": 7,
+  "child_requests": 1
+}

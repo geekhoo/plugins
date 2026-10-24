@@ -1,0 +1,82 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c1-csvledger",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "approach": "mock-agent:happy",
+  "plugin_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "worker_model": "gpt-6-luna",
+  "worker_reasoning": "max",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "workers": {
+      "model": "gpt-6-luna",
+      "reasoning": "max",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "workspace": "C:\\repos\\eval-c1-csvledger-codex-20261023T192610Z-e3ec171a",
+  "config_directory": "C:\\repos\\.eval-cfg-codex-20261023T192610Z-e3ec171a",
+  "seed_sha": "3f3ad514be498aa5824e19cd5472f574423d674a",
+  "session_id": "73faee10-8549-4075-95b3-7f55cfe2adf1",
+  "started_utc": "2026-10-23T19:26:14.2921592Z",
+  "ended_utc": "2026-10-23T19:26:21.0030773Z",
+  "wall_time_s": 7,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "reasoning": 0,
+    "total": 0,
+    "cost_usd_estimate": null
+  },
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 3,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 118,
+    "passed": 0,
+    "failed": 0,
+    "errors": 118,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 0,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "497475111c1bf56e857c2aac3f1bffcd2f1831baa1f00f2114ed1b527cb8914b",
+    "session": "4cc7305f8e36e23f7c930a7c470bc918fc35ab07b158c5daf770d42eea7d0afd"
+  },
+  "interventions": 0,
+  "token_ceiling": 12000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "incomplete",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "a3ec0152425b4d92a7390837cc04730cb2d85f755ff55ebcb91ed7fa0c6d0478",
+  "mock_agent": true,
+  "runtime_toolchain_verified": true,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "over_token_ceiling": false,
+  "trace_complete": false,
+  "trace_errors": [
+    "Missing task_complete: 73faee10-8549-4075-95b3-7f55cfe2adf1",
+    "No usable rollout events"
+  ]
+}

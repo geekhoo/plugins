@@ -1,0 +1,45 @@
+{
+  "type": "mock_summary",
+  "checks": [
+    {
+      "name": "env",
+      "passed": true,
+      "detail": "isolated homes, writable TMPDIR, no evals export; explicit denied paths checked"
+    },
+    {
+      "name": "skills",
+      "passed": true,
+      "detail": "12 skill files and 6 registered roles readable (not native discovery proof)"
+    },
+    {
+      "name": "guard",
+      "passed": true,
+      "detail": "frozen patch warns, notes patch remains mutable; bridge invoked directly"
+    },
+    {
+      "name": "pwsh",
+      "passed": true,
+      "detail": "PowerShell output and exit 7 preserved"
+    },
+    {
+      "name": "python",
+      "passed": true,
+      "detail": "PATH Python executes real pytest with writable tmp_path"
+    },
+    {
+      "name": "git",
+      "passed": true,
+      "detail": "workspace trusted; disposable scratch commit has neutral identity"
+    },
+    {
+      "name": "mcp",
+      "passed": true,
+      "detail": "initialize, tools/list and geeky_check_commit tools/call responded"
+    }
+  ],
+  "passed": true,
+  "ok": true,
+  "model_calls": 0,
+  "tokens": 0,
+  "thread_id": "a52a9bb0-c4ff-4795-bea0-8422fff921ce"
+}

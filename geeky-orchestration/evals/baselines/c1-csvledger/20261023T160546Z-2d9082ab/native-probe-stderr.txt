@@ -1,0 +1,10 @@
+note: --isolated without CLAUDE_CODE_OAUTH_TOKEN / ANTHROPIC_API_KEY on the host; claude will report 'Not logged in'.
+Traceback (most recent call last):
+  File "C:\repos\.eval-cfg-codex-20261023T160546Z-2d9082ab\native-probe.py", line 229, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\repos\.eval-cfg-codex-20261023T160546Z-2d9082ab\native-probe.py", line 101, in main
+    trust_override = resolve_hook_trust(a.codex, profile['codex_config_overrides'], a.workspace, a.output)
+  File "C:\repos\.eval-cfg-codex-20261023T160546Z-2d9082ab\native-probe.py", line 63, in resolve_hook_trust
+    raise RuntimeError('Expected exactly one vetted native guard hook')
+RuntimeError: Expected exactly one vetted native guard hook

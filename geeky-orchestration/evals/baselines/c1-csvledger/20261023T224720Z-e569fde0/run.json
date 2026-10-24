@@ -1,0 +1,68 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c1-csvledger",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "approach": "canonical-prompt",
+  "plugin_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "worker_model": "gpt-6.1-sol",
+  "worker_reasoning": "medium",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "xhigh",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "workspace": "C:\\repos\\eval-c1-csvledger-codex-20261023T224720Z-e569fde0",
+  "config_directory": "C:\\repos\\.eval-cfg-codex-20261023T224720Z-e569fde0",
+  "seed_sha": "0349ffac6ee7cdcab5f948f412290bfd0e6a39cc",
+  "session_id": null,
+  "started_utc": null,
+  "ended_utc": null,
+  "wall_time_s": null,
+  "tokens": null,
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": null,
+  "loc": null,
+  "commits": 0,
+  "exit_code": null,
+  "exit_reason": "prepared",
+  "is_error": false,
+  "raw_sha256": null,
+  "interventions": 0,
+  "token_ceiling": 12000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "awaiting-rollout",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "3ecf544c5b30610943cd9d94fd840f609990190e4ba8a92791eddd39e800cec5",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "reviewer_reasoning": "xhigh"
+}

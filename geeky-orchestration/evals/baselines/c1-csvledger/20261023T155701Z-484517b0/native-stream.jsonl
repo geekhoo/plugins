@@ -1,0 +1,12 @@
+{"type":"thread.started","thread_id":"01a1697c-8289-7391-9e8a-12ea365bd114"}
+{"type":"item.completed","item":{"id":"item_0","type":"error","message":"`--dangerously-bypass-hook-trust` is enabled. Enabled hooks may run without review for this invocation."}}
+{"type":"item.completed","item":{"id":"item_1","type":"error","message":"`[features].codex_hooks` is deprecated. Use `[features].hooks` instead. (Enable it with `--enable hooks` or `[features].hooks` in config.toml. See https://developers.openai.com/codex/config-basic#feature-flags for details.)"}}
+{"type":"item.completed","item":{"id":"item_2","type":"error","message":"`--dangerously-bypass-hook-trust` is enabled. Enabled hooks may run without review for this invocation."}}
+{"type":"item.completed","item":{"id":"item_3","type":"error","message":"Code Mode is unavailable because failed to spawn code-mode host C:\\repos\\.eval-tools\\codex\\0.164.0\\codex-code-mode-host.exe: host executable was not found. Code mode will fail closed; enable `features.code_mode_host` and install `codex-code-mode-host`."}}
+{"type":"turn.started"}
+{"type":"item.started","item":{"id":"item_4","type":"file_change","changes":[{"path":"C:\\repos\\eval-c1-csvledger-codex-20261023T155701Z-484517b0\\docs\\spec-001-feature\\draft.md","kind":"add"}],"status":"in_progress"}}
+{"type":"item.completed","item":{"id":"item_4","type":"file_change","changes":[{"path":"C:\\repos\\eval-c1-csvledger-codex-20261023T155701Z-484517b0\\docs\\spec-001-feature\\draft.md","kind":"add"}],"status":"completed"}}
+{"type":"item.started","item":{"id":"item_5","type":"command_execution","command":"\"C:\\\\Users\\\\gerald.khoo\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -NoProfile -Command \"Write-Output 'CP2_NATIVE_EXEC_OK'\"","aggregated_output":"","exit_code":null,"status":"in_progress"}}
+{"type":"item.completed","item":{"id":"item_5","type":"command_execution","command":"\"C:\\\\Users\\\\gerald.khoo\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -NoProfile -Command \"Write-Output 'CP2_NATIVE_EXEC_OK'\"","aggregated_output":"CP2_NATIVE_EXEC_OK\r\n","exit_code":0,"status":"completed"}}
+{"type":"item.completed","item":{"id":"item_6","type":"agent_message","text":"CP2_NATIVE_OK"}}
+{"type":"turn.completed","usage":{"input_tokens":0,"cached_input_tokens":0,"cache_write_input_tokens":0,"output_tokens":0,"reasoning_output_tokens":0}}

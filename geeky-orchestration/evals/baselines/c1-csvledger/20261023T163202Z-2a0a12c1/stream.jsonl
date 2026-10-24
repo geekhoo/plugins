@@ -1,0 +1,18 @@
+{"type": "thread.started", "thread_id": "bf992ffd-58f1-4486-92ba-708464faf7d5"}
+{"type": "turn.started"}
+{"type": "mock_check", "name": "env", "passed": true, "detail": "isolated homes, writable TMPDIR, no evals export; explicit denied paths checked"}
+{"type": "item.completed", "item": {"id": "mock-env", "type": "agent_message", "text": "Mock env: PASS"}}
+{"type": "mock_check", "name": "skills", "passed": true, "detail": "12 skill files and 6 registered roles readable (not native discovery proof)"}
+{"type": "item.completed", "item": {"id": "mock-skills", "type": "agent_message", "text": "Mock skills: PASS"}}
+{"type": "mock_check", "name": "guard", "passed": true, "detail": "frozen patch warns, notes patch remains mutable; bridge invoked directly"}
+{"type": "item.completed", "item": {"id": "mock-guard", "type": "agent_message", "text": "Mock guard: PASS"}}
+{"type": "mock_check", "name": "pwsh", "passed": true, "detail": "PowerShell output and exit 7 preserved"}
+{"type": "item.completed", "item": {"id": "mock-pwsh", "type": "agent_message", "text": "Mock pwsh: PASS"}}
+{"type": "mock_check", "name": "python", "passed": true, "detail": "PATH Python executes real pytest with writable tmp_path"}
+{"type": "item.completed", "item": {"id": "mock-python", "type": "agent_message", "text": "Mock python: PASS"}}
+{"type": "mock_check", "name": "git", "passed": true, "detail": "workspace trusted; disposable scratch commit has neutral identity"}
+{"type": "item.completed", "item": {"id": "mock-git", "type": "agent_message", "text": "Mock git: PASS"}}
+{"type": "mock_check", "name": "mcp", "passed": true, "detail": "initialize, tools/list and geeky_check_commit tools/call responded"}
+{"type": "item.completed", "item": {"id": "mock-mcp", "type": "agent_message", "text": "Mock mcp: PASS"}}
+{"type": "mock_summary", "checks": [{"name": "env", "passed": true, "detail": "isolated homes, writable TMPDIR, no evals export; explicit denied paths checked"}, {"name": "skills", "passed": true, "detail": "12 skill files and 6 registered roles readable (not native discovery proof)"}, {"name": "guard", "passed": true, "detail": "frozen patch warns, notes patch remains mutable; bridge invoked directly"}, {"name": "pwsh", "passed": true, "detail": "PowerShell output and exit 7 preserved"}, {"name": "python", "passed": true, "detail": "PATH Python executes real pytest with writable tmp_path"}, {"name": "git", "passed": true, "detail": "workspace trusted; disposable scratch commit has neutral identity"}, {"name": "mcp", "passed": true, "detail": "initialize, tools/list and geeky_check_commit tools/call responded"}], "passed": true, "ok": true, "model_calls": 0, "tokens": 0, "thread_id": "bf992ffd-58f1-4486-92ba-708464faf7d5"}
+{"type": "turn.completed", "usage": {"input_tokens": 0, "cached_input_tokens": 0, "output_tokens": 0}}
