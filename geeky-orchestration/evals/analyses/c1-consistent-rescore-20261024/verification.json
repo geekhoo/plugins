@@ -1,0 +1,52 @@
+{
+  "verified_utc": "2026-10-23T21:08:07.897835+00:00",
+  "plugin_head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "final_offline_suite": {
+    "passed": 306,
+    "subtests_passed": 32,
+    "skipped": 0,
+    "seconds": 153.33,
+    "exit_code": 0,
+    "environment_proofs_enabled": [
+      "CODEX_NATIVE_PROOF",
+      "CODEX_STAGE_PROOF",
+      "CODEX_RUN2_SOURCE"
+    ]
+  },
+  "final_four_replay": {
+    "source_stable": true,
+    "all_process_complete": true,
+    "all_judgements_resolved": true,
+    "cached_task_commands": 27,
+    "case_validation_commands_executed": 0,
+    "expected_implementation_commit_rows": [
+      2,
+      4,
+      11,
+      14
+    ],
+    "codex1_review_rounds": {
+      "T1": 1,
+      "T2": 2
+    }
+  },
+  "originals": {
+    "files": 206,
+    "mismatches": []
+  },
+  "final_sources": {
+    "files": 8,
+    "mismatches": []
+  },
+  "self_evaluation": "run2-self-evaluation.md",
+  "historical_six": {
+    "report": "historical-six-qualified.json",
+    "all_numeric_results_match": true,
+    "source_stability": false,
+    "reason": "final fixes landed during this additional replay; not authoritative frozen proof"
+  },
+  "paid_contestant_runs": 0,
+  "paid_judge_calls": 0,
+  "repository_commits": 0,
+  "pushes": 0
+}

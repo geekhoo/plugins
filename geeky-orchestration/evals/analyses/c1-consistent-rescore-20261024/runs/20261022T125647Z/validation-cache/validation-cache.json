@@ -1,0 +1,353 @@
+{
+  "schema": "geeky-eval.validation-cache/1",
+  "run": "20261022T125647Z",
+  "source_bundle_sha256": "881f98b241fa733356babce0c0cb538649f55089135edf761d58c8fa86d02264",
+  "bundle_head": "ebac703d670b30bbf25f2c39c7fe58cfff6dd214",
+  "source_run": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z",
+  "entries": [
+    {
+      "task": "T1",
+      "commit": "e121079b6769a52250ee0023f6a4fbf7c99a87a0",
+      "task_file": "docs/spec-001-feature/tasks/T1-project-skeleton.md",
+      "task_file_sha256": "52464823f267c1f1bb792d35588cc73d2a82774278e843b8483d84b41937a7a5",
+      "task_git_blob": "9c430399556f57b7a2b85bcf8ac0753f1725a03f",
+      "command": "python -m pytest -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T1/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T1/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest -q"
+      },
+      "stdout_path": "00-T1-stdout.txt",
+      "stdout_sha256": "f5a4c6ffafcce49edd1a5c9ce9980df0de02333d9353138f7e8076dd2b48b73a",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T1",
+      "commit": "e121079b6769a52250ee0023f6a4fbf7c99a87a0",
+      "task_file": "docs/spec-001-feature/tasks/T1-project-skeleton.md",
+      "task_file_sha256": "52464823f267c1f1bb792d35588cc73d2a82774278e843b8483d84b41937a7a5",
+      "task_git_blob": "9c430399556f57b7a2b85bcf8ac0753f1725a03f",
+      "command": "python -m csvledger",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T1/results/1",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T1/results/1/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m csvledger"
+      },
+      "stdout_path": "01-T1-stdout.txt",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T2",
+      "commit": "fecf7a27260a9c13d5c7ab472a4cafa7901acf75",
+      "task_file": "docs/spec-001-feature/tasks/T2-shared-csv-reader.md",
+      "task_file_sha256": "cfac992bdc80adfa6b57c471d246c041c99581fa506c5faae711ce032c10e636",
+      "task_git_blob": "31d39e2511afa0653198339a65dfc098b6b0ed7e",
+      "command": "python -m pytest tests/test_csvio.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T2/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T2/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_csvio.py -q"
+      },
+      "stdout_path": "02-T2-stdout.txt",
+      "stdout_sha256": "dabd79bb1a9ea9b3ed3083a0c468c5278c2f770000d21f1dc01dbe235cc15f6c",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T3",
+      "commit": "776644523d393b313b5119d2da62b481d29accc9",
+      "task_file": "docs/spec-001-feature/tasks/T3-money-and-table-helpers.md",
+      "task_file_sha256": "8bc310b95cb59fe494ce76b757a90be874c792fdcce88167f30ee1b523716a37",
+      "task_git_blob": "d332ad94bb53c8b643ace20e671675620c6ca6b8",
+      "command": "python -m pytest tests/test_money.py tests/test_formatting.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T3/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T3/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_money.py tests/test_formatting.py -q"
+      },
+      "stdout_path": "03-T3-stdout.txt",
+      "stdout_sha256": "e9133f9225d4f1ca98a1f8442e932ef8b52767452b59c1dfd48397f66b27d62b",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T4",
+      "commit": "5cc9d82d61b4008630b6f8b4c8d5dc129cf1ee8b",
+      "task_file": "docs/spec-001-feature/tasks/T4-transaction-parsing.md",
+      "task_file_sha256": "3d3eca0d0bdf17ed2db3246c2df57c4e813f43eb461fea04b10825f087c48409",
+      "task_git_blob": "ce6de1a5e2bb0e205117377802d1a47803357d18",
+      "command": "python -m pytest tests/test_transactions.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T4/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T4/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_transactions.py -q"
+      },
+      "stdout_path": "04-T4-stdout.txt",
+      "stdout_sha256": "fb5a4033d1a591b9d9fe2bb42e164408629c7f3db069adb3ae1dfc82b804892a",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T5",
+      "commit": "73f846f3771e0c05056f5c22e8a7f5150092ab2a",
+      "task_file": "docs/spec-001-feature/tasks/T5-rules-parsing-and-matching.md",
+      "task_file_sha256": "4f2f476f1079996dd2befec3bb8b056ff52e5575ecb8c4f2abe6120c22687f0f",
+      "task_git_blob": "6cfcdf125d4c44fa8ac90529a4ddd8d01bb8ef7e",
+      "command": "python -m pytest tests/test_rules.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T5/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T5/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_rules.py -q"
+      },
+      "stdout_path": "05-T5-stdout.txt",
+      "stdout_sha256": "e375da1dc1a5304cb00d11461b34c9b37e5965ab07fd57416f5c6f7987aa05b7",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T6",
+      "commit": "993c9a921aa459b7072d3250165ffc772b5d6be4",
+      "task_file": "docs/spec-001-feature/tasks/T6-dedupe-and-month-filter.md",
+      "task_file_sha256": "f462ad0ead526da130e00146cefaf1013d1f41f5f26c5f9c0db73de6a121f1bd",
+      "task_git_blob": "4a7bd24e103abeb5d315392c0c62058b0fca7260",
+      "command": "python -m pytest tests/test_dedupe.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T6/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T6/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_dedupe.py -q"
+      },
+      "stdout_path": "06-T6-stdout.txt",
+      "stdout_sha256": "4286f4ef9c598c3055f72684dd6507336ac95eb975a0cf2e69216ffeedb4b9fb",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T7",
+      "commit": "03fb2f095d2e635c68431f92d1baafcfd3fd6c1d",
+      "task_file": "docs/spec-001-feature/tasks/T7-aggregation-and-renderers.md",
+      "task_file_sha256": "d23f8b63f5fcd2a7c2999cc44a659c4ed2ef3284a5a7652d3cc7cf7110ebbe7a",
+      "task_git_blob": "1a3e583ad2fc871a908977ca1768f86792ab80c7",
+      "command": "python -m pytest tests/test_aggregate.py tests/test_render.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T7/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T7/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_aggregate.py tests/test_render.py -q"
+      },
+      "stdout_path": "07-T7-stdout.txt",
+      "stdout_sha256": "6cc1308f9b078a1cf4f0e8fa8741bc40424c283437d075b28c022df0c59d1779",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T8",
+      "commit": "7d746865cd7345db64c5cae13385398ca17176b3",
+      "task_file": "docs/spec-001-feature/tasks/T8-cli-wiring.md",
+      "task_file_sha256": "784fcaf18d665027eee3d6639097377282ee41e46ab66cb7b847018eaaecae92",
+      "task_git_blob": "25f1b2535e26457a68c477fd5b7330b58f314369",
+      "command": "python -m pytest tests/test_cli.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T8/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T8/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_cli.py -q"
+      },
+      "stdout_path": "08-T8-stdout.txt",
+      "stdout_sha256": "f1490187f7fe2e1cea7f335d34eab08cda5029a2e32d39f0cde341b740e89bf0",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T9",
+      "commit": "44184c9dee965b315d177ebdb147c9ae1bcf4cf4",
+      "task_file": "docs/spec-001-feature/tasks/T9-oracle-and-acceptance-tests.md",
+      "task_file_sha256": "b7b1db8fcf6202ec4e3e82d84413b3fb8c7e6bc375084330399a7ead45ef0eda",
+      "task_git_blob": "2b6eaa54bc54b382aba17d15d070bc4f9ae26516",
+      "command": "python -m pytest tests/test_oracles.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T9/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T9/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_oracles.py -q"
+      },
+      "stdout_path": "09-T9-stdout.txt",
+      "stdout_sha256": "942b43d48cb387a943d1ebc0dc1f1dd417eb4e0abd897d533c7679fd19ed0786",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T10",
+      "commit": "9a728863c2fe9b9f0e58c7a05ccdc2a9fdd7e43e",
+      "task_file": "docs/spec-001-feature/tasks/T10-error-and-edge-case-tests.md",
+      "task_file_sha256": "521ccb6faece8119a409c5d3b27e24846cafe26e2ced8b081f2a4f0eacbc960c",
+      "task_git_blob": "f79789ef396fdb4b3a4746fa1ffc113577b33c78",
+      "command": "python -m pytest tests/test_errors_e2e.py -q",
+      "exit_code": 0,
+      "output_scope": "tail",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/score.json",
+        "sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+        "record_pointer": "/rerun_results/T10/results/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z\\score.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/rerun_results/T10/results/0/tail"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_errors_e2e.py -q"
+      },
+      "stdout_path": "10-T10-stdout.txt",
+      "stdout_sha256": "a4754cdaa1425b76e18d9c69500c1cf2a13ab5f3519a6e57dec99d5930b4fd6b",
+      "stderr_path": null,
+      "stderr_sha256": null
+    }
+  ],
+  "created_utc": "2026-10-23T20:49:12.969696+00:00",
+  "final_checks_excluded": true,
+  "test_commands_executed": 0
+}

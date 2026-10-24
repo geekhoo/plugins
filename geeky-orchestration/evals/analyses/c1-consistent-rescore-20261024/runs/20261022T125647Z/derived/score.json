@@ -1,0 +1,1437 @@
+{
+  "schema": "geeky-eval.score/1",
+  "run": "20261022T125647Z",
+  "case": "c1-csvledger",
+  "plugin_sha": "e5729028047e2ebfd1f752834823458fab5d8ef1",
+  "harness": "claude-code",
+  "model": "claude-sonnet-5-5",
+  "scored_utc": "2026-10-23T21:02:50Z",
+  "scorer": "evals/scripts/score-run.py",
+  "workspace": "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261022T125647Z",
+  "workspace_source": "given",
+  "planning_folder": "docs/spec-001-feature",
+  "validation_rerun": false,
+  "validation_evidence": "reused recorded results",
+  "manual_file_used": true,
+  "composite": 97.89164053124497,
+  "process_completeness": {
+    "required": true,
+    "complete": true,
+    "missing": []
+  },
+  "formula_composite_noncomparable": null,
+  "dimensions": {
+    "quality": {
+      "score": 97.82051282051282,
+      "P": 1.0,
+      "S": 0.8547008547008547,
+      "D": 1.0,
+      "defects": 0,
+      "evidence": {
+        "P": "oracle 118/118 (collected 118, skipped 0)",
+        "S": "min(1, 300 / 351 non-test LOC)",
+        "D": "11/11 validation commands pass at each task's commit"
+      },
+      "capped": 97.82051282051282
+    },
+    "adherence": {
+      "passed": 80,
+      "applicable": 81,
+      "score": 98.76543209876543,
+      "needs_judge": [],
+      "capped": 98.76543209876543
+    },
+    "consistency": {
+      "score": 100.0,
+      "DPC": 1.0,
+      "DPC_fraction": "21/21",
+      "OC": 1.0,
+      "observed_sequence": [
+        "spec-research",
+        "geeky-plan",
+        "plan-review",
+        "geeky-implement",
+        "impl-review"
+      ],
+      "needs_judge": []
+    },
+    "task_tier": {
+      "score": 90.86559809497594,
+      "L_run_ms": 2832,
+      "L_ref_ms": 2678,
+      "task_timeout_s": 1200
+    }
+  },
+  "hard_gates": [
+    {
+      "id": "hg.oracle",
+      "fired": false,
+      "effect": "Quality <= 40",
+      "kind": "det"
+    },
+    {
+      "id": "hg.frozen",
+      "fired": false,
+      "effect": "Adherence <= 30",
+      "kind": "det"
+    },
+    {
+      "id": "hg.forbidden_git",
+      "fired": false,
+      "effect": "Adherence = 0",
+      "kind": "det"
+    },
+    {
+      "id": "hg.false_completion_claim",
+      "fired": false,
+      "effect": "Adherence <= 50",
+      "kind": "judge",
+      "status": "manual: every completion claim is true (D8)"
+    }
+  ],
+  "tasks": [
+    {
+      "task": "T1",
+      "attempts": 1,
+      "attempt_calls": [
+        109
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 109,
+      "rerun_ok": true,
+      "V": 1.0,
+      "review_rounds": 2,
+      "R": 0.5,
+      "d_s": 468.6,
+      "T": 0.6307490007062146,
+      "D": 1.0,
+      "s": 77.61498001412428,
+      "LOC": 65.0,
+      "w": 0.04857723577235772
+    },
+    {
+      "task": "T2",
+      "attempts": 1,
+      "attempt_calls": [
+        138
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 138,
+      "rerun_ok": true,
+      "V": 1.0,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 102.0,
+      "T": 0.9195827742467043,
+      "D": 1.0,
+      "s": 98.39165548493408,
+      "LOC": 156.0,
+      "w": 0.06991869918699187
+    },
+    {
+      "task": "T3",
+      "attempts": 2,
+      "attempt_calls": [
+        162,
+        164
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 164,
+      "rerun_ok": true,
+      "V": 0.75,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 150.8,
+      "T": 0.8811929066619586,
+      "D": 1.0,
+      "s": 87.62385813323917,
+      "LOC": 193.0,
+      "w": 0.11192933083176985
+    },
+    {
+      "task": "T4",
+      "attempts": 2,
+      "attempt_calls": [
+        220,
+        222
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 222,
+      "rerun_ok": true,
+      "V": 0.75,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 73.4,
+      "T": 0.9421618508709981,
+      "D": 1.0,
+      "s": 88.84323701741998,
+      "LOC": 144.0,
+      "w": 0.10043777360850531
+    },
+    {
+      "task": "T5",
+      "attempts": 2,
+      "attempt_calls": [
+        219,
+        249
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 249,
+      "rerun_ok": true,
+      "V": 0.75,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 178.8,
+      "T": 0.859076396539548,
+      "D": 1.0,
+      "s": 87.18152793079096,
+      "LOC": 221.0,
+      "w": 0.1184959349593496
+    },
+    {
+      "task": "T6",
+      "attempts": 1,
+      "attempt_calls": [
+        277
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 277,
+      "rerun_ok": true,
+      "V": 1.0,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 44.7,
+      "T": 0.9647850564971752,
+      "D": 1.0,
+      "s": 99.2957011299435,
+      "LOC": 90.0,
+      "w": 0.05444027517198249
+    },
+    {
+      "task": "T7",
+      "attempts": 2,
+      "attempt_calls": [
+        280,
+        281
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 281,
+      "rerun_ok": true,
+      "V": 0.75,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 92.9,
+      "T": 0.9268073222693032,
+      "D": 1.0,
+      "s": 88.53614644538607,
+      "LOC": 264.0,
+      "w": 0.1285803627267042
+    },
+    {
+      "task": "T8",
+      "attempts": 2,
+      "attempt_calls": [
+        342,
+        344
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 344,
+      "rerun_ok": true,
+      "V": 0.75,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 113.2,
+      "T": 0.9107593379237289,
+      "D": 1.0,
+      "s": 88.21518675847459,
+      "LOC": 264.0,
+      "w": 0.1285803627267042
+    },
+    {
+      "task": "T9",
+      "attempts": 1,
+      "attempt_calls": [
+        399
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 399,
+      "rerun_ok": true,
+      "V": 1.0,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 227.2,
+      "T": 0.8209323905367232,
+      "D": 1.0,
+      "s": 96.41864781073446,
+      "LOC": 291.0,
+      "w": 0.1015791119449656
+    },
+    {
+      "task": "T10",
+      "attempts": 1,
+      "attempt_calls": [
+        403
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 403,
+      "rerun_ok": true,
+      "V": 1.0,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 239.3,
+      "T": 0.8114588394538607,
+      "D": 1.0,
+      "s": 96.22917678907721,
+      "LOC": 444.0,
+      "w": 0.13746091307066916
+    }
+  ],
+  "phases": {
+    "P1": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "P2": [
+      "T4",
+      "T5",
+      "T6",
+      "T7"
+    ],
+    "P3": [
+      "T8"
+    ],
+    "P4": [
+      "T9",
+      "T10"
+    ]
+  },
+  "decision_points": [
+    {
+      "id": "dp01",
+      "name": "Research team: 3 parallel researchers",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "3 dispatches, max 3 concurrent"
+    },
+    {
+      "id": "dp02",
+      "name": "Spec commit, prescribed message",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.spec"
+    },
+    {
+      "id": "dp03",
+      "name": "PM review artifact",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "name": "Plan-review subagents, phases 1 and 3",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "2 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "name": "Plan-review commit, exact message",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.plan_review"
+    },
+    {
+      "id": "dp07",
+      "name": "Batching <=3 parallel, justification noted",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "max 2 concurrent coders; justification: max 2 concurrent coders; T4/T5, T6/T7, T9/T10 notes record no dependency and disjoint files"
+    },
+    {
+      "id": "dp08",
+      "name": "In Progress lane move with timestamp",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "no In Progress move: none"
+    },
+    {
+      "id": "dp09",
+      "name": "Task review, per task",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "not reviewed: none"
+    },
+    {
+      "id": "dp10",
+      "name": "DoD + kanban gates before Done (D86)",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "failing: none"
+    },
+    {
+      "id": "dp11",
+      "name": "Phase verdict from a phase review",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "failing phases: none"
+    },
+    {
+      "id": "dp12",
+      "name": "Commit gate ran before each commit (D79)",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "14 geeky-implement commits each preceded by check-commit"
+    },
+    {
+      "id": "dp13",
+      "name": "One concern per commit, per phase",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "manual: per-task feat/test commits and a docs commit per phase"
+    },
+    {
+      "id": "dp14",
+      "name": "Handoff at each Done move (D82)",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "failing: none"
+    },
+    {
+      "id": "dp15",
+      "name": "Run Summary appended",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "see adh.run_summary"
+    },
+    {
+      "id": "dp16",
+      "name": "Final review: 3 domain reviewers",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "3 impl-review reviewer dispatches"
+    },
+    {
+      "id": "dp17a",
+      "name": "Re-review after a critical fix",
+      "weight": 1,
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp17b",
+      "name": "Fix commit, prescribed message",
+      "weight": 1,
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp18",
+      "name": ".heartbeat finalized",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "see adh.heartbeat_final"
+    }
+  ],
+  "checks": [
+    {
+      "id": "adh.planning_folder",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 10 task file(s) found."
+    },
+    {
+      "id": "adh.task_schema",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "OK: 10 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "adh.kanban_final",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "OK: 10 task(s) tracked, 10 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=10"
+    },
+    {
+      "id": "adh.dod.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "adh.dod.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T2"
+    },
+    {
+      "id": "adh.dod.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T3"
+    },
+    {
+      "id": "adh.dod.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T4"
+    },
+    {
+      "id": "adh.dod.T5",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T5"
+    },
+    {
+      "id": "adh.dod.T6",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T6"
+    },
+    {
+      "id": "adh.dod.T7",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T7"
+    },
+    {
+      "id": "adh.dod.T8",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T8"
+    },
+    {
+      "id": "adh.dod.T9",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T9"
+    },
+    {
+      "id": "adh.dod.T10",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T10"
+    },
+    {
+      "id": "adh.handoff_batch.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 127; handoff naming T1 in call 127"
+    },
+    {
+      "id": "adh.handoff_batch.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 147; handoff naming T2 in call 147"
+    },
+    {
+      "id": "adh.handoff_batch.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 175; handoff naming T3 in call 175"
+    },
+    {
+      "id": "adh.handoff_batch.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 256; handoff naming T4 in call 256"
+    },
+    {
+      "id": "adh.handoff_batch.T5",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 256; handoff naming T5 in call 256"
+    },
+    {
+      "id": "adh.handoff_batch.T6",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 302; handoff naming T6 in call 302"
+    },
+    {
+      "id": "adh.handoff_batch.T7",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 302; handoff naming T7 in call 302"
+    },
+    {
+      "id": "adh.handoff_batch.T8",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 366; handoff naming T8 in call 366"
+    },
+    {
+      "id": "adh.handoff_batch.T9",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 421; handoff naming T9 in call 421"
+    },
+    {
+      "id": "adh.handoff_batch.T10",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 421; handoff naming T10 in call 421"
+    },
+    {
+      "id": "adh.notes.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T1-project-skeleton.notes.md"
+    },
+    {
+      "id": "adh.notes.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T2-shared-csv-reader.notes.md"
+    },
+    {
+      "id": "adh.notes.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T3-money-and-table-helpers.notes.md"
+    },
+    {
+      "id": "adh.notes.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T4-transaction-parsing.notes.md"
+    },
+    {
+      "id": "adh.notes.T5",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T5-rules-parsing-and-matching.notes.md"
+    },
+    {
+      "id": "adh.notes.T6",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T6-dedupe-and-month-filter.notes.md"
+    },
+    {
+      "id": "adh.notes.T7",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T7-aggregation-and-renderers.notes.md"
+    },
+    {
+      "id": "adh.notes.T8",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T8-cli-wiring.notes.md"
+    },
+    {
+      "id": "adh.notes.T9",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T9-oracle-and-acceptance-tests.notes.md"
+    },
+    {
+      "id": "adh.notes.T10",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T10-error-and-edge-case-tests.notes.md"
+    },
+    {
+      "id": "adh.task_review.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 111 'Review T1' (description) not PASS; call 176 'Phase 1 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.task_review.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 140 'Review T2' (description) PASS; call 176 'Phase 1 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.task_review.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 166 'Review T3' (description) PASS; call 176 'Phase 1 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.task_review.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 176 'Phase 1 review' (prompt) PASS; call 224 'Review T4' (description) PASS; call 303 'Phase 2 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.task_review.T5",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 176 'Phase 1 review' (prompt) PASS; call 225 'Review T5' (description) not PASS; call 250 'Re-review T5 fix' (description) PASS; call 303 'Phase 2 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.task_review.T6",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 176 'Phase 1 review' (prompt) PASS; call 283 'Review T6' (description) PASS; call 303 'Phase 2 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.task_review.T7",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 176 'Phase 1 review' (prompt) PASS; call 284 'Review T7' (description) PASS; call 303 'Phase 2 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.task_review.T8",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 303 'Phase 2 review' (prompt) PASS; call 346 'Review T8' (description) PASS; call 367 'Phase 3 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.task_review.T9",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 408 'Review T9' (description) PASS; call 422 'Phase 4 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.task_review.T10",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 409 'Review T10' (description) PASS; call 422 'Phase 4 review' (prompt) PASS"
+    },
+    {
+      "id": "adh.phase_verdict.P1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "phase P1 ['T1', 'T2', 'T3']: reviewer call 176; READY TO ADVANCE recorded: handoff.md"
+    },
+    {
+      "id": "adh.phase_verdict.P2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "phase P2 ['T4', 'T5', 'T6', 'T7']: reviewer call 176; READY TO ADVANCE recorded: handoff.md"
+    },
+    {
+      "id": "adh.phase_verdict.P3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "phase P3 ['T8']: reviewer call 303; READY TO ADVANCE recorded: handoff.md"
+    },
+    {
+      "id": "adh.phase_verdict.P4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "phase P4 ['T9', 'T10']: reviewer call 422; READY TO ADVANCE recorded: handoff.md"
+    },
+    {
+      "id": "adh.gates_before_done.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 127; last code edit None; check-dod runs [(127, True)]"
+    },
+    {
+      "id": "adh.gates_before_done.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 147; last code edit 137; check-dod runs [(147, True)]"
+    },
+    {
+      "id": "adh.gates_before_done.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 175; last code edit 163; check-dod runs [(175, True)]"
+    },
+    {
+      "id": "adh.gates_before_done.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 256; last code edit 221; check-dod runs [(256, True)]"
+    },
+    {
+      "id": "adh.gates_before_done.T5",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 256; last code edit 248; check-dod runs [(256, True)]"
+    },
+    {
+      "id": "adh.gates_before_done.T6",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 302; last code edit 276; check-dod runs [(256, None), (302, True)]; hidden verdict resolved by final check-dod"
+    },
+    {
+      "id": "adh.gates_before_done.T7",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 302; last code edit 279; check-dod runs [(256, None), (302, True)]; hidden verdict resolved by final check-dod"
+    },
+    {
+      "id": "adh.gates_before_done.T8",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 366; last code edit 364; check-dod runs [(366, True)]"
+    },
+    {
+      "id": "adh.gates_before_done.T9",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 421; last code edit 405; check-dod runs [(421, True)]"
+    },
+    {
+      "id": "adh.gates_before_done.T10",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 421; last code edit 402; check-dod runs [(421, True)]"
+    },
+    {
+      "id": "adh.kanban_after_moves",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "20 lane-move calls; without validate-kanban: [128, 139, 165, 223, 282, 345, 407]"
+    },
+    {
+      "id": "adh.commit_msg.e121079",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(foundations): add package skeleton, error type and test: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.fecf7a2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(foundations): add shared CSV reader with header and row: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.7766445",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(foundations): add exact money handling and table render: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.9612aad",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "docs(foundations): record phase 1 notes, kanban and handoff: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.5cc9d82",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(domain): add transaction file parsing and validation: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.73f846f",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(domain): add rules parsing and category matching: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.993c9a9",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(domain): add duplicate removal and month filter: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.03fb2f0",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(domain): add aggregation and report/categorize renderer: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.fae8e42",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "docs(domain): record phase 2 notes, kanban and handoff: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.7d74686",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(cli): wire argparse CLI, orchestration, streams and exi: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.4508bd7",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "docs(cli): record phase 3 notes, kanban and handoff: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.44184c9",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "test(verification): add byte-exact oracle and acceptance tes: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.9a72886",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "test(verification): add error-table and edge-case end-to-end: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.a33a962",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "docs(verification): record phase 4 notes, kanban and run sum: OK: commit message valid."
+    },
+    {
+      "id": "adh.prescribed_msg.spec",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "docs: author feature specification in spec-001-feature"
+    },
+    {
+      "id": "adh.prescribed_msg.plan_review",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "chore(plan): Plan review \u2014 align documents, fix sequencing"
+    },
+    {
+      "id": "adh.prescribed_msg.critical_fix",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "na",
+      "evidence": "no critical impl-review finding"
+    },
+    {
+      "id": "adh.frozen_untouched",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "git diff 10176fa..HEAD on frozen files: empty"
+    },
+    {
+      "id": "adh.no_forbidden_git",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "no push/--force/--amend/--no-verify in tool inputs"
+    },
+    {
+      "id": "adh.one_concern_per_commit",
+      "dimension": "adherence",
+      "kind": "judge",
+      "status": "pass",
+      "evidence": "manual: one commit per task plus one docs commit per phase; 7d74686 carries T8's own review follow-up in rules.py"
+    },
+    {
+      "id": "adh.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "none"
+    },
+    {
+      "id": "adh.final_report_claims",
+      "dimension": "adherence",
+      "kind": "judge",
+      "status": "pass",
+      "evidence": "manual: 4/4 phase verdicts from code-reviewer subagents, no orchestrator code edits (D87), 232 passed, impl-review PASS: all match the records"
+    },
+    {
+      "id": "adh.heartbeat_final",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": ".heartbeat status=done"
+    },
+    {
+      "id": "adh.run_summary",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "3 dispatches, max 3 concurrent"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "2 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.plan_review"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "max 2 concurrent coders; justification: max 2 concurrent coders; T4/T5, T6/T7, T9/T10 notes record no dependency and disjoint files"
+    },
+    {
+      "id": "dp08",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "no In Progress move: none"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "not reviewed: none"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "failing: none"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "failing phases: none"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "14 geeky-implement commits each preceded by check-commit"
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "kind": "judge",
+      "status": "pass",
+      "evidence": "manual: per-task feat/test commits and a docs commit per phase"
+    },
+    {
+      "id": "dp14",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "failing: none"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "3 impl-review reviewer dispatches"
+    },
+    {
+      "id": "dp17a",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp17b",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.heartbeat_final"
+    }
+  ],
+  "needs_judge": [],
+  "rerun_results": {
+    "T1": {
+      "commit": "e121079b6769a52250ee0023f6a4fbf7c99a87a0",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest -q",
+          "exit": 0,
+          "tail": "2 passed in 0.02s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T1/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest -q"
+          }
+        },
+        {
+          "command": "python -m csvledger",
+          "exit": 0,
+          "tail": "",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T1/results/1/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m csvledger"
+          }
+        }
+      ]
+    },
+    "T2": {
+      "commit": "fecf7a27260a9c13d5c7ab472a4cafa7901acf75",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_csvio.py -q",
+          "exit": 0,
+          "tail": "13 passed in 0.11s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T2/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_csvio.py -q"
+          }
+        }
+      ]
+    },
+    "T3": {
+      "commit": "776644523d393b313b5119d2da62b481d29accc9",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_money.py tests/test_formatting.py -q",
+          "exit": 0,
+          "tail": "35 passed in 0.09s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T3/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_money.py tests/test_formatting.py -q"
+          }
+        }
+      ]
+    },
+    "T4": {
+      "commit": "5cc9d82d61b4008630b6f8b4c8d5dc129cf1ee8b",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_transactions.py -q",
+          "exit": 0,
+          "tail": "42 passed in 0.28s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T4/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_transactions.py -q"
+          }
+        }
+      ]
+    },
+    "T5": {
+      "commit": "73f846f3771e0c05056f5c22e8a7f5150092ab2a",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_rules.py -q",
+          "exit": 0,
+          "tail": "28 passed in 0.19s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T5/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_rules.py -q"
+          }
+        }
+      ]
+    },
+    "T6": {
+      "commit": "993c9a921aa459b7072d3250165ffc772b5d6be4",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_dedupe.py -q",
+          "exit": 0,
+          "tail": "10 passed in 0.07s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T6/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_dedupe.py -q"
+          }
+        }
+      ]
+    },
+    "T7": {
+      "commit": "03fb2f095d2e635c68431f92d1baafcfd3fd6c1d",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_aggregate.py tests/test_render.py -q",
+          "exit": 0,
+          "tail": "12 passed in 0.14s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T7/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_aggregate.py tests/test_render.py -q"
+          }
+        }
+      ]
+    },
+    "T8": {
+      "commit": "7d746865cd7345db64c5cae13385398ca17176b3",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_cli.py -q",
+          "exit": 0,
+          "tail": "16 passed in 3.11s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T8/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_cli.py -q"
+          }
+        }
+      ]
+    },
+    "T9": {
+      "commit": "44184c9dee965b315d177ebdb147c9ae1bcf4cf4",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_oracles.py -q",
+          "exit": 0,
+          "tail": "20 passed in 7.62s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T9/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_oracles.py -q"
+          }
+        }
+      ]
+    },
+    "T10": {
+      "commit": "9a728863c2fe9b9f0e58c7a05ccdc2a9fdd7e43e",
+      "fallback": false,
+      "basis": "first commit naming it after its Done move (phase committed after the move)",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_errors_e2e.py -q",
+          "exit": 0,
+          "tail": "54 passed in 14.23s",
+          "reused": true,
+          "output_scope": "tail",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/rerun_results/T10/results/0/tail"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": null,
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_errors_e2e.py -q"
+          }
+        }
+      ]
+    }
+  },
+  "breakdown": {
+    "tokens_total": 15509626,
+    "wall_time_s": 2463,
+    "geeky_coder_used": true,
+    "orchestrator_code_edit_calls": []
+  }
+}

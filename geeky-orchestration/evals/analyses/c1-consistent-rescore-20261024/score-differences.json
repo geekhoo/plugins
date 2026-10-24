@@ -1,0 +1,723 @@
+{
+  "20261023T182024Z-5fa13924": {
+    "original_composite": 81.70922998096911,
+    "new_composite": 96.32066818336449,
+    "dimension_changes": {
+      "quality": {
+        "before": 95.86956521739131,
+        "after": 95.86956521739131
+      },
+      "adherence": {
+        "before": 81.48148148148148,
+        "after": 100.0
+      },
+      "consistency": {
+        "before": 78.1818181818182,
+        "after": 100.0
+      },
+      "task_tier": {
+        "before": 40.0,
+        "after": 77.66320357277526
+      }
+    },
+    "changed_checks": [
+      {
+        "id": "adh.gates_before_done.T1",
+        "before": {
+          "id": "adh.gates_before_done.T1",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "Done call -; last code edit None; check-dod runs [(141, True), (142, True)]"
+        },
+        "after": {
+          "id": "adh.gates_before_done.T1",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done call 146; last code edit 119; check-dod runs [(145, True), (146, True)]"
+        }
+      },
+      {
+        "id": "adh.gates_before_done.T2",
+        "before": {
+          "id": "adh.gates_before_done.T2",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "Done call -; last code edit None; check-dod runs [(242, True), (243, True)]"
+        },
+        "after": {
+          "id": "adh.gates_before_done.T2",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done call 247; last code edit 227; check-dod runs [(246, True), (247, True)]"
+        }
+      },
+      {
+        "id": "adh.handoff_batch.T1",
+        "before": {
+          "id": "adh.handoff_batch.T1",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "no Done move found in the trace"
+        },
+        "after": {
+          "id": "adh.handoff_batch.T1",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done move call 146; handoff naming T1 in call 146"
+        }
+      },
+      {
+        "id": "adh.handoff_batch.T2",
+        "before": {
+          "id": "adh.handoff_batch.T2",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "no Done move found in the trace"
+        },
+        "after": {
+          "id": "adh.handoff_batch.T2",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done move call 247; handoff naming T2 in call 247"
+        }
+      },
+      {
+        "id": "adh.prescribed_msg.critical_fix",
+        "before": {
+          "id": "adh.prescribed_msg.critical_fix",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "na",
+          "evidence": "no critical impl-review finding"
+        },
+        "after": {
+          "id": "adh.prescribed_msg.critical_fix",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "critical findings in impl-review; fix commit: fix(spec): Address 1 critical review findings from impl-review"
+        }
+      },
+      {
+        "id": "adh.run_summary",
+        "before": {
+          "id": "adh.run_summary",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "no Run Summary heading in handoff.md"
+        },
+        "after": {
+          "id": "adh.run_summary",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Run Summary heading in handoff.md"
+        }
+      },
+      {
+        "id": "dp01",
+        "before": {
+          "id": "dp01",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "3 dispatches, max 0 concurrent"
+        },
+        "after": {
+          "id": "dp01",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "3 dispatches, max 3 concurrent"
+        }
+      },
+      {
+        "id": "dp08",
+        "before": {
+          "id": "dp08",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "no In Progress move: ['T2']"
+        },
+        "after": {
+          "id": "dp08",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "no In Progress move: none"
+        }
+      },
+      {
+        "id": "dp10",
+        "before": {
+          "id": "dp10",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "failing: ['T1', 'T2']"
+        },
+        "after": {
+          "id": "dp10",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "failing: none"
+        }
+      },
+      {
+        "id": "dp14",
+        "before": {
+          "id": "dp14",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "failing: ['T1', 'T2']"
+        },
+        "after": {
+          "id": "dp14",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "failing: none"
+        }
+      },
+      {
+        "id": "dp15",
+        "before": {
+          "id": "dp15",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "fail",
+          "evidence": "see adh.run_summary"
+        },
+        "after": {
+          "id": "dp15",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "see adh.run_summary"
+        }
+      },
+      {
+        "id": "dp17a",
+        "before": {
+          "id": "dp17a",
+          "dimension": "consistency",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: All three original final reviewers re-reviewed corrected product 663206c and returned PASS after C1: subagents/rollout-01a16a0c-d6b3-7543-bd2d-0f172cc5022f.jsonl:265 CSV; rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl:291 money; rollout-01a16a0d-1ee8-7840-8460-8d099fadedb1.jsonl:273 CLI. Initial money report:263 records critical C1/NEEDS FIXES. Reviewers reused corrected 76-test/hash evidence for affected scopes; own-history cutoffs and raw ordinals preserved in reviewer-claims-audit.json."
+        },
+        "after": {
+          "id": "dp17a",
+          "dimension": "consistency",
+          "kind": "judge",
+          "status": "pass",
+          "evidence": "manual: All three original final reviewers re-reviewed corrected product 663206c and returned PASS after C1: subagents/rollout-01a16a0c-d6b3-7543-bd2d-0f172cc5022f.jsonl:265 CSV; rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl:291 money; rollout-01a16a0d-1ee8-7840-8460-8d099fadedb1.jsonl:273 CLI. Initial money report:263 records critical C1/NEEDS FIXES. Reviewers reused corrected 76-test/hash evidence for affected scopes; own-history cutoffs and raw ordinals preserved in reviewer-claims-audit.json."
+        }
+      },
+      {
+        "id": "dp17b",
+        "before": {
+          "id": "dp17b",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "na",
+          "evidence": "no critical finding"
+        },
+        "after": {
+          "id": "dp17b",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "see adh.prescribed_msg.critical_fix"
+        }
+      },
+      {
+        "id": "review_map.130",
+        "before": {
+          "id": "review_map.130",
+          "dimension": "task_tier",
+          "kind": "judge",
+          "status": "pass",
+          "evidence": "manual: Visible dispatch names no task. reviewer-claims-audit.json binds core_phase_review / 01a16a05-718c-7862-9e67-46a7f5bac107 to T1 through its plaintext own final report and matching phase handoff."
+        },
+        "after": null
+      },
+      {
+        "id": "review_map.192",
+        "before": {
+          "id": "review_map.192",
+          "dimension": "task_tier",
+          "kind": "judge",
+          "status": "pass",
+          "evidence": "manual: Visible dispatch names no task. reviewer-claims-audit.json binds cli_phase_review / 01a16a09-75e6-7ae3-8bcf-d5fa86efce4b to T2 through its plaintext own final report and matching phase handoff."
+        },
+        "after": null
+      }
+    ]
+  },
+  "20261023T194430Z-c5e04f3f": {
+    "original_composite": 89.83333333333334,
+    "new_composite": 98.04000506482035,
+    "dimension_changes": {
+      "quality": {
+        "before": 100.0,
+        "after": 100.0
+      },
+      "adherence": {
+        "before": 96.66666666666667,
+        "after": 97.05882352941177
+      },
+      "consistency": {
+        "before": 100.0,
+        "after": 100.0
+      },
+      "task_tier": {
+        "before": 10.0,
+        "after": 90.69416829526227
+      }
+    },
+    "changed_checks": [
+      {
+        "id": "adh.commit_msg.4dc447d",
+        "before": null,
+        "after": {
+          "id": "adh.commit_msg.4dc447d",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "feat(engine): categorize and aggregate exact ledger values: OK: commit message valid."
+        }
+      },
+      {
+        "id": "adh.commit_msg.6f179ac",
+        "before": null,
+        "after": {
+          "id": "adh.commit_msg.6f179ac",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "chore(implement): record accepted phases and final handoff: OK: commit message valid."
+        }
+      },
+      {
+        "id": "adh.commit_msg.97185c1",
+        "before": null,
+        "after": {
+          "id": "adh.commit_msg.97185c1",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "feat(input): validate transaction and rule CSV files: OK: commit message valid."
+        }
+      },
+      {
+        "id": "adh.commit_msg.c39a486",
+        "before": null,
+        "after": {
+          "id": "adh.commit_msg.c39a486",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "feat(cli): deliver deterministic reports and categorization: OK: commit message valid."
+        }
+      },
+      {
+        "id": "adh.gates_before_done.T1",
+        "before": {
+          "id": "adh.gates_before_done.T1",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinals276/278 successful DoD and kanban in same Done call, accepted by existing D86 score-run operational definition. Literal order deviates: Done write occurs before DoD execution; no earlier DoD found. This PASS follows unchanged rubric, not literal pre-move compliance."
+        },
+        "after": {
+          "id": "adh.gates_before_done.T1",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done call 185; last code edit 126; check-dod runs [(184, True), (185, True)]"
+        }
+      },
+      {
+        "id": "adh.gates_before_done.T2",
+        "before": {
+          "id": "adh.gates_before_done.T2",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinals276/278 successful DoD and kanban in same Done call, accepted by existing D86 score-run operational definition. Literal order deviates: Done write occurs before DoD execution; no earlier DoD found. This PASS follows unchanged rubric, not literal pre-move compliance."
+        },
+        "after": {
+          "id": "adh.gates_before_done.T2",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done call 185; last code edit 158; check-dod runs [(184, None), (185, True)]; hidden verdict resolved by final check-dod"
+        }
+      },
+      {
+        "id": "adh.gates_before_done.T3",
+        "before": {
+          "id": "adh.gates_before_done.T3",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinals383/385 successful DoD and kanban in same Done call, accepted by existing D86 score-run operational definition. Literal order deviates: Done write occurs before DoD execution; no earlier DoD found. This PASS follows unchanged rubric, not literal pre-move compliance."
+        },
+        "after": {
+          "id": "adh.gates_before_done.T3",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done call 251; last code edit 219; check-dod runs [(250, True), (251, True)]"
+        }
+      },
+      {
+        "id": "adh.handoff_batch.T1",
+        "before": {
+          "id": "adh.handoff_batch.T1",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinal276 writes handoff naming T1 complete before Done write in same shell call; physical output ordinal278 verifies success. Parser misses nested implementation lane helpers due preread stage attribution."
+        },
+        "after": {
+          "id": "adh.handoff_batch.T1",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done move call 185; handoff naming T1 in call 185"
+        }
+      },
+      {
+        "id": "adh.handoff_batch.T2",
+        "before": {
+          "id": "adh.handoff_batch.T2",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinal276 writes handoff naming T2 complete before Done write in same shell call; physical output ordinal278 verifies success. Parser misses nested implementation lane helpers due preread stage attribution."
+        },
+        "after": {
+          "id": "adh.handoff_batch.T2",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done move call 185; handoff naming T2 in call 185"
+        }
+      },
+      {
+        "id": "adh.handoff_batch.T3",
+        "before": {
+          "id": "adh.handoff_batch.T3",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinal383 writes handoff naming T3 complete before Done write in same shell call; physical output ordinal385 verifies success. Parser misses nested implementation lane helpers due preread stage attribution."
+        },
+        "after": {
+          "id": "adh.handoff_batch.T3",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "Done move call 251; handoff naming T3 in call 251"
+        }
+      },
+      {
+        "id": "adh.kanban_after_moves",
+        "before": {
+          "id": "adh.kanban_after_moves",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl command/output ordinals139/142,199/202,245/248,276/278,283/285,356/359,383/385 verify all eleven lane moves each followed by successful kanban validation in same shell sequence."
+        },
+        "after": {
+          "id": "adh.kanban_after_moves",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "7 lane-move calls; without validate-kanban: none"
+        }
+      },
+      {
+        "id": "adh.phase_verdict.P1",
+        "before": {
+          "id": "adh.phase_verdict.P1",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: Physical own-thread reviewer 01a16a57-45f0 ordinal211 returns READY TO ADVANCE; handoff records task and phase acceptance plus reviewer ID. Automatic stage attribution wrongly places reviews under impl-review."
+        },
+        "after": {
+          "id": "adh.phase_verdict.P1",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "phase P1 ['T1', 'T2']: reviewer call 173; READY TO ADVANCE recorded: handoff.md"
+        }
+      },
+      {
+        "id": "adh.phase_verdict.P2",
+        "before": {
+          "id": "adh.phase_verdict.P2",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: Physical own-thread reviewer 01a16a5c-c0df ordinal259 returns READY TO ADVANCE; handoff records task and phase acceptance plus reviewer ID. Automatic stage attribution wrongly places reviews under impl-review."
+        },
+        "after": {
+          "id": "adh.phase_verdict.P2",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "phase P2 ['T3']: reviewer call 238; READY TO ADVANCE recorded: handoff.md"
+        }
+      },
+      {
+        "id": "adh.task_review.T1",
+        "before": {
+          "id": "adh.task_review.T1",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: Phase1 reviewer own final subagents/rollout-01a16a57-45f0-7693-be34-68c7ff4de408.jsonl ordinal211 provides separate AC-by-AC T1/T2 PASS and READY TO ADVANCE. In implementation interval, source hash and report retained."
+        },
+        "after": {
+          "id": "adh.task_review.T1",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "call 173 'phase1_review' (reviewed-process-evidence) PASS"
+        }
+      },
+      {
+        "id": "adh.task_review.T2",
+        "before": {
+          "id": "adh.task_review.T2",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: Phase1 reviewer own final subagents/rollout-01a16a57-45f0-7693-be34-68c7ff4de408.jsonl ordinal211 provides separate AC-by-AC T1/T2 PASS and READY TO ADVANCE. In implementation interval, source hash and report retained."
+        },
+        "after": {
+          "id": "adh.task_review.T2",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "call 173 'phase1_review' (reviewed-process-evidence) PASS"
+        }
+      },
+      {
+        "id": "adh.task_review.T3",
+        "before": {
+          "id": "adh.task_review.T3",
+          "dimension": "adherence",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: Phase2 reviewer own final subagents/rollout-01a16a5c-c0df-7b90-9c8a-073635e89db1.jsonl ordinal259 provides AC-by-AC T3 PASS and READY TO ADVANCE. In implementation interval, source hash and report retained."
+        },
+        "after": {
+          "id": "adh.task_review.T3",
+          "dimension": "adherence",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "call 238 'phase2_review' (reviewed-process-evidence) PASS"
+        }
+      },
+      {
+        "id": "dp01",
+        "before": {
+          "id": "dp01",
+          "dimension": "consistency",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: Research workers own lifecycle intervals overlap: 01a16a4b-888e 19:44:57.998-19:45:25.329Z; 996d 19:45:02.294-19:45:35.871Z; a648 19:45:05.602-19:45:35.495Z. All three dispatched during source-bound research stage; automatic bulk-preread stage attribution is incorrect. See physical-thread-reports.json and stage-attribution.json."
+        },
+        "after": {
+          "id": "dp01",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "3 dispatches, max 3 concurrent"
+        }
+      },
+      {
+        "id": "dp04",
+        "before": {
+          "id": "dp04",
+          "dimension": "consistency",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: Own-thread plan alignment reviewer 01a16a4f-aaf7 final ordinal117 and sequencing reviewer 01a16a50-3c26 final ordinal130 both PASS. Planning worker spans planning plus plan-review; source-bound manual attribution avoids treating its early prereads as stage entry."
+        },
+        "after": {
+          "id": "dp04",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "2 plan-review dispatches"
+        }
+      },
+      {
+        "id": "dp08",
+        "before": {
+          "id": "dp08",
+          "dimension": "consistency",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinals139/142 T1,199/202 T2,283/285 T3 include In Progress timestamps. Presence satisfies dp08. Accuracy caveat: labels04:02/04:08/04:15 SGT are ahead of actual writes approx03:52/03:55/03:59 SGT; timestamps are not reliable duration evidence."
+        },
+        "after": {
+          "id": "dp08",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "no In Progress move: none"
+        }
+      },
+      {
+        "id": "dp09",
+        "before": {
+          "id": "dp09",
+          "dimension": "consistency",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: T1/T2 and T3 own-thread phase reviewer reports at ordinals211/259, with separate task AC verdicts. See adh.task_review entries."
+        },
+        "after": {
+          "id": "dp09",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "not reviewed: none"
+        }
+      },
+      {
+        "id": "dp10",
+        "before": {
+          "id": "dp10",
+          "dimension": "consistency",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: All three tasks have same-call successful DoD + kanban at implementation ordinals276/278 and383/385, satisfying existing rubric same-call allowance. Literal pre-Done order violation is separately retained; do not interpret PASS as compliance with that stricter order."
+        },
+        "after": {
+          "id": "dp10",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "failing: none"
+        }
+      },
+      {
+        "id": "dp11",
+        "before": {
+          "id": "dp11",
+          "dimension": "consistency",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: Both phase reviewers return READY TO ADVANCE and are recorded in handoff with IDs; source-bound implementation stage attribution. See adh.phase_verdict entries."
+        },
+        "after": {
+          "id": "dp11",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "failing phases: none"
+        }
+      },
+      {
+        "id": "dp12",
+        "before": {
+          "id": "dp12",
+          "dimension": "consistency",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinals276/278 gates input97185c1 at a2e51d3 then fresh engine4dc447d gate at97185c1; ordinals383/385 gate CLIc39a486 at4dc447d; ordinals390/393 gate tracking6f179ac atc39a486. Each OK precedes own commit. Original stage parser omitted implementation commits."
+        },
+        "after": {
+          "id": "dp12",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "4 geeky-implement commits each preceded by check-commit"
+        }
+      },
+      {
+        "id": "dp14",
+        "before": {
+          "id": "dp14",
+          "dimension": "consistency",
+          "kind": "det+manual",
+          "status": "pass",
+          "evidence": "manual override: All Done moves have same-batch handoff writes naming tasks before Done: implementation ordinal276 T1/T2,383 T3; physical outputs278/385."
+        },
+        "after": {
+          "id": "dp14",
+          "dimension": "consistency",
+          "kind": "det",
+          "status": "pass",
+          "evidence": "failing: none"
+        }
+      }
+    ]
+  },
+  "20261023T104412Z": {
+    "original_composite": 98.27180923451854,
+    "new_composite": 98.27180923451854,
+    "dimension_changes": {
+      "quality": {
+        "before": 98.59516616314198,
+        "after": 98.59516616314198
+      },
+      "adherence": {
+        "before": 100.0,
+        "after": 100.0
+      },
+      "consistency": {
+        "before": 100.0,
+        "after": 100.0
+      },
+      "task_tier": {
+        "before": 87.63501077418847,
+        "after": 87.63501077418847
+      }
+    },
+    "changed_checks": []
+  },
+  "20261022T125647Z": {
+    "original_composite": 97.89164053124497,
+    "new_composite": 97.89164053124497,
+    "dimension_changes": {
+      "quality": {
+        "before": 97.82051282051282,
+        "after": 97.82051282051282
+      },
+      "adherence": {
+        "before": 98.76543209876543,
+        "after": 98.76543209876543
+      },
+      "consistency": {
+        "before": 100.0,
+        "after": 100.0
+      },
+      "task_tier": {
+        "before": 90.86559809497594,
+        "after": 90.86559809497594
+      }
+    },
+    "changed_checks": []
+  }
+}

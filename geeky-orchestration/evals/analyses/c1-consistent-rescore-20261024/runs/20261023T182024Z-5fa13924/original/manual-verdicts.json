@@ -1,0 +1,40 @@
+{
+  "adh.one_concern_per_commit": {
+    "pass": true,
+    "note": "Reviewed seven commit file groups: c4f054e specification; c34c933 planning; 1aa17d5 plan review; a8a5f34 T1 core; 20ed68b T2 CLI; 663206c single cross-layer Unicode-date correction; d05528f final review closeout. Mutable tracking records accompany their corresponding concern. Evidence: reviewer-claims-audit.json commit_groups; captured source reports and workspace artifacts."
+  },
+  "adh.final_report_claims": {
+    "pass": true,
+    "note": "session.jsonl:643 final report matches independently captured phase/final reviews and actual completed validation. cli_coder rollout-01a16a06-b192-70a0-8d10-58bcd309ef80.jsonl:474 reports exit 0, 76 passed in 17.99s; :473 help exit 0. Eight current product/test/README hashes match T2 notes. All changes are committed and tree clean; Windows/Python 3.13 validation and unrun native macOS/Linux/Python 3.11 are disclosed. Product claims only; harness diagnostic acceptance is separately audited. Full own-history pointers/hashes in reviewer-claims-audit.json."
+  },
+  "dp07.justification": {
+    "pass": true,
+    "note": "T1 core APIs are a real dependency of T2 CLI, so no independent implementation batch exists. Both task notes Parallelization sections explicitly justify serial implementation; plan_sequence own report confirms dependency-constrained concurrency 1. Final correction owners keep core/CLI files disjoint. See workspace docs/spec-001-feature/tasks/T1-core.notes.md:3 and T2-cli.notes.md:3; own-history reports in reviewer-claims-audit.json."
+  },
+  "dp13": {
+    "pass": true,
+    "note": "Each implementation phase has one functional commit: a8a5f34 T1 core and 20ed68b T2 CLI. Their tests and tracking evidence accompany the phase concern. 663206c fixes the single final-review Unicode-date finding across core/CLI; d05528f closes review records. No unrelated commit concern found in reviewed file groups; see reviewer-claims-audit.json commit_groups."
+  },
+  "dp17a": {
+    "pass": true,
+    "note": "All three original final reviewers re-reviewed corrected product 663206c and returned PASS after C1: subagents/rollout-01a16a0c-d6b3-7543-bd2d-0f172cc5022f.jsonl:265 CSV; rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl:291 money; rollout-01a16a0d-1ee8-7840-8460-8d099fadedb1.jsonl:273 CLI. Initial money report:263 records critical C1/NEEDS FIXES. Reviewers reused corrected 76-test/hash evidence for affected scopes; own-history cutoffs and raw ordinals preserved in reviewer-claims-audit.json."
+  },
+  "hg.false_completion_claim": {
+    "pass": true,
+    "note": "No false final completion claim found. Main session.jsonl:643 is supported by actual 76-test/help outputs, independent phase and final verdicts, current matching artifact hashes, and committed clean closeout. Claims do not assert unrun platforms or clean harness diagnostics. Superseded 34/72-test evidence and initial review findings remain disclosed in historical records; complete audit in reviewer-claims-audit.json."
+  },
+  "review_map.130": {
+    "pass": true,
+    "tasks": [
+      "T1"
+    ],
+    "note": "Visible dispatch names no task. reviewer-claims-audit.json binds core_phase_review / 01a16a05-718c-7862-9e67-46a7f5bac107 to T1 through its plaintext own final report and matching phase handoff."
+  },
+  "review_map.192": {
+    "pass": true,
+    "tasks": [
+      "T2"
+    ],
+    "note": "Visible dispatch names no task. reviewer-claims-audit.json binds cli_phase_review / 01a16a09-75e6-7ae3-8bcf-d5fa86efce4b to T2 through its plaintext own final report and matching phase handoff."
+  }
+}

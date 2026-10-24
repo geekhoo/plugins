@@ -1,0 +1,106 @@
+{
+  "runs": [
+    {
+      "run": "20261023T182024Z-5fa13924",
+      "original_composite": 81.70922998096911,
+      "composite": 96.32066818336449,
+      "dimensions": {
+        "quality": 95.86956521739131,
+        "adherence": 100.0,
+        "consistency": 100.0,
+        "task_tier": 77.66320357277526
+      },
+      "cached_commands": 3,
+      "process_complete": true,
+      "needs_judge": [],
+      "task_commits": {
+        "T1": "a8a5f349c36b089f15ba0301798fffb0c13c0bbc",
+        "T2": "20ed68beff50666ef8c3ea159adb3fa8226c21b4"
+      },
+      "implementation_commit_rows": 2,
+      "remaining_failed_checks": []
+    },
+    {
+      "run": "20261023T194430Z-c5e04f3f",
+      "original_composite": 89.83333333333334,
+      "composite": 98.04000506482035,
+      "dimensions": {
+        "quality": 100.0,
+        "adherence": 97.05882352941177,
+        "consistency": 100.0,
+        "task_tier": 90.69416829526227
+      },
+      "cached_commands": 4,
+      "process_complete": true,
+      "needs_judge": [],
+      "task_commits": {
+        "T1": "97185c13b6716df5283ab9f5d7241fbd82a5e2ac",
+        "T2": "4dc447dc6ecb418b180b0c810e2176487bc0dfe5",
+        "T3": "c39a486391fc8a72c66ad33a4c35a4c17f7af313"
+      },
+      "implementation_commit_rows": 4,
+      "remaining_failed_checks": [
+        "adh.final_report_claims"
+      ]
+    },
+    {
+      "run": "20261023T104412Z",
+      "original_composite": 98.27180923451854,
+      "composite": 98.27180923451854,
+      "dimensions": {
+        "quality": 98.59516616314198,
+        "adherence": 100.0,
+        "consistency": 100.0,
+        "task_tier": 87.63501077418847
+      },
+      "cached_commands": 9,
+      "process_complete": true,
+      "needs_judge": [],
+      "task_commits": {
+        "T1": "72d2635b8f842d6cba030ce5b16c883fdc3fe4f5",
+        "T2": "c4109a91b6f2613fccc0b741893c5c80a2d530e7",
+        "T3": "baa18f3f126699bb42f7bba186fedab9803cd54c",
+        "T4": "bcf32eda6bea0a39745b18970690758a378a2294",
+        "T5": "88abead07ff8bad9fbc38981f9604edf6c9180b6",
+        "T6": "dcefa5d3b9abe56abc135914db420810ccd1f07b",
+        "T7": "7788ee698829fee433b12dc795be08a311fe31c3"
+      },
+      "implementation_commit_rows": 11,
+      "remaining_failed_checks": []
+    },
+    {
+      "run": "20261022T125647Z",
+      "original_composite": 97.89164053124497,
+      "composite": 97.89164053124497,
+      "dimensions": {
+        "quality": 97.82051282051282,
+        "adherence": 98.76543209876543,
+        "consistency": 100.0,
+        "task_tier": 90.86559809497594
+      },
+      "cached_commands": 11,
+      "process_complete": true,
+      "needs_judge": [],
+      "task_commits": {
+        "T1": "e121079b6769a52250ee0023f6a4fbf7c99a87a0",
+        "T2": "fecf7a27260a9c13d5c7ab472a4cafa7901acf75",
+        "T3": "776644523d393b313b5119d2da62b481d29accc9",
+        "T4": "5cc9d82d61b4008630b6f8b4c8d5dc129cf1ee8b",
+        "T5": "73f846f3771e0c05056f5c22e8a7f5150092ab2a",
+        "T6": "993c9a921aa459b7072d3250165ffc772b5d6be4",
+        "T7": "03fb2f095d2e635c68431f92d1baafcfd3fd6c1d",
+        "T8": "7d746865cd7345db64c5cae13385398ca17176b3",
+        "T9": "44184c9dee965b315d177ebdb147c9ae1bcf4cf4",
+        "T10": "9a728863c2fe9b9f0e58c7a05ccdc2a9fdd7e43e"
+      },
+      "implementation_commit_rows": 14,
+      "remaining_failed_checks": [
+        "adh.kanban_after_moves"
+      ]
+    }
+  ],
+  "cached_commands": 27,
+  "validation_test_commands_executed": 0,
+  "original_files_unchanged": 206,
+  "source_stable": true
+}

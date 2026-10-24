@@ -1,0 +1,74 @@
+{
+  "workspace": "C:\\repos\\.eval-tools\\codex-cp4-validation-20261023T184921Z",
+  "source_bundle_sha256": "25b053ae01c9b0893442581c84d0824b4eb561903045c0fe3471c5c540178e88",
+  "python": "3.13.15 (tags/v3.13.15:4061bc4, Aug  5 2026, 13:05:39) [MSC v.1944 64 bit (AMD64)]",
+  "checks": [
+    {
+      "label": "T1-own-commit",
+      "commit": "a8a5f349c36b089f15ba0301798fffb0c13c0bbc",
+      "command": [
+        "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "tests/test_core.py",
+        "-q"
+      ],
+      "exit_code": 0,
+      "output_file": "T1-own-commit-validation.txt",
+      "tail": "23 passed in 0.29s"
+    },
+    {
+      "label": "T2-own-commit",
+      "commit": "20ed68beff50666ef8c3ea159adb3fa8226c21b4",
+      "command": [
+        "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "output_file": "T2-own-commit-validation.txt",
+      "tail": "72 passed in 17.02s"
+    },
+    {
+      "label": "T2-help-own-commit",
+      "commit": "20ed68beff50666ef8c3ea159adb3fa8226c21b4",
+      "command": [
+        "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+        "-m",
+        "csvledger",
+        "--help"
+      ],
+      "exit_code": 0,
+      "output_file": "T2-help-own-commit-validation.txt",
+      "tail": "  -h, --help           show this help message and exit"
+    },
+    {
+      "label": "final-suite",
+      "commit": "d05528f0a1161953a367c43562c2739eac7b3504",
+      "command": [
+        "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "output_file": "final-suite-validation.txt",
+      "tail": "76 passed in 16.25s"
+    },
+    {
+      "label": "final-help",
+      "commit": "d05528f0a1161953a367c43562c2739eac7b3504",
+      "command": [
+        "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+        "-m",
+        "csvledger",
+        "--help"
+      ],
+      "exit_code": 0,
+      "output_file": "final-help-validation.txt",
+      "tail": "  -h, --help           show this help message and exit"
+    }
+  ],
+  "model_calls": 0
+}

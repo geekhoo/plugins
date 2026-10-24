@@ -1,0 +1,11 @@
+{
+  "scratch": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-final-pair-parent-kxnti3e_",
+  "input": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-final-pair-parent-kxnti3e_\\claude6-input",
+  "workspace": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-final-pair-parent-kxnti3e_\\claude6-workspace",
+  "supplementary": [
+    {
+      "source": "C:\\repos\\eval-c1-csvledger-20261023T104412Z\\docs\\spec-001-feature\\.heartbeat",
+      "sha256": "f2bcaa20007ccca5c697d7e03492cc6184755a40cd32e5b4395a110468c6d172"
+    }
+  ]
+}

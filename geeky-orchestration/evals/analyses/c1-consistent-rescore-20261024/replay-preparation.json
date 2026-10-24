@@ -1,0 +1,86 @@
+{
+  "base": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c",
+  "runs": [
+    {
+      "stamp": "20261023T182024Z-5fa13924",
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T182024Z-5fa13924",
+      "input": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T182024Z-5fa13924",
+      "workspace": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261023T182024Z-5fa13924",
+      "head": "d05528f0a1161953a367c43562c2739eac7b3504",
+      "original_score_sha256": "912348920c1a3e4eb1bef73b9729bdaddb99ce9c916607d0b23badc15a7ac896",
+      "manual_judgements": [
+        "adh.one_concern_per_commit",
+        "adh.final_report_claims",
+        "dp07.justification",
+        "dp13",
+        "dp17a",
+        "hg.false_completion_claim"
+      ],
+      "original_file_count": 58
+    },
+    {
+      "stamp": "20261023T194430Z-c5e04f3f",
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194430Z-c5e04f3f",
+      "input": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T194430Z-c5e04f3f",
+      "workspace": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261023T194430Z-c5e04f3f",
+      "head": "7c34d2b197174c02f27909dee38beb95fe9596a5",
+      "original_score_sha256": "a626c8f35088c8c749a01d6e6c4cc0dbd2b0366e1360bf6e8f0a8970fa7ab46c",
+      "manual_judgements": [
+        "adh.one_concern_per_commit",
+        "adh.final_report_claims",
+        "hg.false_completion_claim",
+        "dp07.justification",
+        "dp13"
+      ],
+      "original_file_count": 86
+    },
+    {
+      "stamp": "20261023T104412Z",
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T104412Z",
+      "input": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T104412Z",
+      "workspace": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261023T104412Z",
+      "head": "3d82a589ae38f5fd99e6a0cb18f5e57f036a3f9d",
+      "original_score_sha256": "08cdbef0eb08c6c753eeebfa2e1b76a1f939e751020fd38cd4765a645564f09e",
+      "manual_judgements": [
+        "adh.one_concern_per_commit",
+        "adh.final_report_claims",
+        "dp07.justification",
+        "dp13",
+        "hg.false_completion_claim"
+      ],
+      "original_file_count": 51
+    },
+    {
+      "stamp": "20261022T125647Z",
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z",
+      "input": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261022T125647Z",
+      "workspace": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261022T125647Z",
+      "head": "ebac703d670b30bbf25f2c39c7fe58cfff6dd214",
+      "original_score_sha256": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+      "manual_judgements": [
+        "adh.one_concern_per_commit",
+        "adh.final_report_claims",
+        "dp07.justification",
+        "dp13",
+        "hg.false_completion_claim"
+      ],
+      "original_file_count": 11
+    }
+  ],
+  "supplementary": [
+    {
+      "run": "20261023T104412Z",
+      "source": "C:\\repos\\eval-c1-csvledger-20261023T104412Z\\docs\\spec-001-feature\\.heartbeat",
+      "sha256": "f2bcaa20007ccca5c697d7e03492cc6184755a40cd32e5b4395a110468c6d172",
+      "head": "3d82a589ae38f5fd99e6a0cb18f5e57f036a3f9d",
+      "copy": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261023T104412Z\\docs\\spec-001-feature\\.heartbeat"
+    },
+    {
+      "run": "20261022T125647Z",
+      "source": "C:\\repos\\eval-c1-csvledger-20261022T125647Z\\docs\\spec-001-feature\\.heartbeat",
+      "sha256": "ddb7711cf9de4e0ba461c9e9ebf5622dbc838adf500212dac45684345bfdfb19",
+      "head": "ebac703d670b30bbf25f2c39c7fe58cfff6dd214",
+      "copy": "C:\\repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261022T125647Z\\docs\\spec-001-feature\\.heartbeat"
+    }
+  ]
+}

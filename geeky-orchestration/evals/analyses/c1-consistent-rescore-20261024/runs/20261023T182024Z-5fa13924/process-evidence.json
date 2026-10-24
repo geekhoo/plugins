@@ -1,0 +1,668 @@
+{
+  "schema": "geeky-eval.process-evidence/1",
+  "sources": {
+    "session.jsonl": "0ee75b714b75d4add9719e0ddd8d5f5997d3d697f5e5078f14bae36ed9b06590",
+    "subagents/rollout-01a16a02-dec1-7ea1-a273-df311d61c1bb.jsonl": "98ee732d3b78a07e40b4e2927487d9f769976de3869b7c4910fa2cd4700c82f6",
+    "subagents/rollout-01a16a06-b192-70a0-8d10-58bcd309ef80.jsonl": "6abd43ff7e0aa9106f7e024268d94edc4240da091d4895c8cb122faf33a5462f",
+    "subagents/rollout-01a16a05-718c-7862-9e67-46a7f5bac107.jsonl": "fb71000cb51fa809c4a3452c9c757ee0936fb2a1d6262675ec1a1f3875007afb",
+    "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl": "171afacffb81fd4b1f4ed49048e3f3af03529b92680612d54573dab603d33a15",
+    "subagents/rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl": "a3ba15327a626902b257f0c51b952b494d81b0a1761fcf93d9b1e4f98773bdf6"
+  },
+  "contexts": [
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_b248fa5642194fbd88b4340d1b7de635",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 185,
+          "timestamp": "2026-10-23T18:25:35.348Z",
+          "record_sha256": "d43a5fa2f43a50584d664483d205878105a00116afea626b7e0ff6868a5f0491",
+          "source_text": "call_b248fa5642194fbd88b4340d1b7de635"
+        },
+        {
+          "path": "subagents/rollout-01a16a02-dec1-7ea1-a273-df311d61c1bb.jsonl",
+          "record_index": 195,
+          "timestamp": "2026-10-23T18:28:02.731Z",
+          "record_sha256": "3162e6e2517525664d28dd200bbaadbd757078819c28d5e1cc21538940db9b5d",
+          "source_text": "T1-"
+        }
+      ],
+      "stage": "geeky-implement",
+      "role": "coder",
+      "tasks": [
+        "T1"
+      ],
+      "phase": "P1"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_b6d9e16102f3493eadf964f3600a7af7",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 308,
+          "timestamp": "2026-10-23T18:29:45.957Z",
+          "record_sha256": "e1d433ae89c52d51cda9d7332a84c55671863601e55f92a3269620b2bf39f9fb",
+          "source_text": "call_b6d9e16102f3493eadf964f3600a7af7"
+        },
+        {
+          "path": "subagents/rollout-01a16a06-b192-70a0-8d10-58bcd309ef80.jsonl",
+          "record_index": 236,
+          "timestamp": "2026-10-23T18:32:08.430Z",
+          "record_sha256": "5faad167279eac73d2778a49cf0f31bf69598a09a61d6bfda977d995e45338fa",
+          "source_text": "T2-"
+        }
+      ],
+      "stage": "geeky-implement",
+      "role": "coder",
+      "tasks": [
+        "T2"
+      ],
+      "phase": "P2"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_657e1944050f40a1b467e17bdefe7f6a",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 272,
+          "timestamp": "2026-10-23T18:28:24.031Z",
+          "record_sha256": "6e030893fdc6658c928f67cb1645a7c4f05bcb5ff8db9dc91d6f2883d3155c27",
+          "source_text": "call_657e1944050f40a1b467e17bdefe7f6a"
+        },
+        {
+          "path": "subagents/rollout-01a16a05-718c-7862-9e67-46a7f5bac107.jsonl",
+          "record_index": 162,
+          "timestamp": "2026-10-23T18:28:54.360Z",
+          "record_sha256": "b35d5a69c3872e44d95e5aac935020259b4e2cb1b33bcf72727dbe7637cacf95",
+          "source_text": "READY TO ADVANCE"
+        }
+      ],
+      "stage": "geeky-implement",
+      "role": "reviewer",
+      "tasks": [
+        "T1"
+      ],
+      "phase": "P1"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_dc52a55bce46455f82c4d45b24347693",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 352,
+          "timestamp": "2026-10-23T18:32:47.286Z",
+          "record_sha256": "79c8371c9d0c96611a2ab1048bf386f61b16016f674e38b66257821b0ebfb6fd",
+          "source_text": "call_dc52a55bce46455f82c4d45b24347693"
+        },
+        {
+          "path": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+          "record_index": 199,
+          "timestamp": "2026-10-23T18:33:27.640Z",
+          "record_sha256": "c16b73223dd0c8ca724722f032d7c9f7541ad38017de79cec2c93f5f94041999",
+          "source_text": "NEEDS FIXES"
+        },
+        {
+          "path": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+          "record_index": 218,
+          "timestamp": "2026-10-23T18:35:46.802Z",
+          "record_sha256": "715e63e46b2242306bd36783c6281dcdf92c84e39776ef65e5bf746d008249fb",
+          "source_text": "READY TO ADVANCE"
+        }
+      ],
+      "stage": "geeky-implement",
+      "role": "reviewer",
+      "tasks": [
+        "T2"
+      ],
+      "phase": "P2"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-de0283e9-7a9c-41bd-bf51-39912b19d2f0",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 182,
+          "timestamp": "2026-10-23T18:25:21.368Z",
+          "record_sha256": "b1d576a65a69d3ac220f04abbb54992c468c3e7eac3d4d8f6841ae64f3b64cc1",
+          "source_text": "exec-de0283e9-7a9c-41bd-bf51-39912b19d2f0"
+        }
+      ],
+      "stage": "geeky-implement"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-dc21f520-4788-4e2f-bc76-e6f6e6e1f761",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 261,
+          "timestamp": "2026-10-23T18:28:14.522Z",
+          "record_sha256": "3de659d2c1efbbd4d200b99bc995c5672592195c96fcc8a671ff212cf1a05bc5",
+          "source_text": "exec-dc21f520-4788-4e2f-bc76-e6f6e6e1f761"
+        }
+      ],
+      "stage": "geeky-implement"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-ccfa0988-0220-4a1d-93c3-a4c33e74e25a",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 297,
+          "timestamp": "2026-10-23T18:29:12.261Z",
+          "record_sha256": "2d7d8cf1a146b4ea9b9b5ac6b94f47f63c4c7fd01eb9265af184c9c3ba16cfe2",
+          "source_text": "exec-ccfa0988-0220-4a1d-93c3-a4c33e74e25a"
+        }
+      ],
+      "stage": "geeky-implement"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-39025d62-bd4d-4e71-a19f-dd2933b4aeea",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 303,
+          "timestamp": "2026-10-23T18:29:27.603Z",
+          "record_sha256": "3cc1010b7b5f54205a5e7e35889bec57004a0ce29c1818920d258d1a06df8d4a",
+          "source_text": "exec-39025d62-bd4d-4e71-a19f-dd2933b4aeea"
+        }
+      ],
+      "stage": "geeky-implement"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-86df70ba-0ab5-47c7-91e3-1e5893233c18",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 349,
+          "timestamp": "2026-10-23T18:32:40.420Z",
+          "record_sha256": "61444df1e3e4e2a7a103eca4de87e0a70e5c665b0a94b149c1a2f4a141ea3635",
+          "source_text": "exec-86df70ba-0ab5-47c7-91e3-1e5893233c18"
+        }
+      ],
+      "stage": "geeky-implement"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-06a6e7f6-8ba9-463e-b3cf-9a83bd64744f",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 425,
+          "timestamp": "2026-10-23T18:36:05.586Z",
+          "record_sha256": "f761efc1a0ea0a80fa91f699968012b036394d3c7a0eca04efba549d68e18e90",
+          "source_text": "exec-06a6e7f6-8ba9-463e-b3cf-9a83bd64744f"
+        }
+      ],
+      "stage": "geeky-implement"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-f8d465d4-707d-4c7d-af85-d4906a037a49",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 298,
+          "timestamp": "2026-10-23T18:29:15.672Z",
+          "record_sha256": "061b989dd07c55d9d937a01aad1e020e68c7e1090fc64266d97e364a1637920f",
+          "source_text": "exec-f8d465d4-707d-4c7d-af85-d4906a037a49"
+        }
+      ],
+      "stage": "geeky-implement"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-9b6d979e-4791-4792-a569-217d63cd69ec",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 426,
+          "timestamp": "2026-10-23T18:36:07.262Z",
+          "record_sha256": "151ef0811a8075d6765a7a541a8883e2a9eb1be349fa6541afc43fc1b25c2b48",
+          "source_text": "exec-9b6d979e-4791-4792-a569-217d63cd69ec"
+        }
+      ],
+      "stage": "geeky-implement"
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-f8f685aa-2452-4464-95cd-79072fbabb22",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 435,
+          "timestamp": "2026-10-23T18:36:18.785Z",
+          "record_sha256": "91a0464e711294c65b3326ba80b0e9ab6236de58c14066f5896155d5d1a673c3",
+          "source_text": "exec-f8f685aa-2452-4464-95cd-79072fbabb22"
+        },
+        {
+          "path": "session.jsonl",
+          "record_index": 435,
+          "timestamp": "2026-10-23T18:36:18.785Z",
+          "record_sha256": "91a0464e711294c65b3326ba80b0e9ab6236de58c14066f5896155d5d1a673c3",
+          "source_text": "Implementation Run Summary"
+        }
+      ],
+      "stage": "geeky-implement"
+    }
+  ],
+  "stage_intervals": [
+    {
+      "scope_call_id": null,
+      "stage": "spec-research",
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 18,
+        "timestamp": "2026-10-23T18:20:43.059Z",
+        "record_sha256": "ad3012b1e3468f05784a93533966d20f5e80b6b524d32a085bddfbe180472734",
+        "source_text": "exec-c1d5cb56-7a86-46e6-ab7c-0b30dd3d6ac9"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 87,
+        "timestamp": "2026-10-23T18:22:23.953Z",
+        "record_sha256": "603028560a57749b6377e6ff612caf06673ce893f4d0b26b19c6dc4c1e29af01",
+        "source_text": "2026-10-23T18:22:23.953Z"
+      }
+    },
+    {
+      "scope_call_id": null,
+      "stage": "geeky-plan",
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 87,
+        "timestamp": "2026-10-23T18:22:23.953Z",
+        "record_sha256": "603028560a57749b6377e6ff612caf06673ce893f4d0b26b19c6dc4c1e29af01",
+        "source_text": "2026-10-23T18:22:23.953Z"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 133,
+        "timestamp": "2026-10-23T18:24:15.534Z",
+        "record_sha256": "55cbf8ddc05b47c2bed05a0ab172ee4ec27088982f5ea2b2b722ee9bcf292766",
+        "source_text": "2026-10-23T18:24:15.534Z"
+      }
+    },
+    {
+      "scope_call_id": null,
+      "stage": "plan-review",
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 133,
+        "timestamp": "2026-10-23T18:24:15.534Z",
+        "record_sha256": "55cbf8ddc05b47c2bed05a0ab172ee4ec27088982f5ea2b2b722ee9bcf292766",
+        "source_text": "2026-10-23T18:24:15.534Z"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 179,
+        "timestamp": "2026-10-23T18:25:13.043Z",
+        "record_sha256": "51a226d00a6d7c7c80e435c0130dccde362fdc3d49ea3d88b68ae148ed72877c",
+        "source_text": "2026-10-23T18:25:13.043Z"
+      }
+    },
+    {
+      "scope_call_id": null,
+      "stage": "geeky-implement",
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 179,
+        "timestamp": "2026-10-23T18:25:13.043Z",
+        "record_sha256": "51a226d00a6d7c7c80e435c0130dccde362fdc3d49ea3d88b68ae148ed72877c",
+        "source_text": "2026-10-23T18:25:13.043Z"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 432,
+        "timestamp": "2026-10-23T18:36:10.957Z",
+        "record_sha256": "07d8ed313a0d467e1fed9b021229ff62ab2b1503f0ed340c727d336ee4c5db6e",
+        "source_text": "2026-10-23T18:36:10.957Z"
+      }
+    },
+    {
+      "scope_call_id": null,
+      "stage": "impl-review",
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 432,
+        "timestamp": "2026-10-23T18:36:10.957Z",
+        "record_sha256": "07d8ed313a0d467e1fed9b021229ff62ab2b1503f0ed340c727d336ee4c5db6e",
+        "source_text": "2026-10-23T18:36:10.957Z"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 588,
+        "timestamp": "2026-10-23T18:41:10.123Z",
+        "record_sha256": "be3b1eaae62c00bd319a7b68b68f249c84560e19d1aab11914a099b397dc908e",
+        "source_text": "2026-10-23T18:41:10.123Z"
+      }
+    },
+    {
+      "scope_call_id": null,
+      "stage": "impl-review",
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 588,
+        "timestamp": "2026-10-23T18:41:10.123Z",
+        "record_sha256": "be3b1eaae62c00bd319a7b68b68f249c84560e19d1aab11914a099b397dc908e",
+        "source_text": "2026-10-23T18:41:10.123Z"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 642,
+        "timestamp": "2026-10-23T18:42:54.840Z",
+        "record_sha256": "d1e3af0fd65db412a73679a3d507a8c2e01a54ccf954385d607361e99e45949e",
+        "source_text": "2026-10-23T18:42:54.840Z"
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_657e1944050f40a1b467e17bdefe7f6a",
+      "tasks": [
+        "T1"
+      ],
+      "phase": "P1",
+      "verdict": "pass",
+      "ready": true,
+      "result_ref": {
+        "path": "subagents/rollout-01a16a05-718c-7862-9e67-46a7f5bac107.jsonl",
+        "record_index": 162,
+        "timestamp": "2026-10-23T18:28:54.360Z",
+        "record_sha256": "b35d5a69c3872e44d95e5aac935020259b4e2cb1b33bcf72727dbe7637cacf95",
+        "source_text": "READY TO ADVANCE"
+      },
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 272,
+          "timestamp": "2026-10-23T18:28:24.031Z",
+          "record_sha256": "6e030893fdc6658c928f67cb1645a7c4f05bcb5ff8db9dc91d6f2883d3155c27",
+          "source_text": "call_657e1944050f40a1b467e17bdefe7f6a"
+        },
+        {
+          "path": "subagents/rollout-01a16a05-718c-7862-9e67-46a7f5bac107.jsonl",
+          "record_index": 162,
+          "timestamp": "2026-10-23T18:28:54.360Z",
+          "record_sha256": "b35d5a69c3872e44d95e5aac935020259b4e2cb1b33bcf72727dbe7637cacf95",
+          "source_text": "READY TO ADVANCE"
+        }
+      ]
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_dc52a55bce46455f82c4d45b24347693",
+      "tasks": [
+        "T2"
+      ],
+      "phase": "P2",
+      "verdict": "fail",
+      "ready": false,
+      "result_ref": {
+        "path": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+        "record_index": 199,
+        "timestamp": "2026-10-23T18:33:27.640Z",
+        "record_sha256": "c16b73223dd0c8ca724722f032d7c9f7541ad38017de79cec2c93f5f94041999",
+        "source_text": "NEEDS FIXES"
+      },
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 352,
+          "timestamp": "2026-10-23T18:32:47.286Z",
+          "record_sha256": "79c8371c9d0c96611a2ab1048bf386f61b16016f674e38b66257821b0ebfb6fd",
+          "source_text": "call_dc52a55bce46455f82c4d45b24347693"
+        },
+        {
+          "path": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+          "record_index": 199,
+          "timestamp": "2026-10-23T18:33:27.640Z",
+          "record_sha256": "c16b73223dd0c8ca724722f032d7c9f7541ad38017de79cec2c93f5f94041999",
+          "source_text": "NEEDS FIXES"
+        }
+      ]
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_dc52a55bce46455f82c4d45b24347693",
+      "tasks": [
+        "T2"
+      ],
+      "phase": "P2",
+      "verdict": "pass",
+      "ready": true,
+      "result_ref": {
+        "path": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+        "record_index": 218,
+        "timestamp": "2026-10-23T18:35:46.802Z",
+        "record_sha256": "715e63e46b2242306bd36783c6281dcdf92c84e39776ef65e5bf746d008249fb",
+        "source_text": "READY TO ADVANCE"
+      },
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 352,
+          "timestamp": "2026-10-23T18:32:47.286Z",
+          "record_sha256": "79c8371c9d0c96611a2ab1048bf386f61b16016f674e38b66257821b0ebfb6fd",
+          "source_text": "call_dc52a55bce46455f82c4d45b24347693"
+        },
+        {
+          "path": "subagents/rollout-01a16a09-75e6-7ae3-8bcf-d5fa86efce4b.jsonl",
+          "record_index": 218,
+          "timestamp": "2026-10-23T18:35:46.802Z",
+          "record_sha256": "715e63e46b2242306bd36783c6281dcdf92c84e39776ef65e5bf746d008249fb",
+          "source_text": "READY TO ADVANCE"
+        }
+      ]
+    }
+  ],
+  "lane_moves": [
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-de0283e9-7a9c-41bd-bf51-39912b19d2f0",
+      "task": "T1",
+      "lane": "In Progress",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 182,
+          "timestamp": "2026-10-23T18:25:21.368Z",
+          "record_sha256": "b1d576a65a69d3ac220f04abbb54992c468c3e7eac3d4d8f6841ae64f3b64cc1",
+          "source_text": "## In Progress"
+        }
+      ]
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-dc21f520-4788-4e2f-bc76-e6f6e6e1f761",
+      "task": "T1",
+      "lane": "In Review",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 261,
+          "timestamp": "2026-10-23T18:28:14.522Z",
+          "record_sha256": "3de659d2c1efbbd4d200b99bc995c5672592195c96fcc8a671ff212cf1a05bc5",
+          "source_text": "## In Review"
+        }
+      ]
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-ccfa0988-0220-4a1d-93c3-a4c33e74e25a",
+      "task": "T1",
+      "lane": "Done",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 297,
+          "timestamp": "2026-10-23T18:29:12.261Z",
+          "record_sha256": "2d7d8cf1a146b4ea9b9b5ac6b94f47f63c4c7fd01eb9265af184c9c3ba16cfe2",
+          "source_text": "## Done"
+        }
+      ]
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-39025d62-bd4d-4e71-a19f-dd2933b4aeea",
+      "task": "T2",
+      "lane": "Ready",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 303,
+          "timestamp": "2026-10-23T18:29:27.603Z",
+          "record_sha256": "3cc1010b7b5f54205a5e7e35889bec57004a0ce29c1818920d258d1a06df8d4a",
+          "source_text": "## In Progress"
+        }
+      ]
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-39025d62-bd4d-4e71-a19f-dd2933b4aeea",
+      "task": "T2",
+      "lane": "In Progress",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 303,
+          "timestamp": "2026-10-23T18:29:27.603Z",
+          "record_sha256": "3cc1010b7b5f54205a5e7e35889bec57004a0ce29c1818920d258d1a06df8d4a",
+          "source_text": "## In Progress"
+        }
+      ]
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-86df70ba-0ab5-47c7-91e3-1e5893233c18",
+      "task": "T2",
+      "lane": "In Review",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 349,
+          "timestamp": "2026-10-23T18:32:40.420Z",
+          "record_sha256": "61444df1e3e4e2a7a103eca4de87e0a70e5c665b0a94b149c1a2f4a141ea3635",
+          "source_text": "## In Review"
+        }
+      ]
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-06a6e7f6-8ba9-463e-b3cf-9a83bd64744f",
+      "task": "T2",
+      "lane": "Done",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 425,
+          "timestamp": "2026-10-23T18:36:05.586Z",
+          "record_sha256": "f761efc1a0ea0a80fa91f699968012b036394d3c7a0eca04efba549d68e18e90",
+          "source_text": "## Done"
+        }
+      ]
+    }
+  ],
+  "handoff_calls": [
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-ccfa0988-0220-4a1d-93c3-a4c33e74e25a",
+      "tasks": [
+        "T1"
+      ],
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 297,
+          "timestamp": "2026-10-23T18:29:12.261Z",
+          "record_sha256": "2d7d8cf1a146b4ea9b9b5ac6b94f47f63c4c7fd01eb9265af184c9c3ba16cfe2",
+          "source_text": "## Done"
+        }
+      ]
+    },
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:exec-06a6e7f6-8ba9-463e-b3cf-9a83bd64744f",
+      "tasks": [
+        "T2"
+      ],
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 425,
+          "timestamp": "2026-10-23T18:36:05.586Z",
+          "record_sha256": "f761efc1a0ea0a80fa91f699968012b036394d3c7a0eca04efba549d68e18e90",
+          "source_text": "## Done"
+        }
+      ]
+    }
+  ],
+  "critical_findings": [
+    {
+      "call_id": "01a169fe-3649-7481-aab5-d22c634b16d4:call_12cb4717cf7245579b2a69b0b2eb53d5",
+      "tasks": [
+        "T1",
+        "T2"
+      ],
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 444,
+          "timestamp": "2026-10-23T18:36:38.446Z",
+          "record_sha256": "d00d3a422700fc4d100b3b583c3b3847b708ed841f81a2ad1a02a175634039a9",
+          "source_text": "call_12cb4717cf7245579b2a69b0b2eb53d5"
+        },
+        {
+          "path": "subagents/rollout-01a16a0c-fcea-7292-af39-8fc63788eff1.jsonl",
+          "record_index": 262,
+          "timestamp": "2026-10-23T18:37:44.317Z",
+          "record_sha256": "2e3754cdf30408a44a5762a4b502580735cd0dc480c67cebd458fc6be466fb31",
+          "source_text": "NEEDS FIXES"
+        },
+        {
+          "path": "session.jsonl",
+          "record_index": 580,
+          "timestamp": "2026-10-23T18:41:02.542Z",
+          "record_sha256": "e8a5f39f9e5328c159a3ca7b92d7e56ac68adad216933f29542f8d0741fa9b49",
+          "source_text": "Tasks: T1 T2"
+        }
+      ]
+    }
+  ],
+  "implementation_commits": {
+    "T1": {
+      "sha": "a8a5f349c36b089f15ba0301798fffb0c13c0bbc",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 298,
+          "timestamp": "2026-10-23T18:29:15.672Z",
+          "record_sha256": "061b989dd07c55d9d937a01aad1e020e68c7e1090fc64266d97e364a1637920f",
+          "source_text": "a8a5f34"
+        }
+      ]
+    },
+    "T2": {
+      "sha": "20ed68beff50666ef8c3ea159adb3fa8226c21b4",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 426,
+          "timestamp": "2026-10-23T18:36:07.262Z",
+          "record_sha256": "151ef0811a8075d6765a7a541a8883e2a9eb1be349fa6541afc43fc1b25c2b48",
+          "source_text": "20ed68b"
+        }
+      ]
+    }
+  },
+  "expected_implementation_commits": [
+    {
+      "sha": "a8a5f349c36b089f15ba0301798fffb0c13c0bbc",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 298,
+          "timestamp": "2026-10-23T18:29:15.672Z",
+          "record_sha256": "061b989dd07c55d9d937a01aad1e020e68c7e1090fc64266d97e364a1637920f",
+          "source_text": "a8a5f34"
+        }
+      ]
+    },
+    {
+      "sha": "20ed68beff50666ef8c3ea159adb3fa8226c21b4",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 426,
+          "timestamp": "2026-10-23T18:36:07.262Z",
+          "record_sha256": "151ef0811a8075d6765a7a541a8883e2a9eb1be349fa6541afc43fc1b25c2b48",
+          "source_text": "20ed68b"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "composite": null,
+  "needs_judge": [],
+  "dimensions": {
+    "quality": {
+      "capped": 1
+    },
+    "adherence": {
+      "capped": 1
+    },
+    "consistency": {
+      "score": 1
+    },
+    "task_tier": {
+      "score": 1
+    }
+  }
+}

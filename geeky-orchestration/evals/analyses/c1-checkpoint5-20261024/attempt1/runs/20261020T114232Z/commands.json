@@ -1,0 +1,32 @@
+[
+  {
+    "command": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "-B",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\analyze-run.py",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261020T114232Z",
+      "--analysis-only"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"gate_invocations\": {\n    \"validate-planning-folder\": 2,\n    \"validate-task-schema\": 2,\n    \"validate-kanban\": 10,\n    \"check-dod\": 7,\n    \"check-commit\": 1\n  },\n  \"gate_results\": {\n    \"validate-planning-folder\": {\n      \"pass\": 2,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 2,\n      \"sub\": 0\n    },\n    \"validate-task-schema\": {\n      \"pass\": 2,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 2,\n      \"sub\": 0\n    },\n    \"validate-kanban\": {\n      \"pass\": 9,\n      \"fail\": 1,\n      \"unknown\": 0,\n      \"main\": 10,\n      \"sub\": 0\n    },\n    \"check-dod\": {\n      \"pass\": 7,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 7,\n      \"sub\": 0\n    },\n    \"check-commit\": {\n      \"pass\": 1,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 1,\n      \"sub\": 0\n    }\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "-B",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261020T114232Z",
+      "--manual",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261020T114232Z\\manual-verdicts.json",
+      "--workspace",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\workspaces\\20261020T114232Z",
+      "--no-rerun",
+      "--out",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c1-checkpoint5-20261024\\runs\\20261020T114232Z"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"composite\": 77.2,\n  \"quality\": 97.9,\n  \"adherence\": 68.3,\n  \"consistency\": 65.7,\n  \"task_tier\": 58.9,\n  \"needs_judge\": []\n}\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,3 @@
+{"type": "item.completed", "item": {"id": "cmd", "type": "command_execution", "command": "python validate-kanban.py", "aggregated_output": "INVALID_KANBAN: missing", "exit_code": 1}}
+{"type": "item.completed", "item": {"id": "file", "type": "file_change", "changes": [{"path": "src.py"}]}}
+{"type": "item.completed", "item": {"id": "msg", "type": "agent_message", "text": "Reported completion"}}

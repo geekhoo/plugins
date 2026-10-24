@@ -1,0 +1,32 @@
+[
+  {
+    "command": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "-B",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\analyze-run.py",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261023T104412Z",
+      "--analysis-only"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"gate_invocations\": {\n    \"validate-planning-folder\": 6,\n    \"validate-task-schema\": 5,\n    \"validate-kanban\": 13,\n    \"check-dod\": 8,\n    \"check-commit\": 13\n  },\n  \"gate_results\": {\n    \"validate-planning-folder\": {\n      \"pass\": 6,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 5,\n      \"sub\": 1\n    },\n    \"validate-task-schema\": {\n      \"pass\": 5,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 4,\n      \"sub\": 1\n    },\n    \"validate-kanban\": {\n      \"pass\": 11,\n      \"fail\": 1,\n      \"unknown\": 1,\n      \"main\": 5,\n      \"sub\": 8\n    },\n    \"check-dod\": {\n      \"pass\": 7,\n      \"fail\": 1,\n      \"unknown\": 0,\n      \"main\": 0,\n      \"sub\": 8\n    },\n    \"check-commit\": {\n      \"pass\": 11,\n      \"fail\": 2,\n      \"unknown\": 0,\n      \"main\": 0,\n      \"sub\": 13\n    }\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "-B",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261023T104412Z",
+      "--manual",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261023T104412Z\\manual-verdicts.json",
+      "--workspace",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\workspaces\\20261023T104412Z",
+      "--no-rerun",
+      "--out",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c1-checkpoint5-20261024\\runs\\20261023T104412Z"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"composite\": 98.3,\n  \"quality\": 98.6,\n  \"adherence\": 100.0,\n  \"consistency\": 100.0,\n  \"task_tier\": 87.6,\n  \"needs_judge\": []\n}\n",
+    "stderr": ""
+  }
+]

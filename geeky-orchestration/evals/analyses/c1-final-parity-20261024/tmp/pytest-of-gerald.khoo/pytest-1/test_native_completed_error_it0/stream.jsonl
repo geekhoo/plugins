@@ -1,0 +1,4 @@
+{"type": "thread.started", "thread_id": "main"}
+{"type": "turn.started"}
+{"type": "turn.completed", "usage": {"input_tokens": 999999}}
+{"type": "item.completed", "item": {"id": "hook-failure", "type": "error", "message": "Code Mode hook failed"}}

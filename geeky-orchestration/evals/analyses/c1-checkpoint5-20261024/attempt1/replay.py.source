@@ -1,0 +1,58 @@
+import hashlib, json, shutil, subprocess, sys, tempfile
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[4]
+OUT = Path(__file__).resolve().parent
+EVAL = ROOT / 'geeky-orchestration/evals'
+def read(p): return json.loads(p.read_text(encoding='utf-8-sig'))
+def digest(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+def run(cmd):
+    r = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', errors='replace')
+    return {'command':cmd,'exit':r.returncode,'stdout':r.stdout,'stderr':r.stderr}
+def git(*args):
+    r=run(['git',*map(str,args)])
+    if r['exit']: raise RuntimeError(r)
+    return r['stdout'].strip()
+head=git('-C',ROOT,'rev-parse','HEAD')
+assert head.startswith('bee7b14')
+assert not git('-C',ROOT,'diff','--cached','--name-only')
+evidence=[run(['git','-C',str(ROOT),*args]) for args in [('log','-1'),('status','--short'),('rev-list','--left-right','--count','origin/main...HEAD'),('diff','--cached','--name-only')]]
+(OUT/'git-evidence.json').write_text(json.dumps(evidence,indent=2))
+prior=read(EVAL/'analyses/c1-consistent-rescore-20261024/historical-six-qualified.json')
+sources=list((EVAL/'scripts').glob('*.py'))+list((EVAL/'cases').rglob('*'))
+sources=[p for p in sources if p.is_file()]
+originals=[p for row in prior['runs'] for p in (EVAL/'baselines/c1-csvledger'/row['run']).rglob('*') if p.is_file()]
+def hashes(paths): return {str(p.relative_to(ROOT)):digest(p) for p in paths}
+before={'sources':hashes(sources),'originals':hashes(originals)}
+(OUT/'hashes-before.json').write_text(json.dumps(before,indent=2))
+scratch=Path(tempfile.mkdtemp(prefix='c1-checkpoint5-'))
+report={'head':head,'scratch':str(scratch),'runs':[],'validation_commands_executed':0,'model_calls':0,'supplementary_inputs':[]}
+for row in prior['runs']:
+    stamp=row['run']; src=EVAL/'baselines/c1-csvledger'/stamp; inp=scratch/'inputs'/stamp; ws=scratch/'workspaces'/stamp
+    shutil.copytree(src,inp); ws.parent.mkdir(exist_ok=True)
+    git('clone','--quiet',str(src/'solution.bundle'),str(ws))
+    retained=Path(read(src/'run.json')['workspace'])
+    if retained.exists():
+        assert git('-C',retained,'rev-parse','HEAD')==git('-C',ws,'rev-parse','HEAD')
+        for heartbeat in retained.rglob('.heartbeat'):
+            if '.git' in heartbeat.parts: continue
+            rel=heartbeat.relative_to(retained); target=ws/rel
+            h=digest(heartbeat); target.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(heartbeat,target)
+            assert digest(heartbeat)==h==digest(target)
+            report['supplementary_inputs'].append({'source':str(heartbeat),'relative':str(rel),'sha256_before':h,'sha256_after':digest(heartbeat)})
+    dest=OUT/'runs'/stamp; dest.mkdir(parents=True,exist_ok=True)
+    cmds=[[sys.executable,'-B',str(EVAL/'scripts/analyze-run.py'),str(inp),'--analysis-only'],[sys.executable,'-B',str(EVAL/'scripts/score-run.py'),str(inp),'--manual',str(inp/'manual-verdicts.json'),'--workspace',str(ws),'--no-rerun','--out',str(dest)]]
+    results=[run(c) for c in cmds]
+    (dest/'commands.json').write_text(json.dumps(results,indent=2))
+    original=read(src/'score.json')
+    actual=read(dest/'score.json') if (dest/'score.json').exists() else {}
+    def raw(s): return {**{k:v['score'] for k,v in s.get('dimensions',{}).items()},'composite':s.get('composite')}
+    expected=raw(original); observed=raw(actual)
+    entry={'run':stamp,'expected':expected,'actual':observed,'equal':expected==observed,'exit_codes':[r['exit'] for r in results],'validation_evidence':actual.get('validation_evidence'),'process_completeness':actual.get('process_completeness')}
+    report['runs'].append(entry)
+    print(json.dumps(entry),flush=True)
+after={'sources':hashes(sources),'originals':hashes(originals)}
+(OUT/'hashes-after.json').write_text(json.dumps(after,indent=2))
+report.update(sources_unchanged=before['sources']==after['sources'],originals_unchanged=before['originals']==after['originals'],source_files=len(sources),original_files=len(originals))
+report['all_equal']=all(r['equal'] and r['exit_codes']==[0,0] for r in report['runs'])
+(OUT/'report.json').write_text(json.dumps(report,indent=2))

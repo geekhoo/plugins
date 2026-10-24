@@ -1,0 +1,294 @@
+"""Build reviewed process metadata for the two retained Codex C1 runs only.
+
+Reads immutable traces; writes only the requested external staging artifact.
+This is evidence serialization, not contestant execution or scoring.
+"""
+import argparse
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import re
+import sys
+
+sys.dont_write_bytecode = True
+STAGING = Path(__file__).resolve().parent
+SCRIPT = Path("C:/Users/gerald.khoo/geekhoo-plugins/geeky-orchestration/evals/scripts/codex-trace.py")
+RUN1 = "20261023T182024Z-5fa13924"
+RUN2 = "20261023T194430Z-c5e04f3f"
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def visible(value):
+    """Match the evidence validator's visible text, without returning ciphertext."""
+    if isinstance(value, str):
+        try:
+            decoded = json.loads(value)
+            if isinstance(decoded, (dict, list)):
+                return visible(decoded)
+        except ValueError:
+            pass
+        return value
+    if isinstance(value, list):
+        return "\n".join(visible(x) for x in value)
+    if isinstance(value, dict):
+        return "\n".join(visible(v) for k, v in value.items() if k not in
+                         ("encrypted_content", "encrypted_message", "base_instructions", "user_instructions"))
+    return ""
+
+
+class Builder:
+    def __init__(self, run):
+        self.run = run
+        self.rows = {}
+        self.thread = {}
+        self.artifact = {"schema": "geeky-eval.process-evidence/1", "sources": {},
+                         "contexts": [], "stage_intervals": [], "reviews": [],
+                         "lane_moves": [], "handoff_calls": [], "critical_findings": [],
+                         "implementation_commits": {}, "expected_implementation_commits": []}
+
+    def load(self, path):
+        path = path.replace("\\", "/")
+        if path not in self.rows:
+            source = (self.run / path).resolve()
+            if not source.is_relative_to(self.run) or source.suffix != ".jsonl":
+                raise ValueError("Source must be a run-local JSONL")
+            raw = source.read_bytes()
+            self.rows[path] = [json.loads(line) for line in raw.decode("utf-8-sig").splitlines() if line.strip()]
+            meta = next(r["payload"] for r in self.rows[path] if r.get("type") == "session_meta")
+            self.thread[path] = meta["id"]
+            self.artifact["sources"][path] = sha(raw)
+        return self.rows[path]
+
+    def ref(self, path, index, snippet=None):
+        row = self.load(path)[index]
+        p = row.get("payload") or {}
+        if snippet is None:
+            snippet = p.get("call_id") or (p.get("item") or {}).get("id") or row["timestamp"]
+        if not isinstance(snippet, str) or not snippet.strip() or snippet not in visible(row):
+            raise ValueError(f"Missing exact plaintext snippet at {path}:{index}")
+        if "gAAAAA" in snippet or "encrypted_content" in snippet:
+            raise ValueError("Ciphertext is never a source snippet")
+        return {"path": path, "record_index": index, "timestamp": row["timestamp"],
+                "record_sha256": sha(json.dumps(row, sort_keys=True, separators=(",", ":"),
+                                                ensure_ascii=False).encode("utf-8")),
+                "source_text": snippet}
+
+    def call(self, path, index):
+        row = self.load(path)[index]
+        p = row.get("payload") or {}
+        cid = p.get("call_id") or (p.get("item") or {}).get("id")
+        if not cid:
+            raise ValueError(f"No actual tool ID at {path}:{index}")
+        return self.thread[path] + ":" + cid
+
+    def command(self, path, wrapper, needle):
+        """Locate the actual completed nested command, never the JS wrapper."""
+        rows = self.load(path)
+        wrapper_id = rows[wrapper]["payload"]["call_id"]
+        matches = []
+        for i in range(wrapper + 1, len(rows)):
+            p = rows[i].get("payload") or {}
+            if p.get("type") == "custom_tool_call_output" and p.get("call_id") == wrapper_id:
+                break
+            item = p.get("item") or {}
+            if p.get("type") == "item_completed" and item.get("type") == "CommandExecution":
+                command = "\n".join(item.get("command", []))
+                if needle in command:
+                    matches.append(i)
+        if len(matches) != 1:
+            raise ValueError(f"Expected one nested command at {path}:{wrapper} matching {needle!r}; found {matches}")
+        return matches[0]
+
+    def context(self, path, index, stage=None, role=None, tasks=None, phase=None, proofs=()):
+        entry = {"call_id": self.call(path, index), "refs": [self.ref(path, index), *proofs]}
+        for key, value in [("stage", stage), ("role", role), ("tasks", tasks), ("phase", phase)]:
+            if value is not None:
+                entry[key] = value
+        self.artifact["contexts"].append(entry)
+        return entry["call_id"]
+
+    def interval(self, stage, start, end, scope=None):
+        self.artifact["stage_intervals"].append({"scope_call_id": scope, "stage": stage,
+                                                "start": self.ref(*start), "end": self.ref(*end)})
+
+    def coder(self, parent, dispatch, child, task, phase, note_index):
+        note = self.ref(child, note_index, task + "-")
+        return self.context(parent, dispatch, "geeky-implement", "coder", [task], phase, [note])
+
+    def review(self, parent, dispatch, child, results, tasks, phase):
+        proofs = [self.ref(child, index, "READY TO ADVANCE" if ready else "NEEDS FIXES")
+                  for index, verdict, ready in results]
+        cid = self.context(parent, dispatch, "geeky-implement", "reviewer", tasks, phase, proofs)
+        for (index, verdict, ready), result_ref in zip(results, proofs):
+            self.artifact["reviews"].append({"call_id": cid, "tasks": tasks, "phase": phase,
+                "verdict": verdict, "ready": ready, "result_ref": result_ref,
+                "refs": [self.ref(parent, dispatch), result_ref]})
+
+    def lanes(self, path, wrapper, needle, moves, handoff=()):
+        index = self.command(path, wrapper, needle)
+        return self.lanes_at(path, index, needle, moves, handoff)
+
+    def lanes_at(self, path, index, needle, moves, handoff=()):
+        cid = self.call(path, index)
+        proof = self.ref(path, index, needle)
+        self.context(path, index, "geeky-implement")
+        for task, lane in moves:
+            self.artifact["lane_moves"].append({"call_id": cid, "task": task, "lane": lane, "refs": [proof]})
+        if handoff:
+            self.artifact["handoff_calls"].append({"call_id": cid, "tasks": list(handoff), "refs": [proof]})
+        return index
+
+    def commit(self, path, wrapper, commit, task=None):
+        index = self.command(path, wrapper, "git commit")
+        self.context(path, index, "geeky-implement")
+        # The captured completed command output contains the actual commit prefix.
+        proof = self.ref(path, index, commit[:7])
+        entry = {"sha": commit, "refs": [proof]}
+        self.artifact["expected_implementation_commits"].append(entry)
+        if task:
+            self.artifact["implementation_commits"][task] = entry
+
+    def finish(self):
+        # Repeated call contexts may arise from a lane+commit in one shell command.
+        merged = {}
+        for entry in self.artifact["contexts"]:
+            old = merged.setdefault(entry["call_id"], {"call_id": entry["call_id"], "refs": []})
+            for key, value in entry.items():
+                if key == "refs":
+                    for ref in value:
+                        if ref not in old["refs"]:
+                            old["refs"].append(ref)
+                elif key in old and old[key] != value:
+                    raise ValueError("Conflicting context interpretation")
+                else:
+                    old[key] = value
+        self.artifact["contexts"] = list(merged.values())
+        return self.artifact
+
+
+def child(tid):
+    return "subagents/rollout-" + tid + ".jsonl"
+
+
+def build_run1(b):
+    root = "session.jsonl"
+    bounds = [("spec-research", 18, 87), ("geeky-plan", 87, 133), ("plan-review", 133, 179),
+              ("geeky-implement", 179, 432), ("impl-review", 432, 588), ("impl-review", 588, 642)]
+    for stage, first, last in bounds:
+        b.interval(stage, (root, first), (root, last))
+    c1 = child("01a16a02-dec1-7ea1-a273-df311d61c1bb")
+    c2 = child("01a16a06-b192-70a0-8d10-58bcd309ef80")
+    b.coder(root, 185, c1, "T1", "P1", 195)
+    b.coder(root, 308, c2, "T2", "P2", 236)
+    b.review(root, 272, child("01a16a05-718c-7862-9e67-46a7f5bac107"), [(162, "pass", True)], ["T1"], "P1")
+    b.review(root, 352, child("01a16a09-75e6-7ae3-8bcf-d5fa86efce4b"),
+             [(199, "fail", False), (218, "pass", True)], ["T2"], "P2")
+    b.lanes(root, 180, "## In Progress", [("T1", "In Progress")])
+    b.lanes_at(root, 261, "## In Review", [("T1", "In Review")])
+    b.lanes(root, 295, "## Done", [("T1", "Done")], ["T1"])
+    b.lanes(root, 301, "## In Progress", [("T2", "Ready"), ("T2", "In Progress")])
+    b.lanes_at(root, 349, "## In Review", [("T2", "In Review")])
+    b.lanes(root, 423, "## Done", [("T2", "Done")], ["T2"])
+    b.commit(root, 295, "a8a5f349c36b089f15ba0301798fffb0c13c0bbc", "T1")
+    b.commit(root, 423, "20ed68beff50666ef8c3ea159adb3fa8226c21b4", "T2")
+    summary = b.command(root, 433, "Implementation Run Summary")
+    b.context(root, summary, "geeky-implement", proofs=[b.ref(root, summary, "Implementation Run Summary")])
+    money = child("01a16a0c-fcea-7292-af39-8fc63788eff1")
+    b.artifact["critical_findings"].append({"call_id": b.call(root, 444), "tasks": ["T1", "T2"],
+        "refs": [b.ref(root, 444), b.ref(money, 262, "NEEDS FIXES"), b.ref(root, 580, "Tasks: T1 T2")]})
+    # Root-scoped stage attribution already places the critical fix and re-review in impl-review.
+    return b.finish()
+
+
+def build_run2(b):
+    root = "session.jsonl"
+    plan = child("01a16a4c-e099-7bc3-bfeb-c07b79860c78")
+    impl = child("01a16a51-7a02-7db1-b28d-2275ecaa1cba")
+    plan_scope = b.context(root, 111, "geeky-plan", "orchestrator")
+    impl_scope = b.context(root, 249, "geeky-implement", "orchestrator")
+    boundaries = [("spec-research", (root, 14), (root, 111)),
+                  ("geeky-plan", (root, 111), (plan, 126)),
+                  ("plan-review", (plan, 126), (root, 249)),
+                  ("geeky-implement", (root, 249), (root, 564)),
+                  ("impl-review", (root, 564), (root, 628))]
+    for stage, first, last in boundaries:
+        b.interval(stage, first, last)
+    b.interval("geeky-plan", (plan, 59), (plan, 126), plan_scope)
+    b.interval("plan-review", (plan, 126), (plan, 197), plan_scope)
+    b.interval("geeky-implement", (impl, 120), (impl, 405), impl_scope)
+    b.context(plan, 126, "plan-review", "reviewer")
+    b.context(plan, 158, "plan-review", "reviewer")
+    tasks = [(145, "01a16a52-5d4a-77f2-a1c8-d9457d234257", "T1", "P1", 168),
+             (205, "01a16a54-f980-7560-9eda-b3f103c70fa1", "T2", "P1", 195),
+             (288, "01a16a58-d714-7370-97d6-eb152efc6e03", "T3", "P2", 258)]
+    for dispatch, tid, task, phase, note in tasks:
+        b.coder(impl, dispatch, child(tid), task, phase, note)
+    b.review(impl, 253, child("01a16a57-45f0-7693-be34-68c7ff4de408"), [(211, "pass", True)], ["T1", "T2"], "P1")
+    b.review(impl, 362, child("01a16a5c-c0df-7b90-9c8a-073635e89db1"), [(259, "pass", True)], ["T3"], "P2")
+    moves = [(139, "## In Progress", [("T1", "In Progress")], []),
+             (199, "## In Progress", [("T1", "In Review"), ("T2", "Ready"), ("T2", "In Progress")], []),
+             (245, "## In Review", [("T2", "In Review")], []),
+             (276, "## Done", [("T1", "Done"), ("T2", "Done")], ["T1", "T2"]),
+             (283, "## In Progress", [("T3", "Ready"), ("T3", "In Progress")], []),
+             (356, "## In Review", [("T3", "In Review")], []),
+             (383, "## Done", [("T3", "Done")], ["T3"])]
+    for wrapper, needle, rows, handoff in moves:
+        b.lanes(impl, wrapper, needle, rows, handoff)
+    for wrapper, commit, task in [(276, "97185c13b6716df5283ab9f5d7241fbd82a5e2ac", "T1"),
+                                  (276, "4dc447dc6ecb418b180b0c810e2176487bc0dfe5", "T2"),
+                                  (383, "c39a486391fc8a72c66ad33a4c35a4c17f7af313", "T3"),
+                                  (390, "6f179ac0e50c36cfb9926f1c16da792f7bd8a18d", None)]:
+        b.commit(impl, wrapper, commit, task)
+    return b.finish()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--source-run", required=True, type=Path)
+    parser.add_argument("--out", required=True, type=Path)
+    args = parser.parse_args()
+    if not args.source_run.is_absolute() or not args.out.is_absolute():
+        parser.error("Both paths must be absolute")
+    source = args.source_run.resolve()
+    output = args.out.resolve()
+    if source.name not in (RUN1, RUN2):
+        parser.error("Only the two frozen Codex C1 runs are supported")
+    if not output.is_relative_to(STAGING) or output.is_relative_to(source):
+        parser.error("Output must be inside the external staging directory")
+    builder = Builder(source)
+    data = build_run1(builder) if source.name == RUN1 else build_run2(builder)
+    expected = {RUN1: (7, 3, 2, 1), RUN2: (11, 2, 4, 0)}[source.name]
+    actual = tuple(len(data[k]) for k in ("lane_moves", "reviews", "expected_implementation_commits", "critical_findings"))
+    if actual != expected:
+        raise ValueError("Evidence row counts differ from the reviewed mapping")
+    # Import/read only; no scorer invocation, source mutation or product execution.
+    spec = importlib.util.spec_from_file_location("reviewed_codex_trace", SCRIPT)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+    trace = module.load(source)
+    if not trace["trace_complete"]:
+        raise ValueError("Original normalized trace incomplete: " + "; ".join(trace["trace_errors"]))
+    call_ids = {c["id"] for e in trace["stream"] for c in (e.get("message") or {}).get("content", [])
+                if isinstance(c, dict) and c.get("type") == "tool_use"}
+    missing = [e["call_id"] for field in ("contexts", "reviews", "lane_moves", "handoff_calls", "critical_findings")
+               for e in data[field] if e["call_id"] not in call_ids]
+    if missing:
+        raise ValueError("Annotations lack normalized captured IDs: " + ", ".join(missing))
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    module.process_evidence(source, call_ids, output)
+    # Recheck every used source after building and validating.
+    if any(sha((source / p).read_bytes()) != digest for p, digest in data["sources"].items()):
+        raise ValueError("Source changed during serialization")
+    print(json.dumps({"output": str(output), "sha256": sha(output.read_bytes()), "validated": True,
+                      "sources": len(data["sources"]),
+                      **{k: len(data[k]) for k in data if isinstance(data[k], list)}}))
+
+
+if __name__ == "__main__":
+    main()

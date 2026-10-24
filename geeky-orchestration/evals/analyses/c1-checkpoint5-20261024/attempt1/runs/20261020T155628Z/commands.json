@@ -1,0 +1,32 @@
+[
+  {
+    "command": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "-B",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\analyze-run.py",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261020T155628Z",
+      "--analysis-only"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"gate_invocations\": {\n    \"validate-planning-folder\": 4,\n    \"validate-task-schema\": 4,\n    \"validate-kanban\": 6,\n    \"check-commit\": 10\n  },\n  \"gate_results\": {\n    \"validate-planning-folder\": {\n      \"pass\": 4,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 4,\n      \"sub\": 0\n    },\n    \"validate-task-schema\": {\n      \"pass\": 4,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 4,\n      \"sub\": 0\n    },\n    \"validate-kanban\": {\n      \"pass\": 5,\n      \"fail\": 1,\n      \"unknown\": 0,\n      \"main\": 6,\n      \"sub\": 0\n    },\n    \"check-commit\": {\n      \"pass\": 3,\n      \"fail\": 2,\n      \"unknown\": 5,\n      \"main\": 10,\n      \"sub\": 0\n    }\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "-B",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261020T155628Z",
+      "--manual",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261020T155628Z\\manual-verdicts.json",
+      "--workspace",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\workspaces\\20261020T155628Z",
+      "--no-rerun",
+      "--out",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c1-checkpoint5-20261024\\runs\\20261020T155628Z"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"composite\": 77.0,\n  \"quality\": 95.9,\n  \"adherence\": 62.9,\n  \"consistency\": 68.7,\n  \"task_tier\": 77.1,\n  \"needs_judge\": []\n}\n",
+    "stderr": ""
+  }
+]

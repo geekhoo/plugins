@@ -1,0 +1,5 @@
+{"timestamp": "2026-10-24T00:00:00Z", "type": "session_meta", "payload": {"id": "grandchild", "parent_thread_id": "child", "agent_path": "/root/review/nested", "agent_role": "geeky-coder"}}
+{"timestamp": "2026-10-24T00:00:15Z", "type": "response_item", "payload": {"type": "function_call", "call_id": "work", "name": "exec_command", "arguments": "{\"cmd\":\"python -m pytest\"}"}}
+{"timestamp": "2026-10-24T00:00:16Z", "type": "event_msg", "payload": {"type": "item_completed", "item": {"type": "CommandExecution", "id": "work", "command": ["pwsh", "-Command", "python -m pytest"], "aggregated_output": "1 passed", "exit_code": 0, "status": "completed"}}}
+{"timestamp": "2026-10-24T00:00:17Z", "type": "event_msg", "payload": {"type": "token_count", "info": {"total_token_usage": {"input_tokens": 10, "cached_input_tokens": 0, "output_tokens": 5, "reasoning_output_tokens": 5, "total_tokens": 15}}}}
+{"timestamp": "2026-10-24T00:00:18Z", "type": "event_msg", "payload": {"type": "task_complete"}}

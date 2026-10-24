@@ -1,0 +1,12 @@
+{"timestamp": "2026-10-24T00:00:00Z", "type": "session_meta", "payload": {"id": "main", "cwd": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c1-final-parity-20261024\\tmp\\pytest-of-gerald.khoo\\pytest-1\\test_corrupt_or_incomplete_evi0"}}
+{"timestamp": "2026-10-24T00:00:01Z", "type": "response_item", "payload": {"type": "function_call", "call_id": "shell", "name": "exec_command", "arguments": "{\"cmd\": \"python validate-kanban.py --path docs/p\"}"}}
+{"timestamp": "2026-10-24T00:00:02Z", "type": "event_msg", "payload": {"type": "item_completed", "item": {"type": "CommandExecution", "id": "shell", "command": ["pwsh", "-NoProfile", "-Command", "python validate-kanban.py --path docs/p"], "aggregated_output": "OK: 1 task(s) tracked", "exit_code": 0, "status": "completed"}}}
+{"timestamp": "2026-10-24T00:00:03Z", "type": "event_msg", "payload": {"type": "token_count", "info": {"total_token_usage": {"input_tokens": 100, "cached_input_tokens": 40, "output_tokens": 20, "reasoning_output_tokens": 5, "total_tokens": 120}}}}
+{"timestamp": "2026-10-24T00:00:04Z", "type": "event_msg", "payload": {"type": "token_count", "info": {"total_token_usage": {"input_tokens": 100, "cached_input_tokens": 40, "output_tokens": 20, "reasoning_output_tokens": 5, "total_tokens": 120}}}}
+{"timestamp": "2026-10-24T00:00:04Z", "type": "token_usage_record", "payload": {"thread_id": "main", "response_id": "r1"}}
+{"timestamp": "2026-10-24T00:00:04Z", "type": "token_usage_record", "payload": {"thread_id": "main", "response_id": "r1"}}
+{"timestamp": "2026-10-24T00:00:05Z", "type": "event_msg", "payload": {"type": "token_count", "info": {"total_token_usage": {"input_tokens": 150, "cached_input_tokens": 60, "output_tokens": 30, "reasoning_output_tokens": 5, "total_tokens": 180}}}}
+{"timestamp": "2026-10-24T00:00:05Z", "type": "token_usage_record", "payload": {"thread_id": "main", "response_id": "r2"}}
+{"timestamp": "2026-10-24T00:00:06Z", "type": "response_item", "payload": {"type": "message", "role": "assistant", "content": [{"type": "output_text", "text": "Final evidence report"}]}}
+{"timestamp": "2026-10-24T00:00:07Z", "type": "event_msg", "payload": {"type": "task_complete"}}
+{"timestamp": "2026-10-24T00:00:08Z", "type": "event_msg", "payload": {"type": "token_count", "info": {"total_token_usage": {"input_tokens": 1, "cached_input_tokens": 0, "output_tokens": 5, "reasoning_output_tokens": 5, "total_tokens": 6}}}}

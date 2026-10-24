@@ -1,0 +1,32 @@
+{
+  "source_run": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261022T125647Z",
+  "originals_unchanged": true,
+  "before": {
+    "analysis.json": "062c153140444c412e4bb6e35686b395cbfb09b819ed923d0fef1ef001cd2245",
+    "manual-verdicts.json": "05f524403781f56aa0514b34b14131f48df9ca6a867fafff14a764c7d4e497f7",
+    "notes.md": "e42337a0648ceba81509dacd708e1722189a57bf6b69e97e13bd6b11b06c884a",
+    "oracle-output.txt": "e3fdd24b5fb9f52404ddabf6b1ade61cb65285e51e948dce24ad8286968389f6",
+    "run.json": "930ea8ddc1f3a206e405c32bd400d99523fe355ecceb846facd9d78543ccb5b3",
+    "score.json": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+    "score.md": "69d0ce6afcebd34113cbdba048fabb301bf510765f60e287ece681a40f74b780",
+    "session.jsonl": "0e22376c01297816040bda10ed0c1922bdac2f605db4dfed1455822074d8d886",
+    "solution.bundle": "881f98b241fa733356babce0c0cb538649f55089135edf761d58c8fa86d02264",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stream.jsonl": "160b0576f0f35ccc9b1e4d25519119224d323530e7a7d4fdc92814284bdc3230"
+  },
+  "after": {
+    "analysis.json": "062c153140444c412e4bb6e35686b395cbfb09b819ed923d0fef1ef001cd2245",
+    "manual-verdicts.json": "05f524403781f56aa0514b34b14131f48df9ca6a867fafff14a764c7d4e497f7",
+    "notes.md": "e42337a0648ceba81509dacd708e1722189a57bf6b69e97e13bd6b11b06c884a",
+    "oracle-output.txt": "e3fdd24b5fb9f52404ddabf6b1ade61cb65285e51e948dce24ad8286968389f6",
+    "run.json": "930ea8ddc1f3a206e405c32bd400d99523fe355ecceb846facd9d78543ccb5b3",
+    "score.json": "e57b462e8bb8fb7c86fc74526de92663fa584ee055c72427012105c20c42552b",
+    "score.md": "69d0ce6afcebd34113cbdba048fabb301bf510765f60e287ece681a40f74b780",
+    "session.jsonl": "0e22376c01297816040bda10ed0c1922bdac2f605db4dfed1455822074d8d886",
+    "solution.bundle": "881f98b241fa733356babce0c0cb538649f55089135edf761d58c8fa86d02264",
+    "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stream.jsonl": "160b0576f0f35ccc9b1e4d25519119224d323530e7a7d4fdc92814284bdc3230"
+  },
+  "cache_commands": 11,
+  "tests_executed": 0
+}

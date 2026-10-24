@@ -1,0 +1,699 @@
+{
+  "schema": "geeky-eval.process-evidence/1",
+  "origin": "automatic-raw-trace",
+  "sources": {
+    "session.jsonl": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80",
+    "subagents/rollout-01a16a4b-888e-7bf2-9e24-02e7511fa69c.jsonl": "90749ee96e169e68d50c4680a031607f6415c5b3812803762c162262fb726d3c",
+    "subagents/rollout-01a16a4b-996d-7640-8444-60d3a47ed47e.jsonl": "3c8e55cd42ddcfb0d046374c50a541367d39d51d3910cfa959b8a0ed0061cb74",
+    "subagents/rollout-01a16a4b-a648-7e03-9381-7ff3d205605c.jsonl": "ccb3d0e769d2736c6de4cc2e08898efb63c7ae0e9c9764c69b559b5ea8404be8",
+    "subagents/rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl": "b169db233788fae44cc8f0f04fecba81e6ff08ae54cdd7012979212290ae2344",
+    "subagents/rollout-01a16a4e-76d4-7972-88b1-df848fa6f98a.jsonl": "c68a42b5e5b360f033f43316f7a8698073b70f20ef9fdb39bc649ab3e0503cd3",
+    "subagents/rollout-01a16a4f-aaf7-7bf3-95da-74c0076e4455.jsonl": "58b1c4c2bfe0e93e9ede805890a999e70b6c8d3bb293c87c4bcd9daa91bc03e8",
+    "subagents/rollout-01a16a50-3c26-7f72-81b8-edb1e7b85278.jsonl": "0019eb265b0a7b70c4c488d298f1a84e95c044331c5f23adaed73d1526c0c6b7",
+    "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl": "27f587dc489e07c2bc360979f6336983448c62528947cd4bda8c454341a2412e",
+    "subagents/rollout-01a16a52-5d4a-77f2-a1c8-d9457d234257.jsonl": "8991e1b6fe834df41260d2e08b4a3440b5f338a853fefa49ecc6325e7760612b",
+    "subagents/rollout-01a16a54-f980-7560-9eda-b3f103c70fa1.jsonl": "7589fb4cdf5f64f9648056b12a6e228684fadf7e19ca535532ea7b31273b81e8",
+    "subagents/rollout-01a16a57-45f0-7693-be34-68c7ff4de408.jsonl": "640e577445ef926cb24af9ffcbdff2360309ed55eb2aca64bd5b302c90b7468b",
+    "subagents/rollout-01a16a58-d714-7370-97d6-eb152efc6e03.jsonl": "f14360187c446f18a2f9fe0786764bd6dfd0c93f0ea30d8fe0a36c3366b2ceca",
+    "subagents/rollout-01a16a5c-c0df-7b90-9c8a-073635e89db1.jsonl": "a29363ea36c45292ed92e61224cdb0831578c4d93bfc4853adbccd19caf2caed",
+    "subagents/rollout-01a16a5e-3a09-72a0-a9ec-8632f7db0e2e.jsonl": "f27c77dffb4d5bdc0365d4e33d4cc729e944b2ad98f5984b081b8b4ac07a8f15",
+    "subagents/rollout-01a16a5e-53b4-7e80-9adf-1a0b91c4d804.jsonl": "e693cd7d098e1d7d10fb8e1023b9ea9af298806a2de30876e33325659c64a87e",
+    "subagents/rollout-01a16a5e-6c84-7fe0-810a-3d82d6a912d1.jsonl": "ba26c4b12b2b30c27e6348288323df80aeecff3cf63e64712903023b15a8188d"
+  },
+  "contexts": [
+    {
+      "call_id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:call_4ad8b340cc6c4561aaec203353a030b1",
+      "stage": "geeky-implement",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 249,
+          "timestamp": "2026-10-23T19:51:26.908Z",
+          "source_text": "call_4ad8b340cc6c4561aaec203353a030b1",
+          "record_sha256": "5198c340c0bf4bbadee9ed00de5d39689faf038ff98bbbb8d6b65e1b73d93d60"
+        }
+      ],
+      "role": "orchestrator"
+    },
+    {
+      "call_id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:call_98842d9fb2694f2c9530201954c863b0",
+      "stage": "geeky-plan",
+      "refs": [
+        {
+          "path": "session.jsonl",
+          "record_index": 111,
+          "timestamp": "2026-10-23T19:46:25.541Z",
+          "source_text": "call_98842d9fb2694f2c9530201954c863b0",
+          "record_sha256": "d5eb95331fa3e554bcd0878f29c17bca34189a554804de8a45d93ae2ec49a693"
+        }
+      ],
+      "role": "orchestrator"
+    },
+    {
+      "call_id": "01a16a4c-e099-7bc3-bfeb-c07b79860c78:call_ae650b3b8e184eb5befb349358f94369",
+      "stage": "plan-review",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl",
+          "record_index": 126,
+          "timestamp": "2026-10-23T19:49:28.397Z",
+          "source_text": "call_ae650b3b8e184eb5befb349358f94369",
+          "record_sha256": "f7a36850a6bf3bca82f5fa98006f7327b709e8c9067d5c6c9ab1381d0514b805"
+        }
+      ],
+      "role": "reviewer"
+    },
+    {
+      "call_id": "01a16a4c-e099-7bc3-bfeb-c07b79860c78:call_09da1a7f73544f55b7ffd9852bdcef91",
+      "stage": "plan-review",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl",
+          "record_index": 158,
+          "timestamp": "2026-10-23T19:50:05.550Z",
+          "source_text": "call_09da1a7f73544f55b7ffd9852bdcef91",
+          "record_sha256": "5f9971d66d74c699c624284416de86c174ada860c184579a86bf4f8e8c676307"
+        }
+      ],
+      "role": "reviewer"
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:call_da97604f8dba4e20bcd024261debd9d9",
+      "stage": "geeky-implement",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 145,
+          "timestamp": "2026-10-23T19:52:24.983Z",
+          "source_text": "call_da97604f8dba4e20bcd024261debd9d9",
+          "record_sha256": "fa152ab8610a5c4c2807de6e7e3d1b446c255585c5bfd72cc54a453eb9ab9b25"
+        },
+        {
+          "path": "subagents/rollout-01a16a52-5d4a-77f2-a1c8-d9457d234257.jsonl",
+          "record_index": 170,
+          "timestamp": "2026-10-23T19:54:38.902Z",
+          "source_text": "exec-20ac6b93-58cc-438c-ad6e-928b1046ae2c",
+          "record_sha256": "edc439aa78bc3ee475f782a0d5557807a37cd89ebfdf4cb63ce7ab215bbf4598"
+        }
+      ],
+      "role": "coder",
+      "tasks": [
+        "T1"
+      ],
+      "phase": "P1"
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:call_64cdeaac407d418a8196660979f30cca",
+      "stage": "geeky-implement",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 205,
+          "timestamp": "2026-10-23T19:55:16.180Z",
+          "source_text": "call_64cdeaac407d418a8196660979f30cca",
+          "record_sha256": "e6f976fd04ac7212d41926c1b83764f4df4ffc728694bfffc05bf6dd8a85df54"
+        },
+        {
+          "path": "subagents/rollout-01a16a54-f980-7560-9eda-b3f103c70fa1.jsonl",
+          "record_index": 197,
+          "timestamp": "2026-10-23T19:57:20.347Z",
+          "source_text": "exec-b824701f-a612-4f5e-bbb6-826012ba03b7",
+          "record_sha256": "3fe9af339db47120827a550d6ddb02320151f6902d57643711f635ab206b81e6"
+        }
+      ],
+      "role": "coder",
+      "tasks": [
+        "T2"
+      ],
+      "phase": "P1"
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:call_f7bb9d56e81d4544b699f713ffce3e68",
+      "stage": "geeky-implement",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 253,
+          "timestamp": "2026-10-23T19:57:46.808Z",
+          "source_text": "call_f7bb9d56e81d4544b699f713ffce3e68",
+          "record_sha256": "bc4ca4b17e37f1adebe684346f0e7e3566b1e79b7f0c76197653d45c3d39ccb8"
+        }
+      ],
+      "role": "reviewer",
+      "tasks": [
+        "T1",
+        "T2"
+      ],
+      "phase": "P1"
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:call_1aab8b40a8004b6682007f88620dd32c",
+      "stage": "geeky-implement",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 288,
+          "timestamp": "2026-10-23T19:59:29.504Z",
+          "source_text": "call_1aab8b40a8004b6682007f88620dd32c",
+          "record_sha256": "5c75b8a63a5bf27e2ad0d8ede37932eb3e4c6efbd2428580182194c334be8520"
+        },
+        {
+          "path": "subagents/rollout-01a16a58-d714-7370-97d6-eb152efc6e03.jsonl",
+          "record_index": 260,
+          "timestamp": "2026-10-23T20:03:16.738Z",
+          "source_text": "exec-ac8395e9-206b-41a6-9041-963958ac85c5",
+          "record_sha256": "6c5f900fd46c73699835b5866e6723b618141f667763d72660e2c9257675aa87"
+        },
+        {
+          "path": "subagents/rollout-01a16a58-d714-7370-97d6-eb152efc6e03.jsonl",
+          "record_index": 260,
+          "timestamp": "2026-10-23T20:03:16.738Z",
+          "source_text": "exec-ac8395e9-206b-41a6-9041-963958ac85c5",
+          "record_sha256": "6c5f900fd46c73699835b5866e6723b618141f667763d72660e2c9257675aa87"
+        }
+      ],
+      "role": "coder",
+      "tasks": [
+        "T3"
+      ],
+      "phase": "P2"
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:call_605813ab660048d989c31c86942ef8e0",
+      "stage": "geeky-implement",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 362,
+          "timestamp": "2026-10-23T20:03:45.544Z",
+          "source_text": "call_605813ab660048d989c31c86942ef8e0",
+          "record_sha256": "1f796f30c2bfac5f7bc1bff66abb37095799a43655bceb4996f31b4223a7957a"
+        }
+      ],
+      "role": "reviewer",
+      "tasks": [
+        "T3"
+      ],
+      "phase": "P2"
+    }
+  ],
+  "stage_intervals": [
+    {
+      "stage": "geeky-implement",
+      "scope_call_id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:call_4ad8b340cc6c4561aaec203353a030b1",
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 249,
+        "timestamp": "2026-10-23T19:51:26.908Z",
+        "source_text": "call_4ad8b340cc6c4561aaec203353a030b1",
+        "record_sha256": "5198c340c0bf4bbadee9ed00de5d39689faf038ff98bbbb8d6b65e1b73d93d60"
+      },
+      "end": {
+        "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+        "record_index": 405,
+        "timestamp": "2026-10-23T20:05:21.718Z",
+        "source_text": "task_complete",
+        "record_sha256": "80605beeea87d2b5f8c743d4046839377bfcd83c2923f8894b61d4ab3b617223"
+      }
+    },
+    {
+      "stage": "geeky-plan",
+      "scope_call_id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:call_98842d9fb2694f2c9530201954c863b0",
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 111,
+        "timestamp": "2026-10-23T19:46:25.541Z",
+        "source_text": "call_98842d9fb2694f2c9530201954c863b0",
+        "record_sha256": "d5eb95331fa3e554bcd0878f29c17bca34189a554804de8a45d93ae2ec49a693"
+      },
+      "end": {
+        "path": "subagents/rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl",
+        "record_index": 126,
+        "timestamp": "2026-10-23T19:49:28.397Z",
+        "source_text": "call_ae650b3b8e184eb5befb349358f94369",
+        "record_sha256": "f7a36850a6bf3bca82f5fa98006f7327b709e8c9067d5c6c9ab1381d0514b805"
+      }
+    },
+    {
+      "stage": "plan-review",
+      "scope_call_id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:call_98842d9fb2694f2c9530201954c863b0",
+      "start": {
+        "path": "subagents/rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl",
+        "record_index": 126,
+        "timestamp": "2026-10-23T19:49:28.397Z",
+        "source_text": "call_ae650b3b8e184eb5befb349358f94369",
+        "record_sha256": "f7a36850a6bf3bca82f5fa98006f7327b709e8c9067d5c6c9ab1381d0514b805"
+      },
+      "end": {
+        "path": "subagents/rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl",
+        "record_index": 197,
+        "timestamp": "2026-10-23T19:51:13.111Z",
+        "source_text": "task_complete",
+        "record_sha256": "709c866e7e8333a0fe135e6ab5a484c06e2b9d574c391312cc2f054feb76969d"
+      }
+    },
+    {
+      "stage": "spec-research",
+      "scope_call_id": null,
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 14,
+        "timestamp": "2026-10-23T19:44:42.820Z",
+        "source_text": "message",
+        "record_sha256": "e91ca1e1f008ffa0d136a162d1eea55b59eb43daf84e9bf5e00de784f122879b"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 111,
+        "timestamp": "2026-10-23T19:46:25.541Z",
+        "source_text": "call_98842d9fb2694f2c9530201954c863b0",
+        "record_sha256": "d5eb95331fa3e554bcd0878f29c17bca34189a554804de8a45d93ae2ec49a693"
+      }
+    },
+    {
+      "stage": "geeky-plan",
+      "scope_call_id": null,
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 111,
+        "timestamp": "2026-10-23T19:46:25.541Z",
+        "source_text": "call_98842d9fb2694f2c9530201954c863b0",
+        "record_sha256": "d5eb95331fa3e554bcd0878f29c17bca34189a554804de8a45d93ae2ec49a693"
+      },
+      "end": {
+        "path": "subagents/rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl",
+        "record_index": 126,
+        "timestamp": "2026-10-23T19:49:28.397Z",
+        "source_text": "call_ae650b3b8e184eb5befb349358f94369",
+        "record_sha256": "f7a36850a6bf3bca82f5fa98006f7327b709e8c9067d5c6c9ab1381d0514b805"
+      }
+    },
+    {
+      "stage": "plan-review",
+      "scope_call_id": null,
+      "start": {
+        "path": "subagents/rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl",
+        "record_index": 126,
+        "timestamp": "2026-10-23T19:49:28.397Z",
+        "source_text": "call_ae650b3b8e184eb5befb349358f94369",
+        "record_sha256": "f7a36850a6bf3bca82f5fa98006f7327b709e8c9067d5c6c9ab1381d0514b805"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 249,
+        "timestamp": "2026-10-23T19:51:26.908Z",
+        "source_text": "call_4ad8b340cc6c4561aaec203353a030b1",
+        "record_sha256": "5198c340c0bf4bbadee9ed00de5d39689faf038ff98bbbb8d6b65e1b73d93d60"
+      }
+    },
+    {
+      "stage": "geeky-implement",
+      "scope_call_id": null,
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 249,
+        "timestamp": "2026-10-23T19:51:26.908Z",
+        "source_text": "call_4ad8b340cc6c4561aaec203353a030b1",
+        "record_sha256": "5198c340c0bf4bbadee9ed00de5d39689faf038ff98bbbb8d6b65e1b73d93d60"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 564,
+        "timestamp": "2026-10-23T20:05:17.205Z",
+        "source_text": "message",
+        "record_sha256": "ea47efb4a3fde784f78e06baec2ea62491d62ed3227146274dcfd524db8fceda"
+      }
+    },
+    {
+      "stage": "impl-review",
+      "scope_call_id": null,
+      "start": {
+        "path": "session.jsonl",
+        "record_index": 564,
+        "timestamp": "2026-10-23T20:05:17.205Z",
+        "source_text": "message",
+        "record_sha256": "ea47efb4a3fde784f78e06baec2ea62491d62ed3227146274dcfd524db8fceda"
+      },
+      "end": {
+        "path": "session.jsonl",
+        "record_index": 628,
+        "timestamp": "2026-10-23T20:07:02.948Z",
+        "source_text": "task_complete",
+        "record_sha256": "34efeb65b6c14b034fafcd29d8bad24769f039afec6b645ed0acea2ae0230dcb"
+      }
+    }
+  ],
+  "reviews": [
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:call_f7bb9d56e81d4544b699f713ffce3e68",
+      "tasks": [
+        "T1",
+        "T2"
+      ],
+      "phase": "P1",
+      "verdict": "pass",
+      "ready": true,
+      "result_ref": {
+        "path": "subagents/rollout-01a16a57-45f0-7693-be34-68c7ff4de408.jsonl",
+        "record_index": 211,
+        "timestamp": "2026-10-23T19:58:21.837Z",
+        "source_text": "task_complete",
+        "record_sha256": "8b8fdde89ce7ce9aecddb6fef7a65e44502fe4ab4e43d93ae0c5698567bd52e0"
+      },
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 253,
+          "timestamp": "2026-10-23T19:57:46.808Z",
+          "source_text": "call_f7bb9d56e81d4544b699f713ffce3e68",
+          "record_sha256": "bc4ca4b17e37f1adebe684346f0e7e3566b1e79b7f0c76197653d45c3d39ccb8"
+        },
+        {
+          "path": "subagents/rollout-01a16a57-45f0-7693-be34-68c7ff4de408.jsonl",
+          "record_index": 211,
+          "timestamp": "2026-10-23T19:58:21.837Z",
+          "source_text": "task_complete",
+          "record_sha256": "8b8fdde89ce7ce9aecddb6fef7a65e44502fe4ab4e43d93ae0c5698567bd52e0"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:call_605813ab660048d989c31c86942ef8e0",
+      "tasks": [
+        "T3"
+      ],
+      "phase": "P2",
+      "verdict": "pass",
+      "ready": true,
+      "result_ref": {
+        "path": "subagents/rollout-01a16a5c-c0df-7b90-9c8a-073635e89db1.jsonl",
+        "record_index": 259,
+        "timestamp": "2026-10-23T20:04:22.173Z",
+        "source_text": "task_complete",
+        "record_sha256": "e70acf6d045349fc7ffd5aad2a8dbc652f3ef6c666b59e38cc76145967d84d66"
+      },
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 362,
+          "timestamp": "2026-10-23T20:03:45.544Z",
+          "source_text": "call_605813ab660048d989c31c86942ef8e0",
+          "record_sha256": "1f796f30c2bfac5f7bc1bff66abb37095799a43655bceb4996f31b4223a7957a"
+        },
+        {
+          "path": "subagents/rollout-01a16a5c-c0df-7b90-9c8a-073635e89db1.jsonl",
+          "record_index": 259,
+          "timestamp": "2026-10-23T20:04:22.173Z",
+          "source_text": "task_complete",
+          "record_sha256": "e70acf6d045349fc7ffd5aad2a8dbc652f3ef6c666b59e38cc76145967d84d66"
+        }
+      ]
+    }
+  ],
+  "lane_moves": [
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-05c90141-e0eb-43e6-b233-5f31d21460e5",
+      "task": "T1",
+      "lane": "In Progress",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 142,
+          "timestamp": "2026-10-23T19:52:09.513Z",
+          "source_text": "exec-05c90141-e0eb-43e6-b233-5f31d21460e5",
+          "record_sha256": "785c994a8cbab075c57e6c2d23a4ccf63f9cc4d130ddd03db87d6360856adf58"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-f99ae330-1f52-44ef-92a1-84834f9d7210",
+      "task": "T1",
+      "lane": "In Review",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 202,
+          "timestamp": "2026-10-23T19:55:01.421Z",
+          "source_text": "exec-f99ae330-1f52-44ef-92a1-84834f9d7210",
+          "record_sha256": "d80c76558b5a7b0b1b974b291a3e4b375919f8e3486956aa5111b6810c5b5121"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-f99ae330-1f52-44ef-92a1-84834f9d7210",
+      "task": "T2",
+      "lane": "Ready",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 202,
+          "timestamp": "2026-10-23T19:55:01.421Z",
+          "source_text": "exec-f99ae330-1f52-44ef-92a1-84834f9d7210",
+          "record_sha256": "d80c76558b5a7b0b1b974b291a3e4b375919f8e3486956aa5111b6810c5b5121"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-f99ae330-1f52-44ef-92a1-84834f9d7210",
+      "task": "T2",
+      "lane": "In Progress",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 202,
+          "timestamp": "2026-10-23T19:55:01.421Z",
+          "source_text": "exec-f99ae330-1f52-44ef-92a1-84834f9d7210",
+          "record_sha256": "d80c76558b5a7b0b1b974b291a3e4b375919f8e3486956aa5111b6810c5b5121"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-054c998e-4987-4296-b15f-fb32ee127374",
+      "task": "T2",
+      "lane": "In Review",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 248,
+          "timestamp": "2026-10-23T19:57:37.493Z",
+          "source_text": "exec-054c998e-4987-4296-b15f-fb32ee127374",
+          "record_sha256": "aee8addb5d2298977dc4bf1644a3ca696b8099e66a3faed07718afad92f1f684"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+      "task": "T1",
+      "lane": "Done",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 278,
+          "timestamp": "2026-10-23T19:58:56.053Z",
+          "source_text": "exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+          "record_sha256": "b629536bfa67f23527c8c99565b9dcae35f3e44421759613bd5ae917b053ff33"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+      "task": "T2",
+      "lane": "Done",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 278,
+          "timestamp": "2026-10-23T19:58:56.053Z",
+          "source_text": "exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+          "record_sha256": "b629536bfa67f23527c8c99565b9dcae35f3e44421759613bd5ae917b053ff33"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-769087f0-02bd-436a-985b-7c4cab9d4d30",
+      "task": "T3",
+      "lane": "Ready",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 285,
+          "timestamp": "2026-10-23T19:59:10.667Z",
+          "source_text": "exec-769087f0-02bd-436a-985b-7c4cab9d4d30",
+          "record_sha256": "e31ad136cbcf5b559e0f0e3b0846d7e8350f8bac7d08b008afec0467e1950007"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-769087f0-02bd-436a-985b-7c4cab9d4d30",
+      "task": "T3",
+      "lane": "In Progress",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 285,
+          "timestamp": "2026-10-23T19:59:10.667Z",
+          "source_text": "exec-769087f0-02bd-436a-985b-7c4cab9d4d30",
+          "record_sha256": "e31ad136cbcf5b559e0f0e3b0846d7e8350f8bac7d08b008afec0467e1950007"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-1e3f0fd9-aeaf-4844-a685-30c17156bebd",
+      "task": "T3",
+      "lane": "In Review",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 359,
+          "timestamp": "2026-10-23T20:03:36.768Z",
+          "source_text": "exec-1e3f0fd9-aeaf-4844-a685-30c17156bebd",
+          "record_sha256": "ed3c625bfe61e10d21c641f209f7a669c6eb6d5a1f919b404362cd34a60eda27"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-709c2c48-50d3-4452-8cc2-7ee631334154",
+      "task": "T3",
+      "lane": "Done",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 385,
+          "timestamp": "2026-10-23T20:04:43.330Z",
+          "source_text": "exec-709c2c48-50d3-4452-8cc2-7ee631334154",
+          "record_sha256": "cb344a37925aa1642123d52f5480d03430018fdb5bc974fff79b43a6b3957c94"
+        }
+      ]
+    }
+  ],
+  "handoff_calls": [
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+      "tasks": [
+        "T1",
+        "T2"
+      ],
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 278,
+          "timestamp": "2026-10-23T19:58:56.053Z",
+          "source_text": "exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+          "record_sha256": "b629536bfa67f23527c8c99565b9dcae35f3e44421759613bd5ae917b053ff33"
+        }
+      ]
+    },
+    {
+      "call_id": "01a16a51-7a02-7db1-b28d-2275ecaa1cba:exec-709c2c48-50d3-4452-8cc2-7ee631334154",
+      "tasks": [
+        "T3"
+      ],
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 385,
+          "timestamp": "2026-10-23T20:04:43.330Z",
+          "source_text": "exec-709c2c48-50d3-4452-8cc2-7ee631334154",
+          "record_sha256": "cb344a37925aa1642123d52f5480d03430018fdb5bc974fff79b43a6b3957c94"
+        }
+      ]
+    }
+  ],
+  "critical_findings": [],
+  "implementation_commits": {
+    "T1": {
+      "sha": "97185c1",
+      "subject": "feat(input): validate transaction and rule CSV files",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 278,
+          "timestamp": "2026-10-23T19:58:56.053Z",
+          "source_text": "exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+          "record_sha256": "b629536bfa67f23527c8c99565b9dcae35f3e44421759613bd5ae917b053ff33"
+        }
+      ]
+    },
+    "T2": {
+      "sha": "4dc447d",
+      "subject": "feat(engine): categorize and aggregate exact ledger values",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 278,
+          "timestamp": "2026-10-23T19:58:56.053Z",
+          "source_text": "exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+          "record_sha256": "b629536bfa67f23527c8c99565b9dcae35f3e44421759613bd5ae917b053ff33"
+        }
+      ]
+    },
+    "T3": {
+      "sha": "c39a486",
+      "subject": "feat(cli): deliver deterministic reports and categorization",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 385,
+          "timestamp": "2026-10-23T20:04:43.330Z",
+          "source_text": "exec-709c2c48-50d3-4452-8cc2-7ee631334154",
+          "record_sha256": "cb344a37925aa1642123d52f5480d03430018fdb5bc974fff79b43a6b3957c94"
+        }
+      ]
+    }
+  },
+  "expected_implementation_commits": [
+    {
+      "sha": "97185c1",
+      "subject": "feat(input): validate transaction and rule CSV files",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 278,
+          "timestamp": "2026-10-23T19:58:56.053Z",
+          "source_text": "exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+          "record_sha256": "b629536bfa67f23527c8c99565b9dcae35f3e44421759613bd5ae917b053ff33"
+        }
+      ]
+    },
+    {
+      "sha": "4dc447d",
+      "subject": "feat(engine): categorize and aggregate exact ledger values",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 278,
+          "timestamp": "2026-10-23T19:58:56.053Z",
+          "source_text": "exec-d248aad4-1f73-4863-bdbe-bfc4cdbf4870",
+          "record_sha256": "b629536bfa67f23527c8c99565b9dcae35f3e44421759613bd5ae917b053ff33"
+        }
+      ]
+    },
+    {
+      "sha": "c39a486",
+      "subject": "feat(cli): deliver deterministic reports and categorization",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 385,
+          "timestamp": "2026-10-23T20:04:43.330Z",
+          "source_text": "exec-709c2c48-50d3-4452-8cc2-7ee631334154",
+          "record_sha256": "cb344a37925aa1642123d52f5480d03430018fdb5bc974fff79b43a6b3957c94"
+        }
+      ]
+    },
+    {
+      "sha": "6f179ac",
+      "subject": "chore(implement): record accepted phases and final handoff",
+      "refs": [
+        {
+          "path": "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl",
+          "record_index": 393,
+          "timestamp": "2026-10-23T20:05:06.725Z",
+          "source_text": "exec-f7ddfdf8-e349-4858-b36a-dafb6300c5a4",
+          "record_sha256": "d876b7215c58e1e505c4e6baf5f591ff4a086841dde9f5b6e79fdf786cd334aa"
+        }
+      ]
+    }
+  ],
+  "missing": []
+}

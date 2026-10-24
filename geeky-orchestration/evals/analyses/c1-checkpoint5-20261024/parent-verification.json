@@ -1,0 +1,13 @@
+{
+  "six_exact": true,
+  "source_stable": true,
+  "originals_stable": true,
+  "current_67_source_mismatches": [],
+  "current_106_original_mismatches": [],
+  "current_four_run_206_original_mismatches": [],
+  "frozen_eight_source_mismatches": [],
+  "new_closeout_links_missing": [],
+  "staged_files": [],
+  "head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "scope": "Documentation and isolated replay artifacts only; no scorer/runtime changes, paid runs, case-validation reruns, commits or pushes."
+}

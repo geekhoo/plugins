@@ -1,0 +1,49 @@
+{
+  "scope": "Final Claude6/Codex2 only; offline cached scoring, no contestant validation or MXC/model launch",
+  "claude6": {
+    "raw": {
+      "composite": 98.27180923451854,
+      "quality": 98.59516616314198,
+      "adherence": 100.0,
+      "consistency": 100.0,
+      "task_tier": 87.63501077418847
+    },
+    "exact_match": true,
+    "process_completeness": {
+      "required": true,
+      "complete": true,
+      "missing": []
+    }
+  },
+  "codex2": {
+    "raw": {
+      "composite": 98.04000506482035,
+      "quality": 100.0,
+      "adherence": 97.05882352941177,
+      "consistency": 100.0,
+      "task_tier": 90.69416829526227
+    },
+    "automatic_process": true,
+    "process_completeness": {
+      "required": true,
+      "complete": true,
+      "missing": []
+    }
+  },
+  "focused_tests": {
+    "parser_passed": 68,
+    "parser_optional_skips": 2,
+    "guard_profile_trust_passed": 64
+  },
+  "original_files_verified": 206,
+  "original_mismatches": [],
+  "source_sha256": {
+    "geeky-orchestration\\evals\\scripts\\codex-process.py": "b495fa02e31984718de488d6feb6557bdf8b1691953b3c26d42cca03bfc465d6",
+    "geeky-orchestration\\evals\\scripts\\codex-trace.py": "4f600674872e0286da4a89981fd5857564324f2ee8cfba9c2548a021e947c398",
+    "geeky-orchestration\\evals\\scripts\\score-run.py": "cf11e6f719d34daf01f2432e632c207a82cdbfd8f6a4386198da418f6bcb29d9",
+    "geeky-orchestration\\evals\\scripts\\test_codex_auto_process.py": "75a26a1442fe389a026dc77fec8e186125b4b2e7de6e4e8708a703d72e9271fe",
+    "geeky-orchestration\\evals\\scripts\\analyze-run.py": "f74fadd1eaa84004c452fd38ffc98dac425de35a5fea87d72692575cc096bf86"
+  },
+  "guard": "Reused retained native_guard_context proof plus 64 offline tests; paid invocation unverified",
+  "no_commits_or_pushes": true
+}

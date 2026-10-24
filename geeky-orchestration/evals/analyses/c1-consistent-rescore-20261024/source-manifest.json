@@ -1,0 +1,36 @@
+{
+  "files": {
+    "geeky-orchestration/evals/scripts/analyze-run.py": {
+      "sha256": "f74fadd1eaa84004c452fd38ffc98dac425de35a5fea87d72692575cc096bf86",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/analyze-run.py.source"
+    },
+    "geeky-orchestration/evals/scripts/codex-trace.py": {
+      "sha256": "cf6e879831218786318c86149a19d38f21304279314a1038fa8a723b5328ace2",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/codex-trace.py.source"
+    },
+    "geeky-orchestration/evals/scripts/score-run.py": {
+      "sha256": "34a54671b81203e10cec08d30524a127a44f4e3530eb33c56e4a4e09b5300ade",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/score-run.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_run2_prep.py": {
+      "sha256": "173c277fbb880721589458801370a56219ec2ff0404ece3029398e45352e1871",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/test_codex_run2_prep.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_stage_evidence.py": {
+      "sha256": "6f71f8ec8fbcdd59f9c78d7a0c02c17898c108410a85035c9b8db8d441cd6a93",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/test_codex_stage_evidence.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_codex_trace.py": {
+      "sha256": "30ee90905e7546efd63e81782534c882e4528abbf6ecc3e4fb7bea7a48d71eb2",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/test_codex_trace.py.source"
+    },
+    "geeky-orchestration/evals/scripts/test_process_replay.py": {
+      "sha256": "eb6c2b7f8c84ec537b9c844b3c8980791152a2314fe6a3eafa8b97ed9a26d26e",
+      "snapshot": "sources/geeky-orchestration/evals/scripts/test_process_replay.py.source"
+    },
+    "geeky-orchestration/test_score_run.py": {
+      "sha256": "83f1c9846703acf987d994dff56ab6ce9ca8c6add85c2960b9bcec7012cec3f8",
+      "snapshot": "sources/geeky-orchestration/test_score_run.py.source"
+    }
+  }
+}

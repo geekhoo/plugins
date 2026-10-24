@@ -1,0 +1,110 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c1-csvledger",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "approach": "canonical-prompt",
+  "plugin_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "worker_model": "gpt-6.1-sol",
+  "worker_reasoning": "medium",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "workers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "workspace": "C:\\repos\\eval-c1-csvledger-codex-20261023T194430Z-c5e04f3f",
+  "config_directory": "C:\\repos\\.eval-cfg-codex-20261023T194430Z-c5e04f3f",
+  "seed_sha": "e008bf06092583278390991f2d94bf51c4e5479a",
+  "session_id": "01a16a4b-3b64-76e0-8cb5-06c545cc912b",
+  "started_utc": "2026-10-23T19:44:34.5413022Z",
+  "ended_utc": "2026-10-23T20:07:03.5713144Z",
+  "wall_time_s": 1349,
+  "tokens": {
+    "input": 13904824,
+    "cached_input": 13549824,
+    "cache_creation": 0,
+    "output": 61621,
+    "reasoning": 5676,
+    "total": 13966445,
+    "cost_usd_estimate": null
+  },
+  "model_calls": 204,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 39,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-23T19:44:42.820000+00:00",
+      "ended_utc": "2026-10-23T19:46:25.541000+00:00",
+      "minutes": 1.7
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-23T19:46:25.541000+00:00",
+      "ended_utc": "2026-10-23T19:49:28.397000+00:00",
+      "minutes": 3.0
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-23T19:49:28.397000+00:00",
+      "ended_utc": "2026-10-23T19:51:26.908000+00:00",
+      "minutes": 2.0
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-23T19:51:26.908000+00:00",
+      "ended_utc": "2026-10-23T20:05:17.205000+00:00",
+      "minutes": 13.8
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-23T20:05:17.205000+00:00",
+      "ended_utc": "2026-10-23T20:07:02.932000+00:00",
+      "minutes": 1.8
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 118,
+    "passed": 118,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 8,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "806aa38b875b59c2f14c92e5d7b4555a2248e8d0fb83726f7a8816e819ea3f5d",
+    "session": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80"
+  },
+  "interventions": 0,
+  "token_ceiling": 12000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "complete",
+  "parity_passed": true,
+  "runtime_parity_verified": true,
+  "profile_sha256": "3fe1204ebc8673a3b688bb8c6e11fcd1cfc05a8d843ce54a5529a1f5cf67cf5e",
+  "mock_agent": false,
+  "runtime_toolchain_verified": true,
+  "diagnostics_passed": true,
+  "native_proof_folder": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194241Z-2ae86a5e\\native-attempts\\native-probe-233830ce",
+  "over_token_ceiling": true,
+  "trace_complete": true,
+  "trace_errors": []
+}

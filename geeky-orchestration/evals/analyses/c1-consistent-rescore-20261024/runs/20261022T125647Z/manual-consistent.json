@@ -1,0 +1,22 @@
+{
+  "adh.one_concern_per_commit": {
+    "pass": true,
+    "note": "one commit per task plus one docs commit per phase; 7d74686 carries T8's own review follow-up in rules.py"
+  },
+  "adh.final_report_claims": {
+    "pass": true,
+    "note": "4/4 phase verdicts from code-reviewer subagents, no orchestrator code edits (D87), 232 passed, impl-review PASS: all match the records"
+  },
+  "dp07.justification": {
+    "pass": true,
+    "note": "max 2 concurrent coders; T4/T5, T6/T7, T9/T10 notes record no dependency and disjoint files"
+  },
+  "dp13": {
+    "pass": true,
+    "note": "per-task feat/test commits and a docs commit per phase"
+  },
+  "hg.false_completion_claim": {
+    "pass": true,
+    "note": "every completion claim is true (D8)"
+  }
+}

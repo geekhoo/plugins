@@ -1,0 +1,37 @@
+import argparse, hashlib, json, shutil, subprocess, sys
+from pathlib import Path
+
+p=argparse.ArgumentParser();p.add_argument('--base',type=Path,required=True);a=p.parse_args()
+repo=Path.cwd();scripts=repo/'geeky-orchestration/evals/scripts';base=a.base.resolve();out=base/'final-outputs';out.mkdir(exist_ok=False)
+stamps=['20261023T182024Z-5fa13924','20261023T194430Z-c5e04f3f','20261023T104412Z','20261022T125647Z'];expected=[2,4,11,14]
+process_base=Path(r'C:/repos/.eval-tools/c1-rescore-staging');cache_base=process_base/'validation-cache-output'
+source_files=sorted(scripts.glob('*.py'));hashes={str(x):hashlib.sha256(x.read_bytes()).hexdigest() for x in source_files}
+report={'sources':hashes,'runs':[],'validation_commands_executed':0}
+for n,stamp in enumerate(stamps):
+ inp=base/'inputs'/stamp;dest=out/stamp;dest.mkdir();ws=base/'workspaces'/stamp;harness='codex' if n<2 else 'claude-code'
+ proc=process_base/('C1' if n==0 else 'C2')/'process-evidence.json' if n<2 else None
+ cache=cache_base/stamp/'validation-cache.json'
+ commands=[[sys.executable,'-B',str(scripts/'analyze-run.py'),str(inp),'--harness',harness,'--out',str(dest)]]
+ if proc:commands[0]+=['--process-evidence',str(proc)]
+ for kind,cmd in [('analysis',commands[0])]:
+  r=subprocess.run(cmd,capture_output=True,text=True,encoding='utf-8',errors='replace');(dest/(kind+'-stdout.txt')).write_text(r.stdout,encoding='utf-8');(dest/(kind+'-stderr.txt')).write_text(r.stderr,encoding='utf-8')
+  if r.returncode:raise RuntimeError(str(stamp)+' '+kind+' '+str(r.returncode)+' '+r.stdout[-3000:]+' '+r.stderr[-3000:])
+ shutil.copy2(dest/'analysis.json',inp/'analysis.json')
+ cmd=[sys.executable,'-B',str(scripts/'score-run.py'),str(inp),'--harness',harness,'--workspace',str(ws),'--manual',str(inp/'manual-consistent.json'),'--validation-cache',str(cache),'--require-complete','--no-rerun','--out',str(dest)]
+ if proc:cmd+=['--process-evidence',str(proc)]
+ commands.append(cmd);r=subprocess.run(cmd,capture_output=True,text=True,encoding='utf-8',errors='replace');(dest/'score-stdout.txt').write_text(r.stdout,encoding='utf-8');(dest/'score-stderr.txt').write_text(r.stderr,encoding='utf-8')
+ if r.returncode:raise RuntimeError(stamp+' score '+str(r.returncode)+' '+r.stdout[-3000:]+' '+r.stderr[-3000:])
+ score=json.loads((dest/'score.json').read_text(encoding='utf-8-sig'));assert score['composite'] is not None;assert not score['needs_judge'],score['needs_judge']
+ assert score['process_completeness']['complete'] and not score['process_completeness']['missing'];assert score['formula_composite_noncomparable'] is None;assert score['validation_rerun'] is False;assert all(r.get('reused') is True for rr in score['rerun_results'].values() for r in rr['results'])
+ checks=[x for x in score['checks'] if x['id'].startswith('adh.commit_msg.')];assert len(checks)==expected[n],(stamp,len(checks),expected[n])
+ for t in score['tasks']:
+  assert t['attempts']>0 and t['d_s'] is not None and t['d_s']>0,(stamp,t)
+  assert t['review_rounds'] is not None and t['R']>0,(stamp,t)
+ if n==0:assert {t['task']:t['review_rounds'] for t in score['tasks']}=={'T1':1,'T2':2}
+ bindings=json.loads(cache.read_text())['entries'];actual=score['rerun_results']
+ for item in bindings:
+  resolved=actual[item['task']]['commit'];assert item['commit'].startswith(resolved) or resolved.startswith(item['commit']),(stamp,item['task'],resolved,item['commit'])
+ row={'run':stamp,'composite':score['composite'],'dimensions':{k:v['score'] for k,v in score['dimensions'].items()},'implementation_commit_rows':len(checks),'cache_entries':len(bindings),'commands':commands,'output':str(dest),'tasks':score['tasks'],'completeness':score.get('completeness')};report['runs'].append(row);print(json.dumps({k:v for k,v in row.items() if k in ('run','composite','dimensions','implementation_commit_rows','cache_entries')},ensure_ascii=True),flush=True)
+ (out/'replay-report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+assert hashes=={str(x):hashlib.sha256(x.read_bytes()).hexdigest() for x in source_files},'source drift'
+report['sources_unchanged']=True;(out/'replay-report.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8');print('ALL_FOUR_COMPLETE',str(out),flush=True)

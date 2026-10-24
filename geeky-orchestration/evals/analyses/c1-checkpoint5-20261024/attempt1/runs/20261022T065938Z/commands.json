@@ -1,0 +1,32 @@
+[
+  {
+    "command": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "-B",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\analyze-run.py",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261022T065938Z",
+      "--analysis-only"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"gate_invocations\": {\n    \"validate-planning-folder\": 2,\n    \"validate-task-schema\": 2,\n    \"validate-kanban\": 6,\n    \"check-dod\": 6\n  },\n  \"gate_results\": {\n    \"validate-planning-folder\": {\n      \"pass\": 2,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 2,\n      \"sub\": 0\n    },\n    \"validate-task-schema\": {\n      \"pass\": 2,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 2,\n      \"sub\": 0\n    },\n    \"validate-kanban\": {\n      \"pass\": 6,\n      \"fail\": 0,\n      \"unknown\": 0,\n      \"main\": 6,\n      \"sub\": 0\n    },\n    \"check-dod\": {\n      \"pass\": 2,\n      \"fail\": 0,\n      \"unknown\": 4,\n      \"main\": 6,\n      \"sub\": 0\n    }\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "-B",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261022T065938Z",
+      "--manual",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\inputs\\20261022T065938Z\\manual-verdicts.json",
+      "--workspace",
+      "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq\\workspaces\\20261022T065938Z",
+      "--no-rerun",
+      "--out",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c1-checkpoint5-20261024\\runs\\20261022T065938Z"
+    ],
+    "exit": 0,
+    "stdout": "{\n  \"composite\": 86.7,\n  \"quality\": 97.6,\n  \"adherence\": 89.7,\n  \"consistency\": 69.5,\n  \"task_tier\": 72.6,\n  \"needs_judge\": []\n}\n",
+    "stderr": ""
+  }
+]

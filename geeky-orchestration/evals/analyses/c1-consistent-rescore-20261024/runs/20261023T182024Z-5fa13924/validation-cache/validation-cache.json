@@ -1,0 +1,136 @@
+{
+  "schema": "geeky-eval.validation-cache/1",
+  "run": "20261023T182024Z-5fa13924",
+  "source_bundle_sha256": "25b053ae01c9b0893442581c84d0824b4eb561903045c0fe3471c5c540178e88",
+  "bundle_head": "d05528f0a1161953a367c43562c2739eac7b3504",
+  "source_run": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T182024Z-5fa13924",
+  "entries": [
+    {
+      "task": "T1",
+      "commit": "a8a5f349c36b089f15ba0301798fffb0c13c0bbc",
+      "task_file": "docs/spec-001-feature/tasks/T1-core.md",
+      "task_file_sha256": "8a249b6dd5cc8597c9d2d6f8fa9131c7273e018448401bac85aed962c7544f9f",
+      "task_git_blob": "9702e0b81b4fc709a08fdff1993be0d1eac1f9be",
+      "command": "python -m pytest tests/test_core.py -q",
+      "exit_code": 0,
+      "output_scope": "full",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/independent-validation.json",
+        "sha256": "eca577ead6f735924d57eb83233e9e2e9568b552e392c1abe6e727f3e08cf560",
+        "record_pointer": "/checks/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T182024Z-5fa13924\\independent-validation.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "path": "T1-own-commit-validation.txt",
+          "sha256": "14948cb5b22a8482f2d94e2e08eaeba3ffe9bf9065f33f3361761167a47a658e"
+        },
+        "interpreter_substitution": {
+          "contract_executable": "python",
+          "recorded_executable": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "basis": "explicit argv retained in source document"
+        },
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-m",
+          "pytest",
+          "tests/test_core.py",
+          "-q"
+        ]
+      },
+      "stdout_path": "00-T1-stdout.txt",
+      "stdout_sha256": "14948cb5b22a8482f2d94e2e08eaeba3ffe9bf9065f33f3361761167a47a658e",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T2",
+      "commit": "20ed68beff50666ef8c3ea159adb3fa8226c21b4",
+      "task_file": "docs/spec-001-feature/tasks/T2-cli.md",
+      "task_file_sha256": "38dce061ca8813361b72bc2e0f19d33b1362935bed5c0c9464a8b2b0581098bb",
+      "task_git_blob": "5b6d0a861daa301cbb9b2c0444d7532928446114",
+      "command": "python -m pytest -q",
+      "exit_code": 0,
+      "output_scope": "full",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/independent-validation.json",
+        "sha256": "eca577ead6f735924d57eb83233e9e2e9568b552e392c1abe6e727f3e08cf560",
+        "record_pointer": "/checks/1",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T182024Z-5fa13924\\independent-validation.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "path": "T2-own-commit-validation.txt",
+          "sha256": "44ea79202d4f5fcb73248a3254d2199b8b3aff0a00a18a1648cc6c3ea828f94e"
+        },
+        "interpreter_substitution": {
+          "contract_executable": "python",
+          "recorded_executable": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "basis": "explicit argv retained in source document"
+        },
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-m",
+          "pytest",
+          "-q"
+        ]
+      },
+      "stdout_path": "01-T2-stdout.txt",
+      "stdout_sha256": "44ea79202d4f5fcb73248a3254d2199b8b3aff0a00a18a1648cc6c3ea828f94e",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T2",
+      "commit": "20ed68beff50666ef8c3ea159adb3fa8226c21b4",
+      "task_file": "docs/spec-001-feature/tasks/T2-cli.md",
+      "task_file_sha256": "38dce061ca8813361b72bc2e0f19d33b1362935bed5c0c9464a8b2b0581098bb",
+      "task_git_blob": "5b6d0a861daa301cbb9b2c0444d7532928446114",
+      "command": "python -m csvledger --help",
+      "exit_code": 0,
+      "output_scope": "full",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/independent-validation.json",
+        "sha256": "eca577ead6f735924d57eb83233e9e2e9568b552e392c1abe6e727f3e08cf560",
+        "record_pointer": "/checks/2",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T182024Z-5fa13924\\independent-validation.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "path": "T2-help-own-commit-validation.txt",
+          "sha256": "9943b28fc845353dce6d6fb746c666ca2799643ad338937e16a4c7be284c6529"
+        },
+        "interpreter_substitution": {
+          "contract_executable": "python",
+          "recorded_executable": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "basis": "explicit argv retained in source document"
+        },
+        "recorded_provenance": null,
+        "unknown_stderr": true,
+        "recorded_command": [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-m",
+          "csvledger",
+          "--help"
+        ]
+      },
+      "stdout_path": "02-T2-stdout.txt",
+      "stdout_sha256": "9943b28fc845353dce6d6fb746c666ca2799643ad338937e16a4c7be284c6529",
+      "stderr_path": null,
+      "stderr_sha256": null
+    }
+  ],
+  "created_utc": "2026-10-23T20:49:31.381782+00:00",
+  "final_checks_excluded": true,
+  "test_commands_executed": 0
+}

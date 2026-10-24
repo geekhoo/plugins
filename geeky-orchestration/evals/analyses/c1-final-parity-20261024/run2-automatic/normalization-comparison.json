@@ -1,0 +1,88 @@
+{
+  "run": "20261023T194430Z-c5e04f3f",
+  "automatic_route": true,
+  "operator_process_input": false,
+  "trace_complete": true,
+  "trace_errors": [],
+  "process_complete": {
+    "required": true,
+    "complete": true,
+    "missing": []
+  },
+  "fact_differences": {},
+  "interval_anchor_differences": [
+    {
+      "stage": "geeky-implement",
+      "scope": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:call_4ad8b340cc6c4561aaec203353a030b1",
+      "automatic": [
+        "2026-10-23T19:51:26.908Z",
+        "2026-10-23T20:05:21.718Z"
+      ],
+      "annotation": [
+        "2026-10-23T19:51:34.227Z",
+        "2026-10-23T20:05:21.718Z"
+      ]
+    },
+    {
+      "stage": "geeky-plan",
+      "scope": "01a16a4b-3b64-76e0-8cb5-06c545cc912b:call_98842d9fb2694f2c9530201954c863b0",
+      "automatic": [
+        "2026-10-23T19:46:25.541Z",
+        "2026-10-23T19:49:28.397Z"
+      ],
+      "annotation": [
+        "2026-10-23T19:46:26.042Z",
+        "2026-10-23T19:49:28.397Z"
+      ]
+    }
+  ],
+  "score_dimensions_equal": true,
+  "composite": 98.04000506482035,
+  "prior_composite": 98.04000506482035,
+  "attempts": {
+    "T1": 1,
+    "T2": 1,
+    "T3": 2
+  },
+  "tests": {
+    "red": "3 failures: absent extractor twice and strict CLI returned 0 for null composite",
+    "green": "68 passed, 2 skipped; four focused suites; includes mixed-verdict and multi-task commit identity rejection"
+  },
+  "validation": "Reused exact prior saved-cache; --no-rerun; isolated solution.bundle clone",
+  "manual_judgments": "geeky-orchestration\\evals\\analyses\\c1-consistent-rescore-20261024\\runs\\20261023T194430Z-c5e04f3f\\manual-consistent.json",
+  "limitations": [
+    "Supports the captured delegated planning/implementation shape and literal PowerShell lane insertions; unsupported mappings reject or stay missing.",
+    "Stage roots use native dispatches and explicit final-review announcement. Scoped delegate intervals begin at their dispatch; earlier annotated intervals began at own task-start.",
+    "Captured commit prefixes/subjects are resolved uniquely against solution Git history. Task identity binds actual -m literal assignment Tasks trailer to native output subject, then strict task-commit selection rechecks history membership.",
+    "No new rubric judgments, model calls, contestant validations, or guard experiments."
+  ],
+  "source_sha256": {
+    "session.jsonl": "e88c30d9e7f49ac2040cbf052e353a68de70b40ecb4f51d23be0501899449e80",
+    "subagents/rollout-01a16a4b-888e-7bf2-9e24-02e7511fa69c.jsonl": "90749ee96e169e68d50c4680a031607f6415c5b3812803762c162262fb726d3c",
+    "subagents/rollout-01a16a4b-996d-7640-8444-60d3a47ed47e.jsonl": "3c8e55cd42ddcfb0d046374c50a541367d39d51d3910cfa959b8a0ed0061cb74",
+    "subagents/rollout-01a16a4b-a648-7e03-9381-7ff3d205605c.jsonl": "ccb3d0e769d2736c6de4cc2e08898efb63c7ae0e9c9764c69b559b5ea8404be8",
+    "subagents/rollout-01a16a4c-e099-7bc3-bfeb-c07b79860c78.jsonl": "b169db233788fae44cc8f0f04fecba81e6ff08ae54cdd7012979212290ae2344",
+    "subagents/rollout-01a16a4e-76d4-7972-88b1-df848fa6f98a.jsonl": "c68a42b5e5b360f033f43316f7a8698073b70f20ef9fdb39bc649ab3e0503cd3",
+    "subagents/rollout-01a16a4f-aaf7-7bf3-95da-74c0076e4455.jsonl": "58b1c4c2bfe0e93e9ede805890a999e70b6c8d3bb293c87c4bcd9daa91bc03e8",
+    "subagents/rollout-01a16a50-3c26-7f72-81b8-edb1e7b85278.jsonl": "0019eb265b0a7b70c4c488d298f1a84e95c044331c5f23adaed73d1526c0c6b7",
+    "subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl": "27f587dc489e07c2bc360979f6336983448c62528947cd4bda8c454341a2412e",
+    "subagents/rollout-01a16a52-5d4a-77f2-a1c8-d9457d234257.jsonl": "8991e1b6fe834df41260d2e08b4a3440b5f338a853fefa49ecc6325e7760612b",
+    "subagents/rollout-01a16a54-f980-7560-9eda-b3f103c70fa1.jsonl": "7589fb4cdf5f64f9648056b12a6e228684fadf7e19ca535532ea7b31273b81e8",
+    "subagents/rollout-01a16a57-45f0-7693-be34-68c7ff4de408.jsonl": "640e577445ef926cb24af9ffcbdff2360309ed55eb2aca64bd5b302c90b7468b",
+    "subagents/rollout-01a16a58-d714-7370-97d6-eb152efc6e03.jsonl": "f14360187c446f18a2f9fe0786764bd6dfd0c93f0ea30d8fe0a36c3366b2ceca",
+    "subagents/rollout-01a16a5c-c0df-7b90-9c8a-073635e89db1.jsonl": "a29363ea36c45292ed92e61224cdb0831578c4d93bfc4853adbccd19caf2caed",
+    "subagents/rollout-01a16a5e-3a09-72a0-a9ec-8632f7db0e2e.jsonl": "f27c77dffb4d5bdc0365d4e33d4cc729e944b2ad98f5984b081b8b4ac07a8f15",
+    "subagents/rollout-01a16a5e-53b4-7e80-9adf-1a0b91c4d804.jsonl": "e693cd7d098e1d7d10fb8e1023b9ea9af298806a2de30876e33325659c64a87e",
+    "subagents/rollout-01a16a5e-6c84-7fe0-810a-3d82d6a912d1.jsonl": "ba26c4b12b2b30c27e6348288323df80aeecff3cf63e64712903023b15a8188d"
+  },
+  "code_sha256": {
+    "codex-process.py": "b495fa02e31984718de488d6feb6557bdf8b1691953b3c26d42cca03bfc465d6",
+    "codex-trace.py": "4f600674872e0286da4a89981fd5857564324f2ee8cfba9c2548a021e947c398",
+    "score-run.py": "cf11e6f719d34daf01f2432e632c207a82cdbfd8f6a4386198da418f6bcb29d9",
+    "test_codex_auto_process.py": "75a26a1442fe389a026dc77fec8e186125b4b2e7de6e4e8708a703d72e9271fe"
+  },
+  "review_fixes": [
+    "Mixed task verdicts reject rather than share an aggregate verdict.",
+    "Task commits bind captured output subjects to actual -m variable literal assignment and single-task Tasks trailer; no order-based zip."
+  ]
+}

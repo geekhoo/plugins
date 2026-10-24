@@ -1,0 +1,154 @@
+{
+  "schema": "geeky-eval.validation-cache/1",
+  "run": "20261023T194430Z-c5e04f3f",
+  "source_bundle_sha256": "8acd57a20c6d624342231fc6b8152882dc692d4311a7e31a603ff39861863db1",
+  "bundle_head": "7c34d2b197174c02f27909dee38beb95fe9596a5",
+  "source_run": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194430Z-c5e04f3f",
+  "entries": [
+    {
+      "task": "T1",
+      "commit": "97185c13b6716df5283ab9f5d7241fbd82a5e2ac",
+      "task_file": "docs/spec-001-feature/tasks/T1-validated-input.md",
+      "task_file_sha256": "741d87e5e243f4efe2a60a9e87cf13cb34c3244480150993cbec621ecb60d493",
+      "task_git_blob": "0c6a3edef12502d3e4a06a7316a0382bb70f037b",
+      "command": "python -m pytest tests/test_input.py -q",
+      "exit_code": 0,
+      "output_scope": "summary",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/independent-validation.json",
+        "sha256": "5eec6b3f1ac39b696c00bf522ac876f16ac4f93de0d2d7cd5154805dc9a432f2",
+        "record_pointer": "/checks/0",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194430Z-c5e04f3f\\operator-evidence\\independent-validation.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/checks/0/stdout"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": "parent tool execution 99abaa; record serialization stopped later on T3 lookup, no T1 retry",
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_input.py -q"
+      },
+      "stdout_path": "00-T1-stdout.txt",
+      "stdout_sha256": "a213aefd7e50992fe7874313f004414753c6ab90e073375e957ba58c45ca8f15",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T2",
+      "commit": "4dc447dc6ecb418b180b0c810e2176487bc0dfe5",
+      "task_file": "docs/spec-001-feature/tasks/T2-exact-engine.md",
+      "task_file_sha256": "6c1e89896f39d892e62b6edd407066cededdf55a4c5c1a662ccef352fc37cf95",
+      "task_git_blob": "be9fe1bf26949edd930a5cc5644320e87c611796",
+      "command": "python -m pytest tests/test_input.py tests/test_engine.py -q",
+      "exit_code": 0,
+      "output_scope": "summary",
+      "duration_ms": null,
+      "source_document": {
+        "path": "sources/independent-validation.json",
+        "sha256": "5eec6b3f1ac39b696c00bf522ac876f16ac4f93de0d2d7cd5154805dc9a432f2",
+        "record_pointer": "/checks/1",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194430Z-c5e04f3f\\operator-evidence\\independent-validation.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/checks/1/stdout"
+        },
+        "interpreter_substitution": null,
+        "recorded_provenance": "parent tool execution 99abaa; record serialization stopped later on T3 lookup, no T2 retry",
+        "unknown_stderr": true,
+        "recorded_command": "python -m pytest tests/test_input.py tests/test_engine.py -q"
+      },
+      "stdout_path": "01-T2-stdout.txt",
+      "stdout_sha256": "510276b405e332a2b45e1db6493d675fe29fbe5e71fd7933a25ef468471ddd58",
+      "stderr_path": null,
+      "stderr_sha256": null
+    },
+    {
+      "task": "T3",
+      "commit": "c39a486391fc8a72c66ad33a4c35a4c17f7af313",
+      "task_file": "docs/spec-001-feature/tasks/T3-cli-acceptance.md",
+      "task_file_sha256": "0517eb130316c3e459adbc02fa5711dd5eed6d0347a8685ec34be30571a677ae",
+      "task_git_blob": "e86ae157c5162d3c6da907677409b8c20e4c0d5a",
+      "command": "python -m pytest -q",
+      "exit_code": 0,
+      "output_scope": "full",
+      "duration_ms": 13244.414,
+      "source_document": {
+        "path": "sources/independent-validation.json",
+        "sha256": "5eec6b3f1ac39b696c00bf522ac876f16ac4f93de0d2d7cd5154805dc9a432f2",
+        "record_pointer": "/checks/2",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194430Z-c5e04f3f\\operator-evidence\\independent-validation.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/checks/2/stdout"
+        },
+        "interpreter_substitution": {
+          "contract_executable": "python",
+          "recorded_executable": "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+          "basis": "explicit argv retained in source document"
+        },
+        "recorded_provenance": null,
+        "unknown_stderr": false,
+        "recorded_command": [
+          "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+          "-m",
+          "pytest",
+          "-q"
+        ]
+      },
+      "stdout_path": "02-T3-stdout.txt",
+      "stdout_sha256": "f8fcb72775251e2239b56107a61b2b1baa95db672ad37776eac990102bb2bc88",
+      "stderr_path": "02-T3-stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "task": "T3",
+      "commit": "c39a486391fc8a72c66ad33a4c35a4c17f7af313",
+      "task_file": "docs/spec-001-feature/tasks/T3-cli-acceptance.md",
+      "task_file_sha256": "0517eb130316c3e459adbc02fa5711dd5eed6d0347a8685ec34be30571a677ae",
+      "task_git_blob": "e86ae157c5162d3c6da907677409b8c20e4c0d5a",
+      "command": "python -m csvledger --help",
+      "exit_code": 0,
+      "output_scope": "full",
+      "duration_ms": 209.21,
+      "source_document": {
+        "path": "sources/independent-validation.json",
+        "sha256": "5eec6b3f1ac39b696c00bf522ac876f16ac4f93de0d2d7cd5154805dc9a432f2",
+        "record_pointer": "/checks/3",
+        "original_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c1-csvledger\\20261023T194430Z-c5e04f3f\\operator-evidence\\independent-validation.json"
+      },
+      "provenance": {
+        "kind": "saved-validation-result",
+        "stdout_source": {
+          "record_pointer": "/checks/3/stdout"
+        },
+        "interpreter_substitution": {
+          "contract_executable": "python",
+          "recorded_executable": "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+          "basis": "explicit argv retained in source document"
+        },
+        "recorded_provenance": null,
+        "unknown_stderr": false,
+        "recorded_command": [
+          "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+          "-m",
+          "csvledger",
+          "--help"
+        ]
+      },
+      "stdout_path": "03-T3-stdout.txt",
+      "stdout_sha256": "7099847e58ed6464fa71bc7b2533d0e395b36b0af90cbdd7318110f5b3ad2ea0",
+      "stderr_path": "03-T3-stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "created_utc": "2026-10-23T20:49:41.131072+00:00",
+  "final_checks_excluded": true,
+  "test_commands_executed": 0
+}

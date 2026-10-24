@@ -1,0 +1,124 @@
+# C1 Baselines: Six Claude Runs and Two Codex Attempts
+
+| Run | Folder | Plugin |
+|---|---|---|
+| 1 | `20261020T114232Z` | `24c4e6d` |
+| 2 | `20261020T155628Z` | `24c4e6d` |
+| 3 | `20261022T065938Z` | `e674b86` |
+| 4 | `20261022T125647Z` | `e572902` |
+| 5 | `20261023T062603Z` | `fd67ca3` |
+| 6 | `20261023T104412Z` | `8ea2ccc` |
+
+All six runs used:
+- Claude Code 2.1.304 with `claude-sonnet-5-5`;
+- MXC isolated mode;
+- the canonical end-to-end prompt.
+
+Run 3 used a later plugin than runs 1 and 2. That plugin includes the five skill-text fixes, the sandbox environment fixes (D81, D84) and the background-wait fix (D85). Run 3 is a different contestant (D60), so it is listed beside runs 1 and 2 and kept out of the mean, min–max and stability.
+
+Run 4 used `e572902`, which adds three things: the D88 skill fixes, the scorer, and `--disallowedTools Bash` in the runner. It is listed separately as well. It used 15.51M tokens, over the 12M C1 ceiling, so it is not reference-eligible.
+
+Run 5 used `fd67ca3`, which adds two things: D90's phase-level review cadence and main-thread budget, and D91's retirement of event logs. It used 8.97M tokens, so it is reference-eligible.
+
+Run 6 used `8ea2ccc`, which adds D92. Its main agent handed all of `geeky-implement` to the plugin's `geeky-implement-orchestrator` subagent. That subagent's coders and reviewers are recorded only in `subagents/`, and the scorer reads them (D93). It used 8.13M tokens and is reference-eligible: a bytecode-only tamper flag was corrected (D93).
+
+Scored on 2026-10-22 by `evals/scripts/score-run.py` with the QACT model in `docs/agent-eval-decisions.md` (including D86–D88, D27's per-task-commit re-runs and D91's retirement of the event-log checks). Rescored 2026-10-23. Judgement items come from each run's `manual-verdicts.json`. Each run's full derivation is in its `score.md`: [run 1](20261020T114232Z/score.md), [run 2](20261020T155628Z/score.md), [run 3](20261022T065938Z/score.md), [run 4](20261022T125647Z/score.md), [run 5](20261023T062603Z/score.md), [run 6](20261023T104412Z/score.md). The provisional terms are unchanged: no judge (D57), no expectations files (D34), and size measured against the 300-LOC upper bound of the C1 spec's band. `L_ref` is 2678 ms.
+
+## Scores
+
+| Dimension | Weight | Run 1 | Run 2 | Runs 1–2 mean (min–max) | Run 3 | Run 4 | Run 5 | Run 6 | Codex attempt 1 | Codex replacement (provisional) |
+|---|---|---|---|---|---|---|---|---| --- | --- |
+| Quality | 0.35 | 97.9 | 95.9 | 96.9 (95.9–97.9) | 97.6 | 97.8 | 96.3 | 98.6 | unscorable | 95.9 |
+| Adherence | 0.35 | 68.3 (43/63) | 62.9 (44/70) | 65.6 (62.9–68.3) | 89.7 (61/68) | 98.8 (80/81) | 95.7 (66/69) | 100.0 (63/63) | unscorable | 81.5 (22/27) |
+| Consistency | 0.20 | 65.7 | 68.7 | 67.2 (65.7–68.7) | 69.5 | 100.0 | 88.6 | 100.0 | unscorable | 78.2 |
+| Task tier | 0.10 | 58.9 | 77.1 | 68.0 (58.9–77.1) | 72.6 | 90.9 | 89.1 | 87.6 | unscorable | 40.0; parser-limited |
+| **Composite** | | **77.2** | **77.0** | **77.1 (77.0–77.2)** | **86.7** | **97.9** | **93.8** | **98.3** | unscorable | **81.7 provisional** |
+| Tokens | breakdown | 10.06M | 13.32M | 11.69M | 10.12M | 15.51M (over 12M) | 8.97M | 8.13M | 1.740M recorded; incomplete | 17.729M |
+| Token efficiency | breakdown | 100 | 87.8 | | 100 | 75.4 | 100 | 100 | not calibrated | not calibrated |
+| Wall time | breakdown | 36.7 min | 40.1 min | | 34.0 min | 41.1 min | 39.6 min | 40.9 min | 82 s (stopped) | 22.5 min |
+
+Codex attempt 1 is [20261023T175251Z-2941f32c](20261023T175251Z-2941f32c/score.md), plugin `bee7b14`, Codex CLI0.164.0: main `gpt-6.1-sol/medium`, every descendant `gpt-6-luna/max`. It stopped after the exec denied-root diagnostic count exceeded the approved one. The shared scorer refused the incomplete trace; QACT is unavailable. Oracle0/118 passed (118 setup errors, no implementation). Recorded usage may omit interrupted calls. This different contestant configuration is excluded from every Claude mean and stability statistic.
+
+
+Codex replacement [20261023T182024Z-5fa13924](20261023T182024Z-5fa13924/score.md) completed with the same model matrix in all14threads, oracle118/118 stable3, independent own-commit23/72tests and final76tests, zero interventions. Score81.7 is provisional: reviewed plaintext stages correct preread attribution, but opaque coder task ownership, plain-bullet validation commands, and other trace-shape gaps limit process dimensions. Task tier40.0 is not evidence of absent tests. APIlatency/cost null; no judge; reference eligibilityfalse. Two rejected patches remain separate candidate-tool-failure evidence. See [learnings](20261023T182024Z-5fa13924/learnings.md). It is excluded from all Claude means/stability.
+
+
+Token efficiency uses the fixed C1 baseline for plugin `24c4e6d`: 11.69M, the mean of runs 1–2 (D53). Tokens are `tokens.total` in each run's `analysis.json`.
+
+Run 4's T1 validation command `python -m csvledger` exits 2 at the final HEAD, because T8 changed it to exit 2 as the contract requires. Re-run at T1's own commit (D27), it passes, so D is 1.00. Run 4's only adherence miss is that 7 of 20 lane-move calls ran no `validate-kanban`.
+
+## Run 6 against run 5
+
+| Change | Evidence |
+|---|---|
+| Tokens 8.97M → 8.13M | The main thread spent 0.64M during `geeky-implement`. The `geeky-implement-orchestrator` subagent ran the stage in its own context (2.33M), so its turns never re-read the main thread's 118K+ context. |
+| Plan-review fixed (D92) | Phase 1 (`code-reviewer`) and phase 3 (`code-architect`) were dispatched separately, and the commit message is exact. |
+| Gates and commits | `check-commit` passed before every commit; subjects were shortened to meet the 72-character limit. `check-dod` ran in each Done call and passed. |
+| Reviews | One `code-reviewer` per phase gave each task its own verdict, with reviewer IDs recorded in `handoff.md`. Coder attempts come from the nested transcripts: T2, T5 and T7 each failed once, then passed. |
+| D92 gate order corrected | `check-dod.py` requires the task to be in the Done lane, so "pass before the Done move" was impossible. The orchestrator recorded this as a deviation and used move, check, and revert-on-fail. The skill text now says exactly that (D92). |
+| Quality held | Oracle 118/118, stable over 3 runs. Validation passes at each task's commit (9/9), and 271 tests pass at HEAD. Non-test LOC is 331, the smallest since run 1. |
+
+## Run 5 against run 4
+
+| Change | Evidence |
+|---|---|
+| Tokens 15.51M → 8.97M (−42%) | Main-thread turns during `geeky-implement` fell from 54 to 28 (9.58M → 4.10M tokens). Implement-stage reviewer dispatches fell from 15 to 4, one per phase, each with a separate verdict per task. |
+| Quality held | The oracle passed 118/118, stable over 3 runs, and all 10 validation commands pass at each task's commit. Every task has an AC-level review verdict (R = 1 for all 8). Quality is 96.3 against 97.8 only because S fell: 397 non-test LOC against 351. |
+| Adherence 95.7 (3 misses) | T1 and T2 moved to Done before `check-dod` passed: it failed in the Done call and passed one call later. Commit `ec41062` has a 73-character subject; `check-commit` flagged it, and the agent disclosed it but committed anyway. |
+| Consistency 88.6 (18/21) | <ul><li>Decision point 4: `plan-review` dispatched one subagent instead of the phase 1 and phase 3 pair.</li><li>Critical decision point 10: the T1/T2 gate timing above.</li></ul> `check-commit` ran before every commit, so decision point 12 passes. |
+| Lane moves | The agent wrote `.tools/kmove.ps1`, which moves one lane and runs `validate-kanban` itself. The scorer now reads named helper arguments (`-Task`, `-To`) and credits a helper's own gate calls. |
+
+## Run 4 against run 3
+
+| Change | Evidence |
+|---|---|
+| Phase verdicts 4/4 from reviewer subagents; every task reviewed | 19 `code-reviewer` dispatches against 6 in run 3. T5's first review failed and its re-review passed. |
+| No orchestrator code edits (D87 passes) | Every product and test change went through `geeky-coder` (12 dispatches). |
+| `check-commit` before every commit | 14 runs, against none in run 3. |
+| Lanes moved one at a time, with gates in the Done call | The agent wrote a lane-move helper (`kb.py`). Each Done call also ran `check-dod` and added a handoff line naming the task. 7 of 20 move calls (In Review, Ready and In Progress moves) ran no `validate-kanban`. |
+| No Bash calls | `--disallowedTools Bash` works with the real `claude`. |
+| Event logs still 0/10 | No `tasks/T<n>.events.jsonl` exists, even with D88's `EVENTS:` output slot. The requirement is now retired (D91). |
+| Tokens +5.4M | Main-thread turns during `geeky-implement` rose from 4.53M (31 turns) to 9.58M (54 turns), driven by per-task reviewer dispatches. D90 moves task reviews into one dispatch per phase. |
+
+No hard gate fired in any run:
+- the oracle passed 118/118 in each of 3 runs;
+- no frozen file changed after `plan-review`;
+- no tool call used push, force, amend or `--no-verify` (the only matches are skill text);
+- every completion claim is true (D8). Run 3 has one false process claim.
+
+**Stability** (runs 1–2, not scored): both runs reached 16 decision points and took the same action at 11 of them (69%). Three of those agreements (10, 11 and 14) are shared misses.
+
+## Corrections from the scorer
+
+The hand scoring done earlier the same day had three errors. The numbers in this section predate D27's per-commit re-runs and D91. The scorer is right in each case; each was checked against the trace.
+
+| Run | Dimension | Hand | Scorer | Cause |
+|---|---|---|---|---|
+| 1 | Adherence, Consistency | 64.3, 70.9 | 61.4, 63.6 | D86: T2 moved to Done in main-thread call 85 without `check-dod`, which first ran for T2 in call 89. This fails one gate-timing check and critical decision point 10. |
+| 1 | Adherence | phase verdicts 1/4 | 0/4 | D88: run 1's only READY TO ADVANCE was written by the orchestrator into a notes file, and no reviewer ran. Run 3's self-issued phase 3 verdict already fails under the same rule. |
+| 2 | Task tier | 79.1 | 77.1 | D87: call 351 appended tests to `tests/test_transactions.py` (T4) and `tests/test_rules.py` (T5). That adds one attempt to each, which the hand count left out. |
+
+Composites move from 76.8 to 74.4 (run 1) and from 74.3 to 74.1 (run 2). Run 3 matches on all five numbers.
+
+## Gate runs
+
+From `analysis.json` (`gate_results`, regenerated with `analyze-run.py --analysis-only`). Every gate ran on the main thread.
+
+| Gate | Run 1 | Run 2 | Run 3 |
+|---|---|---|---|
+| `validate-planning-folder` | 2 | 4 | 2 |
+| `validate-task-schema` | 2 | 4 | 2 |
+| `validate-kanban` | 10 (1 fail) | 6 (1 fail) | 6 |
+| `check-dod` | 7 | 0 | 6 (4 verdicts hidden by `Select -Last 2`) |
+| `check-commit` | 1 | 10 (2 fail, 5 verdicts hidden inside a helper function) | 0 |
+
+## Why run 3 differs
+
+| Difference | Cause (evidence) |
+|---|---|
+| Adherence +18.9 to +24.6 | The skill fixes took hold:<ul><li>a handoff entry and notes file for every Done batch;</li><li>a Run Summary;</li><li>`Tasks:` lines on every implement commit, all 12 passing `check-commit`;</li><li>exact planning-commit messages;</li><li>a finalized `.heartbeat`.</li></ul> The environment fixes removed the exit-5 and pytest noise. |
+| Event logs still 0 | The orchestrator created an empty `T1.events.jsonl` on T1's dispatch, then never wrote an entry or created logs for T2–T8. The coders read the file but didn't append to it. |
+| Lane discipline loosened | Only T1 was moved to In Progress. T2–T8 went from Ready to Done in one edit per phase, which the final report itself admits. |
+| Review gaps in phase 3 | Phases 1 and 2 had a batch reviewer. For phase 3 the orchestrator recorded READY TO ADVANCE itself and deferred review to `impl-review`. The final report then claimed a reviewer verdict for every phase. |
+| `check-commit` never run | No commit gate ran before any commit. The messages pass when checked afterwards. |
+| The orchestrator edited code | It patched `rules.py` after the phase 1 review and `csvio.py` after `impl-review`, instead of dispatching a coder. Runs 1 and 2 did the same, so all three fail the D87 check. |

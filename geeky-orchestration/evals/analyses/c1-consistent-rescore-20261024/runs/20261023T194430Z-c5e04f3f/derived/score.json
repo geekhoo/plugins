@@ -1,0 +1,802 @@
+{
+  "schema": "geeky-eval.score/1",
+  "run": "20261023T194430Z-c5e04f3f",
+  "case": "c1-csvledger",
+  "plugin_sha": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "harness": "codex",
+  "model": "gpt-6.1-sol",
+  "scored_utc": "2026-10-23T21:02:35Z",
+  "scorer": "evals/scripts/score-run.py",
+  "workspace": "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261023T194430Z-c5e04f3f",
+  "workspace_source": "given",
+  "planning_folder": "docs/spec-001-feature",
+  "validation_rerun": false,
+  "validation_evidence": "reused recorded results",
+  "manual_file_used": true,
+  "composite": 98.04000506482035,
+  "process_completeness": {
+    "required": true,
+    "complete": true,
+    "missing": []
+  },
+  "formula_composite_noncomparable": null,
+  "dimensions": {
+    "quality": {
+      "score": 100.0,
+      "P": 1.0,
+      "S": 1.0,
+      "D": 1.0,
+      "defects": 0,
+      "evidence": {
+        "P": "oracle 118/118 (collected 118, skipped 0)",
+        "S": "min(1, 300 / 275 non-test LOC)",
+        "D": "4/4 validation commands pass at each task's commit"
+      },
+      "capped": 100.0
+    },
+    "adherence": {
+      "passed": 33,
+      "applicable": 34,
+      "score": 97.05882352941177,
+      "needs_judge": [],
+      "capped": 97.05882352941177
+    },
+    "consistency": {
+      "score": 100.0,
+      "DPC": 1.0,
+      "DPC_fraction": "21/21",
+      "OC": 1.0,
+      "observed_sequence": [
+        "spec-research",
+        "geeky-plan",
+        "plan-review",
+        "geeky-implement",
+        "impl-review"
+      ],
+      "needs_judge": []
+    },
+    "task_tier": {
+      "score": 90.69416829526227,
+      "L_run_ms": null,
+      "L_ref_ms": 2678,
+      "task_timeout_s": 1200
+    }
+  },
+  "hard_gates": [
+    {
+      "id": "hg.oracle",
+      "fired": false,
+      "effect": "Quality <= 40",
+      "kind": "det"
+    },
+    {
+      "id": "hg.frozen",
+      "fired": false,
+      "effect": "Adherence <= 30",
+      "kind": "det"
+    },
+    {
+      "id": "hg.forbidden_git",
+      "fired": false,
+      "effect": "Adherence = 0",
+      "kind": "det"
+    },
+    {
+      "id": "hg.false_completion_claim",
+      "fired": false,
+      "effect": "Adherence <= 50",
+      "kind": "judge",
+      "status": "manual: No false task/stage/test/commit completion claim found. Own-commit reruns T1 42, T2 62, T3 128 +help and final 128 +help pass; oracle 118/118 stable three times; all cited commits exist. Incorrect hook-availability statement is scored under final-report accuracy, not a false task completion. See independent-validation.json and physical reports."
+    }
+  ],
+  "tasks": [
+    {
+      "task": "T1",
+      "attempts": 1,
+      "attempt_calls": [
+        122
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 122,
+      "rerun_ok": true,
+      "V": 1.0,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 347.7,
+      "T": 0.7102791666666666,
+      "D": 1.0,
+      "s": 94.20558333333332,
+      "LOC": 287.0,
+      "w": 0.27068527918781726
+    },
+    {
+      "task": "T2",
+      "attempts": 1,
+      "attempt_calls": [
+        156
+      ],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": 156,
+      "rerun_ok": true,
+      "V": 1.0,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 185.1,
+      "T": 0.8457208333333334,
+      "D": 1.0,
+      "s": 96.91441666666665,
+      "LOC": 273.0,
+      "w": 0.26357868020304565
+    },
+    {
+      "task": "T3",
+      "attempts": 2,
+      "attempt_calls": [
+        215,
+        220
+      ],
+      "d87_calls": [],
+      "excluded_runs": [
+        [
+          198,
+          "no test outcome"
+        ],
+        [
+          213,
+          "no test outcome"
+        ],
+        [
+          218,
+          "no test outcome"
+        ]
+      ],
+      "first_pass_call": 220,
+      "rerun_ok": true,
+      "V": 0.75,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": 292.0,
+      "T": 0.7566525,
+      "D": 1.0,
+      "s": 85.13305000000001,
+      "LOC": 425.0,
+      "w": 0.4657360406091371
+    }
+  ],
+  "phases": {
+    "P1": [
+      "T1",
+      "T2"
+    ],
+    "P2": [
+      "T3"
+    ]
+  },
+  "decision_points": [
+    {
+      "id": "dp01",
+      "name": "Research team: 3 parallel researchers",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "3 dispatches, max 3 concurrent"
+    },
+    {
+      "id": "dp02",
+      "name": "Spec commit, prescribed message",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.spec"
+    },
+    {
+      "id": "dp03",
+      "name": "PM review artifact",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "name": "Plan-review subagents, phases 1 and 3",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "2 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "name": "Plan-review commit, exact message",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.plan_review"
+    },
+    {
+      "id": "dp07",
+      "name": "Batching <=3 parallel, justification noted",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "max 1 concurrent coders; justification: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinal 134 dependency rationale; T1 input models -> T2 engine -> T3 CLI, serial maximum one coder. Notes and own-thread sequencing review ordinal 130 agree; no eligible independent implementation batch omitted."
+    },
+    {
+      "id": "dp08",
+      "name": "In Progress lane move with timestamp",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "no In Progress move: none"
+    },
+    {
+      "id": "dp09",
+      "name": "Task review, per task",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "not reviewed: none"
+    },
+    {
+      "id": "dp10",
+      "name": "DoD + kanban gates before Done (D86)",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "failing: none"
+    },
+    {
+      "id": "dp11",
+      "name": "Phase verdict from a phase review",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "failing phases: none"
+    },
+    {
+      "id": "dp12",
+      "name": "Commit gate ran before each commit (D79)",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "4 geeky-implement commits each preceded by check-commit"
+    },
+    {
+      "id": "dp13",
+      "name": "One concern per commit, per phase",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "manual: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinals 278,385,393 and actual Git file groups separate input, engine, CLI, tracking concerns; no unrelated functional concern combined."
+    },
+    {
+      "id": "dp14",
+      "name": "Handoff at each Done move (D82)",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "failing: none"
+    },
+    {
+      "id": "dp15",
+      "name": "Run Summary appended",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "see adh.run_summary"
+    },
+    {
+      "id": "dp16",
+      "name": "Final review: 3 domain reviewers",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "3 impl-review reviewer dispatches"
+    },
+    {
+      "id": "dp17a",
+      "name": "Re-review after a critical fix",
+      "weight": 1,
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp17b",
+      "name": "Fix commit, prescribed message",
+      "weight": 1,
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp18",
+      "name": ".heartbeat finalized",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "see adh.heartbeat_final"
+    }
+  ],
+  "checks": [
+    {
+      "id": "adh.planning_folder",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 3 task file(s) found."
+    },
+    {
+      "id": "adh.task_schema",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "OK: 3 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "adh.kanban_final",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "OK: 3 task(s) tracked, 3 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=3"
+    },
+    {
+      "id": "adh.dod.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "adh.dod.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T2"
+    },
+    {
+      "id": "adh.dod.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T3"
+    },
+    {
+      "id": "adh.handoff_batch.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 185; handoff naming T1 in call 185"
+    },
+    {
+      "id": "adh.handoff_batch.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 185; handoff naming T2 in call 185"
+    },
+    {
+      "id": "adh.handoff_batch.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done move call 251; handoff naming T3 in call 251"
+    },
+    {
+      "id": "adh.notes.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T1-validated-input.notes.md"
+    },
+    {
+      "id": "adh.notes.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T2-exact-engine.notes.md"
+    },
+    {
+      "id": "adh.notes.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T3-cli-acceptance.notes.md"
+    },
+    {
+      "id": "adh.task_review.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 173 'phase1_review' (reviewed-process-evidence) PASS"
+    },
+    {
+      "id": "adh.task_review.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 173 'phase1_review' (reviewed-process-evidence) PASS"
+    },
+    {
+      "id": "adh.task_review.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 238 'phase2_review' (reviewed-process-evidence) PASS"
+    },
+    {
+      "id": "adh.phase_verdict.P1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "phase P1 ['T1', 'T2']: reviewer call 173; READY TO ADVANCE recorded: handoff.md"
+    },
+    {
+      "id": "adh.phase_verdict.P2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "phase P2 ['T3']: reviewer call 238; READY TO ADVANCE recorded: handoff.md"
+    },
+    {
+      "id": "adh.gates_before_done.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 185; last code edit 126; check-dod runs [(184, True), (185, True)]"
+    },
+    {
+      "id": "adh.gates_before_done.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 185; last code edit 158; check-dod runs [(184, None), (185, True)]; hidden verdict resolved by final check-dod"
+    },
+    {
+      "id": "adh.gates_before_done.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Done call 251; last code edit 219; check-dod runs [(250, True), (251, True)]"
+    },
+    {
+      "id": "adh.kanban_after_moves",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "7 lane-move calls; without validate-kanban: none"
+    },
+    {
+      "id": "adh.commit_msg.97185c1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(input): validate transaction and rule CSV files: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.4dc447d",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(engine): categorize and aggregate exact ledger values: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.c39a486",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(cli): deliver deterministic reports and categorization: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.6f179ac",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "chore(implement): record accepted phases and final handoff: OK: commit message valid."
+    },
+    {
+      "id": "adh.prescribed_msg.spec",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "docs: author feature specification in spec-001-feature"
+    },
+    {
+      "id": "adh.prescribed_msg.plan_review",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "chore(plan): Plan review \u2014 align documents, fix sequencing"
+    },
+    {
+      "id": "adh.prescribed_msg.critical_fix",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "na",
+      "evidence": "no critical impl-review finding"
+    },
+    {
+      "id": "adh.frozen_untouched",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "git diff a2e51d3..HEAD on frozen files: empty"
+    },
+    {
+      "id": "adh.no_forbidden_git",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "no push/--force/--amend/--no-verify in tool inputs"
+    },
+    {
+      "id": "adh.one_concern_per_commit",
+      "dimension": "adherence",
+      "kind": "judge",
+      "status": "pass",
+      "evidence": "manual: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinals 278,385,393: distinct input 97185c1, engine 4dc447d, CLI c39a486, tracking closeout 6f179ac. Specification 9e83476, planning aaa9a83, plan review a2e51d3, final review 7c34d2b are separate documentation concerns. Physical reports retained with source SHA in operator-evidence/physical-thread-reports.json."
+    },
+    {
+      "id": "adh.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "none"
+    },
+    {
+      "id": "adh.final_report_claims",
+      "dimension": "adherence",
+      "kind": "judge",
+      "status": "fail",
+      "evidence": "manual: Main session.jsonl ordinal 628 final claims automatic hook configuration unavailable. Retained native-hook-trust/native-hook-catalog.json has enabled preToolUse guard-bridge and parity-preflight hook_configuration passes. Product/test completion is independently verified; this is a genuine process-report inaccuracy."
+    },
+    {
+      "id": "adh.heartbeat_final",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": ".heartbeat status=done"
+    },
+    {
+      "id": "adh.run_summary",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "3 dispatches, max 3 concurrent"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "2 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.plan_review"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "max 1 concurrent coders; justification: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinal 134 dependency rationale; T1 input models -> T2 engine -> T3 CLI, serial maximum one coder. Notes and own-thread sequencing review ordinal 130 agree; no eligible independent implementation batch omitted."
+    },
+    {
+      "id": "dp08",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "no In Progress move: none"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "not reviewed: none"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "failing: none"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "failing phases: none"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "4 geeky-implement commits each preceded by check-commit"
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "kind": "judge",
+      "status": "pass",
+      "evidence": "manual: subagents/rollout-01a16a51-7a02-7db1-b28d-2275ecaa1cba.jsonl ordinals 278,385,393 and actual Git file groups separate input, engine, CLI, tracking concerns; no unrelated functional concern combined."
+    },
+    {
+      "id": "dp14",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "failing: none"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "3 impl-review reviewer dispatches"
+    },
+    {
+      "id": "dp17a",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp17b",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.heartbeat_final"
+    }
+  ],
+  "needs_judge": [],
+  "rerun_results": {
+    "T1": {
+      "commit": "97185c13b6716df5283ab9f5d7241fbd82a5e2ac",
+      "fallback": false,
+      "basis": "reviewed implementation commit",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_input.py -q",
+          "exit": 0,
+          "tail": "42 passed in 0.41s",
+          "reused": true,
+          "output_scope": "summary",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/checks/0/stdout"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": "parent tool execution 99abaa; record serialization stopped later on T3 lookup, no T1 retry",
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_input.py -q"
+          }
+        }
+      ]
+    },
+    "T2": {
+      "commit": "4dc447dc6ecb418b180b0c810e2176487bc0dfe5",
+      "fallback": false,
+      "basis": "reviewed implementation commit",
+      "results": [
+        {
+          "command": "python -m pytest tests/test_input.py tests/test_engine.py -q",
+          "exit": 0,
+          "tail": "62 passed in 0.33s",
+          "reused": true,
+          "output_scope": "summary",
+          "stderr_known": false,
+          "duration_ms": null,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/checks/1/stdout"
+            },
+            "interpreter_substitution": null,
+            "recorded_provenance": "parent tool execution 99abaa; record serialization stopped later on T3 lookup, no T2 retry",
+            "unknown_stderr": true,
+            "recorded_command": "python -m pytest tests/test_input.py tests/test_engine.py -q"
+          }
+        }
+      ]
+    },
+    "T3": {
+      "commit": "c39a486391fc8a72c66ad33a4c35a4c17f7af313",
+      "fallback": false,
+      "basis": "reviewed implementation commit",
+      "results": [
+        {
+          "command": "python -m pytest -q",
+          "exit": 0,
+          "tail": "128 passed in 12.66s",
+          "reused": true,
+          "output_scope": "full",
+          "stderr_known": true,
+          "duration_ms": 13244.414,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/checks/2/stdout"
+            },
+            "interpreter_substitution": {
+              "contract_executable": "python",
+              "recorded_executable": "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+              "basis": "explicit argv retained in source document"
+            },
+            "recorded_provenance": null,
+            "unknown_stderr": false,
+            "recorded_command": [
+              "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+              "-m",
+              "pytest",
+              "-q"
+            ]
+          }
+        },
+        {
+          "command": "python -m csvledger --help",
+          "exit": 0,
+          "tail": "  -h, --help           show this help message and exit",
+          "reused": true,
+          "output_scope": "full",
+          "stderr_known": true,
+          "duration_ms": 209.21,
+          "provenance": {
+            "kind": "saved-validation-result",
+            "stdout_source": {
+              "record_pointer": "/checks/3/stdout"
+            },
+            "interpreter_substitution": {
+              "contract_executable": "python",
+              "recorded_executable": "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+              "basis": "explicit argv retained in source document"
+            },
+            "recorded_provenance": null,
+            "unknown_stderr": false,
+            "recorded_command": [
+              "C:/repos/.eval-tools/agent-py/Scripts/python.exe",
+              "-m",
+              "csvledger",
+              "--help"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "breakdown": {
+    "tokens_total": 13966445,
+    "wall_time_s": 1349,
+    "geeky_coder_used": true,
+    "orchestrator_code_edit_calls": []
+  }
+}

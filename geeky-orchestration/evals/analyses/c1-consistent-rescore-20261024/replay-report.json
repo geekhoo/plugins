@@ -1,0 +1,680 @@
+{
+  "sources": {
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\analyze-run.py": "f74fadd1eaa84004c452fd38ffc98dac425de35a5fea87d72692575cc096bf86",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\codex-trace.py": "cf6e879831218786318c86149a19d38f21304279314a1038fa8a723b5328ace2",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py": "34a54671b81203e10cec08d30524a127a44f4e3530eb33c56e4a4e09b5300ade",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\test_codex_run2_prep.py": "173c277fbb880721589458801370a56219ec2ff0404ece3029398e45352e1871",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\test_codex_stage_evidence.py": "6f71f8ec8fbcdd59f9c78d7a0c02c17898c108410a85035c9b8db8d441cd6a93",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\test_codex_trace.py": "30ee90905e7546efd63e81782534c882e4528abbf6ecc3e4fb7bea7a48d71eb2",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\test_process_replay.py": "eb6c2b7f8c84ec537b9c844b3c8980791152a2314fe6a3eafa8b97ed9a26d26e"
+  },
+  "runs": [
+    {
+      "run": "20261023T182024Z-5fa13924",
+      "composite": 96.32066818336449,
+      "dimensions": {
+        "quality": 95.86956521739131,
+        "adherence": 100.0,
+        "consistency": 100.0,
+        "task_tier": 77.66320357277526
+      },
+      "implementation_commit_rows": 2,
+      "cache_entries": 3,
+      "commands": [
+        [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-B",
+          "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\analyze-run.py",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T182024Z-5fa13924",
+          "--harness",
+          "codex",
+          "--out",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261023T182024Z-5fa13924",
+          "--process-evidence",
+          "C:\\repos\\.eval-tools\\c1-rescore-staging\\C1\\process-evidence.json"
+        ],
+        [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-B",
+          "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T182024Z-5fa13924",
+          "--harness",
+          "codex",
+          "--workspace",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261023T182024Z-5fa13924",
+          "--manual",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T182024Z-5fa13924\\manual-consistent.json",
+          "--validation-cache",
+          "C:\\repos\\.eval-tools\\c1-rescore-staging\\validation-cache-output\\20261023T182024Z-5fa13924\\validation-cache.json",
+          "--require-complete",
+          "--no-rerun",
+          "--out",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261023T182024Z-5fa13924",
+          "--process-evidence",
+          "C:\\repos\\.eval-tools\\c1-rescore-staging\\C1\\process-evidence.json"
+        ]
+      ],
+      "output": "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261023T182024Z-5fa13924",
+      "tasks": [
+        {
+          "task": "T1",
+          "attempts": 3,
+          "attempt_calls": [
+            107,
+            109,
+            110
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 110,
+          "rerun_ok": true,
+          "V": 0.5,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 198.2,
+          "T": 0.8348249999999999,
+          "D": 1.0,
+          "s": 76.6965,
+          "LOC": 542.0,
+          "w": 0.5793740573152337
+        },
+        {
+          "task": "T2",
+          "attempts": 1,
+          "attempt_calls": [
+            163
+          ],
+          "d87_calls": [],
+          "excluded_runs": [
+            [
+              156,
+              "no test outcome"
+            ],
+            [
+              161,
+              "no test outcome"
+            ]
+          ],
+          "first_pass_call": 163,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 2,
+          "R": 0.5,
+          "d_s": 360.3,
+          "T": 0.6997375,
+          "D": 1.0,
+          "s": 78.99475,
+          "LOC": 784.0,
+          "w": 0.4206259426847662
+        }
+      ],
+      "completeness": null
+    },
+    {
+      "run": "20261023T194430Z-c5e04f3f",
+      "composite": 98.04000506482035,
+      "dimensions": {
+        "quality": 100.0,
+        "adherence": 97.05882352941177,
+        "consistency": 100.0,
+        "task_tier": 90.69416829526227
+      },
+      "implementation_commit_rows": 4,
+      "cache_entries": 4,
+      "commands": [
+        [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-B",
+          "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\analyze-run.py",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T194430Z-c5e04f3f",
+          "--harness",
+          "codex",
+          "--out",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261023T194430Z-c5e04f3f",
+          "--process-evidence",
+          "C:\\repos\\.eval-tools\\c1-rescore-staging\\C2\\process-evidence.json"
+        ],
+        [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-B",
+          "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T194430Z-c5e04f3f",
+          "--harness",
+          "codex",
+          "--workspace",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261023T194430Z-c5e04f3f",
+          "--manual",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T194430Z-c5e04f3f\\manual-consistent.json",
+          "--validation-cache",
+          "C:\\repos\\.eval-tools\\c1-rescore-staging\\validation-cache-output\\20261023T194430Z-c5e04f3f\\validation-cache.json",
+          "--require-complete",
+          "--no-rerun",
+          "--out",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261023T194430Z-c5e04f3f",
+          "--process-evidence",
+          "C:\\repos\\.eval-tools\\c1-rescore-staging\\C2\\process-evidence.json"
+        ]
+      ],
+      "output": "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261023T194430Z-c5e04f3f",
+      "tasks": [
+        {
+          "task": "T1",
+          "attempts": 1,
+          "attempt_calls": [
+            122
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 122,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 347.7,
+          "T": 0.7102791666666666,
+          "D": 1.0,
+          "s": 94.20558333333332,
+          "LOC": 287.0,
+          "w": 0.27068527918781726
+        },
+        {
+          "task": "T2",
+          "attempts": 1,
+          "attempt_calls": [
+            156
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 156,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 185.1,
+          "T": 0.8457208333333334,
+          "D": 1.0,
+          "s": 96.91441666666665,
+          "LOC": 273.0,
+          "w": 0.26357868020304565
+        },
+        {
+          "task": "T3",
+          "attempts": 2,
+          "attempt_calls": [
+            215,
+            220
+          ],
+          "d87_calls": [],
+          "excluded_runs": [
+            [
+              198,
+              "no test outcome"
+            ],
+            [
+              213,
+              "no test outcome"
+            ],
+            [
+              218,
+              "no test outcome"
+            ]
+          ],
+          "first_pass_call": 220,
+          "rerun_ok": true,
+          "V": 0.75,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 292.0,
+          "T": 0.7566525,
+          "D": 1.0,
+          "s": 85.13305000000001,
+          "LOC": 425.0,
+          "w": 0.4657360406091371
+        }
+      ],
+      "completeness": null
+    },
+    {
+      "run": "20261023T104412Z",
+      "composite": 98.27180923451854,
+      "dimensions": {
+        "quality": 98.59516616314198,
+        "adherence": 100.0,
+        "consistency": 100.0,
+        "task_tier": 87.63501077418847
+      },
+      "implementation_commit_rows": 11,
+      "cache_entries": 9,
+      "commands": [
+        [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-B",
+          "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\analyze-run.py",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T104412Z",
+          "--harness",
+          "claude-code",
+          "--out",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261023T104412Z"
+        ],
+        [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-B",
+          "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T104412Z",
+          "--harness",
+          "claude-code",
+          "--workspace",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261023T104412Z",
+          "--manual",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261023T104412Z\\manual-consistent.json",
+          "--validation-cache",
+          "C:\\repos\\.eval-tools\\c1-rescore-staging\\validation-cache-output\\20261023T104412Z\\validation-cache.json",
+          "--require-complete",
+          "--no-rerun",
+          "--out",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261023T104412Z"
+        ]
+      ],
+      "output": "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261023T104412Z",
+      "tasks": [
+        {
+          "task": "T1",
+          "attempts": 1,
+          "attempt_calls": [
+            122
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 122,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 395.4,
+          "T": 0.5852969760338346,
+          "D": 1.0,
+          "s": 91.70593952067668,
+          "LOC": 66.0,
+          "w": 0.07013422818791946
+        },
+        {
+          "task": "T2",
+          "attempts": 2,
+          "attempt_calls": [
+            136,
+            138
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 138,
+          "rerun_ok": true,
+          "V": 0.75,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 261.7,
+          "T": 0.725574215225564,
+          "D": 1.0,
+          "s": 84.51148430451128,
+          "LOC": 158.0,
+          "w": 0.14820012202562538
+        },
+        {
+          "task": "T3",
+          "attempts": 1,
+          "attempt_calls": [
+            152
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 152,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 364.9,
+          "T": 0.6173488690476191,
+          "D": 1.0,
+          "s": 92.34697738095238,
+          "LOC": 249.0,
+          "w": 0.12596095179987798
+        },
+        {
+          "task": "T4",
+          "attempts": 1,
+          "attempt_calls": [
+            181
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 181,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 117.5,
+          "T": 0.876787460056391,
+          "D": 1.0,
+          "s": 97.53574920112781,
+          "LOC": 142.0,
+          "w": 0.09331909701037218
+        },
+        {
+          "task": "T5",
+          "attempts": 2,
+          "attempt_calls": [
+            208,
+            210
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 210,
+          "rerun_ok": true,
+          "V": 0.75,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 252.1,
+          "T": 0.7356272023809524,
+          "D": 1.0,
+          "s": 84.71254404761905,
+          "LOC": 187.0,
+          "w": 0.15704697986577182
+        },
+        {
+          "task": "T6",
+          "attempts": 1,
+          "attempt_calls": [
+            225
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 225,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 131.6,
+          "T": 0.8620383247180451,
+          "D": 1.0,
+          "s": 97.2407664943609,
+          "LOC": 145.0,
+          "w": 0.09423428920073215
+        },
+        {
+          "task": "T7",
+          "attempts": 2,
+          "attempt_calls": [
+            248,
+            251
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 251,
+          "rerun_ok": true,
+          "V": 0.75,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 386.5,
+          "T": 0.5946630545112782,
+          "D": 1.0,
+          "s": 81.89326109022558,
+          "LOC": 692.0,
+          "w": 0.31110433190970105
+        }
+      ],
+      "completeness": null
+    },
+    {
+      "run": "20261022T125647Z",
+      "composite": 97.89164053124497,
+      "dimensions": {
+        "quality": 97.82051282051282,
+        "adherence": 98.76543209876543,
+        "consistency": 100.0,
+        "task_tier": 90.86559809497594
+      },
+      "implementation_commit_rows": 14,
+      "cache_entries": 11,
+      "commands": [
+        [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-B",
+          "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\analyze-run.py",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261022T125647Z",
+          "--harness",
+          "claude-code",
+          "--out",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261022T125647Z"
+        ],
+        [
+          "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+          "-B",
+          "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261022T125647Z",
+          "--harness",
+          "claude-code",
+          "--workspace",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\workspaces\\20261022T125647Z",
+          "--manual",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\inputs\\20261022T125647Z\\manual-consistent.json",
+          "--validation-cache",
+          "C:\\repos\\.eval-tools\\c1-rescore-staging\\validation-cache-output\\20261022T125647Z\\validation-cache.json",
+          "--require-complete",
+          "--no-rerun",
+          "--out",
+          "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261022T125647Z"
+        ]
+      ],
+      "output": "C:\\Repos\\.eval-tools\\c1-rescore-staging\\replays-1ca90d4c\\final-outputs\\20261022T125647Z",
+      "tasks": [
+        {
+          "task": "T1",
+          "attempts": 1,
+          "attempt_calls": [
+            109
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 109,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 2,
+          "R": 0.5,
+          "d_s": 468.6,
+          "T": 0.6307490007062146,
+          "D": 1.0,
+          "s": 77.61498001412428,
+          "LOC": 65.0,
+          "w": 0.04857723577235772
+        },
+        {
+          "task": "T2",
+          "attempts": 1,
+          "attempt_calls": [
+            138
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 138,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 102.0,
+          "T": 0.9195827742467043,
+          "D": 1.0,
+          "s": 98.39165548493408,
+          "LOC": 156.0,
+          "w": 0.06991869918699187
+        },
+        {
+          "task": "T3",
+          "attempts": 2,
+          "attempt_calls": [
+            162,
+            164
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 164,
+          "rerun_ok": true,
+          "V": 0.75,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 150.8,
+          "T": 0.8811929066619586,
+          "D": 1.0,
+          "s": 87.62385813323917,
+          "LOC": 193.0,
+          "w": 0.11192933083176985
+        },
+        {
+          "task": "T4",
+          "attempts": 2,
+          "attempt_calls": [
+            220,
+            222
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 222,
+          "rerun_ok": true,
+          "V": 0.75,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 73.4,
+          "T": 0.9421618508709981,
+          "D": 1.0,
+          "s": 88.84323701741998,
+          "LOC": 144.0,
+          "w": 0.10043777360850531
+        },
+        {
+          "task": "T5",
+          "attempts": 2,
+          "attempt_calls": [
+            219,
+            249
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 249,
+          "rerun_ok": true,
+          "V": 0.75,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 178.8,
+          "T": 0.859076396539548,
+          "D": 1.0,
+          "s": 87.18152793079096,
+          "LOC": 221.0,
+          "w": 0.1184959349593496
+        },
+        {
+          "task": "T6",
+          "attempts": 1,
+          "attempt_calls": [
+            277
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 277,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 44.7,
+          "T": 0.9647850564971752,
+          "D": 1.0,
+          "s": 99.2957011299435,
+          "LOC": 90.0,
+          "w": 0.05444027517198249
+        },
+        {
+          "task": "T7",
+          "attempts": 2,
+          "attempt_calls": [
+            280,
+            281
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 281,
+          "rerun_ok": true,
+          "V": 0.75,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 92.9,
+          "T": 0.9268073222693032,
+          "D": 1.0,
+          "s": 88.53614644538607,
+          "LOC": 264.0,
+          "w": 0.1285803627267042
+        },
+        {
+          "task": "T8",
+          "attempts": 2,
+          "attempt_calls": [
+            342,
+            344
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 344,
+          "rerun_ok": true,
+          "V": 0.75,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 113.2,
+          "T": 0.9107593379237289,
+          "D": 1.0,
+          "s": 88.21518675847459,
+          "LOC": 264.0,
+          "w": 0.1285803627267042
+        },
+        {
+          "task": "T9",
+          "attempts": 1,
+          "attempt_calls": [
+            399
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 399,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 227.2,
+          "T": 0.8209323905367232,
+          "D": 1.0,
+          "s": 96.41864781073446,
+          "LOC": 291.0,
+          "w": 0.1015791119449656
+        },
+        {
+          "task": "T10",
+          "attempts": 1,
+          "attempt_calls": [
+            403
+          ],
+          "d87_calls": [],
+          "excluded_runs": [],
+          "first_pass_call": 403,
+          "rerun_ok": true,
+          "V": 1.0,
+          "review_rounds": 1,
+          "R": 1.0,
+          "d_s": 239.3,
+          "T": 0.8114588394538607,
+          "D": 1.0,
+          "s": 96.22917678907721,
+          "LOC": 444.0,
+          "w": 0.13746091307066916
+        }
+      ],
+      "completeness": null
+    }
+  ],
+  "validation_commands_executed": 0,
+  "sources_unchanged": true
+}

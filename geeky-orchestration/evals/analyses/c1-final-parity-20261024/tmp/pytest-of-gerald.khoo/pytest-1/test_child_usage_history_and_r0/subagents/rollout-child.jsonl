@@ -1,0 +1,7 @@
+{"timestamp": "2026-10-24T00:00:00Z", "type": "session_meta", "payload": {"id": "child", "parent_thread_id": "main", "agent_path": "/root/review", "agent_role": "code-reviewer", "subagent_history_start_ordinal": 10}, "ordinal": 0}
+{"timestamp": "2026-10-24T00:00:00Z", "type": "event_msg", "payload": {"type": "token_count", "info": {"total_token_usage": {"input_tokens": 9000, "cached_input_tokens": 0, "output_tokens": 9000, "reasoning_output_tokens": 5, "total_tokens": 18000}}}, "ordinal": 2}
+{"timestamp": "2026-10-24T00:00:00Z", "type": "response_item", "payload": {"type": "function_call", "call_id": "inherited", "name": "exec_command", "arguments": "{\"cmd\":\"must not count\"}"}, "ordinal": 3}
+{"timestamp": "2026-10-24T00:00:10Z", "type": "event_msg", "payload": {"type": "token_count", "info": {"total_token_usage": {"input_tokens": 20, "cached_input_tokens": 5, "output_tokens": 10, "reasoning_output_tokens": 5, "total_tokens": 30}}}, "ordinal": 10}
+{"timestamp": "2026-10-24T00:00:10Z", "type": "token_usage_record", "payload": {"thread_id": "child", "response_id": "child-r1"}, "ordinal": 11}
+{"timestamp": "2026-10-24T00:00:11Z", "type": "response_item", "payload": {"type": "message", "role": "assistant", "content": [{"type": "output_text", "text": "T1 PASS; READY TO ADVANCE"}]}, "ordinal": 12}
+{"timestamp": "2026-10-24T00:00:12Z", "type": "event_msg", "payload": {"type": "task_complete"}, "ordinal": 13}

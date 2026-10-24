@@ -1,0 +1,219 @@
+{
+  "head": "bee7b14c3b17b00a6ce0b5643015226a1d7ef963",
+  "scratch": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\c1-checkpoint5-0dxpfynq",
+  "runs": [
+    {
+      "run": "20261020T114232Z",
+      "expected": {
+        "quality": 97.89398280802291,
+        "adherence": 68.25396825396825,
+        "consistency": 65.71428571428571,
+        "task_tier": 58.94181690892935,
+        "composite": 77.18882170544698
+      },
+      "actual": {
+        "quality": 97.89398280802291,
+        "adherence": 68.25396825396825,
+        "consistency": 65.71428571428571,
+        "task_tier": 58.94181690892935,
+        "composite": 77.18882170544698
+      },
+      "equal": true,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "validation_evidence": "trace only",
+      "process_completeness": {
+        "required": false,
+        "complete": true,
+        "missing": []
+      }
+    },
+    {
+      "run": "20261020T155628Z",
+      "expected": {
+        "quality": 95.86956521739131,
+        "adherence": 62.857142857142854,
+        "consistency": 68.69565217391305,
+        "task_tier": 77.12275827783259,
+        "composite": 77.00575408865282
+      },
+      "actual": {
+        "quality": 95.86956521739131,
+        "adherence": 62.857142857142854,
+        "consistency": 68.69565217391305,
+        "task_tier": 77.12275827783259,
+        "composite": 77.00575408865282
+      },
+      "equal": true,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "validation_evidence": "trace only",
+      "process_completeness": {
+        "required": false,
+        "complete": true,
+        "missing": []
+      }
+    },
+    {
+      "run": "20261022T065938Z",
+      "expected": {
+        "quality": 97.64044943820224,
+        "adherence": 89.70588235294117,
+        "consistency": 69.52380952380952,
+        "task_tier": 72.58617195328823,
+        "composite": 86.73459522699092
+      },
+      "actual": {
+        "quality": 97.64044943820224,
+        "adherence": 89.70588235294117,
+        "consistency": 69.52380952380952,
+        "task_tier": 72.58617195328823,
+        "composite": 86.73459522699092
+      },
+      "equal": true,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "validation_evidence": "trace only",
+      "process_completeness": {
+        "required": false,
+        "complete": true,
+        "missing": []
+      }
+    },
+    {
+      "run": "20261022T125647Z",
+      "expected": {
+        "quality": 97.82051282051282,
+        "adherence": 98.76543209876543,
+        "consistency": 100.0,
+        "task_tier": 90.86559809497594,
+        "composite": 97.89164053124497
+      },
+      "actual": {
+        "quality": 97.82051282051282,
+        "adherence": 98.76543209876543,
+        "consistency": 100.0,
+        "task_tier": 90.86559809497594,
+        "composite": 97.89164053124497
+      },
+      "equal": true,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "validation_evidence": "trace only",
+      "process_completeness": {
+        "required": false,
+        "complete": true,
+        "missing": []
+      }
+    },
+    {
+      "run": "20261023T062603Z",
+      "expected": {
+        "quality": 96.33501259445843,
+        "adherence": 95.65217391304348,
+        "consistency": 88.57142857142857,
+        "task_tier": 89.14917460618072,
+        "composite": 93.82471845252947
+      },
+      "actual": {
+        "quality": 96.33501259445843,
+        "adherence": 95.65217391304348,
+        "consistency": 88.57142857142857,
+        "task_tier": 89.14917460618072,
+        "composite": 93.82471845252947
+      },
+      "equal": true,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "validation_evidence": "trace only",
+      "process_completeness": {
+        "required": false,
+        "complete": true,
+        "missing": []
+      }
+    },
+    {
+      "run": "20261023T104412Z",
+      "expected": {
+        "quality": 98.59516616314198,
+        "adherence": 100.0,
+        "consistency": 100.0,
+        "task_tier": 87.63501077418847,
+        "composite": 98.27180923451854
+      },
+      "actual": {
+        "quality": 98.59516616314198,
+        "adherence": 100.0,
+        "consistency": 100.0,
+        "task_tier": 87.63501077418847,
+        "composite": 98.27180923451854
+      },
+      "equal": true,
+      "exit_codes": [
+        0,
+        0
+      ],
+      "validation_evidence": "trace only",
+      "process_completeness": {
+        "required": false,
+        "complete": true,
+        "missing": []
+      }
+    }
+  ],
+  "validation_commands_executed": 0,
+  "model_calls": 0,
+  "supplementary_inputs": [
+    {
+      "source": "C:\\repos\\eval-c1-csvledger-20261020T114232Z\\docs\\spec-001-feature\\.heartbeat",
+      "relative": "docs\\spec-001-feature\\.heartbeat",
+      "sha256_before": "edafc38724fd25eaf879a70c46c44ed469d0c49329a59440faf7ee73d84d3f24",
+      "sha256_after": "edafc38724fd25eaf879a70c46c44ed469d0c49329a59440faf7ee73d84d3f24"
+    },
+    {
+      "source": "C:\\repos\\eval-c1-csvledger-20261020T155628Z\\docs\\spec-001-feature\\.heartbeat",
+      "relative": "docs\\spec-001-feature\\.heartbeat",
+      "sha256_before": "3e6aced172c1bd0bd366a5b388d78193e5c0e7eca15fd24a42c7e82339e73c43",
+      "sha256_after": "3e6aced172c1bd0bd366a5b388d78193e5c0e7eca15fd24a42c7e82339e73c43"
+    },
+    {
+      "source": "C:\\repos\\eval-c1-csvledger-20261022T065938Z\\docs\\spec-001-feature\\.heartbeat",
+      "relative": "docs\\spec-001-feature\\.heartbeat",
+      "sha256_before": "e8f913841ff3dabba895dbde5ba8a010edb5a9c75b288cc0e585ad4d1618b0f1",
+      "sha256_after": "e8f913841ff3dabba895dbde5ba8a010edb5a9c75b288cc0e585ad4d1618b0f1"
+    },
+    {
+      "source": "C:\\repos\\eval-c1-csvledger-20261022T125647Z\\docs\\spec-001-feature\\.heartbeat",
+      "relative": "docs\\spec-001-feature\\.heartbeat",
+      "sha256_before": "ddb7711cf9de4e0ba461c9e9ebf5622dbc838adf500212dac45684345bfdfb19",
+      "sha256_after": "ddb7711cf9de4e0ba461c9e9ebf5622dbc838adf500212dac45684345bfdfb19"
+    },
+    {
+      "source": "C:\\repos\\eval-c1-csvledger-20261023T062603Z\\docs\\spec-001-feature\\.heartbeat",
+      "relative": "docs\\spec-001-feature\\.heartbeat",
+      "sha256_before": "f09ebe916c30eef53b9ba3b313313a5b0464a852a27a161bbd53e9e9f9ce9ade",
+      "sha256_after": "f09ebe916c30eef53b9ba3b313313a5b0464a852a27a161bbd53e9e9f9ce9ade"
+    },
+    {
+      "source": "C:\\repos\\eval-c1-csvledger-20261023T104412Z\\docs\\spec-001-feature\\.heartbeat",
+      "relative": "docs\\spec-001-feature\\.heartbeat",
+      "sha256_before": "f2bcaa20007ccca5c697d7e03492cc6184755a40cd32e5b4395a110468c6d172",
+      "sha256_after": "f2bcaa20007ccca5c697d7e03492cc6184755a40cd32e5b4395a110468c6d172"
+    }
+  ],
+  "sources_unchanged": true,
+  "originals_unchanged": true,
+  "source_files": 62,
+  "original_files": 106,
+  "all_equal": true
+}

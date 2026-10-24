@@ -1,0 +1,159 @@
+"""Build provenance-bound validation caches from four saved C1 runs; never run tests."""
+import argparse
+import datetime
+import hashlib
+import json
+from pathlib import Path
+import re
+import subprocess
+
+KNOWN = {'20261022T125647Z': 11, '20261023T104412Z': 9,
+         '20261023T182024Z-5fa13924': 3, '20261023T194430Z-c5e04f3f': 4}
+STAGING = Path(__file__).resolve().parent
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+def snapshot(root):
+    return {p.relative_to(root).as_posix(): sha(p.read_bytes())
+            for p in sorted(root.rglob('*')) if p.is_file()}
+
+def git(ws, *args):
+    return subprocess.run(['git', '-C', str(ws), *args], check=True,
+                          stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
+
+def commands(blob):
+    lines = blob.decode('utf-8-sig').splitlines()
+    start = next(i + 1 for i, line in enumerate(lines)
+                 if re.search(r'Tests\s*/\s*Validation', line, re.I))
+    found = []
+    for line in lines[start:]:
+        if re.match(r'^\s*(?:#+\s*)?(?:Estimate|Priority)\b', line, re.I):
+            break
+        value = re.sub(r'^\s*(?:[-*]|\d+\.)\s+', '', line).strip()
+        if value.startswith('`'):
+            match = re.match(r'`([^`]+)`', value)
+            value = match.group(1) if match else ''
+        if re.match(r'^(?:python|py|pytest|pwsh|bash|sh|node|npm|uv)\b', value):
+            found.append(value)
+    return found
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--source-run', type=Path, required=True)
+    ap.add_argument('--out', type=Path, required=True)
+    a = ap.parse_args()
+    source, out = a.source_run.resolve(), a.out.resolve()
+    if source.name not in KNOWN:
+        raise ValueError('Only four audited source runs are supported')
+    allowed = (STAGING / 'validation-cache-output').resolve()
+    if not out.is_relative_to(allowed) or out.exists():
+        raise ValueError('Output must be a new directory inside validation-cache-output')
+    before = snapshot(source)
+    run = json.loads((source / 'run.json').read_text(encoding='utf-8-sig'))
+    ws = Path(run['workspace'])
+    bundle = source / 'solution.bundle'
+    refs = git(ws, 'bundle', 'list-heads', str(bundle)).decode().splitlines()
+    heads = {line.split()[0] for line in refs if line.split()[1] == 'HEAD'}
+    head = git(ws, 'rev-parse', 'HEAD').decode().strip()
+    if heads != {head}:
+        raise ValueError('Retained source workspace HEAD does not match bundle HEAD')
+    git(ws, 'bundle', 'verify', str(bundle))
+    native1 = source.name == '20261023T182024Z-5fa13924'
+    native2 = source.name == '20261023T194430Z-c5e04f3f'
+    document = source / ('independent-validation.json' if native1 else
+                         'operator-evidence/independent-validation.json' if native2 else 'score.json')
+    data = json.loads(document.read_text(encoding='utf-8-sig'))
+    records = []
+    if native1 or native2:
+        for i, row in enumerate(data['checks']):
+            task = row.get('task') or row.get('label', '').split('-')[0]
+            if not re.fullmatch(r'T\d+', task):
+                continue
+            records.append((task, row['commit'], row, f'/checks/{i}'))
+    else:
+        for task, block in data['rerun_results'].items():
+            for i, row in enumerate(block['results']):
+                records.append((task, block['commit'], row, f'/rerun_results/{task}/results/{i}'))
+    if len(records) != KNOWN[source.name]:
+        raise ValueError('Unexpected task validation command count')
+    prepared, expected, observed = [], {}, {}
+    for task, short, row, pointer in records:
+        commit = git(ws, 'rev-parse', '--verify', short + '^{commit}').decode().strip()
+        if not re.fullmatch(r'[0-9a-f]{40}', commit):
+            raise ValueError('Invalid full commit')
+        git(ws, 'merge-base', '--is-ancestor', commit, head)
+        paths = git(ws, 'ls-tree', '-r', '--name-only', commit, 'docs/spec-001-feature/tasks').decode().splitlines()
+        paths = [p for p in paths if re.search('/' + task + r'-[^/]+\.md$', p) and not p.endswith('.notes.md')]
+        if len(paths) != 1:
+            raise ValueError('Task contract path is ambiguous')
+        blob = git(ws, 'show', commit + ':' + paths[0])
+        valid = commands(blob)
+        recorded = row['command']
+        substitution = None
+        if isinstance(recorded, list):
+            if Path(recorded[0]).name.lower() != 'python.exe':
+                raise ValueError('Unsupported interpreter substitution')
+            command = 'python ' + ' '.join(recorded[1:])
+            substitution = {'contract_executable': 'python', 'recorded_executable': recorded[0],
+                            'basis': 'explicit argv retained in source document'}
+        else:
+            command = recorded
+        if command not in valid:
+            raise ValueError('Recorded command does not match committed task contract: ' + command)
+        expected[task] = valid
+        observed.setdefault(task, []).append(command)
+        if 'output_file' in row:
+            stdout, scope = (source / row['output_file']).read_bytes(), 'full'
+            stdout_source = {'path': row['output_file'], 'sha256': sha(stdout)}
+        else:
+            scope = 'full' if isinstance(recorded, list) else 'summary' if native2 else 'tail'
+            stdout = row.get('stdout', row.get('tail', '')).encode('utf-8')
+            stdout_source = {'record_pointer': pointer + ('/stdout' if 'stdout' in row else '/tail')}
+        stderr = row['stderr'].encode('utf-8') if isinstance(row.get('stderr'), str) else None
+        exit_code = row.get('exit_code', row.get('exit'))
+        if type(exit_code) is not int:
+            raise ValueError('Missing recorded exit status')
+        entry = {'task': task, 'commit': commit, 'task_file': paths[0],
+                 'task_file_sha256': sha(blob), 'task_git_blob': git(ws, 'rev-parse', commit + ':' + paths[0]).decode().strip(),
+                 'command': command, 'exit_code': exit_code, 'output_scope': scope,
+                 'duration_ms': row['duration_s'] * 1000 if 'duration_s' in row else None,
+                 'source_document': {'path': 'sources/' + document.name, 'sha256': sha(document.read_bytes()),
+                                     'record_pointer': pointer, 'original_path': str(document)},
+                 'provenance': {'kind': 'saved-validation-result', 'stdout_source': stdout_source,
+                                'interpreter_substitution': substitution, 'recorded_provenance': row.get('provenance'),
+                                'unknown_stderr': stderr is None, 'recorded_command': recorded}}
+        prepared.append((entry, stdout, stderr))
+    if any(observed[t] != cmds for t, cmds in expected.items()):
+        raise ValueError('Task validation coverage/order differs from committed contract')
+    if snapshot(source) != before:
+        raise ValueError('Source changed during extraction')
+    out.mkdir(parents=True)
+    (out / 'sources').mkdir()
+    (out / 'sources' / document.name).write_bytes(document.read_bytes())
+    entries = []
+    for i, (entry, stdout, stderr) in enumerate(prepared):
+        for stream, value in [('stdout', stdout), ('stderr', stderr)]:
+            rel = f'{i:02d}-{entry["task"]}-{stream}.txt' if value is not None else None
+            entry[stream + '_path'] = rel
+            entry[stream + '_sha256'] = sha(value) if value is not None else None
+            if rel:
+                (out / rel).write_bytes(value)
+        entries.append(entry)
+    cache = {'schema': 'geeky-eval.validation-cache/1', 'run': source.name,
+             'source_bundle_sha256': sha(bundle.read_bytes()), 'bundle_head': head,
+             'source_run': str(source), 'entries': entries,
+             'created_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+             'final_checks_excluded': True, 'test_commands_executed': 0}
+    (out / 'validation-cache.json').write_text(json.dumps(cache, indent=2) + '\n', encoding='utf-8')
+    after = snapshot(source)
+    preservation = {'source_run': str(source), 'originals_unchanged': before == after,
+                    'before': before, 'after': after, 'cache_commands': len(entries), 'tests_executed': 0}
+    (out / 'source-preservation.json').write_text(json.dumps(preservation, indent=2) + '\n', encoding='utf-8')
+    if before != after:
+        raise ValueError('Source changed while writing cache')
+    print(json.dumps({'cache': str(out / 'validation-cache.json'), 'entries': len(entries),
+                      'originals_unchanged': True, 'tests_executed': 0}))
+
+if __name__ == '__main__':
+    main()
