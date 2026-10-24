@@ -38,6 +38,7 @@ $mxc = '<plugin-root>\scripts\mxc.ps1'      # builds on first use into %USERPROF
 | `--workspace <dir>` | all | Read-write project folder (default: current directory). Keep it shallow |
 | `--isolated` | run, probe | Private config dir; auth only from host `CLAUDE_CODE_OAUTH_TOKEN` / `ANTHROPIC_API_KEY` |
 | `--allow-win32k` | run, probe | Let node/npx/uv/pwsh start; adds enumerate-only access to `C:\` (folder names listable, contents denied) |
+| `--no-enumerate-root` | run, probe | Omit system-drive enumeration, including with `--allow-win32k`. Retain an explicit ProcessContainer filesystem policy and all `--ro`/`--rw` grants. Off by default; tools requiring root enumeration may fail. |
 | `--deny-net` | run, probe | Block all egress; claude retries the API until `--timeout`, so set a short one |
 | `--ro <dir>` / `--rw <dir>` | run, probe | Extra grants (repeatable) |
 | `--timeout <sec>` | run, tui | Kill after N seconds (exit 124) |
@@ -47,6 +48,11 @@ $mxc = '<plugin-root>\scripts\mxc.ps1'      # builds on first use into %USERPROF
 
 `probe` reports the grants a `run` with the same options would apply. `tui` ignores the
 filesystem, network, and config options (IsolationSession supports none of them).
+The probe's `root enumeration` line reports the effective enumeration paths separately
+from Win32k access. For native tools that do not require Node's root lookup, combine
+`--allow-win32k --no-enumerate-root` to allow UI-dependent processes without exposing
+ungranted directory names. Runtime compatibility must be checked for the workload;
+the existing Claude defaults retain their enumeration behavior.
 
 The first argument that is not a host option starts claude's arguments. `--` is optional: the
 PowerShell `&` operator drops it, while `pwsh -File` passes it through, and the host handles both.

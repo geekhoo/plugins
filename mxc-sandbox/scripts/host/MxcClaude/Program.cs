@@ -10,6 +10,7 @@
 //   --deny-net          run: block all network egress
 //   --allow-win32k      run: allow Win32k syscalls so node/npx/uv/pwsh can start, and enumerate-only access
 //                       to the system drive for node's realpath (all folder names listable; weakens isolation)
+//   --no-enumerate-root run: omit system-drive enumeration while retaining --allow-win32k and explicit grants
 //   --ro <dir>          run: extra read-only grant (repeatable)
 //   --rw <dir>          run: extra read-write grant (repeatable)
 //   --timeout <sec>     kill the workload after this many seconds (default: none)
@@ -89,6 +90,9 @@ int Probe()
     Console.WriteLine($"claude exe: {claudeExe} (exists: {File.Exists(claudeExe)})");
     Console.WriteLine($"config mode: {(opt.Isolated ? "isolated" : "shared")} (CLAUDE_CONFIG_DIR={configDir})");
     Console.WriteLine($"win32k: {(opt.AllowWin32k ? "allowed" : "blocked (node/npx/uv/pwsh cannot start)")}");
+    var enumeratePaths = request.Containment is Containment.ProcessContainer processContainer
+        ? processContainer.Filesystem?.EnumeratePaths : null;
+    Console.WriteLine($"root enumeration: {(enumeratePaths is { Count: > 0 } ? string.Join(", ", enumeratePaths) : "disabled")}");
     foreach (var dir in request.Filesystem!.ReadonlyPaths) Console.WriteLine($"grant read-only:  {dir}");
     foreach (var dir in request.Filesystem!.ReadwritePaths) Console.WriteLine($"grant read-write: {dir}");
     foreach (var (name, value) in request.Environment!.Where(e => e.Key is "npm_config_cache" or "UV_CACHE_DIR" or "TEMP"))
@@ -104,7 +108,8 @@ async Task<int> RunHeadlessAsync()
     if (opt.Isolated)
     {
         Directory.CreateDirectory(isolatedConfigDir);
-        if (AuthSource() is null)
+        if (Path.GetFileNameWithoutExtension(claudeExe).Equals("claude", StringComparison.OrdinalIgnoreCase)
+            && AuthSource() is null)
             Console.Error.WriteLine("note: --isolated without CLAUDE_CODE_OAUTH_TOKEN / ANTHROPIC_API_KEY on the host; claude will report 'Not logged in'.");
     }
     else if (File.Exists(hostConfigFile))
@@ -182,10 +187,14 @@ ContainerRequest BuildProcessContainerRequest(string command)
     // it read the root's attributes and child names without granting file contents.
     var driveRoot = Path.GetPathRoot(Environment.SystemDirectory)!;
     // Enumerate on the root lets every folder's names be listed (contents stay denied), so it is only
-    // applied together with --allow-win32k, the mode for node-based tooling.
-    Containment containment = opt.AllowWin32k && SupportsEnumeratePaths()
-        ? new Containment.ProcessContainer { Filesystem = new ProcessContainerFilesystemPolicy { EnumeratePaths = { driveRoot } } }
-        : new Containment.Process();
+    // applied together with --allow-win32k, the mode for node-based tooling, unless explicitly
+    // disabled. Keep an explicit ProcessContainer policy when omitting enumeration: Win32k UI
+    // access and filesystem grants are independent of root-directory visibility.
+    Containment containment = opt.NoEnumerateRoot
+        ? new Containment.ProcessContainer { Filesystem = new ProcessContainerFilesystemPolicy() }
+        : opt.AllowWin32k && SupportsEnumeratePaths()
+            ? new Containment.ProcessContainer { Filesystem = new ProcessContainerFilesystemPolicy { EnumeratePaths = { driveRoot } } }
+            : new Containment.Process();
 
     return new ContainerRequest(command)
     {
@@ -349,7 +358,7 @@ static string QuoteArg(string arg)
 sealed record Options(
     string Workspace, bool Isolated, bool DenyNet, bool AllowWin32k,
     List<string> ReadOnly, List<string> ReadWrite, int? TimeoutSec, string[] ClaudeArgs,
-    Dictionary<string, string> Env, bool HostLoopback = false)
+    Dictionary<string, string> Env, bool HostLoopback = false, bool NoEnumerateRoot = false)
 {
     public static Options Parse(string[] rest)
     {
@@ -362,6 +371,7 @@ sealed record Options(
                 case "--isolated": o = o with { Isolated = true }; break;
                 case "--deny-net": o = o with { DenyNet = true }; break;
                 case "--allow-win32k": o = o with { AllowWin32k = true }; break;
+                case "--no-enumerate-root": o = o with { NoEnumerateRoot = true }; break;
                 case "--ro": o.ReadOnly.Add(Path.GetFullPath(rest[++i])); break;
                 case "--rw": o.ReadWrite.Add(Path.GetFullPath(rest[++i])); break;
                 case "--timeout": o = o with { TimeoutSec = int.Parse(rest[++i]) }; break;
