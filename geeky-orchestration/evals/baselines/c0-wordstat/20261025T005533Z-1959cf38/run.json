@@ -1,0 +1,107 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "ant-claude",
+  "reasoning": "high",
+  "approach": "canonical-prompt",
+  "plugin_sha": "5845808f0d23a8dba9e799e53dcfc88409960247",
+  "worker_model": "ant-claude",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "ant-claude",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "ant-claude",
+      "reasoning": "high",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "workspace": "/root/repos/eval-c0-wordstat-codex-20261025T005533Z-1959cf38",
+  "config_directory": "/root/repos/.eval-cfg-codex-20261025T005533Z-1959cf38",
+  "seed_sha": "991b9153952451754ac06b21283659b3ce30fffa",
+  "session_id": "01a1708e-5580-7690-bad1-bc48577142c8",
+  "started_utc": "2026-10-25T00:55:34.5687663Z",
+  "ended_utc": "2026-10-25T00:57:48.4128584Z",
+  "wall_time_s": 134,
+  "tokens": null,
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 0,
+  "exit_code": 255,
+  "exit_reason": "crash",
+  "is_error": true,
+  "raw_sha256": {
+    "stream": "63921ca9ca3bdee7072d6e5b9514f164913e357109ee10900070c42b2340f1b4",
+    "session": "2ef9946402d7d9a64a3ee556458dc052d70b8415b1713207ef9352783c880deb"
+  },
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "awaiting-rollout",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "c125ad9d1584273254029cb5ad8a20b2b45ca2919d85cbd9f9ad50cede08238f",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": null,
+  "native_proof_folder": null,
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "context_window": 200000
+  },
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "development",
+    "tags": [
+      "geeky-eval",
+      "harness:codex",
+      "case:c0-wordstat",
+      "run:20261025T005533Z-1959cf38",
+      "plugin:5845808",
+      "codex",
+      "development"
+    ],
+    "user_id": "developer",
+    "full_content": true,
+    "ca_passthrough": [
+      "SSL_CERT_FILE",
+      "REQUESTS_CA_BUNDLE",
+      "NODE_EXTRA_CA_CERTS"
+    ],
+    "session_id": "01a1708e-5580-7690-bad1-bc48577142c8",
+    "summary": "langfuse-run exit 3",
+    "delivered": false,
+    "observations": 0,
+    "coverage_complete": null,
+    "coverage_missed": null,
+    "hook": {
+      "kind": "codex-stop",
+      "package": "@langfuse/codex-observability-plugin@0.4.2",
+      "node": "/opt/node22/bin/node",
+      "script": "/root/repos/.eval-tools/langfuse/codex-tracing/0.4.2/dist/index.mjs"
+    }
+  }
+}
