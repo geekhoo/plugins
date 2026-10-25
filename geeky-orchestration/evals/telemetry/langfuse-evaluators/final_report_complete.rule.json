@@ -1,0 +1,40 @@
+{
+  "name": "geeky-eval final report (mxc)",
+  "enabled": false,
+  "filter": [
+    {
+      "column": "environment",
+      "operator": "any of",
+      "value": [
+        "mxc"
+      ],
+      "type": "stringOptions"
+    },
+    {
+      "column": "isRootObservation",
+      "operator": "=",
+      "value": true,
+      "type": "boolean"
+    },
+    {
+      "column": "name",
+      "operator": "any of",
+      "value": [
+        "Codex Turn",
+        "Conversational Turn"
+      ],
+      "type": "stringOptions"
+    }
+  ],
+  "evaluatorAssignments": [
+    {
+      "evaluatorId": "<final_report_complete evaluator id>",
+      "variableMapping": [
+        {
+          "variable": "output",
+          "source": "output"
+        }
+      ]
+    }
+  ]
+}

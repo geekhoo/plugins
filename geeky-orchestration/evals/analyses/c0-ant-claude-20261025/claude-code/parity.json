@@ -1,0 +1,335 @@
+{
+  "schema": "geeky-eval.parity/1",
+  "harness": "claude-code",
+  "run": "eval-c0-wordstat-20261025T030323Z",
+  "session_id": "9011390d-8cdd-4ee6-a202-fbd948283d00",
+  "composite": 59.15,
+  "quality": 94.96,
+  "adherence": 0.0,
+  "adherence_uncapped": 96.97,
+  "adherence_fraction": "32/33",
+  "consistency": 100.0,
+  "dpc": 1.0,
+  "order": 1.0,
+  "efficiency": {
+    "tokens_total": 17095538,
+    "wall_time_s": 4175,
+    "latency_median_ms": 7164,
+    "commits": 12,
+    "interventions": 1
+  },
+  "stage_bounds": {
+    "spec-research": [
+      "2026-10-25T03:03:31.097Z",
+      "2026-10-25T03:16:55+00:00"
+    ],
+    "geeky-plan": [
+      "2026-10-25T03:16:55+00:00",
+      "2026-10-25T03:25:59.401+00:00"
+    ],
+    "plan-review": [
+      "2026-10-25T03:25:59.401+00:00",
+      "2026-10-25T03:32:24+00:00"
+    ],
+    "geeky-implement": [
+      "2026-10-25T03:32:24+00:00",
+      "2026-10-25T04:03:34.815+00:00"
+    ],
+    "impl-review": [
+      "2026-10-25T04:03:34.815+00:00",
+      "9999"
+    ]
+  },
+  "phases": {
+    "P1": [
+      "T1",
+      "T2",
+      "T3"
+    ]
+  },
+  "needs_judge": [],
+  "checks": [
+    {
+      "id": "a.planning_folder",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 3 task file(s) found."
+    },
+    {
+      "id": "a.task_schema",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 3 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "a.kanban_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 3 task(s) tracked, 3 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=3"
+    },
+    {
+      "id": "a.dod.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "a.notes.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T1-implement-cli-package.notes.md"
+    },
+    {
+      "id": "a.dod.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T2"
+    },
+    {
+      "id": "a.notes.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T2-write-test-suite.notes.md"
+    },
+    {
+      "id": "a.dod.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T3"
+    },
+    {
+      "id": "a.notes.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T3-validate-acceptance-criteria.notes.md"
+    },
+    {
+      "id": "a.run_summary",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "a.heartbeat_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "{\"ts\":\"2026-10-25T04:07:00Z\",\"task\":\"T3\",\"status\":\"done\"}"
+    },
+    {
+      "id": "a.prescribed.spec",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "spec-research commit subject"
+    },
+    {
+      "id": "a.prescribed.plan_review",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "plan-review commit subject exact"
+    },
+    {
+      "id": "a.prescribed.critical_fix",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "fix(spec): Address 1 critical review findings from impl-review"
+    },
+    {
+      "id": "a.commit_messages",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "9 post-plan-review commits; failing: []"
+    },
+    {
+      "id": "a.frozen_untouched",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "frozen files changed after plan-review: []"
+    },
+    {
+      "id": "a.no_forbidden_git",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reflog: ['reset: moving to HEAD~1']; commands: []"
+    },
+    {
+      "id": "a.task_dispatch.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T1"
+    },
+    {
+      "id": "a.task_review.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T1 or P1"
+    },
+    {
+      "id": "a.dod_gate.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "1 check-dod runs naming T1 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T2"
+    },
+    {
+      "id": "a.task_review.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T2 or P1"
+    },
+    {
+      "id": "a.dod_gate.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "1 check-dod runs naming T2 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T3"
+    },
+    {
+      "id": "a.task_review.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T3 or P1"
+    },
+    {
+      "id": "a.dod_gate.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "1 check-dod runs naming T3 during implement"
+    },
+    {
+      "id": "a.phase_verdict.P1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.kanban_gate",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "12 validate-kanban runs for 3 tasks"
+    },
+    {
+      "id": "a.commit_gate",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "6 check-commit runs for 3 code commits"
+    },
+    {
+      "id": "a.tests_run",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "16 pytest runs during implement"
+    },
+    {
+      "id": "a.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "main-thread code/test writes: []"
+    },
+    {
+      "id": "a.one_concern_per_commit",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "judge: Code, tests, .gitignore and bookkeeping are separate commits."
+    },
+    {
+      "id": "a.final_report_claims",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "judge: Verified: 66 passed/1 skipped on rerun, tree clean except the documented heartbeat, reviewer IDs exist in subagents/, impl-review round 1 NEEDS FIXES (1 critical) then fix e8c945f and round 2 PASS."
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "3 spec-research dispatches"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "2 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.plan_review"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "every task reviewed"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "DoD gate for every task"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "phase verdict for every phase"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.commit_gate"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "3 impl-review dispatches"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.heartbeat_final"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: Strict T1->T2->T3 chain, no parallel batch; the plan-review sequencing phase records why (parallelization 1/1, honest strict chain)."
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: One concern per commit in each phase."
+    }
+  ]
+}
