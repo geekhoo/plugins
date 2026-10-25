@@ -2,7 +2,7 @@
 
 This is the process that produced complete C0 runs on both harnesses (2026-10-25). It covers Linux MXC (mxc-sandbox 0.2.1, Bubblewrap), models served by a LiteLLM proxy, full-content Langfuse tracing, and harness-neutral scoring. Windows specifics and the older C1 procedure are in [baseline-runs.md](baseline-runs.md). The reasons behind each step are in [lessons-learned.md](lessons-learned.md) and the D-numbers in [agent-eval-decisions.md](../docs/agent-eval-decisions.md).
 
-Results so far: [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md).
+Short version: [QUICKSTART.md](QUICKSTART.md). Results so far: [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md).
 
 ## 1. One-time setup (Linux host)
 

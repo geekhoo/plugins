@@ -8,7 +8,7 @@ Measurement lessons: distinguish skill prereads from execution boundaries; merge
 
 This page records what it took to run paid geeky-orchestration evals in the MXC sandbox, first on Windows (C1) and since 2026-10-24 on Linux through LiteLLM (C0): what broke, how each break was fixed, the traps that cost a run, and what is still open. Read it before a new case, a new harness or a new machine. [baseline-runs.md](baseline-runs.md) is the step-by-step procedure, and [agent-eval-decisions.md](../docs/agent-eval-decisions.md) holds the decisions (D-numbers below). This file covers what those two leave out: the reasons, the traps and the order things went wrong.
 
-Written 2026-10-23, after six paid C1 runs on Windows 11 (Claude Code 2.1.304, `claude-sonnet-5-5`); the Linux/LiteLLM sections were added 2026-10-24/25 (Ubuntu 24.04, Claude Code 2.1.310, Codex 0.164.0). The current step-by-step for Linux + LiteLLM + Langfuse is [mxc-litellm-runbook.md](mxc-litellm-runbook.md).
+Written 2026-10-23, after six paid C1 runs on Windows 11 (Claude Code 2.1.304, `claude-sonnet-5-5`); the Linux/LiteLLM sections were added 2026-10-24/25 (Ubuntu 24.04, Claude Code 2.1.310, Codex 0.164.0). The current step-by-step for Linux + LiteLLM + Langfuse is [mxc-litellm-runbook.md](mxc-litellm-runbook.md); the one-page version is [QUICKSTART.md](QUICKSTART.md).
 
 ## Where things live
 
