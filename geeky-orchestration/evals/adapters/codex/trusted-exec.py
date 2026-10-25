@@ -6,6 +6,7 @@ the catalogue helper does not run the native probe's HTTP fixture or main().
 import argparse
 import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
 
@@ -22,7 +23,9 @@ def capture_runtime_proof(codex, forbidden_root):
         list(forbidden_root.iterdir())
     except OSError as exc:
         proof.update(error_type=type(exc).__name__, winerror=getattr(exc, 'winerror', None))
-        proof['denial_verified'] = isinstance(exc, PermissionError) and proof['winerror'] == 5
+        # Windows MXC denies the host skill root (access denied); Bubblewrap and Seatbelt hide it.
+        proof['denial_verified'] = (isinstance(exc, PermissionError) and proof['winerror'] == 5 if os.name == 'nt'
+                                    else isinstance(exc, (PermissionError, FileNotFoundError)))
     return proof
 
 

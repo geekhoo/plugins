@@ -56,9 +56,27 @@ def digest(root):
     return h.hexdigest()
 
 
+def provider_catalog(base_catalog, slugs, context_window):
+    """Catalog entries for models Codex does not know (a LiteLLM route).
+
+    Built from the legacy gpt-5.5 entry, the one catalog shape without code mode: every tool is a
+    JSON function (no freeform `exec` or `apply_patch`, whose input LiteLLM's bridges drop), and
+    multi-agent v2 keeps the collaboration tools the workflows dispatch subagents with.
+    """
+    base = next(m for m in base_catalog['models'] if m.get('slug') == 'gpt-5.5')
+    entries = []
+    for slug in dict.fromkeys(slugs):
+        entry = dict(base, slug=slug, display_name=slug, description='Eval model routed through LiteLLM',
+                     apply_patch_tool_type=None, multi_agent_version='v2', upgrade=None, availability_nux=None,
+                     additional_speed_tiers=[], service_tiers=[], priority=0,
+                     context_window=context_window, max_context_window=context_window)
+        entries.append(entry)
+    return {'models': entries}
+
+
 def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
             worker_model=None, worker_reasoning=None, reviewer_reasoning=None,
-            telemetry_node=None, telemetry_hook=None):
+            telemetry_node=None, telemetry_hook=None, provider=None):
     worker_model = model if worker_model is None else worker_model
     worker_reasoning = reasoning if worker_reasoning is None else worker_reasoning
     reviewer_roles = ['code-reviewer', 'code-architect-reviewer']
@@ -142,6 +160,13 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
     if telemetry_hook:
         # Plaintext reasoning summaries for the trace; the raw reasoning stays provider-encrypted.
         config['model_reasoning_summary'] = 'detailed'
+    if provider:
+        config['model_provider'] = 'litellm'
+        config['model_providers'] = {'litellm': {
+            'name': 'LiteLLM', 'base_url': provider['base_url'], 'env_key': provider['env_key'],
+            'wire_api': 'responses', 'requires_openai_auth': False, 'supports_websockets': False}}
+        # Hosted web search is an OpenAI server tool; a LiteLLM route cannot serve it.
+        config['web_search'] = 'disabled'
     shutil.copyfile(plugin / 'AGENTS.md', home / 'AGENTS.md')
     config['developer_instructions'] = (plugin / 'AGENTS.md').read_text(encoding='utf-8') + review_policy
     # Windows native skill discovery uses KnownFolder HOME, ignoring env HOME.
@@ -224,6 +249,11 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
         telemetry_command = cmdline([str(venv_python(tools / 'agent-py')), str(tracer)])
         config['hooks']['Stop'] = [{'hooks': [{'type': 'command', 'command': telemetry_command, 'timeout': 600}]}]
         telemetry = {'hook_command': telemetry_command, 'reasoning_summary': 'detailed'}
+    if provider:
+        catalog = home / 'model-catalog.json'
+        catalog.write_text(json.dumps(provider_catalog(json.loads(Path(provider['catalog_base']).read_text(encoding='utf-8')),
+                                                       [model, worker_model], provider['context_window'])), encoding='utf-8')
+        config['model_catalog_json'] = str(catalog)
     # Parent CLI overrides register all roles explicitly; projection folders alone do not.
     overrides = [f'{k}={toml(v)}' for k, v in config.items()]
     rendered = '\n'.join(overrides) + '\n'
@@ -239,6 +269,9 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
     check('hook_configuration', True, 'Warn guard bridge configured; runtime proof pending CP2.')
     report.update(ok=all(c['passed'] for c in checks), codex_config_overrides=overrides,
         extra_args=[], telemetry=telemetry,
+        provider=({'name': 'litellm', 'base_url': provider['base_url'], 'env_key': provider['env_key'],
+                   'context_window': provider['context_window'], 'tool_shape': 'classic-functions, multi-agent v2'}
+                  if provider else None),
         profile_sha256=hashlib.sha256((digest(profile) + digest(home)).encode()).hexdigest(),
         reachability={'claude': required, 'codex': required,
                       'runtime_proof': 'UNVERIFIED until checkpoint 2'},
@@ -261,12 +294,20 @@ def main():
                    help='Optional effort for reviewer roles; ordinary worker defaults remain independent.')
     p.add_argument('--telemetry-node', type=Path, help='Node.js 22+ that runs the Langfuse Stop hook.')
     p.add_argument('--telemetry-hook', type=Path, help="Langfuse Codex plugin's dist/index.mjs.")
+    p.add_argument('--provider-base-url', help='Route models through this Responses endpoint (LiteLLM).')
+    p.add_argument('--provider-env-key', help='Environment variable holding the endpoint key.')
+    p.add_argument('--catalog-base', type=Path, help='`codex debug models` output to derive catalog entries from.')
+    p.add_argument('--context-window', type=int, default=200000)
     a = p.parse_args()
+    if a.provider_base_url and not (a.provider_env_key and a.catalog_base):
+        p.error('--provider-base-url needs --provider-env-key and --catalog-base')
     if bool(a.telemetry_node) != bool(a.telemetry_hook):
         p.error('--telemetry-node and --telemetry-hook go together')
     result = prepare(a.plugin, a.home, a.codex_home, a.tools_dir, a.profile, a.model, a.reasoning,
                      a.worker_model, a.worker_reasoning, a.reviewer_reasoning,
-                     a.telemetry_node, a.telemetry_hook)
+                     a.telemetry_node, a.telemetry_hook,
+                     {'base_url': a.provider_base_url, 'env_key': a.provider_env_key,
+                      'catalog_base': a.catalog_base, 'context_window': a.context_window} if a.provider_base_url else None)
     a.output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({'ok': result['ok'], 'report': str(a.output)}))
     return 0 if result['ok'] else 1

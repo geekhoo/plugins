@@ -117,7 +117,7 @@ async Task<int> RunHeadlessAsync()
         Directory.CreateDirectory(isolatedConfigDir);
         if (Path.GetFileNameWithoutExtension(claudeExe).Equals("claude", StringComparison.OrdinalIgnoreCase)
             && AuthSource() is null)
-            Console.Error.WriteLine("note: --isolated without CLAUDE_CODE_OAUTH_TOKEN / ANTHROPIC_API_KEY on the host; claude will report 'Not logged in'.");
+            Console.Error.WriteLine("note: --isolated without CLAUDE_CODE_OAUTH_TOKEN / ANTHROPIC_API_KEY / ANTHROPIC_AUTH_TOKEN; claude will report 'Not logged in'.");
     }
     else if (File.Exists(hostConfigFile))
     {
@@ -320,9 +320,9 @@ void ApplyUserEnvironment(Dictionary<string, string> env)
     foreach (var (name, value) in opt.Env) env[name] = value;
 }
 
-static string? AuthSource() =>
-    new[] { "CLAUDE_CODE_OAUTH_TOKEN", "ANTHROPIC_API_KEY" }
-        .FirstOrDefault(n => !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(n)));
+string? AuthSource() =>
+    new[] { "CLAUDE_CODE_OAUTH_TOKEN", "ANTHROPIC_API_KEY", "ANTHROPIC_AUTH_TOKEN" }
+        .FirstOrDefault(n => opt.Env.ContainsKey(n) || !string.IsNullOrEmpty(Environment.GetEnvironmentVariable(n)));
 
 string ClaudeCommand(string exe) =>
     string.Join(' ', new[] { exe }.Concat(opt.ClaudeArgs).Select(OperatingSystem.IsWindows() ? QuoteArg : (Func<string, string>)QuotePosix));

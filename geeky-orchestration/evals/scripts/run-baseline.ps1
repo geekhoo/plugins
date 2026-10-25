@@ -35,6 +35,9 @@ param(
     [string]$WorkRoot,
     [switch]$DryRun,
     [switch]$NoTelemetry,
+    # Route Claude Code through LiteLLM's Messages API (LITELLM_PROXY_URL, LITELLM_PROXY_API_KEY) with
+    # -Model as the only model: every alias and subagent pins to it.
+    [switch]$Litellm,
     # Run evals/mock-agent/mock_claude.py as the MXC workload instead of claude: no model calls,
     # no token needed. Scenarios are comma-separated (see mock_claude.py); default happy.
     [switch]$MockAgent,
@@ -71,10 +74,17 @@ if (-not $TimeoutSec) { $TimeoutSec = [int]$caseCfg.wall_time_ceiling_s }
 # The slow scenario exists to hit the timeout; keep it short unless one was given.
 if ($MockAgent -and $MockScenario -match '\bslow\b' -and -not $PSBoundParameters.ContainsKey('TimeoutSec')) { $TimeoutSec = 30 }
 
-if (-not $env:CLAUDE_CODE_OAUTH_TOKEN) {
-    $env:CLAUDE_CODE_OAUTH_TOKEN = [Environment]::GetEnvironmentVariable('CLAUDE_CODE_OAUTH_TOKEN', 'User')
+if ($Litellm) {
+    if (-not $Model) { throw '-Litellm needs -Model (the LiteLLM model name)' }
+    if (-not $env:LITELLM_PROXY_URL -or -not $env:LITELLM_PROXY_API_KEY) { throw '-Litellm needs LITELLM_PROXY_URL and LITELLM_PROXY_API_KEY' }
+    # Process scope only, so the MXC host can copy it by bare name; ANTHROPIC_AUTH_TOKEN outranks any OAuth token.
+    $env:ANTHROPIC_AUTH_TOKEN = $env:LITELLM_PROXY_API_KEY
+} else {
+    if (-not $env:CLAUDE_CODE_OAUTH_TOKEN) {
+        $env:CLAUDE_CODE_OAUTH_TOKEN = [Environment]::GetEnvironmentVariable('CLAUDE_CODE_OAUTH_TOKEN', 'User')
+    }
+    if (-not $MockAgent -and -not $env:CLAUDE_CODE_OAUTH_TOKEN) { throw 'CLAUDE_CODE_OAUTH_TOKEN is not set (run claude setup-token).' }
 }
-if (-not $MockAgent -and -not $env:CLAUDE_CODE_OAUTH_TOKEN) { throw 'CLAUDE_CODE_OAUTH_TOKEN is not set (run claude setup-token).' }
 
 function Invoke-Oracle([string]$target, [string]$outFile) {
     $env:ORACLE_TARGET = $target
@@ -140,9 +150,11 @@ $promptSha = [BitConverter]::ToString([Security.Cryptography.SHA256]::HashData([
 $sid = [guid]::NewGuid().ToString()
 $claudeArgs = @('-p', $prompt, '--session-id', $sid, '--plugin-dir', $pluginRun,
     '--settings', (Join-Path $cfg 'settings.json'), '--strict-mcp-config', '--mcp-config', (Join-Path $cfg 'mcp.json'),
-    '--permission-mode', 'bypassPermissions', '--output-format', 'stream-json', '--verbose',
-    # Git Bash cannot start in MXC (microsoft/mxc#1061), so every Bash call fails with exit 66; hide the tool.
-    '--disallowedTools', 'Bash')
+    '--permission-mode', 'bypassPermissions', '--output-format', 'stream-json', '--verbose')
+# Git Bash cannot start in Windows MXC (microsoft/mxc#1061), so every Bash call fails with exit 66; hide the
+# tool there. Elsewhere Bash is the shell. WebSearch is an Anthropic server tool a LiteLLM route cannot serve.
+$disallowed = @(if ($onWindows) { 'Bash' }) + @(if ($Litellm) { 'WebSearch' })
+if ($disallowed) { $claudeArgs += @('--disallowedTools', ($disallowed -join ',')) }
 if ($Model) { $claudeArgs += @('--model', $Model) }
 if ($MockAgent) {
     # MXC_CLAUDE_EXE must be an .exe: the agent-py python runs the mock, copied under the read-only
@@ -171,12 +183,22 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host
     # claude -p stops background subagents still running 10 min after the main agent's last turn; the
     # main agent is resumed when they finish, so wait indefinitely (the MXC --timeout still bounds the run).
     '--env', 'CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0',
+    # The workload may run as root inside the container (Bubblewrap maps uid 0), where claude refuses
+    # bypassPermissions unless told it is already sandboxed, which MXC is.
+    '--env', 'IS_SANDBOX=1',
     # pytest for the agents' own tests: the sandbox Python has none and pip cannot install inside MXC.
     '--env', "PATH=$(Split-Path $agentPython)$([IO.Path]::PathSeparator)$env:PATH", '--env', "VIRTUAL_ENV=$agentPy",
     # Neutral commit identity (the seed repo has none); set via env so no repo or global config changes.
     '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
 if ($telemetry) { $hostArgs += @('--rw', $telemetry.StateDir) + @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs }
+if ($Litellm) {
+    $hostArgs += @('--env', "ANTHROPIC_BASE_URL=$($env:LITELLM_PROXY_URL.TrimEnd('/'))", '--env', 'ANTHROPIC_AUTH_TOKEN',
+        # One model everywhere: main loop, aliases subagents may name, and background/small-model calls.
+        '--env', "ANTHROPIC_DEFAULT_OPUS_MODEL=$Model", '--env', "ANTHROPIC_DEFAULT_SONNET_MODEL=$Model",
+        '--env', "ANTHROPIC_DEFAULT_HAIKU_MODEL=$Model", '--env', "CLAUDE_CODE_SUBAGENT_MODEL=$Model",
+        '--env', 'CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1')
+}
 
 if ($DryRun) {
     Write-Host "DRY RUN. Would launch (timeout ${TimeoutSec}s):`n  $mxc $($hostArgs -join ' ') -- <claude args: session $sid, plugin $pluginRun>"
@@ -254,6 +276,7 @@ if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $(if ($ses
     raw_sha256 = [ordered]@{ stream = & $sha (Join-Path $out 'stream.jsonl'); session = & $sha (Join-Path $out 'session.jsonl') }
     interventions = 0
     telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })
+    provider = $(if ($Litellm) { [ordered]@{ name = 'litellm'; base_url = $env:LITELLM_PROXY_URL; model = $Model } } else { $null })
     reference_eligible = (-not $MockAgent -and $clean -and $exitReason -eq 'completed' -and -not $pluginTampered -and @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count -gt 0)
 } | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $out 'run.json')
 
