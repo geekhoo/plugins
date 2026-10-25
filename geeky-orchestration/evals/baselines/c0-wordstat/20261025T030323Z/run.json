@@ -1,0 +1,138 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "harness_version": "2.1.310",
+  "model": "ant-claude",
+  "reasoning": "default",
+  "approach": "canonical-prompt",
+  "plugin_sha": "434ef7ebc72d018bdfe3f6daee4b58bb96e3a873",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "geeky_skills_loaded": 8,
+  "workspace": "/root/repos/eval-c0-wordstat-20261025T030323Z",
+  "seed_sha": "216277389c3966eb7745b35d7593ec7fba237a34",
+  "session_id": "9011390d-8cdd-4ee6-a202-fbd948283d00",
+  "started_utc": "2026-10-25T03:03:23.6315352Z",
+  "ended_utc": "2026-10-25T04:12:59.0992896Z",
+  "wall_time_s": 4175,
+  "tokens": {
+    "input": 16670753,
+    "cached_input": 15282240,
+    "cache_creation": 0,
+    "output": 424785,
+    "total": 17095538,
+    "cost_usd_estimate": 25.2033,
+    "reasoning": 0
+  },
+  "model_calls": 119,
+  "latency_median_ms": 3425,
+  "max_idle_gap_s": 392,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T03:03:38.897000+00:00",
+      "ended_utc": "2026-10-25T03:16:58.303000+00:00",
+      "minutes": 13.3
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-25T03:16:58.303000+00:00",
+      "ended_utc": "2026-10-25T03:25:59.401000+00:00",
+      "minutes": 9.0
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-25T03:25:59.401000+00:00",
+      "ended_utc": "2026-10-25T03:32:28.136000+00:00",
+      "minutes": 6.5
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-25T03:32:28.136000+00:00",
+      "ended_utc": "2026-10-25T04:02:42.285000+00:00",
+      "minutes": 30.2
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-25T04:02:42.285000+00:00",
+      "ended_utc": "2026-10-25T04:10:43.415000+00:00",
+      "minutes": 8.0
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-25T04:10:43.415000+00:00",
+      "ended_utc": "2026-10-25T04:12:56.987000+00:00",
+      "minutes": 2.2
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 2,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 81,
+    "test": 453,
+    "files_changed": 21
+  },
+  "commits": 12,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "stop_reason": "end_turn",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "d48e74d6a3e46ed2b7b3e74d8959039ba0f25a578f114b20d7477553b8fe9cdf",
+    "session": "f316a540452d4c43398b4e8be4bc9bd350b887c33f079b1b612beeae7cbcbad9"
+  },
+  "interventions": 1,
+  "resumed_after_refusal": 1,
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc",
+    "trace_name": "geeky-eval c0-wordstat claude-code",
+    "tags": [
+      "geeky-eval",
+      "harness:claude-code",
+      "case:c0-wordstat",
+      "run:20261025T030323Z",
+      "plugin:434ef7e"
+    ],
+    "user_id": "geeky-eval-agent",
+    "full_content": true,
+    "ca_passthrough": [
+      "SSL_CERT_FILE",
+      "REQUESTS_CA_BUNDLE",
+      "NODE_EXTRA_CA_CERTS"
+    ],
+    "session_id": "9011390d-8cdd-4ee6-a202-fbd948283d00",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 828,
+    "coverage_complete": true,
+    "coverage_missed": [],
+    "hook": {
+      "kind": "claude-stop-sessionend",
+      "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "langfuse_python": "4.18.0",
+      "state_dir": "/root/repos/.eval-cfg-20261025T030323Z/langfuse"
+    },
+    "host_flush": "exit 0"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "model": "ant-claude"
+  },
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": true
+}

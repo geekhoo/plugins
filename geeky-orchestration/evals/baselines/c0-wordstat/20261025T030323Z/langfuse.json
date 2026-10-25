@@ -1,0 +1,128 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "9011390d-8cdd-4ee6-a202-fbd948283d00",
+  "traces": 15,
+  "observations": 828,
+  "by_type": {
+    "SPAN": 29,
+    "TOOL": 424,
+    "GENERATION": 375
+  },
+  "generations": 375,
+  "tool_calls": 424,
+  "subagents": 14,
+  "environments": [
+    "mxc"
+  ],
+  "usage_details": {
+    "input": 1014795,
+    "output": 95594,
+    "cache_read_input_tokens": 14669248,
+    "total": 15779637
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T03:03:31.097Z",
+  "last_start": "2026-10-25T04:12:57.492Z",
+  "top_names": [
+    [
+      "Subagent LLM Call",
+      232
+    ],
+    [
+      "LLM Call",
+      143
+    ],
+    [
+      "Tool: Read",
+      131
+    ],
+    [
+      "Tool: Bash",
+      104
+    ],
+    [
+      "Tool: Edit",
+      60
+    ],
+    [
+      "Tool: Grep",
+      34
+    ],
+    [
+      "Tool: Glob",
+      29
+    ],
+    [
+      "Tool: Write",
+      20
+    ],
+    [
+      "Tool: WebFetch",
+      17
+    ],
+    [
+      "Conversational Turn",
+      15
+    ],
+    [
+      "Tool: Agent",
+      15
+    ],
+    [
+      "Tool: Skill",
+      6
+    ],
+    [
+      "Tool: ToolSearch",
+      3
+    ],
+    [
+      "Tool: SendMessage",
+      1
+    ],
+    [
+      "Subagent: Impl review: integration/records",
+      1
+    ],
+    [
+      "Subagent: Impl review: test suite",
+      1
+    ],
+    [
+      "Subagent: Impl review: CLI core",
+      1
+    ],
+    [
+      "Subagent: Phase 3 review of T3",
+      1
+    ],
+    [
+      "Subagent: Validate wordstat acceptance (T3)",
+      1
+    ],
+    [
+      "Subagent: Phase 2 review of T2",
+      1
+    ],
+    [
+      "Subagent: Write wordstat test suite (T2)",
+      1
+    ],
+    [
+      "Subagent: Phase 1 review of T1",
+      1
+    ],
+    [
+      "Subagent: Implement wordstat CLI (T1)",
+      1
+    ],
+    [
+      "Subagent: Phase 3 sequencing validation",
+      1
+    ],
+    [
+      "Subagent: Phase 1 document alignment audit",
+      1
+    ]
+  ]
+}
