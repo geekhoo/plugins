@@ -1,5 +1,7 @@
 # Codex baseline adapter
 
+Current (2026-10-25): Linux MXC launches through LiteLLM (`-Litellm -Model <name> -Launch`) are documented in [the MXC + LiteLLM runbook](../../mxc-litellm-runbook.md); cross-harness scoring uses `scripts/parity-eval.py` (D103). The "no further paid run" notes below belong to the C1 closeout.
+
 Current run3 result (2026-10-24): [completed report](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md), [operator evidence](evidence/20261023T230039Z-run3-operator/README.md). Runner0,1410s,oracle118/118 stable3,final110tests; reviewed QACT99.5628555, complete/no unresolved judgments. Actual16threads/19contexts verify main Sol/high, task/default Sol/medium and reviewers Sol/xhigh. Automatic process extraction is unsupported for this general-orchestrator shape; reviewed annotations and dp12 correction are disclosed. Historical preparation below is superseded. No further paid run, repository commit or push authorized.
 
 Current final-pair closeout: [automatic normalization and guard evidence](../../analyses/c1-final-parity-20261024/README.md). Run 2 process extraction and strict failure contract are Done for supported shapes; 68 parser tests and 64 guard/profile/trust tests pass (2 optional parser fixture skips). No guard code change; shared shell bypass and unverified paid invocation remain explicit. No new run, commit or push authorized.

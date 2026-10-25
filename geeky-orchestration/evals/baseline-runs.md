@@ -32,8 +32,10 @@ Decisions referenced: D41 (reference solutions), D53 (tokens as cost), D57 (judg
 
 `evals/scripts/run-baseline.ps1 -Case <case> [-Model <id>] [-DryRun]` performs steps 1–4 below for one run.
 
+On Linux, or with a LiteLLM model (`-Litellm -Model <name>`), follow [mxc-litellm-runbook.md](mxc-litellm-runbook.md) instead: paths live under `~/repos/.eval-tools`, Bash stays enabled, and the proxy key replaces the OAuth token.
+
 Before starting, it needs:
-- `CLAUDE_CODE_OAUTH_TOKEN` set in the environment;
+- `CLAUDE_CODE_OAUTH_TOKEN` set in the environment (not with `-Litellm`);
 - a Python with pytest;
 - the `geeky-mcp` venv in `C:\repos\.eval-tools`.
 

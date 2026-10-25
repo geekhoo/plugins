@@ -32,7 +32,7 @@ Telemetry is on when the host has `TRACE_TO_LANGFUSE=true`. Pass `-NoTelemetry` 
 |---|---|
 | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL` | Claude; Codex fallback |
 | `LANGFUSE_CODEX_PUBLIC_KEY`, `LANGFUSE_CODEX_SECRET_KEY`, `LANGFUSE_CODEX_BASE_URL` | Codex (take precedence) |
-| `LANGFUSE_TRACING_ENVIRONMENT` | both (default `eval`) |
+| `GEEKY_EVAL_LANGFUSE_ENVIRONMENT` | both; the runners set `LANGFUSE_TRACING_ENVIRONMENT` from it (default `mxc`) |
 | `CC_LANGFUSE_TRACE_TAGS` / `LANGFUSE_CODEX_TAGS` | appended to the run tags |
 | `LANGFUSE_USER_ID` / `LANGFUSE_CODEX_USER_ID` | user on traces (default `geeky-eval-agent`) |
 
@@ -62,11 +62,15 @@ It was calibrated on two real sessions, Claude C1 run 6 and Codex C1 run 3 (repl
 
 ## Known limits
 
-- **Codex inter-agent payloads are encrypted by the provider.** `spawn_agent`, `send_message` and `followup_task` arguments, and the `agent_message` a child thread receives, carry `encrypted_content` (`encrypted_function_args`), so no plaintext exists on disk or in Langfuse. Each thread's own messages, tool calls and outputs are plaintext. Coverage counts these handoffs as `encrypted_handoffs`.
+- **Codex inter-agent payloads are encrypted by OpenAI's own backend.** Through a LiteLLM provider they stay plaintext (0 encrypted handoffs in both LiteLLM C0 runs). With the OpenAI backend, `spawn_agent`, `send_message` and `followup_task` arguments, and the `agent_message` a child thread receives, carry `encrypted_content` (`encrypted_function_args`), so no plaintext exists on disk or in Langfuse. Each thread's own messages, tool calls and outputs are plaintext. Coverage counts these handoffs as `encrypted_handoffs`.
 - **A stage counts when its SKILL.md is read.** Codex reads skills by opening the file, and an agent may read every skill up front: Codex C0 attempt 5 hit `stage:impl-review` without reaching it. Check the commits and the review files when a stage matters.
 - **Raw reasoning stays encrypted**; only the summaries are plaintext.
 - **Export timeout.** Both SDKs cap one OTLP export at `LANGFUSE_TIMEOUT` seconds, 5 by default. A full session needs longer, so the runners pass `LANGFUSE_TIMEOUT=300`. Without it, the C1 Codex run 3 replay delivered nothing while the hook still exited 0.
 - **Proxies.** The Codex tracer's exporter uses Node's `http` module, which ignores `HTTPS_PROXY`. It needs direct egress to Langfuse, which the MXC sandbox provides.
+
+## Scoring in Langfuse
+
+Each run's trace is named `geeky-eval <case> <harness>` (with ` (mock)` for mocks) in environment `mxc`. After scoring with `scripts/parity-eval.py`, `langfuse-scores.py --run <run> --parity <parity.json>` posts 10 session scores (parity composite, quality, adherence, consistency, oracle pass rate, forbidden git, coverage, refusals, judged report claims), each with a score config; score ids derive from session and name, so reposting updates. Evaluator definitions and their state are in [langfuse-evaluators/](langfuse-evaluators/README.md). The full procedure is in [../mxc-litellm-runbook.md](../mxc-litellm-runbook.md).
 
 ## Mock runs
 
