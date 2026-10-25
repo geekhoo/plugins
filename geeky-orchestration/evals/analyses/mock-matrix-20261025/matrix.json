@@ -1,0 +1,113 @@
+{
+  "schema": "geeky-eval.mock-matrix/1",
+  "stamp": "20261025T023156Z",
+  "platform": "Ubuntu 24.04.5 LTS",
+  "plugin_sha": "78cdb94b13f278bcead84eaeaf7de903cbdbc84a",
+  "runs": [
+    {
+      "harness": "claude-code",
+      "case": "c0-wordstat",
+      "runner_exit": 0,
+      "wall_s": 37,
+      "checks_passed": 73,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 196,
+      "folder": "/root/repos/mock-matrix-pass3/claude-code-c0-wordstat",
+      "ok": true
+    },
+    {
+      "harness": "claude-code",
+      "case": "c1-csvledger",
+      "runner_exit": 0,
+      "wall_s": 45,
+      "checks_passed": 73,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 196,
+      "folder": "/root/repos/mock-matrix-pass3/claude-code-c1-csvledger",
+      "ok": true
+    },
+    {
+      "harness": "claude-code",
+      "case": "c2-linkvault",
+      "runner_exit": 0,
+      "wall_s": 50,
+      "checks_passed": 73,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 196,
+      "folder": "/root/repos/mock-matrix-pass3/claude-code-c2-linkvault",
+      "ok": true
+    },
+    {
+      "harness": "claude-code",
+      "case": "c3-minisql",
+      "runner_exit": 0,
+      "wall_s": 50,
+      "checks_passed": 73,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 196,
+      "folder": "/root/repos/mock-matrix-pass3/claude-code-c3-minisql",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c0-wordstat",
+      "runner_exit": 0,
+      "wall_s": 22,
+      "checks_passed": 9,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 10,
+      "folder": "/root/repos/mock-matrix-pass3/codex-c0-wordstat",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c1-csvledger",
+      "runner_exit": 0,
+      "wall_s": 22,
+      "checks_passed": 9,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 10,
+      "folder": "/root/repos/mock-matrix-pass3/codex-c1-csvledger",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c2-linkvault",
+      "runner_exit": 0,
+      "wall_s": 24,
+      "checks_passed": 9,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 10,
+      "folder": "/root/repos/mock-matrix-pass3/codex-c2-linkvault",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c3-minisql",
+      "runner_exit": 0,
+      "wall_s": 21,
+      "checks_passed": 9,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 10,
+      "folder": "/root/repos/mock-matrix-pass3/codex-c3-minisql",
+      "ok": true
+    }
+  ],
+  "ok": true
+}
