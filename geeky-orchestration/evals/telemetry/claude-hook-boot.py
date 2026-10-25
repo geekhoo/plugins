@@ -3,12 +3,22 @@
 Usage: <base python> claude-hook-boot.py <site-packages> <langfuse_hook.py>
 The hook payload arrives on stdin and passes through unchanged. A base interpreter plus
 site.addsitedir avoids the venv launcher, which cannot start inside a Windows MXC container.
+With GEEKY_TRACE_NAME set, the hook's one hard-coded trace name ("Claude Code Turn") is replaced
+in memory; the pinned file on disk is never modified.
 """
-import runpy
+import os
 import site
 import sys
 
 site.addsitedir(sys.argv[1])
 hook = sys.argv[2]
 sys.argv = [hook]
-runpy.run_path(hook, run_name='__main__')
+with open(hook, encoding='utf-8') as f:
+    source = f.read()
+name = os.environ.get('GEEKY_TRACE_NAME')
+if name:
+    default = 'TRACE_NAME = "Claude Code Turn"'
+    if source.count(default) != 1:
+        raise SystemExit(f'claude-hook-boot: expected one {default!r} in {hook}')
+    source = source.replace(default, f'TRACE_NAME = {name!r}')
+exec(compile(source, hook, 'exec'), {'__name__': '__main__', '__file__': hook})

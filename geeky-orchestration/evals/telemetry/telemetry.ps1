@@ -36,12 +36,16 @@ function Resolve-EvalTelemetry {
         @(if ($Mock) { 'mock' }) + @(if ($hostTags) { $hostTags -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ } })
     $tags = @($tags | Select-Object -Unique)
     $tagsJson = ConvertTo-Json -InputObject $tags -Compress
-    $environment = if ($env:LANGFUSE_TRACING_ENVIRONMENT) { $env:LANGFUSE_TRACING_ENVIRONMENT } else { 'eval' }
+    # Every sandboxed eval run lands in one Langfuse environment, whichever harness ran it; the host's
+    # own LANGFUSE_TRACING_ENVIRONMENT (e.g. development) is for its interactive sessions.
+    $environment = if ($env:GEEKY_EVAL_LANGFUSE_ENVIRONMENT) { $env:GEEKY_EVAL_LANGFUSE_ENVIRONMENT } else { 'mxc' }
+    $traceName = "geeky-eval $Case $Harness" + $(if ($Mock) { ' (mock)' } else { '' })
     $userId = if ($codex -and $env:LANGFUSE_CODEX_USER_ID) { $env:LANGFUSE_CODEX_USER_ID } elseif ($env:LANGFUSE_USER_ID) { $env:LANGFUSE_USER_ID } else { 'geeky-eval-agent' }
 
     # Both SDKs cap each OTLP export at LANGFUSE_TIMEOUT seconds (default 5); a full eval session's batch
     # takes longer, and the hook then fails open with nothing delivered (C1 Codex run 3 replay).
-    $envArgs = @('--env', 'TRACE_TO_LANGFUSE=true', '--env', "LANGFUSE_TRACING_ENVIRONMENT=$environment", '--env', 'LANGFUSE_TIMEOUT=300')
+    $envArgs = @('--env', 'TRACE_TO_LANGFUSE=true', '--env', "LANGFUSE_TRACING_ENVIRONMENT=$environment", '--env', 'LANGFUSE_TIMEOUT=300',
+        '--env', "GEEKY_TRACE_NAME=$traceName")
     foreach ($name in $keyNames) { $envArgs += @('--env', $name) }
     # A host that trusts a private CA (a TLS-inspecting proxy) must hand it to the hooks too, or
     # their HTTPS uploads fail certificate verification inside the sandbox.
@@ -53,7 +57,7 @@ function Resolve-EvalTelemetry {
         $roPaths += Split-Path ([Environment]::GetEnvironmentVariable($name))
     }
     $record = [ordered]@{
-        enabled = $true; backend = 'langfuse'; base_url = $baseUrl; environment = $environment; tags = $tags
+        enabled = $true; backend = 'langfuse'; base_url = $baseUrl; environment = $environment; trace_name = $traceName; tags = $tags
         user_id = $userId; full_content = $true; ca_passthrough = @($caNames); session_id = $null; summary = $null
         delivered = $null; observations = $null; coverage_complete = $null; coverage_missed = $null
     }
@@ -61,7 +65,7 @@ function Resolve-EvalTelemetry {
         RoPaths = @($roPaths | Select-Object -Unique) }
 
     if ($codex) {
-        $index = Join-Path $ToolsDir "langfuse/codex-tracing/$($pins.codex_plugin.version)/dist/index.mjs"
+        $index = Join-Path $ToolsDir "langfuse/codex-tracing/$($pins.codex_plugin.version)/dist/index.geeky.mjs"
         if (-not (Test-Path $index)) { throw "Missing $index; run evals/telemetry/install-telemetry-tools.ps1." }
         $node = (Get-Command node -ErrorAction SilentlyContinue).Source
         $major = if ($node) { [int]((& $node --version).TrimStart('v') -split '\.')[0] } else { 0 }

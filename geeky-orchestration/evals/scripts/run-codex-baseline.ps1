@@ -35,7 +35,9 @@ param(
     # Route every model through LiteLLM's Responses API (LITELLM_PROXY_URL, LITELLM_PROXY_API_KEY);
     # models are given run-scoped catalog entries (classic JSON tools, multi-agent v2).
     [switch]$Litellm,
-    [int]$ContextWindow = 200000
+    [int]$ContextWindow = 200000,
+    # Debugging: a RUST_LOG filter for the contestant Codex process; its log lands in stderr.txt.
+    [string]$CodexRustLog
 )
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $false
@@ -196,6 +198,7 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--no-e
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
 if ($telemetry) { $hostArgs += @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs }
 if ($Litellm) { $hostArgs += @('--env', 'LITELLM_PROXY_API_KEY') }   # bare name: the MXC host copies the value
+if ($CodexRustLog) { $hostArgs += @('--env', "RUST_LOG=$CodexRustLog") }
 
 $record = [ordered]@{
     schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'codex'; harness_version = (& $codexExe --version | Out-String).Trim()

@@ -207,6 +207,13 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
             'description': 'Plan sequencing reviewer using the canonical code-architect instructions.',
             'config_file': str(review_role)}
         projections.append((review_role, architect))
+    # The skills name Claude Code's built-in `general-purpose` type (web researchers, the PM review,
+    # the planner fallback). Codex has no such role, so those dispatches failed; register one.
+    general = role_dir / 'general-purpose.toml'
+    agents['general-purpose'] = {'description': 'General-purpose subagent for research, review and other briefs (the Claude Code built-in type the skills name).',
+                                 'config_file': str(general)}
+    projections.append((general, {'name': 'general-purpose', 'developer_instructions':
+        'You are a general-purpose subagent. Complete the brief you are given with the tools available and report the result precisely.'}))
     for role, data in projections:
         # Each child gets explicit worker settings and the complete registry/defaults
         # for its own descendants, independent of the orchestrator config layer.
@@ -265,7 +272,7 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
               for p in (plugin / 'skills').rglob('*') if p.is_file()}
     check('full_skills', copied == source, sorted(p.name for p in skills.iterdir()))
     roles = sorted(k for k, v in agents.items() if isinstance(v, dict))
-    check('agent_registration', len(roles) == len(list((plugin / 'agents').glob('*.md'))) + bool(reviewer_reasoning), roles)
+    check('agent_registration', len(roles) == len(list((plugin / 'agents').glob('*.md'))) + 1 + bool(reviewer_reasoning), roles)
     check('hook_configuration', True, 'Warn guard bridge configured; runtime proof pending CP2.')
     report.update(ok=all(c['passed'] for c in checks), codex_config_overrides=overrides,
         extra_args=[], telemetry=telemetry,
