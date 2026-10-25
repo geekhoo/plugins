@@ -1,0 +1,88 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "f275269e-799f-43f8-b593-9963dd020c14",
+  "traces": 4,
+  "observations": 129,
+  "by_type": {
+    "SPAN": 7,
+    "GENERATION": 49,
+    "TOOL": 73
+  },
+  "generations": 49,
+  "tool_calls": 73,
+  "subagents": 3,
+  "environments": [
+    "mxc"
+  ],
+  "usage_details": {
+    "input": 107190,
+    "cache_read_input_tokens": 542464,
+    "total": 670065,
+    "output": 20411
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T02:01:43.803Z",
+  "last_start": "2026-10-25T02:13:07.668Z",
+  "top_names": [
+    [
+      "Tool: WebFetch",
+      35
+    ],
+    [
+      "Subagent LLM Call",
+      33
+    ],
+    [
+      "LLM Call",
+      16
+    ],
+    [
+      "Tool: Read",
+      13
+    ],
+    [
+      "Tool: Bash",
+      9
+    ],
+    [
+      "Tool: Glob",
+      6
+    ],
+    [
+      "Conversational Turn",
+      4
+    ],
+    [
+      "Tool: Agent",
+      3
+    ],
+    [
+      "Tool: Skill",
+      2
+    ],
+    [
+      "Tool: Write",
+      2
+    ],
+    [
+      "Tool: ToolSearch",
+      2
+    ],
+    [
+      "Tool: WebSearch",
+      1
+    ],
+    [
+      "Subagent: Tokenization and testing research",
+      1
+    ],
+    [
+      "Subagent: Python CLI determinism research",
+      1
+    ],
+    [
+      "Subagent: Codebase analyst research",
+      1
+    ]
+  ]
+}
