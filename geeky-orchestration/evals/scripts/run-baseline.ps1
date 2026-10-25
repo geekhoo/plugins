@@ -250,7 +250,8 @@ $pkgDir = (Join-Path $ws $pkg) + [IO.Path]::DirectorySeparatorChar
 $srcLoc = ($py | Where-Object { $_.FullName.StartsWith($pkgDir) -and -not (& $isTest $_) } | Get-Content | Measure-Object -Line).Lines
 $testLoc = ($py | Where-Object { & $isTest $_ } | Get-Content | Measure-Object -Line).Lines
 $bgKilled = Select-String -Path (Join-Path $out 'stderr.txt') -Pattern 'Background tasks still running .* stopping them' -Quiet
-$exitReason = if ($exitCode -eq 124) { 'timeout' } elseif ($bgKilled) { 'bg_killed' } elseif ($result -and -not $result.is_error) { 'completed' } elseif (-not $result) { 'crash' } else { 'aborted' }
+# A provider-side refusal (content filter) ends the session cleanly, so it must not read as completed.
+$exitReason = if ($exitCode -eq 124) { 'timeout' } elseif ($bgKilled) { 'bg_killed' } elseif ($result.stop_reason -in 'content_filter', 'refusal') { 'provider_refusal' } elseif ($result -and -not $result.is_error) { 'completed' } elseif (-not $result) { 'crash' } else { 'aborted' }
 $o = $runs[0]
 $clean = $stable -and $o.failed -eq 0 -and $o.errors -eq 0 -and $o.passed -gt 0
 $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.ToLower() } }
@@ -273,7 +274,7 @@ if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $(if ($ses
     loc = [ordered]@{ source_non_test = $srcLoc; test = $testLoc
         files_changed = @(git -C $ws diff --name-only $baseSha HEAD).Count }
     commits = [int](git -C $ws rev-list --count "$baseSha..HEAD")
-    exit_code = $exitCode; exit_reason = $exitReason; is_error = $result.is_error
+    exit_code = $exitCode; exit_reason = $exitReason; stop_reason = $result.stop_reason; is_error = $result.is_error
     raw_sha256 = [ordered]@{ stream = & $sha (Join-Path $out 'stream.jsonl'); session = & $sha (Join-Path $out 'session.jsonl') }
     interventions = 0
     telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })

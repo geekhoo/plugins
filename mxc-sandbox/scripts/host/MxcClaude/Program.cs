@@ -277,6 +277,9 @@ static (List<string> RuntimeDirs, Dictionary<string, string> Caches) RuntimeGran
         ["TEMP"] = Path.Combine(stateRoot, "tmp"),
         ["TMP"] = Path.Combine(stateRoot, "tmp"),
     };
+    // Bubblewrap otherwise sets HOME to the working directory, so the CLI and pwsh write
+    // .cache/ into the workspace, where a `git add -A` commits it. A caller's --env HOME still wins.
+    if (!OperatingSystem.IsWindows()) caches["HOME"] = Path.Combine(stateRoot, "posix-home");
     return (runtimeDirs, caches);
 }
 

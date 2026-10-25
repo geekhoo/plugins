@@ -3,8 +3,8 @@
   Run the model-free mock baseline for every harness x case (C0-C3) in MXC and report one matrix.
 
 .DESCRIPTION
-  Calls run-baseline.ps1 -MockAgent (Claude Code) and run-codex-baseline.ps1 -MockAgent (Codex)
-  for each case, one at a time, as child processes so one failure does not stop the rest. No model
+  Calls run-baseline.ps1 -MockAgent -MockScenario all,happy (Claude Code) and run-codex-baseline.ps1
+  -MockAgent (Codex) for each case, one at a time, as child processes so one failure does not stop the rest. No model
   is called. A run passes when its runner exits 0, every mock check passes and, with telemetry on
   (TRACE_TO_LANGFUSE=true), Langfuse returns the session's observations.
 
@@ -41,7 +41,10 @@ $results = foreach ($h in $Harness) {
         Write-Host "== $h $c" -ForegroundColor Cyan
         $log = Join-Path $OutDir "$h-$c.log"
         $started = Get-Date
-        & $pwsh -NoProfile -File $runners[$h] -Case $c -MockAgent @common *>&1 | Tee-Object -FilePath $log | Out-Null
+        # Claude's toolchain checks (pwsh, python/pytest, git, gates, grants, MCP) live outside its workflow
+        # scenario, so run both; Codex's default scenario already runs all of its checks.
+        $scenario = if ($h -eq 'claude-code') { @('-MockScenario', 'all,happy') } else { @() }
+        & $pwsh -NoProfile -File $runners[$h] -Case $c -MockAgent @scenario @common *>&1 | Tee-Object -FilePath $log | Out-Null
         $exitCode = $LASTEXITCODE
         $text = Get-Content $log -Raw
         $stored = if ($text -match '(?m)^(?:stored|prepared): (.+?)(?: \(analysis status.*)?$') { $Matches[1].Trim() }

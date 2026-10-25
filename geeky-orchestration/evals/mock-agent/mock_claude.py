@@ -557,6 +557,10 @@ def sc_env_probe(a: Agent) -> None:
     t.check("env.pytest", "pass" if rc == 0 else "fail", out.strip())
     rc, out = a.sh([a.git, "var", "GIT_AUTHOR_IDENT"], desc="Report git identity")
     t.check("env.git_identity", "pass" if rc == 0 else "fail", out.strip())
+    # Tools write caches under HOME; a HOME inside the workspace puts .cache/ in the contestant's repo.
+    home = Path(os.path.expanduser("~")).resolve()
+    inside = home == a.cwd.resolve() or a.cwd.resolve() in home.parents
+    t.check("env.home_outside_workspace", "fail" if inside else "pass", str(home))
     for label, d in (("TEMP", a.temp), ("workspace", a.cwd)):
         p = Path(d) / f".mock-probe-{os.getpid()}.tmp"
         try:
@@ -631,14 +635,23 @@ def sc_grants(a: Agent) -> None:
     try:
         tmp.mkdir(parents=True, exist_ok=True)
         t.check("grants.temp_write", "pass", str(tmp))
-        bat = tmp / "probe.cmd"
-        bat.write_text("@echo tempexec-ok\r\n", encoding="ascii")
-        rc, out, err = run(["cmd.exe", "/d", "/c", str(bat)])
+        if os.name == "nt":
+            script = tmp / "probe.cmd"
+            script.write_text("@echo tempexec-ok\r\n", encoding="ascii")
+            cmd = ["cmd.exe", "/d", "/c", str(script)]
+            src = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32" / "hostname.exe"
+            exe = tmp / "probe-hostname.exe"
+        else:
+            script = tmp / "probe.sh"
+            script.write_text("#!/bin/sh\necho tempexec-ok\n", encoding="ascii")
+            script.chmod(0o755)
+            cmd = [str(script)]
+            src = Path(shutil.which("true") or "/bin/true")
+            exe = tmp / "probe-true"
+        rc, out, err = run(cmd)
         t.check("grants.temp_exec_script", "pass" if rc == 0 and "tempexec-ok" in out else "fail",
                 f"exit {rc}: {(out + err).strip()}")
-        src = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32" / "hostname.exe"
-        exe = tmp / "probe-hostname.exe"
-        shutil.copyfile(src, exe)
+        shutil.copy2(src, exe)
         rc, out, err = run([str(exe)])
         t.check("grants.temp_exec_binary", "pass" if rc == 0 else "fail", f"exit {rc}: {(out + err).strip()}")
     except OSError as e:
@@ -668,8 +681,10 @@ def sc_pwsh(a: Agent) -> None:
     base = [a.pwsh, "-NoProfile", "-NonInteractive", "-Command"]
     for label, cmd, want in (("exit_0", "Write-Output ok", 0),
                              ("exit_7", "exit 7", 7),
-                             ("native_exit_3", "& cmd.exe /d /c exit 3; exit $LASTEXITCODE", 3),
-                             ("cmdlet_error", "$ErrorActionPreference='Stop'; Get-Item C:\\no\\such\\path", 1)):
+                             ("native_exit_3", ("& cmd.exe /d /c exit 3" if os.name == "nt" else "& sh -c 'exit 3'")
+                              + "; exit $LASTEXITCODE", 3),
+                             ("cmdlet_error", "$ErrorActionPreference='Stop'; Get-Item "
+                              + ("C:\\no\\such\\path" if os.name == "nt" else "/no/such/path"), 1)):
         rc, out = a.sh(base + [cmd], desc=f"pwsh exit-code check {label}")
         t.check(f"pwsh.{label}", "pass" if rc == want else "fail", f"exit {rc} (expected {want})")
     # Profile and config: run the way a user shell would, with the profile, and look at stderr.

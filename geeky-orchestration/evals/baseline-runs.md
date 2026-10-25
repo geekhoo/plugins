@@ -181,7 +181,7 @@ A run that is invalid for an environment reason, rather than for the contestant'
 | `oracle` | `collected`, `passed`, `failed`, `skipped` | step 3 |
 | `loc.source_non_test`, `loc.test`, `files_changed` | final code size | `git` in the workspace |
 | `commits` | the number of commits | `git rev-list --count HEAD` |
-| `exit_reason` | `completed`, `timeout`, `idle`, `budget`, `bg_killed`, `crash` or `aborted` | you / process exit |
+| `exit_reason` | `completed`, `timeout`, `idle`, `budget`, `bg_killed`, `provider_refusal` (the model provider ended the session with `stop_reason` `content_filter` or `refusal`), `crash` or `aborted` | you / process exit |
 | `raw_sha256` | SHA-256 of `stream.jsonl` and `session.jsonl` | computed when stored |
 | `interventions` | the count of human interventions, with reasons in `notes.md` | you |
 | `reference_eligible` | `true` only if the oracle result is clean and there were no interventions | you |

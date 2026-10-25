@@ -26,7 +26,7 @@ import time
 import tomllib
 import uuid
 
-CHECKS = ('env', 'skills', 'guard', 'pwsh', 'python', 'git', 'mcp')
+CHECKS = ('env', 'skills', 'guard', 'pwsh', 'python', 'gates', 'git', 'mcp')
 ZERO_USAGE = {'input_tokens': 0, 'cached_input_tokens': 0, 'output_tokens': 0}
 
 
@@ -247,6 +247,24 @@ def perform(name, a, scratch):
         result = run([exe, '-m', 'pytest', '-q', '-p', 'no:cacheprovider', str(scratch / 'test_runtime.py')], cwd=scratch)
         require(result.returncode == 0 and '1 passed' in result.stdout, 'Real pytest tmp_path check failed: ' + result.stdout[-500:] + result.stderr[-500:])
         return 'PATH Python executes real pytest with writable tmp_path'
+    if name == 'gates':
+        # The skills call the plugin's gates as python scripts or, in geeky-implement, through pwsh.
+        pwsh = shutil.which('pwsh') or r'C:\Program Files\PowerShell\7\pwsh.exe'
+        good, bad = scratch / 'msg-good', scratch / 'msg-bad'
+        good.write_text('feat(mock): add stub\n\nTasks: T1\n', encoding='utf-8')
+        bad.write_text('feat(mock): add stub\n', encoding='utf-8')
+        forms = {'py': [shutil.which('python') or sys.executable],
+                 'ps1': [pwsh, '-NoProfile', '-NonInteractive', '-File']}
+        for form, prefix in forms.items():
+            script = str(plugin / 'scripts' / f'check-commit.{form}')
+            for msg, want in ((good, 0), (bad, 1)):
+                result = run(prefix + [script, str(msg)])
+                require(result.returncode == want, f'check-commit.{form} on {msg.name}: exit {result.returncode}, expected {want}: '
+                        + (result.stdout + result.stderr)[-300:])
+            result = run(prefix + [str(plugin / 'scripts' / f'validate-kanban.{form}'), str(scratch / 'no-such-folder')])
+            require(result.returncode != 0 and 'Traceback' not in result.stderr, f'validate-kanban.{form} on a missing folder: exit '
+                    f'{result.returncode}: ' + result.stderr[-300:])
+        return 'check-commit accepts/rejects and validate-kanban fails cleanly, as .py and through pwsh'
     if name == 'git':
         result = run(['git', '-C', str(a.cd), 'status', '--porcelain'])
         require(result.returncode == 0, 'Workspace safe.directory check failed')
