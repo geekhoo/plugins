@@ -41,7 +41,10 @@ param(
     # Run evals/mock-agent/mock_claude.py as the MXC workload instead of claude: no model calls,
     # no token needed. Scenarios are comma-separated (see mock_claude.py); default happy.
     [switch]$MockAgent,
-    [string]$MockScenario = 'happy'
+    [string]$MockScenario = 'happy',
+    # A provider content filter (stop_reason content_filter/refusal) ends `claude -p` mid-workflow. Resume
+    # the same session with a neutral prompt up to this many times; each resume counts as an intervention.
+    [int]$ResumeOnRefusal = 0
 )
 $ErrorActionPreference = 'Stop'
 $onWindows = $IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop'
@@ -215,6 +218,21 @@ try {
     & $mxc @hostArgs -- @claudeArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
     $exitCode = $LASTEXITCODE
 } finally { if ($MockAgent) { $env:MXC_CLAUDE_EXE = $savedExe } }
+$resumes = 0
+while ($exitCode -eq 0 -and $resumes -lt $ResumeOnRefusal) {
+    $last = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '"type":"result"' } | Select-Object -Last 1 | ConvertFrom-Json
+    if ($last.stop_reason -notin 'content_filter', 'refusal') { break }
+    $resumes++
+    Write-Host "provider refusal: resuming session $sid ($resumes/$ResumeOnRefusal)"
+    # Same flags, with a neutral prompt in place of the canonical one and --resume for --session-id.
+    $resumeArgs = @($claudeArgs)
+    $resumeArgs[[array]::IndexOf($resumeArgs, '-p') + 1] = 'Continue the workflow from where you stopped.'
+    $resumeArgs[[array]::IndexOf($resumeArgs, '--session-id')] = '--resume'
+    if ($MockAgent) { $env:MXC_CLAUDE_EXE = $agentPython }
+    try { & $mxc @hostArgs -- @resumeArgs >> (Join-Path $out 'stream.jsonl') 2>> (Join-Path $out 'stderr.txt') }
+    finally { if ($MockAgent) { $env:MXC_CLAUDE_EXE = $savedExe } }
+    $exitCode = $LASTEXITCODE
+}
 $ended = (Get-Date).ToUniversalTime()
 if ($MockAgent) {
     $mockSummary = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '"subtype":"mock_summary"' } | Select-Object -Last 1
@@ -240,8 +258,14 @@ $stable = ($runs | ForEach-Object { "$($_.passed)/$($_.failed)/$($_.errors)/$($_
 git -C $ws bundle create (Join-Path $out 'solution.bundle') --all 2>$null
 $lines = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '^\{' }
 $init = $lines | Where-Object { $_ -match '"subtype":"init"' } | Select-Object -First 1 | ConvertFrom-Json
-$result = $lines | Where-Object { $_ -match '"type":"result"' } | Select-Object -Last 1 | ConvertFrom-Json
-$u = $result.usage
+$results = @($lines | Where-Object { $_ -match '"type":"result"' } | ForEach-Object { $_ | ConvertFrom-Json })
+$result = $results | Select-Object -Last 1
+# One result line per invocation; a resumed run sums them.
+$u = [pscustomobject]@{ output_tokens_details = [pscustomobject]@{ thinking_tokens = 0 } }
+foreach ($field in 'input_tokens', 'cache_creation_input_tokens', 'cache_read_input_tokens', 'output_tokens') {
+    $u | Add-Member $field ([long]($results | ForEach-Object { [long]$_.usage.$field } | Measure-Object -Sum).Sum)
+}
+$u.output_tokens_details.thinking_tokens = [long]($results | ForEach-Object { [long]$_.usage.output_tokens_details.thinking_tokens } | Measure-Object -Sum).Sum
 $inputTotal = [long]$u.input_tokens + [long]$u.cache_creation_input_tokens + [long]$u.cache_read_input_tokens
 $pkg = $Case.Substring(3)
 $py = Get-ChildItem $ws -Recurse -Filter *.py -File | Where-Object { $_.FullName -notmatch '[\\/]\.git[\\/]' }
@@ -267,7 +291,7 @@ if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $(if ($ses
     started_utc = $started.ToString('o'); ended_utc = $ended.ToString('o'); wall_time_s = [int]($ended - $started).TotalSeconds
     tokens = [ordered]@{ input = $inputTotal; cached_input = [long]$u.cache_read_input_tokens; output = [long]$u.output_tokens
         reasoning = [long]$u.output_tokens_details.thinking_tokens; total = $inputTotal + [long]$u.output_tokens }
-    model_calls = $result.num_turns; latency_median_ms = $null; max_idle_gap_s = $null
+    model_calls = ($results | ForEach-Object { [int]$_.num_turns } | Measure-Object -Sum).Sum; latency_median_ms = $null; max_idle_gap_s = $null
     stages = $null; tasks = $null; impl_review_rounds = $null
     oracle = [ordered]@{ collected = $o.passed + $o.failed + $o.errors + $o.skipped; passed = $o.passed; failed = $o.failed
         errors = $o.errors; skipped = $o.skipped; stable_over_3 = $stable }
@@ -276,10 +300,10 @@ if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $(if ($ses
     commits = [int](git -C $ws rev-list --count "$baseSha..HEAD")
     exit_code = $exitCode; exit_reason = $exitReason; stop_reason = $result.stop_reason; is_error = $result.is_error
     raw_sha256 = [ordered]@{ stream = & $sha (Join-Path $out 'stream.jsonl'); session = & $sha (Join-Path $out 'session.jsonl') }
-    interventions = 0
+    interventions = $resumes; resumed_after_refusal = $resumes
     telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })
     provider = $(if ($Litellm) { [ordered]@{ name = 'litellm'; base_url = $env:LITELLM_PROXY_URL; model = $Model } } else { $null })
-    reference_eligible = (-not $MockAgent -and $clean -and $exitReason -eq 'completed' -and -not $pluginTampered -and @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count -gt 0)
+    reference_eligible = (-not $MockAgent -and $clean -and $exitReason -eq 'completed' -and $resumes -eq 0 -and -not $pluginTampered -and @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count -gt 0)
 } | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $out 'run.json')
 
 Set-Content (Join-Path $out 'notes.md') "# Baseline $Case $stamp`n`nApproach: canonical prompt, Claude Code isolated in MXC.`nInterventions: none.`nOracle verdicts: (fill in for any failure)`n"

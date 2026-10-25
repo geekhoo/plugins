@@ -27,6 +27,8 @@ Scenarios (composable, comma-separated; run in the order given):
   happy      full staged workflow: spec-research > geeky-plan > plan-review > geeky-implement > impl-review
   gate-fail  plans with a kanban error that it does not fix, then stops
   crash      exits 3 mid-run with no result event
+  refusal    ends with stop_reason content_filter, as a provider content filter does; the same
+             session resumed with --resume then completes (exercises run-baseline -ResumeOnRefusal)
   slow       sleeps MOCK_SLOW_SECONDS (default 600) without output
   bg-wait    ends its turn with a background subagent running; like claude -p, waits for it when
              CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0, otherwise prints the stop message on stderr
@@ -60,7 +62,7 @@ VERSION = "0.0.0-mock"
 DEFAULT_MODEL = "claude-mock-5-5"
 SUB_MODEL = "claude-mock-haiku"
 ALL = ["env-probe", "grants", "pwsh", "python", "git", "gates", "mcp"]
-KNOWN = set(ALL) | {"network", "happy", "gate-fail", "crash", "slow", "bg-wait", "telemetry"}
+KNOWN = set(ALL) | {"network", "happy", "gate-fail", "crash", "slow", "bg-wait", "telemetry", "refusal"}
 STAGES = ["spec-research", "geeky-plan", "plan-review", "geeky-implement", "impl-review"]
 GATES = ["validate-planning-folder", "validate-task-schema", "validate-kanban", "check-dod", "check-commit"]
 BUILTIN_SKILLS = ["debug", "simplify", "code-review", "verify"]
@@ -75,10 +77,10 @@ class Crash(Exception):
 # ----------------------------------------------------------------------------- args
 
 def parse_args(argv: list[str]) -> dict:
-    opts = {"prompt": None, "session_id": None, "plugin_dirs": [], "settings": None,
+    opts = {"prompt": None, "session_id": None, "resume": None, "plugin_dirs": [], "settings": None,
             "mcp_configs": [], "permission_mode": "default", "model": None,
             "scenario": None, "case": None, "summary": None, "disallowed": [], "unknown": []}
-    takes = {"-p": "prompt", "--print": "prompt", "--session-id": "session_id",
+    takes = {"-p": "prompt", "--print": "prompt", "--session-id": "session_id", "--resume": "resume",
              "--plugin-dir": "plugin_dirs", "--settings": "settings", "--mcp-config": "mcp_configs",
              "--permission-mode": "permission_mode", "--model": "model",
              "--disallowedTools": "disallowed", "--disallowed-tools": "disallowed",
@@ -102,6 +104,7 @@ def parse_args(argv: list[str]) -> dict:
         else:
             opts["unknown"].append(a)
         i += 1
+    opts["session_id"] = opts["session_id"] or opts["resume"]
     return opts
 
 
@@ -705,6 +708,13 @@ def sc_python(a: Agent) -> None:
     t.check("python.version", "pass" if rc == 0 else "fail", out.strip())
     rc, out = a.sh([a.python, "-m", "pytest", "--version"], desc="pytest --version")
     t.check("python.pytest_version", "pass" if rc == 0 else "fail", out.strip())
+    # A contestant checking the contract's minimum Python calls python3.X directly.
+    if os.name != "nt":
+        names = sorted({f.name for d in os.environ.get("PATH", "").split(os.pathsep) if os.path.isdir(d)
+                        for f in Path(d).iterdir() if re.fullmatch(r"python3\.\d+", f.name)})
+        missing = [n for n in names if run([n, "-m", "pytest", "--version"])[0] != 0]
+        t.check("python.versioned_pytest", "fail" if missing else "pass",
+                ("pytest missing for " + ", ".join(missing) + " (run scripts/install-agent-pythons.ps1)") if missing else ", ".join(names))
     d = scratch_dir("mock-pytest-")
     try:
         (d / "test_probe.py").write_text("def test_ok():\n    assert 1 + 1 == 2\n", encoding="utf-8")
@@ -1108,10 +1118,17 @@ def sc_telemetry(a: Agent) -> None:
     t.check("telemetry.hook_log", "pass" if ok else "fail", text.strip()[-1500:] or f"no new lines in {log}")
 
 
+def sc_refusal(a: Agent) -> None:
+    resumed = bool(a.opts["resume"])
+    a.t.refused = not resumed
+    a.t.check("refusal.resumed" if resumed else "refusal.filtered", "pass",
+              "resumed session completes" if resumed else "first invocation ends with stop_reason content_filter")
+
+
 SCENARIOS = {"env-probe": sc_env_probe, "grants": sc_grants, "pwsh": sc_pwsh, "python": sc_python,
              "git": sc_git, "gates": sc_gates, "mcp": sc_mcp, "network": sc_network, "crash": sc_crash,
              "slow": sc_slow, "bg-wait": sc_bg_wait, "happy": sc_happy, "gate-fail": lambda a: sc_happy(a, broken_kanban=True),
-             "telemetry": sc_telemetry}
+             "telemetry": sc_telemetry, "refusal": sc_refusal}
 
 
 # ----------------------------------------------------------------------------- init / result
@@ -1221,7 +1238,9 @@ def main(argv: list[str]) -> int:
     t.stream({"type": "result", "subtype": "success", "is_error": bool(failed),
               "duration_ms": int((time.time() - t.started) * 1000),
               "duration_api_ms": int((t.calls + t.sub_calls) * t.latency * 1000),
-              "num_turns": t.calls, "result": text, "stop_reason": "end_turn", "session_id": t.sid,
+              "num_turns": t.calls, "session_id": t.sid,
+              **({"result": "The request was rejected because it was considered high risk", "stop_reason": "content_filter"}
+                 if getattr(t, "refused", False) else {"result": text, "stop_reason": "end_turn"}),
               "total_cost_usd": round(sum(u["costUSD"] for u in model_usage.values()), 6),
               "usage": last, "modelUsage": model_usage, "permission_denials": [],
               "terminal_reason": "completed", "uuid": str(uuid.uuid4())})

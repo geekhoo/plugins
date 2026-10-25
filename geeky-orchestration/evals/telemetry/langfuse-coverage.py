@@ -75,7 +75,9 @@ def coverage(observations):
                                  or (o.get('name') == 'Tool: Skill' and pattern.search(text(o.get('input'))))
                                  or pattern.search(text(o.get('input'))) and f'skills/{stage}/SKILL.md' in text(o.get('input')).replace('\\\\', '/').replace('\\', '/')))
     point('subagents', spawns)
-    point('nested_subagents', (o for o in spawns if inside_subagent(o)),
+    # geeky-implement makes the main thread the orchestrator; delegating it to geeky-implement-orchestrator
+    # is the agent's choice (Claude usually does, Codex C0 attempt 5 did not), so nesting is informational.
+    point('nested_subagents', (o for o in spawns if inside_subagent(o)), required=False,
           detail='a subagent dispatched another (implement orchestrator -> coder/reviewer)')
     point('role:geeky-coder', (o for o in spawns if 'geeky-coder' in text(o.get('input'))))
     point('role:code-reviewer', (o for o in spawns if 'code-reviewer' in text(o.get('input'))))

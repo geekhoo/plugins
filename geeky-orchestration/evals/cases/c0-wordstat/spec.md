@@ -71,7 +71,7 @@ A complete C0 run is expected to show each of these in the trace. `evals/telemet
 |---|---|
 | All five skills | the canonical prompt: `spec-research`, `geeky-plan`, `plan-review`, `geeky-implement`, `impl-review` |
 | Subagents | researchers (`spec-research`), plan reviewers, coders and phase reviewers |
-| Nested subagents | `geeky-implement` delegated to its orchestrator, which dispatches coders and reviewers |
+| Nested subagents (information only) | `geeky-implement` delegated to its orchestrator, which dispatches coders and reviewers. The skill makes the main thread the orchestrator, so delegating is the agent's choice |
 | Coder and reviewer roles | `geeky-coder` per task; `code-reviewer` per phase and in `impl-review` |
 | Planning gates | `validate-planning-folder`, `validate-task-schema`, `validate-kanban`, `check-dod`, `check-commit` (scripts or `geeky` MCP tools) |
 | Tests run | the contestant's own pytest runs |

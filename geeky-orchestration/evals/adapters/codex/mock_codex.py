@@ -17,6 +17,7 @@ import json
 import os
 from pathlib import Path
 import queue
+import re
 import shlex
 import shutil
 import subprocess
@@ -194,6 +195,13 @@ def check_mcp(config):
             process.wait(timeout=5)
 
 
+def versioned_pythons():
+    """Each python3.X name the PATH resolves (first hit wins), as a contestant would call it."""
+    names = {f.name for d in os.environ.get('PATH', '').split(os.pathsep) if os.path.isdir(d)
+             for f in Path(d).iterdir() if re.fullmatch(r'python3\.\d+', f.name)}
+    return sorted(n for n in names if shutil.which(n))
+
+
 def perform(name, a, scratch):
     if name == 'fail':
         raise RuntimeError('Deliberate negative-control scenario')
@@ -249,7 +257,9 @@ def perform(name, a, scratch):
         (scratch / 'test_runtime.py').write_text('def test_runtime(tmp_path):\n    p=tmp_path/"ok"\n    p.write_text("ok", encoding="utf-8")\n    assert p.read_text(encoding="utf-8")=="ok"\n', encoding='utf-8')
         result = run([exe, '-m', 'pytest', '-q', '-p', 'no:cacheprovider', str(scratch / 'test_runtime.py')], cwd=scratch)
         require(result.returncode == 0 and '1 passed' in result.stdout, 'Real pytest tmp_path check failed: ' + result.stdout[-500:] + result.stderr[-500:])
-        return 'PATH Python executes real pytest with writable tmp_path'
+        missing = [v for v in versioned_pythons() if run([v, '-m', 'pytest', '--version']).returncode]
+        require(not missing, 'pytest missing for ' + ', '.join(missing) + ' (run scripts/install-agent-pythons.ps1)')
+        return 'PATH Python executes real pytest with writable tmp_path; every python3.X on PATH has pytest'
     if name == 'gates':
         # The skills call the plugin's gates as python scripts or, in geeky-implement, through pwsh.
         pwsh = shutil.which('pwsh') or r'C:\Program Files\PowerShell\7\pwsh.exe'

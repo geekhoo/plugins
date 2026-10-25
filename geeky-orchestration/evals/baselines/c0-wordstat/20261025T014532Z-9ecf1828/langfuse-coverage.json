@@ -2,10 +2,8 @@
   "schema": "geeky-eval.harness-coverage/1",
   "session_id": "01a170bc-1009-7b41-876e-6db5813ff2fa",
   "observations": 520,
-  "complete": false,
-  "missed": [
-    "nested_subagents"
-  ],
+  "complete": true,
+  "missed": [],
   "points": [
     {
       "point": "stage:spec-research",
@@ -57,7 +55,7 @@
     },
     {
       "point": "nested_subagents",
-      "required": true,
+      "required": false,
       "hit": false,
       "count": 0,
       "example": null,

@@ -49,5 +49,6 @@ def test_codex_names_escaped_js_commands_and_encrypted_handoffs():
 def test_missing_points_are_reported():
     report = cov.coverage([obs('g', 'GENERATION', 'LLM', usage={'input': 1})])
     missed = {p['point'] for p in report if p['required'] and not p['hit']}
-    assert {'stage:geeky-plan', 'nested_subagents', 'git_commit', 'reasoning_summaries'} <= missed
+    assert {'stage:geeky-plan', 'git_commit', 'reasoning_summaries'} <= missed
+    assert 'nested_subagents' not in missed   # informational: the skill does not require delegation
     assert 'token_usage' not in missed

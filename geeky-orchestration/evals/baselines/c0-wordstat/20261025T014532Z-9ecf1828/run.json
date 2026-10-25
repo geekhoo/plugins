@@ -96,10 +96,8 @@
     "summary": "langfuse.json",
     "delivered": true,
     "observations": 520,
-    "coverage_complete": false,
-    "coverage_missed": [
-      "nested_subagents"
-    ],
+    "coverage_complete": true,
+    "coverage_missed": [],
     "hook": {
       "kind": "codex-stop",
       "package": "@langfuse/codex-observability-plugin@0.4.2",
