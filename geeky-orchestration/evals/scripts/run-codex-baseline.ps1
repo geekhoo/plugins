@@ -294,6 +294,10 @@ try {
     $record.commits = [int](Invoke-Git @('-C', $ws, 'rev-list', '--count', "$baseSha..HEAD"))
     $record.raw_sha256 = [ordered]@{ stream = Get-Sha (Join-Path $out 'stream.jsonl'); session = Get-Sha (Join-Path $out 'session.jsonl') }
     if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $record.session_id -OutDir $out -Python $python }
+    if ($Launch -and (Test-Path (Join-Path $runTmp 'native-hook-trust'))) {
+        # Launch evidence (codex-exit.json, hook catalogue, denial proof) travels with the run.
+        Copy-Item (Join-Path $runTmp 'native-hook-trust') (Join-Path $out 'launch-evidence') -Recurse -Exclude 'hook-catalog-home'
+    }
     if ($Launch -and -not $NativeProofFolder) {
         $record.diagnostics_passed = $null   # no native proof to audit against (non-Windows host)
     } elseif ($Launch) {

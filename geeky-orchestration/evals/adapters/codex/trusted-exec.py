@@ -8,6 +8,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import signal
 import subprocess
 
 
@@ -57,7 +58,16 @@ def main():
     for override in profile['codex_config_overrides']:
         command += ['-c', override]
     command += ['-c', trust, a.prompt_file.read_text(encoding='utf-8-sig')]
-    return subprocess.run(command, stdin=subprocess.DEVNULL).returncode
+    options = {'stdin': subprocess.DEVNULL}
+    if os.name != 'nt':
+        # Nothing legitimately hangs up a headless run; two Linux MXC attempts died at once across all
+        # threads with exit 255 (a -1 return code, i.e. SIGHUP). Ignore it in the contestant process.
+        options['preexec_fn'] = lambda: signal.signal(signal.SIGHUP, signal.SIG_IGN)
+    returncode = subprocess.run(command, **options).returncode
+    # Record exactly how Codex ended: a negative return code is the signal that killed it.
+    (a.output / 'codex-exit.json').write_text(json.dumps({
+        'returncode': returncode, 'signal': signal.Signals(-returncode).name if returncode < 0 else None}), encoding='utf-8')
+    return returncode if returncode >= 0 else 128 - returncode
 
 
 if __name__ == '__main__':

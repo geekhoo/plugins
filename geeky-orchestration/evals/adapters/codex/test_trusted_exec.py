@@ -76,7 +76,9 @@ def test_launch_preserves_prompt_profile_and_sandbox_without_trust_bypass(tmp_pa
     assert '--ephemeral' not in captured['command']
     assert '--dangerously-bypass-hook-trust' not in captured['command']
     assert not any('model_provider=' in arg or 'model_providers.' in arg for arg in captured['command'])
-    assert captured['subprocess_options'] == {'stdin': wrapper.subprocess.DEVNULL}
+    options = dict(captured['subprocess_options'])
+    assert options.pop('stdin') == wrapper.subprocess.DEVNULL
+    assert set(options) == ({'preexec_fn'} if wrapper.os.name != 'nt' else set())   # POSIX: SIGHUP ignored
     assert captured['runtime_probe'] == ('fixture-only.exe', tmp_path / 'denied-root')
     assert json.loads((output / 'runtime-denial-proof.json').read_text())['denial_verified'] is True
 
