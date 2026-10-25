@@ -38,7 +38,7 @@ def digest(root):
 
 
 def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
-            worker_model=None, worker_reasoning=None, reviewer_reasoning=None):
+            worker_model=None, worker_reasoning=None, reviewer_reasoning=None, litellm_base_url=None):
     worker_model = model if worker_model is None else worker_model
     worker_reasoning = reasoning if worker_reasoning is None else worker_reasoning
     reviewer_roles = ['code-reviewer', 'code-architect-reviewer']
@@ -90,6 +90,7 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
                   'orchestrator': {'model': model, 'reasoning': reasoning},
                   'workers': {'model': worker_model, 'reasoning': worker_reasoning,
                               'scope': 'all-descendants'}},
+              'gateway': 'litellm' if litellm_base_url else 'direct',
               'profile_sha256': digest(profile)}
     if reviewer_reasoning:
         report['reviewer_reasoning'] = reviewer_reasoning
@@ -116,6 +117,14 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
     config = defaults
     config['model'] = model
     config['model_reasoning_effort'] = reasoning
+    if litellm_base_url:
+        # Route every thread through the owner's LiteLLM proxy. Only the variable name is
+        # configured; Codex reads the key from the environment. inherit=all would pass it to
+        # the agent's shell (verified on 0.164.0), so exclude it there explicitly.
+        config['model_provider'] = 'litellm'
+        config['model_providers'] = {'litellm': {'name': 'LiteLLM', 'base_url': litellm_base_url,
+            'env_key': 'LITELLM_PROXY_API_KEY', 'wire_api': 'responses'}}
+        config['shell_environment_policy']['exclude'] = ['LITELLM_PROXY_API_KEY']
     shutil.copyfile(plugin / 'AGENTS.md', home / 'AGENTS.md')
     config['developer_instructions'] = (plugin / 'AGENTS.md').read_text(encoding='utf-8') + review_policy
     # Windows native skill discovery uses KnownFolder HOME, ignoring env HOME.
@@ -215,11 +224,12 @@ def main():
     p.add_argument('--reasoning', required=True)
     p.add_argument('--worker-model', help='Subagent model at every depth; defaults to --model.')
     p.add_argument('--worker-reasoning', help='Subagent effort at every depth; defaults to --reasoning.')
+    p.add_argument('--litellm-base-url', help='OpenAI-compatible LiteLLM base URL (ending /v1); omit for direct auth.')
     p.add_argument('--reviewer-reasoning', choices=('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra'),
                    help='Optional effort for reviewer roles; ordinary worker defaults remain independent.')
     a = p.parse_args()
     result = prepare(a.plugin, a.home, a.codex_home, a.tools_dir, a.profile, a.model, a.reasoning,
-                     a.worker_model, a.worker_reasoning, a.reviewer_reasoning)
+                     a.worker_model, a.worker_reasoning, a.reviewer_reasoning, a.litellm_base_url)
     a.output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({'ok': result['ok'], 'report': str(a.output)}))
     return 0 if result['ok'] else 1

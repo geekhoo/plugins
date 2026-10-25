@@ -87,6 +87,19 @@ class ProfileTests(unittest.TestCase):
             self.assertEqual(role['agents'], cfg['agents'])
             self.assertTrue(Path(cfg['mcp_servers']['geeky']['args'][1]).is_file())
             self.assertEqual(report['extra_args'], [])
+            self.assertEqual(report['gateway'], 'direct')
+            self.assertNotIn('model_provider', cfg)
+            routed = P.prepare(export, root / 'home-litellm', signed, tools, HERE / 'profile',
+                               'zen/gpt-6.1-sol', 'high', litellm_base_url='https://litellm.example/v1')
+            self.assertTrue(routed['ok'], routed['checks'])
+            self.assertEqual(routed['gateway'], 'litellm')
+            routed_cfg = tomllib.loads('\n'.join(routed['codex_config_overrides']))
+            self.assertEqual(routed_cfg['model_provider'], 'litellm')
+            self.assertEqual(routed_cfg['model_providers']['litellm'], {'name': 'LiteLLM',
+                'base_url': 'https://litellm.example/v1', 'env_key': 'LITELLM_PROXY_API_KEY',
+                'wire_api': 'responses'})
+            self.assertEqual(routed_cfg['shell_environment_policy'],
+                             {'inherit': 'all', 'exclude': ['LITELLM_PROXY_API_KEY']})
 
     def test_non_system_skill_fails(self):
         with tempfile.TemporaryDirectory() as temp:

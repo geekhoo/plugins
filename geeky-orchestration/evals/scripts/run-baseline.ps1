@@ -13,17 +13,25 @@
        evals/baselines/<case>/<UTC stamp>/
   Fields that need the ATIF ingest tool (latency, idle gaps, stages, tasks) are left null.
 
-  Requires: CLAUDE_CODE_OAUTH_TOKEN (process or User env), the mxc-sandbox plugin, Python with
-  pytest on PATH, and C:\repos\.eval-tools\geeky-mcp (prebuilt venv for geeky_mcp, see D75).
+  Requires: the mxc-sandbox plugin, Python with pytest on PATH, and C:\repos\.eval-tools\geeky-mcp
+  (prebuilt venv for geeky_mcp, see D75). Auth (D101): -Gateway litellm (default) needs
+  LITELLM_PROXY_URL and LITELLM_PROXY_API_KEY; -Gateway direct needs CLAUDE_CODE_OAUTH_TOKEN
+  (process or User env). With TRACE_TO_LANGFUSE=true the stored run is uploaded to Langfuse
+  afterwards (langfuse-upload.py, host side; the contestant never sees Langfuse).
 
 .EXAMPLE
   pwsh -File run-baseline.ps1 -Case c1-csvledger -DryRun
   pwsh -File run-baseline.ps1 -Case c1-csvledger
-  pwsh -File run-baseline.ps1 -Case c3-minisql -Model claude-opus-5-5
+  pwsh -File run-baseline.ps1 -Case c3-minisql -Model claude-sonnet-5-5
+  pwsh -File run-baseline.ps1 -Case c1-csvledger -Gateway direct -Model claude-opus-5-5
 #>
 param(
     [Parameter(Mandatory)][ValidateSet('c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
     [string]$Model,
+    # litellm: Anthropic API calls go to the owner's LiteLLM proxy. direct: subscription OAuth token.
+    [ValidateSet('litellm', 'direct')][string]$Gateway = 'litellm',
+    # Model behind Claude's haiku alias (background calls) when routed through LiteLLM.
+    [string]$SmallModel = 'claude-haiku-5-5',
     [int]$TimeoutSec,
     [string]$ToolsDir = 'C:\repos\.eval-tools',
     [string]$WorkRoot = 'C:\repos',
@@ -52,10 +60,20 @@ if (-not $TimeoutSec) { $TimeoutSec = [int]$caseCfg.wall_time_ceiling_s }
 # The slow scenario exists to hit the timeout; keep it short unless one was given.
 if ($MockAgent -and $MockScenario -match '\bslow\b' -and -not $PSBoundParameters.ContainsKey('TimeoutSec')) { $TimeoutSec = 30 }
 
-if (-not $env:CLAUDE_CODE_OAUTH_TOKEN) {
-    $env:CLAUDE_CODE_OAUTH_TOKEN = [Environment]::GetEnvironmentVariable('CLAUDE_CODE_OAUTH_TOKEN', 'User')
+# Process env first, then User env; values are never printed or put on a command line.
+foreach ($name in @('CLAUDE_CODE_OAUTH_TOKEN', 'LITELLM_PROXY_URL', 'LITELLM_PROXY_API_KEY', 'TRACE_TO_LANGFUSE',
+        'LANGFUSE_PUBLIC_KEY', 'LANGFUSE_SECRET_KEY', 'LANGFUSE_BASE_URL', 'LANGFUSE_TRACING_ENVIRONMENT')) {
+    if (-not [Environment]::GetEnvironmentVariable($name)) {
+        [Environment]::SetEnvironmentVariable($name, [Environment]::GetEnvironmentVariable($name, 'User'))
+    }
 }
-if (-not $MockAgent -and -not $env:CLAUDE_CODE_OAUTH_TOKEN) { throw 'CLAUDE_CODE_OAUTH_TOKEN is not set (run claude setup-token).' }
+if ($Gateway -eq 'litellm') {
+    if (-not $MockAgent -and -not ($env:LITELLM_PROXY_URL -and $env:LITELLM_PROXY_API_KEY)) { throw 'LITELLM_PROXY_URL and LITELLM_PROXY_API_KEY must be set for -Gateway litellm.' }
+    # LiteLLM serves no Opus; every Claude alias resolves to the run's model (agents use model: inherit).
+    if (-not $Model) { $Model = 'claude-sonnet-5-5' }
+    # Copied into the workload by name (--env ANTHROPIC_AUTH_TOKEN), so the key stays off the command line.
+    $env:ANTHROPIC_AUTH_TOKEN = $env:LITELLM_PROXY_API_KEY
+} elseif (-not $MockAgent -and -not $env:CLAUDE_CODE_OAUTH_TOKEN) { throw 'CLAUDE_CODE_OAUTH_TOKEN is not set (run claude setup-token).' }
 
 function Invoke-Oracle([string]$target, [string]$outFile) {
     $env:ORACLE_TARGET = $target
@@ -143,6 +161,14 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host
     # Neutral commit identity (the seed repo has none); set via env so no repo or global config changes.
     '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
+if ($Gateway -eq 'litellm' -and -not $MockAgent) {
+    # The MXC host forwards the host's CLAUDE_CODE_OAUTH_TOKEN / ANTHROPIC_API_KEY; blank both so the
+    # proxy token is the only credential in the workload.
+    $hostArgs += @('--env', "ANTHROPIC_BASE_URL=$($env:LITELLM_PROXY_URL.TrimEnd('/'))", '--env', 'ANTHROPIC_AUTH_TOKEN',
+        '--env', 'CLAUDE_CODE_OAUTH_TOKEN=', '--env', 'ANTHROPIC_API_KEY=',
+        '--env', "ANTHROPIC_DEFAULT_OPUS_MODEL=$Model", '--env', "ANTHROPIC_DEFAULT_SONNET_MODEL=$Model",
+        '--env', "ANTHROPIC_DEFAULT_HAIKU_MODEL=$SmallModel")
+}
 
 if ($DryRun) {
     Write-Host "DRY RUN. Would launch (timeout ${TimeoutSec}s):`n  $mxc $($hostArgs -join ' ') -- <claude args: session $sid, plugin $pluginRun>"
@@ -201,6 +227,7 @@ $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.
 [ordered]@{
     schema = 'geeky-eval.baseline/1'; case = $Case
     harness = 'claude-code'; harness_version = $init.claude_code_version; model = $init.model; reasoning = 'default'
+    gateway = $Gateway; gateway_url = $(if ($Gateway -eq 'litellm') { $env:LITELLM_PROXY_URL } else { $null })
     approach = $(if ($MockAgent) { "mock-agent:$MockScenario" } else { 'canonical-prompt' }); plugin_sha = $pluginSha; plugin_modified_during_run = $pluginTampered; prompt_sha256 = $promptSha
     geeky_skills_loaded = @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count
     workspace = $ws; seed_sha = $baseSha; session_id = $sid
@@ -223,4 +250,8 @@ $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.
 Set-Content (Join-Path $out 'notes.md') "# Baseline $Case $stamp`n`nApproach: canonical prompt, Claude Code isolated in MXC.`nInterventions: none.`nOracle verdicts: (fill in for any failure)`n"
 # Derived measures (tokens summed over all models, stages, latency, idle gap) -> run.json + analysis.json
 & $python (Join-Path $PSScriptRoot 'analyze-run.py') $out --token-ceiling $caseCfg.token_ceiling
+# Host-side Langfuse upload of the stored transcripts; fails open (result in langfuse.json).
+if ($env:TRACE_TO_LANGFUSE -eq 'true' -and -not $MockAgent) {
+    & $python (Join-Path $PSScriptRoot 'langfuse-upload.py') $out --tools-dir (Join-Path $ToolsDir 'langfuse')
+}
 Write-Host "stored: $out"

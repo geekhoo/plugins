@@ -8,11 +8,17 @@ contents. The dedicated, already signed-in CODEX_HOME is used only as the auth
 and session store; user config/rules are ignored, and HOME is isolated per run.
 Mock and MXC smoke validation belong to checkpoint 2. Paid launch requires the
 owner's later authorization. Codex analysis/scoring are deliberately not called.
+-Gateway litellm (default, D101) routes every thread through LITELLM_PROXY_URL with
+LITELLM_PROXY_API_KEY (copied into the workload by name, excluded from the agent's shell);
+-Gateway direct uses the signed-in CODEX_HOME. With TRACE_TO_LANGFUSE=true a completed
+run is uploaded to Langfuse afterwards by langfuse-upload.py on the host.
 #>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory)][ValidateSet('c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
-    [string]$Model = 'gpt-6.1-sol',
+    # Default: zen/gpt-6.1-sol through LiteLLM, gpt-6.1-sol direct.
+    [string]$Model,
+    [ValidateSet('litellm', 'direct')][string]$Gateway = 'litellm',
     [ValidateSet('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')][string]$Reasoning = 'high',
     [string]$WorkerModel,
     [ValidateSet('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')][string]$WorkerReasoning,
@@ -35,6 +41,20 @@ if ($MockAgent -and $Launch) { throw 'Choose -MockAgent or -Launch, not both.' }
 if ($Launch -and -not $MxcBuildSource) { throw '-Launch requires an explicit -MxcBuildSource containing the vetted pinned build.' }
 if ($Launch -and -not $NativeProofFolder) { throw '-Launch requires an explicit -NativeProofFolder containing passing model-free native proof.' }
 if ($Launch -and $ReviewerReasoning -and -not $ReviewerProofFolder) { throw 'Reviewer settings require an explicit -ReviewerProofFolder proving the architect reviewer role.' }
+foreach ($name in @('LITELLM_PROXY_URL', 'LITELLM_PROXY_API_KEY', 'TRACE_TO_LANGFUSE',
+        'LANGFUSE_PUBLIC_KEY', 'LANGFUSE_SECRET_KEY', 'LANGFUSE_BASE_URL', 'LANGFUSE_TRACING_ENVIRONMENT')) {
+    if (-not [Environment]::GetEnvironmentVariable($name)) {
+        [Environment]::SetEnvironmentVariable($name, [Environment]::GetEnvironmentVariable($name, 'User'))
+    }
+}
+$gatewayArgs = @()
+if ($Gateway -eq 'litellm') {
+    if (-not ($env:LITELLM_PROXY_URL -and $env:LITELLM_PROXY_API_KEY)) {
+        if (-not $MockAgent) { throw 'LITELLM_PROXY_URL and LITELLM_PROXY_API_KEY must be set for -Gateway litellm.' }
+        $Gateway = 'direct'   # the mock makes no model calls
+    } else { $gatewayArgs = @('--litellm-base-url', ($env:LITELLM_PROXY_URL.TrimEnd('/') + '/v1')) }
+    if (-not $Model) { $Model = 'zen/gpt-6.1-sol' }
+} elseif (-not $Model) { $Model = 'gpt-6.1-sol' }
 if (-not $WorkerModel) { $WorkerModel = $Model }
 if (-not $WorkerReasoning) { $WorkerReasoning = $Reasoning }
 
@@ -123,7 +143,7 @@ $prompt = (Get-Content (Join-Path $plugin 'evals\prompts\end-to-end.md') -Raw).R
 $promptSha = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($prompt))).ToLowerInvariant()
 $profileResult = Join-Path $cfg 'codex-profile.json'
 $reviewerArgs = if ($ReviewerReasoning) { @('--reviewer-reasoning', $ReviewerReasoning) } else { @() }
-& $python (Join-Path $adapter 'prepare-profile.py') --plugin $pluginRun --home $runHome --codex-home $CodexHome --tools-dir $ToolsDir --profile (Join-Path $adapter 'profile') --output $profileResult --model $Model --reasoning $Reasoning --worker-model $WorkerModel --worker-reasoning $WorkerReasoning @reviewerArgs
+& $python (Join-Path $adapter 'prepare-profile.py') --plugin $pluginRun --home $runHome --codex-home $CodexHome --tools-dir $ToolsDir --profile (Join-Path $adapter 'profile') --output $profileResult --model $Model --reasoning $Reasoning --worker-model $WorkerModel --worker-reasoning $WorkerReasoning @reviewerArgs @gatewayArgs
 $preflightCode = $LASTEXITCODE
 if (Test-Path -LiteralPath $profileResult) { Copy-Item -LiteralPath $profileResult -Destination (Join-Path $out 'parity-preflight.json') }
 if ($preflightCode -ne 0 -or -not (Test-Path -LiteralPath $profileResult)) {
@@ -159,10 +179,12 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--no-e
     '--env', "PATH=$ToolsDir\agent-py\Scripts;$env:PATH", '--env', "VIRTUAL_ENV=$ToolsDir\agent-py",
     '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
+if ($Gateway -eq 'litellm') { $hostArgs += @('--env', 'LITELLM_PROXY_API_KEY') }
 
 $record = [ordered]@{
     schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'codex'; harness_version = (& $codexExe --version | Out-String).Trim()
-    model = $Model; reasoning = $Reasoning; approach = $(if ($MockAgent) { "mock-agent:$MockScenario" } else { 'canonical-prompt' }); plugin_sha = $pluginSha
+    model = $Model; reasoning = $Reasoning; gateway = $Gateway
+    gateway_url = $(if ($Gateway -eq 'litellm') { $env:LITELLM_PROXY_URL } else { $null }); approach = $(if ($MockAgent) { "mock-agent:$MockScenario" } else { 'canonical-prompt' }); plugin_sha = $pluginSha
     worker_model = $profile.worker_model; worker_reasoning = $profile.worker_reasoning; model_matrix = $profile.model_matrix
     plugin_modified_during_run = $false; prompt_sha256 = $promptSha; workspace = $ws; config_directory = $cfg; seed_sha = $baseSha
     session_id = $null; started_utc = $null; ended_utc = $null; wall_time_s = $null
@@ -273,6 +295,10 @@ try {
 if (-not $record.is_error) {
     & $python (Join-Path $PSScriptRoot 'analyze-run.py') $out --token-ceiling $caseCfg.token_ceiling
     if ($LASTEXITCODE -ne 0) { throw "Codex trace analysis failed: $out" }
+}
+# Host-side Langfuse upload of the captured rollouts; fails open (result in langfuse.json).
+if ($env:TRACE_TO_LANGFUSE -eq 'true' -and -not $MockAgent -and $record.session_id) {
+    & $python (Join-Path $PSScriptRoot 'langfuse-upload.py') $out --tools-dir (Join-Path $ToolsDir 'langfuse')
 }
 Write-Host "stored: $out (analysis status: $($record.analysis_status); score-run.py requires reviewed manual verdicts)"
 if ($MockAgent -and $record.is_error) { throw "Codex mock failed: $out" }

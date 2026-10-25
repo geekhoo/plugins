@@ -283,6 +283,12 @@ The weights sum to 1, so the score stays 0–100 however many tasks there are. L
 | D100 | Match existing guard scope | No guard rewrite is needed for the approved final-pair match: existing edit/patch warn behavior, retained native guard-context proof and 64 offline tests cover the corresponding paths. Shared shell bypass remains documented. Catalog untrusted status precedes exact trust-hash override and does not prove launch trust failure. Paid-session invocation remains unverified; no MXC or paid run was launched to extend that claim. |
 
 
+## Gateway and observability decisions (2026-10-25)
+
+| ID | Decision | Evidence and limits |
+|---|---|---|
+| D101 | LiteLLM gateway and host-side Langfuse | Both MXC runners route model calls through the owner's LiteLLM proxy by default (`-Gateway litellm`; `direct` keeps D71 and the signed-in Codex home). Claude gets `ANTHROPIC_BASE_URL` plus `ANTHROPIC_AUTH_TOKEN` and runs `claude-sonnet-5-5` by default, because the proxy has no Opus. Codex gets a `litellm` provider in the generated profile with `zen/gpt-6.1-sol`, and the key is excluded from its shell. Langfuse tracing is a post-run, host-side upload of the captured transcripts through the official converters. It is not a live hook, so the contestant's hooks, plugins and parity checks (D50, D51, D96) are unchanged. Verified 2026-10-25 outside MXC: Claude Code 2.1.310 and Codex 0.164.0 completed through the proxy, `inherit=all` leaked the key into Codex's shell until the explicit exclude was added, and both converters produced full traces in project `geeky-orchestration-eval`. **Not yet verified inside MXC on Windows.** Gateway runs are a new model configuration and do not compare directly with the earlier OAuth/ChatGPT-auth baselines. |
+
 ## Open items
 
 | ID | Item |

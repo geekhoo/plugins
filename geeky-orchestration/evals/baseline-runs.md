@@ -33,9 +33,28 @@ Decisions referenced: D41 (reference solutions), D53 (tokens as cost), D57 (judg
 `evals/scripts/run-baseline.ps1 -Case <case> [-Model <id>] [-DryRun]` performs steps 1–4 below for one run.
 
 Before starting, it needs:
-- `CLAUDE_CODE_OAUTH_TOKEN` set in the environment;
+- model access (D101): with the default `-Gateway litellm`, `LITELLM_PROXY_URL` and `LITELLM_PROXY_API_KEY` in the process or User environment; with `-Gateway direct`, `CLAUDE_CODE_OAUTH_TOKEN` (D71);
 - a Python with pytest;
 - the `geeky-mcp` venv in `C:\repos\.eval-tools`.
+
+### Model gateway and Langfuse (D101)
+
+Both runners send every model call through the owner's LiteLLM proxy by default:
+
+| | Claude (`run-baseline.ps1`) | Codex (`run-codex-baseline.ps1`) |
+|---|---|---|
+| Default model | `claude-sonnet-5-5` (LiteLLM serves no Opus) | `zen/gpt-6.1-sol` (workers inherit unless `-WorkerModel`) |
+| Wiring | `ANTHROPIC_BASE_URL=<proxy>` and `ANTHROPIC_AUTH_TOKEN`, copied into the workload by name. The forwarded OAuth/API-key variables are blanked. The opus/sonnet aliases map to the run model and haiku maps to `-SmallModel` (`claude-haiku-5-5`) | `model_provider="litellm"` (`<proxy>/v1`, Responses API, `env_key=LITELLM_PROXY_API_KEY`) in the generated profile, so subagent threads use it too. The key is copied in by name and excluded from the agent's shell |
+| Opt out | `-Gateway direct` | `-Gateway direct` (signed-in `CODEX_HOME`) |
+
+`run.json` records `gateway` and `gateway_url`. Keys never appear on a command line or in evidence. The Claude agent's PowerShell tool can still read `ANTHROPIC_AUTH_TOKEN`, as it could read the OAuth token before. A paid Codex launch needs a native proof prepared with the same gateway and model, because the model matrix must match (`paid-diagnostic-audit.py`).
+
+With `TRACE_TO_LANGFUSE=true` and `LANGFUSE_PUBLIC_KEY`/`LANGFUSE_SECRET_KEY` (and `LANGFUSE_BASE_URL`) set, each stored run is uploaded afterwards by `evals/scripts/langfuse-upload.py` on the host. The uploader stages copies of `session.jsonl` and `subagents/` and runs the official Langfuse converters on them (the Claude Code hook script, pinned by commit, and `@langfuse/codex-observability-plugin`). The contestant never runs anything Langfuse-related. Trace ids are seeded from `<case>/<run folder>`, so re-uploading a run, or backfilling an older one, overwrites its traces instead of duplicating them. Traces are tagged `geeky-eval`, `<case>`, `<harness>` and `gateway:<name>`; Codex traces also carry run metadata. The outcome is written to `langfuse.json`, and a failed upload never fails the run. One-time setup on the host (needs uv and Node 22+):
+
+```powershell
+python geeky-orchestration\evals\scripts\langfuse-upload.py --install --tools-dir C:\repos\.eval-tools\langfuse
+python geeky-orchestration\evals\scripts\langfuse-upload.py geeky-orchestration\evals\baselines\c1-csvledger\<stamp>   # backfill
+```
 
 What it does:
 - Exports the plugin at the committed `HEAD`, without `evals/`, into a read-write folder for that run only, and records whether the run modified it. Under a read-only grant, Claude can't list the plugin's folders and loads none of its skills.
