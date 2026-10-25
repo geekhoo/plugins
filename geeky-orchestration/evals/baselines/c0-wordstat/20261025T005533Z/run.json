@@ -82,7 +82,7 @@
     "enabled": true,
     "backend": "langfuse",
     "base_url": "https://langfuse.markefin.com",
-    "environment": "development",
+    "environment": "mxc",
     "tags": [
       "geeky-eval",
       "harness:claude-code",
@@ -99,17 +99,22 @@
     ],
     "session_id": "d1f75155-366f-44f0-af67-fcbc2cbdf456",
     "summary": "langfuse-run exit 3",
-    "delivered": false,
-    "observations": 0,
-    "coverage_complete": null,
-    "coverage_missed": null,
+    "delivered": true,
+    "observations": 375,
+    "coverage_complete": false,
+    "coverage_missed": [
+      "stage:impl-review",
+      "nested_subagents"
+    ],
     "hook": {
       "kind": "claude-stop-sessionend",
       "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
       "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
       "langfuse_python": "4.18.0",
       "state_dir": "/root/repos/.eval-cfg-20261025T005533Z/langfuse"
-    }
+    },
+    "trace_name": "geeky-eval c0-wordstat claude-code",
+    "host_flush": "backfilled after the run with Invoke-ClaudeTelemetryFlush (the in-sandbox hook never ran because the turn never ended)"
   },
   "provider": {
     "name": "litellm",

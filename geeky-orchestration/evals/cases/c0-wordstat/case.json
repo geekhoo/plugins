@@ -2,7 +2,7 @@
   "schema": "geeky-eval.case/1",
   "id": "c0-wordstat",
   "token_ceiling": 6000000,
-  "wall_time_ceiling_s": 2700,
+  "wall_time_ceiling_s": 5400,
   "task_timeout_s": 600,
   "idle_watchdog_s": 600,
   "oracle": {

@@ -254,6 +254,7 @@ $exitReason = if ($exitCode -eq 124) { 'timeout' } elseif ($bgKilled) { 'bg_kill
 $o = $runs[0]
 $clean = $stable -and $o.failed -eq 0 -and $o.errors -eq 0 -and $o.passed -gt 0
 $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.ToLower() } }
+if ($telemetry -and $session -and -not $MockAgent) { Invoke-ClaudeTelemetryFlush -Telemetry $telemetry -SessionId $sid -TranscriptPath $session.FullName }
 if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $(if ($session) { $sid }) -OutDir $out -Python $python }
 
 [ordered]@{

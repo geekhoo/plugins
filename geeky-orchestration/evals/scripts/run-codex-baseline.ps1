@@ -180,6 +180,7 @@ if ($MockAgent) {
         '--mock-forbidden-path', (Join-Path $plugin 'agents/geeky-coder.md'))
 } elseif ($Launch) {
     $trustedExec = Join-Path $cfg 'trusted-exec.py'
+    Copy-Item (Join-Path $plugin 'evals/telemetry/codex-flush.py') $cfg   # post-run Langfuse replay
     Copy-Item (Join-Path $adapter 'trusted-exec.py'), (Join-Path $adapter 'native-probe.py'), (Join-Path $adapter 'diagnostics.py') $cfg
     $promptFile = Join-Path $cfg 'canonical-prompt.txt'
     Set-Content -LiteralPath $promptFile -Value $prompt -NoNewline -Encoding utf8
@@ -284,6 +285,22 @@ try {
         # Only rollout transcripts are enumerated, never the home or auth files.
         & $python (Join-Path $adapter 'capture-rollouts.py') --sessions $sessions --thread-id $thread.thread_id --output $out
         if ($LASTEXITCODE -ne 0) { $record.is_error = $true; $record.exit_reason = 'missing-or-ambiguous-rollout' }
+        # The Stop hook only fires when a turn ends; a run that times out or is killed mid-turn would leave
+        # Langfuse empty. Replay the main rollout (children are found beside it) through the tracer in a short
+        # network-enabled MXC workload: its exporter ignores proxies, so it needs the sandbox's direct egress.
+        $rollout = Get-ChildItem -LiteralPath $sessions -Recurse -Filter "rollout-*$($thread.thread_id).jsonl" | Select-Object -First 1
+        if ($telemetry -and $Launch -and $rollout) {
+            $payloadFile = Join-Path $runTmp 'codex-flush-payload.json'
+            @{ session_id = $thread.thread_id; transcript_path = $rollout.FullName; hook_event_name = 'Stop' } | ConvertTo-Json -Compress |
+                Set-Content -LiteralPath $payloadFile -NoNewline
+            $flushArgs = @('run', '--workspace', $runTmp, '--rw', $CodexHome, '--ro', $ToolsDir, '--ro', $cfg, '--timeout', 900,
+                '--env', "PATH=$env:PATH") + @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs
+            $env:MXC_CLAUDE_EXE = $python; $env:MXC_SANDBOX_HOME = $mxcState
+            try {
+                & $mxc @flushArgs -- (Join-Path $cfg 'codex-flush.py') $telemetry.Node $telemetry.HookScript $payloadFile *> (Join-Path $out 'langfuse-flush.log')
+                $telemetry.Record.host_flush = "exit $LASTEXITCODE"
+            } finally { $env:MXC_CLAUDE_EXE = $savedExe; $env:MXC_SANDBOX_HOME = $savedMxcHome }
+        }
     } else { $record.is_error = $true; $record.exit_reason = 'missing-thread-id' }
     $record.plugin_modified_during_run = (Get-TreeHash $pluginRun) -ne $exportHash
     $runs = @(1..3 | ForEach-Object { Invoke-Oracle $ws (Join-Path $out 'oracle-output.txt') })

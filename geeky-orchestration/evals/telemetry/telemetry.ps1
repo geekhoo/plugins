@@ -104,6 +104,7 @@ function Resolve-EvalTelemetry {
                 command = ($hookArgs | ForEach-Object { "'" + ($_ -replace "'", "'\''") + "'" }) -join ' ' }
         }
         $result.SettingsHooks = [ordered]@{ Stop = @(@{ hooks = @($entry) }); SessionEnd = @(@{ hooks = @($entry) }) }
+        $result.HookCommand = $hookArgs
         $envArgs += @('--env', 'CC_LANGFUSE_MAX_CHARS=2147483647', '--env', 'CC_LANGFUSE_CAPTURE_SKILL_CONTENT=true',
             '--env', "CC_LANGFUSE_TRACE_TAGS=$tagsJson", '--env', "CC_LANGFUSE_STATE_DIR=$StateDir", '--env', "LANGFUSE_USER_ID=$userId")
         $record.hook = [ordered]@{ kind = 'claude-stop-sessionend'; commit = $pins.claude_hook.commit; sha256 = $pins.claude_hook.sha256
@@ -112,6 +113,35 @@ function Resolve-EvalTelemetry {
     }
     $result.EnvArgs = $envArgs
     return [pscustomobject]$result
+}
+
+# Set the run's NAME=VALUE telemetry variables in this process for a host-side upload; returns what to restore.
+function Push-EvalTelemetryEnv([Parameter(Mandatory)]$Telemetry) {
+    $saved = @{}
+    for ($i = 0; $i -lt $Telemetry.EnvArgs.Count; $i += 2) {
+        $spec = $Telemetry.EnvArgs[$i + 1]
+        if ($spec -notmatch '^([^=]+)=(.*)$') { continue }   # bare names are already host variables
+        $saved[$Matches[1]] = [Environment]::GetEnvironmentVariable($Matches[1])
+        [Environment]::SetEnvironmentVariable($Matches[1], $Matches[2])
+    }
+    return $saved
+}
+function Pop-EvalTelemetryEnv([hashtable]$Saved) {
+    foreach ($name in $Saved.Keys) { [Environment]::SetEnvironmentVariable($name, $Saved[$name]) }
+}
+
+# After a Claude run: upload the captured transcript from the host. The hook only fires when a turn ends,
+# and `claude -p` is one turn, so a run that times out or is killed would otherwise leave Langfuse empty.
+# The shared state folder keeps turns the in-sandbox hook already sent from being sent twice.
+function Invoke-ClaudeTelemetryFlush {
+    param([Parameter(Mandatory)]$Telemetry, [Parameter(Mandatory)][string]$SessionId, [Parameter(Mandatory)][string]$TranscriptPath)
+    $saved = Push-EvalTelemetryEnv $Telemetry
+    try {
+        $payload = @{ session_id = $SessionId; transcript_path = $TranscriptPath; hook_event_name = 'SessionEnd' } | ConvertTo-Json -Compress
+        $hook = $Telemetry.HookCommand
+        $payload | & $hook[0] @($hook | Select-Object -Skip 1)
+        $Telemetry.Record.host_flush = "exit $LASTEXITCODE"
+    } finally { Pop-EvalTelemetryEnv $saved }
 }
 
 # After the run: confirm the session reached Langfuse and store a summary (never fatal; ingestion is async).
