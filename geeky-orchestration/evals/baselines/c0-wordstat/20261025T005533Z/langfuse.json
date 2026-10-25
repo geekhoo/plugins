@@ -1,0 +1,16 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "d1f75155-366f-44f0-af67-fcbc2cbdf456",
+  "traces": 0,
+  "observations": 0,
+  "by_type": {},
+  "generations": 0,
+  "tool_calls": 0,
+  "subagents": 0,
+  "environments": [],
+  "usage_details": {},
+  "truncated_observations": 0,
+  "first_start": null,
+  "last_start": null,
+  "top_names": []
+}
