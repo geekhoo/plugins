@@ -34,6 +34,8 @@ param(
     [string]$ToolsDir,
     [string]$WorkRoot,
     [switch]$DryRun,
+    # Materialize provider/model/MCP/telemetry configuration without oracle or MXC execution.
+    [switch]$PrepareOnly,
     [switch]$NoTelemetry,
     # Route Claude Code through LiteLLM's Messages API (LITELLM_PROXY_URL, LITELLM_PROXY_API_KEY) with
     # -Model as the only model: every alias and subagent pins to it.
@@ -47,6 +49,7 @@ param(
     [int]$ResumeOnRefusal = 0
 )
 $ErrorActionPreference = 'Stop'
+if ($PrepareOnly -and ($DryRun -or $MockAgent)) { throw '-PrepareOnly cannot be combined with -DryRun or -MockAgent.' }
 $onWindows = $IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop'
 if (-not $ToolsDir) { $ToolsDir = if ($onWindows) { 'C:\repos\.eval-tools' } else { Join-Path $HOME 'repos/.eval-tools' } }
 if (-not $WorkRoot) { $WorkRoot = if ($onWindows) { 'C:\repos' } else { Join-Path $HOME 'repos' } }
@@ -114,9 +117,13 @@ $baseSha = git -C $ws rev-parse HEAD
 Write-Host "workspace: $ws (seed $baseSha)"
 
 # 2. Oracle must fail entirely on the seed
-$empty = Invoke-Oracle $ws $null
-if ($empty.passed -gt 0) { throw "oracle passed $($empty.passed) tests against the empty workspace" }
-Write-Host "empty-workspace oracle: passed=0 failed=$($empty.failed) errors=$($empty.errors) (ok)"
+if ($PrepareOnly) {
+    Write-Host 'Preparation only: seed oracle execution is deferred.'
+} else {
+    $empty = Invoke-Oracle $ws $null
+    if ($empty.passed -gt 0) { throw "oracle passed $($empty.passed) tests against the empty workspace" }
+    Write-Host "empty-workspace oracle: passed=0 failed=$($empty.failed) errors=$($empty.errors) (ok)"
+}
 
 # 3. Harness config, outside the workspace
 $cfg = Join-Path $WorkRoot ".eval-cfg-$stamp"
@@ -141,7 +148,8 @@ $boot = "import site,runpy,sys; site.addsitedir(r'$mcpSitePackages'); sys.path.i
 @{ mcpServers = @{ geeky = @{ command = $mcpPython; args = @('-u', '-c', $boot) } } } | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $cfg 'mcp.json')
 . (Join-Path $plugin 'evals/telemetry/telemetry.ps1')
 $telemetry = Resolve-EvalTelemetry -Harness claude-code -ToolsDir $ToolsDir -Case $Case -Stamp $stamp -PluginSha $pluginSha `
-    -ConfigDir $cfg -StateDir (Join-Path $cfg 'langfuse') -Model $Model -Mock:$MockAgent -Disabled:$NoTelemetry
+    -ConfigDir $cfg -StateDir (Join-Path $cfg 'langfuse') -Model $Model `
+    -Provider $(if ($Litellm) { 'litellm' } else { 'anthropic' }) -Mock:$MockAgent -Disabled:$NoTelemetry
 $settings = [ordered]@{ env = @{ MCP_TIMEOUT = '120000' } }
 if ($telemetry) {
     $settings.hooks = $telemetry.SettingsHooks
@@ -203,6 +211,34 @@ if ($Litellm) {
         '--env', "ANTHROPIC_DEFAULT_OPUS_MODEL=$Model", '--env', "ANTHROPIC_DEFAULT_SONNET_MODEL=$Model",
         '--env', "ANTHROPIC_DEFAULT_HAIKU_MODEL=$Model", '--env', "CLAUDE_CODE_SUBAGENT_MODEL=$Model",
         '--env', 'CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1')
+}
+
+if ($PrepareOnly) {
+    $preparedExportManifest = @(Get-ChildItem -LiteralPath $pluginRun -Force -Recurse -File |
+        Where-Object { $_.FullName -notmatch '[\\/]__pycache__[\\/]' } | Sort-Object FullName |
+        ForEach-Object { [ordered]@{
+            path = [IO.Path]::GetRelativePath($pluginRun, $_.FullName).Replace('\', '/')
+            sha256 = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+        } })
+    $preparedManifestJson = ConvertTo-Json -InputObject $preparedExportManifest -Compress -Depth 4
+    $preparedManifestPath = Join-Path $cfg 'plugin-export-manifest.json'
+    Set-Content -LiteralPath $preparedManifestPath -Value $preparedManifestJson -NoNewline -Encoding utf8NoBOM
+    $preparedExportSha = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData(
+        [Text.Encoding]::UTF8.GetBytes($preparedManifestJson))).ToLowerInvariant()
+    $prepared = [ordered]@{
+        schema = 'geeky-eval.prepared-launch/1'; status = 'prepared'; harness = 'claude-code'; case = $Case
+        model = $Model; reasoning = 'default'; provider = $(if ($Litellm) { 'litellm' } else { 'anthropic' })
+        workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; plugin_sha = $pluginSha
+        plugin_export_sha256 = $preparedExportSha; plugin_export_manifest = $preparedManifestPath
+        prompt_sha256 = $promptSha; timeout_s = $TimeoutSec
+        native_session_id = $sid; telemetry = $(if ($telemetry) { $telemetry.Record } else { @{ enabled = $false } })
+        host_script = $mxc; host_args = $hostArgs; harness_args = $claudeArgs
+        oracle_executed = $false; mxc_workload_started = $false; contestant_started = $false; model_calls = 0
+    }
+    $prepared | ConvertTo-Json -Depth 12 | Set-Content (Join-Path $cfg 'prepared-launch.json') -Encoding utf8
+    Write-Host "prepared: $cfg"
+    Write-Host 'Preparation complete; no oracle, MXC workload or contestant was started.'
+    return
 }
 
 if ($DryRun) {

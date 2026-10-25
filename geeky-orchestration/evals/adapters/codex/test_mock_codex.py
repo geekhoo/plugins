@@ -2,6 +2,8 @@ import importlib.util
 import json
 from pathlib import Path
 import queue
+import runpy
+from types import SimpleNamespace
 
 import pytest
 
@@ -142,3 +144,61 @@ def test_telemetry_fails_when_nothing_is_delivered(tmp_path):
     trace.complete_turn('done')
     with pytest.raises(RuntimeError, match='not recorded'):
         mock.check_telemetry(args, trace)
+
+
+def test_versioned_pythons_skips_inaccessible_path_entries(tmp_path, monkeypatch):
+    blocked, readable = tmp_path / 'blocked', tmp_path / 'readable'
+    blocked.mkdir()
+    readable.mkdir()
+    (readable / 'python3.11').touch()
+    original_iterdir = Path.iterdir
+
+    def list_directory(path):
+        if path == blocked:
+            raise PermissionError('sandbox denies host PATH entry')
+        return original_iterdir(path)
+
+    monkeypatch.setenv('PATH', mock.os.pathsep.join([str(blocked), str(readable)]))
+    monkeypatch.setattr(Path, 'iterdir', list_directory)
+    monkeypatch.setattr(mock.shutil, 'which', lambda name: str(readable / name))
+    assert mock.versioned_pythons() == ['python3.11']
+
+
+def test_windows_telemetry_executes_generated_hook_without_cmd(tmp_path, monkeypatch):
+    trace = SimpleNamespace(sid='session', path=tmp_path / 'rollout.jsonl', turn_id='turn')
+    command = 'C:\\tools\\python.exe C:\\run\\langfuse-tracer.py'
+    args = SimpleNamespace(cd=tmp_path, config={
+        'model_reasoning_summary': 'detailed',
+        'hooks': {'Stop': [{'hooks': [{'type': 'command', 'command': command}]}]}})
+    monkeypatch.setattr(mock, 'os', SimpleNamespace(name='nt', environ={}))
+
+    def execute(actual, **kwargs):
+        assert actual == command
+        assert kwargs['shell'] is False
+        assert kwargs['env']['LANGFUSE_CODEX_FAIL_ON_ERROR'] == 'true'
+        Path(str(trace.path) + '.langfuse').write_text('turn\n', encoding='utf-8')
+        return SimpleNamespace(returncode=0, stdout='', stderr='')
+
+    monkeypatch.setattr(mock.subprocess, 'run', execute)
+    assert 'delivered turn' in mock.check_telemetry(args, trace)
+
+
+def test_tracer_wrapper_preserves_windows_paths_and_child_exit(tmp_path, monkeypatch):
+    wrapper = tmp_path / 'langfuse-tracer.py'
+    wrapper.write_bytes(Path(__file__).with_name('langfuse-tracer.py').read_bytes())
+    wrapper.with_suffix('.json').write_text(json.dumps({
+        'node': 'C:/Program Files/nodejs/node.exe',
+        'hook': 'C:/tools/tracer/index.mjs'}), encoding='utf-8')
+    captured = {}
+
+    def execute(command, **kwargs):
+        captured.update(command=command, **kwargs)
+        return SimpleNamespace(returncode=7)
+
+    monkeypatch.setattr(mock.subprocess, 'run', execute)
+    with pytest.raises(SystemExit) as result:
+        runpy.run_path(str(wrapper), run_name='__main__')
+    assert result.value.code == 7
+    options = ['--preserve-symlinks-main', '--preserve-symlinks'] if mock.sys.platform == 'win32' else []
+    assert captured['command'] == ['C:/Program Files/nodejs/node.exe', *options, 'C:/tools/tracer/index.mjs']
+    assert captured['stdin'] is mock.sys.stdin

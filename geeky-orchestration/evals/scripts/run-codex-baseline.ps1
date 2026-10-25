@@ -28,6 +28,9 @@ param(
     [string]$MxcBuildSource,
     [string]$NativeProofFolder,
     [string]$ReviewerProofFolder,
+    # Explicit owner override; does not claim native qualification or relax MXC isolation.
+    [switch]$SkipNativeQualification,
+    [string]$QualificationOverrideReason,
     [switch]$MockAgent,
     [ValidateSet('happy', 'all', 'fail')][string]$MockScenario = 'happy',
     [switch]$Launch,
@@ -42,12 +45,18 @@ param(
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $false
 if ($MockAgent -and $Launch) { throw 'Choose -MockAgent or -Launch, not both.' }
+if ($SkipNativeQualification -and -not $QualificationOverrideReason) {
+    throw '-SkipNativeQualification requires an explicit -QualificationOverrideReason.'
+}
+if ($SkipNativeQualification -and ($NativeProofFolder -or $ReviewerProofFolder)) {
+    throw 'Choose native proof or the owner override, not both.'
+}
 # The vetted host build and the native proof are Windows ProcessContainer artifacts. Elsewhere the host is
 # built from source and a launch without native proof is recorded as such (never reference-eligible).
 $windowsHost = $IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop'
 if ($Launch -and $windowsHost -and -not $MxcBuildSource) { throw '-Launch requires an explicit -MxcBuildSource containing the vetted pinned build.' }
-if ($Launch -and $windowsHost -and -not $NativeProofFolder) { throw '-Launch requires an explicit -NativeProofFolder containing passing model-free native proof.' }
-if ($Launch -and $ReviewerReasoning -and -not $ReviewerProofFolder) { throw 'Reviewer settings require an explicit -ReviewerProofFolder proving the architect reviewer role.' }
+if ($Launch -and -not $SkipNativeQualification -and $windowsHost -and -not $NativeProofFolder) { throw '-Launch requires an explicit -NativeProofFolder containing passing model-free native proof.' }
+if ($Launch -and -not $SkipNativeQualification -and $ReviewerReasoning -and -not $ReviewerProofFolder) { throw 'Reviewer settings require an explicit -ReviewerProofFolder proving the architect reviewer role.' }
 if (-not $WorkerModel) { $WorkerModel = $Model }
 if (-not $WorkerReasoning) { $WorkerReasoning = $Reasoning }
 
@@ -144,7 +153,8 @@ $profileResult = Join-Path $cfg 'codex-profile.json'
 $reviewerArgs = if ($ReviewerReasoning) { @('--reviewer-reasoning', $ReviewerReasoning) } else { @() }
 . (Join-Path $plugin 'evals/telemetry/telemetry.ps1')
 $telemetry = Resolve-EvalTelemetry -Harness codex -ToolsDir $ToolsDir -Case $Case -Stamp $stamp -PluginSha $pluginSha `
-    -Model $Model -Mock:$MockAgent -Disabled:$NoTelemetry
+    -Model $Model -Reasoning $Reasoning -WorkerModel $WorkerModel -WorkerReasoning $WorkerReasoning -ReviewerReasoning $ReviewerReasoning `
+    -Provider $(if ($Litellm) { 'litellm' } else { 'openai' }) -Mock:$MockAgent -Disabled:$NoTelemetry
 $telemetryArgs = if ($telemetry) { @('--telemetry-node', $telemetry.Node, '--telemetry-hook', $telemetry.HookScript) } else { @() }
 $providerArgs = @()
 if ($Litellm) {
@@ -216,6 +226,10 @@ $record = [ordered]@{
     mock_agent = [bool]$MockAgent; runtime_toolchain_verified = $false
     diagnostics_passed = $false
     native_proof_folder = $(if ($Launch -and $NativeProofFolder) { [IO.Path]::GetFullPath($NativeProofFolder) } else { $null })
+    native_qualification = [ordered]@{
+        status = $(if ($SkipNativeQualification) { 'waived-by-owner' } else { 'required-for-windows-launch' })
+        override_reason = $(if ($SkipNativeQualification) { $QualificationOverrideReason } else { $null })
+    }
     provider = $(if ($Litellm) { [ordered]@{ name = 'litellm'; base_url = $litellmUrl; context_window = $ContextWindow } } else { $null })
     telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })
 }
@@ -233,7 +247,7 @@ if ($MxcBuildSource) {
         -PinPath $mxcPin `
         -ReportPath (Join-Path $out 'mxc-build-provenance.json') | Out-Null
 }
-if ($Launch -and $NativeProofFolder) {
+if ($Launch -and -not $SkipNativeQualification -and $NativeProofFolder) {
     $reviewerProofArgs = if ($ReviewerProofFolder) { @('--reviewer-proof-folder', $ReviewerProofFolder) } else { @() }
     & $python (Join-Path $adapter 'paid-diagnostic-audit.py') --run-folder $out `
         --native-proof-folder $NativeProofFolder --pin $mxcPin `
@@ -293,7 +307,7 @@ try {
             $payloadFile = Join-Path $runTmp 'codex-flush-payload.json'
             @{ session_id = $thread.thread_id; transcript_path = $rollout.FullName; hook_event_name = 'Stop' } | ConvertTo-Json -Compress |
                 Set-Content -LiteralPath $payloadFile -NoNewline
-            $flushArgs = @('run', '--workspace', $runTmp, '--rw', $CodexHome, '--ro', $ToolsDir, '--ro', $cfg, '--timeout', 900,
+            $flushArgs = @('run', '--workspace', $runTmp, '--allow-win32k', '--rw', $CodexHome, '--ro', $ToolsDir, '--ro', $cfg, '--timeout', 900,
                 '--env', "PATH=$env:PATH") + @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs
             $env:MXC_CLAUDE_EXE = $python; $env:MXC_SANDBOX_HOME = $mxcState
             try {
@@ -315,8 +329,10 @@ try {
         # Launch evidence (codex-exit.json, hook catalogue, denial proof) travels with the run.
         Copy-Item (Join-Path $runTmp 'native-hook-trust') (Join-Path $out 'launch-evidence') -Recurse -Exclude 'hook-catalog-home'
     }
-    if ($Launch -and -not $NativeProofFolder) {
-        $record.diagnostics_passed = $null   # no native proof to audit against (non-Windows host)
+    if ($Launch -and ($SkipNativeQualification -or -not $NativeProofFolder)) {
+        # No qualification claim when explicitly waived or when no native proof exists.
+        $record.diagnostics_passed = $null
+        $record.runtime_parity_verified = $false
     } elseif ($Launch) {
         # Preserve oracle/bundle/rollouts first; diagnostics must pass before automatic analysis.
         $record | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $out 'run.json')

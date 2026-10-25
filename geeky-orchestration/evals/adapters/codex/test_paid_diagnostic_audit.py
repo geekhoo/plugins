@@ -3,6 +3,8 @@ import importlib.util
 import json
 from pathlib import Path
 import shutil
+import subprocess
+import sys
 
 import pytest
 
@@ -236,9 +238,9 @@ def test_post_gate_rejects_each_missing_runtime_proof_or_error(evidence, failure
 
 def test_runner_requires_native_proof_and_audits_after_preservation_before_analysis():
     runner = (Path(__file__).resolve().parents[2] / 'scripts/run-codex-baseline.ps1').read_text()
-    # Windows hosts must supply native proof; elsewhere a launch without it skips the Windows audits.
-    assert 'if ($Launch -and $windowsHost -and -not $NativeProofFolder) { throw' in runner
-    assert 'if ($Launch -and $NativeProofFolder) {' in runner
+    # Native proof remains the Windows default; an explicit owner waiver skips qualification claims.
+    assert 'if ($Launch -and -not $SkipNativeQualification -and $windowsHost -and -not $NativeProofFolder) { throw' in runner
+    assert 'if ($Launch -and -not $SkipNativeQualification -and $NativeProofFolder) {' in runner
     assert "'--forbidden-skill-root', $forbiddenSkillRoot" in runner
     assert runner.index('--native-proof-folder $NativeProofFolder') < runner.index('& $mxc @hostArgs')
     assert runner.index("'bundle', 'create'") < runner.index('--runtime-evidence (Join-Path $runTmp')
@@ -247,6 +249,60 @@ def test_runner_requires_native_proof_and_audits_after_preservation_before_analy
     assert '$record.runtime_parity_verified = $record.diagnostics_passed' in runner
     assert '$record.runtime_toolchain_verified = $record.diagnostics_passed' in runner
     assert 'native_proof_folder = $(if ($Launch -and $NativeProofFolder)' in runner
+
+
+@pytest.mark.parametrize('arguments,expected,windows_only', [
+    (['-SkipNativeQualification'], 'requires an explicit -QualificationOverrideReason', False),
+    (['-SkipNativeQualification', '-QualificationOverrideReason', 'owner fixture',
+      '-NativeProofFolder', 'fixture-proof'], 'Choose native proof or the owner override', False),
+    (['-SkipNativeQualification', '-QualificationOverrideReason', 'owner fixture',
+      '-ReviewerProofFolder', 'fixture-proof'], 'Choose native proof or the owner override', False),
+    ([], 'requires an explicit -NativeProofFolder', True),
+    (['-NativeProofFolder', 'fixture-proof', '-ReviewerReasoning', 'xhigh'],
+     'Reviewer settings require an explicit -ReviewerProofFolder', False),
+])
+def test_runner_launch_guards_reject_invalid_qualification_before_setup(tmp_path, arguments, expected, windows_only):
+    pwsh = shutil.which('pwsh')
+    if not pwsh or (windows_only and sys.platform != 'win32'):
+        pytest.skip('PowerShell on the applicable host is required')
+    runner = (Path(__file__).resolve().parents[2] / 'scripts/run-codex-baseline.ps1').read_text()
+    # Execute the actual parameter/guard section only. Even a broken guard cannot
+    # reach workspace setup, MXC, authentication, or a provider in this fixture.
+    guard_script = tmp_path / 'launch-guards.ps1'
+    guard_script.write_text(runner[:runner.index('if (-not $WorkerModel)')] +
+                            "Write-Output 'GUARDS_RETURNED'\n", encoding='utf-8')
+    workspace = tmp_path / 'must-not-be-created'
+    result = subprocess.run([pwsh, '-NoProfile', '-NonInteractive', '-File', str(guard_script),
+        '-Case', 'c0-wordstat', '-Launch', '-MxcBuildSource', 'fixture-build',
+        '-WorkRoot', str(workspace), *arguments], capture_output=True, text=True, timeout=30)
+    assert result.returncode != 0
+    assert expected in result.stdout + result.stderr
+    assert 'GUARDS_RETURNED' not in result.stdout
+    assert not workspace.exists()
+
+
+def test_runner_waiver_records_reason_without_claiming_runtime_qualification():
+    pwsh = shutil.which('pwsh')
+    if not pwsh:
+        pytest.skip('PowerShell is required')
+    runner = (Path(__file__).resolve().parents[2] / 'scripts/run-codex-baseline.ps1').read_text()
+    qualification = runner.split('    native_qualification = ', 1)[1].split('    provider = ', 1)[0]
+    waiver = runner.split('    if ($Launch -and ($SkipNativeQualification -or -not $NativeProofFolder)) {', 1)[1].split('    } elseif ($Launch)', 1)[0]
+    # Isolate just the production metadata expressions and waiver body: no launch
+    # code or audit branch is ever evaluated, and stale true claims must be cleared.
+    command = ("$Launch=$true; $SkipNativeQualification=$true; "
+               "$QualificationOverrideReason='explicit fixture waiver'; "
+               "$record=[ordered]@{diagnostics_passed=$true; runtime_parity_verified=$true; "
+               "runtime_toolchain_verified=$false; native_qualification=" + qualification + "}; " +
+               waiver + '; $record | ConvertTo-Json -Compress')
+    result = subprocess.run([pwsh, '-NoProfile', '-NonInteractive', '-Command', command],
+                            capture_output=True, text=True, check=True, timeout=30)
+    record = json.loads(result.stdout)
+    assert record['native_qualification'] == {
+        'status': 'waived-by-owner', 'override_reason': 'explicit fixture waiver'}
+    assert record['diagnostics_passed'] is None
+    assert record['runtime_parity_verified'] is False
+    assert record['runtime_toolchain_verified'] is False
 
 
 def patch_failure(evidence, direct=False):

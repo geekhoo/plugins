@@ -197,8 +197,16 @@ def check_mcp(config):
 
 def versioned_pythons():
     """Each python3.X name the PATH resolves (first hit wins), as a contestant would call it."""
-    names = {f.name for d in os.environ.get('PATH', '').split(os.pathsep) if os.path.isdir(d)
-             for f in Path(d).iterdir() if re.fullmatch(r'python3\.\d+', f.name)}
+    names = set()
+    for directory in os.environ.get('PATH', '').split(os.pathsep):
+        if not directory or not os.path.isdir(directory):
+            continue
+        try:
+            names.update(f.name for f in Path(directory).iterdir()
+                         if re.fullmatch(r'python3\.\d+', f.name))
+        except OSError:
+            # Host PATH entries can exist but be unreadable inside MXC.
+            continue
     return sorted(n for n in names if shutil.which(n))
 
 
@@ -309,7 +317,9 @@ def check_telemetry(a, trace):
                           'hook_event_name': 'Stop', 'cwd': str(a.cd), 'stop_hook_active': False})
     for hook in stop_hooks(a.config):
         # Fail loudly here: the tracer otherwise fails open and would hide an upload error.
-        result = subprocess.run(hook['command'], shell=True, input=payload, text=True, encoding='utf-8',
+        # The generated Windows hook is a CreateProcess command line. Routing it
+        # through cmd.exe adds a shell the sandbox does not grant.
+        result = subprocess.run(hook['command'], shell=os.name != 'nt', input=payload, text=True, encoding='utf-8',
                                 capture_output=True, timeout=hook.get('timeout', 600), check=False,
                                 env={**os.environ, 'LANGFUSE_CODEX_FAIL_ON_ERROR': 'true'})
         require(result.returncode == 0, f'Stop hook exit {result.returncode}: {(result.stdout + result.stderr)[-800:]}')
