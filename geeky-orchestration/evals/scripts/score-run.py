@@ -709,14 +709,23 @@ class Scorer:
 
     def parse_phases(self):
         plan = self.folder / "implementation-plan.md"
-        phases, cur, in_phase_section = {}, None, False
+        phases, cur, in_phase_section, phase_level = {}, None, False, None
         if not plan.exists():
             return {"P1": list(self.tasks)}
         for line in plan.read_text(encoding="utf-8", errors="replace").splitlines():
+            # A named phase/task table is explicit even under an Approach heading.
+            if re.match(r"^\|\s*Phase\s*\|\s*Task\b", line, re.I):
+                in_phase_section = True
+                continue
             h = re.match(r"^\s{0,3}#{1,6}\s+(.*)$", line)
             if h:
                 m = re.search(r"\bPhase\s*(\d+)", h.group(1), re.I)
+                level = len(line.lstrip().split()[0])
+                if not m and cur and phase_level is not None and level > phase_level:
+                    phases[cur].update(expand_ids(h.group(1)))
+                    continue
                 cur = f"P{m.group(1)}" if m else None
+                phase_level = level if m else None
                 in_phase_section = bool(re.search(r"\bphases?\b", h.group(1), re.I)) and not m
                 if cur:
                     phases.setdefault(cur, set()).update(expand_ids(h.group(1)))
@@ -1032,12 +1041,28 @@ class Scorer:
                 raise ValueError(f'{t}: unresolved implementation commit')
             return cm['sha'], False, 'reviewed implementation commit' if explicit else basis
         done = self.done_call.get(t)
+        reviewed_done = self.manual.get('validation_done_call.' + t)
+        if reviewed_done is not None:
+            anchor = self.trace.by_id.get(reviewed_done.get('call_id'))
+            if (reviewed_done.get('pass') is not True or not anchor or not anchor.ts or anchor.is_error
+                    or t not in expand_ids(anchor.raw) or 'kanban' not in anchor.raw.lower()
+                    or 'Done' not in anchor.raw or not WRITE_VERB.search(anchor.raw)
+                    or not re.search(r'\bDOD_OK:\s*' + re.escape(t) + r'\b', anchor.text)):
+                raise ValueError(f'{t}: invalid source-reviewed Done call for validation')
+            done = anchor
         starts = [d.ts or d.rts for d in self.coders.get(t, [])] + ([self.inprog[t].ts] if t in self.inprog else [])
         starts = [s for s in starts if s]
+        if reviewed_done and reviewed_done.get('start_call_id'):
+            dispatch = self.trace.by_id.get(reviewed_done['start_call_id'])
+            if (not dispatch or dispatch.name != 'Agent' or dispatch.is_error or not dispatch.ts
+                    or 'coder' not in self.trace.role(dispatch)
+                    or t not in expand_ids(str(dispatch.inp.get('prompt', '')) + ' ' + str(dispatch.inp.get('description', '')))):
+                raise ValueError(f'{t}: invalid source-reviewed coder start for validation')
+            starts = [dispatch.ts]
         cm, basis = task_commit(self.commits, t, done.ts.timestamp() if done and done.ts else None,
                                 min(starts).timestamp() if starts else None)
         if cm:
-            return cm["sha"], False, basis
+            return cm["sha"], False, basis + ('; source-reviewed Done anchor' if reviewed_done else '')
         return git(self.ws, "rev-parse", "HEAD").strip(), True, f"{basis}; fell back to final HEAD"
 
     def cached_validation(self):

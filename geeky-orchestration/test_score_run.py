@@ -294,6 +294,7 @@ class SubagentTranscriptTests(unittest.TestCase):
     def test_attempts_come_from_the_nested_transcript(self):
         s = sr.Scorer.__new__(sr.Scorer)
         s.trace, s.tasks, s.d87 = sr.Trace(self.run), ["T1"], []
+        s.run = {'harness': 'claude-code'}
         s.coders = {"T1": [c for c in s.trace.calls if c.id == "o1"]}
         s.attempts()
         self.assertEqual([s.trace.calls[i].id for i, _ in s.runs["T1"]], ["c1", "c2"])
@@ -346,6 +347,35 @@ class Run6ShapeTests(unittest.TestCase):
             self.assertEqual(s.parse_phases(), {"P1": ["T1", "T2"], "P2": ["T3"]})
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_task_subheadings_keep_their_parent_phase(self):
+        with tempfile.TemporaryDirectory(prefix="score-run-nested-phases-") as directory:
+            tmp = Path(directory)
+            (tmp / "implementation-plan.md").write_text(
+                "# Plan\n## Phase 1: Core\n### T1 - Core\nNo dependencies.\n"
+                "## Phase 2: CLI\n### T2 - CLI\nDepends on T1.\n### T3 - Tests\nDepends on T2.\n"
+                "## Phase 3: Docs\n### T4 - README\nDepends on T2.\n### T5 - Verify\nDepends on T3 and T4.\n"
+                "## Dependency graph\nT1 -> T2 -> T3 -> T5\n", encoding="utf-8")
+            scorer = sr.Scorer.__new__(sr.Scorer)
+            scorer.folder = tmp
+            scorer.tasks = [f"T{i}" for i in range(1, 6)]
+            scorer.task_files = {t: tmp / f"{t}.md" for t in scorer.tasks}
+            self.assertEqual(scorer.parse_phases(), {"P1": ["T1"], "P2": ["T2", "T3"], "P3": ["T4", "T5"]})
+
+
+class ExplicitPhaseTableTest(unittest.TestCase):
+    def test_table_under_approach_keeps_distinct_phases(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder = Path(directory)
+            (folder / 'implementation-plan.md').write_text(
+                '# Plan\n## Approach\n| Phase | Task | Depends on |\n|---|---|---|\n'
+                '| 1 | T1 scaffold | None |\n| 2 | T2 core | T1 |\n'
+                '| 3 | T3 cli | T2 |\n## Risks\nT1 T2 T3\n', encoding='utf-8')
+            scorer = sr.Scorer.__new__(sr.Scorer)
+            scorer.folder = folder
+            scorer.tasks = ['T1', 'T2', 'T3']
+            scorer.task_files = dict.fromkeys(scorer.tasks)
+            self.assertEqual(scorer.parse_phases(), {'P1': ['T1'], 'P2': ['T2'], 'P3': ['T3']})
 
 
 @unittest.skipUnless((RUN3 / "run.json").exists() and (RUN3 / "stream.jsonl").exists(), "C1 run 3 folder missing")

@@ -347,6 +347,14 @@ def load(run_dir, process_path=None):
     threads = {}
     for path in paths:
         rows = read_jsonl(path, errors)
+        # Compaction responses may propose tools that the runtime never executes.
+        # Preserve the raw rows on disk, but do not demand invented tool outputs.
+        artifacts = [r for r in rows if r.get('type') == 'response_item'
+                     and (r.get('metadata') or {}).get('compaction_output') is True]
+        if artifacts:
+            warnings.append(f'Excluded {len(artifacts)} compaction response item(s): {path.name}')
+            rows = [r for r in rows if not (r.get('type') == 'response_item'
+                    and (r.get('metadata') or {}).get('compaction_output') is True)]
         meta = next((r.get('payload', {}) for r in rows if r.get('type') == 'session_meta'), {})
         sid = meta.get('id') or meta.get('session_id')
         if not sid:
@@ -553,6 +561,7 @@ def load(run_dir, process_path=None):
                 continue
             outrow, out = outputs.get(local_id, ({}, {}))
             name = request.get('name')
+            rejected_patch = name == 'apply_patch' and text(out.get('output')).strip() == 'unsupported call: apply_patch'
             try:
                 inp = json.loads(request.get('arguments') or '{}') if request.get('type') == 'function_call' else {'command': request.get('input', '')}
             except ValueError:
@@ -566,15 +575,18 @@ def load(run_dir, process_path=None):
                 name, inp = 'PowerShell', {**inp, 'command': inp.get('cmd', '')}
             elif name == 'apply_patch':
                 # No completed FileChange means patch outcome/content cannot be scored as a successful edit.
-                warnings.append('Patch lacks completed FileChange: ' + str(local_id))
-                errors.append('Unresolved patch write evidence: ' + str(local_id))
+                if rejected_patch:
+                    warnings.append('Recorded native patch rejection: ' + str(local_id))
+                else:
+                    warnings.append('Patch lacks completed FileChange: ' + str(local_id))
+                    errors.append('Unresolved patch write evidence: ' + str(local_id))
                 name = 'CodexPatch'
             elif name == 'exec':
                 name = 'CodexExec'
             if local_id not in outputs:
                 errors.append('Missing tool output: ' + str(local_id))
             call(sid, local_id, name or 'unknown', inp, row.get('timestamp'), outrow.get('timestamp'),
-                 text(out.get('output')), bool(out.get('is_error')) or bool(re.search(
+                 text(out.get('output')), rejected_patch or bool(out.get('is_error')) or bool(re.search(
                      r'(?:Process exited with code|Exit code:)\s*[1-9]\d*\b', text(out.get('output')))))
         if thread.get('dispatch'):
             final = [text((r.get('payload') or {}).get('content')) for r in rows

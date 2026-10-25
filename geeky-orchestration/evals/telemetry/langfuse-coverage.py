@@ -40,7 +40,30 @@ def text(value):
 
 
 def is_subagent_container(o):
-    return (o.get('type') == 'SPAN' and str(o.get('name', '')).startswith('Subagent:')) or o.get('name') == 'Codex Subagent Turn'
+    metadata = decoded(o.get('metadata')) or {}
+    return ((o.get('type') == 'AGENT' and isinstance(metadata, dict) and metadata.get('actor_scope') == 'subagent')
+            or (o.get('type') == 'SPAN' and str(o.get('name', '')).startswith('Subagent:'))
+            or o.get('name') == 'Codex Subagent Turn')
+
+
+def skill_read_text(observation):
+    raw = decoded(observation.get('input'))
+    if observation.get('name') == 'Tool: Read' and isinstance(raw, dict):
+        return str(raw.get('file_path', ''))
+    source = (raw.get('cmd') or raw.get('command')) if isinstance(raw, dict) else raw
+    if not isinstance(source, str) or not re.search(r'\b(?:Get-Content|cat|type)\b', source, re.I):
+        return text(raw)
+    # Resolve only one literal, non-interpolated binding from this same command.
+    # This is evidence normalization, never shell execution or cross-call guessing.
+    bindings = {}
+    for match in re.finditer(r'''\$(\w+)\s*=\s*(['"])([^'"\r\n$]+)\2''', source):
+        bindings.setdefault(match.group(1).lower(), []).append(match.group(3))
+    expanded = source
+    for name, values in bindings.items():
+        if len(values) == 1:
+            expanded = re.sub(r'\$' + re.escape(name) + r'(?=[/\\]SKILL\.md)',
+                              lambda _: values[0], expanded, flags=re.I)
+    return expanded
 
 
 def coverage(observations):
@@ -73,7 +96,7 @@ def coverage(observations):
         pattern = re.compile(r'(?:^|[:"/\\])%s(?:"|[/\\]SKILL\.md)' % re.escape(stage))
         point(f'stage:{stage}', (o for o in tools if o.get('name') == f'skill:{stage}'
                                  or (o.get('name') == 'Tool: Skill' and pattern.search(text(o.get('input'))))
-                                 or pattern.search(text(o.get('input'))) and f'skills/{stage}/SKILL.md' in text(o.get('input')).replace('\\\\', '/').replace('\\', '/')))
+                                 or pattern.search(skill_read_text(o)) and f'skills/{stage}/SKILL.md' in skill_read_text(o).replace('\\\\', '/').replace('\\', '/')))
     point('subagents', spawns)
     # geeky-implement makes the main thread the orchestrator; delegating it to geeky-implement-orchestrator
     # is the agent's choice (Claude usually does, Codex C0 attempt 5 did not), so nesting is informational.

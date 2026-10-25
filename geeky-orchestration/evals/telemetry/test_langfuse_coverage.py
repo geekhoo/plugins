@@ -17,6 +17,33 @@ def hits(points):
     return {p['point'] for p in points if p['hit']}
 
 
+def test_actor_owned_agent_trace_keeps_subagent_classification():
+    root = obs('coder', 'AGENT', 'codex-mxc-win-coder-task')
+    root['metadata'] = {'actor_scope': 'subagent', 'agent_role': 'coder'}
+    spawn = obs('review', 'TOOL', 'spawn_agent', 'coder', {'agent_type': 'code-reviewer'})
+    assert cov.is_subagent_container(root)
+    report = cov.coverage([root, spawn])
+    assert 'nested_subagents' in hits(report)
+
+
+def test_same_command_literal_variable_skill_read_counts():
+    command = "$r='C:/plugin/skills/impl-review'; Get-Content \"$r/SKILL.md\""
+    report = cov.coverage([obs('read', 'TOOL', 'exec_command', input_={'cmd': command})])
+    assert 'stage:impl-review' in hits(report)
+
+
+def test_claude_read_windows_skill_path_counts():
+    report = cov.coverage([obs('read', 'TOOL', 'Tool: Read', input_={
+        'file_path': r'C:\plugin\skills\geeky-plan\SKILL.md'})])
+    assert 'stage:geeky-plan' in hits(report)
+
+
+def test_ambiguous_variable_skill_read_is_not_guessed():
+    command = "$r='C:/plugin/skills/impl-review'; $r='C:/elsewhere'; Get-Content \"$r/SKILL.md\""
+    report = cov.coverage([obs('read', 'TOOL', 'exec_command', input_={'cmd': command})])
+    assert 'stage:impl-review' not in hits(report)
+
+
 def test_claude_names_cover_every_required_point():
     o = [obs('turn', 'SPAN', 'Conversational Turn')]
     o += [obs(f's{i}', 'TOOL', 'Tool: Skill', 'turn', {'skill': f'geeky-orchestration:{s}'}) for i, s in enumerate(cov.STAGES)]

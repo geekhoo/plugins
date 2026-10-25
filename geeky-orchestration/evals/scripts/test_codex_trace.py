@@ -2,6 +2,7 @@
 import importlib.util
 import json
 import os
+from types import SimpleNamespace
 from pathlib import Path
 
 import pytest
@@ -86,6 +87,59 @@ def test_completed_patch_keeps_edit_content_without_double_count(trace_folder):
     trace = SR.Trace(folder)
     edits = [c for c in trace.calls if c.name == 'Edit']
     assert len(edits) == 1 and 'T1' in edits[0].inp['new_string']
+
+
+@pytest.mark.parametrize('marked,complete', [(True, True), (False, False), ('true', False)])
+def test_compaction_proposal_is_not_an_executed_tool(trace_folder, marked, complete):
+    folder, rows = trace_folder
+    rows.insert(-1, row('response_item', {'type': 'function_call', 'name': 'write_stdin',
+        'call_id': 'compaction-proposal', 'arguments': '{"session_id":"finished-process"}'},
+        6, metadata={'compaction_output': marked}))
+    write_jsonl(folder / 'session.jsonl', rows)
+    report = CT.load(folder)
+    assert report['trace_complete'] is complete
+    if complete:
+        assert not any(c.id.endswith(':compaction-proposal') for c in SR.Trace(folder).calls)
+
+
+@pytest.mark.parametrize('output,complete', [('unsupported call: apply_patch', True), ('Success', False)])
+def test_native_patch_rejection_is_failure_without_successful_write(trace_folder, output, complete):
+    folder, rows = trace_folder
+    rows += [row('response_item', {'type': 'function_call', 'name': 'apply_patch', 'call_id': 'rejected-patch',
+        'arguments': json.dumps({'patch': '*** Begin Patch\n*** Add File: app.py\n+x\n*** End Patch'})}, 8),
+        row('response_item', {'type': 'function_call_output', 'call_id': 'rejected-patch', 'output': output}, 9)]
+    write_jsonl(folder / 'session.jsonl', rows)
+    report = CT.load(folder)
+    assert report['trace_complete'] is complete
+    if complete:
+        trace = SR.Trace(folder)
+        patch = next(c for c in trace.calls if c.name == 'CodexPatch')
+        assert patch.is_error and patch.text == output
+        assert not any(c.name in ('Edit', 'Write') for c in trace.calls)
+
+
+def test_reviewed_done_call_keeps_first_post_done_commit_policy():
+    scorer = SR.Scorer.__new__(SR.Scorer)
+    scorer.strict, scorer.done_call, scorer.coders, scorer.inprog = False, {}, {'T1': []}, {}
+    scorer.manual = {'validation_done_call.T1': {'pass': True, 'call_id': 'anchor'}}
+    anchor = SimpleNamespace(ts=SR.dt.datetime.fromtimestamp(10, SR.dt.timezone.utc), is_error=False,
+                             raw="Set-Content kanban.md '## Done T1'", text='DOD_OK: T1')
+    scorer.trace = SimpleNamespace(by_id={'anchor': anchor})
+    scorer.commits = [{'sha': char * 40, 'ct': time, 'tasks': ['T1']}
+                      for char, time in [('a', 11), ('b', 12), ('c', 30)]]
+    sha, fallback, basis = scorer.rerun_commit('T1')
+    assert sha == 'a' * 40 and not fallback
+    assert 'source-reviewed Done anchor' in basis
+    # A prior plan commit also names T1: the reviewed dispatch excludes it.
+    scorer.commits.insert(0, {'sha': 'p' * 40, 'ct': 5, 'tasks': ['T1']})
+    scorer.manual['validation_done_call.T1']['start_call_id'] = 'coder'
+    scorer.trace.by_id['coder'] = SimpleNamespace(name='Agent', is_error=False,
+        ts=SR.dt.datetime.fromtimestamp(9, SR.dt.timezone.utc), inp={'prompt': 'Implement T1', 'description': 'coder_t1'})
+    scorer.trace.role = lambda call: 'geeky-coder'
+    assert scorer.rerun_commit('T1')[0] == 'a' * 40
+    anchor.text = 'DOD_OK: T2'
+    with pytest.raises(ValueError, match='invalid source-reviewed Done'):
+        scorer.rerun_commit('T1')
 
 
 def add_child(folder, rows, with_activity=True, parent='main'):

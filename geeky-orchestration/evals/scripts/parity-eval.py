@@ -57,12 +57,19 @@ def git(ws, *args):
     return subprocess.run(['git', '-C', str(ws), *args], capture_output=True, text=True, encoding='utf-8').stdout
 
 
+def utc_time(value):
+    parsed = dt.datetime.fromisoformat(value.replace('Z', '+00:00'))
+    if parsed.tzinfo is None:
+        raise ValueError('Evaluation timestamps require an explicit timezone')
+    return parsed.astimezone(dt.timezone.utc).isoformat(timespec='microseconds')
+
+
 def commits(ws):
     out = []
     for line in git(ws, 'log', '--reverse', '--format=%H%x1f%cI%x1f%s').splitlines():
         sha, when, subject = line.split('\x1f')
         files = [f for f in git(ws, 'show', '--name-only', '--format=', sha).splitlines() if f]
-        out.append({'sha': sha, 'time': when, 'subject': subject, 'files': files,
+        out.append({'sha': sha, 'time': utc_time(when), 'subject': subject, 'files': files,
                     'body': git(ws, 'log', '-1', '--format=%B', sha)})
     return out
 
@@ -76,7 +83,7 @@ def head_moves(ws):
             continue
         when = re.search(r'\{(.+)\}', ref).group(1)
         files = [f for f in git(ws, 'show', '--name-only', '--format=', sha).splitlines() if f]
-        out.append({'sha': sha, 'time': when, 'subject': git(ws, 'log', '-1', '--format=%s', sha).strip(), 'files': files})
+        out.append({'sha': sha, 'time': utc_time(when), 'subject': git(ws, 'log', '-1', '--format=%s', sha).strip(), 'files': files})
     return sorted(out, key=lambda c: c['time'])
 
 
@@ -110,7 +117,7 @@ def events(observations):
             paths = [raw['file_path']]
         elif kind in ('shell', 'edit'):
             paths = [p for m in WRITES.finditer(body) for p in m.groups() if p]
-        out.append({'t': o.get('startTime') or '', 'name': name, 'kind': kind, 'thread': thread(o),
+        out.append({'t': utc_time(o['startTime']) if o.get('startTime') else '', 'name': name, 'kind': kind, 'thread': thread(o),
                     'role': role, 'text': body, 'paths': paths, 'output': COV.text(o.get('output'))})
     return sorted(out, key=lambda e: e['t'])
 
@@ -118,6 +125,15 @@ def events(observations):
 def latency_median_ms(observations):
     values = [o['latency'] * 1000 for o in observations if o.get('type') == 'GENERATION' and o.get('latency')]
     return round(statistics.median(values)) if values else None
+
+
+def commit_gate_runs(event):
+    if 'check-commit' not in event['text']:
+        return 0
+    # One captured shell call may invoke a checked commit helper several times.
+    # Preserve the established one-call fallback, but count each recorded PASS.
+    passes = re.findall(r'^OK: commit message valid\.\s*$', event.get('output', ''), re.M)
+    return max(1, len(passes))
 
 
 def gate(script, *args):
@@ -177,20 +193,23 @@ class Evaluation:
             return min(ts) if ts else None
         spec_c, plan_c, review_c = (c['time'] if c else None for c in (spec, plan, review))
         spec_t = spec_c
-        plan_t = earliest(plan_c, skill_at('plan-review', spec_c))
+        plan_dispatch = next((e['t'] for e in self.events if e['kind'] == 'spawn' and spec_c
+                              and e['t'] > spec_c and re.search(r'(?i)plan-review', e['text'][:400])), None)
+        plan_t = earliest(plan_c, skill_at('plan-review', spec_c), plan_dispatch)
         review_t = earliest(review_c, skill_at('geeky-implement', plan_c))
         plan_end = review_t
         final = next((e for e in self.events if e['kind'] == 'spawn' and plan_end and self.iso(e['t']) > plan_end
                       and REVIEW_FINAL.search(e['text']) and not re.search(r'(?i)\bphase\s*\d', e['text'][:400])), None)
+        final_t = earliest(skill_at('impl-review', review_t), self.iso(final['t']) if final else None)
         return {'spec-research': (start, spec_t),
                 'geeky-plan': (spec_t, plan_t),
                 'plan-review': (plan_t, plan_end),
-                'geeky-implement': (plan_end, self.iso(final['t']) if final else '9999'),
-                'impl-review': (self.iso(final['t']) if final else None, '9999')}
+                'geeky-implement': (plan_end, final_t or '9999'),
+                'impl-review': (final_t, '9999')}
 
     @staticmethod
     def iso(t):
-        return t.replace('Z', '+00:00')
+        return utc_time(t)
 
     def within(self, stage):
         lo, hi = self.bounds[stage]
@@ -264,7 +283,7 @@ class Evaluation:
         kanban = sum('validate-kanban' in e['text'] for e in shells)
         self.check('a.kanban_gate', A, 'pass' if kanban >= len(self.tasks) else 'fail', f'{kanban} validate-kanban runs for {len(self.tasks)} tasks')
         code_commits = [c for c in after if any(not f.startswith('docs/') for f in c['files'])]
-        cc = sum('check-commit' in e['text'] for e in shells)
+        cc = sum(commit_gate_runs(e) for e in shells)
         self.check('a.commit_gate', A, 'pass' if cc >= len(code_commits) else 'fail', f'{cc} check-commit runs for {len(code_commits)} code commits')
         tests = sum(bool(re.search(r'\bpytest\b', e['text'])) for e in impl if e['kind'] == 'shell')
         self.check('a.tests_run', A, 'pass' if tests else 'fail', f'{tests} pytest runs during implement')
@@ -315,7 +334,8 @@ class Evaluation:
         quality = self.score['dimensions']['quality']['capped']
         composite = (0.35 * quality + 0.35 * adherence + 0.20 * consistency) / 0.90
         return {'schema': 'geeky-eval.parity/1', 'harness': self.run.get('harness') or 'claude-code',
-                'run': self.run.get('run_id') or Path(self.run['workspace']).name, 'session_id': self.run.get('session_id'),
+                'run': self.run.get('run_id') or Path(self.run['workspace']).name,
+                'session_id': (self.run.get('telemetry') or {}).get('session_id') or self.run.get('session_id'),
                 'composite': round(composite, 2), 'quality': round(quality, 2),
                 'adherence': round(adherence, 2), 'adherence_uncapped': round(100 * a_ratio, 2),
                 'adherence_fraction': f"{sum(c['status'] == 'pass' for c in a_rows)}/{len(a_rows)}",

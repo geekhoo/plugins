@@ -69,17 +69,29 @@ def main(argv=None):
     ap.add_argument('--run', type=Path, required=True)
     ap.add_argument('--parity', type=Path, required=True)
     ap.add_argument('--dry-run', action='store_true')
+    ap.add_argument('--coverage', type=Path, help='Source-audited derived coverage report; original run.json stays unchanged')
     ap.add_argument('--public-key-env', default='LANGFUSE_PUBLIC_KEY')
     ap.add_argument('--secret-key-env', default='LANGFUSE_SECRET_KEY')
     ap.add_argument('--base-url-env', default='LANGFUSE_BASE_URL')
     a = ap.parse_args(argv)
     run = json.loads((a.run / 'run.json').read_text(encoding='utf-8'))
     parity = json.loads(a.parity.read_text(encoding='utf-8'))
-    session = run['session_id']
+    session = (run.get('telemetry') or {}).get('session_id') or run['session_id']
+    coverage_hash = None
+    if a.coverage:
+        coverage = json.loads(a.coverage.read_text(encoding='utf-8'))
+        if coverage.get('session_id') not in (None, session) or type(coverage.get('complete')) is not bool:
+            raise ValueError('Coverage report session or completeness is invalid')
+        run = {**run, 'telemetry': {**(run.get('telemetry') or {}), 'coverage_complete': coverage['complete']}}
+        coverage_hash = hashlib.sha256(a.coverage.read_bytes()).hexdigest()
     values, comments = scores(run, parity)
     environment = (run.get('telemetry') or {}).get('environment') or 'mxc'
     meta = {'harness': parity['harness'], 'case': run.get('case'), 'run': a.run.name, 'model': run.get('model'),
-            'plugin_sha': run.get('plugin_sha'), 'evaluator': 'parity-eval/1'}
+            'plugin_sha': run.get('plugin_sha'), 'evaluator': 'parity-eval/1',
+            'environment': environment, 'agent_family': (run.get('telemetry') or {}).get('agent_family'),
+            'native_session_id': run.get('session_id')}
+    if coverage_hash:
+        meta['coverage_report_sha256'] = coverage_hash
     if a.dry_run:
         print(json.dumps({'session': session, 'scores': values, 'metadata': meta}, indent=2))
         return 0
