@@ -1,0 +1,18 @@
+diff --git a/docs/spec-001-feature/handoff.md b/docs/spec-001-feature/handoff.md
+index 5a0a5d6..e305710 100644
+--- a/docs/spec-001-feature/handoff.md
++++ b/docs/spec-001-feature/handoff.md
+@@ -97,4 +97,13 @@ Decisions made without human input (Phase 2/3):
+ - Phase 2 (Prove): T3, T4 Done — READY TO ADVANCE (aee9018e6ba0b5b8d).
+ - Full suite: 56 passed. Kanban: 4/4 Done. Validation Checklist release gate: all boxes checked; AC1–AC13 satisfied per phase reviews and byte-exact evidence.
+ 
++### impl-review — remediation decisions (2026-10-25)
++
++| # | Question | Decision | Reason |
++|---|---|---|---|
++| D22 | CLI stdout-write hole (reviewer warning, confidence 80) | Elevated to Critical (C-impl-1) and fixed | A `BrokenPipeError` on `sys.stdout.write` escapes `main()` as a traceback (exit 1) or interpreter-shutdown exit 120 — demonstrably defeats AC11 "never a traceback" and the contract exit table (only 0/1/2/3; exit 1 reserved for `wordstat: error: internal error`). Closest to contract.md. |
++| D23 | Internal-error test over-pin (`tests/test_contract.py` exact body) | Applied the reviewer fix: pin contract shape (exit 1, empty stdout, `wordstat: error: ` prefix, single line, no Traceback), not the body text | The contract does not pin the exit-1 body; the option closest to contract.md is a test that only asserts contract guarantees. D6's chosen wording stays in the implementation and spec; it is no longer test-enforced. |
++
++Other reviewer suggestions (counts `top_n` guard, reconfigure spy, `--top` wording, `test_empty_text` exactness, `draft.md` Status column) recorded as follow-ups; `draft.md` is a frozen planning artifact and was not edited.
++
+ RESUME: run complete — next: /impl-review docs/spec-001-feature/ (loop until PASS)

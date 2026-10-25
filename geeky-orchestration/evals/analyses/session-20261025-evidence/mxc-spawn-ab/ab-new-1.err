@@ -1,0 +1,7 @@
+Unhandled exception. System.InvalidOperationException: this standard stream is being drained internally by a wait; take StandardOutput/StandardError before calling Wait/WaitAsync
+   at Microsoft.Mxc.Sdk.V1.MxcProcess.TakeReadStream(ReadStreamState& state, MxcReadPipeStream& slot, Boolean stdout)
+   at Microsoft.Mxc.Sdk.V1.MxcProcess.get_StandardOutput()
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__RunHeadlessAsync|1>d.MoveNext() in /home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/Program.cs:line 130
+--- End of stack trace from previous location ---
+   at Program.<Main>$(String[] args) in /home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/Program.cs:line 61
+   at Program.<Main>(String[] args)

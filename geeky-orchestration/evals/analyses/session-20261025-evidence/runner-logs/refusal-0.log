@@ -1,0 +1,20 @@
+workspace: /root/repos/eval-c0-wordstat-20261025T025419Z (seed 4612faf2713a87e56cde7ec40e237d9927632433)
+empty-workspace oracle: passed=0 failed=0 errors=13 (ok)
+{
+  "tokens": {
+    "input": 587352,
+    "cached_input": 514600,
+    "cache_creation": 41460,
+    "output": 23606,
+    "total": 610958,
+    "cost_usd_estimate": 0.6761,
+    "reasoning": 50
+  },
+  "model_calls": 1,
+  "latency_median_ms": 40,
+  "max_idle_gap_s": 0,
+  "impl_review_rounds": null,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}
+stored: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T025419Z

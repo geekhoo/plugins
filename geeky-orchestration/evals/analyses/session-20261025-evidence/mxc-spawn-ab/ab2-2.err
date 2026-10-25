@@ -1,0 +1,8 @@
+Unhandled exception. System.IO.IOException: The process cannot access the file '/root/.claude/.claude.json' because it is being used by another process.
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Init(String path, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, Int64& fileLength, UnixFileMode& filePermissions)
+   at Microsoft.Win32.SafeHandles.SafeFileHandle.Open(String fullPath, FileMode mode, FileAccess access, FileShare share, FileOptions options, Int64 preallocationSize, UnixFileMode openPermissions, Int64& fileLength, UnixFileMode& filePermissions, Boolean failForSymlink, Boolean& wasSymlink, Func`4 createOpenException)
+   at System.IO.FileSystem.CopyFile(String sourceFullPath, String destFullPath, Boolean overwrite)
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__RunHeadlessAsync|1>d.MoveNext() in /home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/Program.cs:line 124
+--- End of stack trace from previous location ---
+   at Program.<Main>$(String[] args) in /home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/Program.cs:line 61
+   at Program.<Main>(String[] args)

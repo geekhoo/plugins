@@ -1,0 +1,5 @@
+== claude-code c0-wordstat
+   PASS  exit=0 checks=74 failed=[] telemetry=delivered (196 obs) 40s
+== codex c0-wordstat
+   PASS  exit=0 checks=9 failed=[] telemetry=delivered (10 obs) 29s
+matrix: /root/repos/mock-preflight-claudex/matrix.md

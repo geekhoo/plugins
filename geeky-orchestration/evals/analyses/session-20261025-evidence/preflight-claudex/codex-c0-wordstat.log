@@ -1,0 +1,24 @@
+{"ok": true, "report": "/root/repos/.eval-cfg-codex-20261025T052641Z-314618c6/codex-profile.json"}
+workspace: /root/repos/eval-c0-wordstat-codex-20261025T052641Z-314618c6 (seed 1556bb77169323ae31632fe071f1c860e058a236)
+prepared: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T052641Z-314618c6
+mxc-sandbox: building host into /root/repos/.eval-cfg-codex-20261025T052641Z-314618c6/mxc-runner/bin
+{"main_thread_id": "1d096965-20af-44f3-8b8b-29c2473e99c3", "threads": [{"thread_id": "1d096965-20af-44f3-8b8b-29c2473e99c3", "parent_thread_id": null, "file": "session.jsonl"}]}
+langfuse: session 1d096965-20af-44f3-8b8b-29c2473e99c3: 1 traces, 10 observations (1 generations, 8 tool calls), 0 truncated
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "reasoning": 0,
+    "total": 0,
+    "cost_usd_estimate": null
+  },
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 3,
+  "impl_review_rounds": null,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}
+stored: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T052641Z-314618c6 (analysis status: awaiting-rollout; score-run.py requires reviewed manual verdicts)
