@@ -80,8 +80,10 @@ if ($MockAgent -and $MockScenario -match '\bslow\b' -and -not $PSBoundParameters
 if ($Litellm) {
     if (-not $Model) { throw '-Litellm needs -Model (the LiteLLM model name)' }
     if (-not $env:LITELLM_PROXY_URL -or -not $env:LITELLM_PROXY_API_KEY) { throw '-Litellm needs LITELLM_PROXY_URL and LITELLM_PROXY_API_KEY' }
-    # Process scope only, so the MXC host can copy it by bare name; ANTHROPIC_AUTH_TOKEN outranks any OAuth token.
-    $env:ANTHROPIC_AUTH_TOKEN = $env:LITELLM_PROXY_API_KEY
+    # LiteLLM takes its virtual key as an API key (x-api-key), not a bearer auth token. Process scope only,
+    # so the MXC host can copy it by bare name; clearing the OAuth token keeps the run on the key.
+    $env:ANTHROPIC_API_KEY = $env:LITELLM_PROXY_API_KEY
+    Remove-Item Env:ANTHROPIC_AUTH_TOKEN, Env:CLAUDE_CODE_OAUTH_TOKEN -ErrorAction SilentlyContinue
 } else {
     if (-not $env:CLAUDE_CODE_OAUTH_TOKEN) {
         $env:CLAUDE_CODE_OAUTH_TOKEN = [Environment]::GetEnvironmentVariable('CLAUDE_CODE_OAUTH_TOKEN', 'User')
@@ -196,7 +198,7 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
 if ($telemetry) { $hostArgs += @('--rw', $telemetry.StateDir) + @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs }
 if ($Litellm) {
-    $hostArgs += @('--env', "ANTHROPIC_BASE_URL=$($env:LITELLM_PROXY_URL.TrimEnd('/'))", '--env', 'ANTHROPIC_AUTH_TOKEN',
+    $hostArgs += @('--env', "ANTHROPIC_BASE_URL=$($env:LITELLM_PROXY_URL.TrimEnd('/'))", '--env', 'ANTHROPIC_API_KEY',
         # One model everywhere: main loop, aliases subagents may name, and background/small-model calls.
         '--env', "ANTHROPIC_DEFAULT_OPUS_MODEL=$Model", '--env', "ANTHROPIC_DEFAULT_SONNET_MODEL=$Model",
         '--env', "ANTHROPIC_DEFAULT_HAIKU_MODEL=$Model", '--env', "CLAUDE_CODE_SUBAGENT_MODEL=$Model",
