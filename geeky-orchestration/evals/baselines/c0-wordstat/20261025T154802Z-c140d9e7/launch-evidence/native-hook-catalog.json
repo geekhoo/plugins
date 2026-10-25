@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "cwd": "C:\\repos\\c0-claudex-001\\eval-c0-wordstat-codex-20261025T154802Z-c140d9e7",
+      "hooks": [
+        {
+          "key": "C:\\<session-flags>\\config.toml:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe C:\\repos\\c0-claudex-001\\.eval-cfg-codex-20261025T154802Z-c140d9e7\\home\\guard-bridge.py --guard C:\\repos\\c0-claudex-001\\.eval-cfg-codex-20261025T154802Z-c140d9e7\\plugin\\geeky-orchestration\\hooks\\guard-planning-contract.py",
+          "async": false,
+          "matcher": "Edit|Write|NotebookEdit|apply_patch",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "C:\\<session-flags>\\config.toml",
+          "source": "sessionFlags",
+          "pluginId": null,
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:31b211f4dc3668d68e3124a0ee21398411210990a47738f693000029f703e19a",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "C:\\<session-flags>\\config.toml:stop:0:0",
+          "eventName": "stop",
+          "handlerType": "command",
+          "command": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe C:\\repos\\c0-claudex-001\\.eval-cfg-codex-20261025T154802Z-c140d9e7\\home\\langfuse-tracer.py",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 600,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "C:\\<session-flags>\\config.toml",
+          "source": "sessionFlags",
+          "pluginId": null,
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:83cb0f70c0878836c4046c80d6ce703d0874b72ca384b6e4db6659efb2e2c199",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "warnings": [],
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "session_id": "codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+  "environment": "mxc-win",
+  "observations": 536,
+  "traces": 21,
+  "users": 21,
+  "role_counts": {
+    "reviewer": 10,
+    "coder": 5,
+    "unknown": 5,
+    "orchestrator": 1
+  },
+  "requested_native_models": [
+    "claudex-001"
+  ],
+  "generation_models": [
+    "claudex-001"
+  ],
+  "root_trace_id": "eb9dd617c4986a3522b9f51cd9908459",
+  "project_id": "cmvmyexpu0001o01ubyvac5jw",
+  "trace_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/traces/eb9dd617c4986a3522b9f51cd9908459",
+  "session_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/sessions/codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+  "raw_hashes_preserved": {
+    "stream": "7ca1c750b5ed4186cf21c3983b6f6caab6c996f58a7e7e6a087dc8a85545e7cc",
+    "session": "34699042681c209a3d78099aef28cf07f831ab5fe5e86b2f605fca58b0a02431"
+  },
+  "coverage_original_missed": [
+    "stage:impl-review"
+  ],
+  "coverage_corrected_complete": true
+}

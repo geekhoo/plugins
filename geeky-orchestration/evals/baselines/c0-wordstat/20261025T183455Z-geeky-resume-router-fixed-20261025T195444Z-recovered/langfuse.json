@@ -1,0 +1,134 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+  "traces": 33,
+  "observations": 892,
+  "by_type": {
+    "AGENT": 33,
+    "GENERATION": 329,
+    "TOOL": 530
+  },
+  "generations": 329,
+  "tool_calls": 530,
+  "subagents": 16,
+  "user_ids": [
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a2236489613af20f4",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a23141c8250bb146c",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-aa1bd716ce9a20794",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-ab91f2ba886df03f5",
+    "claude-mxc-win-orchestrator-d604ad01-339f-4179-8448-b14fe73088d4",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a066d485f6cb7c1e8",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a0cc489678b2a03de",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a419fd7177a15a1cf",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a4d26bd5d0b37b251",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a585e2d2b3e77bb1a",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf02eecdffa4f1ba",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf8f6055795edf06",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-af3ff0272e4b28391",
+    "claude-mxc-win-unknown-geeky-orchestration-code-architect-adb258ccde2a30b01",
+    "claude-mxc-win-unknown-geeky-orchestration-code-explorer-ad42f1b269d46bf05",
+    "claude-mxc-win-unknown-general-purpose-a7ca3fcb5a81109b1",
+    "claude-mxc-win-unknown-general-purpose-aeff85155a94a5dd2"
+  ],
+  "agent_roles": [
+    "coder",
+    "orchestrator",
+    "reviewer",
+    "unknown"
+  ],
+  "agent_families": [
+    "claude-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 71800,
+    "output": 612236,
+    "cache_read_input_tokens": 17348362,
+    "input_cache_creation_5m": 1271623,
+    "total": 19349407,
+    "cache_creation_input_tokens": 45386
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T19:55:00.689Z",
+  "last_start": "2026-10-25T21:25:02.980Z",
+  "top_names": [
+    [
+      "Tool: Read",
+      178
+    ],
+    [
+      "Subagent LLM Call",
+      166
+    ],
+    [
+      "LLM Call",
+      163
+    ],
+    [
+      "Tool: PowerShell",
+      91
+    ],
+    [
+      "Tool: Edit",
+      90
+    ],
+    [
+      "Tool: Grep",
+      58
+    ],
+    [
+      "Tool: Write",
+      32
+    ],
+    [
+      "Tool: Glob",
+      27
+    ],
+    [
+      "Tool: WebFetch",
+      24
+    ],
+    [
+      "claude-mxc-win-orchestrator",
+      17
+    ],
+    [
+      "Tool: Agent",
+      17
+    ],
+    [
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer",
+      8
+    ],
+    [
+      "Tool: Bash",
+      7
+    ],
+    [
+      "Tool: Skill",
+      4
+    ],
+    [
+      "claude-mxc-win-coder-geeky-orchestration-geeky-coder",
+      4
+    ],
+    [
+      "claude-mxc-win-unknown-general-purpose",
+      2
+    ],
+    [
+      "Tool: ToolSearch",
+      2
+    ],
+    [
+      "claude-mxc-win-unknown-geeky-orchestration-code-architect",
+      1
+    ],
+    [
+      "claude-mxc-win-unknown-geeky-orchestration-code-explorer",
+      1
+    ]
+  ]
+}

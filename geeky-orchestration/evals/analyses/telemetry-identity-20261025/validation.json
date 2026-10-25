@@ -1,0 +1,29 @@
+{
+  "schema": "geeky-eval.telemetry-identity-validation/1",
+  "base_revision": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+  "checked_utc": "2026-10-25T15:07:31.1364839Z",
+  "paid_model_calls": 0,
+  "paid_evaluations": 0,
+  "llm_judges": 0,
+  "focused_tests": {
+    "command": "python -m pytest geeky-orchestration/evals/telemetry geeky-orchestration/evals/scripts/test_parity_eval.py geeky-orchestration/evals/adapters/codex/test_mock_codex.py geeky-orchestration/evals/adapters/codex/test_profile.py -q -p no:cacheprovider",
+    "failed": 0,
+    "passed": 50
+  },
+  "pinned_originals_unchanged": true,
+  "syntax_checks": "PowerShell parsers and node --check passed",
+  "live_identity_readback": "live-verification.json",
+  "unannounced_recovery": "codex-unannounced-verification.json",
+  "platform_live_tested": [
+    "win"
+  ],
+  "platform_naming_tested": [
+    "win",
+    "linux",
+    "mac"
+  ],
+  "uncommitted": true,
+  "mock_matrix": "windows-c0-matrix.json",
+  "mock_cli_readback": "windows-c0-identity-readback.json",
+  "regression_log": "regression-tests.log"
+}

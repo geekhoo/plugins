@@ -1,0 +1,161 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+  "traces": 21,
+  "observations": 536,
+  "by_type": {
+    "GENERATION": 229,
+    "TOOL": 286,
+    "AGENT": 21
+  },
+  "generations": 229,
+  "tool_calls": 286,
+  "subagents": 20,
+  "user_ids": [
+    "codex-mxc-win-coder-faraday-01a173e1-3e77-7a43-b33c-3ba7eb62275b",
+    "codex-mxc-win-coder-herschel-01a173dc-5e9d-7621-be4a-56e5204bbe11",
+    "codex-mxc-win-coder-pauli-01a173e2-86ef-7ba3-9024-ee7504f8c5e3",
+    "codex-mxc-win-coder-sartre-01a173e5-e4b0-7730-aaf4-9ec3772058d5",
+    "codex-mxc-win-coder-tesla-01a173e6-8e0b-7c32-9fea-a578e0bf2a1e",
+    "codex-mxc-win-orchestrator-01a173bf-708d-7ad3-9a6b-2c7463adec7d",
+    "codex-mxc-win-reviewer-aquinas-01a173e9-84ff-7460-a693-64cc80449dba",
+    "codex-mxc-win-reviewer-aristotle-01a173de-cea1-7731-859b-11d969d71738",
+    "codex-mxc-win-reviewer-confucius-01a173de-cc64-7811-8e83-6814758ded21",
+    "codex-mxc-win-reviewer-godel-01a173e9-82f0-7812-8469-6c63006cbea9",
+    "codex-mxc-win-reviewer-hooke-01a173e7-94f4-78d2-807a-e35988c66ca6",
+    "codex-mxc-win-reviewer-james-01a173e4-86bb-7b21-9bfc-d8840586f45c",
+    "codex-mxc-win-reviewer-kuhn-01a173e9-81e3-7c60-8e10-40e0e4b50256",
+    "codex-mxc-win-reviewer-peirce-01a173cf-1dd4-7fc0-ac59-839d57ae80d1",
+    "codex-mxc-win-reviewer-schrodinger-01a173dd-ac72-7f01-b7d8-4f1c8960ab9d",
+    "codex-mxc-win-reviewer-singer-01a173de-d11f-7d23-95b8-f692ef543dde",
+    "codex-mxc-win-unknown-gibbs-01a173bf-fe89-7a71-b40c-79659f9aed8b",
+    "codex-mxc-win-unknown-hilbert-01a173bf-fb76-7f71-9d12-ffda1bb49ca2",
+    "codex-mxc-win-unknown-jason-01a173c5-0602-7742-9f32-de62ba3557dc",
+    "codex-mxc-win-unknown-kant-01a173d8-0f2b-7d60-bb26-a52afff2056d",
+    "codex-mxc-win-unknown-pasteur-01a173bf-fc82-7741-b647-517db3ec5a54"
+  ],
+  "agent_roles": [
+    "coder",
+    "orchestrator",
+    "reviewer",
+    "unknown"
+  ],
+  "agent_families": [
+    "codex-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 11329980,
+    "output": 159389,
+    "total": 12896556,
+    "input_cached_tokens": 1339264,
+    "output_reasoning_tokens": 67923
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T15:48:09.245Z",
+  "last_start": "2026-10-25T16:35:27.534Z",
+  "top_names": [
+    [
+      "exec_command",
+      221
+    ],
+    [
+      "LLM Subagent",
+      150
+    ],
+    [
+      "LLM",
+      79
+    ],
+    [
+      "wait_agent",
+      20
+    ],
+    [
+      "spawn_agent",
+      20
+    ],
+    [
+      "write_stdin",
+      11
+    ],
+    [
+      "exec",
+      6
+    ],
+    [
+      "skill:geeky-implement",
+      2
+    ],
+    [
+      "codex-mxc-win-reviewer-aquinas",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-godel",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-kuhn",
+      1
+    ],
+    [
+      "skill:r",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-hooke",
+      1
+    ],
+    [
+      "codex-mxc-win-coder-tesla",
+      1
+    ],
+    [
+      "codex-mxc-win-coder-sartre",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-james",
+      1
+    ],
+    [
+      "codex-mxc-win-coder-pauli",
+      1
+    ],
+    [
+      "codex-mxc-win-coder-faraday",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-singer",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-aristotle",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-confucius",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-schrodinger",
+      1
+    ],
+    [
+      "apply_patch",
+      1
+    ],
+    [
+      "codex-mxc-win-coder-herschel",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-kant",
+      1
+    ]
+  ]
+}

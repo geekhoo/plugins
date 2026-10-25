@@ -1,0 +1,92 @@
+[
+  {
+    "harness": "codex",
+    "session_id": "codex-mxc-win-c0-wordstat-20261025T145154Z-identity-final",
+    "environment": "mxc-win",
+    "observations": 8,
+    "agent_traces": [
+      {
+        "name": "codex-mxc-win-reviewer-reviewer-smoke",
+        "user_id": "codex-mxc-win-reviewer-reviewer-smoke-da517bf6-a104-4903-9f8e-61d0972ce8c2",
+        "trace_id": "86d1df73da7c99343641ac1fa575ce1f",
+        "agent_id": "da517bf6-a104-4903-9f8e-61d0972ce8c2",
+        "agent_role": "reviewer",
+        "parent_agent_id": "20e88312-5495-4c18-b191-43cc283e8457",
+        "parent_trace_id": "2ba4ae3982891e695e019e7d0fff1daa",
+        "parent_observation_id": "da9802273ef5d420"
+      },
+      {
+        "name": "codex-mxc-win-coder-coder-smoke",
+        "user_id": "codex-mxc-win-coder-coder-smoke-20e88312-5495-4c18-b191-43cc283e8457",
+        "trace_id": "2ba4ae3982891e695e019e7d0fff1daa",
+        "agent_id": "20e88312-5495-4c18-b191-43cc283e8457",
+        "agent_role": "coder",
+        "parent_agent_id": "86afabf0-d43b-4596-af59-a41a490c593a",
+        "parent_trace_id": "727a68c4a31d4972f080d6a92a7aeb32",
+        "parent_observation_id": "9a5dd185b7c98e78"
+      },
+      {
+        "name": "codex-mxc-win-orchestrator",
+        "user_id": "codex-mxc-win-orchestrator-86afabf0-d43b-4596-af59-a41a490c593a",
+        "trace_id": "727a68c4a31d4972f080d6a92a7aeb32",
+        "agent_id": "86afabf0-d43b-4596-af59-a41a490c593a",
+        "agent_role": "orchestrator",
+        "parent_agent_id": null,
+        "parent_trace_id": null,
+        "parent_observation_id": null
+      }
+    ],
+    "paid_model_calls": 0,
+    "verified": true,
+    "trace_urls": [
+      "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/traces/86d1df73da7c99343641ac1fa575ce1f",
+      "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/traces/2ba4ae3982891e695e019e7d0fff1daa",
+      "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/traces/727a68c4a31d4972f080d6a92a7aeb32"
+    ]
+  },
+  {
+    "harness": "claude-code",
+    "session_id": "claude-mxc-win-c0-wordstat-20261025T145157Z-identity-final",
+    "environment": "mxc-win",
+    "observations": 10,
+    "agent_traces": [
+      {
+        "name": "claude-mxc-win-reviewer-reviewer-smoke",
+        "user_id": "claude-mxc-win-reviewer-reviewer-smoke-4f27ce1c-2bd5-41d5-958d-de539913ceb9",
+        "trace_id": "8af2019f0fa5e16d799155fabf7aa334",
+        "agent_id": "4f27ce1c-2bd5-41d5-958d-de539913ceb9",
+        "agent_role": "reviewer",
+        "parent_agent_id": "09dce7da-ec21-40f4-94c0-0cc234374e22",
+        "parent_trace_id": "509185c15ec8313bfa66afe72106eaf3",
+        "parent_observation_id": "66a41c7619b4f7d4"
+      },
+      {
+        "name": "claude-mxc-win-coder-coder-smoke",
+        "user_id": "claude-mxc-win-coder-coder-smoke-09dce7da-ec21-40f4-94c0-0cc234374e22",
+        "trace_id": "509185c15ec8313bfa66afe72106eaf3",
+        "agent_id": "09dce7da-ec21-40f4-94c0-0cc234374e22",
+        "agent_role": "coder",
+        "parent_agent_id": "e95ae280-0c07-4d98-ae56-f6fa86cfa61d",
+        "parent_trace_id": "491aa5ff63bc0a6086e748fe23d6a2e9",
+        "parent_observation_id": "26ebe8ab0358024f"
+      },
+      {
+        "name": "claude-mxc-win-orchestrator",
+        "user_id": "claude-mxc-win-orchestrator-e95ae280-0c07-4d98-ae56-f6fa86cfa61d",
+        "trace_id": "491aa5ff63bc0a6086e748fe23d6a2e9",
+        "agent_id": "e95ae280-0c07-4d98-ae56-f6fa86cfa61d",
+        "agent_role": "orchestrator",
+        "parent_agent_id": null,
+        "parent_trace_id": null,
+        "parent_observation_id": null
+      }
+    ],
+    "paid_model_calls": 0,
+    "verified": true,
+    "trace_urls": [
+      "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/traces/8af2019f0fa5e16d799155fabf7aa334",
+      "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/traces/509185c15ec8313bfa66afe72106eaf3",
+      "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/traces/491aa5ff63bc0a6086e748fe23d6a2e9"
+    ]
+  }
+]

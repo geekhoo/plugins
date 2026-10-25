@@ -1,0 +1,22 @@
+{
+  "schema": "geeky-eval.mock-matrix/1",
+  "stamp": "20261025T140920Z",
+  "platform": "Microsoft Windows 10.0.26300",
+  "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+  "runs": [
+    {
+      "harness": "codex",
+      "case": "c0-wordstat",
+      "runner_exit": 0,
+      "wall_s": 29,
+      "checks_passed": 9,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 10,
+      "folder": "C:\\repos\\.eval-tools\\windows-setup\\preflight-20261025T140919Z\\codex-c0-wordstat",
+      "ok": true
+    }
+  ],
+  "ok": true
+}

@@ -1,0 +1,18 @@
+{
+  "status": "blocked-before-tools",
+  "user_requested_restart": true,
+  "workspace": "C:\\repos\\c0-claudex-001\\eval-c0-wordstat-20261025T183455Z",
+  "native_session_id": "38156247-f588-4dac-86a1-df2c93fec26b",
+  "langfuse_session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume",
+  "model": "claudex-001",
+  "thinking": "Claude default",
+  "exit_code": 1,
+  "exit_reason": "aborted",
+  "provider_error": "MissingSessionID HTTP400; no fallback attempted",
+  "tool_calls": 0,
+  "traces": 1,
+  "observations": 2,
+  "recorded_model_tokens": 0,
+  "parity_composite": null,
+  "note": "geeky-resume instructions and run-local plugin roots were supplied, but provider rejected the first model request."
+}

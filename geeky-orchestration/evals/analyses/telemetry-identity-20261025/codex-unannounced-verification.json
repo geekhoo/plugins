@@ -1,0 +1,36 @@
+{
+  "session_id": "codex-mxc-win-c0-wordstat-20261025T145524Z-identity-unannounced",
+  "environment": "mxc-win",
+  "paid_model_calls": 0,
+  "verified": true,
+  "roles": [
+    "reviewer",
+    "coder",
+    "orchestrator"
+  ],
+  "users": [
+    "codex-mxc-win-reviewer-reviewer-smoke-5b81250d-1b6e-49fa-aee9-c8cb236b310d",
+    "codex-mxc-win-coder-coder-smoke-7c758364-624a-49ec-b6c8-009ab8d281f2",
+    "codex-mxc-win-orchestrator-2905c2c6-df82-47aa-bf99-d4160b61396c"
+  ],
+  "agent_traces": [
+    {
+      "name": "codex-mxc-win-reviewer-reviewer-smoke",
+      "userId": "codex-mxc-win-reviewer-reviewer-smoke-5b81250d-1b6e-49fa-aee9-c8cb236b310d",
+      "traceId": "d53ea1ae953e75d8ca268ef8341cd639",
+      "parent_agent_id": "7c758364-624a-49ec-b6c8-009ab8d281f2"
+    },
+    {
+      "name": "codex-mxc-win-coder-coder-smoke",
+      "userId": "codex-mxc-win-coder-coder-smoke-7c758364-624a-49ec-b6c8-009ab8d281f2",
+      "traceId": "f3383d62a9004c3d43999d0835c733c6",
+      "parent_agent_id": "2905c2c6-df82-47aa-bf99-d4160b61396c"
+    },
+    {
+      "name": "codex-mxc-win-orchestrator",
+      "userId": "codex-mxc-win-orchestrator-2905c2c6-df82-47aa-bf99-d4160b61396c",
+      "traceId": "9ccc2319cc53278fd2e51167f226a78b",
+      "parent_agent_id": null
+    }
+  ]
+}

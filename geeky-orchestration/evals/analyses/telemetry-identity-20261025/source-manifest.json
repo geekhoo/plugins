@@ -1,0 +1,78 @@
+[
+  {
+    "path": "geeky-orchestration/evals/scripts/parity-eval.py",
+    "sha256": "462beaf3ada557984c1a00d1931f4070618ed43164529ba5dead62a727cae4be"
+  },
+  {
+    "path": "geeky-orchestration/evals/scripts/run-baseline.ps1",
+    "sha256": "7785e2606071a26e75af9b8f54dbbeaeac97992ac8fdef45cf3236854589430d"
+  },
+  {
+    "path": "geeky-orchestration/evals/scripts/run-codex-baseline.ps1",
+    "sha256": "f15be0bb8d0c1d535501fe20e5be7517bf78d7a78e6d517194758194987a4ac1"
+  },
+  {
+    "path": "geeky-orchestration/evals/scripts/test_parity_eval.py",
+    "sha256": "ac80ff7098ad1b12deeb48ef654520cdf9140576541c0af0bd2bdf2f3d334335"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/agent_identity.py",
+    "sha256": "5efd42a700169b959581295e5a563eb5298ee9b13ed0b1cf0aed3ed5ff04f4c6"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/claude_identity.py",
+    "sha256": "b1d3654c8588f6f2f68c44ecb2b7c07131f135e193b07edd12ca6f6fc6ded212"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/claude-hook-boot.py",
+    "sha256": "418f27b0582809b231d7d9e916afb05ffe708ef3b4bb427d9b5fbb46dc56dffc"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/codex-flush.py",
+    "sha256": "502dae811b7f7d2034318a6c83c498b24df073b70bef79a16b641608422e5bfa"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/codex-identity.mjs",
+    "sha256": "072ab62247e5e15c44e19c663c411316bacc5ceeb56545a84ef256560fa81a35"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/identity-smoke.py",
+    "sha256": "95f26abaa4008d5ae2cb0c68031ac3930f14bbcc20586a59e1467c1f04474b71"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/install-telemetry-tools.ps1",
+    "sha256": "a472c9fb0071071bfc9c864505d69750d66eaa395eef19739e28688be2ef0f4d"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/langfuse-coverage.py",
+    "sha256": "73d8478c2ff3e92c0a86d9644c061f52c98996643b446ed610ce9921aa351540"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/langfuse-run.py",
+    "sha256": "4cc3f176e94c3d89c6f07f97379a7c585b8df30a6cda8996e9198d8b35054f38"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/langfuse-scores.py",
+    "sha256": "6d3c8b9b7b5cd2fa3a1cc0ed5fe8a995268f309a0168af1f56ee015965cbc213"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/patch-codex-tracer.mjs",
+    "sha256": "e2f55d0f4b9446e443de34886c1bb446c3cc26c49089a469ef701ea16ea3df4c"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/telemetry.ps1",
+    "sha256": "41bae41bfeb0d50acf3ec3af3705f94786ec140014627d226ea1b0bb6090c692"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/test_agent_identity.py",
+    "sha256": "0465e1872139e62663785c0522372b94805f452dbfbcf7f733ec4b3a61ba61c7"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/test_langfuse_coverage.py",
+    "sha256": "254fb199af2e9fcd6bcbf8b1815e2d0a2bcead38be1ad9436283cd130ea1c187"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/test_langfuse_run.py",
+    "sha256": "5cced72b302cdf65cd10fe0554fb053dd67a125a65f87577e611b88e7a33281b"
+  }
+]

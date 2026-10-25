@@ -1,0 +1,39 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume",
+  "traces": 1,
+  "observations": 2,
+  "by_type": {
+    "AGENT": 1,
+    "GENERATION": 1
+  },
+  "generations": 1,
+  "tool_calls": 0,
+  "subagents": 0,
+  "user_ids": [
+    "claude-mxc-win-orchestrator-38156247-f588-4dac-86a1-df2c93fec26b"
+  ],
+  "agent_roles": [
+    "orchestrator"
+  ],
+  "agent_families": [
+    "claude-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {},
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T19:40:32.442Z",
+  "last_start": "2026-10-25T19:40:34.678Z",
+  "top_names": [
+    [
+      "claude-mxc-win-orchestrator",
+      1
+    ],
+    [
+      "LLM Call",
+      1
+    ]
+  ]
+}

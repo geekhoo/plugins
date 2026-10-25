@@ -1,0 +1,152 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "harness_version": "2.1.304",
+  "model": "claudex-001",
+  "reasoning": "default",
+  "approach": "canonical-prompt",
+  "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "geeky_skills_loaded": 8,
+  "workspace": "C:\\repos\\c0-claudex-001\\eval-c0-wordstat-20261025T183455Z",
+  "seed_sha": "d06eb6d1cd2f5419d644550a004c2c3e873c3ea8",
+  "session_id": "cb9fee8c-3bf6-463c-a093-82b8de2d7843",
+  "started_utc": "2026-10-25T18:34:57.1204739Z",
+  "ended_utc": "2026-10-25T19:13:45.2910240Z",
+  "wall_time_s": 2328,
+  "tokens": {
+    "input": 2511862,
+    "cached_input": 1877775,
+    "cache_creation": 120974,
+    "output": 121858,
+    "total": 2633720,
+    "cost_usd_estimate": 7.307,
+    "reasoning": 922
+  },
+  "model_calls": 12,
+  "latency_median_ms": 4286,
+  "max_idle_gap_s": 815,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T18:38:20.247000+00:00",
+      "ended_utc": "2026-10-25T19:13:41.329000+00:00",
+      "minutes": 35.4
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 0
+  },
+  "commits": 0,
+  "exit_code": 1,
+  "exit_reason": "aborted",
+  "stop_reason": "stop_sequence",
+  "is_error": true,
+  "raw_sha256": {
+    "stream": "6d0149369ffde66c15dc578b6358442c3903ade69f4ad12197870c4b3df9583f",
+    "session": "cb2eb75d415dd63320022f60fd168758240d4ef0392610e478e2792cf38540fb"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc-win",
+    "trace_name": "claude-mxc-win-orchestrator",
+    "tags": [
+      "geeky-eval",
+      "identity:agent-v1",
+      "harness:claude-code",
+      "platform:win",
+      "environment:mxc-win",
+      "agent-family:claude-mxc-win",
+      "case:c0-wordstat",
+      "run:20261025T183455Z",
+      "plugin:c83d4b9"
+    ],
+    "user_id": "claude-mxc-win-orchestrator-cb9fee8c-3bf6-463c-a093-82b8de2d7843",
+    "user_id_policy": "source-bound-agent",
+    "agent_family": "claude-mxc-win",
+    "metadata": {
+      "identity_schema": "geeky-eval.agent-identity/1",
+      "harness": "claude-code",
+      "platform": "win",
+      "environment": "mxc-win",
+      "agent_family": "claude-mxc-win",
+      "case": "c0-wordstat",
+      "run": "20261025T183455Z",
+      "run_group_id": "claude-mxc-win-c0-wordstat-20261025T183455Z",
+      "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+      "configured_model": "claudex-001",
+      "configured_reasoning": "runner-default",
+      "worker_model": "claudex-001",
+      "worker_reasoning": "runner-default",
+      "reviewer_reasoning": "runner-default",
+      "provider": "litellm",
+      "configured_provider": "litellm",
+      "mock": "false",
+      "claude_hook_commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "codex_tracer_version": "0.4.2"
+    },
+    "full_content": true,
+    "ca_passthrough": [],
+    "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z",
+    "native_session_id": "cb9fee8c-3bf6-463c-a093-82b8de2d7843",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 222,
+    "coverage_complete": false,
+    "coverage_missed": [
+      "stage:geeky-plan",
+      "stage:plan-review",
+      "stage:geeky-implement",
+      "stage:impl-review",
+      "role:geeky-coder",
+      "role:code-reviewer",
+      "gates",
+      "git_commit"
+    ],
+    "user_ids": [
+      "claude-mxc-win-orchestrator-cb9fee8c-3bf6-463c-a093-82b8de2d7843",
+      "claude-mxc-win-orchestrator-geeky-orchestration-geeky-orchestrator-af09c06f1b3f6257d",
+      "claude-mxc-win-unknown-geeky-orchestration-code-explorer-a3eef2c475eec5422",
+      "claude-mxc-win-unknown-general-purpose-ae077750e734773ad"
+    ],
+    "agent_roles": [
+      "orchestrator",
+      "unknown"
+    ],
+    "trace_count": 10,
+    "hook": {
+      "kind": "claude-stop-sessionend",
+      "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "langfuse_python": "4.18.0",
+      "state_dir": "C:\\repos\\c0-claudex-001\\.eval-cfg-20261025T183455Z\\langfuse"
+    },
+    "host_flush": "exit 0"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "model": "claudex-001"
+  },
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}

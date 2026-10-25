@@ -1,0 +1,75 @@
+{
+  "schema": "geeky-eval.c0-result/1",
+  "run_id": "20261025T154802Z-c140d9e7",
+  "model": "claudex-001",
+  "thinking": "runner-default/high",
+  "exit_code": 0,
+  "wall_time_s": 2846,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "independent_public_tests": 93,
+  "parity": {
+    "composite": 97.46,
+    "quality": 95.64,
+    "adherence": 97.83,
+    "adherence_fraction": "45/46",
+    "consistency": 100.0,
+    "needs_judge": []
+  },
+  "task_validation": {
+    "T1": {
+      "commit": "9336491",
+      "passed": 1,
+      "commands": 2,
+      "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor"
+    },
+    "T2": {
+      "commit": "1d88fec",
+      "passed": 3,
+      "commands": 3,
+      "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor"
+    },
+    "T3": {
+      "commit": "db59374",
+      "passed": 2,
+      "commands": 2,
+      "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor"
+    },
+    "T4": {
+      "commit": "2e1ef10",
+      "passed": 1,
+      "commands": 1,
+      "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor"
+    },
+    "T5": {
+      "commit": "b115d84",
+      "passed": 2,
+      "commands": 2,
+      "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor"
+    }
+  },
+  "tokens": {
+    "input": 12640818,
+    "cached_input": 1314688,
+    "cache_creation": 0,
+    "output": 225348,
+    "reasoning": 67365,
+    "total": 12866166,
+    "cost_usd_estimate": null
+  },
+  "native_model_calls": 228,
+  "candidate_commits": 12,
+  "qualification": {
+    "status": "waived-by-owner",
+    "override_reason": "Owner explicitly instructed to ignore qualification because this model already works on Claude and Codex in MXC; owner then authorized this single sequential Codex C0 end-to-end run on claudex-001 at default thinking."
+  },
+  "claude_run": false,
+  "scores_verified": true,
+  "provisional_score_superseded": 98.62
+}

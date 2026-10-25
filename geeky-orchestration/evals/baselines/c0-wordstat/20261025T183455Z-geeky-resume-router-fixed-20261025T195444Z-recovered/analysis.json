@@ -1,0 +1,191 @@
+{
+  "tokens": {
+    "input": 16078812,
+    "cached_input": 13970509,
+    "cache_creation": 1054677,
+    "output": 493621,
+    "total": 16572433,
+    "by_model": {
+      "claudex-001": {
+        "inputTokens": 1053626,
+        "cacheReadInputTokens": 13970509,
+        "cacheCreationInputTokens": 1054677,
+        "outputTokens": 493621
+      }
+    },
+    "cost_usd_estimate": 31.1856
+  },
+  "model_calls": 147,
+  "latency_median_ms": 4386,
+  "latency_samples": 166,
+  "max_idle_gap_s": 260,
+  "stages": [
+    {
+      "name": "geeky-resume",
+      "started_utc": "2026-10-25T19:55:00.689000+00:00",
+      "ended_utc": "2026-10-25T20:02:25.402000+00:00",
+      "minutes": 7.4
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T20:02:25.402000+00:00",
+      "ended_utc": "2026-10-25T20:35:03.203000+00:00",
+      "minutes": 32.6
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-25T20:35:03.203000+00:00",
+      "ended_utc": "2026-10-25T21:19:43.092000+00:00",
+      "minutes": 44.7
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-25T21:19:43.092000+00:00",
+      "ended_utc": "2026-10-25T21:24:43.687000+00:00",
+      "minutes": 5.0
+    }
+  ],
+  "impl_review_rounds": 1,
+  "skill_invocations": {
+    "geeky-resume": 1,
+    "spec-research": 1,
+    "geeky-implement": 1,
+    "impl-review": 1
+  },
+  "tool_calls_main": {
+    "Edit": 85,
+    "PowerShell": 60,
+    "Read": 39,
+    "Write": 20,
+    "Agent": 17,
+    "Grep": 9,
+    "Skill": 4,
+    "Glob": 2
+  },
+  "tool_calls_subagents": {
+    "Read": 139,
+    "WebFetch": 53,
+    "Grep": 49,
+    "PowerShell": 31,
+    "Glob": 25,
+    "Write": 12,
+    "Bash": 7,
+    "Edit": 5,
+    "ToolSearch": 3
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 3,
+    "geeky-orchestration:code-reviewer": 8,
+    "geeky-orchestration:code-architect": 1,
+    "geeky-orchestration:geeky-coder": 4
+  },
+  "validation_runs": {
+    "main": 12,
+    "sub": 14
+  },
+  "gate_invocations": {
+    "check-commit": 7,
+    "validate-planning-folder": 6,
+    "validate-task-schema": 5,
+    "validate-kanban": 21,
+    "check-dod": 6
+  },
+  "gate_results": {
+    "check-commit": {
+      "pass": 5,
+      "fail": 2,
+      "unknown": 0,
+      "main": 7,
+      "sub": 0
+    },
+    "validate-planning-folder": {
+      "pass": 6,
+      "fail": 0,
+      "unknown": 0,
+      "main": 6,
+      "sub": 0
+    },
+    "validate-task-schema": {
+      "pass": 5,
+      "fail": 0,
+      "unknown": 0,
+      "main": 5,
+      "sub": 0
+    },
+    "validate-kanban": {
+      "pass": 20,
+      "fail": 1,
+      "unknown": 0,
+      "main": 21,
+      "sub": 0
+    },
+    "check-dod": {
+      "pass": 4,
+      "fail": 1,
+      "unknown": 1,
+      "main": 6,
+      "sub": 0
+    }
+  },
+  "duration_api_ms": 3297023,
+  "subagent_transcripts": {
+    "transcripts": 17,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "geeky-orchestration:code-reviewer": 8,
+      "general-purpose": 3,
+      "geeky-orchestration:geeky-coder": 4,
+      "geeky-orchestration:code-explorer": 1,
+      "geeky-orchestration:code-architect": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Edit": 85,
+          "PowerShell": 60,
+          "Read": 39,
+          "Write": 20,
+          "Agent": 17,
+          "Grep": 9,
+          "Skill": 4,
+          "Glob": 2
+        },
+        "dispatches": {
+          "geeky-orchestration:code-reviewer": 8,
+          "geeky-orchestration:geeky-coder": 4,
+          "general-purpose": 3,
+          "geeky-orchestration:code-explorer": 1,
+          "geeky-orchestration:code-architect": 1
+        },
+        "gates": {
+          "validate-kanban": 21,
+          "check-commit": 7,
+          "validate-planning-folder": 6,
+          "check-dod": 6,
+          "validate-task-schema": 5
+        }
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "Read": 139,
+          "WebFetch": 53,
+          "Grep": 49,
+          "PowerShell": 31,
+          "Glob": 25,
+          "Write": 12,
+          "Bash": 7,
+          "Edit": 5,
+          "ToolSearch": 3
+        },
+        "dispatches": {},
+        "gates": {}
+      }
+    }
+  }
+}

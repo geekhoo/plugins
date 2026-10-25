@@ -1,0 +1,76 @@
+{
+  "schema": "geeky-eval.windows-setup/1",
+  "checked_utc": "2026-10-25T14:12:42.0738421Z",
+  "base_revision": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+  "source_changes_uncommitted": true,
+  "setup_complete": true,
+  "paid_runs_started": 0,
+  "litellm_models_authentication": true,
+  "claude_c0": {
+    "harness": "claude-code",
+    "case": "c0-wordstat",
+    "runner_exit": 0,
+    "wall_s": 148,
+    "checks_passed": 73,
+    "checks_failed": null,
+    "exit_reason": "completed",
+    "telemetry": "delivered",
+    "observations": 196,
+    "folder": "C:\\repos\\.eval-tools\\windows-setup\\preflight-20261025T135531Z\\claude-code-c0-wordstat",
+    "ok": true
+  },
+  "codex_c0": {
+    "harness": "codex",
+    "case": "c0-wordstat",
+    "runner_exit": 0,
+    "wall_s": 29,
+    "checks_passed": 9,
+    "checks_failed": null,
+    "exit_reason": "completed",
+    "telemetry": "delivered",
+    "observations": 10,
+    "folder": "C:\\repos\\.eval-tools\\windows-setup\\preflight-20261025T140919Z\\codex-c0-wordstat",
+    "ok": true
+  },
+  "native_standard": {
+    "paid_model_calls": 0,
+    "ok": true,
+    "model_matrix": {
+      "orchestrator": {
+        "model": "gpt-6.1-sol",
+        "reasoning": "high"
+      },
+      "workers": {
+        "model": "gpt-6.1-sol",
+        "reasoning": "high",
+        "scope": "all-descendants"
+      }
+    },
+    "unexpected_errors": 0,
+    "checks": 21
+  },
+  "native_litellm": {
+    "ok": false,
+    "qualified": false,
+    "failed_checks": [
+      "native_patch",
+      "native_guard_context",
+      "native_mcp",
+      "native_clean_diagnostics"
+    ]
+  },
+  "full_case_matrix_run": false,
+  "native_build": "C:\\repos\\.eval-tools\\windows-mxc\\bin",
+  "launcher": "C:\\repos\\.eval-tools\\windows-eval.ps1",
+  "environment_file": "C:\\Users\\gerald.khoo\\env.cloud.claude",
+  "notes": [
+    "Claude and Codex passing rows come from separate invocations; failed matrices are retained.",
+    "Standard native qualification does not qualify the LiteLLM classic-tool profile.",
+    "No model inference, commit or push. Mock telemetry token/cost fields are synthetic."
+  ],
+  "regression_tests": {
+    "passed": 85,
+    "failed": 0,
+    "log": "regression-tests.log"
+  }
+}

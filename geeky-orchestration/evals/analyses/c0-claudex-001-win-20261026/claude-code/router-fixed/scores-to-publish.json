@@ -1,0 +1,27 @@
+{
+  "session": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+  "scores": {
+    "parity_composite": 90.33,
+    "quality": 96.67,
+    "process_adherence": 88.1,
+    "process_adherence_uncapped": 88.1,
+    "process_consistency": 83.16,
+    "oracle_pass_rate": 1.0,
+    "forbidden_git_operation": false,
+    "harness_coverage_complete": true,
+    "provider_refusals": 0,
+    "final_report_claims_verified": false
+  },
+  "metadata": {
+    "harness": "claude-code",
+    "case": "c0-wordstat",
+    "run": "20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z-recovered",
+    "model": "claudex-001",
+    "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+    "evaluator": "parity-eval/1",
+    "environment": "mxc-win",
+    "agent_family": "claude-mxc-win",
+    "native_session_id": "d604ad01-339f-4179-8448-b14fe73088d4",
+    "coverage_report_sha256": "8295ee4a9bf4a734bd8cdb6b70cf0d5081ab2f1408fe6249ae138d7e5e8b2a63"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+  "environment": "mxc-win",
+  "observations": 892,
+  "traces": 33,
+  "types": {
+    "AGENT": 33,
+    "GENERATION": 329,
+    "TOOL": 530
+  },
+  "user_ids": [
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a2236489613af20f4",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a23141c8250bb146c",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-aa1bd716ce9a20794",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-ab91f2ba886df03f5",
+    "claude-mxc-win-orchestrator-d604ad01-339f-4179-8448-b14fe73088d4",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a066d485f6cb7c1e8",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a0cc489678b2a03de",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a419fd7177a15a1cf",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a4d26bd5d0b37b251",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a585e2d2b3e77bb1a",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf02eecdffa4f1ba",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf8f6055795edf06",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-af3ff0272e4b28391",
+    "claude-mxc-win-unknown-geeky-orchestration-code-architect-adb258ccde2a30b01",
+    "claude-mxc-win-unknown-geeky-orchestration-code-explorer-ad42f1b269d46bf05",
+    "claude-mxc-win-unknown-general-purpose-a7ca3fcb5a81109b1",
+    "claude-mxc-win-unknown-general-purpose-aeff85155a94a5dd2"
+  ],
+  "users": 17,
+  "generation_models": [
+    "claude",
+    "claudex-001"
+  ],
+  "raw_hashes_preserved": {
+    "stream.jsonl": "f5821bb2e773d3061da89834f3672433fa8c193f7f9ff9c282a5c1d5387603d0",
+    "session.jsonl": "eff06d26e79e38b6404ba98f918befb9002254250a8569b0d5b2ec82c14896e3"
+  },
+  "coverage_original_missed": [
+    "stage:geeky-plan",
+    "stage:plan-review"
+  ],
+  "coverage_corrected_complete": true,
+  "cost": "unverified; alias/backend pricing not established",
+  "native_session_model_calls": 147,
+  "native_session_tokens": {
+    "input": 16078812,
+    "cached_input": 13970509,
+    "cache_creation": 1054677,
+    "output": 493621,
+    "total": 16572433,
+    "cost_usd_estimate": 31.1856,
+    "reasoning": 0
+  },
+  "langfuse_aggregate_usage": {
+    "input": 71800,
+    "output": 612236,
+    "cache_read_input_tokens": 17348362,
+    "input_cache_creation_5m": 1271623,
+    "total": 19349407,
+    "cache_creation_input_tokens": 45386
+  },
+  "usage_bearing_generations": {
+    "count": 267,
+    "model": "claudex-001"
+  },
+  "no_usage_generations": {
+    "claude_placeholder": 60,
+    "claudex-001": 2
+  },
+  "agent_user_roles": {
+    "orchestrator": 1,
+    "coder": 4,
+    "reviewer": 8,
+    "unknown": 4
+  },
+  "session_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/sessions/claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z"
+}

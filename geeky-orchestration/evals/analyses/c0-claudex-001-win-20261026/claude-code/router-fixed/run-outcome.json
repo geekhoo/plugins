@@ -1,0 +1,30 @@
+{
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "claudex-001",
+  "reasoning": "default",
+  "started_utc": "2026-10-25T19:54:47.0453289Z",
+  "ended_utc": "2026-10-25T21:24:49.4481058Z",
+  "wall_time_s": 5402,
+  "exit_code": 124,
+  "exit_reason": "timeout",
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "commits": 10,
+  "candidate_head": "e2c1317ed4443e970e6ea9f9c069b0c75342ae1c",
+  "public_tests": {
+    "passed": 56,
+    "skipped": 2,
+    "exit_code": 0,
+    "independent": true
+  },
+  "parity": 90.33,
+  "workflow_complete": false,
+  "paid_continuation_scheduled": false
+}

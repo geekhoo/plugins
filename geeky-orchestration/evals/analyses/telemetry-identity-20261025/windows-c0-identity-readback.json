@@ -1,0 +1,26 @@
+[
+  {
+    "harness": "claude-code",
+    "session_id": "claude-mxc-win-c0-wordstat-20261025T150244Z",
+    "native_session_id": "496896db-2ec6-4232-8c3f-e0b248ef920d",
+    "user_id": "claude-mxc-win-orchestrator-496896db-2ec6-4232-8c3f-e0b248ef920d",
+    "environment": "mxc-win",
+    "observations": 196,
+    "configured_provider": "anthropic",
+    "provider": "mock",
+    "mock": true,
+    "verified": true
+  },
+  {
+    "harness": "codex",
+    "session_id": "codex-mxc-win-c0-wordstat-20261025T150454Z-99bc4709",
+    "native_session_id": "7c87668b-9815-43b3-9085-5ad9eec98adf",
+    "user_id": "codex-mxc-win-orchestrator-7c87668b-9815-43b3-9085-5ad9eec98adf",
+    "environment": "mxc-win",
+    "observations": 10,
+    "configured_provider": "openai",
+    "provider": "mock",
+    "mock": true,
+    "verified": true
+  }
+]

@@ -1,0 +1,22 @@
+[
+  {
+    "path": "geeky-orchestration/evals/adapters/codex/mock_codex.py",
+    "sha256": "e3a4ae9f55b5391c195cc7d02878922bba26fc3e2534c2c6b8b05678331c610a"
+  },
+  {
+    "path": "geeky-orchestration/evals/adapters/codex/langfuse-tracer.py",
+    "sha256": "8267d494ca6ff08f22278763cc0aad091bcc554541634656501e2738176ba918"
+  },
+  {
+    "path": "geeky-orchestration/evals/adapters/codex/test_mock_codex.py",
+    "sha256": "827bac3612f83aca837d99c648f6616100b23696c8f82f2f164399baa6427a3c"
+  },
+  {
+    "path": "geeky-orchestration/evals/adapters/codex/profile/mxc-pin.json",
+    "sha256": "4611cced19000e04423035cec15c549f8c9d2bc1392f3078e8fbdef6d27f5407"
+  },
+  {
+    "path": "geeky-orchestration/evals/analyses/windows-mxc-setup-20261025/windows-eval.ps1",
+    "sha256": "a813093e006936d02a42b23f199ca7715ca5ec5be1e7dfea707294693fa073fd"
+  }
+]

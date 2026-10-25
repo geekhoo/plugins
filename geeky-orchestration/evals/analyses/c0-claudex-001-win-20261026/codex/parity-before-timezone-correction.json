@@ -1,0 +1,425 @@
+{
+  "schema": "geeky-eval.parity/1",
+  "harness": "codex",
+  "run": "eval-c0-wordstat-codex-20261025T154802Z-c140d9e7",
+  "session_id": "codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+  "composite": 68.01,
+  "quality": 98.64,
+  "adherence": 52.17,
+  "adherence_uncapped": 52.17,
+  "adherence_fraction": "24/46",
+  "consistency": 42.11,
+  "dpc": 0.5263,
+  "order": 0.0,
+  "efficiency": {
+    "tokens_total": 12866166,
+    "wall_time_s": 2846,
+    "latency_median_ms": 2656,
+    "commits": 12,
+    "interventions": 0
+  },
+  "stage_bounds": {
+    "spec-research": [
+      "2026-10-25T15:48:16.984Z",
+      "2026-10-25T23:52:22+08:00"
+    ],
+    "geeky-plan": [
+      "2026-10-25T23:52:22+08:00",
+      "2026-10-26T00:05:06+08:00"
+    ],
+    "plan-review": [
+      "2026-10-26T00:05:06+08:00",
+      "2026-10-26T00:19:16+08:00"
+    ],
+    "geeky-implement": [
+      "2026-10-26T00:19:16+08:00",
+      "9999"
+    ],
+    "impl-review": [
+      null,
+      "9999"
+    ]
+  },
+  "phases": {
+    "P1": [
+      "T1"
+    ],
+    "P2": [
+      "T2",
+      "T3"
+    ],
+    "P3": [
+      "T4",
+      "T5"
+    ]
+  },
+  "needs_judge": [],
+  "checks": [
+    {
+      "id": "a.planning_folder",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 5 task file(s) found."
+    },
+    {
+      "id": "a.task_schema",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 5 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "a.kanban_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 5 task(s) tracked, 5 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=5"
+    },
+    {
+      "id": "a.dod.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "a.notes.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T1-core-library.notes.md"
+    },
+    {
+      "id": "a.dod.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T2"
+    },
+    {
+      "id": "a.notes.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T2-cli-entry-point.notes.md"
+    },
+    {
+      "id": "a.dod.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T3"
+    },
+    {
+      "id": "a.notes.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T3-cli-test-suite.notes.md"
+    },
+    {
+      "id": "a.dod.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T4"
+    },
+    {
+      "id": "a.notes.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T4-readme-and-housekeeping.notes.md"
+    },
+    {
+      "id": "a.dod.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T5"
+    },
+    {
+      "id": "a.notes.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T5-end-to-end-verification.notes.md"
+    },
+    {
+      "id": "a.run_summary",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "a.heartbeat_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "{\"status\":\"done\",\"ts\":\"2026-10-25T16:33:05Z\",\"task\":\"T5\"}"
+    },
+    {
+      "id": "a.prescribed.spec",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "spec-research commit subject"
+    },
+    {
+      "id": "a.prescribed.plan_review",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "plan-review commit subject exact"
+    },
+    {
+      "id": "a.prescribed.critical_fix",
+      "dimension": "adherence",
+      "status": "na",
+      "evidence": "no critical-fix commit"
+    },
+    {
+      "id": "a.commit_messages",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "9 post-plan-review commits; failing: []"
+    },
+    {
+      "id": "a.frozen_untouched",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "frozen files changed after plan-review: []"
+    },
+    {
+      "id": "a.no_forbidden_git",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reflog: []; commands: []"
+    },
+    {
+      "id": "a.task_dispatch.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T1"
+    },
+    {
+      "id": "a.task_review.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T1 or P1"
+    },
+    {
+      "id": "a.dod_gate.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T1 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T2"
+    },
+    {
+      "id": "a.task_review.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T2 or P2"
+    },
+    {
+      "id": "a.dod_gate.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T2 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T3"
+    },
+    {
+      "id": "a.task_review.T3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T3 or P2"
+    },
+    {
+      "id": "a.dod_gate.T3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T3 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T4",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T4"
+    },
+    {
+      "id": "a.task_review.T4",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T4 or P3"
+    },
+    {
+      "id": "a.dod_gate.T4",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T4 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T5",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T5"
+    },
+    {
+      "id": "a.task_review.T5",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T5 or P3"
+    },
+    {
+      "id": "a.dod_gate.T5",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T5 during implement"
+    },
+    {
+      "id": "a.phase_verdict.P1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.kanban_gate",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 validate-kanban runs for 5 tasks"
+    },
+    {
+      "id": "a.commit_gate",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-commit runs for 5 code commits"
+    },
+    {
+      "id": "a.tests_run",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 pytest runs during implement"
+    },
+    {
+      "id": "a.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "main-thread code/test writes: []"
+    },
+    {
+      "id": "a.run_completed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "exit_reason completed"
+    },
+    {
+      "id": "a.work_committed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "uncommitted at the end: []"
+    },
+    {
+      "id": "a.one_concern_per_commit",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "judge: Read-only commit audit: core, tests, CLI, README and phase/review closeouts are related, separate concerns; no unrelated functional changes."
+    },
+    {
+      "id": "a.final_report_claims",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "judge: Final stream item111/session ordinal679 says CLI-level CRLF/BOM tests are missing, but tests/test_cli.py:17-23,78-82,101-119 already exercise them via python -m wordstat. It overgeneralizes a narrower cli.main suggestion. Other test/commit/review claims match evidence."
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "20 spec-research dispatches"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.plan_review"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "every task reviewed"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "DoD gate for every task"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "phase verdict for every phase"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "see a.commit_gate"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 impl-review dispatches"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.heartbeat_final"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: Native coder lifetimes prove five serial coder executions, maximum concurrency1. Handoff records dependency/evidence gating for T2-T3 and T4-T5."
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: Each functional concern is separate; phase notes/kanban/handoff and final review are related closeout commits. Verification-only T5 is recorded in phase3 closeout."
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "schema": "geeky-eval.c0-preparation/1",
+  "prepared_utc": "2026-10-25T15:39:39.5352451Z",
+  "model": "claudex-001",
+  "case": "c0-wordstat",
+  "environment": "mxc-win",
+  "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+  "source_uncommitted": true,
+  "paired_launch_ready": true,
+  "contestant_started": false,
+  "oracle_executed": false,
+  "mock_evaluation_executed": false,
+  "model_inference_calls": 0,
+  "provider": {
+    "name": "litellm",
+    "alias_listed": true,
+    "catalogue_authenticated": true,
+    "upstream_model": "auto_router/complexity_router",
+    "messages_route_inference_verified": false,
+    "responses_route_inference_verified": false
+  },
+  "toolchain": {
+    "mxc": "ProcessContainer/BaseContainer",
+    "mxc_source_and_binaries_match_pin": true,
+    "powershell": "7.6.8",
+    "claude_code": "2.1.304",
+    "codex": "0.164.0",
+    "agent_python": "3.13.15",
+    "pytest": "9.0.3",
+    "mcp": "2.3.0",
+    "langfuse": "4.18.0",
+    "node": "24.22.1"
+  },
+  "langfuse_authentication": [
+    {
+      "Harness": "claude-code",
+      "Authenticated": true,
+      "Environment": "mxc-win",
+      "ExistingObservations": 1,
+      "WritePerformed": false
+    },
+    {
+      "Harness": "codex",
+      "Authenticated": true,
+      "Environment": "mxc-win",
+      "ExistingObservations": 1,
+      "WritePerformed": false
+    }
+  ],
+  "harnesses": {
+    "claude-code": {
+      "configuration_ready": true,
+      "launch_ready": true,
+      "blocker": null,
+      "wire_api": "anthropic-messages",
+      "model": "claudex-001",
+      "all_model_aliases_pinned": true,
+      "reasoning": "runner-default",
+      "timeout_s": 5400,
+      "refusal_resumes": 0,
+      "prepared_launch": "C:\\repos\\c0-claudex-001\\.eval-cfg-20261025T153657Z\\prepared-launch.json",
+      "workspace": "C:\\repos\\c0-claudex-001\\eval-c0-wordstat-20261025T153657Z",
+      "planned_telemetry_session": "claude-mxc-win-c0-wordstat-20261025T153657Z"
+    },
+    "codex": {
+      "configuration_ready": true,
+      "launch_ready": true,
+      "blocker": null,
+      "wire_api": "responses",
+      "model": "claudex-001",
+      "worker_model": "claudex-001",
+      "reasoning": "high",
+      "worker_reasoning": "high",
+      "all_registered_roles_model_pinned": true,
+      "registered_roles": 7,
+      "timeout_s": 5400,
+      "tool_shape": "classic-functions, multi-agent v2",
+      "prepared_run": "C:\\repos\\.eval-tools\\c0-claudex-001\\codex-owner-override-preparation\\run.json",
+      "prepared_profile": "C:\\repos\\c0-claudex-001\\.eval-cfg-codex-20261025T154615Z-6d4406b7\\codex-profile.json",
+      "workspace": "C:\\repos\\c0-claudex-001\\eval-c0-wordstat-codex-20261025T153036Z-ec23ceb8",
+      "planned_telemetry_session": "codex-mxc-win-c0-wordstat-20261025T153036Z-ec23ceb8"
+    }
+  },
+  "source_manifest": [
+    {
+      "path": "C:\\repos\\.eval-tools\\c0-claudex-001\\environment.ps1",
+      "sha256": "81f36418449b9d2e5e7eba449c34ad4c76cd8389a10a4f31891f95a6d3c3af4c"
+    },
+    {
+      "path": "C:\\repos\\.eval-tools\\c0-claudex-001\\Invoke-C0.ps1",
+      "sha256": "c1fca740eb546de22d10084ac3e5739fa9c7a31578c5b362dfad33fee7ca2497"
+    },
+    {
+      "path": "C:\\repos\\.eval-tools\\codex\\0.164.0\\bin\\codex-code-mode-host.exe",
+      "sha256": "be52517ca0f9a8eb626ec065ed3a357b5ee150fe1934a254d0126e6d40f29b57"
+    },
+    {
+      "path": "C:\\repos\\.eval-tools\\codex\\0.164.0\\bin\\codex.exe",
+      "sha256": "6f267830b029ee25d9339864aa867cd45de9f8fd4c5ea007d2e63c13a0c66d36"
+    },
+    {
+      "path": "C:\\repos\\.eval-tools\\windows-eval.ps1",
+      "sha256": "6a263ace871c8ad9a693938e147d2d1dda8742168008ad5e6e300c25a0fd1cc1"
+    },
+    {
+      "path": "C:\\repos\\.eval-tools\\windows-mxc\\bin\\MxcClaude.dll",
+      "sha256": "8b415d7f43fa751cba1e33532bb2fe87ef8bfe2915eec3de7002e10436085499"
+    },
+    {
+      "path": "C:\\repos\\.eval-tools\\windows-mxc\\bin\\MxcClaude.exe",
+      "sha256": "015811e7c058b582e5280d87c0aa188f9334ffc5feabaab4f0cac44f4d0b9125"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\.local\\bin\\claude.exe",
+      "sha256": "019e5174d5d954585edb1a946fe280e44a973050b4897034adf0e16306f85fdd"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\prepare-profile.py",
+      "sha256": "774d0914f562653c2b615051953935fe28d87fa175bf3323af20d6163da88a26"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\profile\\mxc-pin.json",
+      "sha256": "4611cced19000e04423035cec15c549f8c9d2bc1392f3078e8fbdef6d27f5407"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\trusted-exec.py",
+      "sha256": "36e7dad86d69a6bab14adfb893c12287a22adcccb45a20c55fb2ed30f0839e0f"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\run-baseline.ps1",
+      "sha256": "ea0f6bc8304d662cd2f67fb88f417cc8da47a2f03146887e8bdb565105dd7f6c"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\run-codex-baseline.ps1",
+      "sha256": "8c0b6d083a0d6b462b31bbb2690c511e24754bfc3973eff35b9cd17bd9b5e677"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\agent_identity.py",
+      "sha256": "5efd42a700169b959581295e5a563eb5298ee9b13ed0b1cf0aed3ed5ff04f4c6"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\claude_identity.py",
+      "sha256": "b1d3654c8588f6f2f68c44ecb2b7c07131f135e193b07edd12ca6f6fc6ded212"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\claude-hook-boot.py",
+      "sha256": "418f27b0582809b231d7d9e916afb05ffe708ef3b4bb427d9b5fbb46dc56dffc"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\codex-flush.py",
+      "sha256": "502dae811b7f7d2034318a6c83c498b24df073b70bef79a16b641608422e5bfa"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\codex-identity.mjs",
+      "sha256": "072ab62247e5e15c44e19c663c411316bacc5ceeb56545a84ef256560fa81a35"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\identity-smoke.py",
+      "sha256": "95f26abaa4008d5ae2cb0c68031ac3930f14bbcc20586a59e1467c1f04474b71"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\install-telemetry-tools.ps1",
+      "sha256": "a472c9fb0071071bfc9c864505d69750d66eaa395eef19739e28688be2ef0f4d"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\langfuse-coverage.py",
+      "sha256": "ea69f2c72c1dbb8da690bbb423536d64a2d66b0fffded21954e202d5986dfd6c"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\langfuse-run.py",
+      "sha256": "4cc3f176e94c3d89c6f07f97379a7c585b8df30a6cda8996e9198d8b35054f38"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\langfuse-scores.py",
+      "sha256": "2ff678d65ec976f97c22f84067ef6243f62dd49b1d2719d186418bb6bf590278"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\patch-codex-tracer.mjs",
+      "sha256": "e2f55d0f4b9446e443de34886c1bb446c3cc26c49089a469ef701ea16ea3df4c"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\pins.json",
+      "sha256": "1c21cf9ce6d76a39f01813f5eb5eef405385315e1a168dbe5ce684b0b2c075d2"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\telemetry.ps1",
+      "sha256": "41bae41bfeb0d50acf3ec3af3705f94786ec140014627d226ea1b0bb6090c692"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\test_agent_identity.py",
+      "sha256": "0465e1872139e62663785c0522372b94805f452dbfbcf7f733ec4b3a61ba61c7"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\test_langfuse_coverage.py",
+      "sha256": "11e6026926fa23d886d8b5b454ba85986cbd5cd6d97f7ca19e8ba4d0665db85c"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\test_langfuse_run.py",
+      "sha256": "5cced72b302cdf65cd10fe0554fb053dd67a125a65f87577e611b88e7a33281b"
+    }
+  ],
+  "notes": [
+    "Preparation imports tools, creates seed-only workspaces and writes config; it does not execute oracle, mocks or contestant.",
+    "Endpoint inference compatibility is deliberately untested.",
+    "Same complexity-router alias can select different backend models for each protocol.",
+    "Codex/high and Claude/default reasoning differ; no equal-effort claim.",
+    "No paid run is authorized by this preparation.",
+    "The source manifest covers named files only; credentials are loaded at use time and not stored."
+  ],
+  "qualification_override": {
+    "status": "waived-by-owner",
+    "reason": "Owner explicitly instructed: ignore any qualification; model has already answered on both Claude and Codex in MXC.",
+    "recorded_utc": "2026-10-25T15:55:53.1772024Z"
+  },
+  "execution_authorization": {
+    "scope": "single sequential Codex C0 end-to-end, default thinking, followed by Langfuse/eval/scores/report",
+    "run_id": "20261025T154802Z-c140d9e7",
+    "claude_started": false,
+    "active_record": "C:\\repos\\.eval-tools\\c0-claudex-001\\active-codex-run.json",
+    "status": "completed-and-scored",
+    "parity": 97.46
+  }
+}

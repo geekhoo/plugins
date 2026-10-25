@@ -1,0 +1,102 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z",
+  "traces": 11,
+  "observations": 224,
+  "by_type": {
+    "AGENT": 11,
+    "GENERATION": 103,
+    "TOOL": 110
+  },
+  "generations": 103,
+  "tool_calls": 110,
+  "subagents": 6,
+  "user_ids": [
+    "claude-mxc-win-orchestrator-cb9fee8c-3bf6-463c-a093-82b8de2d7843",
+    "claude-mxc-win-orchestrator-geeky-orchestration-geeky-orchestrator-af09c06f1b3f6257d",
+    "claude-mxc-win-unknown-geeky-orchestration-code-explorer-a3eef2c475eec5422",
+    "claude-mxc-win-unknown-general-purpose-ae077750e734773ad"
+  ],
+  "agent_roles": [
+    "orchestrator",
+    "unknown"
+  ],
+  "agent_families": [
+    "claude-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 91577,
+    "output": 59634,
+    "cache_read_input_tokens": 1162448,
+    "input_cache_creation_5m": 155440,
+    "total": 1469099
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T18:35:09.179Z",
+  "last_start": "2026-10-25T19:21:14.360Z",
+  "top_names": [
+    [
+      "Subagent LLM Call",
+      82
+    ],
+    [
+      "Tool: PowerShell",
+      28
+    ],
+    [
+      "Tool: Read",
+      24
+    ],
+    [
+      "Tool: WebFetch",
+      24
+    ],
+    [
+      "LLM Call",
+      21
+    ],
+    [
+      "Tool: Glob",
+      16
+    ],
+    [
+      "Tool: Agent",
+      8
+    ],
+    [
+      "claude-mxc-win-orchestrator",
+      5
+    ],
+    [
+      "Tool: ToolSearch",
+      4
+    ],
+    [
+      "Tool: ScheduleWakeup",
+      2
+    ],
+    [
+      "claude-mxc-win-unknown-general-purpose",
+      2
+    ],
+    [
+      "claude-mxc-win-unknown-geeky-orchestration-code-explorer",
+      2
+    ],
+    [
+      "Tool: Skill",
+      2
+    ],
+    [
+      "claude-mxc-win-orchestrator-geeky-orchestration-geeky-orchestrator",
+      2
+    ],
+    [
+      "Tool: Write",
+      2
+    ]
+  ]
+}

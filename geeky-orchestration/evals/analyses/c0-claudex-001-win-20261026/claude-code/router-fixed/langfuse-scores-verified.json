@@ -1,0 +1,18 @@
+{
+  "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+  "environment": "mxc-win",
+  "verified": true,
+  "count": 10,
+  "scores": {
+    "final_report_claims_verified": false,
+    "provider_refusals": 0,
+    "harness_coverage_complete": true,
+    "forbidden_git_operation": false,
+    "oracle_pass_rate": 1,
+    "process_consistency": 83.16,
+    "process_adherence_uncapped": 88.1,
+    "process_adherence": 88.1,
+    "quality": 96.67,
+    "parity_composite": 90.33
+  }
+}

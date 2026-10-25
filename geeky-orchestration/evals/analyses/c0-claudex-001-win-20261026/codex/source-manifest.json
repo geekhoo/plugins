@@ -1,0 +1,26 @@
+[
+  {
+    "path": "geeky-orchestration/evals/scripts/score-run.py",
+    "sha256": "450d0e8067a87ed80edd0f74d0cf1b00f6a316c3b1ee32da8eab740b0c78e440"
+  },
+  {
+    "path": "geeky-orchestration/evals/scripts/codex-trace.py",
+    "sha256": "867ad031d7c750af6d069754d99200c52fd92617d59407acb91b683a8d4b193c"
+  },
+  {
+    "path": "geeky-orchestration/evals/scripts/parity-eval.py",
+    "sha256": "2a5bb2b3d8c300518a7dba34e02bfa8d21d7b6e31218951f5e85d8d35f51327c"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/langfuse-coverage.py",
+    "sha256": "ea69f2c72c1dbb8da690bbb423536d64a2d66b0fffded21954e202d5986dfd6c"
+  },
+  {
+    "path": "geeky-orchestration/evals/telemetry/langfuse-scores.py",
+    "sha256": "2ff678d65ec976f97c22f84067ef6243f62dd49b1d2719d186418bb6bf590278"
+  },
+  {
+    "path": "geeky-orchestration/evals/scripts/run-codex-baseline.ps1",
+    "sha256": "8c0b6d083a0d6b462b31bbb2690c511e24754bfc3973eff35b9cd17bd9b5e677"
+  }
+]

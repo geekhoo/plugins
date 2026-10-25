@@ -1,0 +1,38 @@
+{
+  "schema": "geeky-eval.mock-matrix/1",
+  "stamp": "20261025T135531Z",
+  "platform": "Microsoft Windows 10.0.26300",
+  "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+  "runs": [
+    {
+      "harness": "claude-code",
+      "case": "c0-wordstat",
+      "runner_exit": 0,
+      "wall_s": 148,
+      "checks_passed": 73,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 196,
+      "folder": "C:\\repos\\.eval-tools\\windows-setup\\preflight-20261025T135531Z\\claude-code-c0-wordstat",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c0-wordstat",
+      "runner_exit": 1,
+      "wall_s": 147,
+      "checks_passed": 7,
+      "checks_failed": [
+        "python",
+        "telemetry"
+      ],
+      "exit_reason": "turn-failed",
+      "telemetry": "missing",
+      "observations": 0,
+      "folder": "C:\\repos\\.eval-tools\\windows-setup\\preflight-20261025T135531Z\\codex-c0-wordstat",
+      "ok": false
+    }
+  ],
+  "ok": false
+}

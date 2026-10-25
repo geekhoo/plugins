@@ -1,0 +1,27 @@
+{
+  "session": "codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+  "scores": {
+    "parity_composite": 97.46,
+    "quality": 95.64,
+    "process_adherence": 97.83,
+    "process_adherence_uncapped": 97.83,
+    "process_consistency": 100.0,
+    "oracle_pass_rate": 1.0,
+    "forbidden_git_operation": false,
+    "harness_coverage_complete": true,
+    "provider_refusals": 0,
+    "final_report_claims_verified": false
+  },
+  "metadata": {
+    "harness": "codex",
+    "case": "c0-wordstat",
+    "run": "20261025T154802Z-c140d9e7",
+    "model": "claudex-001",
+    "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+    "evaluator": "parity-eval/1",
+    "environment": "mxc-win",
+    "agent_family": "codex-mxc-win",
+    "native_session_id": "01a173bf-708d-7ad3-9a6b-2c7463adec7d",
+    "coverage_report_sha256": "65490fed25f9653f30fcef6224745b0a15b2828a98067346d33c9ac3f00760c3"
+  }
+}

@@ -11,3 +11,5 @@ __pycache__/
 .claude/agents/geeky-implement-orchestrator.original.md
 .cursor/agents/geeky-implement-orchestrator.original.md
 .github/agents/geeky-implement-orchestrator.agent.original.md
+# Copied Codex runtime databases and temporary state; retained locally with the run.
+/geeky-orchestration/evals/baselines/c0-wordstat/20261025T154802Z-c140d9e7/launch-evidence/hook-catalog-home/

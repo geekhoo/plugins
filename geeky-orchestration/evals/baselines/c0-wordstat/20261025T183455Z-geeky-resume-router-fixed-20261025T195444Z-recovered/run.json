@@ -1,0 +1,194 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "harness_version": "2.1.304",
+  "model": "claudex-001",
+  "reasoning": "default",
+  "approach": "user-requested-geeky-resume-restart",
+  "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "8351043eea29a8ff95bc8ce67ffc07417f92847ce9167ecde9923c2d051a0c35",
+  "geeky_skills_loaded": 8,
+  "workspace": "C:\\repos\\c0-claudex-001\\eval-c0-wordstat-20261025T183455Z",
+  "seed_sha": "d06eb6d1cd2f5419d644550a004c2c3e873c3ea8",
+  "session_id": "d604ad01-339f-4179-8448-b14fe73088d4",
+  "started_utc": "2026-10-25T19:54:47.0453289Z",
+  "ended_utc": "2026-10-25T21:24:49.4481058Z",
+  "wall_time_s": 5402,
+  "tokens": {
+    "input": 16078812,
+    "cached_input": 13970509,
+    "cache_creation": 1054677,
+    "output": 493621,
+    "total": 16572433,
+    "cost_usd_estimate": 31.1856,
+    "reasoning": 0
+  },
+  "model_calls": 147,
+  "latency_median_ms": 4386,
+  "max_idle_gap_s": 260,
+  "stages": [
+    {
+      "name": "geeky-resume",
+      "started_utc": "2026-10-25T19:55:00.689000+00:00",
+      "ended_utc": "2026-10-25T20:02:25.402000+00:00",
+      "minutes": 7.4
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T20:02:25.402000+00:00",
+      "ended_utc": "2026-10-25T20:35:03.203000+00:00",
+      "minutes": 32.6
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-25T20:35:03.203000+00:00",
+      "ended_utc": "2026-10-25T21:19:43.092000+00:00",
+      "minutes": 44.7
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-25T21:19:43.092000+00:00",
+      "ended_utc": "2026-10-25T21:24:43.687000+00:00",
+      "minutes": 5.0
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 0
+  },
+  "commits": 10,
+  "exit_code": 124,
+  "exit_reason": "timeout",
+  "stop_reason": "end_turn",
+  "is_error": true,
+  "raw_sha256": {
+    "stream": "f5821bb2e773d3061da89834f3672433fa8c193f7f9ff9c282a5c1d5387603d0",
+    "session": "eff06d26e79e38b6404ba98f918befb9002254250a8569b0d5b2ec82c14896e3"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc-win",
+    "trace_name": "claude-mxc-win-orchestrator",
+    "tags": [
+      "geeky-eval",
+      "identity:agent-v1",
+      "harness:claude-code",
+      "platform:win",
+      "environment:mxc-win",
+      "agent-family:claude-mxc-win",
+      "case:c0-wordstat",
+      "run:20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+      "plugin:c83d4b9"
+    ],
+    "user_id": "claude-mxc-win-orchestrator-d604ad01-339f-4179-8448-b14fe73088d4",
+    "user_id_policy": "source-bound-agent",
+    "agent_family": "claude-mxc-win",
+    "metadata": {
+      "identity_schema": "geeky-eval.agent-identity/1",
+      "harness": "claude-code",
+      "platform": "win",
+      "environment": "mxc-win",
+      "agent_family": "claude-mxc-win",
+      "case": "c0-wordstat",
+      "run": "20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+      "run_group_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+      "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+      "configured_model": "claudex-001",
+      "configured_reasoning": "runner-default",
+      "worker_model": "claudex-001",
+      "worker_reasoning": "runner-default",
+      "reviewer_reasoning": "runner-default",
+      "provider": "litellm",
+      "configured_provider": "litellm",
+      "mock": "false",
+      "claude_hook_commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "codex_tracer_version": "0.4.2"
+    },
+    "full_content": true,
+    "ca_passthrough": [],
+    "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+    "native_session_id": "d604ad01-339f-4179-8448-b14fe73088d4",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 892,
+    "coverage_complete": false,
+    "coverage_missed": [
+      "stage:geeky-plan",
+      "stage:plan-review"
+    ],
+    "user_ids": [
+      "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a2236489613af20f4",
+      "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a23141c8250bb146c",
+      "claude-mxc-win-coder-geeky-orchestration-geeky-coder-aa1bd716ce9a20794",
+      "claude-mxc-win-coder-geeky-orchestration-geeky-coder-ab91f2ba886df03f5",
+      "claude-mxc-win-orchestrator-d604ad01-339f-4179-8448-b14fe73088d4",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a066d485f6cb7c1e8",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a0cc489678b2a03de",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a419fd7177a15a1cf",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a4d26bd5d0b37b251",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a585e2d2b3e77bb1a",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf02eecdffa4f1ba",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf8f6055795edf06",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-af3ff0272e4b28391",
+      "claude-mxc-win-unknown-geeky-orchestration-code-architect-adb258ccde2a30b01",
+      "claude-mxc-win-unknown-geeky-orchestration-code-explorer-ad42f1b269d46bf05",
+      "claude-mxc-win-unknown-general-purpose-a7ca3fcb5a81109b1",
+      "claude-mxc-win-unknown-general-purpose-aeff85155a94a5dd2"
+    ],
+    "agent_roles": [
+      "coder",
+      "orchestrator",
+      "reviewer",
+      "unknown"
+    ],
+    "trace_count": 33,
+    "hook": {
+      "kind": "claude-stop-sessionend",
+      "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "langfuse_python": "4.18.0",
+      "state_dir": "C:\\repos\\c0-claudex-001\\.eval-cfg-20261025T183455Z\\langfuse"
+    },
+    "host_flush": "exit 0"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "model": "claudex-001"
+  },
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": true,
+  "canonical_prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "prior_campaign_interventions": 2,
+  "recovery": {
+    "original_segment": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z",
+    "previous_native_session_id": "cb9fee8c-3bf6-463c-a093-82b8de2d7843",
+    "fresh_session": true,
+    "resume_started_utc": "2026-10-25T19:54:47.5634785Z",
+    "resume_ended_utc": "2026-10-25T21:24:49.4481058Z",
+    "budget_at_restart_s": 5400,
+    "user_requested_geeky_resume": true,
+    "header_names": [
+      "x-litellm-session-id",
+      "x-opencode-session"
+    ]
+  }
+}

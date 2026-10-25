@@ -1,0 +1,162 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "harness_version": "2.1.304",
+  "model": "claudex-001",
+  "reasoning": "default",
+  "approach": "user-requested-geeky-resume-restart",
+  "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "8351043eea29a8ff95bc8ce67ffc07417f92847ce9167ecde9923c2d051a0c35",
+  "geeky_skills_loaded": 8,
+  "workspace": "C:\\repos\\c0-claudex-001\\eval-c0-wordstat-20261025T183455Z",
+  "seed_sha": "d06eb6d1cd2f5419d644550a004c2c3e873c3ea8",
+  "session_id": "38156247-f588-4dac-86a1-df2c93fec26b",
+  "started_utc": "2026-10-25T19:40:22.8358761Z",
+  "ended_utc": "2026-10-25T19:40:35.3886060Z",
+  "wall_time_s": 13,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "cost_usd_estimate": 0,
+    "reasoning": 0
+  },
+  "model_calls": 1,
+  "latency_median_ms": 3595,
+  "max_idle_gap_s": 3,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 0
+  },
+  "commits": 0,
+  "exit_code": 1,
+  "exit_reason": "aborted",
+  "stop_reason": "stop_sequence",
+  "is_error": true,
+  "raw_sha256": {
+    "stream": "ab5f9cce034421a07f95a882235ed135eeeef00dbfea7d1d33107adbb470ed5b",
+    "session": "5bf18e7ced49335e3ff1d834c7b31ef76ddcc53f265d232bdd28c5903fc83a2b"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc-win",
+    "trace_name": "claude-mxc-win-orchestrator",
+    "tags": [
+      "geeky-eval",
+      "identity:agent-v1",
+      "harness:claude-code",
+      "platform:win",
+      "environment:mxc-win",
+      "agent-family:claude-mxc-win",
+      "case:c0-wordstat",
+      "run:20261025T183455Z-geeky-resume",
+      "plugin:c83d4b9"
+    ],
+    "user_id": "claude-mxc-win-orchestrator-38156247-f588-4dac-86a1-df2c93fec26b",
+    "user_id_policy": "source-bound-agent",
+    "agent_family": "claude-mxc-win",
+    "metadata": {
+      "identity_schema": "geeky-eval.agent-identity/1",
+      "harness": "claude-code",
+      "platform": "win",
+      "environment": "mxc-win",
+      "agent_family": "claude-mxc-win",
+      "case": "c0-wordstat",
+      "run": "20261025T183455Z-geeky-resume",
+      "run_group_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume",
+      "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+      "configured_model": "claudex-001",
+      "configured_reasoning": "runner-default",
+      "worker_model": "claudex-001",
+      "worker_reasoning": "runner-default",
+      "reviewer_reasoning": "runner-default",
+      "provider": "litellm",
+      "configured_provider": "litellm",
+      "mock": "false",
+      "claude_hook_commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "codex_tracer_version": "0.4.2"
+    },
+    "full_content": true,
+    "ca_passthrough": [],
+    "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume",
+    "native_session_id": "38156247-f588-4dac-86a1-df2c93fec26b",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 2,
+    "coverage_complete": false,
+    "coverage_missed": [
+      "stage:spec-research",
+      "stage:geeky-plan",
+      "stage:plan-review",
+      "stage:geeky-implement",
+      "stage:impl-review",
+      "subagents",
+      "role:geeky-coder",
+      "role:code-reviewer",
+      "gates",
+      "pytest",
+      "git_commit",
+      "file_edits",
+      "reasoning_summaries",
+      "token_usage"
+    ],
+    "user_ids": [
+      "claude-mxc-win-orchestrator-38156247-f588-4dac-86a1-df2c93fec26b"
+    ],
+    "agent_roles": [
+      "orchestrator"
+    ],
+    "trace_count": 1,
+    "hook": {
+      "kind": "claude-stop-sessionend",
+      "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "langfuse_python": "4.18.0",
+      "state_dir": "C:\\repos\\c0-claudex-001\\.eval-cfg-20261025T183455Z\\langfuse"
+    },
+    "host_flush": "exit 0"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "model": "claudex-001"
+  },
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false,
+  "canonical_prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "prior_campaign_interventions": 2,
+  "recovery": {
+    "original_segment": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z",
+    "previous_native_session_id": "cb9fee8c-3bf6-463c-a093-82b8de2d7843",
+    "fresh_session": true,
+    "resume_started_utc": "2026-10-25T19:40:23.1616229Z",
+    "resume_ended_utc": "2026-10-25T19:40:35.3886060Z",
+    "budget_at_restart_s": 5400,
+    "user_requested_geeky_resume": true,
+    "header_names": [
+      "x-litellm-session-id",
+      "x-opencode-session"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "path": "geeky-orchestration\\evals\\scripts\\score-run.py",
+    "sha256": "14cc3e687094e417b01d76d6060b1a206992274df7c56852a230af91c7e19306"
+  },
+  {
+    "path": "geeky-orchestration\\evals\\scripts\\parity-eval.py",
+    "sha256": "55ac4c57d8a1334dbd644eaf44afec1863d8496b7c3290d6382d39a2eb821d9d"
+  },
+  {
+    "path": "geeky-orchestration\\evals\\telemetry\\langfuse-coverage.py",
+    "sha256": "145a566c90a24fa47b2015c11860fdcfe41d43ab0b6d399ba585d64499e7bbb1"
+  },
+  {
+    "path": "geeky-orchestration\\evals\\telemetry\\langfuse-scores.py",
+    "sha256": "2ff678d65ec976f97c22f84067ef6243f62dd49b1d2719d186418bb6bf590278"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "session_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/sessions/claude-mxc-win-c0-wordstat-20261025T183455Z",
+  "trace_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/traces/56c68df8b38c049bc19ec8d80f904066",
+  "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z",
+  "environment": "mxc-win",
+  "traces": 11,
+  "observations": 224,
+  "users": 4,
+  "generation_observations": 103,
+  "coverage_complete": false
+}

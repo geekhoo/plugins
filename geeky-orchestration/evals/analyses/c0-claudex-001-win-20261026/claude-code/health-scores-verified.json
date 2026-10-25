@@ -1,0 +1,12 @@
+{
+  "verified": true,
+  "scope": "initial attempt and same-session recovery; fresh user-requested restart is separate",
+  "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z",
+  "scores": {
+    "run_completed": false,
+    "provider_api_error": true,
+    "operator_interventions": 2,
+    "harness_coverage_complete": false,
+    "execution_status": "blocked-provider"
+  }
+}

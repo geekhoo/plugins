@@ -1,0 +1,103 @@
+{
+  "tokens": {
+    "input": 2511862,
+    "cached_input": 1877775,
+    "cache_creation": 120974,
+    "output": 121858,
+    "total": 2633720,
+    "by_model": {
+      "claudex-001": {
+        "inputTokens": 513113,
+        "cacheReadInputTokens": 1877775,
+        "cacheCreationInputTokens": 120974,
+        "outputTokens": 121858
+      }
+    },
+    "cost_usd_estimate": 7.307
+  },
+  "model_calls": 12,
+  "latency_median_ms": 4286,
+  "latency_samples": 13,
+  "max_idle_gap_s": 815,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T18:38:20.247000+00:00",
+      "ended_utc": "2026-10-25T19:13:41.329000+00:00",
+      "minutes": 35.4
+    }
+  ],
+  "impl_review_rounds": null,
+  "skill_invocations": {
+    "spec-research": 1
+  },
+  "tool_calls_main": {
+    "Agent": 4,
+    "PowerShell": 2,
+    "Skill": 1,
+    "Read": 1,
+    "ScheduleWakeup": 1
+  },
+  "tool_calls_subagents": {
+    "PowerShell": 45,
+    "WebFetch": 21,
+    "Read": 14,
+    "Glob": 9,
+    "ToolSearch": 3,
+    "Write": 1
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:geeky-orchestrator": 1,
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 2
+  },
+  "validation_runs": {
+    "sub": 4
+  },
+  "gate_invocations": {},
+  "gate_results": {},
+  "duration_api_ms": 2358862,
+  "subagent_transcripts": {
+    "transcripts": 4,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "general-purpose": 2,
+      "geeky-orchestration:code-explorer": 1,
+      "geeky-orchestration:geeky-orchestrator": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Agent": 4,
+          "PowerShell": 2,
+          "Skill": 1,
+          "Read": 1,
+          "ScheduleWakeup": 1
+        },
+        "dispatches": {
+          "general-purpose": 2,
+          "geeky-orchestration:geeky-orchestrator": 1,
+          "geeky-orchestration:code-explorer": 1
+        },
+        "gates": {}
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "PowerShell": 45,
+          "WebFetch": 21,
+          "Read": 14,
+          "Glob": 9,
+          "ToolSearch": 3,
+          "Write": 1
+        },
+        "dispatches": {},
+        "gates": {}
+      }
+    }
+  }
+}

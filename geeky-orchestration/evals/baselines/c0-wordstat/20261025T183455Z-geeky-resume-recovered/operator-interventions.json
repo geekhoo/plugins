@@ -1,0 +1,46 @@
+{
+  "schema": "geeky-eval.operator-interventions/1",
+  "run_id": "20261025T183455Z",
+  "total": 3,
+  "provider_refusals": 0,
+  "events": [
+    {
+      "at_utc": "2026-10-25T19:09:17.6048457Z",
+      "kind": "transport-session-header",
+      "reason": "LiteLLM/OpenCode Go returned MissingSessionID HTTP400; stable header added through supported Claude settings env reload",
+      "session_id": "cb9fee8c-3bf6-463c-a093-82b8de2d7843",
+      "settings_before_sha256": "06238340d96cb2169c8295aec82d5572ff341d291b457f5f9673534e5491b7ac",
+      "settings_after_sha256": "cf64e400c821379d199dbcddd82a111ee3afa28940fc0802b27192f4b64fc058",
+      "model_unchanged": "claudex-001",
+      "task_changed": false,
+      "thinking_changed": false,
+      "case_ceiling_changed": false,
+      "restart": false,
+      "extra_probe_inference_calls": 0
+    },
+    {
+      "at_utc": "2026-10-25T19:21:01.2291239Z",
+      "kind": "transport-session-resume",
+      "reason": "Live settings change did not clear MissingSessionID; same session resumed with startup headers",
+      "session_id": "cb9fee8c-3bf6-463c-a093-82b8de2d7843",
+      "model_unchanged": "claudex-001",
+      "thinking_changed": false,
+      "task_changed": false,
+      "restart": true,
+      "remaining_original_budget_s": 2636,
+      "extra_probe_inference_calls": 0
+    },
+    {
+      "at_utc": "2026-10-25T19:40:23.1473851Z",
+      "kind": "user-requested-geeky-resume-restart",
+      "reason": "User explicitly requested a fresh Claude restart in the same folder set using geeky-resume",
+      "session_id": "38156247-f588-4dac-86a1-df2c93fec26b",
+      "model_unchanged": "claudex-001",
+      "thinking_changed": false,
+      "task_changed": false,
+      "restart": true,
+      "remaining_original_budget_s": 5400,
+      "extra_probe_inference_calls": 0
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+{
+  "status": "blocked-provider",
+  "completed": false,
+  "comparable_code_quality_result": false,
+  "parity_composite": null,
+  "quality": null,
+  "adherence": null,
+  "consistency": null,
+  "model": "claudex-001",
+  "thinking": "Claude harness/provider default",
+  "run_id": "20261025T183455Z",
+  "recovered_record": "geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-recovered",
+  "error_type": "MissingSessionID",
+  "http_status": 400,
+  "fallback_attempted": false,
+  "operator_interventions": 2,
+  "provider_refusals": 0,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "commits_after_seed": 0,
+  "reported_tokens": {
+    "input": 2511862,
+    "cached_input": 1877775,
+    "cache_creation": 120974,
+    "output": 121858,
+    "total": 2633720,
+    "cost_usd_estimate": 7.307,
+    "reasoning": 922
+  },
+  "original_wall_time_s": 2328,
+  "logical_wall_time_s": 2778,
+  "resume": {
+    "original_segment": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z",
+    "resume_started_utc": "2026-10-25T19:21:01.2466316Z",
+    "resume_ended_utc": "2026-10-25T19:21:15.3455097Z",
+    "remaining_budget_at_resume_s": 2636,
+    "neutral_resume_prompt": "Continue the workflow from where you stopped.",
+    "header_names": [
+      "x-litellm-session-id",
+      "x-opencode-session"
+    ]
+  },
+  "langfuse": {
+    "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z",
+    "environment": "mxc-win",
+    "traces": 11,
+    "observations": 224,
+    "users": 4,
+    "generation_observations": 103,
+    "coverage_complete": false
+  }
+}

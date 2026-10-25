@@ -1,0 +1,18 @@
+{
+  "verified": true,
+  "session_id": "codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+  "environment": "mxc-win",
+  "score_count": 10,
+  "scores": {
+    "final_report_claims_verified": false,
+    "provider_refusals": 0,
+    "harness_coverage_complete": true,
+    "forbidden_git_operation": false,
+    "oracle_pass_rate": 1,
+    "process_consistency": 100,
+    "process_adherence_uncapped": 97.83,
+    "process_adherence": 97.83,
+    "quality": 98.64,
+    "parity_composite": 98.62
+  }
+}

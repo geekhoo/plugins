@@ -1,0 +1,83 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "approach": "mock-agent:happy",
+  "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+  "worker_model": "gpt-6.1-sol",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "workspace": "C:\\repos\\eval-c0-wordstat-codex-20261025T140259Z-ceb29057",
+  "config_directory": "C:\\repos\\.eval-cfg-codex-20261025T140259Z-ceb29057",
+  "seed_sha": "1bc60037e94d4712063ec014ef83c14239a11f44",
+  "session_id": "bbb8e221-ccf2-4c7f-b39c-afd0642a2883",
+  "started_utc": "2026-10-25T14:03:02.1041302Z",
+  "ended_utc": "2026-10-25T14:03:13.7124834Z",
+  "wall_time_s": 12,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "reasoning": 0,
+    "total": 0,
+    "cost_usd_estimate": null
+  },
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 3,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 0,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "14bae1a10333d6533d5ed2c9597cfca2ec89d2a5b490a685d27d95caa54a33c3",
+    "session": "676aacbdd6b49dd3758f0ad4d966a06e820fafd2c7ff15282b0e31f2dc3d5788"
+  },
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "complete",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "5f56a9e59c72b5c2ff84ee83b1fd8073988b279888ff592c148f178f21e8231c",
+  "mock_agent": true,
+  "runtime_toolchain_verified": true,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "provider": null,
+  "telemetry": {
+    "enabled": false
+  },
+  "over_token_ceiling": false,
+  "trace_complete": true,
+  "trace_errors": []
+}
