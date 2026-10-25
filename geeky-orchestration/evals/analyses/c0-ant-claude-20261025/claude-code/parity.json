@@ -6,8 +6,8 @@
   "composite": 59.15,
   "quality": 94.96,
   "adherence": 0.0,
-  "adherence_uncapped": 96.97,
-  "adherence_fraction": "32/33",
+  "adherence_uncapped": 97.14,
+  "adherence_fraction": "34/35",
   "consistency": 100.0,
   "dpc": 1.0,
   "order": 1.0,
@@ -234,6 +234,18 @@
       "dimension": "adherence",
       "status": "pass",
       "evidence": "main-thread code/test writes: []"
+    },
+    {
+      "id": "a.run_completed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "exit_reason completed"
+    },
+    {
+      "id": "a.work_committed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "uncommitted at the end: []"
     },
     {
       "id": "a.one_concern_per_commit",

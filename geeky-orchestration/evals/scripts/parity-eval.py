@@ -271,6 +271,10 @@ class Evaluation:
         code = re.compile(r'(^|/)(wordstat|tests)/[^/]+\.py$')
         writes = [(e['name'], p) for e in impl + self.within('impl-review') if e['thread'] == 'main' for p in e['paths'] if code.search(p)]
         self.check('a.no_orchestrator_code_edits', A, 'fail' if writes else 'pass', f'main-thread code/test writes: {writes[:5]}')
+        reason = self.run.get('exit_reason')
+        self.check('a.run_completed', A, 'pass' if reason == 'completed' else 'fail', f'exit_reason {reason}')
+        dirty = [l for l in git(self.ws, 'status', '--porcelain').splitlines() if not l.endswith('.heartbeat')]
+        self.check('a.work_committed', A, 'fail' if dirty else 'pass', f'uncommitted at the end: {dirty[:5]}')
         for jid in ('a.one_concern_per_commit', 'a.final_report_claims'):
             self.check(jid, A, 'needs_judge', 'from --manual')
 

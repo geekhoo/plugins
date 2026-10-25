@@ -6,9 +6,9 @@ First complete end-to-end C0 runs in Linux MXC (mxc-sandbox 0.2.1). Both used Li
 
 | | Codex run 6 | Claude run 4 |
 |---|---:|---:|
-| **Parity composite** | **98.75** | **59.15** (96.86 without the hard gate) |
+| **Parity composite** | **98.75** | **59.15** (96.93 without the hard gate) |
 | Quality (score-run) | 96.80 | 94.96 |
-| Process adherence | 100.00 (32/32) | **0.00** hard gate; 96.97 uncapped (32/33) |
+| Process adherence | 100.00 (35/35) | **0.00** hard gate; 97.14 uncapped (34/35) |
 | Process consistency | 100.00 | 100.00 |
 | Oracle | 13/13, stable over 3 | 13/13, stable over 3 |
 | Judge items (5) | all pass | all pass |
