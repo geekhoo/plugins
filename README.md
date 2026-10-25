@@ -7,6 +7,10 @@ Claude Code runs. Pick the plugin that matches the job.
 The root includes a Claude Code marketplace plus Codex plugin manifests. Each
 plugin has its own docs and checks.
 
+Latest Windows MXC C0 records: [claudex-001 evaluation](geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/README.md).
+Codex completed at 97.46 parity; Claude's router-fixed resume reached final review
+and timed out at 90.33. Both passed oracle 13/13; Langfuse scores are verified.
+
 ## Plugins
 
 | Plugin | Use it for | Version | Docs |

@@ -1,8 +1,19 @@
 # Codex baseline adapter
 
+Latest Windows C0 result, 2026-10-26: Codex completed at parity 97.46 with
+oracle 13/13 stable over three repetitions and 93 public tests passed.
+[The comparison](../../analyses/c0-claudex-001-win-20261026/README.md) includes
+Claude's router-fixed timeout at parity 90.33. The owner explicitly waived
+native qualification for those attempts. The fixture limits below still apply.
+
+Windows host setup (2026-10-25): [current setup and qualification record](../../analyses/windows-mxc-setup-20261025/README.md).
+The current MXC build passes the standard 21-check native fixture. LiteLLM's
+classic-tool profile remains incompatible with that fixture; its failed attempt
+is retained and does not establish paid Windows LiteLLM qualification.
+
 Current (2026-10-25): Linux MXC launches through LiteLLM (`-Litellm -Model <name> -Launch`) are documented in [the MXC + LiteLLM runbook](../../mxc-litellm-runbook.md); cross-harness scoring uses `scripts/parity-eval.py` (D103). The "no further paid run" notes below belong to the C1 closeout.
 
-Current run3 result (2026-10-24): [completed report](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md), [operator evidence](evidence/20261023T230039Z-run3-operator/README.md). Runner0,1410s,oracle118/118 stable3,final110tests; reviewed QACT99.5628555, complete/no unresolved judgments. Actual16threads/19contexts verify main Sol/high, task/default Sol/medium and reviewers Sol/xhigh. Automatic process extraction is unsupported for this general-orchestrator shape; reviewed annotations and dp12 correction are disclosed. Historical preparation below is superseded. No further paid run, repository commit or push authorized.
+Historical C1 run 3 result (2026-10-24): [completed report](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md), [operator evidence](evidence/20261023T230039Z-run3-operator/README.md). Runner 0, 1410s,oracle 118/118 stable over 3 repetitions,final 110 tests; reviewed QACT 99.5628555, complete/no unresolved judgments. Actual16 threads/19 contexts verify main Sol/high, task/default Sol/medium and reviewers Sol/xhigh. Automatic process extraction is unsupported for this general-orchestrator shape; reviewed annotations and dp12 correction are disclosed. Historical preparation below is superseded. At that checkpoint, no further paid run, repository commit, or push was authorized.
 
 Current final-pair closeout: [automatic normalization and guard evidence](../../analyses/c1-final-parity-20261024/README.md). Run 2 process extraction and strict failure contract are Done for supported shapes; 68 parser tests and 64 guard/profile/trust tests pass (2 optional parser fixture skips). No guard code change; shared shell bypass and unverified paid invocation remain explicit. No new run, commit or push authorized.
 
@@ -179,7 +190,7 @@ See [final checkpoint evidence](evidence/20261023T1651Z-checkpoint2/README.md).
 
 ## Historical checkpoint 4 outcome (superseded by checkpoint 5)
 
-The separately authorized replacement [20261023T182024Z-5fa13924](../../baselines/c1-csvledger/20261023T182024Z-5fa13924/notes.md) completed in 1,349 seconds with zero interventions and seven contestant commits. Oracle 118/118 passed in all three checks. Independent bundle-clone validation passed T1's 23 tests at a8a5f34, T2's 72 tests and help at 20ed68b, and the final 76 tests and help at d05528f. All 14 own-history thread contexts verify main gpt-6.1-sol/medium and all 13 descendants gpt-6-luna/max. Usage: 17,729,214 tokens (cached input is a subset); API latency and cost remain null. Reference eligibility remains false pending Codex calibration.
+The separately authorized replacement [20261023T182024Z-5fa13924](../../baselines/c1-csvledger/20261023T182024Z-5fa13924/notes.md) completed in 1, 349 seconds with zero interventions and seven contestant commits. Oracle 118/118 passed in all three checks. Independent bundle-clone validation passed T1's 23 tests at a8a5f34, T2's 72 tests and help at 20ed68b, and the final 76 tests and help at d05528f. All 14 own-history thread contexts verify main gpt-6.1-sol/medium and all 13 descendants gpt-6-luna/max. Usage: 17, 729, 214 tokens (cached input is a subset); API latency and cost remain null. Reference eligibility remains false pending Codex calibration.
 
 The initial attempt [20261023T175251Z-2941f32c](../../baselines/c1-csvledger/20261023T175251Z-2941f32c/score.md) remains separately preserved and unscorable. It stopped after 82 seconds because two denied-root recurrences exceeded the then-approved exact-one count. Human authorization then approved one replacement and exact-signature recurrence accounting: install/catalogue remain exact zero; exec requires at least one; every raw recurrence and all independent version/root/skill/parity proofs remain required. Six model-free fork comparisons all had one recurrence, so forkall causation is unverified. No paid authorization remains.
 

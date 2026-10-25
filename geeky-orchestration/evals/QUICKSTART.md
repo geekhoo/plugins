@@ -4,6 +4,14 @@ This sheet takes you from a fresh Linux host to a scored run. Each step links to
 
 Commands run from the repository root unless noted. `T=~/repos/.eval-tools` throughout.
 
+For Windows preparation without oracle or contestant execution, use
+`run-baseline.ps1 -PrepareOnly` for Claude and omit both `-Launch` and
+`-MockAgent` for Codex. Claude's older `-DryRun` executes the seed oracle.
+The [Windows claudex-001 preparation record](analyses/c0-claudex-001-preparation-20261025/README.md)
+contains the model-specific setup history; qualification was subsequently waived
+by the owner. The [Windows claudex-001 results](analyses/c0-claudex-001-win-20261026/README.md)
+record Codex's completed run and Claude's router-fixed, same-folder resume timeout.
+
 ## A. Set up the host (once, ~20 min)
 
 1. **System packages.** Ubuntu 24.04 was verified. MXC's Linux backend is described in [mxc-sandbox/README.md](../../mxc-sandbox/README.md).
@@ -77,7 +85,7 @@ pwsh -NoProfile -File evals/scripts/run-baseline.ps1       -Case c0-wordstat -Mo
 
 ```bash
 P=$T/agent-py/bin/python; RUN=evals/baselines/c0-wordstat/<stamp>; H=claude-code   # or codex
-OUT=evals/analyses/<your-analysis>/$H; SID=$(python3 -c "import json;print(json.load(open('$RUN/run.json'))['session_id'])")
+OUT=evals/analyses/<your-analysis>/$H; SID=$(python3 -c "import json;r=json.load(open('$RUN/run.json'));print((r.get('telemetry') or {}).get('session_id') or r['session_id'])")
 $P evals/telemetry/langfuse-run.py --session-id $SID --output /tmp/sum.json --full /tmp/obs.json
 $P evals/scripts/score-run.py $RUN --harness $H --out $OUT
 # Judge the needs_judge items against the workspace and write $OUT/manual-verdicts.json

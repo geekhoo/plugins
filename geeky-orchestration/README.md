@@ -1,8 +1,17 @@
 # geeky-orchestration
 
-C1 run 3 completed: **99.6 reviewed QACT**, oracle118/118 stable3, final110 tests, exact requested Sol/high–medium–xhigh matrix. [Report](evals/baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md) and [operator evidence](evals/adapters/codex/evidence/20261023T230039Z-run3-operator/README.md). The automatic extractor did not support this delegation shape; source-bound reviewed scoring is explicit. One paid attempt completed; no further launch authorized.
+Latest Windows C0: Codex completed `claudex-001` at runner-default thinking with
+**97.46 parity**, oracle 13/13 stable over 3 repetitions and 93 public tests passing. Ten session
+scores are published and verified. [Run report](evals/analyses/c0-claudex-001-win-20261026/codex/report.md).
+After the owner's router fix, Claude's same-folder geeky-resume retry reached
+final review and timed out at 90m02s: **90.33 parity**, oracle 13/13 stable over 3 repetitions,
+56 public tests passing with 2 platform skips. Its ten scores are also verified.
+See the [Claude retry report](evals/analyses/c0-claudex-001-win-20261026/claude-code/router-fixed/report.md)
+and [comparison](evals/analyses/c0-claudex-001-win-20261026/README.md).
 
-Latest final-pair result: [automatic Codex 2 normalization](evals/analyses/c1-final-parity-20261024/README.md) reproduces 98.040005 without operator process mappings; Claude 6 remains 98.271809. Strict incomplete scoring fails nonzero. Guard fixtures pass; paid-session hook invocation remains unverified.
+C1 run 3 completed: **99.6 reviewed QACT**, oracle 118/118 stable over 3 repetitions, final 110 tests, exact requested Sol/high–medium–xhigh matrix. [Report](evals/baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md) and [operator evidence](evals/adapters/codex/evidence/20261023T230039Z-run3-operator/README.md). The automatic extractor did not support this delegation shape; source-bound reviewed scoring is explicit. One paid attempt completed; no further launch authorized.
+
+Historical C1 final-pair result: [automatic Codex 2 normalization](evals/analyses/c1-final-parity-20261024/README.md) reproduces 98.040005 without operator process mappings; Claude 6 remains 98.271809. Strict incomplete scoring fails nonzero. Guard fixtures pass; paid-session hook invocation remains unverified.
 
 C1 evaluation records are current through [checkpoint 5](evals/codex-c1-checkpoint5.md): corrected Codex scores 96.3/98.0, complete four-run measurement and a frozen six-Claude reproduction. Runtime guard parity and Codex calibration remain explicit follow-ups; no further execution is authorized by these records.
 
@@ -12,6 +21,15 @@ Use the shared [workflow terminology](AGENTS.md#workflow-terminology).
 
 To set up and run an eval yourself (Linux MXC, Claude Code or Codex, LiteLLM, Langfuse), start with
 [the eval quickstart](evals/QUICKSTART.md).
+
+For the verified Windows ProcessContainer setup, free preflight launcher and
+current native qualification limits, see the
+[Windows MXC setup record](evals/analyses/windows-mxc-setup-20261025/README.md).
+MXC telemetry now uses platform-specific environments and agent-specific user
+identities; see the [naming contract](evals/telemetry/README.md#agent-and-run-identities).
+The [C0 claudex-001 preparation](evals/analyses/c0-claudex-001-preparation-20261025/README.md)
+records both provider configurations and the original Windows Codex launch gate.
+The owner later waived qualification for the runs linked above.
 
 For the Codex C1 evaluation adapter and its current checkpoint limits, see
 [the adapter README](evals/adapters/codex/README.md). It is separate from the
@@ -30,7 +48,7 @@ three runs is in [the Claude review](evals/analyses/c1-claude-review-20261024.md
 |---|---|---|
 | `spec-research` | skill | Researches a new spec with a parallel 3-subagent team (codebase, web best practices, architecture), then writes `feature-specification.md` and `README.md` in `docs/`. Runs *before* `geeky-plan`. |
 | `geeky-plan` | skill | Produces a complete planning package: implementation plan, ordered task files, PM review, kanban, references, handoff. |
-| `plan-review` | skill | 4-phase quality review of a `geeky-plan` package — document alignment, issue resolution, sequencing validation, final sanity pass. Run between planning and implementation. |
+| `plan-review` | skill | 4-phase quality review of a `geeky-plan` package. document alignment, issue resolution, sequencing validation, final sanity pass. Run between planning and implementation. |
 | `geeky-implement` | skill | Orchestrates execution: walks the kanban, delegates `geeky-coder` subagents (up to 3 in parallel), runs per-task validation, code review, and per-phase PM review, commits in small logical groups, never pushes. |
 | `impl-review` | skill | Reviews *delivered code* (not planning docs) with 3 dynamically-chosen domain-expert subagents, each covering a distinct aspect of what was built. |
 | `geeky-status` | skill | Read-only snapshot of a planning folder. Lane counts, blocked items, last handoff entry, suggested next step. No agents, no edits. |
@@ -50,7 +68,7 @@ three runs is in [the Claude review](evals/analyses/c1-claude-review-20261024.md
 | `scripts/check-commit.{ps1,py}` | gate | Commit message is Conventional Commits + references a task (`Tasks: T<n>`). |
 | `hooks/guard-planning-contract.{ps1,py}` | hook | PreToolUse guard for edits to frozen planning artifacts. Default `--mode warn` (advisory, surfaced via portable stdout+stderr); `--mode block` denies via Claude/Codex JSON (or exit 2 with `--exit-code`). |
 | `AGENTS.md` + `geeky.manifest.json` | discovery | Framework-agnostic discovery layer: how non-Claude agents learn the contract and invoke the gates (human-readable + machine-readable). |
-| `mcp/server.py` + `.mcp.json` | MCP server | `geeky_mcp` — stdio server exposing the six gates as MCP tools for any MCP-capable agent. Thin adapter over the same scripts. See [mcp/README.md](mcp/README.md). |
+| `mcp/server.py` + `.mcp.json` | MCP server | `geeky_mcp`. stdio server exposing the six gates as MCP tools for any MCP-capable agent. Thin adapter over the same scripts. See [mcp/README.md](mcp/README.md). |
 
 Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, summary on stdout** (optional `--json` / `-Json`). Each ships paired Python + PowerShell with identical output and exit codes. See [docs/framework-agnostic-quality-gates.md](docs/framework-agnostic-quality-gates.md) for the design rationale.
 
@@ -99,9 +117,9 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 - **Parallelism:** up to 3 concurrent `geeky-coder` subagents, gated by a checklist (no shared deps, no file-surface overlap, no shared mutable artifacts).
 
 Override per run via flags inside the argument string:
-- `--phase=<name|number>` — scope to one phase
-- `--dry-run` — preview the execution model, modify nothing
-- `--serial` — disable parallelism for this run
+- `--phase=<name|number>`. scope to one phase
+- `--dry-run`. preview the execution model, modify nothing
+- `--serial`. disable parallelism for this run
 
 ## Contract between commands
 
@@ -116,9 +134,9 @@ The output of `/geeky-plan` is a **read-only contract** consumed by `/geeky-impl
 If reality diverges from the plan mid-run, the task is moved to Blocked with a note in `kanban.md` and surfaced to the user. The bundled PreToolUse hook surfaces a warning if any tool attempts to write to a frozen artifact (default `--mode warn`); switch it to `--mode block` in `hooks/hooks.json` to deny such edits outright.
 
 Mutable artifacts (updated continuously by `/geeky-implement`):
-- `kanban.md` — single source of truth for lane status
-- `handoff.md` — running log + Deferred follow-ups
-- `tasks/Tx-*.notes.md` — per-task summary, validation log, review findings
+- `kanban.md`. single source of truth for lane status
+- `handoff.md`. running log + Deferred follow-ups
+- `tasks/Tx-*.notes.md`. per-task summary, validation log, review findings
 
 ## Install
 
@@ -177,7 +195,7 @@ bash "${CLAUDE_PLUGIN_ROOT}/hooks/py-run.sh" "${CLAUDE_PLUGIN_ROOT}/hooks/guard-
 ```
 
 Requirements:
-- The Python implementations need **Python 3.8+** on PATH as `python` (or `python3` — edit `hooks.json` if your environment uses the latter). No third-party packages required — stdlib only.
+- The Python implementations need **Python 3.8+** on PATH as `python` (or `python3`. edit `hooks.json` if your environment uses the latter). No third-party packages required. stdlib only.
 - The PowerShell implementations, including the default hook, need **PowerShell 7+ (`pwsh`)** on PATH. It's present on Windows; on macOS or Linux, install `pwsh` or switch the hook to the Python guard as above.
 - The `geeky_mcp` server is the exception: it needs `uv` and is pinned to **Python 3.14** by `mcp/.python-version` (`uv` downloads it on first launch if absent). The gates and hook above are unaffected. See [mcp/README.md](mcp/README.md) for why the interpreter is pinned, what the server costs at startup, and the stdio subprocess rule.
 

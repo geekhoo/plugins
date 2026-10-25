@@ -1,5 +1,10 @@
 # Runbook: Claude Code and Codex evals in MXC, through LiteLLM, traced to Langfuse
 
+For the latest Windows `claudex-001` attempts, see the
+[C0 comparison](analyses/c0-claudex-001-win-20261026/README.md). Codex completed
+at parity 97.46. Claude's same-folder router-fixed retry timed out during final
+review at parity 90.33. These results do not replace native qualification proof.
+
 This is the process that produced complete C0 runs on both harnesses (2026-10-25). It covers Linux MXC (mxc-sandbox 0.2.1, Bubblewrap), models served by a LiteLLM proxy, full-content Langfuse tracing, and harness-neutral scoring. Windows specifics and the older C1 procedure are in [baseline-runs.md](baseline-runs.md). The reasons behind each step are in [lessons-learned.md](lessons-learned.md) and the D-numbers in [agent-eval-decisions.md](../docs/agent-eval-decisions.md).
 
 Short version: [QUICKSTART.md](QUICKSTART.md). Results so far: [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md).
@@ -23,7 +28,7 @@ Short version: [QUICKSTART.md](QUICKSTART.md). Results so far: [C0 on ant-claude
 | `LITELLM_PROXY_URL`, `LITELLM_PROXY_API_KEY` | The LiteLLM proxy and its virtual key. |
 | `TRACE_TO_LANGFUSE=true` | Turns telemetry on for both runners. |
 | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL` | Langfuse project. Codex prefers `LANGFUSE_CODEX_*` when set. |
-| `GEEKY_EVAL_LANGFUSE_ENVIRONMENT` | Optional; traces go to environment `mxc` by default. |
+| MXC platform environment | Runners select `mxc-win`, `mxc-linux` or `mxc-mac` and the matching `codex-mxc-*` / `claude-mxc-*` family. Host identity overrides are not used. |
 | `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE` / `NODE_EXTRA_CA_CERTS` | Only behind a TLS-inspecting proxy. They pass through to the sandbox. |
 
 Keys reach the sandbox only as bare `--env NAME`; the MXC host copies the value and never prints it.
@@ -62,7 +67,7 @@ pwsh -NoProfile -File evals/scripts/run-baseline.ps1       -Case c0-wordstat -Mo
 
 1. **Commit the run folder**, `evals/baselines/<case>/<stamp>/`, as evidence. Commit failed runs too.
 2. **Telemetry** is already in the folder:
-   - `run.json.telemetry`: `delivered`, `observations`, `coverage_complete`;
+   - `run.json.telemetry`: human-readable `session_id`, `agent_family`, `environment`, `delivered`, `observations`, `coverage_complete`;
    - `langfuse.json`;
    - `langfuse-coverage.json`.
 
@@ -71,7 +76,7 @@ pwsh -NoProfile -File evals/scripts/run-baseline.ps1       -Case c0-wordstat -Mo
 
    ```bash
    P=~/repos/.eval-tools/agent-py/bin/python
-   $P evals/telemetry/langfuse-run.py --session-id <session> --output /tmp/sum.json --full /tmp/obs.json   # 50-100 MB; keep it out of git
+   $P evals/telemetry/langfuse-run.py --session-id <run.json.telemetry.session_id> --output /tmp/sum.json --full /tmp/obs.json   # 50-100 MB; keep it out of git
    $P evals/scripts/score-run.py <run> --harness <claude-code|codex> --out <analysis-dir>                   # Quality (harness-neutral)
    # Judge the needs_judge items by hand against the workspace -> <analysis-dir>/manual-verdicts.json
    $P evals/scripts/score-run.py <run> --harness <h> --manual <analysis-dir>/manual-verdicts.json --out <analysis-dir>
@@ -81,6 +86,11 @@ pwsh -NoProfile -File evals/scripts/run-baseline.ps1       -Case c0-wordstat -Mo
 
 4. **Audit before you trust a number.** Check every failing check, and the sensitive passes (stage windows, orchestrator code edits), against the raw evidence. Every scoring bug found this session was found that way.
 5. **Compare harnesses with `parity.json`, not `score.json`.** score-run's Adherence, Consistency and Task tier read each harness's transcript through its own parser and are not comparable across harnesses.
+
+New traces use platform-specific environments and actor-specific user IDs.
+All agent traces share the readable run session; parent relationships remain
+metadata links. See [agent and run identities](telemetry/README.md#agent-and-run-identities).
+Older results below retain their original `mxc` environment and native session IDs.
 
 ## 7. Pitfalls: warning and guidance
 
@@ -100,7 +110,7 @@ pwsh -NoProfile -File evals/scripts/run-baseline.ps1       -Case c0-wordstat -Mo
 | **Forbidden git hidden in a "fix"** | Claude ran `git reset --soft HEAD~1` to unstage a file. That is amend by other means, and the D24 hard gate sets adherence to 0. | Read the reflog. It is a real rule break, not a scorer artefact. |
 | **Langfuse readback looks short** | v4 ingests asynchronously (4/10 scores, then 20/20 seconds later). | Poll until counts are stable (`langfuse-run.py --wait`). Reads go through `/api/public/v2/observations` and `/api/public/v3/scores`. |
 | **Codex Langfuse upload missing after a kill** | The Stop hook only fires at turn end. Node ignores `HTTPS_PROXY`. | The runner replays the rollout inside MXC (`host_flush`), with `LANGFUSE_TIMEOUT=300`. |
-| **Unexpected tags or user on Codex traces** | `LANGFUSE_CODEX_TAGS` and `LANGFUSE_CODEX_USER_ID` in the host env override the runner. | Unset them for clean eval traces. |
+| **Unexpected extra tags** | Host `LANGFUSE_CODEX_TAGS` / `CC_LANGFUSE_TRACE_TAGS` are appended to the mandatory run/actor tags. | Unset them for clean traces. MXC user IDs and environments are generated from source-bound actor identity and the actual platform. |
 | **Tracer smoke tests write to real Langfuse** | A local trace-name test uploaded duplicates under `development`. | Point tests at a local OTLP sink, or expect the duplicates. |
 | **Live run folders trip the stop hook** | Untracked `evals/baselines/...` while a run writes. | Exclude them in `.git/info/exclude` until the run ends, then remove the line and commit the folder. |
 | **Sandbox HOME was the workspace** | Claude Code and pwsh wrote `.cache/` into the contestant repo. | Fixed: the host sets a private HOME. The mock checks `env.home_outside_workspace`. |

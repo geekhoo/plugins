@@ -1,4 +1,4 @@
-# Agent Eval — Decision Record
+# Agent Eval. Decision Record
 
 Design decisions for `/geeky-eval`. It is an end-to-end workflow inside geeky-orchestration that:
 
@@ -214,10 +214,10 @@ All inputs come from the normalized trace (D19) and the task's artifacts.
 
 | Part | Weight | Definition |
 |---|---|---|
-| **V** — validation attempts | 0.40 | `a` = the number of validation attempts, counted from the task's first code edit up to the first fully passing run. An attempt is a full run of any validation-block command that produced a test outcome; subset runs (`-k`, `::node`), pytest usage or collection errors (exit 4 or 5) and D81-type environment faults do not count. Each main-thread code edit to the task's files adds one attempt (D87). V = max(0, 1 − 0.25 × (a − 1)), so 1 attempt scores 1.0, 2 score 0.75, 3 score 0.5 and 4 score 0.25. V = 0 if the block never passes, including when the scorer's re-run fails (D27). |
-| **R** — review rounds | 0.30 | `r` = the number of task-review rounds until PASS. R = 1 for `r` = 1 (first try), 0.5 for `r` = 2, and 0 for `r` ≥ 3 or if the task never passes review. A phase or batch reviewer verdict that names the task counts as one round; an orchestrator self-verdict or a deferral to `impl-review` counts as none. |
-| **T** — latency-normalized duration | 0.20 | `d` = wall time from the task's dispatch (In Progress) to its first fully passing validation run or its review PASS, whichever is later; the Done move is the end only when neither exists. The adjusted time is `d_adj` = d × (L_ref ÷ L_run), where `L_run` is the run's median model-response latency per turn and `L_ref` is a fixed per-adapter constant: 2678 ms for Claude Code. This removes slow-API effects. T = max(0, 1 − d_adj ÷ task timeout) (D37, 20 min by default). |
-| **D** — DoD gate | 0.10 | 1 if `check-dod` passes for the task, else 0. |
+| **V**. validation attempts | 0.40 | `a` = the number of validation attempts, counted from the task's first code edit up to the first fully passing run. An attempt is a full run of any validation-block command that produced a test outcome; subset runs (`-k`, `::node`), pytest usage or collection errors (exit 4 or 5) and D81-type environment faults do not count. Each main-thread code edit to the task's files adds one attempt (D87). V = max(0, 1 − 0.25 × (a − 1)), so 1 attempt scores 1.0, 2 score 0.75, 3 score 0.5 and 4 score 0.25. V = 0 if the block never passes, including when the scorer's re-run fails (D27). |
+| **R**. review rounds | 0.30 | `r` = the number of task-review rounds until PASS. R = 1 for `r` = 1 (first try), 0.5 for `r` = 2, and 0 for `r` ≥ 3 or if the task never passes review. A phase or batch reviewer verdict that names the task counts as one round; an orchestrator self-verdict or a deferral to `impl-review` counts as none. |
+| **T**. latency-normalized duration | 0.20 | `d` = wall time from the task's dispatch (In Progress) to its first fully passing validation run or its review PASS, whichever is later; the Done move is the end only when neither exists. The adjusted time is `d_adj` = d × (L_ref ÷ L_run), where `L_run` is the run's median model-response latency per turn and `L_ref` is a fixed per-adapter constant: 2678 ms for Claude Code. This removes slow-API effects. T = max(0, 1 − d_adj ÷ task timeout) (D37, 20 min by default). |
+| **D**. DoD gate | 0.10 | 1 if `check-dod` passes for the task, else 0. |
 
 Per-task score: s_i = 100 × (0.40 V + 0.30 R + 0.20 T + 0.10 D).
 
@@ -291,6 +291,19 @@ The weights sum to 1, so the score stays 0–100 however many tasks there are. L
 | D102 | MXC runs on Linux and macOS too | The `mxc-sandbox` host uses the native default backend outside Windows (Bubblewrap on Linux, Seatbelt on macOS) with POSIX quoting and symlink-target grants; both runners pick paths, venv layout and `tar` per platform. Verified on Ubuntu 24.04 (bwrap 0.9, slirp4netns, iproute2, iptables): read-only grants enforced, ungranted paths absent, egress allowed. The C0-C3 mock matrix passes for both harnesses there. Windows behaviour is unchanged but was not re-run in this change. mxc-sandbox 0.2.1 spawns sandboxes from a dedicated long-lived thread (bwrap's `--die-with-parent` follows the forking thread, so a retired thread-pool worker killed runs with exit 255) and gives the sandbox a private HOME. |
 | D103 | Harness parity is scored with `parity-eval.py` | score-run's Adherence, Consistency and Task tier read each harness's transcript through its own parser; the Codex parser expects the Windows PowerShell shape, so on Linux it scored ~20 process checks "not found". `scripts/parity-eval.py` reads every run the same way: Langfuse observations (one shape for both tracers), reflog stage bounds (a stage starts at the earlier of its commit and the first non-batched read of its skill), and the final artifacts rechecked with the plugin's gate scripts, plus run-completed and work-committed checks. Quality stays with score-run (artifact-based). Composite = (0.35 Q + 0.35 A + 0.20 C) / 0.90. Judge items come from hand-reviewed `manual-verdicts.json` under one rubric for both harnesses. Results are also posted as Langfuse session scores (`telemetry/langfuse-scores.py`). |
 | D104 | LiteLLM auth and provider refusals | With `-Litellm` the Claude runner passes the proxy key as `ANTHROPIC_API_KEY` (`x-api-key`) and clears `ANTHROPIC_AUTH_TOKEN` and the OAuth token; Codex uses a `litellm` provider with `env_key = LITELLM_PROXY_API_KEY`. A provider content-filter stop is recorded as `exit_reason = provider_refusal`; `-ResumeOnRefusal N` resumes the same session with a neutral prompt up to N times, each counted as an intervention and making the run ineligible as a reference. The ant-claude filter proved intermittent (8 replays of the refused request passed). |
+
+## Agent identity telemetry decision (2026-10-25)
+
+| ID | Decision | Evidence and limits |
+|---|---|---|
+| D105 | Platform and actor identities for MXC telemetry | New runs use `mxc-win`, `mxc-linux`, or `mxc-mac`; families `codex-mxc-*` / `claude-mxc-*`; readable shared run sessions; and source-bound per-agent user IDs. Each actor owns a trace to prevent child propagation overwriting its parent's user identity. Cross-agent parent IDs remain metadata. Pinned originals and native session IDs are preserved; readback, coverage and score publication support both new and historical session records. Windows mocks and separate three-agent fixtures were read back through the Langfuse CLI with zero model inference. Linux/macOS naming is unit-tested only. This does not migrate old sessions, rescore baselines or authorize paid execution. [Identity validation](../evals/analyses/telemetry-identity-20261025/README.md). |
+
+## Owner override and source-audited C0 scoring (2026-10-26)
+
+| ID | Decision | Evidence and limits |
+|---|---|---|
+| D106 | Explicit owner native-qualification override | `run-codex-baseline.ps1 -SkipNativeQualification` requires an explicit reason and records `waived-by-owner`; it does not claim qualification, weaken MXC containment, change model routing, or discard real exit/oracle failures. The owner authorized this for `claudex-001`, confirming it works on both harnesses. Default proof behavior remains unchanged when the switch is absent. |
+| D107 | Source-reviewed validation anchors and parser corrections | Compaction proposals are not executed tools; exact native rejected patches remain failures with no successful writes. Phase hierarchy, UTC offsets, batched gate results and literal variable skill reads normalize source evidence symmetrically. Reviewed native coder-start/Done call IDs can supply missing task anchors while preserving H1/D27 commit selection, not arbitrary passing snapshots. Final C0 parity 97.46 supersedes provisional 98.62 after retaining T1's first-snapshot failure. Formula/weights unchanged. [Audited report](../evals/analyses/c0-claudex-001-win-20261026/codex/report.md). |
 
 ## Open items
 
