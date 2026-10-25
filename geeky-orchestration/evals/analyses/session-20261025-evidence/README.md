@@ -12,9 +12,8 @@ These are working files from the cloud session that built the Linux MXC + LiteLL
 | `judge-calibration/` | `candidate-root-turns.json`: every main-thread turn (`Codex Turn`, `Conversational Turn`) with its output, across environments `mxc`, `smoke` and `development`. These are the candidate examples for calibrating the `final_report_complete` judge; they are not labelled yet. |
 | `preflight-claudex/` | The model-free preflight (both harnesses, C0, telemetry on) that passed before the ant-claudex runs. |
 
-Not included:
+Not included here:
 - The raw Langfuse observation dumps (about 100 MB per run). They are in the Langfuse project under the session ids in the analyses; refetch with `telemetry/langfuse-run.py --full`.
-- A decompiled copy of the Microsoft MXC SDK, which was used only to trace `SpawnAsync`.
-- Downloaded installers, build output and virtual environments, which can be rebuilt with the runbook's setup steps.
+- The decompiled MXC SDK, the installers, the build output and the venvs. They are zipped at the repository root in [archives/session-20261025/](../../../../archives/session-20261025/README.md), outside the plugin folder.
 
 The timed-out Claude ant-claudex run left uncommitted work. It is preserved in [its run folder](../../baselines/c0-wordstat/20261025T061414Z/uncommitted-at-timeout/): the untracked `review-impl.md` and the `handoff.md` diff.
