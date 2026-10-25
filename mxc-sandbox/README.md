@@ -21,7 +21,7 @@ The plugin bundles a small .NET host (`Microsoft.Mxc.Sdk` 1.0.1) and four skills
     thread that stays alive until the workload exits (0.2.1)
 - .NET 10 SDK (host targets `net10.0`; for SDK 8/9 edit `scripts/host/MxcClaude/MxcClaude.csproj`; the
   wrapper checks the SDK against the project's target)
-- Native Claude CLI at `%USERPROFILE%\.local\bin\claude.exe` (`~/.local/bin/claude` elsewhere), or set `MXC_CLAUDE_EXE`
+- Native Claude CLI at `%USERPROFILE%\.local\bin\claude.exe` (`~/.local/bin/claude` elsewhere), else the first `claude` on PATH, or set `MXC_CLAUDE_EXE`
 
 ## Skills
 

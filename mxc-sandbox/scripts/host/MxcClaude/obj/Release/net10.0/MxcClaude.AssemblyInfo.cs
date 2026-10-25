@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MxcClaude")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a9841a985b89dcf65f73c62e20d1994a10f6044e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6cd65e3c6e5cda534a45d540b0761f2050bc45a3")]
 [assembly: System.Reflection.AssemblyProductAttribute("MxcClaude")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MxcClaude")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

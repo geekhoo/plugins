@@ -29,8 +29,9 @@ using Microsoft.Mxc.Sdk.V1;
 var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 // Not under %LOCALAPPDATA%: BaseContainer redirects that tree, so read-write grants there cannot be written.
 var stateRoot = Environment.GetEnvironmentVariable("MXC_SANDBOX_HOME") ?? Path.Combine(home, ".mxc-sandbox");
+var defaultClaudeExe = Path.Combine(home, ".local", "bin", OperatingSystem.IsWindows() ? "claude.exe" : "claude");
 var claudeExe = Environment.GetEnvironmentVariable("MXC_CLAUDE_EXE")
-    ?? Path.Combine(home, ".local", "bin", OperatingSystem.IsWindows() ? "claude.exe" : "claude");
+    ?? (File.Exists(defaultClaudeExe) ? defaultClaudeExe : FindOnPath("claude").FirstOrDefault() ?? defaultClaudeExe);
 
 // Shared mode: the host's real config dir is granted read-write so the existing login, settings,
 // plugins and sessions apply. ~/.claude.json cannot be granted on its own (BaseContainer denies the
