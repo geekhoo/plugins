@@ -1,5 +1,9 @@
 # Langfuse telemetry for MXC eval runs
 
+The [Windows C0 comparison](../analyses/c0-claudex-001-win-20261026/README.md)
+records paid-run identity audits and ten verified published scores per session.
+The earlier model-free identity fixtures remain [separate evidence](../analyses/telemetry-identity-20261025/README.md).
+
 Both runners can send every eval session to Langfuse in full. The Claude Code runner is `run-baseline.ps1` and the Codex runner is `run-codex-baseline.ps1`. "In full" means every turn, model generation, subagent or child thread, tool call with its input and output, and thinking or reasoning summary, with nothing truncated. Use the traces to inspect, evaluate and score runs alongside `score-run.py`.
 
 Each harness uses Langfuse's own transcript hook, pinned in `pins.json` and verified by SHA-256:
@@ -10,6 +14,11 @@ Each harness uses Langfuse's own transcript hook, pinned in `pins.json` and veri
 | Codex | [`@langfuse/codex-observability-plugin`](https://github.com/langfuse/codex-observability-plugin) `dist/index.mjs` (Node 22+, self-contained bundle) | `Stop`, registered through the profile's `-c hooks=...` overrides and trusted by its exact command. That command is `agent-py python <run home>/langfuse-tracer.py`, which runs node with the bundle, so no shell has to quote a path like `C:\Program Files\nodejs\node.exe` | Never truncates; `model_reasoning_summary = "detailed"` |
 
 Each hook reads the transcript the harness already writes and uploads it over OTLP. That is the Claude session JSONL and `subagents/` folder, or the Codex rollout and its child-thread rollouts. The hooks fail open, so an upload problem never stops a run.
+
+The MXC adapters preserve those pinned upstream files. A Claude bootstrap and a
+derived Codex converter add the [agent identity contract](#agent-and-run-identities).
+The SDK remains pinned at 4.18.0 because the upstream Claude hook uses SDK 4.x
+backdated-span internals; a major-version migration requires separate validation.
 
 Thinking: in `claude -p` runs, Claude Code asks for `display: "omitted"` thinking by default, which leaves only signatures in the transcript. All 124 thinking blocks in C1 run 6 were empty. `showThinkingSummaries` makes it request API-side summaries instead. Codex runs used `summary: none`, so their reasoning was encrypted only. Summaries are the only plaintext reasoning either vendor returns; raw reasoning stays provider-encrypted.
 
@@ -32,15 +41,62 @@ Telemetry is on when the host has `TRACE_TO_LANGFUSE=true`. Pass `-NoTelemetry` 
 |---|---|
 | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL` | Claude; Codex fallback |
 | `LANGFUSE_CODEX_PUBLIC_KEY`, `LANGFUSE_CODEX_SECRET_KEY`, `LANGFUSE_CODEX_BASE_URL` | Codex (take precedence) |
-| `GEEKY_EVAL_LANGFUSE_ENVIRONMENT` | both; the runners set `LANGFUSE_TRACING_ENVIRONMENT` from it (default `mxc`) |
+| `LANGFUSE_TRACING_ENVIRONMENT`, `LANGFUSE_CODEX_ENVIRONMENT` | runners explicitly select `mxc-win`, `mxc-linux` or `mxc-mac` from the actual host |
 | `CC_LANGFUSE_TRACE_TAGS` / `LANGFUSE_CODEX_TAGS` | appended to the run tags |
-| `LANGFUSE_USER_ID` / `LANGFUSE_CODEX_USER_ID` | user on traces (default `geeky-eval-agent`) |
+| `LANGFUSE_USER_ID` / `LANGFUSE_CODEX_USER_ID` | runners set a safe family fallback; adapters assign each observed agent its own user ID |
 
 Keys reach the sandbox only as bare `--env NAME`. The MXC host copies the value and never prints it. Codex always gets an explicit `LANGFUSE_CODEX_USER_ID`, so its hook never reads `CODEX_HOME/auth.json`. When the host trusts a private CA through `SSL_CERT_FILE`, `REQUESTS_CA_BUNDLE` or `NODE_EXTRA_CA_CERTS`, those variables pass through with a read-only grant on the bundle's folder.
 
 ## Finding a run in Langfuse
 
-Every trace carries these tags: `geeky-eval`, `harness:<claude-code|codex>`, `case:<case>`, `run:<stamp>`, `plugin:<sha7>`, plus `mock` for mock runs. The Langfuse session id is the run's `session_id` in `run.json`, which is the Claude session id or the Codex main thread id.
+Every trace carries `geeky-eval`, `identity:agent-v1`, harness, platform,
+environment, agent-family, case, run and plugin tags, plus `mock` for mocks.
+Agent-role and agent-type tags distinguish each actor. The human-readable
+Langfuse session ID is `run.json.telemetry.session_id`. The original
+`run.json.session_id` remains the native Claude session/Codex thread ID.
+For historical runs without a telemetry session override, use the native ID.
+
+## Agent and run identities
+
+| Field | Windows example | Linux / macOS equivalent |
+|---|---|---|
+| Environment | `mxc-win` | `mxc-linux`, `mxc-mac` |
+| Agent family | `codex-mxc-win`, `claude-mxc-win` | replace `win` with `linux` or `mac` |
+| Run session | `codex-mxc-win-c0-wordstat-<run-stamp>` | same platform naming |
+| Orchestrator trace | `codex-mxc-win-orchestrator` | same platform naming |
+| Coder trace | `claude-mxc-win-coder-<agent-name>` | same platform naming |
+| User ID | `<family>-<role>-<agent-name>-<native-agent-id>` | same platform naming |
+
+When the agent name equals its role, it appears once. User IDs are ASCII,
+bounded below Langfuse's 200-character limit and retain collision-resistant
+suffixes when truncation is necessary. They identify the agent/subagent rather
+than the human operator. Native roles come from structured metadata; unknown
+types stay `unknown`, with the original type and name retained.
+
+Each agent owns its trace. All actors from one run share its session. This
+avoids Langfuse's trace-level user propagation overwriting the orchestrator's
+identity when a coder or reviewer exports. Nested tool calls and generations
+remain under their own actor's `AGENT` observation. Cross-agent dispatch edges
+are stored as `parent_agent_id`, `parent_trace_id` and
+`parent_observation_id` metadata, rather than physical cross-trace nesting.
+
+Filter by environment or `agent-family`/`agent-role` tags, then group by user ID,
+run session or metadata. Flat metadata includes `identity_schema`, `harness`,
+`platform`, `environment`, `case`, `run`, `run_group_id`, `plugin_sha`, configured
+model/reasoning and provider, worker/reviewer defaults, `mock`, `agent_id`,
+`agent_role`, `agent_type`, `agent_name`, `agent_user_id`, `actor_scope`, native
+session ID, available parent IDs and Codex agent path. Generation observations
+continue to carry the actual model, usage and reasoning data from the transcript.
+
+Codex recovers unannounced children from structured parent metadata, including
+nested `source.subagent.thread_spawn` records. Explicit trace seeds are retained
+for independent roots; an external parent becomes a logical metadata link when
+an agent needs independent trace ownership. The raw transcripts and pinned
+upstream files are unchanged. Existing ingested sessions are not renamed.
+
+[Validation and live examples](../analyses/telemetry-identity-20261025/README.md)
+include Windows MXC mocks and separate three-agent fixtures, with zero model
+inference. Linux/macOS naming is covered by tests, not live execution here.
 
 After each run the runner reads the session back with `langfuse-run.py` and writes `langfuse.json` (counts by type, usage totals, truncated observations). It records `telemetry.delivered` and `telemetry.observations` in `run.json`. Claude runs also keep the hook log as `langfuse-hook.log`. To pull a session in full, including all inputs and outputs:
 
@@ -70,7 +126,12 @@ It was calibrated on two real sessions, Claude C1 run 6 and Codex C1 run 3 (repl
 
 ## Scoring in Langfuse
 
-Each run's trace is named `geeky-eval <case> <harness>` (with ` (mock)` for mocks) in environment `mxc`. After scoring with `scripts/parity-eval.py`, `langfuse-scores.py --run <run> --parity <parity.json>` posts 10 session scores (parity composite, quality, adherence, consistency, oracle pass rate, forbidden git, coverage, refusals, judged report claims), each with a score config; score ids derive from session and name, so reposting updates. Evaluator definitions and their state are in [langfuse-evaluators/](langfuse-evaluators/README.md). The full procedure is in [../mxc-litellm-runbook.md](../mxc-litellm-runbook.md).
+After scoring with `scripts/parity-eval.py`, `langfuse-scores.py --run <run>
+--parity <parity.json>` posts 10 scores on the readable run session, falling
+back to the native ID for historical records. Score IDs derive from session and
+name, so reposting updates. Evaluator definitions are in
+[langfuse-evaluators/](langfuse-evaluators/README.md). The full procedure is in
+[../mxc-litellm-runbook.md](../mxc-litellm-runbook.md).
 
 ## Mock runs
 

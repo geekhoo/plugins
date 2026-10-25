@@ -44,13 +44,11 @@ if (-not (Test-Path (Join-Path $codexDir 'dist/index.mjs'))) {
     & $tar -xzf $tgz -C $codexDir --strip-components=1
     if ($LASTEXITCODE) { throw 'Codex tracing package extraction failed' }
 }
-# index.geeky.mjs: the same bundle with its one hard-coded trace name read from GEEKY_TRACE_NAME
-# (falls back to the original names when unset). The pinned index.mjs stays untouched.
-$bundle = Get-Content -LiteralPath (Join-Path $codexDir 'dist/index.mjs') -Raw
-$from = 'traceName: sessionMeta.isSubagentThread ? "Codex Subagent Turn" : "Codex Turn",'
-$to = 'traceName: process.env.GEEKY_TRACE_NAME ? process.env.GEEKY_TRACE_NAME + (sessionMeta.isSubagentThread ? " (subagent)" : "") : (sessionMeta.isSubagentThread ? "Codex Subagent Turn" : "Codex Turn"),'
-if (([regex]::Matches($bundle, [regex]::Escape($from))).Count -ne 1) { throw "Codex tracer: expected exactly one trace-name expression to patch" }
-Set-Content -LiteralPath (Join-Path $codexDir 'dist/index.geeky.mjs') -Value $bundle.Replace($from, $to) -NoNewline -Encoding utf8NoBOM
+# Derived converter adds actor-owned traces and source-bound identity metadata.
+# The pinned original and its package hash remain unchanged.
+& node (Join-Path $PSScriptRoot 'patch-codex-tracer.mjs') `
+    (Join-Path $codexDir 'dist/index.mjs') (Join-Path $codexDir 'dist/index.geeky.mjs')
+if ($LASTEXITCODE) { throw 'Codex identity adapter generation failed.' }
 
 $venv = Join-Path $ToolsDir 'langfuse-py'
 $venvPy = if ($onWindows) { Join-Path $venv 'Scripts\python.exe' } else { Join-Path $venv 'bin/python' }
@@ -68,7 +66,7 @@ Remove-Item Env:VIRTUAL_ENV
 $node = Get-Command node -ErrorAction SilentlyContinue
 $nodeMajor = if ($node) { [int]((& $node.Source --version).TrimStart('v') -split '\.')[0] } else { 0 }
 Write-Host "claude hook:   $hook"
-Write-Host "codex hook:    $(Join-Path $codexDir 'dist/index.geeky.mjs') (trace name from GEEKY_TRACE_NAME)"
+Write-Host "codex hook:    $(Join-Path $codexDir 'dist/index.geeky.mjs') (actor identities within the run session)"
 Write-Host "langfuse-py:   $venvPy (langfuse $($pins.langfuse_python))"
 Write-Host "node:          $(if ($node) { "$($node.Source) (v$nodeMajor)" } else { 'not found' })"
 if ($nodeMajor -lt [int]$pins.codex_plugin.node_major_min) { Write-Warning "Codex tracing needs Node.js $($pins.codex_plugin.node_major_min)+ on PATH at run time." }

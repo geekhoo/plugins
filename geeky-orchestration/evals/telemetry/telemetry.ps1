@@ -3,6 +3,23 @@
 # not given -NoTelemetry. Secrets reach the sandbox only as bare `--env NAME` (copied by the MXC
 # host, never printed); everything else is a plain NAME=VALUE.
 
+function Get-EvalTelemetryNaming {
+    param(
+        [ValidateSet('claude-code', 'codex')][string]$Harness,
+        [ValidateSet('win', 'linux', 'mac')][string]$Platform,
+        [string]$Case,
+        [string]$Stamp
+    )
+    if (-not $Platform) {
+        $Platform = if ($IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop') { 'win' } elseif ($IsMacOS) { 'mac' } else { 'linux' }
+    }
+    $environment = "mxc-$Platform"
+    $family = "$(if ($Harness -eq 'codex') { 'codex' } else { 'claude' })-$environment"
+    $sessionId = "$family-$Case-$Stamp"
+    if ($sessionId.Length -ge 200 -or $sessionId -cmatch '[^\x20-\x7e]') { throw 'Invalid telemetry session identity.' }
+    [pscustomobject]@{ Platform = $Platform; Environment = $environment; Family = $family; SessionId = $sessionId }
+}
+
 function Resolve-EvalTelemetry {
     param(
         [Parameter(Mandatory)][ValidateSet('claude-code', 'codex')][string]$Harness,
@@ -15,6 +32,11 @@ function Resolve-EvalTelemetry {
         [string]$ConfigDir,
         [string]$StateDir,
         [string]$Model,
+        [string]$Reasoning,
+        [string]$WorkerModel,
+        [string]$WorkerReasoning,
+        [string]$ReviewerReasoning,
+        [string]$Provider,
         [switch]$Mock,
         [switch]$Disabled
     )
@@ -31,21 +53,40 @@ function Resolve-EvalTelemetry {
         $found
     }
     $baseUrl = [Environment]::GetEnvironmentVariable($keyNames[2])
+    $naming = Get-EvalTelemetryNaming -Harness $Harness -Case $Case -Stamp $Stamp
+    $platform = $naming.Platform
+    $environment = $naming.Environment
+    $family = $naming.Family
+    $sessionId = $naming.SessionId
     $hostTags = [Environment]::GetEnvironmentVariable($(if ($codex) { 'LANGFUSE_CODEX_TAGS' } else { 'CC_LANGFUSE_TRACE_TAGS' }))
-    $tags = @('geeky-eval', "harness:$Harness", "case:$Case", "run:$Stamp", "plugin:$($PluginSha.Substring(0, 7))") +
-        @(if ($Mock) { 'mock' }) + @(if ($hostTags) { $hostTags -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ } })
+    $extraTags = if ($hostTags -and $hostTags.Trim().StartsWith('[')) { @($hostTags | ConvertFrom-Json) } `
+        elseif ($hostTags) { @($hostTags -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ }) } else { @() }
+    $tags = @('geeky-eval', 'identity:agent-v1', "harness:$Harness", "platform:$platform", "environment:$environment", "agent-family:$family",
+        "case:$Case", "run:$Stamp", "plugin:$($PluginSha.Substring(0, 7))") +
+        @(if ($Mock) { 'mock' }) + $extraTags
     $tags = @($tags | Select-Object -Unique)
     $tagsJson = ConvertTo-Json -InputObject $tags -Compress
-    # Every sandboxed eval run lands in one Langfuse environment, whichever harness ran it; the host's
-    # own LANGFUSE_TRACING_ENVIRONMENT (e.g. development) is for its interactive sessions.
-    $environment = if ($env:GEEKY_EVAL_LANGFUSE_ENVIRONMENT) { $env:GEEKY_EVAL_LANGFUSE_ENVIRONMENT } else { 'mxc' }
-    $traceName = "geeky-eval $Case $Harness" + $(if ($Mock) { ' (mock)' } else { '' })
-    $userId = if ($codex -and $env:LANGFUSE_CODEX_USER_ID) { $env:LANGFUSE_CODEX_USER_ID } elseif ($env:LANGFUSE_USER_ID) { $env:LANGFUSE_USER_ID } else { 'geeky-eval-agent' }
+    $traceName = "$family-orchestrator"
+    # The adapter replaces this fallback with the source-bound native actor ID.
+    $userId = "$family-orchestrator"
+    $metadata = [ordered]@{ identity_schema = 'geeky-eval.agent-identity/1'; harness = $Harness; platform = $platform;
+        environment = $environment; agent_family = $family; case = $Case; run = $Stamp; run_group_id = $sessionId;
+        plugin_sha = $PluginSha; configured_model = $(if ($Model) { $Model } else { 'runner-default' });
+        configured_reasoning = $(if ($Reasoning) { $Reasoning } else { 'runner-default' });
+        worker_model = $(if ($WorkerModel) { $WorkerModel } elseif ($Model) { $Model } else { 'runner-default' });
+        worker_reasoning = $(if ($WorkerReasoning) { $WorkerReasoning } else { 'runner-default' });
+        reviewer_reasoning = $(if ($ReviewerReasoning) { $ReviewerReasoning } else { 'runner-default' });
+        provider = $(if ($Mock) { 'mock' } elseif ($Provider) { $Provider } else { 'runner-default' });
+        configured_provider = $(if ($Provider) { $Provider } else { 'runner-default' }); mock = $(if ($Mock) { 'true' } else { 'false' });
+        claude_hook_commit = $pins.claude_hook.commit; codex_tracer_version = $pins.codex_plugin.version }
+    $metadataJson = ConvertTo-Json $metadata -Compress
 
     # Both SDKs cap each OTLP export at LANGFUSE_TIMEOUT seconds (default 5); a full eval session's batch
     # takes longer, and the hook then fails open with nothing delivered (C1 Codex run 3 replay).
     $envArgs = @('--env', 'TRACE_TO_LANGFUSE=true', '--env', "LANGFUSE_TRACING_ENVIRONMENT=$environment", '--env', 'LANGFUSE_TIMEOUT=300',
-        '--env', "GEEKY_TRACE_NAME=$traceName")
+        '--env', "GEEKY_TRACE_NAME=$traceName", '--env', "GEEKY_AGENT_FAMILY=$family", '--env', "GEEKY_SESSION_ID=$sessionId",
+        '--env', "GEEKY_RUN_METADATA=$metadataJson", '--env', "GEEKY_RUN_TAGS=$tagsJson",
+        '--env', "OTEL_SERVICE_NAME=$family", '--env', "OTEL_RESOURCE_ATTRIBUTES=service.namespace=geeky-eval,deployment.environment.name=$environment")
     foreach ($name in $keyNames) { $envArgs += @('--env', $name) }
     # A host that trusts a private CA (a TLS-inspecting proxy) must hand it to the hooks too, or
     # their HTTPS uploads fail certificate verification inside the sandbox.
@@ -58,8 +99,10 @@ function Resolve-EvalTelemetry {
     }
     $record = [ordered]@{
         enabled = $true; backend = 'langfuse'; base_url = $baseUrl; environment = $environment; trace_name = $traceName; tags = $tags
-        user_id = $userId; full_content = $true; ca_passthrough = @($caNames); session_id = $null; summary = $null
+        user_id = $userId; user_id_policy = 'source-bound-agent'; agent_family = $family; metadata = $metadata;
+        full_content = $true; ca_passthrough = @($caNames); session_id = $sessionId; native_session_id = $null; summary = $null
         delivered = $null; observations = $null; coverage_complete = $null; coverage_missed = $null
+        user_ids = @(); agent_roles = @(); trace_count = $null
     }
     $result = [ordered]@{ Harness = $Harness; KeyNames = $keyNames; BaseUrl = $baseUrl; Tags = $tags; Record = $record
         RoPaths = @($roPaths | Select-Object -Unique) }
@@ -70,10 +113,9 @@ function Resolve-EvalTelemetry {
         $node = (Get-Command node -ErrorAction SilentlyContinue).Source
         $major = if ($node) { [int]((& $node --version).TrimStart('v') -split '\.')[0] } else { 0 }
         if ($major -lt [int]$pins.codex_plugin.node_major_min) { throw "Codex tracing needs Node.js $($pins.codex_plugin.node_major_min)+ on PATH (found: $(if ($node) { "v$major at $node" } else { 'none' }))." }
-        $metadata = [ordered]@{ case = $Case; run = $Stamp; plugin_sha = $PluginSha; harness = $Harness; model = $Model; mock = [bool]$Mock }
         # LANGFUSE_CODEX_USER_ID set explicitly keeps the plugin from reading CODEX_HOME/auth.json.
         $envArgs += @('--env', "LANGFUSE_CODEX_USER_ID=$userId", '--env', "LANGFUSE_CODEX_TAGS=$tagsJson",
-            '--env', "LANGFUSE_CODEX_METADATA=$(ConvertTo-Json $metadata -Compress)", '--env', 'LANGFUSE_CODEX_SKILL_TAGS=true')
+            '--env', "LANGFUSE_CODEX_METADATA=$metadataJson", '--env', "LANGFUSE_CODEX_ENVIRONMENT=$environment", '--env', 'LANGFUSE_CODEX_SKILL_TAGS=true')
         $record.hook = [ordered]@{ kind = 'codex-stop'; package = "$($pins.codex_plugin.package)@$($pins.codex_plugin.version)"; node = $node; script = $index }
         $result.Node = $node
         $result.HookScript = $index
@@ -93,6 +135,9 @@ function Resolve-EvalTelemetry {
         } else { $venvPy }
         $boot = Join-Path $ConfigDir 'claude-hook-boot.py'
         Copy-Item (Join-Path $PSScriptRoot 'claude-hook-boot.py') $boot
+        foreach ($helper in 'agent_identity.py', 'claude_identity.py') {
+            Copy-Item (Join-Path $PSScriptRoot $helper) (Join-Path $ConfigDir $helper)
+        }
         New-Item -ItemType Directory -Force $StateDir | Out-Null
         $hookArgs = @($python, $boot, $sitePackages, $hook)
         # Windows hooks must not use Git Bash, which cannot start in MXC (microsoft/mxc#1061).
@@ -149,6 +194,13 @@ function Save-EvalTelemetry {
     param([Parameter(Mandatory)]$Telemetry, [string]$SessionId, [Parameter(Mandatory)][string]$OutDir,
           [Parameter(Mandatory)][string]$Python, [int]$WaitSec = 120)
     $Telemetry.Record.session_id = $SessionId
+    $Telemetry.Record.native_session_id = $SessionId
+    if ($SessionId -and $Telemetry.Record.agent_family) {
+        $nativeSlug = ($SessionId.ToLowerInvariant() -replace '[^a-z0-9]+', '-').Trim('-')
+        $Telemetry.Record.user_id = "$($Telemetry.Record.agent_family)-orchestrator-$nativeSlug"
+    }
+    if ($Telemetry.Record.metadata.run_group_id) { $Telemetry.Record.session_id = $Telemetry.Record.metadata.run_group_id }
+    $SessionId = $Telemetry.Record.session_id
     if ($Telemetry.StateDir -and (Test-Path (Join-Path $Telemetry.StateDir 'langfuse_hook.log'))) {
         Copy-Item (Join-Path $Telemetry.StateDir 'langfuse_hook.log') (Join-Path $OutDir 'langfuse-hook.log')
     }
@@ -158,9 +210,13 @@ function Save-EvalTelemetry {
         --public-key-env $Telemetry.KeyNames[0] --secret-key-env $Telemetry.KeyNames[1] --base-url-env $Telemetry.KeyNames[2]
     $Telemetry.Record.summary = if ($LASTEXITCODE -eq 0) { 'langfuse.json' } else { "langfuse-run exit $LASTEXITCODE" }
     if (Test-Path $summary) {
-        $observations = [int](Get-Content $summary -Raw | ConvertFrom-Json).observations
+        $sessionSummary = Get-Content $summary -Raw | ConvertFrom-Json
+        $observations = [int]$sessionSummary.observations
         $Telemetry.Record.observations = $observations
         $Telemetry.Record.delivered = $observations -gt 0
+        $Telemetry.Record.user_ids = @($sessionSummary.user_ids)
+        $Telemetry.Record.agent_roles = @($sessionSummary.agent_roles)
+        $Telemetry.Record.trace_count = $sessionSummary.traces
     }
     if ($Telemetry.Record.delivered) {
         # Which harness points the session reached (cases/c0-wordstat/spec.md); informational, never fatal.

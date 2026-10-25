@@ -9,4 +9,8 @@ import subprocess
 import sys
 
 config = json.loads(Path(__file__).with_suffix('.json').read_text(encoding='utf-8'))
-sys.exit(subprocess.run([config['node'], config['hook']], stdin=sys.stdin).returncode)
+# Node's normal entry-point realpath walks C:\\, which --no-enumerate-root
+# intentionally denies. Preserve the explicitly granted paths without widening
+# the sandbox's filesystem grants. The downloaded tracer bundle stays untouched.
+node_options = ['--preserve-symlinks-main', '--preserve-symlinks'] if sys.platform == 'win32' else []
+sys.exit(subprocess.run([config['node'], *node_options, config['hook']], stdin=sys.stdin).returncode)

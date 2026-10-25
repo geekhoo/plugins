@@ -23,4 +23,5 @@ if not payload.get('turn_id'):
             item = row.get('payload') or {}
             if row.get('type') == 'event_msg' and item.get('type') == 'task_started' and item.get('turn_id'):
                 payload['turn_id'] = item['turn_id']
-sys.exit(subprocess.run([node, tracer], input=json.dumps(payload).encode()).returncode)
+node_options = ['--preserve-symlinks-main', '--preserve-symlinks'] if sys.platform == 'win32' else []
+sys.exit(subprocess.run([node, *node_options, tracer], input=json.dumps(payload).encode()).returncode)

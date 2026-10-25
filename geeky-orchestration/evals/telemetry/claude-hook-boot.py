@@ -9,6 +9,7 @@ in memory; the pinned file on disk is never modified.
 import os
 import site
 import sys
+import types
 
 site.addsitedir(sys.argv[1])
 hook = sys.argv[2]
@@ -21,4 +22,11 @@ if name:
     if source.count(default) != 1:
         raise SystemExit(f'claude-hook-boot: expected one {default!r} in {hook}')
     source = source.replace(default, f'TRACE_NAME = {name!r}')
-exec(compile(source, hook, 'exec'), {'__name__': '__main__', '__file__': hook})
+module = types.ModuleType('geeky_claude_langfuse_hook')
+module.__file__ = hook
+sys.modules[module.__name__] = module
+exec(compile(source, hook, 'exec'), module.__dict__)
+if os.environ.get('GEEKY_AGENT_FAMILY'):
+    from claude_identity import install
+    install(module)
+raise SystemExit(module.main())

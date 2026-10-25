@@ -68,7 +68,14 @@ def summarize(session_id, observations):
         'observations': len(observations), 'by_type': dict(types),
         'generations': types.get('GENERATION', 0),
         'tool_calls': sum(n for name, n in names.items() if str(name).startswith('Tool:')) or types.get('TOOL', 0),
-        'subagents': sum(n for name, n in names.items() if str(name).startswith(('Subagent:', 'Agent:'))),
+        'subagents': sum(1 for o in observations if str(o.get('name', '')).startswith(('Subagent:', 'Agent:'))
+                         or (o.get('type') == 'AGENT' and isinstance(o.get('metadata'), dict)
+                             and o['metadata'].get('actor_scope') == 'subagent')),
+        'user_ids': sorted({o.get('userId') for o in observations if o.get('userId')}),
+        'agent_roles': sorted({o['metadata']['agent_role'] for o in observations
+                               if isinstance(o.get('metadata'), dict) and o['metadata'].get('agent_role')}),
+        'agent_families': sorted({o['metadata']['agent_family'] for o in observations
+                                  if isinstance(o.get('metadata'), dict) and o['metadata'].get('agent_family')}),
         'environments': sorted({o.get('environment') for o in observations if o.get('environment')}),
         'usage_details': dict(usage),
         'truncated_observations': sum(1 for o in observations if truncated(o.get('metadata'))),

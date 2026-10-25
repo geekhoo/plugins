@@ -27,3 +27,14 @@ def test_summarize_counts_types_tools_usage_and_traces():
     assert s['usage_details'] == {'input': 4, 'output': 5}
     assert s['truncated_observations'] == 1 and s['environments'] == ['eval']
     assert s['first_start'] == '2026-10-24T10:00:00Z' and s['last_start'] == '2026-10-24T10:00:02Z'
+
+
+def test_summary_reports_new_actor_identities_without_losing_subagent_counts():
+    row = {'traceId': 'child', 'type': 'AGENT', 'name': 'claude-mxc-win-coder-coder-a',
+           'userId': 'claude-mxc-win-coder-a-native-id', 'environment': 'mxc-win',
+           'metadata': {'actor_scope': 'subagent', 'agent_role': 'coder', 'agent_family': 'claude-mxc-win'}}
+    summary = lf.summarize('named-run', [row])
+    assert summary['subagents'] == 1
+    assert summary['user_ids'] == ['claude-mxc-win-coder-a-native-id']
+    assert summary['agent_roles'] == ['coder']
+    assert summary['agent_families'] == ['claude-mxc-win']
