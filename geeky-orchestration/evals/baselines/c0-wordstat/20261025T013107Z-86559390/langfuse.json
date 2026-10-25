@@ -1,0 +1,69 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "01a170ae-e03b-7122-a2a5-bbed394a6bce",
+  "traces": 1,
+  "observations": 67,
+  "by_type": {
+    "GENERATION": 32,
+    "TOOL": 31,
+    "AGENT": 4
+  },
+  "generations": 32,
+  "tool_calls": 31,
+  "subagents": 0,
+  "environments": [
+    "mxc"
+  ],
+  "usage_details": {
+    "input": 54057,
+    "output": 7447,
+    "total": 772743,
+    "input_cached_tokens": 708544,
+    "output_reasoning_tokens": 2695
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T01:31:11.349Z",
+  "last_start": "2026-10-25T01:33:21.194Z",
+  "top_names": [
+    [
+      "LLM Subagent",
+      22
+    ],
+    [
+      "exec_command",
+      22
+    ],
+    [
+      "LLM",
+      10
+    ],
+    [
+      "Codex Subagent Turn",
+      3
+    ],
+    [
+      "spawn_agent",
+      3
+    ],
+    [
+      "send_message",
+      2
+    ],
+    [
+      "wait_agent",
+      2
+    ],
+    [
+      "list_agents",
+      1
+    ],
+    [
+      "skill:spec-research",
+      1
+    ],
+    [
+      "Codex Turn",
+      1
+    ]
+  ]
+}

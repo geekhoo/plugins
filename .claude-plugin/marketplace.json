@@ -35,8 +35,8 @@
     {
       "name": "mxc-sandbox",
       "source": "./mxc-sandbox",
-      "description": "Run the Claude Code CLI inside a Microsoft MXC sandbox on Windows (bundled .NET host): headless ProcessContainer runs with filesystem/network policy, interactive IsolationSession runs, setup probe, and verified troubleshooting.",
-      "version": "0.1.0"
+      "description": "Run the Claude Code CLI inside a Microsoft MXC sandbox (bundled .NET host): headless runs with filesystem/network policy on Windows (ProcessContainer), Linux (Bubblewrap) and macOS (Seatbelt), interactive IsolationSession runs on Windows, setup probe, and verified troubleshooting.",
+      "version": "0.2.1"
     }
   ]
 }

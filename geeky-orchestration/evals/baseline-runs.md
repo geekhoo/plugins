@@ -32,8 +32,10 @@ Decisions referenced: D41 (reference solutions), D53 (tokens as cost), D57 (judg
 
 `evals/scripts/run-baseline.ps1 -Case <case> [-Model <id>] [-DryRun]` performs steps 1–4 below for one run.
 
+On Linux, or with a LiteLLM model (`-Litellm -Model <name>`), follow [mxc-litellm-runbook.md](mxc-litellm-runbook.md) instead: paths live under `~/repos/.eval-tools`, Bash stays enabled, and the proxy key replaces the OAuth token.
+
 Before starting, it needs:
-- `CLAUDE_CODE_OAUTH_TOKEN` set in the environment;
+- `CLAUDE_CODE_OAUTH_TOKEN` set in the environment (not with `-Litellm`);
 - a Python with pytest;
 - the `geeky-mcp` venv in `C:\repos\.eval-tools`.
 
@@ -45,6 +47,7 @@ What it does:
 - Copies every subagent transcript into `subagents/` in the run folder: `agent-<id>.jsonl`, plus a `meta.json` naming the tool call that spawned it. When a subagent dispatches its own subagents, as `geeky-implement-orchestrator` did in C1 run 6, their calls appear only there and not in `stream.jsonl`.
 - Sets `PYTHONDONTWRITEBYTECODE=1`, and the plugin tamper check ignores `__pycache__`. C1 run 6 was flagged as tampered only because the gate scripts' bytecode was written into the read-write export.
 - Passes `--disallowedTools Bash`. Git Bash cannot start in MXC (microsoft/mxc#1061), so every Bash call fails with exit 66. In C1 run 3 that wasted 8 calls, and one write silently did nothing. With Bash hidden, the agent uses PowerShell from the start.
+- `-ResumeOnRefusal N` (default 0): when the model provider's content filter ends the session (`stop_reason` `content_filter` or `refusal`), resume the same session with "Continue the workflow from where you stopped." up to N times. Each resume is an intervention in `run.json` and makes the run ineligible as a reference. Without it the run is recorded as `exit_reason = provider_refusal`.
 - Sets `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`. Headless `claude -p` otherwise stops background subagents still running 10 minutes after the main agent's last turn, which cut C1 run 3 off mid-implementation. The main agent is resumed when the subagents finish. The MXC `--timeout` still bounds the run. A run whose background work was stopped is recorded with `exit_reason = bg_killed`.
 - Puts `C:\repos\.eval-tools\agent-py`, a venv with pytest built offline, first on the sandbox `PATH`. The sandbox Python has no pytest, and `pip` can't install inside MXC.
 - Sets `TMPDIR` to a per-run writable folder. MXC forces `TEMP` and `TMP` to the AppContainer's own temp folder, where pytest `tmp_path` and other `mkdtemp()` folders can't be written.
@@ -181,7 +184,7 @@ A run that is invalid for an environment reason, rather than for the contestant'
 | `oracle` | `collected`, `passed`, `failed`, `skipped` | step 3 |
 | `loc.source_non_test`, `loc.test`, `files_changed` | final code size | `git` in the workspace |
 | `commits` | the number of commits | `git rev-list --count HEAD` |
-| `exit_reason` | `completed`, `timeout`, `idle`, `budget`, `bg_killed`, `crash` or `aborted` | you / process exit |
+| `exit_reason` | `completed`, `timeout`, `idle`, `budget`, `bg_killed`, `provider_refusal` (the model provider ended the session with `stop_reason` `content_filter` or `refusal`), `crash` or `aborted` | you / process exit |
 | `raw_sha256` | SHA-256 of `stream.jsonl` and `session.jsonl` | computed when stored |
 | `interventions` | the count of human interventions, with reasons in `notes.md` | you |
 | `reference_eligible` | `true` only if the oracle result is clean and there were no interventions | you |

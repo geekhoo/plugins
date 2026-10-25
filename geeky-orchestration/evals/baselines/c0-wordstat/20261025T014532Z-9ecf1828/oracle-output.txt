@@ -1,0 +1,969 @@
+FFFFFFFFFFFFF                                                            [100%]
+=================================== FAILURES ===================================
+_________________________________ test_w1_help _________________________________
+
+run = <function run.<locals>._run at 0x7f34b6ce3380>
+
+    def test_w1_help(run):
+        res = run("--help")
+>       assert_ok(res)
+
+oracle_wordstat.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_____________________________ test_w2_example_text _____________________________
+
+run = <function run.<locals>._run at 0x7f34b6ce2c00>
+write = <function write.<locals>._write at 0x7f34b6ce22a0>
+
+    def test_w2_example_text(run, write):
+        res = run(write("sample.txt", SAMPLE))
+>       assert_ok(res)
+
+oracle_wordstat.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+__________________________ test_w3_example_json_top2 ___________________________
+
+run = <function run.<locals>._run at 0x7f34b6ce2f20>
+write = <function write.<locals>._write at 0x7f34b6ce2de0>
+
+    def test_w3_example_json_top2(run, write):
+        res = run("--json", "--top", "2", write("sample.txt", SAMPLE))
+>       assert_ok(res)
+
+oracle_wordstat.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_________________________ test_w4_default_top_is_three _________________________
+
+run = <function run.<locals>._run at 0x7f34b6ce3420>
+write = <function write.<locals>._write at 0x7f34b6ce3560>
+
+    def test_w4_default_top_is_three(run, write):
+        res = run("--json", write("sample.txt", SAMPLE))
+>       assert_ok(res)
+
+oracle_wordstat.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_________________ test_w5_ties_by_word_and_top_above_distinct __________________
+
+run = <function run.<locals>._run at 0x7f34b6ce20c0>
+write = <function write.<locals>._write at 0x7f34b6ce39c0>
+
+    def test_w5_ties_by_word_and_top_above_distinct(run, write):
+        res = run("--top", "10", write("t.txt", "b a c b a c d\n"))
+>       assert_ok(res)
+
+oracle_wordstat.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+________________ test_w6_tokens_lowercase_digits_split_on_other ________________
+
+run = <function run.<locals>._run at 0x7f34b6ce3b00>
+write = <function write.<locals>._write at 0x7f34b6ce37e0>
+
+    def test_w6_tokens_lowercase_digits_split_on_other(run, write):
+        res = run("--json", "--top", "5", write("t.txt", "R2-D2 r2d2 R2 don't Éclair"))
+>       assert_ok(res)
+
+oracle_wordstat.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+______________________________ test_w7_empty_file ______________________________
+
+run = <function run.<locals>._run at 0x7f34b6b64360>
+write = <function write.<locals>._write at 0x7f34b6b642c0>
+
+    def test_w7_empty_file(run, write):
+        path = write("empty.txt", b"")
+        res = run(path)
+>       assert_ok(res)
+
+oracle_wordstat.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_____________________________ test_w8_bom_and_crlf _____________________________
+
+run = <function run.<locals>._run at 0x7f34b6b647c0>
+write = <function write.<locals>._write at 0x7f34b6b64900>
+
+    def test_w8_bom_and_crlf(run, write):
+        res = run(write("bom.txt", b"\xef\xbb\xbfone two\r\ntwo\r\n"))
+>       assert_ok(res)
+
+oracle_wordstat.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_____________________________ test_w9_missing_file _____________________________
+
+run = <function run.<locals>._run at 0x7f34b6b64d60>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-52/test_w9_missing_file0')
+
+    def test_w9_missing_file(run, tmp_path):
+        missing = tmp_path / "nope.txt"
+>       assert_error(run(missing), f"{missing}: cannot read file")
+
+oracle_wordstat.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+message = '/tmp/pytest-of-root/pytest-52/test_w9_missing_file0/nope.txt: cannot read file'
+
+    def assert_error(res: Result, message: str) -> None:
+        """Exact single-line error contract: exit 3, empty stdout, one stderr line."""
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 3, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 3
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:94: AssertionError
+______________________________ test_w9_directory _______________________________
+
+run = <function run.<locals>._run at 0x7f34b6b64e00>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-52/test_w9_directory0')
+
+    def test_w9_directory(run, tmp_path):
+>       assert_error(run(tmp_path), f"{tmp_path}: cannot read file")
+
+oracle_wordstat.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+message = '/tmp/pytest-of-root/pytest-52/test_w9_directory0: cannot read file'
+
+    def assert_error(res: Result, message: str) -> None:
+        """Exact single-line error contract: exit 3, empty stdout, one stderr line."""
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 3, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 3
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:94: AssertionError
+_____________________________ test_w9_invalid_utf8 _____________________________
+
+run = <function run.<locals>._run at 0x7f34b6b65260>
+write = <function write.<locals>._write at 0x7f34b6b654e0>
+
+    def test_w9_invalid_utf8(run, write):
+        path = write("bad.txt", b"ok \xff\xfe bad\n")
+>       assert_error(run(path), f"{path}: not valid UTF-8")
+
+oracle_wordstat.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+message = '/tmp/pytest-of-root/pytest-52/test_w9_invalid_utf80/bad.txt: not valid UTF-8'
+
+    def assert_error(res: Result, message: str) -> None:
+        """Exact single-line error contract: exit 3, empty stdout, one stderr line."""
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 3, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 3
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:94: AssertionError
+____________________________ test_w10_usage_errors _____________________________
+
+run = <function run.<locals>._run at 0x7f34b6ce39c0>
+write = <function write.<locals>._write at 0x7f34b6ce3560>
+
+    def test_w10_usage_errors(run, write):
+        path = write("sample.txt", SAMPLE)
+>       assert_usage(run("--top", "0", path))
+
+oracle_wordstat.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_usage(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 2, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 2
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:101: AssertionError
+_________________________ test_w11_deterministic_no_cr _________________________
+
+run = <function run.<locals>._run at 0x7f34b6ce2c00>
+write = <function write.<locals>._write at 0x7f34b6ce22a0>
+
+    def test_w11_deterministic_no_cr(run, write):
+        path = write("sample.txt", "x y\r\nx\n")
+        first, second = run(path), run("--json", path)
+>       assert_ok(first)
+
+oracle_wordstat.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+=========================== short test summary info ============================
+FAILED oracle_wordstat.py::test_w1_help - AssertionError: (1, "/root/repos/.e...
+FAILED oracle_wordstat.py::test_w2_example_text - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w3_example_json_top2 - AssertionError: (1, "/...
+FAILED oracle_wordstat.py::test_w4_default_top_is_three - AssertionError: (1,...
+FAILED oracle_wordstat.py::test_w5_ties_by_word_and_top_above_distinct - Asse...
+FAILED oracle_wordstat.py::test_w6_tokens_lowercase_digits_split_on_other - A...
+FAILED oracle_wordstat.py::test_w7_empty_file - AssertionError: (1, "/root/re...
+FAILED oracle_wordstat.py::test_w8_bom_and_crlf - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w9_missing_file - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w9_directory - AssertionError: (1, "/root/rep...
+FAILED oracle_wordstat.py::test_w9_invalid_utf8 - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w10_usage_errors - AssertionError: (1, "/root...
+FAILED oracle_wordstat.py::test_w11_deterministic_no_cr - AssertionError: (1,...
+13 failed in 0.32s
+
+FFFFFFFFFFFFF                                                            [100%]
+=================================== FAILURES ===================================
+_________________________________ test_w1_help _________________________________
+
+run = <function run.<locals>._run at 0x7f59781f3380>
+
+    def test_w1_help(run):
+        res = run("--help")
+>       assert_ok(res)
+
+oracle_wordstat.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_____________________________ test_w2_example_text _____________________________
+
+run = <function run.<locals>._run at 0x7f59781f2c00>
+write = <function write.<locals>._write at 0x7f59781f22a0>
+
+    def test_w2_example_text(run, write):
+        res = run(write("sample.txt", SAMPLE))
+>       assert_ok(res)
+
+oracle_wordstat.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+__________________________ test_w3_example_json_top2 ___________________________
+
+run = <function run.<locals>._run at 0x7f59781f2f20>
+write = <function write.<locals>._write at 0x7f59781f2de0>
+
+    def test_w3_example_json_top2(run, write):
+        res = run("--json", "--top", "2", write("sample.txt", SAMPLE))
+>       assert_ok(res)
+
+oracle_wordstat.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_________________________ test_w4_default_top_is_three _________________________
+
+run = <function run.<locals>._run at 0x7f59781f3420>
+write = <function write.<locals>._write at 0x7f59781f3560>
+
+    def test_w4_default_top_is_three(run, write):
+        res = run("--json", write("sample.txt", SAMPLE))
+>       assert_ok(res)
+
+oracle_wordstat.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_________________ test_w5_ties_by_word_and_top_above_distinct __________________
+
+run = <function run.<locals>._run at 0x7f59781f20c0>
+write = <function write.<locals>._write at 0x7f59781f39c0>
+
+    def test_w5_ties_by_word_and_top_above_distinct(run, write):
+        res = run("--top", "10", write("t.txt", "b a c b a c d\n"))
+>       assert_ok(res)
+
+oracle_wordstat.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+________________ test_w6_tokens_lowercase_digits_split_on_other ________________
+
+run = <function run.<locals>._run at 0x7f59781f3b00>
+write = <function write.<locals>._write at 0x7f59781f37e0>
+
+    def test_w6_tokens_lowercase_digits_split_on_other(run, write):
+        res = run("--json", "--top", "5", write("t.txt", "R2-D2 r2d2 R2 don't Éclair"))
+>       assert_ok(res)
+
+oracle_wordstat.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+______________________________ test_w7_empty_file ______________________________
+
+run = <function run.<locals>._run at 0x7f59782a4360>
+write = <function write.<locals>._write at 0x7f59782a42c0>
+
+    def test_w7_empty_file(run, write):
+        path = write("empty.txt", b"")
+        res = run(path)
+>       assert_ok(res)
+
+oracle_wordstat.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_____________________________ test_w8_bom_and_crlf _____________________________
+
+run = <function run.<locals>._run at 0x7f59782a47c0>
+write = <function write.<locals>._write at 0x7f59782a4900>
+
+    def test_w8_bom_and_crlf(run, write):
+        res = run(write("bom.txt", b"\xef\xbb\xbfone two\r\ntwo\r\n"))
+>       assert_ok(res)
+
+oracle_wordstat.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_____________________________ test_w9_missing_file _____________________________
+
+run = <function run.<locals>._run at 0x7f59782a4d60>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-53/test_w9_missing_file0')
+
+    def test_w9_missing_file(run, tmp_path):
+        missing = tmp_path / "nope.txt"
+>       assert_error(run(missing), f"{missing}: cannot read file")
+
+oracle_wordstat.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+message = '/tmp/pytest-of-root/pytest-53/test_w9_missing_file0/nope.txt: cannot read file'
+
+    def assert_error(res: Result, message: str) -> None:
+        """Exact single-line error contract: exit 3, empty stdout, one stderr line."""
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 3, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 3
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:94: AssertionError
+______________________________ test_w9_directory _______________________________
+
+run = <function run.<locals>._run at 0x7f59782a4e00>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-53/test_w9_directory0')
+
+    def test_w9_directory(run, tmp_path):
+>       assert_error(run(tmp_path), f"{tmp_path}: cannot read file")
+
+oracle_wordstat.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+message = '/tmp/pytest-of-root/pytest-53/test_w9_directory0: cannot read file'
+
+    def assert_error(res: Result, message: str) -> None:
+        """Exact single-line error contract: exit 3, empty stdout, one stderr line."""
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 3, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 3
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:94: AssertionError
+_____________________________ test_w9_invalid_utf8 _____________________________
+
+run = <function run.<locals>._run at 0x7f59782a5260>
+write = <function write.<locals>._write at 0x7f59782a54e0>
+
+    def test_w9_invalid_utf8(run, write):
+        path = write("bad.txt", b"ok \xff\xfe bad\n")
+>       assert_error(run(path), f"{path}: not valid UTF-8")
+
+oracle_wordstat.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+message = '/tmp/pytest-of-root/pytest-53/test_w9_invalid_utf80/bad.txt: not valid UTF-8'
+
+    def assert_error(res: Result, message: str) -> None:
+        """Exact single-line error contract: exit 3, empty stdout, one stderr line."""
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 3, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 3
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:94: AssertionError
+____________________________ test_w10_usage_errors _____________________________
+
+run = <function run.<locals>._run at 0x7f59781f39c0>
+write = <function write.<locals>._write at 0x7f59781f3560>
+
+    def test_w10_usage_errors(run, write):
+        path = write("sample.txt", SAMPLE)
+>       assert_usage(run("--top", "0", path))
+
+oracle_wordstat.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_usage(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 2, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 2
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:101: AssertionError
+_________________________ test_w11_deterministic_no_cr _________________________
+
+run = <function run.<locals>._run at 0x7f59781f2c00>
+write = <function write.<locals>._write at 0x7f59781f22a0>
+
+    def test_w11_deterministic_no_cr(run, write):
+        path = write("sample.txt", "x y\r\nx\n")
+        first, second = run(path), run("--json", path)
+>       assert_ok(first)
+
+oracle_wordstat.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+=========================== short test summary info ============================
+FAILED oracle_wordstat.py::test_w1_help - AssertionError: (1, "/root/repos/.e...
+FAILED oracle_wordstat.py::test_w2_example_text - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w3_example_json_top2 - AssertionError: (1, "/...
+FAILED oracle_wordstat.py::test_w4_default_top_is_three - AssertionError: (1,...
+FAILED oracle_wordstat.py::test_w5_ties_by_word_and_top_above_distinct - Asse...
+FAILED oracle_wordstat.py::test_w6_tokens_lowercase_digits_split_on_other - A...
+FAILED oracle_wordstat.py::test_w7_empty_file - AssertionError: (1, "/root/re...
+FAILED oracle_wordstat.py::test_w8_bom_and_crlf - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w9_missing_file - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w9_directory - AssertionError: (1, "/root/rep...
+FAILED oracle_wordstat.py::test_w9_invalid_utf8 - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w10_usage_errors - AssertionError: (1, "/root...
+FAILED oracle_wordstat.py::test_w11_deterministic_no_cr - AssertionError: (1,...
+13 failed in 0.31s
+
+FFFFFFFFFFFFF                                                            [100%]
+=================================== FAILURES ===================================
+_________________________________ test_w1_help _________________________________
+
+run = <function run.<locals>._run at 0x7f79eebdb380>
+
+    def test_w1_help(run):
+        res = run("--help")
+>       assert_ok(res)
+
+oracle_wordstat.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_____________________________ test_w2_example_text _____________________________
+
+run = <function run.<locals>._run at 0x7f79eebdac00>
+write = <function write.<locals>._write at 0x7f79eebda2a0>
+
+    def test_w2_example_text(run, write):
+        res = run(write("sample.txt", SAMPLE))
+>       assert_ok(res)
+
+oracle_wordstat.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+__________________________ test_w3_example_json_top2 ___________________________
+
+run = <function run.<locals>._run at 0x7f79eebdaf20>
+write = <function write.<locals>._write at 0x7f79eebdade0>
+
+    def test_w3_example_json_top2(run, write):
+        res = run("--json", "--top", "2", write("sample.txt", SAMPLE))
+>       assert_ok(res)
+
+oracle_wordstat.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_________________________ test_w4_default_top_is_three _________________________
+
+run = <function run.<locals>._run at 0x7f79eebdb420>
+write = <function write.<locals>._write at 0x7f79eebdb560>
+
+    def test_w4_default_top_is_three(run, write):
+        res = run("--json", write("sample.txt", SAMPLE))
+>       assert_ok(res)
+
+oracle_wordstat.py:27: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_________________ test_w5_ties_by_word_and_top_above_distinct __________________
+
+run = <function run.<locals>._run at 0x7f79eebda0c0>
+write = <function write.<locals>._write at 0x7f79eebdb9c0>
+
+    def test_w5_ties_by_word_and_top_above_distinct(run, write):
+        res = run("--top", "10", write("t.txt", "b a c b a c d\n"))
+>       assert_ok(res)
+
+oracle_wordstat.py:33: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+________________ test_w6_tokens_lowercase_digits_split_on_other ________________
+
+run = <function run.<locals>._run at 0x7f79eebdbb00>
+write = <function write.<locals>._write at 0x7f79eebdb7e0>
+
+    def test_w6_tokens_lowercase_digits_split_on_other(run, write):
+        res = run("--json", "--top", "5", write("t.txt", "R2-D2 r2d2 R2 don't Éclair"))
+>       assert_ok(res)
+
+oracle_wordstat.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+______________________________ test_w7_empty_file ______________________________
+
+run = <function run.<locals>._run at 0x7f79eea5c360>
+write = <function write.<locals>._write at 0x7f79eea5c2c0>
+
+    def test_w7_empty_file(run, write):
+        path = write("empty.txt", b"")
+        res = run(path)
+>       assert_ok(res)
+
+oracle_wordstat.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_____________________________ test_w8_bom_and_crlf _____________________________
+
+run = <function run.<locals>._run at 0x7f79eea5c7c0>
+write = <function write.<locals>._write at 0x7f79eea5c900>
+
+    def test_w8_bom_and_crlf(run, write):
+        res = run(write("bom.txt", b"\xef\xbb\xbfone two\r\ntwo\r\n"))
+>       assert_ok(res)
+
+oracle_wordstat.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+_____________________________ test_w9_missing_file _____________________________
+
+run = <function run.<locals>._run at 0x7f79eea5cd60>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-54/test_w9_missing_file0')
+
+    def test_w9_missing_file(run, tmp_path):
+        missing = tmp_path / "nope.txt"
+>       assert_error(run(missing), f"{missing}: cannot read file")
+
+oracle_wordstat.py:65: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+message = '/tmp/pytest-of-root/pytest-54/test_w9_missing_file0/nope.txt: cannot read file'
+
+    def assert_error(res: Result, message: str) -> None:
+        """Exact single-line error contract: exit 3, empty stdout, one stderr line."""
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 3, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 3
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:94: AssertionError
+______________________________ test_w9_directory _______________________________
+
+run = <function run.<locals>._run at 0x7f79eea5ce00>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-54/test_w9_directory0')
+
+    def test_w9_directory(run, tmp_path):
+>       assert_error(run(tmp_path), f"{tmp_path}: cannot read file")
+
+oracle_wordstat.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+message = '/tmp/pytest-of-root/pytest-54/test_w9_directory0: cannot read file'
+
+    def assert_error(res: Result, message: str) -> None:
+        """Exact single-line error contract: exit 3, empty stdout, one stderr line."""
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 3, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 3
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:94: AssertionError
+_____________________________ test_w9_invalid_utf8 _____________________________
+
+run = <function run.<locals>._run at 0x7f79eea5d260>
+write = <function write.<locals>._write at 0x7f79eea5d4e0>
+
+    def test_w9_invalid_utf8(run, write):
+        path = write("bad.txt", b"ok \xff\xfe bad\n")
+>       assert_error(run(path), f"{path}: not valid UTF-8")
+
+oracle_wordstat.py:74: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+message = '/tmp/pytest-of-root/pytest-54/test_w9_invalid_utf80/bad.txt: not valid UTF-8'
+
+    def assert_error(res: Result, message: str) -> None:
+        """Exact single-line error contract: exit 3, empty stdout, one stderr line."""
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 3, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 3
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:94: AssertionError
+____________________________ test_w10_usage_errors _____________________________
+
+run = <function run.<locals>._run at 0x7f79eebdb9c0>
+write = <function write.<locals>._write at 0x7f79eebdb560>
+
+    def test_w10_usage_errors(run, write):
+        path = write("sample.txt", SAMPLE)
+>       assert_usage(run("--top", "0", path))
+
+oracle_wordstat.py:79: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_usage(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 2, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 2
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:101: AssertionError
+_________________________ test_w11_deterministic_no_cr _________________________
+
+run = <function run.<locals>._run at 0x7f79eebdac00>
+write = <function write.<locals>._write at 0x7f79eebda2a0>
+
+    def test_w11_deterministic_no_cr(run, write):
+        path = write("sample.txt", "x y\r\nx\n")
+        first, second = run(path), run("--json", path)
+>       assert_ok(first)
+
+oracle_wordstat.py:87: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+res = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n")
+
+    def assert_ok(res: Result) -> None:
+        assert "Traceback" not in res.err, res.err
+>       assert res.code == 0, (res.code, res.err)
+E       AssertionError: (1, "/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed
+E         ")
+E       assert 1 == 0
+E        +  where 1 = Result(code=1, raw_out=b'', raw_err=b"/root/repos/.eval-tools/agent-py/bin/python: No module named wordstat.__main__; 'wordstat' is a package and cannot be directly executed\n").code
+
+conftest.py:88: AssertionError
+=========================== short test summary info ============================
+FAILED oracle_wordstat.py::test_w1_help - AssertionError: (1, "/root/repos/.e...
+FAILED oracle_wordstat.py::test_w2_example_text - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w3_example_json_top2 - AssertionError: (1, "/...
+FAILED oracle_wordstat.py::test_w4_default_top_is_three - AssertionError: (1,...
+FAILED oracle_wordstat.py::test_w5_ties_by_word_and_top_above_distinct - Asse...
+FAILED oracle_wordstat.py::test_w6_tokens_lowercase_digits_split_on_other - A...
+FAILED oracle_wordstat.py::test_w7_empty_file - AssertionError: (1, "/root/re...
+FAILED oracle_wordstat.py::test_w8_bom_and_crlf - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w9_missing_file - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w9_directory - AssertionError: (1, "/root/rep...
+FAILED oracle_wordstat.py::test_w9_invalid_utf8 - AssertionError: (1, "/root/...
+FAILED oracle_wordstat.py::test_w10_usage_errors - AssertionError: (1, "/root...
+FAILED oracle_wordstat.py::test_w11_deterministic_no_cr - AssertionError: (1,...
+13 failed in 0.53s
+

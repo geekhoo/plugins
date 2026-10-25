@@ -1290,8 +1290,11 @@ class Scorer:
                                                     "; ".join(c["subject"] for c in pr) or "no plan-review commit")
         self.critical = self.impl_review_critical()
         if self.critical:
-            fix = next((c for c in self.commits if c["stage"] == "impl-review"
-                        and any(not fn.startswith("docs/") for fn, _ in c["files"])), None)
+            # A finding in the docs gets a docs-only fix, so take the prescribed subject first and fall back
+            # to the first impl-review commit that touches code.
+            review = [c for c in self.commits if c["stage"] == "impl-review"]
+            fix = next((c for c in review if FIX_SUBJECT.match(c["subject"])), None) or \
+                next((c for c in review if any(not fn.startswith("docs/") for fn, _ in c["files"])), None)
             ok = bool(fix and FIX_SUBJECT.match(fix["subject"]))
             self.prescribed["critical_fix"] = self.check(
                 "adh.prescribed_msg.critical_fix", A, "pass" if ok else "fail",

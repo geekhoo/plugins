@@ -10,6 +10,9 @@ End-to-end feature delivery: **plan it, execute it, track it**, with strong cont
 
 Use the shared [workflow terminology](AGENTS.md#workflow-terminology).
 
+To set up and run an eval yourself (Linux MXC, Claude Code or Codex, LiteLLM, Langfuse), start with
+[the eval quickstart](evals/QUICKSTART.md).
+
 For the Codex C1 evaluation adapter and its current checkpoint limits, see
 [the adapter README](evals/adapters/codex/README.md). It is separate from the
 Claude runner. Model-free MXC checks are implemented; the strict clean-diagnostics

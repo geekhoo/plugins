@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "9Ddr9oxfIsA=",
+  "success": true,
+  "projectFilePath": "/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/MxcClaude.csproj",
+  "expectedPackageFiles": [
+    "/root/.nuget/packages/microsoft.mxc.sdk/1.0.1/microsoft.mxc.sdk.1.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

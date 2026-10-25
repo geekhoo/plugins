@@ -1,0 +1,17 @@
+== claude-code c0-wordstat
+   PASS  exit=0 checks=73 failed=[] telemetry=delivered (196 obs) 37s
+== claude-code c1-csvledger
+   PASS  exit=0 checks=73 failed=[] telemetry=delivered (196 obs) 44s
+== claude-code c2-linkvault
+   PASS  exit=0 checks=73 failed=[] telemetry=delivered (196 obs) 47s
+== claude-code c3-minisql
+   PASS  exit=0 checks=73 failed=[] telemetry=delivered (196 obs) 50s
+== codex c0-wordstat
+   FAIL  exit=1 checks=8 failed=[skills] telemetry=delivered (10 obs) 21s
+== codex c1-csvledger
+   FAIL  exit=1 checks=8 failed=[skills] telemetry=delivered (10 obs) 22s
+== codex c2-linkvault
+   PASS  exit=0 checks=9 failed=[] telemetry=delivered (10 obs) 24s
+== codex c3-minisql
+   PASS  exit=0 checks=9 failed=[] telemetry=delivered (10 obs) 21s
+matrix: /root/repos/mock-matrix-pass2/matrix.md

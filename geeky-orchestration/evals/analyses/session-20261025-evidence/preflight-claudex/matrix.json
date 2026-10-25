@@ -1,0 +1,35 @@
+{
+  "schema": "geeky-eval.mock-matrix/1",
+  "stamp": "20261025T052601Z",
+  "platform": "Ubuntu 24.04.5 LTS",
+  "plugin_sha": "28380798ce1477a1c0443108e6d631ac6e67704b",
+  "runs": [
+    {
+      "harness": "claude-code",
+      "case": "c0-wordstat",
+      "runner_exit": 0,
+      "wall_s": 40,
+      "checks_passed": 74,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 196,
+      "folder": "/root/repos/mock-preflight-claudex/claude-code-c0-wordstat",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c0-wordstat",
+      "runner_exit": 0,
+      "wall_s": 29,
+      "checks_passed": 9,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 10,
+      "folder": "/root/repos/mock-preflight-claudex/codex-c0-wordstat",
+      "ok": true
+    }
+  ],
+  "ok": true
+}

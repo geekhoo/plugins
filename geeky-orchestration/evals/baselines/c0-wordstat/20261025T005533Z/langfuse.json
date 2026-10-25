@@ -1,0 +1,104 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "d1f75155-366f-44f0-af67-fcbc2cbdf456",
+  "traces": 2,
+  "observations": 375,
+  "by_type": {
+    "SPAN": 8,
+    "GENERATION": 172,
+    "TOOL": 195
+  },
+  "generations": 172,
+  "tool_calls": 195,
+  "subagents": 6,
+  "environments": [
+    "mxc"
+  ],
+  "usage_details": {
+    "input": 428552,
+    "cache_read_input_tokens": 5557632,
+    "total": 6040613,
+    "output": 54429
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T00:55:47.841Z",
+  "last_start": "2026-10-25T01:46:18.509Z",
+  "top_names": [
+    [
+      "Subagent LLM Call",
+      100
+    ],
+    [
+      "LLM Call",
+      72
+    ],
+    [
+      "Tool: Read",
+      62
+    ],
+    [
+      "Tool: Bash",
+      46
+    ],
+    [
+      "Tool: Edit",
+      24
+    ],
+    [
+      "Tool: Write",
+      18
+    ],
+    [
+      "Tool: Glob",
+      14
+    ],
+    [
+      "Tool: WebFetch",
+      9
+    ],
+    [
+      "Tool: Agent",
+      7
+    ],
+    [
+      "Tool: Grep",
+      7
+    ],
+    [
+      "Tool: Skill",
+      5
+    ],
+    [
+      "Tool: ToolSearch",
+      3
+    ],
+    [
+      "Conversational Turn",
+      2
+    ],
+    [
+      "Subagent: Implement T1 core library",
+      1
+    ],
+    [
+      "Subagent: Phase 3 sequencing validation",
+      1
+    ],
+    [
+      "Subagent: Phase 1 alignment audit",
+      1
+    ],
+    [
+      "Subagent: PM review of plan package",
+      1
+    ],
+    [
+      "Subagent: CLI interface research",
+      1
+    ],
+    [
+      "Subagent: Codebase + contract analysis",
+      1
+    ]
+  ]
+}

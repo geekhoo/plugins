@@ -1,6 +1,7 @@
 """Offline profile and native patch/guard contract checks; no Codex or MXC launch."""
 import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -59,8 +60,9 @@ class ProfileTests(unittest.TestCase):
             (signed / 'skills/.system').mkdir(parents=True)
             (signed / 'plugins/cache').mkdir(parents=True)
             (signed / 'config.toml').write_text('[projects]\n')
-            (tools / 'agent-py/Scripts').mkdir(parents=True)
-            (tools / 'agent-py/Scripts/python.exe').touch()
+            agent_python = tools / ('agent-py/Scripts/python.exe' if os.name == 'nt' else 'agent-py/bin/python')
+            agent_python.parent.mkdir(parents=True)
+            agent_python.touch()
             (tools / 'geeky-mcp').mkdir()
             (tools / 'geeky-mcp/pyvenv.cfg').write_text('home = C:\\Python314\n')
             report = P.prepare(export, root / 'home', signed, tools,

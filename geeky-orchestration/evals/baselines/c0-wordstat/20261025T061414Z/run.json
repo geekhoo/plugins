@@ -1,0 +1,132 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "harness_version": "2.1.310",
+  "model": "ant-claudex",
+  "reasoning": "default",
+  "approach": "canonical-prompt",
+  "plugin_sha": "28380798ce1477a1c0443108e6d631ac6e67704b",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "geeky_skills_loaded": 8,
+  "workspace": "/root/repos/eval-c0-wordstat-20261025T061414Z",
+  "seed_sha": "cefcbfc95e3efc686de55beaa711cccb0c289568",
+  "session_id": "e05aeb9e-7dc6-4c24-a781-0ce7b83c9393",
+  "started_utc": "2026-10-25T06:14:15.4975201Z",
+  "ended_utc": "2026-10-25T07:44:15.8372446Z",
+  "wall_time_s": 5400,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "cost_usd_estimate": 0,
+    "reasoning": 0
+  },
+  "model_calls": 109,
+  "latency_median_ms": 6531,
+  "max_idle_gap_s": 652,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T06:14:42.809000+00:00",
+      "ended_utc": "2026-10-25T06:21:35.728000+00:00",
+      "minutes": 6.9
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-25T06:21:35.728000+00:00",
+      "ended_utc": "2026-10-25T06:35:28.859000+00:00",
+      "minutes": 13.9
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-25T06:35:28.859000+00:00",
+      "ended_utc": "2026-10-25T06:46:52.643000+00:00",
+      "minutes": 11.4
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-25T06:46:52.643000+00:00",
+      "ended_utc": "2026-10-25T07:30:00.540000+00:00",
+      "minutes": 43.1
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-25T07:30:00.540000+00:00",
+      "ended_utc": "2026-10-25T07:43:21.518000+00:00",
+      "minutes": 13.3
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 74,
+    "test": 342,
+    "files_changed": 28
+  },
+  "commits": 8,
+  "exit_code": 124,
+  "exit_reason": "timeout",
+  "stop_reason": null,
+  "is_error": null,
+  "raw_sha256": {
+    "stream": "86139d529f616ae64f92d05f487a2f59ddb1b0e9104522bc21da8ef7def973a9",
+    "session": "a50ed47271dcb9b970847d54d83c99926cb11a66b98dbae202171efe811e3ef5"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc",
+    "trace_name": "geeky-eval c0-wordstat claude-code",
+    "tags": [
+      "geeky-eval",
+      "harness:claude-code",
+      "case:c0-wordstat",
+      "run:20261025T061414Z",
+      "plugin:2838079"
+    ],
+    "user_id": "geeky-eval-agent",
+    "full_content": true,
+    "ca_passthrough": [
+      "SSL_CERT_FILE",
+      "REQUESTS_CA_BUNDLE",
+      "NODE_EXTRA_CA_CERTS"
+    ],
+    "session_id": "e05aeb9e-7dc6-4c24-a781-0ce7b83c9393",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 657,
+    "coverage_complete": true,
+    "coverage_missed": [],
+    "hook": {
+      "kind": "claude-stop-sessionend",
+      "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "langfuse_python": "4.18.0",
+      "state_dir": "/root/repos/.eval-cfg-20261025T061414Z/langfuse"
+    },
+    "host_flush": "exit 0"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "model": "ant-claudex"
+  },
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}

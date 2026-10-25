@@ -8,18 +8,21 @@ contents. The dedicated, already signed-in CODEX_HOME is used only as the auth
 and session store; user config/rules are ignored, and HOME is isolated per run.
 Mock and MXC smoke validation belong to checkpoint 2. Paid launch requires the
 owner's later authorization. Codex analysis/scoring are deliberately not called.
+Runs on Windows (ProcessContainer) and Linux/macOS (Bubblewrap/Seatbelt); see run-baseline.ps1.
+With TRACE_TO_LANGFUSE=true on the host, the pinned Langfuse Codex Stop hook uploads each turn,
+child thread, tool call and reasoning summary untruncated (evals/telemetry/README.md).
 #>
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory)][ValidateSet('c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
+    [Parameter(Mandatory)][ValidateSet('c0-wordstat', 'c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
     [string]$Model = 'gpt-6.1-sol',
     [ValidateSet('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')][string]$Reasoning = 'high',
     [string]$WorkerModel,
     [ValidateSet('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')][string]$WorkerReasoning,
     [ValidateSet('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')][string]$ReviewerReasoning,
     [int]$TimeoutSec,
-    [string]$ToolsDir = 'C:\repos\.eval-tools',
-    [string]$WorkRoot = 'C:\repos',
+    [string]$ToolsDir,
+    [string]$WorkRoot,
     [string]$CodexHome,
     [string]$CodexExe,
     [string]$MxcBuildSource,
@@ -27,30 +30,46 @@ param(
     [string]$ReviewerProofFolder,
     [switch]$MockAgent,
     [ValidateSet('happy', 'all', 'fail')][string]$MockScenario = 'happy',
-    [switch]$Launch
+    [switch]$Launch,
+    [switch]$NoTelemetry,
+    # Route every model through LiteLLM's Responses API (LITELLM_PROXY_URL, LITELLM_PROXY_API_KEY);
+    # models are given run-scoped catalog entries (classic JSON tools, multi-agent v2).
+    [switch]$Litellm,
+    [int]$ContextWindow = 200000,
+    # Debugging: a RUST_LOG filter for the contestant Codex process; its log lands in stderr.txt.
+    [string]$CodexRustLog
 )
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $false
 if ($MockAgent -and $Launch) { throw 'Choose -MockAgent or -Launch, not both.' }
-if ($Launch -and -not $MxcBuildSource) { throw '-Launch requires an explicit -MxcBuildSource containing the vetted pinned build.' }
-if ($Launch -and -not $NativeProofFolder) { throw '-Launch requires an explicit -NativeProofFolder containing passing model-free native proof.' }
+# The vetted host build and the native proof are Windows ProcessContainer artifacts. Elsewhere the host is
+# built from source and a launch without native proof is recorded as such (never reference-eligible).
+$windowsHost = $IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop'
+if ($Launch -and $windowsHost -and -not $MxcBuildSource) { throw '-Launch requires an explicit -MxcBuildSource containing the vetted pinned build.' }
+if ($Launch -and $windowsHost -and -not $NativeProofFolder) { throw '-Launch requires an explicit -NativeProofFolder containing passing model-free native proof.' }
 if ($Launch -and $ReviewerReasoning -and -not $ReviewerProofFolder) { throw 'Reviewer settings require an explicit -ReviewerProofFolder proving the architect reviewer role.' }
 if (-not $WorkerModel) { $WorkerModel = $Model }
 if (-not $WorkerReasoning) { $WorkerReasoning = $Reasoning }
 
-$plugin = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+$onWindows = $IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop'
+if (-not $ToolsDir) { $ToolsDir = if ($onWindows) { 'C:\repos\.eval-tools' } else { Join-Path $HOME 'repos/.eval-tools' } }
+if (-not $WorkRoot) { $WorkRoot = if ($onWindows) { 'C:\repos' } else { Join-Path $HOME 'repos' } }
+$plugin = (Resolve-Path (Join-Path $PSScriptRoot '../..')).Path
 $repoRoot = (Resolve-Path (Join-Path $plugin '..')).Path
-$caseDir = Join-Path $plugin "evals\cases\$Case"
-$adapter = Join-Path $plugin 'evals\adapters\codex'
-$forbiddenSkillRoot = Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)) '.agents\skills'
-$python = Join-Path $ToolsDir 'agent-py\Scripts\python.exe'
+$caseDir = Join-Path $plugin "evals/cases/$Case"
+$adapter = Join-Path $plugin 'evals/adapters/codex'
+$forbiddenSkillRoot = Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)) '.agents/skills'
+$agentPyBin = Join-Path $ToolsDir $(if ($onWindows) { 'agent-py\Scripts' } else { 'agent-py/bin' })
+$python = Join-Path $agentPyBin $(if ($onWindows) { 'python.exe' } else { 'python' })
 if (-not $CodexHome) { $CodexHome = Join-Path $ToolsDir 'codex-home' }
 $CodexHome = [IO.Path]::GetFullPath($CodexHome)
-if (-not $CodexExe) { $CodexExe = Join-Path $ToolsDir 'codex\0.164.0\bin\codex.exe' }
+if (-not $CodexExe) { $CodexExe = Join-Path $ToolsDir "codex/0.164.0/bin/$(if ($onWindows) { 'codex.exe' } else { 'codex' })" }
 $codexExe = (Resolve-Path -LiteralPath $CodexExe).Path
-$tarExe = Join-Path $env:SystemRoot 'System32\tar.exe' # Never select MSYS tar for a C: path.
-$mxc = Join-Path $repoRoot 'mxc-sandbox\scripts\mxc.ps1'
-foreach ($required in @($python, $CodexHome, $tarExe, $mxc, (Join-Path $adapter 'prepare-profile.py'))) {
+$tarExe = if ($onWindows) { Join-Path $env:SystemRoot 'System32\tar.exe' } else { 'tar' } # Never select MSYS tar for a C: path.
+$mxc = Join-Path $repoRoot 'mxc-sandbox/scripts/mxc.ps1'
+$mxcHostSource = Join-Path $repoRoot 'mxc-sandbox/scripts/host/MxcClaude'
+$mxcPin = Join-Path $adapter 'profile/mxc-pin.json'
+foreach ($required in @($python, $CodexHome, $mxc) + @(if ($onWindows) { $tarExe }) + @( (Join-Path $adapter 'prepare-profile.py'))) {
     if (-not (Test-Path -LiteralPath $required)) { throw "Missing prerequisite: $required" }
 }
 & $python -c 'import pytest'
@@ -67,7 +86,7 @@ function Invoke-Git {
 function Get-TreeHash([string]$Directory) {
     # Include relative names: renamed files must count as tampering too.
     $entries = Get-ChildItem -LiteralPath $Directory -Recurse -File |
-        Where-Object { $_.FullName -notmatch '\\__pycache__\\' } | Sort-Object FullName |
+        Where-Object { $_.FullName -notmatch '[\\/]__pycache__[\\/]' } | Sort-Object FullName |
         ForEach-Object { $_.FullName.Substring($Directory.Length) + ':' + (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash }
     return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes(($entries -join "`n")))).ToLowerInvariant()
 }
@@ -96,7 +115,7 @@ function Invoke-Oracle([string]$Target, [string]$OutputPath) {
 $stamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ') + '-' + [guid]::NewGuid().ToString('N').Substring(0, 8)
 $ws = Join-Path $WorkRoot "eval-$Case-codex-$stamp"
 $cfg = Join-Path $WorkRoot ".eval-cfg-codex-$stamp"
-$out = Join-Path $plugin "evals\baselines\$Case\$stamp"
+$out = Join-Path $plugin "evals/baselines/$Case/$stamp"
 $runHome = Join-Path $cfg 'home'
 $runTmp = Join-Path $cfg 'tmp'
 $export = Join-Path $cfg 'plugin'
@@ -119,15 +138,33 @@ if (Test-Path (Join-Path $pluginRun 'evals')) { throw 'Export contains forbidden
 $exportHash = Get-TreeHash $pluginRun
 
 # Only the established placeholder substitution changes the canonical prompt.
-$prompt = (Get-Content (Join-Path $plugin 'evals\prompts\end-to-end.md') -Raw).Replace('{{PLANNING_FOLDER}}', 'docs/spec-001-feature/')
+$prompt = (Get-Content (Join-Path $plugin 'evals/prompts/end-to-end.md') -Raw).Replace('{{PLANNING_FOLDER}}', 'docs/spec-001-feature/')
 $promptSha = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($prompt))).ToLowerInvariant()
 $profileResult = Join-Path $cfg 'codex-profile.json'
 $reviewerArgs = if ($ReviewerReasoning) { @('--reviewer-reasoning', $ReviewerReasoning) } else { @() }
-& $python (Join-Path $adapter 'prepare-profile.py') --plugin $pluginRun --home $runHome --codex-home $CodexHome --tools-dir $ToolsDir --profile (Join-Path $adapter 'profile') --output $profileResult --model $Model --reasoning $Reasoning --worker-model $WorkerModel --worker-reasoning $WorkerReasoning @reviewerArgs
+. (Join-Path $plugin 'evals/telemetry/telemetry.ps1')
+$telemetry = Resolve-EvalTelemetry -Harness codex -ToolsDir $ToolsDir -Case $Case -Stamp $stamp -PluginSha $pluginSha `
+    -Model $Model -Mock:$MockAgent -Disabled:$NoTelemetry
+$telemetryArgs = if ($telemetry) { @('--telemetry-node', $telemetry.Node, '--telemetry-hook', $telemetry.HookScript) } else { @() }
+$providerArgs = @()
+if ($Litellm) {
+    $litellmUrl = if ($env:LITELLM_PROXY_URL) { $env:LITELLM_PROXY_URL } else { throw '-Litellm needs LITELLM_PROXY_URL' }
+    if (-not $env:LITELLM_PROXY_API_KEY) { throw '-Litellm needs LITELLM_PROXY_API_KEY' }
+    # Catalog entries derive from this pinned binary's own catalog; an empty CODEX_HOME keeps auth out of it.
+    $catalogBase = Join-Path $cfg 'codex-models.json'
+    $catalogHome = Join-Path $cfg 'catalog-home'
+    New-Item -ItemType Directory -Path $catalogHome | Out-Null
+    $savedHome = $env:CODEX_HOME; $env:CODEX_HOME = $catalogHome
+    try { $null | & $codexExe debug models | Set-Content -LiteralPath $catalogBase -Encoding utf8 } finally { $env:CODEX_HOME = $savedHome }
+    if ($LASTEXITCODE) { throw 'codex debug models failed' }
+    $providerArgs = @('--provider-base-url', ($litellmUrl.TrimEnd('/') + '/v1'), '--provider-env-key', 'LITELLM_PROXY_API_KEY',
+        '--catalog-base', $catalogBase, '--context-window', $ContextWindow)
+}
+& $python (Join-Path $adapter 'prepare-profile.py') --plugin $pluginRun --home $runHome --codex-home $CodexHome --tools-dir $ToolsDir --profile (Join-Path $adapter 'profile') --output $profileResult --model $Model --reasoning $Reasoning --worker-model $WorkerModel --worker-reasoning $WorkerReasoning @reviewerArgs @telemetryArgs @providerArgs
 $preflightCode = $LASTEXITCODE
 if (Test-Path -LiteralPath $profileResult) { Copy-Item -LiteralPath $profileResult -Destination (Join-Path $out 'parity-preflight.json') }
 if ($preflightCode -ne 0 -or -not (Test-Path -LiteralPath $profileResult)) {
-    throw "Codex parity preflight failed; inspect $out\parity-preflight.json. No contestant launched."
+    throw "Codex parity preflight failed; inspect $(Join-Path $out 'parity-preflight.json'). No contestant launched."
 }
 $profile = Get-Content -LiteralPath $profileResult -Raw | ConvertFrom-Json
 if ($profile.ok -ne $true) { throw "Codex parity preflight did not pass: $profileResult" }
@@ -140,9 +177,10 @@ if ($MockAgent) {
     Copy-Item -LiteralPath (Join-Path $adapter 'mock_codex.py') -Destination $mockPath
     $codexArgs = @($mockPath) + $codexArgs + @('--mock-scenario', $MockScenario,
         '--mock-forbidden-path', (Join-Path $caseDir 'spec.md'),
-        '--mock-forbidden-path', (Join-Path $plugin 'agents\geeky-coder.md'))
+        '--mock-forbidden-path', (Join-Path $plugin 'agents/geeky-coder.md'))
 } elseif ($Launch) {
     $trustedExec = Join-Path $cfg 'trusted-exec.py'
+    Copy-Item (Join-Path $plugin 'evals/telemetry/codex-flush.py') $cfg   # post-run Langfuse replay
     Copy-Item (Join-Path $adapter 'trusted-exec.py'), (Join-Path $adapter 'native-probe.py'), (Join-Path $adapter 'diagnostics.py') $cfg
     $promptFile = Join-Path $cfg 'canonical-prompt.txt'
     Set-Content -LiteralPath $promptFile -Value $prompt -NoNewline -Encoding utf8
@@ -156,9 +194,12 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--no-e
     '--env', "CLAUDE_PLUGIN_ROOT=$pluginRun", '--env', "PLUGIN_ROOT=$pluginRun",
     '--env', "TMPDIR=$runTmp", '--env', 'PYTHONDONTWRITEBYTECODE=1', '--env', "XDG_CONFIG_HOME=$runHome",
     '--env', 'GIT_CONFIG_COUNT=1', '--env', 'GIT_CONFIG_KEY_0=safe.directory', '--env', "GIT_CONFIG_VALUE_0=$($ws.Replace('\','/'))",
-    '--env', "PATH=$ToolsDir\agent-py\Scripts;$env:PATH", '--env', "VIRTUAL_ENV=$ToolsDir\agent-py",
+    '--env', "PATH=$agentPyBin$([IO.Path]::PathSeparator)$env:PATH", '--env', "VIRTUAL_ENV=$(Join-Path $ToolsDir 'agent-py')",
     '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
+if ($telemetry) { $hostArgs += @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs }
+if ($Litellm) { $hostArgs += @('--env', 'LITELLM_PROXY_API_KEY') }   # bare name: the MXC host copies the value
+if ($CodexRustLog) { $hostArgs += @('--env', "RUST_LOG=$CodexRustLog") }
 
 $record = [ordered]@{
     schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'codex'; harness_version = (& $codexExe --version | Out-String).Trim()
@@ -174,7 +215,9 @@ $record = [ordered]@{
     runtime_parity_verified = ($profile.runtime_verified -eq $true); profile_sha256 = $profile.profile_sha256
     mock_agent = [bool]$MockAgent; runtime_toolchain_verified = $false
     diagnostics_passed = $false
-    native_proof_folder = $(if ($Launch) { [IO.Path]::GetFullPath($NativeProofFolder) } else { $null })
+    native_proof_folder = $(if ($Launch -and $NativeProofFolder) { [IO.Path]::GetFullPath($NativeProofFolder) } else { $null })
+    provider = $(if ($Litellm) { [ordered]@{ name = 'litellm'; base_url = $litellmUrl; context_window = $ContextWindow } } else { $null })
+    telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })
 }
 if ($ReviewerReasoning) { $record['reviewer_reasoning'] = $ReviewerReasoning }
 if ($ReviewerProofFolder) { $record['reviewer_proof_folder'] = [IO.Path]::GetFullPath($ReviewerProofFolder) }
@@ -186,17 +229,17 @@ $mxcState = Join-Path $cfg 'mxc-runner'
 if ($MxcBuildSource) {
     . (Join-Path $adapter 'copy-vetted-mxc-build.ps1')
     Copy-VettedMxcBuild -BuildSource $MxcBuildSource -StateRoot $mxcState `
-        -SourceDirectory (Join-Path $repoRoot 'mxc-sandbox\scripts\host\MxcClaude') `
-        -PinPath (Join-Path $adapter 'profile\mxc-pin.json') `
+        -SourceDirectory $mxcHostSource `
+        -PinPath $mxcPin `
         -ReportPath (Join-Path $out 'mxc-build-provenance.json') | Out-Null
 }
-if ($Launch) {
+if ($Launch -and $NativeProofFolder) {
     $reviewerProofArgs = if ($ReviewerProofFolder) { @('--reviewer-proof-folder', $ReviewerProofFolder) } else { @() }
     & $python (Join-Path $adapter 'paid-diagnostic-audit.py') --run-folder $out `
-        --native-proof-folder $NativeProofFolder --pin (Join-Path $adapter 'profile\mxc-pin.json') `
+        --native-proof-folder $NativeProofFolder --pin $mxcPin `
         --forbidden-skill-root $forbiddenSkillRoot `
-        --source-directory (Join-Path $repoRoot 'mxc-sandbox\scripts\host\MxcClaude') @reviewerProofArgs
-    if ($LASTEXITCODE -ne 0) { throw "Paid launch native proof failed; inspect $out\native-proof-validation.json. No contestant launched." }
+        --source-directory $mxcHostSource @reviewerProofArgs
+    if ($LASTEXITCODE -ne 0) { throw "Paid launch native proof failed; inspect $(Join-Path $out 'native-proof-validation.json'). No contestant launched." }
 }
 
 # Serialize this dedicated auth/session store, without touching its auth files.
@@ -242,6 +285,22 @@ try {
         # Only rollout transcripts are enumerated, never the home or auth files.
         & $python (Join-Path $adapter 'capture-rollouts.py') --sessions $sessions --thread-id $thread.thread_id --output $out
         if ($LASTEXITCODE -ne 0) { $record.is_error = $true; $record.exit_reason = 'missing-or-ambiguous-rollout' }
+        # The Stop hook only fires when a turn ends; a run that times out or is killed mid-turn would leave
+        # Langfuse empty. Replay the main rollout (children are found beside it) through the tracer in a short
+        # network-enabled MXC workload: its exporter ignores proxies, so it needs the sandbox's direct egress.
+        $rollout = Get-ChildItem -LiteralPath $sessions -Recurse -Filter "rollout-*$($thread.thread_id).jsonl" | Select-Object -First 1
+        if ($telemetry -and $Launch -and $rollout) {
+            $payloadFile = Join-Path $runTmp 'codex-flush-payload.json'
+            @{ session_id = $thread.thread_id; transcript_path = $rollout.FullName; hook_event_name = 'Stop' } | ConvertTo-Json -Compress |
+                Set-Content -LiteralPath $payloadFile -NoNewline
+            $flushArgs = @('run', '--workspace', $runTmp, '--rw', $CodexHome, '--ro', $ToolsDir, '--ro', $cfg, '--timeout', 900,
+                '--env', "PATH=$env:PATH") + @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs
+            $env:MXC_CLAUDE_EXE = $python; $env:MXC_SANDBOX_HOME = $mxcState
+            try {
+                & $mxc @flushArgs -- (Join-Path $cfg 'codex-flush.py') $telemetry.Node $telemetry.HookScript $payloadFile *> (Join-Path $out 'langfuse-flush.log')
+                $telemetry.Record.host_flush = "exit $LASTEXITCODE"
+            } finally { $env:MXC_CLAUDE_EXE = $savedExe; $env:MXC_SANDBOX_HOME = $savedMxcHome }
+        }
     } else { $record.is_error = $true; $record.exit_reason = 'missing-thread-id' }
     $record.plugin_modified_during_run = (Get-TreeHash $pluginRun) -ne $exportHash
     $runs = @(1..3 | ForEach-Object { Invoke-Oracle $ws (Join-Path $out 'oracle-output.txt') })
@@ -251,13 +310,20 @@ try {
     Invoke-Git @('-C', $ws, 'bundle', 'create', (Join-Path $out 'solution.bundle'), '--all') | Out-Null
     $record.commits = [int](Invoke-Git @('-C', $ws, 'rev-list', '--count', "$baseSha..HEAD"))
     $record.raw_sha256 = [ordered]@{ stream = Get-Sha (Join-Path $out 'stream.jsonl'); session = Get-Sha (Join-Path $out 'session.jsonl') }
-    if ($Launch) {
+    if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $record.session_id -OutDir $out -Python $python }
+    if ($Launch -and (Test-Path (Join-Path $runTmp 'native-hook-trust'))) {
+        # Launch evidence (codex-exit.json, hook catalogue, denial proof) travels with the run.
+        Copy-Item (Join-Path $runTmp 'native-hook-trust') (Join-Path $out 'launch-evidence') -Recurse -Exclude 'hook-catalog-home'
+    }
+    if ($Launch -and -not $NativeProofFolder) {
+        $record.diagnostics_passed = $null   # no native proof to audit against (non-Windows host)
+    } elseif ($Launch) {
         # Preserve oracle/bundle/rollouts first; diagnostics must pass before automatic analysis.
         $record | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $out 'run.json')
         & $python (Join-Path $adapter 'paid-diagnostic-audit.py') --run-folder $out `
             --runtime-evidence (Join-Path $runTmp 'native-hook-trust') --forbidden-skill-root $forbiddenSkillRoot `
-            --pin (Join-Path $adapter 'profile\mxc-pin.json') `
-            --source-directory (Join-Path $repoRoot 'mxc-sandbox\scripts\host\MxcClaude')
+            --pin $mxcPin `
+            --source-directory $mxcHostSource
         $record.diagnostics_passed = $LASTEXITCODE -eq 0
         $record.runtime_parity_verified = $record.diagnostics_passed
         $record.runtime_toolchain_verified = $record.diagnostics_passed

@@ -1,0 +1,35 @@
+{
+  "schema": "geeky-eval.mock-matrix/1",
+  "stamp": "20261024T233012Z",
+  "platform": "Ubuntu 24.04.5 LTS",
+  "plugin_sha": "31a592c3c01f222f4bd58d6cc395f90df85490fa",
+  "runs": [
+    {
+      "harness": "claude-code",
+      "case": "c0-wordstat",
+      "runner_exit": 0,
+      "wall_s": 28,
+      "checks_passed": 25,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 122,
+      "folder": "claude-code-c0-wordstat",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c0-wordstat",
+      "runner_exit": 0,
+      "wall_s": 23,
+      "checks_passed": 8,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 9,
+      "folder": "codex-c0-wordstat",
+      "ok": true
+    }
+  ],
+  "ok": true
+}

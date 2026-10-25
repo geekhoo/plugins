@@ -1,0 +1,130 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "e05aeb9e-7dc6-4c24-a781-0ce7b83c9393",
+  "traces": 16,
+  "observations": 657,
+  "by_type": {
+    "SPAN": 31,
+    "GENERATION": 276,
+    "TOOL": 350
+  },
+  "generations": 276,
+  "tool_calls": 350,
+  "subagents": 15,
+  "environments": [
+    "mxc"
+  ],
+  "usage_details": {
+    "input": 577445,
+    "output": 87089,
+    "cache_read_input_tokens": 10856052,
+    "total": 11746315,
+    "input_cache_creation_5m": 210043,
+    "cache_creation_input_tokens": 15686
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T06:14:32.984Z",
+  "last_start": "2026-10-25T07:44:18.715Z",
+  "top_names": [
+    [
+      "Subagent LLM Call",
+      145
+    ],
+    [
+      "LLM Call",
+      131
+    ],
+    [
+      "Tool: Read",
+      111
+    ],
+    [
+      "Tool: Bash",
+      79
+    ],
+    [
+      "Tool: Edit",
+      57
+    ],
+    [
+      "Tool: Write",
+      28
+    ],
+    [
+      "Tool: WebFetch",
+      28
+    ],
+    [
+      "Conversational Turn",
+      16
+    ],
+    [
+      "Tool: Agent",
+      16
+    ],
+    [
+      "Tool: Grep",
+      14
+    ],
+    [
+      "Tool: Glob",
+      8
+    ],
+    [
+      "Tool: Skill",
+      5
+    ],
+    [
+      "Tool: ToolSearch",
+      4
+    ],
+    [
+      "Subagent: Fix impl-review findings",
+      1
+    ],
+    [
+      "Subagent: Review test coverage integration",
+      1
+    ],
+    [
+      "Subagent: Review CLI I/O error contract",
+      1
+    ],
+    [
+      "Subagent: Review counting core fidelity",
+      1
+    ],
+    [
+      "Subagent: Phase 2 code review T3+T4",
+      1
+    ],
+    [
+      "Subagent: Run T4 final validation gate",
+      1
+    ],
+    [
+      "Subagent: Phase 1 Core review T1 T2",
+      1
+    ],
+    [
+      "Subagent: Implement T2 CLI and entry",
+      1
+    ],
+    [
+      "Subagent: Implement T1 counting core",
+      1
+    ],
+    [
+      "Subagent: Phase 3 sequencing validation",
+      1
+    ],
+    [
+      "Subagent: Phase 1 semantic cross-validation",
+      1
+    ],
+    [
+      "Subagent: PM review of planning package",
+      1
+    ]
+  ]
+}

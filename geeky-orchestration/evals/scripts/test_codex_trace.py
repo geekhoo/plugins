@@ -123,6 +123,33 @@ def test_child_usage_history_and_reviewer_summary(trace_folder):
     assert trace.by_id['main:spawn'].inp['subagent_type'] == 'code-reviewer'
 
 
+def test_child_interrupted_by_parent_is_complete(trace_folder):
+    folder, rows = trace_folder
+    add_child(folder, rows)
+    child = folder / 'subagents/rollout-child.jsonl'
+    kept = [r for r in map(json.loads, child.read_text(encoding='utf-8').splitlines()) if (r.get('payload') or {}).get('type') != 'task_complete']
+    write_jsonl(child, kept + [row('event_msg', {'type': 'turn_aborted', 'reason': 'interrupted'}, 12, ordinal=13)])
+    report = CT.load(folder)
+    assert report['trace_complete'], report['trace_errors']
+
+
+def test_main_thread_interruption_still_blocks_scoring(trace_folder):
+    folder, rows = trace_folder
+    write_jsonl(folder / 'session.jsonl', rows + [row('event_msg', {'type': 'turn_aborted', 'reason': 'interrupted'}, 8)])
+    assert not CT.load(folder)['trace_complete']
+
+
+def test_rejected_spawn_needs_no_child(trace_folder):
+    folder, rows = trace_folder
+    rows += [row('response_item', {'type': 'function_call', 'call_id': 'bad', 'name': 'spawn_agent',
+                                   'arguments': json.dumps({'agent_type': 'code-reviewer', 'task_name': 'Bad-Name', 'message': 'x'})}, 8),
+             row('response_item', {'type': 'function_call_output', 'call_id': 'bad',
+                                   'output': 'agent_name must use only lowercase letters, digits, and underscores'}, 9)]
+    write_jsonl(folder / 'session.jsonl', rows)
+    report = CT.load(folder)
+    assert report['trace_complete'], report['trace_errors']
+
+
 @pytest.mark.parametrize('activity', [True, False])
 def test_missing_spawned_child_fails_even_without_activity_record(trace_folder, activity):
     folder, rows = trace_folder

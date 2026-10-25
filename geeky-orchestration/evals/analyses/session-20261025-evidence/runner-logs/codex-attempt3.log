@@ -1,0 +1,12 @@
+{"ok": true, "report": "/root/repos/.eval-cfg-codex-20261025T011232Z-bc86f504/codex-profile.json"}
+workspace: /root/repos/eval-c0-wordstat-codex-20261025T011232Z-bc86f504 (seed 7b4f88d6ea3c3b85f0623cd7b2281dee53588188)
+prepared: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T011232Z-bc86f504
+mxc-sandbox: building host into /root/repos/.eval-cfg-codex-20261025T011232Z-bc86f504/mxc-runner/bin
+{"main_thread_id": "01a1709d-d9ef-7b93-a1a7-934d56ab8e6b", "threads": [{"thread_id": "01a1709d-d9ef-7b93-a1a7-934d56ab8e6b", "parent_thread_id": null, "file": "session.jsonl"}, {"thread_id": "01a1709f-42ad-7852-bdad-304f389e8e78", "parent_thread_id": "01a1709d-d9ef-7b93-a1a7-934d56ab8e6b", "file": "subagents/rollout-01a1709f-42ad-7852-bdad-304f389e8e78.jsonl"}, {"thread_id": "01a1709f-5dc5-7150-a35f-f42702191713", "parent_thread_id": "01a1709d-d9ef-7b93-a1a7-934d56ab8e6b", "file": "subagents/rollout-01a1709f-5dc5-7150-a35f-f42702191713.jsonl"}, {"thread_id": "01a1709f-7837-7592-ac52-814ad9a51e02", "parent_thread_id": "01a1709d-d9ef-7b93-a1a7-934d56ab8e6b", "file": "subagents/rollout-01a1709f-7837-7592-ac52-814ad9a51e02.jsonl"}]}
+langfuse: session 01a1709d-d9ef-7b93-a1a7-934d56ab8e6b: 0 traces, 0 observations (0 generations, 0 tool calls), 0 truncated
+stored: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T011232Z-bc86f504 (analysis status: awaiting-rollout; score-run.py requires reviewed manual verdicts)
+[31;1mException: [0m/home/user/plugins/geeky-orchestration/evals/scripts/run-codex-baseline.ps1:328[0m
+[31;1m[0m[36;1mLine |[0m
+[31;1m[0m[36;1m[36;1m 328 | [0m … is_error) { [36;1mthrow "Codex paid run failed ($($record.exit_reason)); ev[0m …[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m     | [31;1m               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[31;1m[0m[36;1m[36;1m[0m[36;1m[0m[36;1m[31;1m[31;1m[36;1m     | [31;1mCodex paid run failed (crash); evidence preserved: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T011232Z-bc86f504[0m

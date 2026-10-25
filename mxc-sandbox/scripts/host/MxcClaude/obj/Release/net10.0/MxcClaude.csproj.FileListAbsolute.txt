@@ -1,0 +1,17 @@
+/tmp/claude-0/-home-user-plugins/0f95de56-272f-550b-8a26-02cb069a3f31/scratchpad/mxc-new/MxcClaude
+/tmp/claude-0/-home-user-plugins/0f95de56-272f-550b-8a26-02cb069a3f31/scratchpad/mxc-new/MxcClaude.deps.json
+/tmp/claude-0/-home-user-plugins/0f95de56-272f-550b-8a26-02cb069a3f31/scratchpad/mxc-new/MxcClaude.runtimeconfig.json
+/tmp/claude-0/-home-user-plugins/0f95de56-272f-550b-8a26-02cb069a3f31/scratchpad/mxc-new/MxcClaude.dll
+/tmp/claude-0/-home-user-plugins/0f95de56-272f-550b-8a26-02cb069a3f31/scratchpad/mxc-new/MxcClaude.pdb
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.csproj.AssemblyReference.cache
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.GeneratedMSBuildEditorConfig.editorconfig
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.AssemblyInfoInputs.cache
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.AssemblyInfo.cs
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.csproj.CoreCompileInputs.cache
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.sourcelink.json
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.csproj.Up2Date
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.dll
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/refint/MxcClaude.dll
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.pdb
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/MxcClaude.genruntimeconfig.cache
+/home/user/plugins/mxc-sandbox/scripts/host/MxcClaude/obj/Release/net10.0/ref/MxcClaude.dll

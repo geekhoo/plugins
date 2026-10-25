@@ -394,6 +394,21 @@ def load(run_dir, process_path=None):
                                 'content': output, 'is_error': failed}])
         return cid
 
+    # A spawn the runtime rejected (e.g. an invalid agent_name) returns an error string instead of the
+    # new agent's path, and no child thread exists for it.
+    rejected = set()
+    for thread in threads.values():
+        payloads = [row.get('payload') or {} for row in thread['rows'] if row.get('type') == 'response_item']
+        spawns = {p.get('call_id') for p in payloads if p.get('type') == 'function_call' and p.get('name') == 'spawn_agent'}
+        for p in payloads:
+            if p.get('type') != 'function_call_output' or p.get('call_id') not in spawns or not isinstance(p.get('output'), str):
+                continue
+            try:
+                out = json.loads(p['output'])
+            except ValueError:
+                out = None
+            if not isinstance(out, dict):
+                rejected.add(p['call_id'])
     # Resolve explicit spawn records before processing children; nested parents are allowed.
     for sid, thread in threads.items():
         for row in thread['rows']:
@@ -404,7 +419,8 @@ def load(run_dir, process_path=None):
                 except ValueError:
                     errors.append('Invalid spawn arguments: ' + str(p.get('call_id')))
                     continue
-                dispatches[(sid, p.get('call_id'))] = inp
+                if p.get('call_id') not in rejected:
+                    dispatches[(sid, p.get('call_id'))] = inp
             item = p.get('item') or {}
             if item.get('type') == 'SubAgentActivity' and item.get('kind') == 'started':
                 child = item.get('agent_thread_id')
@@ -474,9 +490,14 @@ def load(run_dir, process_path=None):
             else:
                 usage_by_thread[sid] = usage
         model_counts.append(len(response_ids) if response_ids else None)
-        if any(row.get('type') == 'event_msg' and (row.get('payload') or {}).get('type') in ('turn_aborted', 'error') for row in rows):
+        notices = [row.get('payload') or {} for row in rows if row.get('type') == 'event_msg']
+        # A parent may interrupt a child it no longer needs; that child ends with turn_aborted/interrupted
+        # and no task_complete. Only the main thread must finish its task.
+        interrupted = bool(threads[sid]['parent']) and any(e.get('type') == 'turn_aborted' and e.get('reason') == 'interrupted'
+                                                           for e in notices)
+        if any(e.get('type') == 'error' or (e.get('type') == 'turn_aborted' and not interrupted) for e in notices):
             errors.append('Aborted/error rollout: ' + sid)
-        if not any(row.get('type') == 'event_msg' and (row.get('payload') or {}).get('type') == 'task_complete' for row in rows):
+        if not interrupted and not any(e.get('type') == 'task_complete' for e in notices):
             errors.append('Missing task_complete: ' + sid)
 
         # Completed runtime items include tools nested inside functions.exec.

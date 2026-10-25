@@ -1,0 +1,10 @@
+{
+  "a.one_concern_per_commit": {"pass": true, "note": "Code, tests and bookkeeping are separate commits; bba0fe7 holds T2+T3 tests, one commit per phase as geeky-implement prescribes."},
+  "adh.one_concern_per_commit": {"pass": true, "note": "as a.one_concern_per_commit"},
+  "a.final_report_claims": {"pass": true, "note": "Verified: 50 passed/1 skipped on rerun, clean tree, commits exist, review-plan.md counts 0C/6W/2S, review-impl.md three PASS, heartbeat done."},
+  "adh.final_report_claims": {"pass": true, "note": "as a.final_report_claims"},
+  "hg.false_completion_claim": {"pass": true, "note": "No false completion claim; every stated outcome reproduces."},
+  "dp07": {"pass": true, "note": "T2/T3 ran in parallel (2 <= 3); parallelism justified in plan-review sequencing (review-plan.md)."},
+  "dp07.justification": {"pass": true, "note": "as dp07"},
+  "dp13": {"pass": true, "note": "One concern per commit in each phase."}
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "geeky-eval.telemetry-pins/1",
+  "langfuse_python": "4.18.0",
+  "claude_hook": {
+    "source": "https://github.com/langfuse/claude-observability-plugin",
+    "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+    "url": "https://raw.githubusercontent.com/langfuse/claude-observability-plugin/b5b7cc364996467e856dc17575b5674f4799ad87/hooks/langfuse_hook.py",
+    "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698"
+  },
+  "codex_plugin": {
+    "source": "https://github.com/langfuse/codex-observability-plugin",
+    "package": "@langfuse/codex-observability-plugin",
+    "version": "0.4.2",
+    "url": "https://registry.npmjs.org/@langfuse/codex-observability-plugin/-/codex-observability-plugin-0.4.2.tgz",
+    "sha256": "67cead133a9fa96a71f927c1331ead181c94979f5d7ebbaaf4bcef61a30c5ba2",
+    "node_major_min": 22
+  }
+}

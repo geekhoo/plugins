@@ -1,0 +1,25 @@
+{"ok": true, "report": "/root/repos/.eval-cfg-codex-20261025T030302Z-a037e8ab/codex-profile.json"}
+workspace: /root/repos/eval-c0-wordstat-codex-20261025T030302Z-a037e8ab (seed 25350424cba13bbedac3a56d2a4a4e3e5a61652e)
+prepared: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T030302Z-a037e8ab
+mxc-sandbox: building host into /root/repos/.eval-cfg-codex-20261025T030302Z-a037e8ab/mxc-runner/bin
+{"main_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "threads": [{"thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "parent_thread_id": null, "file": "session.jsonl"}, {"thread_id": "01a17105-16e0-7dd3-9a60-0b4fa5e5c249", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17105-16e0-7dd3-9a60-0b4fa5e5c249.jsonl"}, {"thread_id": "01a17105-3631-79a0-91ba-dde1fd983ece", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17105-3631-79a0-91ba-dde1fd983ece.jsonl"}, {"thread_id": "01a17105-3656-78a3-abb5-b11862b9696c", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17105-3656-78a3-abb5-b11862b9696c.jsonl"}, {"thread_id": "01a1710b-cf3b-7802-9820-f28f8057b214", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a1710b-cf3b-7802-9820-f28f8057b214.jsonl"}, {"thread_id": "01a1710e-8374-7e12-80bf-44dacb1a7ce1", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a1710e-8374-7e12-80bf-44dacb1a7ce1.jsonl"}, {"thread_id": "01a17113-970a-7b70-a3a5-6202737cc2ae", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17113-970a-7b70-a3a5-6202737cc2ae.jsonl"}, {"thread_id": "01a17116-60f1-7111-b3cd-a77e38124b6b", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17116-60f1-7111-b3cd-a77e38124b6b.jsonl"}, {"thread_id": "01a17123-30a9-7740-86f0-dfd757b2c5e2", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17123-30a9-7740-86f0-dfd757b2c5e2.jsonl"}, {"thread_id": "01a17125-9e82-7302-b3be-f691a23c4a15", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17125-9e82-7302-b3be-f691a23c4a15.jsonl"}, {"thread_id": "01a17125-9e9c-7943-8b38-6236dcfb978a", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17125-9e9c-7943-8b38-6236dcfb978a.jsonl"}, {"thread_id": "01a1712f-beb4-7160-8423-d8cc626e300f", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a1712f-beb4-7160-8423-d8cc626e300f.jsonl"}, {"thread_id": "01a17132-55e5-76b1-9b8b-bf60dc52fe90", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17132-55e5-76b1-9b8b-bf60dc52fe90.jsonl"}, {"thread_id": "01a17132-5634-7143-a78c-146938583631", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17132-5634-7143-a78c-146938583631.jsonl"}, {"thread_id": "01a17132-5688-7312-8785-48ba28d14e6b", "parent_thread_id": "01a17103-0b16-77f2-8c65-6eb2923a0879", "file": "subagents/rollout-01a17132-5688-7312-8785-48ba28d14e6b.jsonl"}]}
+langfuse: session 01a17103-0b16-77f2-8c65-6eb2923a0879: 1 traces, 659 observations (259 generations, 382 tool calls), 0 truncated
+{
+  "tokens": {
+    "input": 20838280,
+    "cached_input": 20149760,
+    "cache_creation": 0,
+    "output": 187411,
+    "reasoning": 61954,
+    "total": 21025691,
+    "cost_usd_estimate": null
+  },
+  "model_calls": 259,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 120,
+  "impl_review_rounds": 1,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": true
+}
+stored: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T030302Z-a037e8ab (analysis status: awaiting-rollout; score-run.py requires reviewed manual verdicts)
+runner-exit=0

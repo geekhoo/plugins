@@ -1,0 +1,87 @@
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "by_model": {},
+    "cost_usd_estimate": 0
+  },
+  "model_calls": 6,
+  "latency_median_ms": 4856,
+  "latency_samples": 10,
+  "max_idle_gap_s": 21,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T01:51:19.972000+00:00",
+      "ended_utc": "2026-10-25T01:52:05.598000+00:00",
+      "minutes": 0.8
+    }
+  ],
+  "impl_review_rounds": null,
+  "skill_invocations": {
+    "spec-research": 1
+  },
+  "tool_calls_main": {
+    "Read": 4,
+    "Agent": 3,
+    "Bash": 2,
+    "Skill": 1
+  },
+  "tool_calls_subagents": {
+    "Read": 3,
+    "ToolSearch": 2,
+    "WebFetch": 2,
+    "Glob": 1
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 2
+  },
+  "validation_runs": {
+    "main": 1
+  },
+  "gate_invocations": {},
+  "gate_results": {},
+  "duration_api_ms": null,
+  "subagent_transcripts": {
+    "transcripts": 3,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "general-purpose": 2,
+      "geeky-orchestration:code-explorer": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Read": 4,
+          "Agent": 3,
+          "Bash": 2,
+          "Skill": 1
+        },
+        "dispatches": {
+          "general-purpose": 2,
+          "geeky-orchestration:code-explorer": 1
+        },
+        "gates": {}
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "Read": 3,
+          "ToolSearch": 2,
+          "WebFetch": 2,
+          "Glob": 1
+        },
+        "dispatches": {},
+        "gates": {}
+      }
+    }
+  }
+}

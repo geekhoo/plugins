@@ -1,0 +1,151 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "ant-claude",
+  "reasoning": "high",
+  "approach": "canonical-prompt",
+  "plugin_sha": "434ef7ebc72d018bdfe3f6daee4b58bb96e3a873",
+  "worker_model": "ant-claude",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "ant-claude",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "ant-claude",
+      "reasoning": "high",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "workspace": "/root/repos/eval-c0-wordstat-codex-20261025T030302Z-a037e8ab",
+  "config_directory": "/root/repos/.eval-cfg-codex-20261025T030302Z-a037e8ab",
+  "seed_sha": "25350424cba13bbedac3a56d2a4a4e3e5a61652e",
+  "session_id": "01a17103-0b16-77f2-8c65-6eb2923a0879",
+  "started_utc": "2026-10-25T03:03:03.6592450Z",
+  "ended_utc": "2026-10-25T03:59:26.6733598Z",
+  "wall_time_s": 3383,
+  "tokens": {
+    "input": 20838280,
+    "cached_input": 20149760,
+    "cache_creation": 0,
+    "output": 187411,
+    "reasoning": 61954,
+    "total": 21025691,
+    "cost_usd_estimate": null
+  },
+  "model_calls": 259,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 120,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T03:05:02.685000+00:00",
+      "ended_utc": "2026-10-25T03:09:34.467000+00:00",
+      "minutes": 4.5
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-25T03:09:34.467000+00:00",
+      "ended_utc": "2026-10-25T03:10:04.931000+00:00",
+      "minutes": 0.5
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-25T03:10:04.931000+00:00",
+      "ended_utc": "2026-10-25T03:10:04.932000+00:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-25T03:10:04.932000+00:00",
+      "ended_utc": "2026-10-25T03:10:04.935000+00:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-25T03:10:04.935000+00:00",
+      "ended_utc": "2026-10-25T03:58:57.698000+00:00",
+      "minutes": 48.9
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 9,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "d01d12caa16c950be7aa2cd56d42832e1da71ba4efb8fc3b61f68b155ff59193",
+    "session": "66834fdaaa8a9c92780c7a70539e43f94bf2ed6c8e7df2f18846e9edd1547fc9"
+  },
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "complete",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "d8e24f6f1850a033441dc25b007afd84fa6fa0b9a26d27520dfe9a1b4b346eed",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": null,
+  "native_proof_folder": null,
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "context_window": 200000
+  },
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc",
+    "trace_name": "geeky-eval c0-wordstat codex",
+    "tags": [
+      "geeky-eval",
+      "harness:codex",
+      "case:c0-wordstat",
+      "run:20261025T030302Z-a037e8ab",
+      "plugin:434ef7e",
+      "codex",
+      "development"
+    ],
+    "user_id": "developer",
+    "full_content": true,
+    "ca_passthrough": [
+      "SSL_CERT_FILE",
+      "REQUESTS_CA_BUNDLE",
+      "NODE_EXTRA_CA_CERTS"
+    ],
+    "session_id": "01a17103-0b16-77f2-8c65-6eb2923a0879",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 659,
+    "coverage_complete": true,
+    "coverage_missed": [],
+    "hook": {
+      "kind": "codex-stop",
+      "package": "@langfuse/codex-observability-plugin@0.4.2",
+      "node": "/opt/node22/bin/node",
+      "script": "/root/repos/.eval-tools/langfuse/codex-tracing/0.4.2/dist/index.geeky.mjs"
+    },
+    "host_flush": "exit 0"
+  },
+  "over_token_ceiling": true,
+  "trace_complete": true,
+  "trace_errors": []
+}

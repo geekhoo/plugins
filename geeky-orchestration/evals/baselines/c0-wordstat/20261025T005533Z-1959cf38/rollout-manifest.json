@@ -1,0 +1,25 @@
+{
+  "main_thread_id": "01a1708e-5580-7690-bad1-bc48577142c8",
+  "threads": [
+    {
+      "thread_id": "01a1708e-5580-7690-bad1-bc48577142c8",
+      "parent_thread_id": null,
+      "file": "session.jsonl"
+    },
+    {
+      "thread_id": "01a1708f-263b-7a03-b4d0-83c0e11f6548",
+      "parent_thread_id": "01a1708e-5580-7690-bad1-bc48577142c8",
+      "file": "subagents/rollout-01a1708f-263b-7a03-b4d0-83c0e11f6548.jsonl"
+    },
+    {
+      "thread_id": "01a1708f-4f16-7ac0-95ff-236bf05119e0",
+      "parent_thread_id": "01a1708e-5580-7690-bad1-bc48577142c8",
+      "file": "subagents/rollout-01a1708f-4f16-7ac0-95ff-236bf05119e0.jsonl"
+    },
+    {
+      "thread_id": "01a1708f-4f3a-7a21-b49c-a10e8d1e7be3",
+      "parent_thread_id": "01a1708e-5580-7690-bad1-bc48577142c8",
+      "file": "subagents/rollout-01a1708f-4f3a-7a21-b49c-a10e8d1e7be3.jsonl"
+    }
+  ]
+}

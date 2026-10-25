@@ -1,6 +1,7 @@
 """Offline worker matrix generation and CLI wiring; never starts Codex or MXC."""
 import importlib.util
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -28,8 +29,9 @@ class WorkerConfigTests(unittest.TestCase):
         for part in ('AGENTS.md', 'geeky.manifest.json'):
             shutil.copyfile(PLUGIN / part, self.export / part)
         self.tools = self.root / 'tools'
-        (self.tools / 'agent-py/Scripts').mkdir(parents=True)
-        (self.tools / 'agent-py/Scripts/python.exe').touch()
+        agent_python = self.tools / ('agent-py/Scripts/python.exe' if os.name == 'nt' else 'agent-py/bin/python')
+        agent_python.parent.mkdir(parents=True)
+        agent_python.touch()
         (self.tools / 'geeky-mcp').mkdir()
         (self.tools / 'geeky-mcp/pyvenv.cfg').write_text('home = C:\\Python314\n')
         self.signed = self.root / 'signed-in'
@@ -53,8 +55,8 @@ class WorkerConfigTests(unittest.TestCase):
         self.assertEqual(agents['default_subagent_model'], worker_model)
         self.assertEqual(agents['default_subagent_reasoning_effort'], worker_reasoning)
         roles = {name: row for name, row in agents.items() if isinstance(row, dict)}
-        self.assertEqual(set(roles), {p.stem for p in (self.export / 'agents').glob('*.md')})
-        self.assertEqual(len(roles), 6)
+        self.assertEqual(set(roles), {p.stem for p in (self.export / 'agents').glob('*.md')} | {'general-purpose'})
+        self.assertEqual(len(roles), 7)
         for name, row in roles.items():
             with self.subTest(role=name):
                 layer = tomllib.loads(Path(row['config_file']).read_text(encoding='utf-8'))
@@ -62,6 +64,8 @@ class WorkerConfigTests(unittest.TestCase):
                 self.assertEqual(layer['model_reasoning_effort'], worker_reasoning)
                 # Every nested role retains exactly the same registry and defaults.
                 self.assertEqual(layer['agents'], agents)
+                if name == 'general-purpose':
+                    continue   # adapter-defined stand-in for Claude Code's built-in type; no plugin agent file
                 projection = Path(row['config_file']).parents[1] / '.codex/agents' / (name + '.toml')
                 projected = tomllib.loads(projection.read_text(encoding='utf-8'))
                 self.assertEqual(layer['developer_instructions'], projected['developer_instructions'])

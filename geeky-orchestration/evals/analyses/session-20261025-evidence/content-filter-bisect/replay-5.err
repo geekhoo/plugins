@@ -1,0 +1,2 @@
+[claude-code:unrecognized_model] {"model":"ant-claude","query_source":"sdk"}
+mxc warning: WARNING: Bubblewrap did not install IPv6 firewall rules: the kernel reports no IPv6 support (EAFNOSUPPORT), so the sandbox cannot send IPv6 traffic and the IPv4 rules alone enforce the network policy.

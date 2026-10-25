@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "cwd": "/root/repos/eval-c0-wordstat-codex-20261025T011232Z-bc86f504",
+      "hooks": [
+        {
+          "key": "/<session-flags>/config.toml:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "/root/repos/.eval-tools/agent-py/bin/python /root/repos/.eval-cfg-codex-20261025T011232Z-bc86f504/home/guard-bridge.py --guard /root/repos/.eval-cfg-codex-20261025T011232Z-bc86f504/plugin/geeky-orchestration/hooks/guard-planning-contract.py",
+          "async": false,
+          "matcher": "Edit|Write|NotebookEdit|apply_patch",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "/<session-flags>/config.toml",
+          "source": "sessionFlags",
+          "pluginId": null,
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:09e9caed1dc2eef0481c784ef980e0e6db6a1b83bbad231b152666298b72c038",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "/<session-flags>/config.toml:stop:0:0",
+          "eventName": "stop",
+          "handlerType": "command",
+          "command": "/root/repos/.eval-tools/agent-py/bin/python /root/repos/.eval-cfg-codex-20261025T011232Z-bc86f504/home/langfuse-tracer.py",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 600,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "/<session-flags>/config.toml",
+          "source": "sessionFlags",
+          "pluginId": null,
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:894a2906025b47d70d7b5e1b03f6135c410b1b2f5420b1e1ea3b0b00f9f72529",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "warnings": [],
+      "errors": []
+    }
+  ]
+}

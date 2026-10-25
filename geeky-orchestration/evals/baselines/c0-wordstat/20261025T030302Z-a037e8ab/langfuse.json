@@ -1,0 +1,105 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "01a17103-0b16-77f2-8c65-6eb2923a0879",
+  "traces": 1,
+  "observations": 659,
+  "by_type": {
+    "GENERATION": 259,
+    "TOOL": 382,
+    "AGENT": 18
+  },
+  "generations": 259,
+  "tool_calls": 382,
+  "subagents": 0,
+  "environments": [
+    "mxc"
+  ],
+  "usage_details": {
+    "input": 688520,
+    "output": 125457,
+    "total": 21025691,
+    "input_cached_tokens": 20149760,
+    "output_reasoning_tokens": 61954
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T03:03:07.426Z",
+  "last_start": "2026-10-25T03:58:50.132Z",
+  "top_names": [
+    [
+      "exec_command",
+      306
+    ],
+    [
+      "LLM Subagent",
+      143
+    ],
+    [
+      "LLM",
+      116
+    ],
+    [
+      "wait_agent",
+      34
+    ],
+    [
+      "Codex Subagent Turn",
+      17
+    ],
+    [
+      "spawn_agent",
+      14
+    ],
+    [
+      "exec",
+      5
+    ],
+    [
+      "send_message",
+      4
+    ],
+    [
+      "wait",
+      4
+    ],
+    [
+      "list_agents",
+      4
+    ],
+    [
+      "followup_task",
+      3
+    ],
+    [
+      "skill:geeky-implement",
+      2
+    ],
+    [
+      "request_user_input",
+      1
+    ],
+    [
+      "skill:impl-review",
+      1
+    ],
+    [
+      "skill:plan-review",
+      1
+    ],
+    [
+      "skill:geeky-plan",
+      1
+    ],
+    [
+      "skill:spec-research",
+      1
+    ],
+    [
+      "skill:geeky-orchestration",
+      1
+    ],
+    [
+      "Codex Turn",
+      1
+    ]
+  ]
+}

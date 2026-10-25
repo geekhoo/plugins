@@ -7,11 +7,30 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
+import shlex
 import shutil
 import subprocess
 import sys
 import tomllib
+
+WINDOWS = os.name == 'nt'
+
+
+def venv_python(venv):
+    return venv / ('Scripts/python.exe' if WINDOWS else 'bin/python')
+
+
+def site_packages(venv):
+    if WINDOWS:
+        return venv / 'Lib/site-packages'
+    return next(iter(sorted(venv.glob('lib/python*/site-packages'))), venv / 'lib/site-packages')
+
+
+def cmdline(args):
+    # Codex runs hook commands through the platform shell.
+    return subprocess.list2cmdline(args) if WINDOWS else shlex.join(args)
 
 
 def toml(value):
@@ -37,8 +56,27 @@ def digest(root):
     return h.hexdigest()
 
 
+def provider_catalog(base_catalog, slugs, context_window):
+    """Catalog entries for models Codex does not know (a LiteLLM route).
+
+    Built from the legacy gpt-5.5 entry, the one catalog shape without code mode: every tool is a
+    JSON function (no freeform `exec` or `apply_patch`, whose input LiteLLM's bridges drop), and
+    multi-agent v2 keeps the collaboration tools the workflows dispatch subagents with.
+    """
+    base = next(m for m in base_catalog['models'] if m.get('slug') == 'gpt-5.5')
+    entries = []
+    for slug in dict.fromkeys(slugs):
+        entry = dict(base, slug=slug, display_name=slug, description='Eval model routed through LiteLLM',
+                     apply_patch_tool_type=None, multi_agent_version='v2', upgrade=None, availability_nux=None,
+                     additional_speed_tiers=[], service_tiers=[], priority=0,
+                     context_window=context_window, max_context_window=context_window)
+        entries.append(entry)
+    return {'models': entries}
+
+
 def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
-            worker_model=None, worker_reasoning=None, reviewer_reasoning=None):
+            worker_model=None, worker_reasoning=None, reviewer_reasoning=None,
+            telemetry_node=None, telemetry_hook=None, provider=None):
     worker_model = model if worker_model is None else worker_model
     worker_reasoning = reasoning if worker_reasoning is None else worker_reasoning
     reviewer_roles = ['code-reviewer', 'code-architect-reviewer']
@@ -80,7 +118,10 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
                 'scripts/sync-agents.py', 'hooks/guard-planning-contract.py', 'mcp/server.py']
     check('export_components', all((plugin / p).exists() for p in required), required)
     check('fresh_home', not home.exists(), str(home))
-    check('python', (tools / 'agent-py/Scripts/python.exe').is_file(), 'agent-py interpreter')
+    check('python', venv_python(tools / 'agent-py').is_file(), 'agent-py interpreter')
+    if telemetry_hook:
+        check('telemetry_hook', Path(telemetry_node).is_file() and Path(telemetry_hook).is_file(),
+              {'node': str(telemetry_node), 'hook': str(telemetry_hook)})
     check('mcp_venv', (tools / 'geeky-mcp/pyvenv.cfg').is_file(), 'geeky-mcp bootstrap venv')
     report = {'ok': False, 'runtime_verified': False, 'checks': checks,
               'codex_config_overrides': [], 'extra_args': [], 'model': model,
@@ -116,6 +157,16 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
     config = defaults
     config['model'] = model
     config['model_reasoning_effort'] = reasoning
+    if telemetry_hook:
+        # Plaintext reasoning summaries for the trace; the raw reasoning stays provider-encrypted.
+        config['model_reasoning_summary'] = 'detailed'
+    if provider:
+        config['model_provider'] = 'litellm'
+        config['model_providers'] = {'litellm': {
+            'name': 'LiteLLM', 'base_url': provider['base_url'], 'env_key': provider['env_key'],
+            'wire_api': 'responses', 'requires_openai_auth': False, 'supports_websockets': False}}
+        # Hosted web search is an OpenAI server tool; a LiteLLM route cannot serve it.
+        config['web_search'] = 'disabled'
     shutil.copyfile(plugin / 'AGENTS.md', home / 'AGENTS.md')
     config['developer_instructions'] = (plugin / 'AGENTS.md').read_text(encoding='utf-8') + review_policy
     # Windows native skill discovery uses KnownFolder HOME, ignoring env HOME.
@@ -156,32 +207,60 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
             'description': 'Plan sequencing reviewer using the canonical code-architect instructions.',
             'config_file': str(review_role)}
         projections.append((review_role, architect))
+    # The skills name Claude Code's built-in `general-purpose` type (web researchers, the PM review,
+    # the planner fallback). Codex has no such role, so those dispatches failed; register one.
+    general = role_dir / 'general-purpose.toml'
+    agents['general-purpose'] = {'description': 'General-purpose subagent for research, review and other briefs (the Claude Code built-in type the skills name).',
+                                 'config_file': str(general)}
+    projections.append((general, {'name': 'general-purpose', 'developer_instructions':
+        'You are a general-purpose subagent. Complete the brief you are given with the tools available and report the result precisely.'}))
     for role, data in projections:
         # Each child gets explicit worker settings and the complete registry/defaults
         # for its own descendants, independent of the orchestrator config layer.
         effort = reviewer_reasoning if reviewer_reasoning and role.stem in reviewer_roles else worker_reasoning
         layer = {'model': worker_model, 'model_reasoning_effort': effort,
                  'developer_instructions': data['developer_instructions'] + review_policy, 'agents': agents}
+        if telemetry_hook:
+            layer['model_reasoning_summary'] = 'detailed'
         rendered_role = '\n'.join(f'{k}={toml(v)}' for k, v in layer.items()) + '\n'
         tomllib.loads(rendered_role)
         role.write_text(rendered_role, encoding='utf-8')
-    pyvenv = (tools / 'geeky-mcp/pyvenv.cfg').read_text()
-    base = next(line.partition('=')[2].strip() for line in pyvenv.splitlines()
-                if line.partition('=')[0].strip() == 'home')
-    interpreter = str(Path(base) / 'python.exe')
+    if WINDOWS:
+        # The venv launcher cannot start inside MXC; use the venv's base interpreter.
+        pyvenv = (tools / 'geeky-mcp/pyvenv.cfg').read_text()
+        base = next(line.partition('=')[2].strip() for line in pyvenv.splitlines()
+                    if line.partition('=')[0].strip() == 'home')
+        interpreter = str(Path(base) / 'python.exe')
+    else:
+        interpreter = str(venv_python(tools / 'geeky-mcp'))
     bootstrap = home / 'mcp-bootstrap.py'
     shutil.copyfile(profile / 'mcp-bootstrap.py', bootstrap)
     # The bootstrap lives in granted run HOME and processes the venv's .pth files.
     config['mcp_servers'] = {'geeky': {'command': interpreter,
         'args': ['-u', str(bootstrap),
-                 '--site-packages', str(tools / 'geeky-mcp/Lib/site-packages'),
+                 '--site-packages', str(site_packages(tools / 'geeky-mcp')),
                  '--server', str(plugin / 'mcp/server.py')], 'startup_timeout_sec': 120}}
     bridge = home / 'guard-bridge.py'
     shutil.copyfile(Path(__file__).with_name('guard-bridge.py'), bridge)
-    command = subprocess.list2cmdline([str(tools / 'agent-py/Scripts/python.exe'),
+    command = cmdline([str(venv_python(tools / 'agent-py')),
         str(bridge), '--guard', str(plugin / 'hooks/guard-planning-contract.py')])
     config['hooks'] = {'PreToolUse': [{'matcher': 'Edit|Write|NotebookEdit|apply_patch',
         'hooks': [{'type': 'command', 'command': command, 'timeout': 5}]}]}
+    telemetry = None
+    if telemetry_hook:
+        # Langfuse's Codex Stop hook; it uploads the rollout (and child threads) after each turn.
+        tracer = home / 'langfuse-tracer.py'
+        shutil.copyfile(Path(__file__).with_name('langfuse-tracer.py'), tracer)
+        tracer.with_suffix('.json').write_text(json.dumps({'node': str(telemetry_node), 'hook': str(telemetry_hook)}),
+                                               encoding='utf-8')
+        telemetry_command = cmdline([str(venv_python(tools / 'agent-py')), str(tracer)])
+        config['hooks']['Stop'] = [{'hooks': [{'type': 'command', 'command': telemetry_command, 'timeout': 600}]}]
+        telemetry = {'hook_command': telemetry_command, 'reasoning_summary': 'detailed'}
+    if provider:
+        catalog = home / 'model-catalog.json'
+        catalog.write_text(json.dumps(provider_catalog(json.loads(Path(provider['catalog_base']).read_text(encoding='utf-8')),
+                                                       [model, worker_model], provider['context_window'])), encoding='utf-8')
+        config['model_catalog_json'] = str(catalog)
     # Parent CLI overrides register all roles explicitly; projection folders alone do not.
     overrides = [f'{k}={toml(v)}' for k, v in config.items()]
     rendered = '\n'.join(overrides) + '\n'
@@ -193,10 +272,13 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
               for p in (plugin / 'skills').rglob('*') if p.is_file()}
     check('full_skills', copied == source, sorted(p.name for p in skills.iterdir()))
     roles = sorted(k for k, v in agents.items() if isinstance(v, dict))
-    check('agent_registration', len(roles) == len(list((plugin / 'agents').glob('*.md'))) + bool(reviewer_reasoning), roles)
+    check('agent_registration', len(roles) == len(list((plugin / 'agents').glob('*.md'))) + 1 + bool(reviewer_reasoning), roles)
     check('hook_configuration', True, 'Warn guard bridge configured; runtime proof pending CP2.')
     report.update(ok=all(c['passed'] for c in checks), codex_config_overrides=overrides,
-        extra_args=[],
+        extra_args=[], telemetry=telemetry,
+        provider=({'name': 'litellm', 'base_url': provider['base_url'], 'env_key': provider['env_key'],
+                   'context_window': provider['context_window'], 'tool_shape': 'classic-functions, multi-agent v2'}
+                  if provider else None),
         profile_sha256=hashlib.sha256((digest(profile) + digest(home)).encode()).hexdigest(),
         reachability={'claude': required, 'codex': required,
                       'runtime_proof': 'UNVERIFIED until checkpoint 2'},
@@ -217,9 +299,22 @@ def main():
     p.add_argument('--worker-reasoning', help='Subagent effort at every depth; defaults to --reasoning.')
     p.add_argument('--reviewer-reasoning', choices=('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra'),
                    help='Optional effort for reviewer roles; ordinary worker defaults remain independent.')
+    p.add_argument('--telemetry-node', type=Path, help='Node.js 22+ that runs the Langfuse Stop hook.')
+    p.add_argument('--telemetry-hook', type=Path, help="Langfuse Codex plugin's dist/index.mjs.")
+    p.add_argument('--provider-base-url', help='Route models through this Responses endpoint (LiteLLM).')
+    p.add_argument('--provider-env-key', help='Environment variable holding the endpoint key.')
+    p.add_argument('--catalog-base', type=Path, help='`codex debug models` output to derive catalog entries from.')
+    p.add_argument('--context-window', type=int, default=200000)
     a = p.parse_args()
+    if a.provider_base_url and not (a.provider_env_key and a.catalog_base):
+        p.error('--provider-base-url needs --provider-env-key and --catalog-base')
+    if bool(a.telemetry_node) != bool(a.telemetry_hook):
+        p.error('--telemetry-node and --telemetry-hook go together')
     result = prepare(a.plugin, a.home, a.codex_home, a.tools_dir, a.profile, a.model, a.reasoning,
-                     a.worker_model, a.worker_reasoning, a.reviewer_reasoning)
+                     a.worker_model, a.worker_reasoning, a.reviewer_reasoning,
+                     a.telemetry_node, a.telemetry_hook,
+                     {'base_url': a.provider_base_url, 'env_key': a.provider_env_key,
+                      'catalog_base': a.catalog_base, 'context_window': a.context_window} if a.provider_base_url else None)
     a.output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({'ok': result['ok'], 'report': str(a.output)}))
     return 0 if result['ok'] else 1

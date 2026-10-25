@@ -1,0 +1,127 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "harness_version": "2.1.310",
+  "model": "ant-claude",
+  "reasoning": "default",
+  "approach": "canonical-prompt",
+  "plugin_sha": "5845808f0d23a8dba9e799e53dcfc88409960247",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "geeky_skills_loaded": 8,
+  "workspace": "/root/repos/eval-c0-wordstat-20261025T005533Z",
+  "seed_sha": "991b9153952451754ac06b21283659b3ce30fffa",
+  "session_id": "d1f75155-366f-44f0-af67-fcbc2cbdf456",
+  "started_utc": "2026-10-25T00:55:34.0049106Z",
+  "ended_utc": "2026-10-25T01:40:34.3052942Z",
+  "wall_time_s": 2700,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "cost_usd_estimate": 0,
+    "reasoning": 0
+  },
+  "model_calls": 47,
+  "latency_median_ms": 4491,
+  "max_idle_gap_s": 399,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T00:55:59.097000+00:00",
+      "ended_utc": "2026-10-25T01:07:02.514000+00:00",
+      "minutes": 11.1
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-25T01:07:02.514000+00:00",
+      "ended_utc": "2026-10-25T01:22:37.674000+00:00",
+      "minutes": 15.6
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-25T01:22:37.674000+00:00",
+      "ended_utc": "2026-10-25T01:35:14.621000+00:00",
+      "minutes": 12.6
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-25T01:35:14.621000+00:00",
+      "ended_utc": "2026-10-25T01:40:30.451000+00:00",
+      "minutes": 5.3
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 13,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 57,
+    "test": 98,
+    "files_changed": 13
+  },
+  "commits": 3,
+  "exit_code": 124,
+  "exit_reason": "timeout",
+  "is_error": null,
+  "raw_sha256": {
+    "stream": "9bc3006a05605566915ae336e50968bede57e7f01071e11030d32b6983d29df3",
+    "session": "6d9f903d441a728dcd29e97040f3ef459bdb0236f7af378b8908c67092bbbd77"
+  },
+  "interventions": 0,
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc",
+    "tags": [
+      "geeky-eval",
+      "harness:claude-code",
+      "case:c0-wordstat",
+      "run:20261025T005533Z",
+      "plugin:5845808"
+    ],
+    "user_id": "geeky-eval-agent",
+    "full_content": true,
+    "ca_passthrough": [
+      "SSL_CERT_FILE",
+      "REQUESTS_CA_BUNDLE",
+      "NODE_EXTRA_CA_CERTS"
+    ],
+    "session_id": "d1f75155-366f-44f0-af67-fcbc2cbdf456",
+    "summary": "langfuse-run exit 3",
+    "delivered": true,
+    "observations": 375,
+    "coverage_complete": false,
+    "coverage_missed": [
+      "stage:impl-review",
+      "nested_subagents"
+    ],
+    "hook": {
+      "kind": "claude-stop-sessionend",
+      "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "langfuse_python": "4.18.0",
+      "state_dir": "/root/repos/.eval-cfg-20261025T005533Z/langfuse"
+    },
+    "trace_name": "geeky-eval c0-wordstat claude-code",
+    "host_flush": "backfilled after the run with Invoke-ClaudeTelemetryFlush (the in-sandbox hook never ran because the turn never ended)"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "model": "ant-claude"
+  },
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}

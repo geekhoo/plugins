@@ -6,7 +6,9 @@ the catalogue helper does not run the native probe's HTTP fixture or main().
 import argparse
 import importlib.util
 import json
+import os
 from pathlib import Path
+import signal
 import subprocess
 
 
@@ -22,7 +24,9 @@ def capture_runtime_proof(codex, forbidden_root):
         list(forbidden_root.iterdir())
     except OSError as exc:
         proof.update(error_type=type(exc).__name__, winerror=getattr(exc, 'winerror', None))
-        proof['denial_verified'] = isinstance(exc, PermissionError) and proof['winerror'] == 5
+        # Windows MXC denies the host skill root (access denied); Bubblewrap and Seatbelt hide it.
+        proof['denial_verified'] = (isinstance(exc, PermissionError) and proof['winerror'] == 5 if os.name == 'nt'
+                                    else isinstance(exc, (PermissionError, FileNotFoundError)))
     return proof
 
 
@@ -46,13 +50,24 @@ def main():
             or proof['version_returncode'] != 0 or proof['version_stderr'].strip()):
         raise RuntimeError('Runtime denial/version proof failed; no contestant launched')
     helper.install_local_plugin(a.codex, profile['codex_config_overrides'], a.output)
-    trust = helper.resolve_hook_trust(a.codex, profile['codex_config_overrides'], a.workspace, a.output)
+    telemetry_command = (profile.get('telemetry') or {}).get('hook_command')
+    trust = helper.resolve_hook_trust(a.codex, profile['codex_config_overrides'], a.workspace, a.output,
+                                      *([telemetry_command] if telemetry_command else []))
     command = [a.codex, '--no-daemon', 'exec', '--json', '--sandbox', 'danger-full-access',
                '--ignore-user-config', '--ignore-rules', '--strict-config', '--cd', str(a.workspace)]
     for override in profile['codex_config_overrides']:
         command += ['-c', override]
     command += ['-c', trust, a.prompt_file.read_text(encoding='utf-8-sig')]
-    return subprocess.run(command, stdin=subprocess.DEVNULL).returncode
+    options = {'stdin': subprocess.DEVNULL}
+    if os.name != 'nt':
+        # Nothing legitimately hangs up a headless run; two Linux MXC attempts died at once across all
+        # threads with exit 255 (a -1 return code, i.e. SIGHUP). Ignore it in the contestant process.
+        options['preexec_fn'] = lambda: signal.signal(signal.SIGHUP, signal.SIG_IGN)
+    returncode = subprocess.run(command, **options).returncode
+    # Record exactly how Codex ended: a negative return code is the signal that killed it.
+    (a.output / 'codex-exit.json').write_text(json.dumps({
+        'returncode': returncode, 'signal': signal.Signals(-returncode).name if returncode < 0 else None}), encoding='utf-8')
+    return returncode if returncode >= 0 else 128 - returncode
 
 
 if __name__ == '__main__':

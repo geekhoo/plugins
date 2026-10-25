@@ -1,0 +1,186 @@
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "by_model": {},
+    "cost_usd_estimate": 0
+  },
+  "model_calls": 47,
+  "latency_median_ms": 4491,
+  "latency_samples": 84,
+  "max_idle_gap_s": 399,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T00:55:59.097000+00:00",
+      "ended_utc": "2026-10-25T01:07:02.514000+00:00",
+      "minutes": 11.1
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-25T01:07:02.514000+00:00",
+      "ended_utc": "2026-10-25T01:22:37.674000+00:00",
+      "minutes": 15.6
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-25T01:22:37.674000+00:00",
+      "ended_utc": "2026-10-25T01:35:14.621000+00:00",
+      "minutes": 12.6
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-25T01:35:14.621000+00:00",
+      "ended_utc": "2026-10-25T01:40:30.451000+00:00",
+      "minutes": 5.3
+    }
+  ],
+  "impl_review_rounds": null,
+  "skill_invocations": {
+    "spec-research": 1,
+    "geeky-plan": 1,
+    "plan-review": 2,
+    "geeky-implement": 1
+  },
+  "tool_calls_main": {
+    "Bash": 25,
+    "Edit": 23,
+    "Write": 13,
+    "Read": 12,
+    "Agent": 7,
+    "Skill": 4,
+    "ToolSearch": 1
+  },
+  "tool_calls_subagents": {
+    "Read": 52,
+    "Bash": 31,
+    "WebFetch": 19,
+    "Glob": 14,
+    "Grep": 7,
+    "Write": 5,
+    "ToolSearch": 3,
+    "Skill": 1,
+    "Edit": 1
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 3,
+    "geeky-orchestration:code-reviewer": 1,
+    "geeky-orchestration:code-architect": 1,
+    "geeky-orchestration:geeky-coder": 1
+  },
+  "validation_runs": {
+    "main": 1,
+    "sub": 4
+  },
+  "gate_invocations": {
+    "validate-planning-folder": 6,
+    "validate-task-schema": 6,
+    "validate-kanban": 9,
+    "check-dod": 1,
+    "check-commit": 3
+  },
+  "gate_results": {
+    "validate-planning-folder": {
+      "pass": 3,
+      "fail": 1,
+      "unknown": 2,
+      "main": 5,
+      "sub": 1
+    },
+    "validate-task-schema": {
+      "pass": 4,
+      "fail": 0,
+      "unknown": 2,
+      "main": 5,
+      "sub": 1
+    },
+    "validate-kanban": {
+      "pass": 5,
+      "fail": 2,
+      "unknown": 2,
+      "main": 8,
+      "sub": 1
+    },
+    "check-dod": {
+      "pass": 0,
+      "fail": 1,
+      "unknown": 0,
+      "main": 0,
+      "sub": 1
+    },
+    "check-commit": {
+      "pass": 2,
+      "fail": 0,
+      "unknown": 1,
+      "main": 3,
+      "sub": 0
+    }
+  },
+  "duration_api_ms": null,
+  "subagent_transcripts": {
+    "transcripts": 7,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "geeky-orchestration:code-architect": 1,
+      "general-purpose": 3,
+      "geeky-orchestration:code-reviewer": 1,
+      "geeky-orchestration:code-explorer": 1,
+      "geeky-orchestration:geeky-coder": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Bash": 25,
+          "Edit": 23,
+          "Write": 13,
+          "Read": 12,
+          "Agent": 7,
+          "Skill": 4,
+          "ToolSearch": 1
+        },
+        "dispatches": {
+          "general-purpose": 3,
+          "geeky-orchestration:code-explorer": 1,
+          "geeky-orchestration:code-reviewer": 1,
+          "geeky-orchestration:code-architect": 1,
+          "geeky-orchestration:geeky-coder": 1
+        },
+        "gates": {
+          "validate-kanban": 8,
+          "validate-planning-folder": 5,
+          "validate-task-schema": 5,
+          "check-commit": 3
+        }
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "Read": 52,
+          "Bash": 31,
+          "WebFetch": 19,
+          "Glob": 14,
+          "Grep": 7,
+          "Write": 5,
+          "ToolSearch": 3,
+          "Skill": 1,
+          "Edit": 1
+        },
+        "dispatches": {},
+        "gates": {
+          "validate-planning-folder": 1,
+          "validate-task-schema": 1,
+          "validate-kanban": 1,
+          "check-dod": 1
+        }
+      }
+    }
+  }
+}

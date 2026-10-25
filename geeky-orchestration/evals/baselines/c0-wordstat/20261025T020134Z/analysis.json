@@ -1,0 +1,107 @@
+{
+  "tokens": {
+    "input": 1333738,
+    "cached_input": 639744,
+    "cache_creation": 0,
+    "output": 64702,
+    "total": 1398440,
+    "by_model": {
+      "ant-claude": {
+        "inputTokens": 693994,
+        "cacheReadInputTokens": 639744,
+        "cacheCreationInputTokens": 0,
+        "outputTokens": 64702
+      }
+    },
+    "cost_usd_estimate": 5.4074
+  },
+  "model_calls": 12,
+  "latency_median_ms": 3082,
+  "latency_samples": 16,
+  "max_idle_gap_s": 232,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T02:01:46.741000+00:00",
+      "ended_utc": "2026-10-25T02:13:02.260000+00:00",
+      "minutes": 11.3
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-25T02:13:02.260000+00:00",
+      "ended_utc": "2026-10-25T02:13:07.185000+00:00",
+      "minutes": 0.1
+    }
+  ],
+  "impl_review_rounds": null,
+  "skill_invocations": {
+    "spec-research": 1,
+    "geeky-plan": 1
+  },
+  "tool_calls_main": {
+    "Read": 4,
+    "Agent": 3,
+    "Skill": 2,
+    "Bash": 2,
+    "Write": 2
+  },
+  "tool_calls_subagents": {
+    "WebFetch": 36,
+    "Read": 9,
+    "Bash": 8,
+    "Glob": 6,
+    "ToolSearch": 2,
+    "WebSearch": 1
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 2
+  },
+  "validation_runs": {
+    "main": 1
+  },
+  "gate_invocations": {},
+  "gate_results": {},
+  "duration_api_ms": 1483249,
+  "subagent_transcripts": {
+    "transcripts": 3,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "general-purpose": 2,
+      "geeky-orchestration:code-explorer": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Read": 4,
+          "Agent": 3,
+          "Skill": 2,
+          "Bash": 2,
+          "Write": 2
+        },
+        "dispatches": {
+          "general-purpose": 2,
+          "geeky-orchestration:code-explorer": 1
+        },
+        "gates": {}
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "WebFetch": 36,
+          "Read": 9,
+          "Bash": 8,
+          "Glob": 6,
+          "ToolSearch": 2,
+          "WebSearch": 1
+        },
+        "dispatches": {},
+        "gates": {}
+      }
+    }
+  }
+}

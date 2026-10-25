@@ -15,7 +15,7 @@ plugin has its own docs and checks.
 | `semantic-design-system` | Build, validate, and apply DTCG design tokens, including CSS output and optional MCP tools. | 0.2.7 | [README](semantic-design-system/README.md) |
 | `geeky-orchestration` | Plan, review, implement, track, and archive feature work. | 0.2.16 | [README](geeky-orchestration/README.md) |
 | `dev-workflows` | Reusable skills for planning, review, testing, browser and Figma work, environment setup, Git, docs, and session analysis. | 0.2.12 | [Packaging notes](dev-workflows/PACKAGING.md) |
-| `mxc-sandbox` | Run the Claude Code CLI inside a Microsoft MXC sandbox on Windows for isolated testing. | 0.1.0 | [README](mxc-sandbox/README.md) |
+| `mxc-sandbox` | Run the Claude Code CLI inside a Microsoft MXC sandbox (Windows, Linux, macOS) for isolated testing. | 0.2.1 | [README](mxc-sandbox/README.md) |
 
 The versions in this table come from
 `.claude-plugin/marketplace.json`. The Claude and Codex manifests inside each
@@ -78,8 +78,8 @@ includes larger workflows built from those tools.
 
 Use `mxc-sandbox` when a Claude Code run should not see the whole machine: testing
 a plugin or skill, trying prompts against an untrusted repo, or checking what a
-hook or MCP server needs. It is Windows-only and builds a small .NET host on first
-use.
+hook or MCP server needs. It runs on Windows (ProcessContainer), Linux (Bubblewrap) and macOS
+(Seatbelt, untested) and builds a small .NET host on first use.
 
 ## Repository layout
 
@@ -89,7 +89,7 @@ dev-workflows/                      Composable workflow skills
 dx-webdev/                          DevExtreme jQuery page workflows
 geeky-orchestration/                Feature lifecycle and quality gates
 semantic-design-system/             Design-token workflows and utilities
-mxc-sandbox/                        Claude Code CLI inside Microsoft MXC (Windows)
+mxc-sandbox/                        Claude Code CLI inside Microsoft MXC (Windows, Linux, macOS)
 docs/superpowers/                   Dated design notes and implementation plans
 ```
 

@@ -1,0 +1,96 @@
+{
+  "tokens": {
+    "input": 143746,
+    "cached_input": 90512,
+    "cache_creation": 17563,
+    "output": 7734,
+    "total": 151480,
+    "by_model": {
+      "ant-claudex": {
+        "inputTokens": 35671,
+        "cacheReadInputTokens": 90512,
+        "cacheCreationInputTokens": 17563,
+        "outputTokens": 7734
+      }
+    },
+    "cost_usd_estimate": 0.5267
+  },
+  "model_calls": 9,
+  "latency_median_ms": 9139,
+  "latency_samples": 11,
+  "max_idle_gap_s": 55,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T05:28:21.256000+00:00",
+      "ended_utc": "2026-10-25T05:30:13.239000+00:00",
+      "minutes": 1.9
+    }
+  ],
+  "impl_review_rounds": null,
+  "skill_invocations": {
+    "spec-research": 1
+  },
+  "tool_calls_main": {
+    "Read": 6,
+    "Bash": 5,
+    "Agent": 3,
+    "Skill": 1
+  },
+  "tool_calls_subagents": {
+    "Read": 7,
+    "Glob": 3,
+    "Grep": 3,
+    "Bash": 2,
+    "ToolSearch": 2
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 2
+  },
+  "validation_runs": {
+    "main": 1
+  },
+  "gate_invocations": {},
+  "gate_results": {},
+  "duration_api_ms": 176526,
+  "subagent_transcripts": {
+    "transcripts": 3,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "general-purpose": 2,
+      "geeky-orchestration:code-explorer": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Read": 6,
+          "Bash": 5,
+          "Agent": 3,
+          "Skill": 1
+        },
+        "dispatches": {
+          "general-purpose": 2,
+          "geeky-orchestration:code-explorer": 1
+        },
+        "gates": {}
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "Read": 7,
+          "Glob": 3,
+          "Grep": 3,
+          "Bash": 2,
+          "ToolSearch": 2
+        },
+        "dispatches": {},
+        "gates": {}
+      }
+    }
+  }
+}

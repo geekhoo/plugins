@@ -1,0 +1,4 @@
+new1 exit=134 after=1s
+old1 exit=255 after=21s
+new2 exit=0 after=151s
+old2 exit=0 after=151s

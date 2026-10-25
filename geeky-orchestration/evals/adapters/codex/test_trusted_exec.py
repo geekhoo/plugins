@@ -76,7 +76,9 @@ def test_launch_preserves_prompt_profile_and_sandbox_without_trust_bypass(tmp_pa
     assert '--ephemeral' not in captured['command']
     assert '--dangerously-bypass-hook-trust' not in captured['command']
     assert not any('model_provider=' in arg or 'model_providers.' in arg for arg in captured['command'])
-    assert captured['subprocess_options'] == {'stdin': wrapper.subprocess.DEVNULL}
+    options = dict(captured['subprocess_options'])
+    assert options.pop('stdin') == wrapper.subprocess.DEVNULL
+    assert set(options) == ({'preexec_fn'} if wrapper.os.name != 'nt' else set())   # POSIX: SIGHUP ignored
     assert captured['runtime_probe'] == ('fixture-only.exe', tmp_path / 'denied-root')
     assert json.loads((output / 'runtime-denial-proof.json').read_text())['denial_verified'] is True
 
@@ -120,9 +122,22 @@ def test_runtime_probe_reads_only_explicit_root_and_pinned_version(tmp_path, mon
         return SimpleNamespace(returncode=0, stdout='codex-cli ' + version, stderr='')
     monkeypatch.setattr(Path, 'iterdir', iterdir)
     monkeypatch.setattr(wrapper.subprocess, 'run', run)
+    monkeypatch.setattr(wrapper.os, 'name', 'nt')   # Windows rule: only ERROR_ACCESS_DENIED counts
     proof = wrapper.capture_runtime_proof('fixture.exe', root)
     assert paths == [root] and commands == [['fixture.exe', '--version']]
     assert (proof['denial_verified'] and proof['cli_version'] == '0.164.0') is passed
+
+
+@pytest.mark.parametrize(('error', 'passed'), [(FileNotFoundError, True), (PermissionError, True), (None, False)])
+def test_runtime_probe_posix_accepts_hidden_or_denied_root(tmp_path, monkeypatch, error, passed):
+    def iterdir(path):
+        if error:
+            raise error('fixture')
+        return iter([])
+    monkeypatch.setattr(Path, 'iterdir', iterdir)
+    monkeypatch.setattr(wrapper.subprocess, 'run', lambda command, **kw: SimpleNamespace(returncode=0, stdout='codex-cli 0.164.0', stderr=''))
+    monkeypatch.setattr(wrapper.os, 'name', 'posix')   # Bubblewrap/Seatbelt hide the root instead of denying it
+    assert wrapper.capture_runtime_proof('codex', tmp_path / 'root')['denial_verified'] is passed
 
 
 def test_failed_runtime_proof_is_saved_and_prevents_install_and_inference(tmp_path, monkeypatch):

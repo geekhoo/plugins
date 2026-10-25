@@ -1,0 +1,23 @@
+workspace: /root/repos/eval-c0-wordstat-20261025T020134Z (seed 61fd113e674acd3885bc1cd21a914b9103f82b32)
+empty-workspace oracle: passed=0 failed=0 errors=13 (ok)
+mxc-sandbox: building host into /root/.mxc-sandbox/bin
+langfuse: session f275269e-799f-43f8-b593-9963dd020c14: 4 traces, 129 observations (49 generations, 73 tool calls), 0 truncated
+{
+  "tokens": {
+    "input": 1333738,
+    "cached_input": 639744,
+    "cache_creation": 0,
+    "output": 64702,
+    "total": 1398440,
+    "cost_usd_estimate": 5.4074,
+    "reasoning": 0
+  },
+  "model_calls": 12,
+  "latency_median_ms": 3082,
+  "max_idle_gap_s": 232,
+  "impl_review_rounds": null,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}
+stored: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T020134Z
+runner-exit=0

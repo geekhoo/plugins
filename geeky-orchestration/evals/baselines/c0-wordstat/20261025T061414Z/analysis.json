@@ -1,0 +1,185 @@
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "by_model": {},
+    "cost_usd_estimate": 0
+  },
+  "model_calls": 109,
+  "latency_median_ms": 6531,
+  "latency_samples": 133,
+  "max_idle_gap_s": 652,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T06:14:42.809000+00:00",
+      "ended_utc": "2026-10-25T06:21:35.728000+00:00",
+      "minutes": 6.9
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-25T06:21:35.728000+00:00",
+      "ended_utc": "2026-10-25T06:35:28.859000+00:00",
+      "minutes": 13.9
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-25T06:35:28.859000+00:00",
+      "ended_utc": "2026-10-25T06:46:52.643000+00:00",
+      "minutes": 11.4
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-25T06:46:52.643000+00:00",
+      "ended_utc": "2026-10-25T07:30:00.540000+00:00",
+      "minutes": 43.1
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-25T07:30:00.540000+00:00",
+      "ended_utc": "2026-10-25T07:43:21.518000+00:00",
+      "minutes": 13.3
+    }
+  ],
+  "impl_review_rounds": 1,
+  "skill_invocations": {
+    "spec-research": 1,
+    "geeky-plan": 1,
+    "plan-review": 1,
+    "geeky-implement": 1,
+    "impl-review": 1
+  },
+  "tool_calls_main": {
+    "Edit": 57,
+    "Bash": 47,
+    "Agent": 16,
+    "Write": 16,
+    "Read": 13,
+    "Skill": 5
+  },
+  "tool_calls_subagents": {
+    "Read": 106,
+    "Bash": 48,
+    "WebFetch": 28,
+    "Grep": 14,
+    "Write": 14,
+    "Glob": 8,
+    "ToolSearch": 4,
+    "Edit": 1
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 3,
+    "geeky-orchestration:code-reviewer": 6,
+    "geeky-orchestration:code-architect": 1,
+    "geeky-orchestration:geeky-coder": 5
+  },
+  "validation_runs": {
+    "main": 10,
+    "sub": 14
+  },
+  "gate_invocations": {
+    "validate-planning-folder": 6,
+    "validate-task-schema": 6,
+    "validate-kanban": 22,
+    "check-dod": 4,
+    "check-commit": 5
+  },
+  "gate_results": {
+    "validate-planning-folder": {
+      "pass": 5,
+      "fail": 0,
+      "unknown": 1,
+      "main": 6,
+      "sub": 0
+    },
+    "validate-task-schema": {
+      "pass": 5,
+      "fail": 0,
+      "unknown": 1,
+      "main": 6,
+      "sub": 0
+    },
+    "validate-kanban": {
+      "pass": 16,
+      "fail": 5,
+      "unknown": 1,
+      "main": 22,
+      "sub": 0
+    },
+    "check-dod": {
+      "pass": 4,
+      "fail": 0,
+      "unknown": 0,
+      "main": 4,
+      "sub": 0
+    },
+    "check-commit": {
+      "pass": 5,
+      "fail": 0,
+      "unknown": 0,
+      "main": 5,
+      "sub": 0
+    }
+  },
+  "duration_api_ms": null,
+  "subagent_transcripts": {
+    "transcripts": 16,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "geeky-orchestration:geeky-coder": 5,
+      "geeky-orchestration:code-explorer": 1,
+      "general-purpose": 3,
+      "geeky-orchestration:code-architect": 1,
+      "geeky-orchestration:code-reviewer": 6
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Edit": 57,
+          "Bash": 47,
+          "Agent": 16,
+          "Write": 16,
+          "Read": 13,
+          "Skill": 5
+        },
+        "dispatches": {
+          "geeky-orchestration:code-reviewer": 6,
+          "geeky-orchestration:geeky-coder": 5,
+          "general-purpose": 3,
+          "geeky-orchestration:code-explorer": 1,
+          "geeky-orchestration:code-architect": 1
+        },
+        "gates": {
+          "validate-kanban": 22,
+          "validate-planning-folder": 6,
+          "validate-task-schema": 6,
+          "check-commit": 5,
+          "check-dod": 4
+        }
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "Read": 106,
+          "Bash": 48,
+          "WebFetch": 28,
+          "Grep": 14,
+          "Write": 14,
+          "Glob": 8,
+          "ToolSearch": 4,
+          "Edit": 1
+        },
+        "dispatches": {},
+        "gates": {}
+      }
+    }
+  }
+}

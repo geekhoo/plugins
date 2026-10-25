@@ -1,0 +1,48 @@
+{
+  "schema": "geeky-eval.mock-matrix/1",
+  "stamp": "20261024T230954Z",
+  "platform": "Ubuntu 24.04.5 LTS",
+  "plugin_sha": "c58f7d09b6f182e65fffd3a5add8d2c7893c1d7c",
+  "runs": [
+    {
+      "harness": "codex",
+      "case": "c1-csvledger",
+      "runner_exit": 0,
+      "wall_s": 19,
+      "checks_passed": 8,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 9,
+      "folder": "codex-c1-csvledger",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c2-linkvault",
+      "runner_exit": 0,
+      "wall_s": 21,
+      "checks_passed": 8,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 9,
+      "folder": "codex-c2-linkvault",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c3-minisql",
+      "runner_exit": 0,
+      "wall_s": 19,
+      "checks_passed": 8,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 9,
+      "folder": "codex-c3-minisql",
+      "ok": true
+    }
+  ],
+  "ok": true
+}

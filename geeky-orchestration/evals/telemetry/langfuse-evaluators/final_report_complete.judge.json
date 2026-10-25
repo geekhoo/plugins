@@ -1,0 +1,12 @@
+{
+  "type": "llm_as_judge",
+  "name": "final_report_complete",
+  "description": "LLM judge: the run's final report gives every stage outcome, test counts, commits and deviations, with no unverified completion claim. Calibrated against the C0 parity runs' manual verdicts.",
+  "prompt": "You are grading the final report an AI coding agent wrote after running a five-stage software workflow (spec-research, geeky-plan, plan-review, geeky-implement, impl-review) on a small task.\n\nFinal report:\n{{output}}\n\nThe report PASSES only if all of these hold:\n1. It states an outcome (verdict) for each of the five stages it ran, or says explicitly which stages it did not reach.\n2. It reports the final test result with numbers (for example \"50 passed, 1 skipped\").\n3. It names the commits it made (short SHAs or subjects).\n4. It discloses deviations, blockers, interventions or deferred findings, or says there were none.\n5. It does not present anything as done or passing without saying how that was established (a command, a reviewer verdict, a gate).\n\nA report that is cut off, describes only an intermediate step, or is not a final report FAILS.",
+  "modelConfig": null,
+  "outputDefinition": {
+    "dataType": "BOOLEAN",
+    "scoreReasoningInstructions": "Name each of the five criteria and whether it holds, quoting the report briefly.",
+    "scoreValueInstructions": "true only if all five criteria hold; otherwise false."
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "harness_version": "2.1.310",
+  "model": "ant-claude",
+  "reasoning": "default",
+  "approach": "canonical-prompt",
+  "plugin_sha": "a9841a985b89dcf65f73c62e20d1994a10f6044e",
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc",
+  "geeky_skills_loaded": 8,
+  "workspace": "/root/repos/eval-c0-wordstat-20261025T015057Z",
+  "seed_sha": "295e5eb1a3e78f79d4d5206a711f818c2c0ea998",
+  "session_id": "1a4b8ad0-8bf4-4d06-bcaf-effc612877f4",
+  "started_utc": "2026-10-25T01:50:58.0937707Z",
+  "ended_utc": "2026-10-25T01:52:06.7365978Z",
+  "wall_time_s": 69,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "cost_usd_estimate": 0,
+    "reasoning": 0
+  },
+  "model_calls": 6,
+  "latency_median_ms": 4856,
+  "max_idle_gap_s": 21,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-25T01:51:19.972000+00:00",
+      "ended_utc": "2026-10-25T01:52:05.598000+00:00",
+      "minutes": 0.8
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 0
+  },
+  "commits": 0,
+  "exit_code": 255,
+  "exit_reason": "crash",
+  "is_error": null,
+  "raw_sha256": {
+    "stream": "0cd16590f297917d3e9a082b39f2e8cd1c53e992cbfe71637b052e2a29a28d57",
+    "session": "87c814c09abc54c9d27a900cfc3430f897ebda88e524ce1bfdf680e1199b6785"
+  },
+  "interventions": 0,
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc",
+    "trace_name": "geeky-eval c0-wordstat claude-code",
+    "tags": [
+      "geeky-eval",
+      "harness:claude-code",
+      "case:c0-wordstat",
+      "run:20261025T015057Z",
+      "plugin:a9841a9"
+    ],
+    "user_id": "geeky-eval-agent",
+    "full_content": true,
+    "ca_passthrough": [
+      "SSL_CERT_FILE",
+      "REQUESTS_CA_BUNDLE",
+      "NODE_EXTRA_CA_CERTS"
+    ],
+    "session_id": "1a4b8ad0-8bf4-4d06-bcaf-effc612877f4",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 29,
+    "coverage_complete": false,
+    "coverage_missed": [
+      "stage:geeky-plan",
+      "stage:plan-review",
+      "stage:geeky-implement",
+      "stage:impl-review",
+      "nested_subagents",
+      "role:geeky-coder",
+      "role:code-reviewer",
+      "gates",
+      "git_commit",
+      "file_edits"
+    ],
+    "hook": {
+      "kind": "claude-stop-sessionend",
+      "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "langfuse_python": "4.18.0",
+      "state_dir": "/root/repos/.eval-cfg-20261025T015057Z/langfuse"
+    },
+    "host_flush": "exit 0"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "model": "ant-claude"
+  },
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}

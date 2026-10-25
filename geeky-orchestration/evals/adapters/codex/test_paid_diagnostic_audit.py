@@ -236,7 +236,9 @@ def test_post_gate_rejects_each_missing_runtime_proof_or_error(evidence, failure
 
 def test_runner_requires_native_proof_and_audits_after_preservation_before_analysis():
     runner = (Path(__file__).resolve().parents[2] / 'scripts/run-codex-baseline.ps1').read_text()
-    assert 'if ($Launch -and -not $NativeProofFolder)' in runner
+    # Windows hosts must supply native proof; elsewhere a launch without it skips the Windows audits.
+    assert 'if ($Launch -and $windowsHost -and -not $NativeProofFolder) { throw' in runner
+    assert 'if ($Launch -and $NativeProofFolder) {' in runner
     assert "'--forbidden-skill-root', $forbiddenSkillRoot" in runner
     assert runner.index('--native-proof-folder $NativeProofFolder') < runner.index('& $mxc @hostArgs')
     assert runner.index("'bundle', 'create'") < runner.index('--runtime-evidence (Join-Path $runTmp')
@@ -244,7 +246,7 @@ def test_runner_requires_native_proof_and_audits_after_preservation_before_analy
     assert "$record.is_error = $true; $record.exit_reason = 'diagnostics-failed'" in runner
     assert '$record.runtime_parity_verified = $record.diagnostics_passed' in runner
     assert '$record.runtime_toolchain_verified = $record.diagnostics_passed' in runner
-    assert 'native_proof_folder = $(if ($Launch)' in runner
+    assert 'native_proof_folder = $(if ($Launch -and $NativeProofFolder)' in runner
 
 
 def patch_failure(evidence, direct=False):

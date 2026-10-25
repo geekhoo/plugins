@@ -6,9 +6,9 @@ Measurement lessons: distinguish skill prereads from execution boundaries; merge
 
 > Current Codex reference (2026-10-24): [checkpoint 5 closeout](codex-c1-checkpoint5.md). Both C1 runs completed and the saved-trace repair yields 96.3/98.0; original scores remain historical. The frozen six-Claude replay supplements the complete four-run proof. Historical cleanup instructions do not apply to these preserved records. No further paid run is authorized.
 
-This page records what it took to run paid geeky-orchestration evals in the MXC sandbox on Windows: what broke, how each break was fixed, the traps that cost a run, and what is still open. Read it before a new case, a new harness or a new machine. [baseline-runs.md](baseline-runs.md) is the step-by-step procedure, and [agent-eval-decisions.md](../docs/agent-eval-decisions.md) holds the decisions (D-numbers below). This file covers what those two leave out: the reasons, the traps and the order things went wrong.
+This page records what it took to run paid geeky-orchestration evals in the MXC sandbox, first on Windows (C1) and since 2026-10-24 on Linux through LiteLLM (C0): what broke, how each break was fixed, the traps that cost a run, and what is still open. Read it before a new case, a new harness or a new machine. [baseline-runs.md](baseline-runs.md) is the step-by-step procedure, and [agent-eval-decisions.md](../docs/agent-eval-decisions.md) holds the decisions (D-numbers below). This file covers what those two leave out: the reasons, the traps and the order things went wrong.
 
-Written 2026-10-23, after six paid C1 runs. Everything here was verified on this machine (Windows 11, Claude Code 2.1.304, `claude-sonnet-5-5`).
+Written 2026-10-23, after six paid C1 runs on Windows 11 (Claude Code 2.1.304, `claude-sonnet-5-5`); the Linux/LiteLLM sections were added 2026-10-24/25 (Ubuntu 24.04, Claude Code 2.1.310, Codex 0.164.0). The current step-by-step for Linux + LiteLLM + Langfuse is [mxc-litellm-runbook.md](mxc-litellm-runbook.md); the one-page version is [QUICKSTART.md](QUICKSTART.md).
 
 ## Where things live
 
@@ -18,7 +18,7 @@ Written 2026-10-23, after six paid C1 runs. Everything here was verified on this
 | Analyzer (tokens, timings, gate counts) | `evals/scripts/analyze-run.py` |
 | Scorer (QACT) | `evals/scripts/score-run.py` |
 | Mock agent and dry run | `evals/mock-agent/mock_claude.py`, `evals/mock-agent/dry-run.ps1` |
-| Cases and oracles | `evals/cases/<case>/` (`c1-csvledger`, `c2-linkvault`, `c3-minisql`) |
+| Cases and oracles | `evals/cases/<case>/` (`c0-wordstat` harness smoke test, `c1-csvledger`, `c2-linkvault`, `c3-minisql`) |
 | Stored runs | `evals/baselines/<case>/<UTC stamp>/` |
 | Invalid runs kept as evidence | `evals/baselines/archive/` |
 | Scorecard | `evals/baselines/c1-csvledger/comparison-20261022T0800Z.md` |
@@ -121,12 +121,46 @@ Do these in this order. Skipping the mock has cost money before.
 
 The cut-off run from before the background-wait fix is archived in `evals/baselines/archive/`.
 
+## Telemetry and Linux MXC (2026-10-24)
+
+- **Langfuse telemetry is opt-in by host env** (`TRACE_TO_LANGFUSE=true`) and covers both harnesses through Langfuse's own pinned hooks (D101, [telemetry README](telemetry/README.md)). Install the hooks once with `telemetry/install-telemetry-tools.ps1`.
+- **`claude -p` drops thinking text.** It requests `display: "omitted"`, so all 124 thinking blocks in C1 run 6 were empty signatures. `showThinkingSummaries: true` in the run settings restores summaries. Codex runs used `summary: none`; telemetry runs set `model_reasoning_summary = "detailed"`.
+- **The Claude hook exits 0 even when an upload fails**, and it defers a turn with pending Agent calls until `SessionEnd`. Judge delivery from the Langfuse readback (`run.json.telemetry.delivered`), not from the hook's exit code. The Codex tracer marks a delivered turn in `<rollout>.langfuse`.
+- **Langfuse v4 events-only servers have no `/api/public/traces`.** Read sessions through `/api/public/v2/observations?sessionId=...`.
+- **MXC runs on Linux** with Bubblewrap (D102). Install `bubblewrap slirp4netns iproute2 iptables`. The sandbox sees only system folders and gets its own `HOME`, so runtimes under `/opt` or `/usr/local` need grants; the host grants the CLI, its symlink target and the PATH runtimes. A TLS-inspecting proxy's CA must be passed through (`SSL_CERT_FILE` and friends) or the hooks' HTTPS fails inside the sandbox.
+- **Linux MXC exit 255 was the SDK's spawn thread dying.** bwrap runs with `--die-with-parent` (PR_SET_PDEATHSIG), which fires when the forking *thread* exits. `MxcContainer.SpawnAsync` forks from a thread-pool worker, so a retired worker SIGKILLed the sandbox: Codex C0 attempts 1-4 at 2-3 min, Claude C0 run 2 at 69 s, `sleep 150` at 21 s. slirp4netns vanishing the same second was a symptom, not the cause, so upgrading it changed nothing. mxc-sandbox 0.2.1 spawns from a dedicated long-lived thread.
+- **C0 audit (2026-10-25).** Three more harness defects, all fixed. Bubblewrap set HOME to the workspace, so Claude Code and pwsh wrote `.cache/` into the contestant repo; the host now gives the sandbox a private HOME. A provider content-filter stop (Claude C0 run 3) was logged as `completed`; it is now `provider_refusal`. And the matrix never exercised Claude's toolchain checks (`happy` only simulates the workflow), whose Linux versions failed on `cmd.exe` probes; the matrix now runs `all,happy`, and the Codex mock gained a gates check (.py and pwsh). Two findings first read as model behaviour also had harness causes. The Codex agent tested on the contract's minimum Python (`python3.11`), which had no pytest; `scripts/install-agent-pythons.ps1` now gives every `python3.X` on the sandbox PATH pytest. And it ran `geeky-implement` itself rather than through the orchestrator, which the skill allows, so `nested_subagents` is now informational in the coverage check. For provider content filters, `run-baseline.ps1 -ResumeOnRefusal N` resumes the session and records an intervention.
+- **The ant-claude content filter is intermittent, not content-specific.** Claude C0 run 3's final request was replayed 8 times without a refusal: the skill message alone, the prefix and the whole conversation as plain text (max_tokens 8), the whole conversation 3 times with room to generate, and the exact structured request twice (resumed session in MXC). The route is LiteLLM `anthropic` -> `mimo-v2.6-flash`. Use `-ResumeOnRefusal`; Claude C0 run 4 recovered from one refusal that way. LiteLLM takes its virtual key as `ANTHROPIC_API_KEY` (`x-api-key`); the runner no longer sends it as `ANTHROPIC_AUTH_TOKEN`.
+- **C0 first.** `c0-wordstat` is a small case that drives every harness point we trace. Run it on a new harness or model before C1-C3, then check `langfuse-coverage.json`.
+- **Codex handoffs are provider-encrypted** (`encrypted_content` in `agent_message`), and both Langfuse SDKs time out a large export after 5 s unless `LANGFUSE_TIMEOUT` is raised. The runners pass `300`.
+- **Mock matrix:** `scripts/run-mock-matrix.ps1` runs both harnesses on C0-C3 with no model calls (Claude with `all,happy`, so its toolchain checks run too) and fails any run whose mock checks fail or whose session never reached Langfuse.
+
+## C0 parity on LiteLLM (2026-10-25)
+
+- **Compare harnesses with `parity-eval.py`, not score-run composites.** score-run's Codex process parser expects the Windows PowerShell shape. On Linux it scored ~20 checks "not found" (Codex 68.26 vs Claude 55.77, not comparable), and its latency-based task tier exists only for Claude. `parity-eval.py` reads both runs from Langfuse observations, reflog stage bounds and the final artifacts, and takes Quality from score-run (D103).
+- **Results.** On `ant-claude`: Codex 98.75, Claude 59.15 (96.93 without the forbidden-git hard gate for a `git reset --soft`). On `ant-claudex`: Codex 97.78, Claude 94.43 (Claude hit the 5400 s ceiling in the final review fix). Oracle 13/13 in all four runs. See [c0-ant-claude](analyses/c0-ant-claude-20261025/README.md) and [c0-ant-claudex](analyses/c0-ant-claudex-20261025/README.md).
+- **Audit every check against raw evidence before trusting a score.** That audit found and fixed:
+  - in parity-eval: an empty Codex implement window, a wrong phase map, a zero-length Claude plan-review window, and missing run-completed/work-committed checks;
+  - in score-run: a missed docs-only critical-fix commit;
+  - in codex-trace: refusing interrupted children and rejected spawns.
+- **Parity confounds that remain.**
+  - Reasoning: Codex runs `high`, while Claude Code requests no thinking for an unrecognised model name.
+  - Complexity-router models can send each harness to different backends.
+  - One run each.
+- **Langfuse scoring.**
+  - `telemetry/langfuse-scores.py` posts 10 session scores per run, with score configs.
+  - The LLM judge `final_report_complete` exists, pinned to `zen/gpt-6-luna`. Its rule is disabled until calibration.
+  - Code evaluators need server-side enablement.
+
 ## Open TODOs
 
 - [x] **Codex C1 on `bee7b14` (after `f54747e`).** Three completed runs now exercise the later plugin: 96.3, 98.0, and 99.6 reviewed for run 3 (`20261023T230041Z-2c3b5489`). See [the Claude review](analyses/c1-claude-review-20261024.md). This does not establish a new Claude repeat on that SHA; D92 remains move/check/revert.
 - [ ] **Three runs on one SHA**, for a real mean and stability figure (D60).
 - [ ] **C2 (`c2-linkvault`) and C3 (`c3-minisql`) baselines.** The kits and oracles exist but neither has run. Do mock runs first; C2 and C3 have larger ceilings (25M, 50M).
-- [ ] **The judge (D57) and the expectations files (D34).** Neither exists, so `manual-verdicts.json` is hand-written for now.
+- [ ] **The judge (D57) and the expectations files (D34).** A Langfuse LLM judge (`final_report_complete`) exists but is uncalibrated and its rule disabled; `manual-verdicts.json` is still hand-written.
+- [ ] **Calibrate `final_report_complete`** on labelled main-thread turns (positive: the three C0 final reports; negative: intermediate turns and the last turns of the refused and timed-out runs) before enabling its rule.
+- [ ] **Claude C0 on `ant-claudex` with a higher ceiling**, then three runs per harness on one fixed model with matched reasoning.
+- [ ] **Recalibrate the C0 token ceiling** (6M in `case.json`; real runs used 11.7M-21.9M, mostly cached input).
 - [x] **Codex adapter and C1 saved-trace scoring.** Built and exercised in three completed calibration runs; checkpoint 5 records complete. Automatic process extraction covers run 2's shape only. Run 3's Python-heredoc kanban writes and collapsed stage detection are unsupported, so a strict raw score of run 3 exits 1. Runtime hook parity remains a separate documented gap.
 - [ ] **The `/geeky-eval` skill.** Still a future component; not implemented by the adapter closeout.
 - [ ] **O22 leftovers:** the MSYS tar PATH trap is documented but not guarded in the runner, and `model_calls` counts subagent messages.

@@ -1,0 +1,87 @@
+{
+  "schema": "geeky-eval.mock-matrix/1",
+  "stamp": "20261024T230529Z",
+  "platform": "Ubuntu 24.04.5 LTS",
+  "plugin_sha": "c58f7d09b6f182e65fffd3a5add8d2c7893c1d7c",
+  "runs": [
+    {
+      "harness": "claude-code",
+      "case": "c1-csvledger",
+      "runner_exit": 0,
+      "wall_s": 37,
+      "checks_passed": 25,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 122,
+      "folder": "claude-code-c1-csvledger",
+      "ok": true
+    },
+    {
+      "harness": "claude-code",
+      "case": "c2-linkvault",
+      "runner_exit": 0,
+      "wall_s": 38,
+      "checks_passed": 25,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 122,
+      "folder": "claude-code-c2-linkvault",
+      "ok": true
+    },
+    {
+      "harness": "claude-code",
+      "case": "c3-minisql",
+      "runner_exit": 0,
+      "wall_s": 39,
+      "checks_passed": 25,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 122,
+      "folder": "claude-code-c3-minisql",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c1-csvledger",
+      "runner_exit": 0,
+      "wall_s": 20,
+      "checks_passed": 8,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 9,
+      "folder": "codex-c1-csvledger",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c2-linkvault",
+      "runner_exit": 0,
+      "wall_s": 21,
+      "checks_passed": 8,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 9,
+      "folder": "codex-c2-linkvault",
+      "ok": true
+    },
+    {
+      "harness": "codex",
+      "case": "c3-minisql",
+      "runner_exit": 0,
+      "wall_s": 19,
+      "checks_passed": 8,
+      "checks_failed": null,
+      "exit_reason": "completed",
+      "telemetry": "delivered",
+      "observations": 9,
+      "folder": "codex-c3-minisql",
+      "ok": true
+    }
+  ],
+  "ok": true
+}

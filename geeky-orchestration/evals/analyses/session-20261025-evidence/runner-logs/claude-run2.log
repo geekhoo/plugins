@@ -1,0 +1,21 @@
+workspace: /root/repos/eval-c0-wordstat-20261025T015057Z (seed 295e5eb1a3e78f79d4d5206a711f818c2c0ea998)
+empty-workspace oracle: passed=0 failed=0 errors=13 (ok)
+langfuse: session 1a4b8ad0-8bf4-4d06-bcaf-effc612877f4: 1 traces, 29 observations (12 generations, 14 tool calls), 0 truncated
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "cost_usd_estimate": 0,
+    "reasoning": 0
+  },
+  "model_calls": 6,
+  "latency_median_ms": 4856,
+  "max_idle_gap_s": 21,
+  "impl_review_rounds": null,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}
+stored: /home/user/plugins/geeky-orchestration/evals/baselines/c0-wordstat/20261025T015057Z
