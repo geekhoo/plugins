@@ -1,0 +1,2 @@
+mxc-sandbox: building host into /root/repos/.eval-cfg-codex-20261025T014532Z-9ecf1828/mxc-runner/bin
+mxc warning: WARNING: Bubblewrap did not install IPv6 firewall rules: the kernel reports no IPv6 support (EAFNOSUPPORT), so the sandbox cannot send IPv6 traffic and the IPv4 rules alone enforce the network policy.

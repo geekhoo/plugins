@@ -1,0 +1,24 @@
+Reading additional input from stdin...
+2026-10-25T01:55:40.051097Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid hunk at line 276, '* The same successful command emits identical raw stdout under differing locale/encoding environment variables.' is not a valid hunk header. Valid hunk headers: '*** Add File: {path}', '*** Delete File: {path}', '*** Update File: {path}'
+2026-10-25T01:57:56.568007Z ERROR codex_core::tools::router: error=apply_patch verification failed: Failed to find expected lines in /root/repos/eval-c0-wordstat-codex-20261025T014532Z-9ecf1828/docs/spec-001-feature/tasks/T1-implement-core.md:
+- A top limit below 1 is rejected at the validation boundary used by the core caller.
+2026-10-25T02:05:11.207110Z ERROR codex_core::tools::router: error=agent_name must use only lowercase letters, digits, and underscores
+2026-10-25T02:09:48.774431Z ERROR codex_core::tools::router: error=apply_patch verification failed: Failed to find expected lines in /root/repos/eval-c0-wordstat-codex-20261025T014532Z-9ecf1828/docs/spec-001-feature/kanban.md:
+## In Review
+
++- T1-implement-core
+2026-10-25T02:09:54.856809Z ERROR codex_core::tools::router: error=apply_patch verification failed: Failed to find expected lines in /root/repos/eval-c0-wordstat-codex-20261025T014532Z-9ecf1828/docs/spec-001-feature/kanban.md:
+## In Review
+
++- T1-implement-core
+2026-10-25T02:10:41.708345Z ERROR codex_core::tools::router: error=failed to parse function arguments: missing field `cmd` at line 1 column 2
+2026-10-25T02:11:19.789243Z ERROR codex_core::tools::router: error=apply_patch verification failed: Failed to find expected lines in /root/repos/eval-c0-wordstat-codex-20261025T014532Z-9ecf1828/docs/spec-001-feature/kanban.md:
+## In Progress
+
+<!-- empty -->
+2026-10-25T02:11:28.337662Z ERROR codex_core::tools::router: error=apply_patch verification failed: Failed to find expected lines in /root/repos/eval-c0-wordstat-codex-20261025T014532Z-9ecf1828/docs/spec-001-feature/kanban.md:
+## In Progress
+
++- <!-- empty -->
+2026-10-25T02:11:33.432820Z ERROR codex_core::tools::router: error=apply_patch verification failed: invalid hunk at line 9, Unexpected line found in update hunk: '## In Progress'. Every line should start with ' ' (context line), '+' (added line), or '-' (removed line)
+mxc warning: WARNING: Bubblewrap did not install IPv6 firewall rules: the kernel reports no IPv6 support (EAFNOSUPPORT), so the sandbox cannot send IPv6 traffic and the IPv4 rules alone enforce the network policy.
