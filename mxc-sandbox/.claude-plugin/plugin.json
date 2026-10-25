@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "mxc-sandbox",
   "displayName": "MXC Sandbox",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Run the Claude Code CLI inside a Microsoft MXC sandbox for isolated testing of prompts, plugins, skills, hooks, and untrusted repos. Bundles a .NET host (Microsoft.Mxc.Sdk) with three modes: probe the host, run headless claude in a filesystem- and network-scoped container (ProcessContainer on Windows, Bubblewrap on Linux, Seatbelt on macOS), or run interactive claude in an IsolationSession (Windows). Includes setup, run, interactive, and troubleshooting skills built from verified host behaviour.",
   "author": {
     "name": "geekhoo"

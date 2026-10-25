@@ -15,6 +15,10 @@ The plugin bundles a small .NET host (`Microsoft.Mxc.Sdk` 1.0.1) and four skills
   Windows-only. Bubblewrap shows only system folders (`/usr`, `/bin`, `/etc`, ...); the host grants the
   CLI's folder, its symlink target and the runtimes found on PATH read-only, so pass anything else with
   `--ro`/`--rw`, including `PATH` via `--env` if the workload needs it
+  - Bubblewrap starts `bwrap` with `--die-with-parent`, and Linux sends that SIGKILL when the *thread*
+    that forked it exits. The SDK's `SpawnAsync` forks from a thread-pool worker, so the pool retiring
+    it killed sandboxes with exit 255 from about 20 s to minutes in. The host spawns from a dedicated
+    thread that stays alive until the workload exits (0.2.1)
 - .NET 10 SDK (host targets `net10.0`; for SDK 8/9 edit `scripts/host/MxcClaude/MxcClaude.csproj`; the
   wrapper checks the SDK against the project's target)
 - Native Claude CLI at `%USERPROFILE%\.local\bin\claude.exe` (`~/.local/bin/claude` elsewhere), or set `MXC_CLAUDE_EXE`

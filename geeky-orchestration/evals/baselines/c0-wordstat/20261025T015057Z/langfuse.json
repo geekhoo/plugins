@@ -1,0 +1,71 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "1a4b8ad0-8bf4-4d06-bcaf-effc612877f4",
+  "traces": 1,
+  "observations": 29,
+  "by_type": {
+    "SPAN": 3,
+    "GENERATION": 12,
+    "TOOL": 14
+  },
+  "generations": 12,
+  "tool_calls": 14,
+  "subagents": 2,
+  "environments": [
+    "mxc"
+  ],
+  "usage_details": {
+    "input": 18484,
+    "cache_read_input_tokens": 86784,
+    "total": 105268
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T01:51:04.539Z",
+  "last_start": "2026-10-25T01:52:07.731Z",
+  "top_names": [
+    [
+      "LLM Call",
+      9
+    ],
+    [
+      "Tool: Read",
+      6
+    ],
+    [
+      "Tool: Agent",
+      3
+    ],
+    [
+      "Subagent LLM Call",
+      3
+    ],
+    [
+      "Tool: Bash",
+      2
+    ],
+    [
+      "Conversational Turn",
+      1
+    ],
+    [
+      "Tool: ToolSearch",
+      1
+    ],
+    [
+      "Subagent: Testing and error-contract research",
+      1
+    ],
+    [
+      "Tool: Glob",
+      1
+    ],
+    [
+      "Subagent: Codebase analyst for spec",
+      1
+    ],
+    [
+      "Tool: Skill",
+      1
+    ]
+  ]
+}

@@ -124,12 +124,14 @@ async Task<int> RunHeadlessAsync()
         File.Copy(hostConfigFile, Path.Combine(hostConfigDir, ".claude.json"), overwrite: true);
     }
 
-    using var process = await MxcContainer.SpawnAsync(BuildProcessContainerRequest(ClaudeCommand(claudeExe)));
+    var released = new ManualResetEventSlim();
+    using var process = await SpawnPinnedAsync(BuildProcessContainerRequest(ClaudeCommand(claudeExe)), released);
     // claude -p treats piped stdin as extra prompt; close it so it never waits.
     process.StandardInput?.Close();
     var stdout = ForwardAsync(process.StandardOutput, Console.OpenStandardOutput());
     var stderr = ForwardAsync(process.StandardError, Console.OpenStandardError());
     var result = await process.WaitAsync();
+    released.Set();
     await Task.WhenAll(stdout, stderr);
     return Finish(result, process.Warnings);
 }
@@ -345,6 +347,25 @@ static string StageForAgentUser(string source)
 }
 
 uint? TimeoutMs() => opt.TimeoutSec is { } s ? (uint)(s * 1000) : null;
+
+// Bubblewrap starts bwrap with --die-with-parent (PR_SET_PDEATHSIG), and Linux treats the forking
+// *thread* as the parent. MxcContainer.SpawnAsync forks from a thread-pool worker, so when the pool
+// retires that worker the kernel SIGKILLs the sandbox mid-run (exit 255, seconds to minutes in).
+// Spawn from a dedicated thread instead and park it until the caller sets `released`.
+static Task<MxcProcess> SpawnPinnedAsync(ContainerRequest request, ManualResetEventSlim released)
+{
+    var spawned = new TaskCompletionSource<MxcProcess>(TaskCreationOptions.RunContinuationsAsynchronously);
+    var thread = new Thread(() =>
+    {
+        MxcProcess process;
+        try { process = MxcContainer.Spawn(request); }
+        catch (Exception e) { spawned.SetException(e); return; }
+        spawned.SetResult(process);
+        released.Wait();
+    }) { IsBackground = true, Name = "mxc-sandbox-parent" };
+    thread.Start();
+    return spawned.Task;
+}
 
 static int Finish(WaitResult result, IReadOnlyList<string> warnings)
 {
