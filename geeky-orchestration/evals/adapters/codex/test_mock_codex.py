@@ -92,10 +92,28 @@ def test_skills_reads_unicode_role_as_utf8_with_optional_bom(tmp_path, monkeypat
     (plugin / 'agents/unicode.md').write_bytes(content)
     role = home / 'role.toml'
     role.write_text('developer_instructions="Unicode “role” → 测试"\n', encoding='utf-8-sig')
-    args = mock.parse_args(['-c', 'agents={worker={config_file=' + json.dumps(str(role)) + '}}'])
+    file = json.dumps(str(role))
+    args = mock.parse_args(['-c', 'agents={unicode={config_file=' + file + '},"general-purpose"={config_file=' + file + '}}'])
     monkeypatch.setenv('HOME', str(home))
     monkeypatch.setenv('CLAUDE_PLUGIN_ROOT', str(plugin))
-    assert '1 registered roles readable' in mock.perform('skills', args, tmp_path)
+    assert '2 registered roles readable' in mock.perform('skills', args, tmp_path)
+
+
+def test_skills_rejects_missing_general_purpose_role(tmp_path, monkeypatch):
+    plugin, home = tmp_path / 'plugin', tmp_path / 'home'
+    (plugin / 'skills/s').mkdir(parents=True)
+    (home / '.agents/skills/s').mkdir(parents=True)
+    (plugin / 'skills/s/SKILL.md').write_text('x', encoding='utf-8')
+    (home / '.agents/skills/s/SKILL.md').write_text('x', encoding='utf-8')
+    (plugin / 'agents').mkdir()
+    (plugin / 'agents/coder.md').write_text('x', encoding='utf-8')
+    role = home / 'role.toml'
+    role.write_text('developer_instructions="x"\n', encoding='utf-8')
+    args = mock.parse_args(['-c', 'agents={coder={config_file=' + json.dumps(str(role)) + '}}'])
+    monkeypatch.setenv('HOME', str(home))
+    monkeypatch.setenv('CLAUDE_PLUGIN_ROOT', str(plugin))
+    with pytest.raises(RuntimeError, match='missing'):
+        mock.perform('skills', args, tmp_path)
 
 
 def _telemetry_args(tmp_path, hook_body):

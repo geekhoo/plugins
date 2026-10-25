@@ -217,7 +217,10 @@ def perform(name, a, scratch):
         target = home / '.agents/skills'
         require(source and all((target / rel).read_bytes() == data for rel, data in source.items()), 'Skill tree mismatch')
         roles = {k: v for k, v in a.config.get('agents', {}).items() if isinstance(v, dict) and 'config_file' in v}
-        require(len(roles) == len(list((plugin / 'agents').glob('*.md'))), 'Agent registration mismatch')
+        # One role per plugin agent, plus the built-in general-purpose role the skills name.
+        expected = {p.stem for p in (plugin / 'agents').glob('*.md')} | {'general-purpose'}
+        extra = set(roles) - expected - {'code-architect-reviewer'}   # that one only with --reviewer-reasoning
+        require(expected <= set(roles) and not extra, f'Agent registration mismatch: missing {sorted(expected - set(roles))}, extra {sorted(extra)}')
         for role in roles.values():
             data = tomllib.loads(Path(role['config_file']).read_text(encoding='utf-8-sig'))
             require(bool(data.get('developer_instructions')), 'Role instructions missing')
