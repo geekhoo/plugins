@@ -1,0 +1,81 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "1a198741-4bde-44cc-90e7-c20996332bd5",
+  "traces": 1,
+  "observations": 63,
+  "by_type": {
+    "SPAN": 4,
+    "GENERATION": 27,
+    "TOOL": 32
+  },
+  "generations": 27,
+  "tool_calls": 32,
+  "subagents": 3,
+  "environments": [
+    "mxc"
+  ],
+  "usage_details": {
+    "input": 35671,
+    "cache_read_input_tokens": 90512,
+    "total": 147042,
+    "output": 3296,
+    "cache_creation_input_tokens": 17563
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T05:27:58.938Z",
+  "last_start": "2026-10-25T05:30:13.734Z",
+  "top_names": [
+    [
+      "Subagent LLM Call",
+      17
+    ],
+    [
+      "Tool: Read",
+      13
+    ],
+    [
+      "LLM Call",
+      10
+    ],
+    [
+      "Tool: Bash",
+      7
+    ],
+    [
+      "Tool: Glob",
+      3
+    ],
+    [
+      "Tool: Grep",
+      3
+    ],
+    [
+      "Tool: Agent",
+      3
+    ],
+    [
+      "Tool: ToolSearch",
+      2
+    ],
+    [
+      "Conversational Turn",
+      1
+    ],
+    [
+      "Subagent: Research deterministic CLI I/O behavior",
+      1
+    ],
+    [
+      "Subagent: Research Python word counting semantics",
+      1
+    ],
+    [
+      "Subagent: Analyze repository for wordstat spec",
+      1
+    ],
+    [
+      "Tool: Skill",
+      1
+    ]
+  ]
+}

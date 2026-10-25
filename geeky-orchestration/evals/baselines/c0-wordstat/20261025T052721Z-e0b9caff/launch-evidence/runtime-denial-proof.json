@@ -1,0 +1,10 @@
+{
+  "root": "/root/.agents/skills",
+  "denial_verified": true,
+  "error_type": "FileNotFoundError",
+  "winerror": null,
+  "cli_version": "0.164.0",
+  "version_returncode": 0,
+  "version_stderr": "",
+  "version_stdout": "codex-cli 0.164.0\n"
+}
