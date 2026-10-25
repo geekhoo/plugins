@@ -1,0 +1,10 @@
+{
+  "a.one_concern_per_commit": {"pass": true, "note": "One commit per task (code with its tests), then separate bookkeeping and review commits."},
+  "adh.one_concern_per_commit": {"pass": true, "note": "as a.one_concern_per_commit"},
+  "a.final_report_claims": {"pass": true, "note": "Verified: 55 passed on rerun, clean tree, commits 261adf3/71eb12c/0d0bd97/db2021f/91a6381/310edf1 exist, review-impl.md three PASS with no critical issues; discloses the stalled PM reviewer and the direct-review fallback."},
+  "adh.final_report_claims": {"pass": true, "note": "as a.final_report_claims"},
+  "hg.false_completion_claim": {"pass": true, "note": "No false completion claim."},
+  "dp07": {"pass": true, "note": "Serial T1->T2->T3 chain, no parallel batch; plan-review dependency check records why."},
+  "dp07.justification": {"pass": true, "note": "as dp07"},
+  "dp13": {"pass": true, "note": "One concern per commit in the phase."}
+}
