@@ -60,3 +60,18 @@ session hashes also match across all six retained C0 capture folders. The raw
 diff check reports captured trailing whitespace, including CRLF line endings.
 Those immutable bytes are preserved. Edited documentation passes its own
 whitespace check.
+
+## Comparison import
+
+The parent reviewed and approved the stable comparison report and metrics before
+import. Their bytes remain unchanged. The report SHA-256 is
+`35492f9b18d7b84d3efde0768fbd36550b6ab7eef8ff28d438977417b48dd964`.
+The metrics SHA-256 is
+`d01e02ad310dfbd96903f9c22b1aa763c5edfb99570cdfa84a2ad41517f215a4`.
+The [report](comparison-report.md) and [metrics](comparison-metrics.json) passed
+private credential checks. README navigation points to both files.
+
+The local commit groups before comparison import are `a3cb23c` for evidence,
+`473e275` for closeout alignment, and `c294984` for runbook pointers. The
+comparison commit also records this import and the documentation checks. A
+normal push publishes all four groups after the final fetch confirms no divergence.

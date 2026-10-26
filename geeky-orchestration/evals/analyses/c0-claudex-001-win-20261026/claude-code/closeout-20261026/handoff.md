@@ -42,3 +42,9 @@ The publication request supersedes this handoff's earlier no-publication scope.
 The operator aligned the current result pointers and marked the timeout records
 as historical. Candidate workspaces, raw captures, score values, and verdicts
 remain unchanged. Full API exports and derived scoring inputs stay outside Git.
+
+The parent approved the stable comparison report and metrics for byte-preserving
+import. The repository README links both deliverables. Evidence and documentation
+commits are `a3cb23c`, `473e275`, and `c294984`; the comparison is a separate T8
+commit. The publication target is normal `origin/main`, after final validation
+and a fresh divergence check. No candidate publication is included.

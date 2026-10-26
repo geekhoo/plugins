@@ -1,0 +1,3046 @@
+{
+  "schema": "c0-comparison/1",
+  "verified_utc": "2026-10-26T06:56:11.170770+00:00",
+  "repository_baseline": "4ec9691532cfd453fc977059648106f703e4cc56",
+  "scope": "Historical source analysis, no new model calls or candidate tests",
+  "runs": {
+    "codex_initial": {
+      "analysis_source": "geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/codex",
+      "raw_source": "geeky-orchestration/evals/baselines/c0-wordstat/20261025T154802Z-c140d9e7",
+      "candidate_head": "521f69a0b194328cecc247e942abca02374640d4",
+      "current_workspace_head": "521f69a0b194328cecc247e942abca02374640d4",
+      "candidate_status_at_verification": "?? docs/spec-001-feature/.heartbeat",
+      "raw_hashes": {
+        "stream": {
+          "sha256": "7ca1c750b5ed4186cf21c3983b6f6caab6c996f58a7e7e6a087dc8a85545e7cc",
+          "matches_run_record": true
+        },
+        "session": {
+          "sha256": "34699042681c209a3d78099aef28cf07f831ab5fe5e86b2f605fca58b0a02431",
+          "matches_run_record": true
+        }
+      },
+      "parity": {
+        "schema": "geeky-eval.parity/1",
+        "harness": "codex",
+        "run": "eval-c0-wordstat-codex-20261025T154802Z-c140d9e7",
+        "session_id": "codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+        "composite": 97.46,
+        "quality": 95.64,
+        "adherence": 97.83,
+        "adherence_uncapped": 97.83,
+        "adherence_fraction": "45/46",
+        "consistency": 100.0,
+        "dpc": 1.0,
+        "order": 1.0,
+        "efficiency": {
+          "tokens_total": 12866166,
+          "wall_time_s": 2846,
+          "latency_median_ms": 2656,
+          "commits": 12,
+          "interventions": 0
+        },
+        "stage_bounds": {
+          "spec-research": [
+            "2026-10-25T15:48:16.984000+00:00",
+            "2026-10-25T15:52:22.000000+00:00"
+          ],
+          "geeky-plan": [
+            "2026-10-25T15:52:22.000000+00:00",
+            "2026-10-25T16:05:06.000000+00:00"
+          ],
+          "plan-review": [
+            "2026-10-25T16:05:06.000000+00:00",
+            "2026-10-25T16:19:16.000000+00:00"
+          ],
+          "geeky-implement": [
+            "2026-10-25T16:19:16.000000+00:00",
+            "2026-10-25T16:34:05.390000+00:00"
+          ],
+          "impl-review": [
+            "2026-10-25T16:34:05.390000+00:00",
+            "9999"
+          ]
+        },
+        "phases": {
+          "P1": [
+            "T1"
+          ],
+          "P2": [
+            "T2",
+            "T3"
+          ],
+          "P3": [
+            "T4",
+            "T5"
+          ]
+        },
+        "needs_judge": [],
+        "checks": [
+          {
+            "id": "a.planning_folder",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "OK: planning folder valid. 5 task file(s) found."
+          },
+          {
+            "id": "a.task_schema",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "OK: 5 task file(s) checked, 0 failing."
+          },
+          {
+            "id": "a.kanban_final",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "OK: 5 task(s) tracked, 5 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=5"
+          },
+          {
+            "id": "a.dod.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T1"
+          },
+          {
+            "id": "a.notes.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T1-core-library.notes.md"
+          },
+          {
+            "id": "a.dod.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T2"
+          },
+          {
+            "id": "a.notes.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T2-cli-entry-point.notes.md"
+          },
+          {
+            "id": "a.dod.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T3"
+          },
+          {
+            "id": "a.notes.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T3-cli-test-suite.notes.md"
+          },
+          {
+            "id": "a.dod.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T4"
+          },
+          {
+            "id": "a.notes.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T4-readme-and-housekeeping.notes.md"
+          },
+          {
+            "id": "a.dod.T5",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T5"
+          },
+          {
+            "id": "a.notes.T5",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T5-end-to-end-verification.notes.md"
+          },
+          {
+            "id": "a.run_summary",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "Run Summary heading in handoff.md"
+          },
+          {
+            "id": "a.heartbeat_final",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "{\"status\":\"done\",\"ts\":\"2026-10-25T16:33:05Z\",\"task\":\"T5\"}"
+          },
+          {
+            "id": "a.prescribed.spec",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "spec-research commit subject"
+          },
+          {
+            "id": "a.prescribed.plan_review",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "plan-review commit subject exact"
+          },
+          {
+            "id": "a.prescribed.critical_fix",
+            "dimension": "adherence",
+            "status": "na",
+            "evidence": "no critical-fix commit"
+          },
+          {
+            "id": "a.commit_messages",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "9 post-plan-review commits; failing: []"
+          },
+          {
+            "id": "a.frozen_untouched",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "frozen files changed after plan-review: []"
+          },
+          {
+            "id": "a.no_forbidden_git",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reflog: []; commands: []"
+          },
+          {
+            "id": "a.task_dispatch.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T1"
+          },
+          {
+            "id": "a.task_review.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T1 or P1"
+          },
+          {
+            "id": "a.dod_gate.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "2 check-dod runs naming T1 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T2"
+          },
+          {
+            "id": "a.task_review.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T2 or P2"
+          },
+          {
+            "id": "a.dod_gate.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "2 check-dod runs naming T2 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T3"
+          },
+          {
+            "id": "a.task_review.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T3 or P2"
+          },
+          {
+            "id": "a.dod_gate.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "2 check-dod runs naming T3 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T4"
+          },
+          {
+            "id": "a.task_review.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T4 or P3"
+          },
+          {
+            "id": "a.dod_gate.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "2 check-dod runs naming T4 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T5",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T5"
+          },
+          {
+            "id": "a.task_review.T5",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T5 or P3"
+          },
+          {
+            "id": "a.dod_gate.T5",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "2 check-dod runs naming T5 during implement"
+          },
+          {
+            "id": "a.phase_verdict.P1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "4 reviewer dispatches; verdict recorded: True"
+          },
+          {
+            "id": "a.phase_verdict.P2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "2 reviewer dispatches; verdict recorded: True"
+          },
+          {
+            "id": "a.phase_verdict.P3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "1 reviewer dispatches; verdict recorded: True"
+          },
+          {
+            "id": "a.kanban_gate",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "11 validate-kanban runs for 5 tasks"
+          },
+          {
+            "id": "a.commit_gate",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "8 check-commit runs for 5 code commits"
+          },
+          {
+            "id": "a.tests_run",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "34 pytest runs during implement"
+          },
+          {
+            "id": "a.no_orchestrator_code_edits",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "main-thread code/test writes: []"
+          },
+          {
+            "id": "a.run_completed",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "exit_reason completed"
+          },
+          {
+            "id": "a.work_committed",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "uncommitted at the end: []"
+          },
+          {
+            "id": "a.one_concern_per_commit",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "judge: Read-only commit audit: core, tests, CLI, README and phase/review closeouts are related, separate concerns; no unrelated functional changes."
+          },
+          {
+            "id": "a.final_report_claims",
+            "dimension": "adherence",
+            "status": "fail",
+            "evidence": "judge: Final stream item111/session ordinal679 says CLI-level CRLF/BOM tests are missing, but tests/test_cli.py:17-23,78-82,101-119 already exercise them via python -m wordstat. It overgeneralizes a narrower cli.main suggestion. Other test/commit/review claims match evidence."
+          },
+          {
+            "id": "dp01",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "3 spec-research dispatches"
+          },
+          {
+            "id": "dp02",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.prescribed.spec"
+          },
+          {
+            "id": "dp03",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "review-development-project-manager.md"
+          },
+          {
+            "id": "dp04",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "2 plan-review dispatches"
+          },
+          {
+            "id": "dp05",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.prescribed.plan_review"
+          },
+          {
+            "id": "dp09",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "every task reviewed"
+          },
+          {
+            "id": "dp10",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "DoD gate for every task"
+          },
+          {
+            "id": "dp11",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "phase verdict for every phase"
+          },
+          {
+            "id": "dp12",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.commit_gate"
+          },
+          {
+            "id": "dp15",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.run_summary"
+          },
+          {
+            "id": "dp16",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "3 impl-review dispatches"
+          },
+          {
+            "id": "dp18",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.heartbeat_final"
+          },
+          {
+            "id": "dp07",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "judge: Native coder lifetimes prove five serial coder executions, maximum concurrency1. Handoff records dependency/evidence gating for T2-T3 and T4-T5."
+          },
+          {
+            "id": "dp13",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "judge: Each functional concern is separate; phase notes/kanban/handoff and final review are related closeout commits. Verification-only T5 is recorded in phase3 closeout."
+          }
+        ]
+      },
+      "unrounded_recomputed": {
+        "quality": 95.63636363636364,
+        "adherence": 97.82608695652173,
+        "dpc": "1",
+        "consistency": 100.0,
+        "composite": 97.45761967501097
+      },
+      "quality_breakdown": {
+        "score": 95.63636363636363,
+        "P": 1.0,
+        "S": 0.9090909090909091,
+        "D": 0.8,
+        "defects": 1,
+        "evidence": {
+          "P": "oracle 13/13 (collected 13, skipped 0)",
+          "S": "min(1, 70 / 77 non-test LOC)",
+          "D": "9/10 validation commands pass at each task's commit; failing: [('T1', 'python -m pytest tests/test_core.py -q')]"
+        },
+        "capped": 95.63636363636363
+      },
+      "diagnostic_legacy_score": {
+        "warning": "Not comparable across harnesses; parser limitations and unsupported reviewer shapes",
+        "composite": 63.773385078235016,
+        "dimensions": {
+          "quality": {
+            "score": 95.63636363636363,
+            "P": 1.0,
+            "S": 0.9090909090909091,
+            "D": 0.8,
+            "defects": 1,
+            "evidence": {
+              "P": "oracle 13/13 (collected 13, skipped 0)",
+              "S": "min(1, 70 / 77 non-test LOC)",
+              "D": "9/10 validation commands pass at each task's commit; failing: [('T1', 'python -m pytest tests/test_core.py -q')]"
+            },
+            "capped": 95.63636363636363
+          },
+          "adherence": {
+            "passed": 38,
+            "applicable": 52,
+            "score": 73.07692307692308,
+            "needs_judge": [],
+            "capped": 30.0
+          },
+          "consistency": {
+            "score": 61.71428571428572,
+            "DPC": 0.5714285714285714,
+            "DPC_fraction": "12/21",
+            "OC": 0.8,
+            "observed_sequence": [
+              "spec-research",
+              "geeky-plan",
+              "plan-review",
+              "geeky-implement"
+            ],
+            "needs_judge": []
+          },
+          "task_tier": {
+            "score": 74.57800662650602,
+            "L_run_ms": null,
+            "L_ref_ms": 2678,
+            "task_timeout_s": 600
+          }
+        },
+        "tasks": [
+          {
+            "task": "T1",
+            "attempts": 1,
+            "attempt_calls": [
+              152
+            ],
+            "d87_calls": [],
+            "excluded_runs": [],
+            "first_pass_call": 152,
+            "rerun_ok": false,
+            "V": 0.0,
+            "review_rounds": 1,
+            "R": 1.0,
+            "d_s": 277.5,
+            "T": 0.5374383333333334,
+            "D": 1.0,
+            "s": 50.74876666666667,
+            "LOC": 209.0,
+            "w": 0.2823795180722891
+          },
+          {
+            "task": "T2",
+            "attempts": 0,
+            "attempt_calls": [],
+            "d87_calls": [],
+            "excluded_runs": [],
+            "first_pass_call": null,
+            "rerun_ok": true,
+            "V": 0.0,
+            "review_rounds": 1,
+            "R": 1.0,
+            "d_s": null,
+            "T": 0.0,
+            "D": 1.0,
+            "s": 40.0,
+            "LOC": 51.0,
+            "w": 0.038403614457831324
+          },
+          {
+            "task": "T3",
+            "attempts": 2,
+            "attempt_calls": [
+              218,
+              220
+            ],
+            "d87_calls": [],
+            "excluded_runs": [
+              [
+                217,
+                "no test outcome"
+              ]
+            ],
+            "first_pass_call": 220,
+            "rerun_ok": true,
+            "V": 0.75,
+            "review_rounds": 1,
+            "R": 1.0,
+            "d_s": 188.6,
+            "T": 0.6857116666666667,
+            "D": 1.0,
+            "s": 83.71423333333334,
+            "LOC": 325.0,
+            "w": 0.4947289156626506
+          },
+          {
+            "task": "T4",
+            "attempts": 1,
+            "attempt_calls": [
+              261
+            ],
+            "d87_calls": [],
+            "excluded_runs": [
+              [
+                240,
+                "no test outcome"
+              ],
+              [
+                241,
+                "no test outcome"
+              ],
+              [
+                260,
+                "no test outcome"
+              ]
+            ],
+            "first_pass_call": 261,
+            "rerun_ok": true,
+            "V": 1.0,
+            "review_rounds": 1,
+            "R": 1.0,
+            "d_s": 187.5,
+            "T": 0.68746,
+            "D": 1.0,
+            "s": 93.74919999999999,
+            "LOC": 79.0,
+            "w": 0.1844879518072289
+          },
+          {
+            "task": "T5",
+            "attempts": 0,
+            "attempt_calls": [],
+            "d87_calls": [],
+            "excluded_runs": [],
+            "first_pass_call": null,
+            "rerun_ok": true,
+            "V": 0.0,
+            "review_rounds": 1,
+            "R": 1.0,
+            "d_s": null,
+            "T": 0.0,
+            "D": 1.0,
+            "s": 40.0,
+            "LOC": 0.0,
+            "w": 0.0
+          }
+        ]
+      },
+      "task_commit_validation": {
+        "T1": {
+          "commit": "9336491",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor",
+          "results": [
+            {
+              "command": "python -m pytest tests/test_core.py -q",
+              "exit": 4,
+              "tail": "no tests ran in 0.00s"
+            },
+            {
+              "command": "python -c \"import wordstat.core\"",
+              "exit": 0,
+              "tail": ""
+            }
+          ]
+        },
+        "T2": {
+          "commit": "1d88fec",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor",
+          "results": [
+            {
+              "command": "python -m wordstat --help",
+              "exit": 0,
+              "tail": "  --top N"
+            },
+            {
+              "command": "python -m pytest tests/test_core.py -q",
+              "exit": 0,
+              "tail": "34 passed in 0.08s"
+            },
+            {
+              "command": "python -c \"import subprocess,sys,tempfile,os,json; d=tempfile.mkdtemp(); p=os.path.join(d,'sample.txt'); open(p,'wb').write(b'The cat sat.\\nThe cat ran!\\nA dog.\\n'); r=subprocess.run([sys.executable,'-m','wordstat',p],capture_output=True); assert r.returncode==0 and r.stdout==b'lines: 3\\nwords: 8\\nchars: 33\\ntop: cat=2 the=2 a=1\\n' and r.stderr==b'', r; r=subprocess.run([sys.executable,'-m','wordstat','--json','--top','2',p],capture_output=True); exp=(json.dumps({'lines':3,'words':8,'chars':33,'top':[{'word':'cat','count':2},{'word':'the','count':2}]})+'\\n').encode(); assert r.returncode==0 and r.stdout==exp, r; print('examples ok')\"",
+              "exit": 0,
+              "tail": "examples ok"
+            }
+          ]
+        },
+        "T3": {
+          "commit": "db59374",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor",
+          "results": [
+            {
+              "command": "python -m pytest tests/test_cli.py -q",
+              "exit": 0,
+              "tail": "59 passed in 7.45s"
+            },
+            {
+              "command": "python -m pytest -q",
+              "exit": 0,
+              "tail": "93 passed in 7.46s"
+            }
+          ]
+        },
+        "T4": {
+          "commit": "2e1ef10",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor",
+          "results": [
+            {
+              "command": "python -c \"import pathlib,subprocess,sys; g=pathlib.Path('.gitignore').read_text(); assert '__pycache__/' in g and '.pytest_cache/' in g; r=pathlib.Path('README.md').read_text(encoding='utf-8'); [ (_ for _ in ()).throw(AssertionError(s)) for s in ('--json','--top','python -m wordstat','python -m pytest','lines: 3','chars: 33','top: cat=2 the=2 a=1') if s not in r ]; print('ok')\"",
+              "exit": 0,
+              "tail": "ok"
+            }
+          ]
+        },
+        "T5": {
+          "commit": "b115d84",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor",
+          "results": [
+            {
+              "command": "python -m pytest -q",
+              "exit": 0,
+              "tail": "93 passed in 11.89s"
+            },
+            {
+              "command": "python -m wordstat --help",
+              "exit": 0,
+              "tail": "  --top N"
+            }
+          ]
+        }
+      },
+      "native_run": {
+        "harness_version": "codex-cli 0.164.0",
+        "seed_sha": "062419d5b67e121e046d51525398871f766cdb68",
+        "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+        "reasoning": "high",
+        "worker_reasoning": "high",
+        "started_utc": "2026-10-25T15:48:05.6190063Z",
+        "ended_utc": "2026-10-25T16:35:31.8064269Z",
+        "wall_time_s": 2846,
+        "tokens": {
+          "input": 12640818,
+          "cached_input": 1314688,
+          "cache_creation": 0,
+          "output": 225348,
+          "reasoning": 67365,
+          "total": 12866166,
+          "cost_usd_estimate": null
+        },
+        "model_calls": 228,
+        "latency_median_ms": null,
+        "max_idle_gap_s": 227,
+        "stages": [
+          {
+            "name": "spec-research",
+            "started_utc": "2026-10-25T15:48:21.884000+00:00",
+            "ended_utc": "2026-10-25T15:48:26.574000+00:00",
+            "minutes": 0.1
+          },
+          {
+            "name": "geeky-plan",
+            "started_utc": "2026-10-25T15:48:26.574000+00:00",
+            "ended_utc": "2026-10-25T15:49:05.428000+00:00",
+            "minutes": 0.6
+          },
+          {
+            "name": "plan-review",
+            "started_utc": "2026-10-25T15:49:05.428000+00:00",
+            "ended_utc": "2026-10-25T15:52:32.601000+00:00",
+            "minutes": 3.5
+          },
+          {
+            "name": "geeky-implement",
+            "started_utc": "2026-10-25T15:52:32.601000+00:00",
+            "ended_utc": "2026-10-25T16:35:27.534000+00:00",
+            "minutes": 42.9
+          }
+        ],
+        "impl_review_rounds": 1,
+        "oracle": {
+          "collected": 13,
+          "passed": 13,
+          "failed": 0,
+          "errors": 0,
+          "skipped": 0,
+          "stable_over_3": true
+        },
+        "loc": null,
+        "commits": 12,
+        "exit_code": 0,
+        "exit_reason": "completed",
+        "interventions": 0,
+        "prior_campaign_interventions": null,
+        "continuation": null,
+        "token_ceiling": 6000000,
+        "token_ceiling_policy": "informational-until-codex-baseline",
+        "over_token_ceiling": true,
+        "reference_eligible": false,
+        "analysis_status": "incomplete",
+        "parity_passed": true,
+        "runtime_parity_verified": false,
+        "runtime_toolchain_verified": false,
+        "diagnostics_passed": null,
+        "trace_complete": false,
+        "trace_errors": [
+          "Missing tool output: call_2800606be52a43ca814a27ec",
+          "Missing tool timestamps: 01a173bf-708d-7ad3-9a6b-2c7463adec7d:call_2800606be52a43ca814a27ec",
+          "Unresolved patch write evidence: toolu_017y74Xzmv2fWz9CYsYzYtUP"
+        ],
+        "started_singapore": "2026-10-25T23:48:05.619006+08:00",
+        "ended_singapore": "2026-10-26T00:35:31.806426+08:00"
+      },
+      "native_analysis": {
+        "tokens": {
+          "input": 12640818,
+          "cached_input": 1314688,
+          "cache_creation": 0,
+          "output": 225348,
+          "reasoning": 67365,
+          "total": 12866166,
+          "cost_usd_estimate": null,
+          "by_model": null
+        },
+        "model_calls": 228,
+        "latency_median_ms": null,
+        "latency_samples": 0,
+        "max_idle_gap_s": 227,
+        "duration_api_ms": null,
+        "skill_invocations": {
+          "spec-research": 1,
+          "geeky-plan": 1,
+          "plan-review": 3,
+          "geeky-implement": 1,
+          "impl-review": 1
+        },
+        "tool_calls_main": {
+          "PowerShell": 55,
+          "wait_agent": 18,
+          "Agent": 17,
+          "Skill": 4,
+          "write_stdin": 2,
+          "list_agents": 1
+        },
+        "tool_calls_subagents": {
+          "PowerShell": 172,
+          "write_stdin": 9,
+          "CodexExec": 6,
+          "Skill": 3,
+          "Agent": 3,
+          "wait_agent": 2,
+          "CodexPatch": 1
+        },
+        "subagent_dispatches": {
+          "code-explorer": 1,
+          "general-purpose": 3,
+          "code-reviewer": 10,
+          "code-architect": 1,
+          "geeky-coder": 5
+        },
+        "validation_runs": {
+          "sub": 38,
+          "main": 14
+        },
+        "gate_invocations": {
+          "validate-planning-folder": 8,
+          "validate-task-schema": 8,
+          "validate-kanban": 26,
+          "check-commit": 12,
+          "check-dod": 5
+        },
+        "gate_results": {
+          "validate-planning-folder": {
+            "pass": 8,
+            "fail": 0,
+            "unknown": 0,
+            "main": 7,
+            "sub": 1
+          },
+          "validate-task-schema": {
+            "pass": 8,
+            "fail": 0,
+            "unknown": 0,
+            "main": 7,
+            "sub": 1
+          },
+          "validate-kanban": {
+            "pass": 25,
+            "fail": 1,
+            "unknown": 0,
+            "main": 25,
+            "sub": 1
+          },
+          "check-commit": {
+            "pass": 11,
+            "fail": 1,
+            "unknown": 0,
+            "main": 12,
+            "sub": 0
+          },
+          "check-dod": {
+            "pass": 5,
+            "fail": 0,
+            "unknown": 0,
+            "main": 5,
+            "sub": 0
+          }
+        }
+      },
+      "langfuse": {
+        "session_id": "codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+        "traces": 21,
+        "observations": 536,
+        "by_type": {
+          "GENERATION": 229,
+          "TOOL": 286,
+          "AGENT": 21
+        },
+        "generations": 229,
+        "tool_calls": 286,
+        "subagents": 20,
+        "agent_roles": [
+          "coder",
+          "orchestrator",
+          "reviewer",
+          "unknown"
+        ],
+        "environments": [
+          "mxc-win"
+        ],
+        "usage_details": {
+          "input": 11329980,
+          "output": 159389,
+          "total": 12896556,
+          "input_cached_tokens": 1339264,
+          "output_reasoning_tokens": 67923
+        },
+        "truncated_observations": 0,
+        "first_start": "2026-10-25T15:48:09.245Z",
+        "last_start": "2026-10-25T16:35:27.534Z"
+      },
+      "telemetry_audit": {
+        "session_id": "codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+        "environment": "mxc-win",
+        "observations": 536,
+        "traces": 21,
+        "users": 21,
+        "role_counts": {
+          "reviewer": 10,
+          "coder": 5,
+          "unknown": 5,
+          "orchestrator": 1
+        },
+        "requested_native_models": [
+          "claudex-001"
+        ],
+        "generation_models": [
+          "claudex-001"
+        ],
+        "root_trace_id": "eb9dd617c4986a3522b9f51cd9908459",
+        "project_id": "cmvmyexpu0001o01ubyvac5jw",
+        "trace_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/traces/eb9dd617c4986a3522b9f51cd9908459",
+        "session_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/sessions/codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+        "raw_hashes_preserved": {
+          "stream": "7ca1c750b5ed4186cf21c3983b6f6caab6c996f58a7e7e6a087dc8a85545e7cc",
+          "session": "34699042681c209a3d78099aef28cf07f831ab5fe5e86b2f605fca58b0a02431"
+        },
+        "coverage_original_missed": [
+          "stage:impl-review"
+        ],
+        "coverage_corrected_complete": true
+      },
+      "published_scores": {
+        "verified": true,
+        "session_id": "codex-mxc-win-c0-wordstat-20261025T154802Z-c140d9e7",
+        "environment": "mxc-win",
+        "score_count": 10,
+        "scores": {
+          "final_report_claims_verified": false,
+          "provider_refusals": 0,
+          "harness_coverage_complete": true,
+          "forbidden_git_operation": false,
+          "oracle_pass_rate": 1,
+          "process_consistency": 100,
+          "process_adherence_uncapped": 97.83,
+          "process_adherence": 97.83,
+          "quality": 95.64,
+          "parity_composite": 97.46
+        }
+      },
+      "line_inventory_at_candidate_commit": {
+        "definition": "Nonblank tracked Python lines, including comments; source excludes docs/tests/test_*/conftest.py",
+        "files": {
+          "source": {
+            "wordstat/__init__.py": 1,
+            "wordstat/__main__.py": 3,
+            "wordstat/cli.py": 40,
+            "wordstat/core.py": 33
+          },
+          "tests": {
+            "tests/test_cli.py": 235,
+            "tests/test_core.py": 119
+          }
+        },
+        "totals": {
+          "source": 77,
+          "tests": 354
+        }
+      },
+      "scope_notes": [
+        "Native tokens and Langfuse aggregates are different scopes; do not add them"
+      ]
+    },
+    "claude_initial": {
+      "analysis_source": "geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/claude-code/router-fixed",
+      "raw_source": "geeky-orchestration/evals/baselines/c0-wordstat/20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z-recovered",
+      "candidate_head": "e2c1317ed4443e970e6ea9f9c069b0c75342ae1c",
+      "current_workspace_head": "a12f55aafd14526e4191175184bd3e3bb15321fd",
+      "candidate_status_at_verification": "?? docs/spec-001-feature/.heartbeat",
+      "raw_hashes": {
+        "stream": {
+          "sha256": "f5821bb2e773d3061da89834f3672433fa8c193f7f9ff9c282a5c1d5387603d0",
+          "matches_run_record": true
+        },
+        "session": {
+          "sha256": "eff06d26e79e38b6404ba98f918befb9002254250a8569b0d5b2ec82c14896e3",
+          "matches_run_record": true
+        }
+      },
+      "parity": {
+        "schema": "geeky-eval.parity/1",
+        "harness": "claude-code",
+        "run": "eval-c0-wordstat-20261025T183455Z",
+        "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+        "composite": 90.33,
+        "quality": 96.67,
+        "adherence": 88.1,
+        "adherence_uncapped": 88.1,
+        "adherence_fraction": "37/42",
+        "consistency": 83.16,
+        "dpc": 0.7895,
+        "order": 1.0,
+        "efficiency": {
+          "tokens_total": 16572433,
+          "wall_time_s": 5402,
+          "latency_median_ms": 6961,
+          "commits": 10,
+          "interventions": 0
+        },
+        "stage_bounds": {
+          "spec-research": [
+            "2026-10-25T19:55:00.689000+00:00",
+            "2026-10-25T20:05:52.000000+00:00"
+          ],
+          "geeky-plan": [
+            "2026-10-25T20:05:52.000000+00:00",
+            "2026-10-25T20:20:37.298000+00:00"
+          ],
+          "plan-review": [
+            "2026-10-25T20:20:37.298000+00:00",
+            "2026-10-25T20:34:53.000000+00:00"
+          ],
+          "geeky-implement": [
+            "2026-10-25T20:34:53.000000+00:00",
+            "2026-10-25T21:19:43.092000+00:00"
+          ],
+          "impl-review": [
+            "2026-10-25T21:19:43.092000+00:00",
+            "9999"
+          ]
+        },
+        "phases": {
+          "P1": [
+            "T1"
+          ],
+          "P2": [
+            "T2"
+          ],
+          "P3": [
+            "T3"
+          ],
+          "P4": [
+            "T4"
+          ]
+        },
+        "needs_judge": [],
+        "checks": [
+          {
+            "id": "a.planning_folder",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "OK: planning folder valid. 4 task file(s) found."
+          },
+          {
+            "id": "a.task_schema",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "OK: 4 task file(s) checked, 0 failing."
+          },
+          {
+            "id": "a.kanban_final",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "OK: 4 task(s) tracked, 4 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=4"
+          },
+          {
+            "id": "a.dod.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T1"
+          },
+          {
+            "id": "a.notes.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T1-scaffold-package.notes.md"
+          },
+          {
+            "id": "a.dod.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T2"
+          },
+          {
+            "id": "a.notes.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T2-counting-core.notes.md"
+          },
+          {
+            "id": "a.dod.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T3"
+          },
+          {
+            "id": "a.notes.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T3-cli-entrypoint.notes.md"
+          },
+          {
+            "id": "a.dod.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T4"
+          },
+          {
+            "id": "a.notes.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T4-subprocess-acceptance.notes.md"
+          },
+          {
+            "id": "a.run_summary",
+            "dimension": "adherence",
+            "status": "fail",
+            "evidence": "Run Summary heading in handoff.md"
+          },
+          {
+            "id": "a.heartbeat_final",
+            "dimension": "adherence",
+            "status": "fail",
+            "evidence": "{\"ts\":\"2026-10-25T21:52:00Z\",\"task\":\"T4\",\"status\":\"running\"}"
+          },
+          {
+            "id": "a.prescribed.spec",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "spec-research commit subject"
+          },
+          {
+            "id": "a.prescribed.plan_review",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "plan-review commit subject exact"
+          },
+          {
+            "id": "a.prescribed.critical_fix",
+            "dimension": "adherence",
+            "status": "na",
+            "evidence": "no critical-fix commit"
+          },
+          {
+            "id": "a.commit_messages",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "8 post-plan-review commits; failing: []"
+          },
+          {
+            "id": "a.frozen_untouched",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "frozen files changed after plan-review: []"
+          },
+          {
+            "id": "a.no_forbidden_git",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reflog: []; commands: []"
+          },
+          {
+            "id": "a.task_dispatch.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T1"
+          },
+          {
+            "id": "a.task_review.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T1 or P1"
+          },
+          {
+            "id": "a.dod_gate.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "4 check-dod runs naming T1 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T2"
+          },
+          {
+            "id": "a.task_review.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T2 or P2"
+          },
+          {
+            "id": "a.dod_gate.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "3 check-dod runs naming T2 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T3"
+          },
+          {
+            "id": "a.task_review.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T3 or P3"
+          },
+          {
+            "id": "a.dod_gate.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "1 check-dod runs naming T3 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T4"
+          },
+          {
+            "id": "a.task_review.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T4 or P4"
+          },
+          {
+            "id": "a.dod_gate.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "1 check-dod runs naming T4 during implement"
+          },
+          {
+            "id": "a.phase_verdict.P1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "2 reviewer dispatches; verdict recorded: True"
+          },
+          {
+            "id": "a.phase_verdict.P2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "1 reviewer dispatches; verdict recorded: True"
+          },
+          {
+            "id": "a.phase_verdict.P3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "1 reviewer dispatches; verdict recorded: True"
+          },
+          {
+            "id": "a.phase_verdict.P4",
+            "dimension": "adherence",
+            "status": "fail",
+            "evidence": "judge: T4 phase reviewer returned BLOCKED for missing dated final-test handoff. Parent added the entry and marked Done, but no revised READY TO ADVANCE phase verdict is present. Handoff phase4 explicitly preserves BLOCKED. Global READY TO ADVANCE matches from earlier phases do not establish P4 acceptance."
+          },
+          {
+            "id": "a.kanban_gate",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "15 validate-kanban runs for 4 tasks"
+          },
+          {
+            "id": "a.commit_gate",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "6 check-commit runs for 4 code commits"
+          },
+          {
+            "id": "a.tests_run",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "17 pytest runs during implement"
+          },
+          {
+            "id": "a.no_orchestrator_code_edits",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "main-thread code/test writes: []"
+          },
+          {
+            "id": "a.run_completed",
+            "dimension": "adherence",
+            "status": "fail",
+            "evidence": "exit_reason timeout"
+          },
+          {
+            "id": "a.work_committed",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "uncommitted at the end: []"
+          },
+          {
+            "id": "a.one_concern_per_commit",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "judge: Ten linear candidate commits: spec and plan-review followed by four coherent functional commits, each with a separate plan-record commit. Functional SHAs 0613177,186bb2a,1e8168d,dc76b8a; final e2c1317. No frozen edits or forbidden git operation in saved evidence."
+          },
+          {
+            "id": "a.final_report_claims",
+            "dimension": "adherence",
+            "status": "fail",
+            "evidence": "judge: No final report exists: stream has no result record, last root text at line5512 waits for end-to-end reviewer. All three reviewer replies returned at lines5445,5479,5529, but no consolidated review-impl.md/Run Summary or heartbeat done before timeout124. Principal 56-pass/2-skip and corrected manual JSON claims reproduce."
+          },
+          {
+            "id": "dp01",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "3 spec-research dispatches"
+          },
+          {
+            "id": "dp02",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.prescribed.spec"
+          },
+          {
+            "id": "dp03",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "review-development-project-manager.md"
+          },
+          {
+            "id": "dp04",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "2 plan-review dispatches"
+          },
+          {
+            "id": "dp05",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.prescribed.plan_review"
+          },
+          {
+            "id": "dp09",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "every task reviewed"
+          },
+          {
+            "id": "dp10",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "DoD gate for every task"
+          },
+          {
+            "id": "dp11",
+            "dimension": "consistency",
+            "status": "fail",
+            "evidence": "judge: T4 phase reviewer returned BLOCKED for missing dated final-test handoff. Parent added the entry and marked Done, but no revised READY TO ADVANCE phase verdict is present. Handoff phase4 explicitly preserves BLOCKED. Global READY TO ADVANCE matches from earlier phases do not establish P4 acceptance."
+          },
+          {
+            "id": "dp12",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.commit_gate"
+          },
+          {
+            "id": "dp15",
+            "dimension": "consistency",
+            "status": "fail",
+            "evidence": "see a.run_summary"
+          },
+          {
+            "id": "dp16",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "3 impl-review dispatches"
+          },
+          {
+            "id": "dp18",
+            "dimension": "consistency",
+            "status": "fail",
+            "evidence": "see a.heartbeat_final"
+          },
+          {
+            "id": "dp07",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "judge: Four native role-bound coder lifetimes do not overlap (maximum1): T1 20:36:42-20:40:10Z; T2 20:46:59-20:50:50Z; T3 20:55:57-21:00:43Z; T4 21:07:46-21:14:48Z. implementation-plan.md:15 explicitly justifies predecessor dependency chain; native main20:37:17Z repeats it."
+          },
+          {
+            "id": "dp13",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "judge: Ten linear candidate commits: spec and plan-review followed by four coherent functional commits, each with a separate plan-record commit. Functional SHAs 0613177,186bb2a,1e8168d,dc76b8a; final e2c1317. No frozen edits or forbidden git operation in saved evidence."
+          }
+        ]
+      },
+      "unrounded_recomputed": {
+        "quality": 96.66666666666667,
+        "adherence": 88.0952380952381,
+        "dpc": "15/19",
+        "consistency": 83.15789473684211,
+        "composite": 90.33138401559454
+      },
+      "quality_breakdown": {
+        "score": 96.66666666666667,
+        "P": 1.0,
+        "S": 0.7777777777777778,
+        "D": 1.0,
+        "defects": 0,
+        "evidence": {
+          "P": "oracle 13/13 (collected 13, skipped 0)",
+          "S": "min(1, 70 / 90 non-test LOC)",
+          "D": "7/7 validation commands pass at each task's commit"
+        },
+        "capped": 96.66666666666667
+      },
+      "diagnostic_legacy_score": {
+        "warning": "Not comparable across harnesses; parser limitations and unsupported reviewer shapes",
+        "composite": 72.22001524914384,
+        "dimensions": {
+          "quality": {
+            "score": 96.66666666666667,
+            "P": 1.0,
+            "S": 0.7777777777777778,
+            "D": 1.0,
+            "defects": 0,
+            "evidence": {
+              "P": "oracle 13/13 (collected 13, skipped 0)",
+              "S": "min(1, 70 / 90 non-test LOC)",
+              "D": "7/7 validation commands pass at each task's commit"
+            },
+            "capped": 96.66666666666667
+          },
+          "adherence": {
+            "passed": 29,
+            "applicable": 45,
+            "score": 64.44444444444444,
+            "needs_judge": [],
+            "capped": 64.44444444444444
+          },
+          "consistency": {
+            "score": 42.285714285714285,
+            "DPC": 0.42857142857142855,
+            "DPC_fraction": "9/21",
+            "OC": 0.4,
+            "observed_sequence": [
+              "geeky-resume",
+              "spec-research",
+              "geeky-implement",
+              "impl-review"
+            ],
+            "needs_judge": []
+          },
+          "task_tier": {
+            "score": 73.73983503112096,
+            "L_run_ms": 4386,
+            "L_ref_ms": 2678,
+            "task_timeout_s": 600
+          }
+        },
+        "tasks": [
+          {
+            "task": "T1",
+            "attempts": 1,
+            "attempt_calls": [
+              382
+            ],
+            "d87_calls": [],
+            "excluded_runs": [
+              [
+                334,
+                "no test outcome"
+              ],
+              [
+                335,
+                "no test outcome"
+              ]
+            ],
+            "first_pass_call": 382,
+            "rerun_ok": true,
+            "V": 1.0,
+            "review_rounds": 1,
+            "R": 1.0,
+            "d_s": 968.2,
+            "T": 0.014744098647210935,
+            "D": 1.0,
+            "s": 80.29488197294421,
+            "LOC": 15.0,
+            "w": 0.11196172248803829
+          },
+          {
+            "task": "T2",
+            "attempts": 1,
+            "attempt_calls": [
+              357
+            ],
+            "d87_calls": [],
+            "excluded_runs": [],
+            "first_pass_call": 357,
+            "rerun_ok": true,
+            "V": 1.0,
+            "review_rounds": null,
+            "R": 0.0,
+            "d_s": 154.4,
+            "T": 0.8428359180726555,
+            "D": 1.0,
+            "s": 66.85671836145312,
+            "LOC": 173.0,
+            "w": 0.2379585326953748
+          },
+          {
+            "task": "T3",
+            "attempts": 2,
+            "attempt_calls": [
+              414,
+              418
+            ],
+            "d87_calls": [],
+            "excluded_runs": [],
+            "first_pass_call": 418,
+            "rerun_ok": true,
+            "V": 0.75,
+            "review_rounds": 1,
+            "R": 1.0,
+            "d_s": 396.2,
+            "T": 0.596832574859401,
+            "D": 1.0,
+            "s": 81.93665149718802,
+            "LOC": 191.0,
+            "w": 0.35231259968102074
+          },
+          {
+            "task": "T4",
+            "attempts": 1,
+            "attempt_calls": [
+              468
+            ],
+            "d87_calls": [],
+            "excluded_runs": [],
+            "first_pass_call": 468,
+            "rerun_ok": true,
+            "V": 1.0,
+            "review_rounds": null,
+            "R": 0.0,
+            "d_s": 143.6,
+            "T": 0.8538690826873385,
+            "D": 1.0,
+            "s": 67.07738165374677,
+            "LOC": 248.0,
+            "w": 0.2977671451355662
+          }
+        ]
+      },
+      "task_commit_validation": {
+        "T1": {
+          "commit": "0613177",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move)",
+          "results": [
+            {
+              "command": "python -m wordstat",
+              "exit": 0,
+              "tail": ""
+            }
+          ]
+        },
+        "T2": {
+          "commit": "186bb2a",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move)",
+          "results": [
+            {
+              "command": "python -m pytest tests/test_counting.py -q",
+              "exit": 0,
+              "tail": "16 passed in 0.10s"
+            },
+            {
+              "command": "python -c \"import wordstat.counting\"",
+              "exit": 0,
+              "tail": ""
+            }
+          ]
+        },
+        "T3": {
+          "commit": "1e8168d",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move)",
+          "results": [
+            {
+              "command": "python -m pytest tests/test_cli.py -q",
+              "exit": 0,
+              "tail": "18 passed, 1 skipped in 0.22s"
+            },
+            {
+              "command": "python -m pytest tests -q",
+              "exit": 0,
+              "tail": "34 passed, 1 skipped in 0.58s"
+            }
+          ]
+        },
+        "T4": {
+          "commit": "dc76b8a",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move)",
+          "results": [
+            {
+              "command": "python -m pytest tests/test_subprocess.py -q",
+              "exit": 0,
+              "tail": "22 passed, 1 skipped in 9.60s"
+            },
+            {
+              "command": "python -m pytest -q",
+              "exit": 0,
+              "tail": "56 passed, 2 skipped in 6.29s"
+            }
+          ]
+        }
+      },
+      "native_run": {
+        "harness_version": "2.1.304",
+        "seed_sha": "d06eb6d1cd2f5419d644550a004c2c3e873c3ea8",
+        "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+        "reasoning": "default",
+        "worker_reasoning": null,
+        "started_utc": "2026-10-25T19:54:47.0453289Z",
+        "ended_utc": "2026-10-25T21:24:49.4481058Z",
+        "wall_time_s": 5402,
+        "tokens": {
+          "input": 16078812,
+          "cached_input": 13970509,
+          "cache_creation": 1054677,
+          "output": 493621,
+          "total": 16572433,
+          "cost_usd_estimate": 31.1856,
+          "reasoning": 0
+        },
+        "model_calls": 147,
+        "latency_median_ms": 4386,
+        "max_idle_gap_s": 260,
+        "stages": [
+          {
+            "name": "geeky-resume",
+            "started_utc": "2026-10-25T19:55:00.689000+00:00",
+            "ended_utc": "2026-10-25T20:02:25.402000+00:00",
+            "minutes": 7.4
+          },
+          {
+            "name": "spec-research",
+            "started_utc": "2026-10-25T20:02:25.402000+00:00",
+            "ended_utc": "2026-10-25T20:35:03.203000+00:00",
+            "minutes": 32.6
+          },
+          {
+            "name": "geeky-implement",
+            "started_utc": "2026-10-25T20:35:03.203000+00:00",
+            "ended_utc": "2026-10-25T21:19:43.092000+00:00",
+            "minutes": 44.7
+          },
+          {
+            "name": "impl-review",
+            "started_utc": "2026-10-25T21:19:43.092000+00:00",
+            "ended_utc": "2026-10-25T21:24:43.687000+00:00",
+            "minutes": 5.0
+          }
+        ],
+        "impl_review_rounds": 1,
+        "oracle": {
+          "collected": 13,
+          "passed": 13,
+          "failed": 0,
+          "errors": 0,
+          "skipped": 0,
+          "stable_over_3": true
+        },
+        "loc": {
+          "source_non_test": 0,
+          "test": 0,
+          "files_changed": 0
+        },
+        "commits": 10,
+        "exit_code": 124,
+        "exit_reason": "timeout",
+        "interventions": 0,
+        "prior_campaign_interventions": 2,
+        "continuation": null,
+        "token_ceiling": 6000000,
+        "token_ceiling_policy": null,
+        "over_token_ceiling": true,
+        "reference_eligible": false,
+        "analysis_status": null,
+        "parity_passed": null,
+        "runtime_parity_verified": null,
+        "runtime_toolchain_verified": null,
+        "diagnostics_passed": null,
+        "trace_complete": null,
+        "trace_errors": null,
+        "started_singapore": "2026-10-26T03:54:47.045328+08:00",
+        "ended_singapore": "2026-10-26T05:24:49.448105+08:00"
+      },
+      "native_analysis": {
+        "tokens": {
+          "input": 16078812,
+          "cached_input": 13970509,
+          "cache_creation": 1054677,
+          "output": 493621,
+          "total": 16572433,
+          "by_model": {
+            "claudex-001": {
+              "inputTokens": 1053626,
+              "cacheReadInputTokens": 13970509,
+              "cacheCreationInputTokens": 1054677,
+              "outputTokens": 493621
+            }
+          },
+          "cost_usd_estimate": 31.1856
+        },
+        "model_calls": 147,
+        "latency_median_ms": 4386,
+        "latency_samples": 166,
+        "max_idle_gap_s": 260,
+        "duration_api_ms": 3297023,
+        "skill_invocations": {
+          "geeky-resume": 1,
+          "spec-research": 1,
+          "geeky-implement": 1,
+          "impl-review": 1
+        },
+        "tool_calls_main": {
+          "Edit": 85,
+          "PowerShell": 60,
+          "Read": 39,
+          "Write": 20,
+          "Agent": 17,
+          "Grep": 9,
+          "Skill": 4,
+          "Glob": 2
+        },
+        "tool_calls_subagents": {
+          "Read": 139,
+          "WebFetch": 53,
+          "Grep": 49,
+          "PowerShell": 31,
+          "Glob": 25,
+          "Write": 12,
+          "Bash": 7,
+          "Edit": 5,
+          "ToolSearch": 3
+        },
+        "subagent_dispatches": {
+          "geeky-orchestration:code-explorer": 1,
+          "general-purpose": 3,
+          "geeky-orchestration:code-reviewer": 8,
+          "geeky-orchestration:code-architect": 1,
+          "geeky-orchestration:geeky-coder": 4
+        },
+        "validation_runs": {
+          "main": 12,
+          "sub": 14
+        },
+        "gate_invocations": {
+          "check-commit": 7,
+          "validate-planning-folder": 6,
+          "validate-task-schema": 5,
+          "validate-kanban": 21,
+          "check-dod": 6
+        },
+        "gate_results": {
+          "check-commit": {
+            "pass": 5,
+            "fail": 2,
+            "unknown": 0,
+            "main": 7,
+            "sub": 0
+          },
+          "validate-planning-folder": {
+            "pass": 6,
+            "fail": 0,
+            "unknown": 0,
+            "main": 6,
+            "sub": 0
+          },
+          "validate-task-schema": {
+            "pass": 5,
+            "fail": 0,
+            "unknown": 0,
+            "main": 5,
+            "sub": 0
+          },
+          "validate-kanban": {
+            "pass": 20,
+            "fail": 1,
+            "unknown": 0,
+            "main": 21,
+            "sub": 0
+          },
+          "check-dod": {
+            "pass": 4,
+            "fail": 1,
+            "unknown": 1,
+            "main": 6,
+            "sub": 0
+          }
+        }
+      },
+      "langfuse": {
+        "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+        "traces": 33,
+        "observations": 892,
+        "by_type": {
+          "AGENT": 33,
+          "GENERATION": 329,
+          "TOOL": 530
+        },
+        "generations": 329,
+        "tool_calls": 530,
+        "subagents": 16,
+        "agent_roles": [
+          "coder",
+          "orchestrator",
+          "reviewer",
+          "unknown"
+        ],
+        "environments": [
+          "mxc-win"
+        ],
+        "usage_details": {
+          "input": 71800,
+          "output": 612236,
+          "cache_read_input_tokens": 17348362,
+          "input_cache_creation_5m": 1271623,
+          "total": 19349407,
+          "cache_creation_input_tokens": 45386
+        },
+        "truncated_observations": 0,
+        "first_start": "2026-10-25T19:55:00.689Z",
+        "last_start": "2026-10-25T21:25:02.980Z"
+      },
+      "telemetry_audit": {
+        "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+        "environment": "mxc-win",
+        "observations": 892,
+        "traces": 33,
+        "types": {
+          "AGENT": 33,
+          "GENERATION": 329,
+          "TOOL": 530
+        },
+        "user_ids": [
+          "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a2236489613af20f4",
+          "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a23141c8250bb146c",
+          "claude-mxc-win-coder-geeky-orchestration-geeky-coder-aa1bd716ce9a20794",
+          "claude-mxc-win-coder-geeky-orchestration-geeky-coder-ab91f2ba886df03f5",
+          "claude-mxc-win-orchestrator-d604ad01-339f-4179-8448-b14fe73088d4",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a066d485f6cb7c1e8",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a0cc489678b2a03de",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a419fd7177a15a1cf",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a4d26bd5d0b37b251",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a585e2d2b3e77bb1a",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf02eecdffa4f1ba",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf8f6055795edf06",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-af3ff0272e4b28391",
+          "claude-mxc-win-unknown-geeky-orchestration-code-architect-adb258ccde2a30b01",
+          "claude-mxc-win-unknown-geeky-orchestration-code-explorer-ad42f1b269d46bf05",
+          "claude-mxc-win-unknown-general-purpose-a7ca3fcb5a81109b1",
+          "claude-mxc-win-unknown-general-purpose-aeff85155a94a5dd2"
+        ],
+        "users": 17,
+        "generation_models": [
+          "claude",
+          "claudex-001"
+        ],
+        "raw_hashes_preserved": {
+          "stream.jsonl": "f5821bb2e773d3061da89834f3672433fa8c193f7f9ff9c282a5c1d5387603d0",
+          "session.jsonl": "eff06d26e79e38b6404ba98f918befb9002254250a8569b0d5b2ec82c14896e3"
+        },
+        "coverage_original_missed": [
+          "stage:geeky-plan",
+          "stage:plan-review"
+        ],
+        "coverage_corrected_complete": true,
+        "cost": "unverified; alias/backend pricing not established",
+        "native_session_model_calls": 147,
+        "native_session_tokens": {
+          "input": 16078812,
+          "cached_input": 13970509,
+          "cache_creation": 1054677,
+          "output": 493621,
+          "total": 16572433,
+          "cost_usd_estimate": 31.1856,
+          "reasoning": 0
+        },
+        "langfuse_aggregate_usage": {
+          "input": 71800,
+          "output": 612236,
+          "cache_read_input_tokens": 17348362,
+          "input_cache_creation_5m": 1271623,
+          "total": 19349407,
+          "cache_creation_input_tokens": 45386
+        },
+        "usage_bearing_generations": {
+          "count": 267,
+          "model": "claudex-001"
+        },
+        "no_usage_generations": {
+          "claude_placeholder": 60,
+          "claudex-001": 2
+        },
+        "agent_user_roles": {
+          "orchestrator": 1,
+          "coder": 4,
+          "reviewer": 8,
+          "unknown": 4
+        },
+        "session_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/sessions/claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z"
+      },
+      "published_scores": {
+        "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z",
+        "environment": "mxc-win",
+        "verified": true,
+        "count": 10,
+        "scores": {
+          "final_report_claims_verified": false,
+          "provider_refusals": 0,
+          "harness_coverage_complete": true,
+          "forbidden_git_operation": false,
+          "oracle_pass_rate": 1,
+          "process_consistency": 83.16,
+          "process_adherence_uncapped": 88.1,
+          "process_adherence": 88.1,
+          "quality": 96.67,
+          "parity_composite": 90.33
+        }
+      },
+      "line_inventory_at_candidate_commit": {
+        "definition": "Nonblank tracked Python lines, including comments; source excludes docs/tests/test_*/conftest.py",
+        "files": {
+          "source": {
+            "wordstat/__init__.py": 1,
+            "wordstat/__main__.py": 2,
+            "wordstat/cli.py": 45,
+            "wordstat/counting.py": 42
+          },
+          "tests": {
+            "tests/test_cli.py": 108,
+            "tests/test_counting.py": 78,
+            "tests/test_subprocess.py": 193
+          }
+        },
+        "totals": {
+          "source": 90,
+          "tests": 379
+        }
+      },
+      "scope_notes": [
+        "Native tokens and Langfuse aggregates are different scopes; do not add them"
+      ],
+      "stage_scope_note": "Specification boundary span includes geeky-resume reconciliation, not pure research time"
+    },
+    "claude_cumulative": {
+      "analysis_source": "geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/claude-code/closeout-20261026",
+      "raw_source": "geeky-orchestration/evals/baselines/c0-wordstat/20261025T183455Z-closeout-20261026T054222Z",
+      "candidate_head": "a12f55aafd14526e4191175184bd3e3bb15321fd",
+      "current_workspace_head": "a12f55aafd14526e4191175184bd3e3bb15321fd",
+      "candidate_status_at_verification": "?? docs/spec-001-feature/.heartbeat",
+      "raw_hashes": {
+        "stream": {
+          "sha256": "420f8ff34a2a6f87e98ce617d5dbb6dd42214cf39b3e5223cbfce44b543a9929",
+          "matches_run_record": true
+        },
+        "session": {
+          "sha256": "02f70e5c0e732aacc3c9c3287d8f2ea0dafd98c54ca2070ded291a7a0fa2296b",
+          "matches_run_record": true
+        }
+      },
+      "parity": {
+        "schema": "geeky-eval.parity/1",
+        "harness": "claude-code",
+        "run": "eval-c0-wordstat-20261025T183455Z",
+        "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-closeout-20261026T054222Z",
+        "composite": 98.33,
+        "quality": 95.71,
+        "adherence": 100.0,
+        "adherence_uncapped": 100.0,
+        "adherence_fraction": "42/42",
+        "consistency": 100.0,
+        "dpc": 1.0,
+        "order": 1.0,
+        "efficiency": {
+          "tokens_total": 4158988,
+          "wall_time_s": 7180,
+          "latency_median_ms": 6650,
+          "commits": 13,
+          "interventions": 1
+        },
+        "stage_bounds": {
+          "spec-research": [
+            "2026-10-25T19:55:00.689000+00:00",
+            "2026-10-25T20:05:52.000000+00:00"
+          ],
+          "geeky-plan": [
+            "2026-10-25T20:05:52.000000+00:00",
+            "2026-10-25T20:20:37.298000+00:00"
+          ],
+          "plan-review": [
+            "2026-10-25T20:20:37.298000+00:00",
+            "2026-10-25T20:34:53.000000+00:00"
+          ],
+          "geeky-implement": [
+            "2026-10-25T20:34:53.000000+00:00",
+            "2026-10-25T21:19:43.092000+00:00"
+          ],
+          "impl-review": [
+            "2026-10-25T21:19:43.092000+00:00",
+            "9999"
+          ]
+        },
+        "phases": {
+          "P1": [
+            "T1"
+          ],
+          "P2": [
+            "T2"
+          ],
+          "P3": [
+            "T3"
+          ],
+          "P4": [
+            "T4"
+          ]
+        },
+        "needs_judge": [],
+        "checks": [
+          {
+            "id": "a.planning_folder",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "OK: planning folder valid. 4 task file(s) found."
+          },
+          {
+            "id": "a.task_schema",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "OK: 4 task file(s) checked, 0 failing."
+          },
+          {
+            "id": "a.kanban_final",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "OK: 4 task(s) tracked, 4 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=4"
+          },
+          {
+            "id": "a.dod.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T1"
+          },
+          {
+            "id": "a.notes.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T1-scaffold-package.notes.md"
+          },
+          {
+            "id": "a.dod.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T2"
+          },
+          {
+            "id": "a.notes.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T2-counting-core.notes.md"
+          },
+          {
+            "id": "a.dod.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T3"
+          },
+          {
+            "id": "a.notes.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T3-cli-entrypoint.notes.md"
+          },
+          {
+            "id": "a.dod.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "DOD_OK: T4"
+          },
+          {
+            "id": "a.notes.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "T4-subprocess-acceptance.notes.md"
+          },
+          {
+            "id": "a.run_summary",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "Run Summary heading in handoff.md"
+          },
+          {
+            "id": "a.heartbeat_final",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "{\"ts\":\"2026-10-26T06:06:14Z\",\"task\":\"impl-review\",\"status\":\"done\"}"
+          },
+          {
+            "id": "a.prescribed.spec",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "spec-research commit subject"
+          },
+          {
+            "id": "a.prescribed.plan_review",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "plan-review commit subject exact"
+          },
+          {
+            "id": "a.prescribed.critical_fix",
+            "dimension": "adherence",
+            "status": "na",
+            "evidence": "no critical-fix commit"
+          },
+          {
+            "id": "a.commit_messages",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "11 post-plan-review commits; failing: []"
+          },
+          {
+            "id": "a.frozen_untouched",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "frozen files changed after plan-review: []"
+          },
+          {
+            "id": "a.no_forbidden_git",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reflog: []; commands: []"
+          },
+          {
+            "id": "a.task_dispatch.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T1"
+          },
+          {
+            "id": "a.task_review.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T1 or P1"
+          },
+          {
+            "id": "a.dod_gate.T1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "4 check-dod runs naming T1 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T2"
+          },
+          {
+            "id": "a.task_review.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T2 or P2"
+          },
+          {
+            "id": "a.dod_gate.T2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "3 check-dod runs naming T2 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T3"
+          },
+          {
+            "id": "a.task_review.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T3 or P3"
+          },
+          {
+            "id": "a.dod_gate.T3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "1 check-dod runs naming T3 during implement"
+          },
+          {
+            "id": "a.task_dispatch.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "geeky-coder dispatch naming T4"
+          },
+          {
+            "id": "a.task_review.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "reviewer dispatch naming T4 or P4"
+          },
+          {
+            "id": "a.dod_gate.T4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "1 check-dod runs naming T4 during implement"
+          },
+          {
+            "id": "a.phase_verdict.P1",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "2 reviewer dispatches; verdict recorded: True"
+          },
+          {
+            "id": "a.phase_verdict.P2",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "1 reviewer dispatches; verdict recorded: True"
+          },
+          {
+            "id": "a.phase_verdict.P3",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "1 reviewer dispatches; verdict recorded: True"
+          },
+          {
+            "id": "a.phase_verdict.P4",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "judge: Source-bound reviewer a5fa51b4a664cae32 returns T4 PASS and READY TO ADVANCE in subagent transcript54,reviewing0a9b354. Meta binds call_s6DFpFO0AWS67SJC6DrCojkS;resume-stream9216 records same result;handoff193 records it. Earlier P1-P3 verdicts independently retained. Supersedes prior timeout P4 failure only for cumulative resumed evaluation."
+          },
+          {
+            "id": "a.kanban_gate",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "14 validate-kanban runs for 4 tasks"
+          },
+          {
+            "id": "a.commit_gate",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "6 check-commit runs for 5 code commits"
+          },
+          {
+            "id": "a.tests_run",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "17 pytest runs during implement"
+          },
+          {
+            "id": "a.no_orchestrator_code_edits",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "main-thread code/test writes: []"
+          },
+          {
+            "id": "a.run_completed",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "exit_reason completed"
+          },
+          {
+            "id": "a.work_committed",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "uncommitted at the end: []"
+          },
+          {
+            "id": "a.one_concern_per_commit",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "judge: Earlier ten coherent commits retained. New06fca83 changes only CLI parsing and focused tests;0a9b354 consolidates review/release records;a12f55a records T4 reviewer verdict. No frozen contracts changed and no forbidden Git command found in continuation."
+          },
+          {
+            "id": "a.final_report_claims",
+            "dimension": "adherence",
+            "status": "pass",
+            "evidence": "judge: Final resume-stream9638 matches actual candidate HEADa12f55a,60passed/2platformskips,22focusedpassed/1skip,exact JSON assertion,validators and DOD_OK T1-T4. Independent public60passed/2skip and oracle13/13x3 reproduce. Explicit warnings and untracked done heartbeat are disclosed. review-impl.md:97 mislabels two verified Git blob hashes as SHA256; this is a separate minor ledger defect not repeated in final report."
+          },
+          {
+            "id": "dp01",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "3 spec-research dispatches"
+          },
+          {
+            "id": "dp02",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.prescribed.spec"
+          },
+          {
+            "id": "dp03",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "review-development-project-manager.md"
+          },
+          {
+            "id": "dp04",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "2 plan-review dispatches"
+          },
+          {
+            "id": "dp05",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.prescribed.plan_review"
+          },
+          {
+            "id": "dp09",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "every task reviewed"
+          },
+          {
+            "id": "dp10",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "DoD gate for every task"
+          },
+          {
+            "id": "dp11",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "judge: Source-bound reviewer a5fa51b4a664cae32 returns T4 PASS and READY TO ADVANCE in subagent transcript54,reviewing0a9b354. Meta binds call_s6DFpFO0AWS67SJC6DrCojkS;resume-stream9216 records same result;handoff193 records it. Earlier P1-P3 verdicts independently retained. Supersedes prior timeout P4 failure only for cumulative resumed evaluation."
+          },
+          {
+            "id": "dp12",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.commit_gate"
+          },
+          {
+            "id": "dp15",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.run_summary"
+          },
+          {
+            "id": "dp16",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "7 impl-review dispatches"
+          },
+          {
+            "id": "dp18",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "see a.heartbeat_final"
+          },
+          {
+            "id": "dp07",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "judge: Original four coders ran serially through documented predecessor dependencies. One later fix coder a75bc9c874af158b9 runs after the completed original sequence;no concurrent coding. Saved original native lifetimes and continuation dispatch/result establish this source-bound ordering."
+          },
+          {
+            "id": "dp13",
+            "dimension": "consistency",
+            "status": "pass",
+            "evidence": "judge: Earlier ten coherent commits retained. New06fca83 changes only CLI parsing and focused tests;0a9b354 consolidates review/release records;a12f55a records T4 reviewer verdict. No frozen contracts changed and no forbidden Git command found in continuation."
+          }
+        ]
+      },
+      "unrounded_recomputed": {
+        "quality": 95.71428571428571,
+        "adherence": 100.0,
+        "dpc": "1",
+        "consistency": 100.0,
+        "composite": 98.33333333333333
+      },
+      "quality_breakdown": {
+        "score": 95.71428571428571,
+        "P": 1.0,
+        "S": 0.7142857142857143,
+        "D": 1.0,
+        "defects": 0,
+        "evidence": {
+          "P": "oracle 13/13 (collected 13, skipped 0)",
+          "S": "min(1, 70 / 98 non-test LOC)",
+          "D": "7/7 validation commands pass at each task's commit"
+        },
+        "capped": 95.71428571428571
+      },
+      "diagnostic_legacy_score": {
+        "warning": "Not comparable across harnesses; parser limitations and unsupported reviewer shapes",
+        "composite": 77.91145270955732,
+        "dimensions": {
+          "quality": {
+            "score": 95.71428571428571,
+            "P": 1.0,
+            "S": 0.7142857142857143,
+            "D": 1.0,
+            "defects": 0,
+            "evidence": {
+              "P": "oracle 13/13 (collected 13, skipped 0)",
+              "S": "min(1, 70 / 98 non-test LOC)",
+              "D": "7/7 validation commands pass at each task's commit"
+            },
+            "capped": 95.71428571428571
+          },
+          "adherence": {
+            "passed": 33,
+            "applicable": 45,
+            "score": 73.33333333333333,
+            "needs_judge": [],
+            "capped": 73.33333333333333
+          },
+          "consistency": {
+            "score": 56.19047619047619,
+            "DPC": 0.6190476190476191,
+            "DPC_fraction": "13/21",
+            "OC": 0.33333333333333337,
+            "observed_sequence": [
+              "geeky-resume",
+              "spec-research",
+              "geeky-implement",
+              "impl-review",
+              "geeky-resume",
+              "impl-review"
+            ],
+            "needs_judge": []
+          },
+          "task_tier": {
+            "score": 75.06690804795431,
+            "L_run_ms": 5137,
+            "L_ref_ms": 2678,
+            "task_timeout_s": 600
+          }
+        },
+        "tasks": [
+          {
+            "task": "T1",
+            "attempts": 1,
+            "attempt_calls": [
+              382
+            ],
+            "d87_calls": [],
+            "excluded_runs": [
+              [
+                334,
+                "no test outcome"
+              ],
+              [
+                335,
+                "no test outcome"
+              ]
+            ],
+            "first_pass_call": 382,
+            "rerun_ok": true,
+            "V": 1.0,
+            "review_rounds": 1,
+            "R": 1.0,
+            "d_s": 968.2,
+            "T": 0.15878287262345092,
+            "D": 1.0,
+            "s": 83.17565745246901,
+            "LOC": 15.0,
+            "w": 0.1111607142857143
+          },
+          {
+            "task": "T2",
+            "attempts": 1,
+            "attempt_calls": [
+              357
+            ],
+            "d87_calls": [],
+            "excluded_runs": [],
+            "first_pass_call": 357,
+            "rerun_ok": true,
+            "V": 1.0,
+            "review_rounds": null,
+            "R": 0.0,
+            "d_s": 154.4,
+            "T": 0.8658124073713581,
+            "D": 1.0,
+            "s": 67.31624814742716,
+            "LOC": 173.0,
+            "w": 0.2287202380952381
+          },
+          {
+            "task": "T3",
+            "attempts": 2,
+            "attempt_calls": [
+              414,
+              418
+            ],
+            "d87_calls": [],
+            "excluded_runs": [],
+            "first_pass_call": 418,
+            "rerun_ok": true,
+            "V": 0.75,
+            "review_rounds": 1,
+            "R": 1.0,
+            "d_s": 396.2,
+            "T": 0.6557733450133023,
+            "D": 1.0,
+            "s": 83.11546690026606,
+            "LOC": 236.0,
+            "w": 0.3755952380952381
+          },
+          {
+            "task": "T4",
+            "attempts": 1,
+            "attempt_calls": [
+              468
+            ],
+            "d87_calls": [],
+            "excluded_runs": [],
+            "first_pass_call": 468,
+            "rerun_ok": true,
+            "V": 1.0,
+            "review_rounds": null,
+            "R": 0.0,
+            "d_s": 143.6,
+            "T": 0.8752325864642139,
+            "D": 1.0,
+            "s": 67.50465172928428,
+            "LOC": 248.0,
+            "w": 0.2845238095238095
+          }
+        ]
+      },
+      "task_commit_validation": {
+        "T1": {
+          "commit": "0613177",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move)",
+          "results": [
+            {
+              "command": "python -m wordstat",
+              "exit": 0,
+              "tail": ""
+            }
+          ]
+        },
+        "T2": {
+          "commit": "186bb2a",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move)",
+          "results": [
+            {
+              "command": "python -m pytest tests/test_counting.py -q",
+              "exit": 0,
+              "tail": "16 passed in 0.08s"
+            },
+            {
+              "command": "python -c \"import wordstat.counting\"",
+              "exit": 0,
+              "tail": ""
+            }
+          ]
+        },
+        "T3": {
+          "commit": "1e8168d",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move)",
+          "results": [
+            {
+              "command": "python -m pytest tests/test_cli.py -q",
+              "exit": 0,
+              "tail": "18 passed, 1 skipped in 0.13s"
+            },
+            {
+              "command": "python -m pytest tests -q",
+              "exit": 0,
+              "tail": "34 passed, 1 skipped in 0.19s"
+            }
+          ]
+        },
+        "T4": {
+          "commit": "dc76b8a",
+          "fallback": false,
+          "basis": "first commit naming it after its Done move (phase committed after the move)",
+          "results": [
+            {
+              "command": "python -m pytest tests/test_subprocess.py -q",
+              "exit": 0,
+              "tail": "22 passed, 1 skipped in 5.86s"
+            },
+            {
+              "command": "python -m pytest -q",
+              "exit": 0,
+              "tail": "56 passed, 2 skipped in 5.42s"
+            }
+          ]
+        }
+      },
+      "native_run": {
+        "harness_version": "2.1.304",
+        "seed_sha": "d06eb6d1cd2f5419d644550a004c2c3e873c3ea8",
+        "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+        "reasoning": "default",
+        "worker_reasoning": null,
+        "started_utc": "2026-10-25T19:54:47.0453289Z",
+        "ended_utc": "2026-10-26T06:12:00.5430976Z",
+        "wall_time_s": 7180,
+        "tokens": {
+          "input": 4071232,
+          "cached_input": 3779313,
+          "cache_creation": 276825,
+          "output": 87756,
+          "total": 4158988,
+          "cost_usd_estimate": 5.8892,
+          "reasoning": 0
+        },
+        "model_calls": 90,
+        "latency_median_ms": 5137,
+        "max_idle_gap_s": 29863,
+        "stages": [
+          {
+            "name": "impl-review",
+            "started_utc": "2026-10-25T21:19:43.092000+00:00",
+            "ended_utc": "2026-10-26T05:42:40.013000+00:00",
+            "minutes": 502.9
+          },
+          {
+            "name": "geeky-resume",
+            "started_utc": "2026-10-26T05:42:40.013000+00:00",
+            "ended_utc": "2026-10-26T05:55:39.106000+00:00",
+            "minutes": 13.0
+          },
+          {
+            "name": "impl-review",
+            "started_utc": "2026-10-26T05:55:39.106000+00:00",
+            "ended_utc": "2026-10-26T06:11:57.887000+00:00",
+            "minutes": 16.3
+          }
+        ],
+        "impl_review_rounds": 2,
+        "oracle": {
+          "collected": 13,
+          "passed": 13,
+          "failed": 0,
+          "errors": 0,
+          "skipped": 0,
+          "stable_over_3": true
+        },
+        "loc": {
+          "source_non_test": 0,
+          "test": 0,
+          "files_changed": 0
+        },
+        "commits": 13,
+        "exit_code": 0,
+        "exit_reason": "completed",
+        "interventions": 1,
+        "prior_campaign_interventions": 2,
+        "continuation": {
+          "source_run": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z-recovered",
+          "resumed_from": "d604ad01-339f-4179-8448-b14fe73088d4",
+          "forked_native_session": true,
+          "started_utc": "2026-10-26T05:42:22.5230956Z",
+          "ended_utc": "2026-10-26T06:12:00.5430976Z",
+          "wall_time_s": 1778,
+          "execution_budget_s": 5400,
+          "runner_sha": "4ec9691532cfd453fc977059648106f703e4cc56",
+          "score_scope": "cumulative C0 plus authorized continuation",
+          "prior_attempt_unchanged": true
+        },
+        "token_ceiling": 6000000,
+        "token_ceiling_policy": null,
+        "over_token_ceiling": false,
+        "reference_eligible": false,
+        "analysis_status": null,
+        "parity_passed": null,
+        "runtime_parity_verified": null,
+        "runtime_toolchain_verified": null,
+        "diagnostics_passed": null,
+        "trace_complete": null,
+        "trace_errors": null,
+        "started_singapore": "2026-10-26T03:54:47.045328+08:00",
+        "ended_singapore": "2026-10-26T14:12:00.543097+08:00"
+      },
+      "native_analysis": {
+        "tokens": {
+          "input": 4071232,
+          "cached_input": 3779313,
+          "cache_creation": 276825,
+          "output": 87756,
+          "total": 4158988,
+          "by_model": {
+            "claudex-001": {
+              "inputTokens": 15094,
+              "cacheReadInputTokens": 3779313,
+              "cacheCreationInputTokens": 276825,
+              "outputTokens": 87756
+            }
+          },
+          "cost_usd_estimate": 5.8892
+        },
+        "model_calls": 90,
+        "latency_median_ms": 5137,
+        "latency_samples": 93,
+        "max_idle_gap_s": 29863,
+        "duration_api_ms": 1217741,
+        "skill_invocations": {
+          "geeky-resume": 2,
+          "spec-research": 1,
+          "geeky-implement": 1,
+          "impl-review": 2
+        },
+        "tool_calls_main": {
+          "Edit": 96,
+          "PowerShell": 91,
+          "Read": 55,
+          "Write": 22,
+          "Agent": 20,
+          "Grep": 13,
+          "Skill": 6,
+          "Glob": 3
+        },
+        "tool_calls_subagents": {
+          "Read": 162,
+          "Grep": 59,
+          "WebFetch": 53,
+          "PowerShell": 43,
+          "Glob": 39,
+          "Edit": 16,
+          "Write": 14,
+          "Bash": 7,
+          "ToolSearch": 3
+        },
+        "subagent_dispatches": {
+          "geeky-orchestration:code-explorer": 1,
+          "general-purpose": 3,
+          "geeky-orchestration:code-reviewer": 10,
+          "geeky-orchestration:code-architect": 1,
+          "geeky-orchestration:geeky-coder": 5
+        },
+        "validation_runs": {
+          "main": 14,
+          "sub": 18
+        },
+        "gate_invocations": {
+          "check-commit": 10,
+          "validate-planning-folder": 12,
+          "validate-task-schema": 9,
+          "validate-kanban": 27,
+          "check-dod": 20
+        },
+        "gate_results": {
+          "check-commit": {
+            "pass": 8,
+            "fail": 2,
+            "unknown": 0,
+            "main": 10,
+            "sub": 0
+          },
+          "validate-planning-folder": {
+            "pass": 11,
+            "fail": 0,
+            "unknown": 1,
+            "main": 12,
+            "sub": 0
+          },
+          "validate-task-schema": {
+            "pass": 8,
+            "fail": 0,
+            "unknown": 1,
+            "main": 9,
+            "sub": 0
+          },
+          "validate-kanban": {
+            "pass": 25,
+            "fail": 1,
+            "unknown": 1,
+            "main": 27,
+            "sub": 0
+          },
+          "check-dod": {
+            "pass": 17,
+            "fail": 1,
+            "unknown": 2,
+            "main": 20,
+            "sub": 0
+          }
+        }
+      },
+      "langfuse": {
+        "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-closeout-20261026T054222Z",
+        "traces": 25,
+        "observations": 1095,
+        "by_type": {
+          "AGENT": 29,
+          "TOOL": 644,
+          "GENERATION": 422
+        },
+        "generations": 422,
+        "tool_calls": 644,
+        "subagents": 19,
+        "agent_roles": [
+          "coder",
+          "orchestrator",
+          "reviewer"
+        ],
+        "environments": [
+          "mxc-win"
+        ],
+        "usage_details": {
+          "input": 30476,
+          "output": 581479,
+          "cache_read_input_tokens": 17450955,
+          "cache_creation_input_tokens": 493524,
+          "total": 19651335,
+          "input_cache_creation_5m": 1094901
+        },
+        "truncated_observations": 0,
+        "first_start": "2026-10-25T20:46:59.590Z",
+        "last_start": "2026-10-26T06:12:05.095Z"
+      },
+      "telemetry_audit": {
+        "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-closeout-20261026T054222Z",
+        "native_session_id": "eae47d48-b115-4c76-ae53-eee28acb82fb",
+        "resumed_from_native_session_id": "d604ad01-339f-4179-8448-b14fe73088d4",
+        "environment": "mxc-win",
+        "observations": 1095,
+        "traces": 25,
+        "types": {
+          "AGENT": 29,
+          "TOOL": 644,
+          "GENERATION": 422
+        },
+        "users": 13,
+        "user_ids": [
+          "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a2236489613af20f4",
+          "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a23141c8250bb146c",
+          "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a75bc9c874af158b9",
+          "claude-mxc-win-coder-geeky-orchestration-geeky-coder-aa1bd716ce9a20794",
+          "claude-mxc-win-orchestrator-eae47d48-b115-4c76-ae53-eee28acb82fb",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a0cc489678b2a03de",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a419fd7177a15a1cf",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a54a5a732e838403f",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a585e2d2b3e77bb1a",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a5fa51b4a664cae32",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf02eecdffa4f1ba",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf8f6055795edf06",
+          "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-af3ff0272e4b28391"
+        ],
+        "usage_bearing_models": {
+          "claudex-001": 325
+        },
+        "native_coverage_missed": [
+          "stage:spec-research",
+          "stage:geeky-plan",
+          "stage:plan-review",
+          "stage:geeky-implement"
+        ],
+        "cumulative_coverage_complete": true,
+        "raw_hashes_preserved": {
+          "stream.jsonl": "420f8ff34a2a6f87e98ce617d5dbb6dd42214cf39b3e5223cbfce44b543a9929",
+          "session.jsonl": "02f70e5c0e732aacc3c9c3287d8f2ea0dafd98c54ca2070ded291a7a0fa2296b"
+        },
+        "continuation_wall_time_s": 1778,
+        "cumulative_active_wall_time_s": 7180,
+        "continuation_reported_tokens": {
+          "input": 4071232,
+          "cached_input": 3779313,
+          "cache_creation": 276825,
+          "output": 87756,
+          "total": 4158988,
+          "cost_usd_estimate": 5.8892,
+          "reasoning": 0
+        },
+        "cost_verified": false,
+        "session_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/sessions/claude-mxc-win-c0-wordstat-20261025T183455Z-closeout-20261026T054222Z"
+      },
+      "published_scores": {
+        "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-closeout-20261026T054222Z",
+        "environment": "mxc-win",
+        "verified": true,
+        "count": 10,
+        "scores": {
+          "final_report_claims_verified": true,
+          "provider_refusals": 0,
+          "harness_coverage_complete": true,
+          "forbidden_git_operation": false,
+          "oracle_pass_rate": 1,
+          "process_consistency": 100,
+          "process_adherence_uncapped": 100,
+          "process_adherence": 100,
+          "quality": 95.71,
+          "parity_composite": 98.33
+        },
+        "previous_timeout_scores_preserved": true,
+        "previous_timeout_parity": 90.33
+      },
+      "line_inventory_at_candidate_commit": {
+        "definition": "Nonblank tracked Python lines, including comments; source excludes docs/tests/test_*/conftest.py",
+        "files": {
+          "source": {
+            "wordstat/__init__.py": 1,
+            "wordstat/__main__.py": 2,
+            "wordstat/cli.py": 53,
+            "wordstat/counting.py": 42
+          },
+          "tests": {
+            "tests/test_cli.py": 131,
+            "tests/test_counting.py": 78,
+            "tests/test_subprocess.py": 193
+          }
+        },
+        "totals": {
+          "source": 98,
+          "tests": 402
+        }
+      },
+      "scope_notes": [
+        "Runtime and commit count cumulative; tokens are continuation native accounting; raw model_calls=90 includes 42 new parent IDs and 48 retained historical parent IDs; native stages and idle include historical rows; Langfuse session replays historical agents"
+      ],
+      "derived_native_parent_request_counts": {
+        "raw_capture_total": 90,
+        "new_at_or_after_continuation_start": 42,
+        "retained_historical_before_continuation_start": 48,
+        "shared_ids": 0,
+        "scope": "Parent assistant request IDs only; worker populations not normalized; not a cumulative all-agent model-call total",
+        "timestamp_cutoff": "2026-10-26T05:42:22.5230956Z",
+        "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-closeout-20261026T054222Z\\session.jsonl",
+        "method": "Unique message.id on type=assistant rows, partition by ISO8601 timestamp against continuation start",
+        "verification_helper": "C:\\repos\\.eval-tools\\c0-claudex-001\\comparison-parent-review.py"
+      }
+    }
+  },
+  "unknowns": {
+    "actual_billed_cost": "N/A, adaptive router alias lacks proven backend/pricing",
+    "backend_identity": "N/A, claudex-001 is an adaptive alias",
+    "matched_thinking_effort": "N/A, Codex high versus Claude default",
+    "cumulative_claude_tokens": "N/A, continuation process and historical/replayed observations overlap",
+    "cumulative_claude_model_calls": "N/A, resumed history scopes overlap",
+    "continuation_active_max_idle_gap": "N/A, raw maximum includes retained history and overnight gap"
+  },
+  "score_deltas": {
+    "codex_minus_claude_initial": {
+      "quality_contribution": -0.400673400673401,
+      "adherence_contribution": 3.7842190016103014,
+      "consistency_contribution": 3.742690058479531,
+      "composite_delta": 7.126235659416437
+    },
+    "claude_cumulative_minus_codex": {
+      "quality_contribution": 0.03030303030302643,
+      "adherence_contribution": 0.8454106280193253,
+      "consistency_contribution": 0.0,
+      "composite_delta": 0.8757136583223541
+    },
+    "claude_cumulative_minus_claude_initial": {
+      "quality_contribution": -0.37037037037037457,
+      "adherence_contribution": 4.629629629629627,
+      "consistency_contribution": 3.742690058479531,
+      "composite_delta": 8.001949317738791
+    }
+  },
+  "cumulative_derivation": {
+    "native_sources": [
+      {
+        "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z-recovered\\session.jsonl",
+        "sha256": "eff06d26e79e38b6404ba98f918befb9002254250a8569b0d5b2ec82c14896e3"
+      },
+      {
+        "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-closeout-20261026T054222Z\\session.jsonl",
+        "sha256": "02f70e5c0e732aacc3c9c3287d8f2ea0dafd98c54ca2070ded291a7a0fa2296b"
+      }
+    ],
+    "logical_session_sha256": "e6af0c50875a4cd766753e037ff87e21f8f6a3b32ab7a715f48ec420a029c876",
+    "forked_historical_rows_excluded": 438,
+    "rows": 1612,
+    "scoring_input": "C:\\repos\\.eval-tools\\c0-claudex-001\\evaluation\\closeout\\scoring-input",
+    "raw_capture": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-closeout-20261026T054222Z",
+    "new_event_cutoff": "2026-10-26T05:42:22.5230956Z",
+    "observation_sources": {
+      "current_observations": 1095,
+      "prior_observations": 892,
+      "derived_observations": 1485,
+      "retained_by_source": {
+        "continuation": 807,
+        "previous": 678
+      },
+      "tool_deduplication": "native metadata.tool_id; retain continuation source first; namespace observation IDs and parent pointers to retain source ancestry"
+    }
+  },
+  "review_hash_label_erratum": {
+    "candidate_path": "docs/spec-001-feature/review-impl.md:97",
+    "issue": "Two Git blob object IDs are incorrectly labeled SHA-256; final report does not repeat this label",
+    "files": [
+      {
+        "path": "wordstat/cli.py",
+        "git_blob": "1e189f2bce97b6f337141b5f660470b4e54d240a",
+        "sha256": "98e63b4ad7d264390d24fab040e277d95f443a5e7140242cdca1d9b28b67660e"
+      },
+      {
+        "path": "tests/test_cli.py",
+        "git_blob": "73cc01af2a51ecf1af7c5d3885360f68ce9af61d",
+        "sha256": "dfa7593e734ca7568138ac97a544b102bffe64eca2e5d72d91bcc7ddcbfda08f"
+      }
+    ],
+    "candidate_unchanged_by_operator": true
+  },
+  "evaluator_source_hashes": [
+    {
+      "path": "geeky-orchestration\\evals\\scripts\\score-run.py",
+      "sha256": "14cc3e687094e417b01d76d6060b1a206992274df7c56852a230af91c7e19306"
+    },
+    {
+      "path": "geeky-orchestration\\evals\\scripts\\parity-eval.py",
+      "sha256": "55ac4c57d8a1334dbd644eaf44afec1863d8496b7c3290d6382d39a2eb821d9d"
+    },
+    {
+      "path": "geeky-orchestration\\evals\\telemetry\\langfuse-coverage.py",
+      "sha256": "145a566c90a24fa47b2015c11860fdcfe41d43ab0b6d399ba585d64499e7bbb1"
+    },
+    {
+      "path": "geeky-orchestration\\evals\\telemetry\\langfuse-scores.py",
+      "sha256": "2ff678d65ec976f97c22f84067ef6243f62dd49b1d2719d186418bb6bf590278"
+    }
+  ]
+}

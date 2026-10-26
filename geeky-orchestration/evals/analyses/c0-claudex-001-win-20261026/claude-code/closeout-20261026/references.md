@@ -21,6 +21,8 @@
 
 [Closeout alignment](../../alignment-closeout-2026-10-26.md) and
 [publication](../../publication-closeout-2026-10-26.md) record the later repository work.
+The [comparison report](../../comparison-report.md) and
+[metrics](../../comparison-metrics.json) retain the reviewed numeric analysis.
 Current comparison and README pointers are refreshed to distinguish the completed
 continuation from the earlier timeout. No candidate artifact was edited by the
 operator after the native process finished.

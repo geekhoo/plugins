@@ -6,6 +6,11 @@ tests and reached final review, then timed out before workflow closeout. The
 owner-authorized continuation has now completed review and closeout in the same
 workspace, with cumulative resumed parity 98.33.
 
+The [detailed comparison](comparison-report.md) explains outcomes, score
+decomposition, task snapshots, timing, usage scopes, and evidence limits.
+[Comparison metrics](comparison-metrics.json) preserve the numeric breakdowns
+and provenance. Both use saved evidence without new candidate or provider runs.
+
 | Harness | Parity | Quality | Adherence | Consistency | Oracle | Wall time |
 |---|---:|---:|---:|---:|---|---|
 | Codex 0.164.0 | **97.46** | 95.64 | 97.83 (45/46) | 100.00 | 13/13, stable over 3 | 47m 26s |

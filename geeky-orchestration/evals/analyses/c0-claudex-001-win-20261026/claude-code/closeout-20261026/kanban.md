@@ -15,6 +15,9 @@
 
 ## Follow-ups
 
+- Publication evidence, aligned documents, and reviewed comparison are committed
+  in grouped changes. The publication record identifies the normal push target.
+
 - Non-blocking reviewer warnings and the hash-algorithm label erratum are recorded in report.md.
 - No further paid execution is scheduled.
 - The owner authorized grouped repository commits and a push to origin.
