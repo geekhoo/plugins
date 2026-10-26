@@ -1,0 +1,35 @@
+{
+  "status": "complete",
+  "exit_code": 0,
+  "model": "claudex-001",
+  "thinking": "default",
+  "environment": "mxc-win",
+  "public_tests": {
+    "passed": 60,
+    "skipped": 2,
+    "independent": true
+  },
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "parity": 98.33,
+  "quality": 95.71,
+  "adherence": 100.0,
+  "consistency": 100.0,
+  "candidate_head": "a12f55aafd14526e4191175184bd3e3bb15321fd",
+  "candidate_commits": [
+    "06fca83ac8b325c3bc17aacc474df1cbe841c34b",
+    "0a9b3540e9b4f2d55e01d1575f1160d0ae16c843",
+    "a12f55aafd14526e4191175184bd3e3bb15321fd"
+  ],
+  "scores_readback_verified": true,
+  "previous_timeout_scores_unchanged": true,
+  "cumulative_score": true,
+  "operator_candidate_edits": false,
+  "further_paid_execution_scheduled": false
+}

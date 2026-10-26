@@ -1,0 +1,28 @@
+{
+  "native_sources": [
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z-recovered\\session.jsonl",
+      "sha256": "eff06d26e79e38b6404ba98f918befb9002254250a8569b0d5b2ec82c14896e3"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-closeout-20261026T054222Z\\session.jsonl",
+      "sha256": "02f70e5c0e732aacc3c9c3287d8f2ea0dafd98c54ca2070ded291a7a0fa2296b"
+    }
+  ],
+  "logical_session_sha256": "e6af0c50875a4cd766753e037ff87e21f8f6a3b32ab7a715f48ec420a029c876",
+  "forked_historical_rows_excluded": 438,
+  "rows": 1612,
+  "scoring_input": "C:\\repos\\.eval-tools\\c0-claudex-001\\evaluation\\closeout\\scoring-input",
+  "raw_capture": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-closeout-20261026T054222Z",
+  "new_event_cutoff": "2026-10-26T05:42:22.5230956Z",
+  "observation_sources": {
+    "current_observations": 1095,
+    "prior_observations": 892,
+    "derived_observations": 1485,
+    "retained_by_source": {
+      "continuation": 807,
+      "previous": 678
+    },
+    "tool_deduplication": "native metadata.tool_id; retain continuation source first; namespace observation IDs and parent pointers to retain source ancestry"
+  }
+}

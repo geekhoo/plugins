@@ -1,0 +1,56 @@
+{
+  "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-closeout-20261026T054222Z",
+  "native_session_id": "eae47d48-b115-4c76-ae53-eee28acb82fb",
+  "resumed_from_native_session_id": "d604ad01-339f-4179-8448-b14fe73088d4",
+  "environment": "mxc-win",
+  "observations": 1095,
+  "traces": 25,
+  "types": {
+    "AGENT": 29,
+    "TOOL": 644,
+    "GENERATION": 422
+  },
+  "users": 13,
+  "user_ids": [
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a2236489613af20f4",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a23141c8250bb146c",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a75bc9c874af158b9",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-aa1bd716ce9a20794",
+    "claude-mxc-win-orchestrator-eae47d48-b115-4c76-ae53-eee28acb82fb",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a0cc489678b2a03de",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a419fd7177a15a1cf",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a54a5a732e838403f",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a585e2d2b3e77bb1a",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a5fa51b4a664cae32",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf02eecdffa4f1ba",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf8f6055795edf06",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-af3ff0272e4b28391"
+  ],
+  "usage_bearing_models": {
+    "claudex-001": 325
+  },
+  "native_coverage_missed": [
+    "stage:spec-research",
+    "stage:geeky-plan",
+    "stage:plan-review",
+    "stage:geeky-implement"
+  ],
+  "cumulative_coverage_complete": true,
+  "raw_hashes_preserved": {
+    "stream.jsonl": "420f8ff34a2a6f87e98ce617d5dbb6dd42214cf39b3e5223cbfce44b543a9929",
+    "session.jsonl": "02f70e5c0e732aacc3c9c3287d8f2ea0dafd98c54ca2070ded291a7a0fa2296b"
+  },
+  "continuation_wall_time_s": 1778,
+  "cumulative_active_wall_time_s": 7180,
+  "continuation_reported_tokens": {
+    "input": 4071232,
+    "cached_input": 3779313,
+    "cache_creation": 276825,
+    "output": 87756,
+    "total": 4158988,
+    "cost_usd_estimate": 5.8892,
+    "reasoning": 0
+  },
+  "cost_verified": false,
+  "session_url": "https://langfuse.markefin.com/project/cmvmyexpu0001o01ubyvac5jw/sessions/claude-mxc-win-c0-wordstat-20261025T183455Z-closeout-20261026T054222Z"
+}

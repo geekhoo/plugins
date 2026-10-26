@@ -1,0 +1,17 @@
+{
+  "candidate_path": "docs/spec-001-feature/review-impl.md:97",
+  "issue": "Two Git blob object IDs are incorrectly labeled SHA-256; final report does not repeat this label",
+  "files": [
+    {
+      "path": "wordstat/cli.py",
+      "git_blob": "1e189f2bce97b6f337141b5f660470b4e54d240a",
+      "sha256": "98e63b4ad7d264390d24fab040e277d95f443a5e7140242cdca1d9b28b67660e"
+    },
+    {
+      "path": "tests/test_cli.py",
+      "git_blob": "73cc01af2a51ecf1af7c5d3885360f68ce9af61d",
+      "sha256": "dfa7593e734ca7568138ac97a544b102bffe64eca2e5d72d91bcc7ddcbfda08f"
+    }
+  ],
+  "candidate_unchanged_by_operator": true
+}

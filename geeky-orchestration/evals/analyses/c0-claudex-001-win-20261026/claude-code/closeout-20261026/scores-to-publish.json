@@ -1,0 +1,27 @@
+{
+  "session": "claude-mxc-win-c0-wordstat-20261025T183455Z-closeout-20261026T054222Z",
+  "scores": {
+    "parity_composite": 98.33,
+    "quality": 95.71,
+    "process_adherence": 100.0,
+    "process_adherence_uncapped": 100.0,
+    "process_consistency": 100.0,
+    "oracle_pass_rate": 1.0,
+    "forbidden_git_operation": false,
+    "harness_coverage_complete": true,
+    "provider_refusals": 0,
+    "final_report_claims_verified": true
+  },
+  "metadata": {
+    "harness": "claude-code",
+    "case": "c0-wordstat",
+    "run": "20261025T183455Z-closeout-20261026T054222Z",
+    "model": "claudex-001",
+    "plugin_sha": "c83d4b941341b4094b6e7d2f4ac125e5c1b74154",
+    "evaluator": "parity-eval/1",
+    "environment": "mxc-win",
+    "agent_family": "claude-mxc-win",
+    "native_session_id": "eae47d48-b115-4c76-ae53-eee28acb82fb",
+    "coverage_report_sha256": "25ba6ab32b8561dbcbc76a3620e952d0af232aae9a50898e8276e60d6fc8735f"
+  }
+}

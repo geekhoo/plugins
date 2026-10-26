@@ -1,0 +1,109 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "claude-mxc-win-c0-wordstat-20261025T183455Z-closeout-20261026T054222Z",
+  "traces": 25,
+  "observations": 1095,
+  "by_type": {
+    "AGENT": 29,
+    "TOOL": 644,
+    "GENERATION": 422
+  },
+  "generations": 422,
+  "tool_calls": 644,
+  "subagents": 19,
+  "user_ids": [
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a2236489613af20f4",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a23141c8250bb146c",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a75bc9c874af158b9",
+    "claude-mxc-win-coder-geeky-orchestration-geeky-coder-aa1bd716ce9a20794",
+    "claude-mxc-win-orchestrator-eae47d48-b115-4c76-ae53-eee28acb82fb",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a0cc489678b2a03de",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a419fd7177a15a1cf",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a54a5a732e838403f",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a585e2d2b3e77bb1a",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a5fa51b4a664cae32",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf02eecdffa4f1ba",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-acf8f6055795edf06",
+    "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-af3ff0272e4b28391"
+  ],
+  "agent_roles": [
+    "coder",
+    "orchestrator",
+    "reviewer"
+  ],
+  "agent_families": [
+    "claude-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 30476,
+    "output": 581479,
+    "cache_read_input_tokens": 17450955,
+    "cache_creation_input_tokens": 493524,
+    "total": 19651335,
+    "input_cache_creation_5m": 1094901
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-25T20:46:59.590Z",
+  "last_start": "2026-10-26T06:12:05.095Z",
+  "top_names": [
+    [
+      "Subagent LLM Call",
+      238
+    ],
+    [
+      "Tool: Read",
+      209
+    ],
+    [
+      "LLM Call",
+      184
+    ],
+    [
+      "Tool: PowerShell",
+      156
+    ],
+    [
+      "Tool: Edit",
+      86
+    ],
+    [
+      "Tool: Grep",
+      69
+    ],
+    [
+      "Tool: Glob",
+      50
+    ],
+    [
+      "Tool: Agent",
+      32
+    ],
+    [
+      "Tool: Write",
+      29
+    ],
+    [
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer",
+      13
+    ],
+    [
+      "claude-mxc-win-orchestrator",
+      10
+    ],
+    [
+      "Tool: Bash",
+      7
+    ],
+    [
+      "claude-mxc-win-coder-geeky-orchestration-geeky-coder",
+      6
+    ],
+    [
+      "Tool: Skill",
+      6
+    ]
+  ]
+}
