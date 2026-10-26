@@ -1,0 +1,117 @@
+{
+  "head": "53fb54b5f30ab0397c1fc154e83a6af942797322",
+  "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "sources": [
+    {
+      "kind": "changed_product",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\skills\\geeky-implement\\SKILL.md",
+      "file_sha256": "bec93da817ce7fd6c5470c3964563c2d5f7ef08d07c624094f96631647663054"
+    },
+    {
+      "kind": "changed_product",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\skills\\geeky-implement\\references\\execution-protocol.md",
+      "file_sha256": "0e6d549e564608c8fe6c8510bcf37f357c7d69c2ec88a1fd9127fe07f4a9d2c8"
+    },
+    {
+      "kind": "changed_product",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\skills\\impl-review\\SKILL.md",
+      "file_sha256": "3ffcfc67aaaa240c81bb1742de40d609eb8f114887d2e17e480c4d748e4e0046"
+    },
+    {
+      "kind": "changed_product",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\skills\\plan-review\\SKILL.md",
+      "file_sha256": "69775ce8679ff85ead409a10b037beafc3f2f5853228576b2f7ac0d315e9a000"
+    },
+    {
+      "kind": "changed_product",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\prompts\\end-to-end.md",
+      "file_sha256": "0b0f0cd28010362df331cd27a443dfe20f64ec2db1309246a72739f8b53ad38b"
+    },
+    {
+      "kind": "changed_product",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\prompts\\README.md",
+      "file_sha256": "97c6d2b9284148c01bc39e292c039aad45830023bc443cfbdec6b2933e9ab6fb"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\test_quality_gates.py",
+      "file_sha256": "e841959c9dc91a94ba0d3e5b477288cabd4e8b26aec40fae4a8fd806862093aa"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\test_score_run.py",
+      "file_sha256": "6a10b72480e878b66051abbc72cc066277d8fca274a545fde8f5c4a633f7edce"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\scripts\\validate-planning-folder.py",
+      "file_sha256": "74ea323be6c73956f9eaaae1ee4ebfb1dc0e3f0ae1fa3ce8bc85fefd3f0c2bfc"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\scripts\\validate-task-schema.py",
+      "file_sha256": "183b21af4d51cc8e74a711eacfdb7b8759fde6b27f7e762394ad17f48bb4bc4c"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\scripts\\validate-kanban.py",
+      "file_sha256": "29295a8c62933e75b6aabb9cd4043995fdf54da35b1792b6e605ede99c10773a"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\score-run.py",
+      "file_sha256": "14cc3e687094e417b01d76d6060b1a206992274df7c56852a230af91c7e19306"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\run-baseline.ps1",
+      "file_sha256": "ea0f6bc8304d662cd2f67fb88f417cc8da47a2f03146887e8bdb565105dd7f6c"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\run-codex-baseline.ps1",
+      "file_sha256": "8c0b6d083a0d6b462b31bbb2690c511e24754bfc3973eff35b9cd17bd9b5e677"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\langfuse-evaluators\\final_report_complete.judge.json",
+      "file_sha256": "5ae196ab0452e607081ad5861e005dc75b70610d1e8512093c4014ccaa2ad9c1"
+    },
+    {
+      "kind": "unchanged_validation_source",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\langfuse-evaluators\\final_report_complete.rule.json",
+      "file_sha256": "f5939e752042229ab2062ccb91c4383ad0b0bb70ecee314af4d319aa985fc74e"
+    },
+    {
+      "kind": "local_fixture",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T1-evidence\\check-local.py",
+      "file_sha256": "b03eca09cb065e13557c69c4004bb93e6524b37697eb62ec26429d0f7a580f3e"
+    },
+    {
+      "kind": "local_fixture",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T1-evidence\\check-prompt.ps1",
+      "file_sha256": "6762e1d2e711c199a092905ca366a356b543e7bcedfc923ff673fd1577cbaf8d"
+    },
+    {
+      "kind": "local_fixture",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T1-evidence\\compact-report.md",
+      "file_sha256": "80a47ada68f80d3326f76943cc56d9adb7d0fecb303fda932435cdb2f65af779"
+    },
+    {
+      "kind": "local_fixture",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T1-evidence\\report-negative-cases.md",
+      "file_sha256": "233950a1171a45bb7c66ed5479f538035bebe9dda0f98a3cdeaf85bf57e0498d"
+    },
+    {
+      "kind": "local_fixture",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T1-evidence\\review-fixtures.json",
+      "file_sha256": "168039abfc60ca9a93cda2bc3fd3847cc1bab9e3e944e16373fde353b2eb2dad"
+    },
+    {
+      "kind": "local_fixture",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T1-evidence\\historical-prompt.md",
+      "file_sha256": "ade45dd7f160282df2867fdb1cdd206510359652ab38c3bacc65fea9d52c4f6e"
+    }
+  ]
+}

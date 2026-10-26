@@ -13,7 +13,7 @@ Deploy 3 domain-expert reviewer subagents to evaluate completed implementation w
 
 This skill owns final implementation review. Task reviews establish AC and test results; phase reviews establish collective requirements and readiness to advance. Use those verdicts and evidence as inputs, then review the approved outcome and cross-phase integration within each assigned domain. Do not repeat earlier reviews or tests unless changed dependencies, contradictory evidence or a concrete defect invalidate them. Record the reason for reopening a surface.
 
-Collect all domain findings before remediation. Batch compatible fixes by owner, then validate and re-review the affected scope. Preserve unaffected verdicts and evidence; do not dispatch a separate review for every small correction.
+Persist each domain reply immediately in its `review-impl.md` section with reviewer agent ID, reviewed revision or file hashes, findings, verdict and `<!-- reviewer-complete: <domain> -->`. Collect all domain findings before remediation. Batch compatible fixes by owner, then validate and re-review the affected scope. Preserve unaffected verdicts and evidence; do not dispatch a separate review for every small correction.
 
 Once required findings are resolved and affected checks pass, record the final verdict and finish required closeout. Do not add another review or hardening pass. Reopen only when concrete evidence invalidates acceptance; optional suggestions remain follow-ups.
 
@@ -23,7 +23,7 @@ Accept a `geeky-implement` package path or diff reference (e.g., `docs/notificat
 
 ## Workflow
 
-**Resume contract (check FIRST):** this skill writes its consolidated report to `review-impl.md` inside the package folder (or `docs/` root for diff-only reviews), marking each reviewer section with `<!-- reviewer-complete: <domain> -->` as it lands. On invocation, if a `review-impl.md` exists for the same target with completed reviewer sections, this is a resumed run: skip the completed domains, dispatch only the missing reviewers, and merge into the existing report. Reuse completed domains only while their reviewed revision and relevant dependencies remain valid. Record the reviewed revision or file hashes with each section. If those inputs change, reopen only affected domains and record why; a completed marker alone is not proof of current validity.
+**Resume contract (check FIRST):** this skill writes its consolidated report to `review-impl.md` inside the package folder (or `docs/` root for diff-only reviews), marking each reviewer section with `<!-- reviewer-complete: <domain> -->` as it lands. On invocation, if a `review-impl.md` exists for the same target with completed reviewer sections, this is a resumed run: skip the completed domains, dispatch only the missing reviewers, and merge into the existing report. Reuse completed domains only while their reviewed revision and relevant dependencies remain valid. Record the reviewer agent ID and reviewed revision or file hashes with each section; consolidate saved, still-valid sections without redispatch. If those inputs change, reopen only affected domains and record why; a completed marker alone is not proof of current validity.
 
 ### Phase 1: Discover What Was Built
 
@@ -72,10 +72,10 @@ You are a [DOMAIN TITLE] expert reviewing [SPEC-NAME]'s implementation.
 
     ## [Domain Title] Review
 
-    ### Critical Issues (must fix)
+    ### Required Findings (must fix; include severity)
     - [list or "None found"]
 
-    ### Warnings (should fix)
+    ### Nonblocking Warnings (follow-ups)
     - [list or "None found"]
 
     ### Suggestions (nice to have)
@@ -83,17 +83,18 @@ You are a [DOMAIN TITLE] expert reviewing [SPEC-NAME]'s implementation.
 
     ### Verdict: [PASS / PASS WITH WARNINGS / NEEDS FIXES]
 
+Any unmet requirement, mandatory constraint, unresolved required finding or missing required evidence means NEEDS FIXES, regardless of its severity label. PASS WITH WARNINGS is only for nonblocking follow-ups with all required evidence passing.
 Be specific — reference exact file paths and line numbers.
 Do NOT modify any files.
 ````
 
 ### Phase 4: Consolidate and Report
 
-After all 3 reviewers complete:
+Save each reply as it arrives, before waiting for the others. After all 3 domain sections are saved and current:
 
-1. Deduplicate findings that appear across multiple reviewers
-2. Prioritize by severity (Critical > Warning > Suggestion)
-3. Write the unified report to `review-impl.md` in the package folder (each reviewer section tagged `<!-- reviewer-complete: <domain> -->` — this is the resume checkpoint), then present it:
+1. Deduplicate findings across the saved sections.
+2. Separate required findings from nonblocking follow-ups, then prioritize by severity.
+3. Consolidate in `review-impl.md` and present the report below. Overall PASS requires all three current domain verdicts to be PASS or PASS WITH WARNINGS, with required findings resolved and complete passing evidence. Domain PASS WITH WARNINGS consolidates to PASS under those conditions; otherwise Overall NEEDS FIXES. Unknown or missing reviewer evidence cannot pass.
 
 ```
 ## Implementation Review: [SPEC-NAME]
@@ -103,7 +104,7 @@ After all 3 reviewers complete:
 2. [Domain 2] — [focus]
 3. [Domain 3] — [focus]
 
-### Critical Issues (across all reviewers)
+### Required Findings (across all reviewers, with severity)
 - [deduplicated list]
 
 ### Warnings
@@ -119,18 +120,18 @@ After all 3 reviewers complete:
 | [Domain 2] | [verdict] |
 | [Domain 3] | [verdict] |
 
-### Overall: [PASS / NEEDS FIXES (N critical)]
+### Overall: [PASS / NEEDS FIXES (N required findings or evidence gaps)]
 ```
 
-### Phase 5 (Conditional): Fix Critical Issues
+### Phase 5 (Conditional): Fix Required Findings
 
-If critical issues are found, present the list and ask the user whether to apply fixes. If the user declines, report the findings and stop.
+If required findings remain, present them and ask whether to apply fixes unless already authorized. If the user declines, report NEEDS FIXES and stop. Optional warnings and suggestions do not trigger a fix/review loop.
 
-If approved, dispatch `geeky-coder` with the approved critical findings; do not edit product code or tests directly. Validate the affected scope, then commit (same command on all platforms — duplication is intentional for per-environment copy/paste clarity):
+If approved, dispatch `geeky-coder` with the required findings; do not edit product code or tests directly. Validate and re-review only affected domains, preserve unchanged sections, then consolidate their current verdicts. Commit the fixes (same command on all platforms):
 
 ```bash
 # Linux/macOS (bash) or Windows (pwsh) — identical command
-git commit -m "fix(spec): Address N critical review findings from impl-review" -m "[1-line summary per fix]" -m "Tasks: <IDs touched>"
+git commit -m "fix(spec): Address N required review findings from impl-review" -m "[1-line summary per fix]" -m "Tasks: <IDs touched>"
 ```
 
 Use the subject verbatim.
@@ -160,4 +161,4 @@ The examples below illustrate how reviewer selection adapts to different work do
 - **Non-overlapping** — if two reviewers would look at the same files for the same reason, merge them and pick a different third.
 - **Run in parallel** — all 3 subagents dispatch in a single turn for maximum speed.
 - **Evidence-based** — reviewers must cite specific file paths and line numbers, not vague observations.
-- **Fix only critical** — through `geeky-coder`; suggestions and warnings are reported as follow-ups, not auto-fixed.
+- **Fix required findings** — through `geeky-coder`, regardless of severity label; nonblocking warnings and suggestions remain follow-ups. Do not dispatch review merely to remove them.

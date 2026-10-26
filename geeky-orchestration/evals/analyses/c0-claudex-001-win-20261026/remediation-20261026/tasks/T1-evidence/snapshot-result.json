@@ -1,0 +1,66 @@
+{
+  "synthetic_ids_not_real_commits": true,
+  "rows": [
+    {
+      "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "ct": 200,
+      "tasks": [
+        "T1"
+      ]
+    },
+    {
+      "sha": "ffffffffffffffffffffffffffffffffffffffff",
+      "ct": 500,
+      "tasks": [
+        "T1"
+      ]
+    }
+  ],
+  "selected": {
+    "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "ct": 200,
+    "tasks": [
+      "T1"
+    ]
+  },
+  "basis": "last commit naming it before its Done move",
+  "tested_final_files": {
+    "core.py": "5d51eb2857a20ccf636f995d626569aa5237da347cf4c682e5d83611db36e189",
+    "test_core.py": "d2916781e0d472ad92fd7fa5d6c61fcafbbfb6f323247772dcaeaa8333a6884b"
+  },
+  "selected_delivery_files": {
+    "core.py": "5d51eb2857a20ccf636f995d626569aa5237da347cf4c682e5d83611db36e189"
+  },
+  "missing": [
+    "test_core.py"
+  ],
+  "commands": [
+    {
+      "command": [
+        "C:\\Python314\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "test_core.py"
+      ],
+      "cwd": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T1-evidence\\snapshot-fixture\\selected-delivery",
+      "exit_code": 4
+    },
+    {
+      "command": [
+        "C:\\Python314\\python.exe",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "test_core.py"
+      ],
+      "cwd": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T1-evidence\\snapshot-fixture\\later-final-head",
+      "exit_code": 0
+    }
+  ],
+  "decision": "REJECT selected snapshot; final-HEAD evidence is not applicable"
+}

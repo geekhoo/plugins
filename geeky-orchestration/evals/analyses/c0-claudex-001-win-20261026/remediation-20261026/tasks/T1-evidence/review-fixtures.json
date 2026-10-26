@@ -1,0 +1,20 @@
+{
+  "kind": "synthetic instruction walkthrough inputs; no executable review policy",
+  "input_revision": "fixture-r1",
+  "domain_replies": [
+    {"domain": "API", "reviewer_id": "fixture-api-A", "revision": "fixture-r1", "findings": [], "verdict": "PASS", "completion_marker": "<!-- reviewer-complete: API -->"},
+    {"domain": "Data", "reviewer_id": "fixture-data-B", "revision": "fixture-r1", "findings": [{"severity": "Warning", "required": false, "text": "Optional index tuning"}], "verdict": "PASS WITH WARNINGS", "completion_marker": "<!-- reviewer-complete: Data -->"},
+    {"domain": "Security", "reviewer_id": "fixture-security-C", "revision": "fixture-r1", "findings": [], "verdict": "PASS", "completion_marker": "<!-- reviewer-complete: Security -->"}
+  ],
+  "cases": [
+    {"id": "V1", "change": "none; required evidence passes", "expected": "Overall PASS; retain optional Data warning; zero new reviewer dispatches"},
+    {"id": "V2", "change": "Data warning violates mandatory AC despite warning label", "expected": "NEEDS FIXES; route required correction and affected re-review"},
+    {"id": "V3", "change": "Security reply absent or its required evidence missing", "expected": "NEEDS FIXES; cannot infer third verdict from two replies"},
+    {"id": "V4", "change": "API required finding remains unresolved although reviewer verdict says PASS", "expected": "NEEDS FIXES; contradictory PASS does not discharge requirement"},
+    {"id": "V5", "change": "Data dependency changed; API and Security inputs/dependencies proven unchanged", "expected": "Invalidate Data only; preserve other replies; consolidate after current Data verdict"},
+    {"id": "P1", "change": "T3 phase READY TO ADVANCE; T4 phase BLOCKED; required T4 handoff correction made but no revised phase review", "expected": "T4 remains unaccepted/In Review; T3 READY cannot justify T4 Done"},
+    {"id": "P2", "change": "P1 plus current T4 PASS and revised T4 phase READY TO ADVANCE from its reviewer", "expected": "T4 may proceed through existing Done/check-dod/kanban gates"},
+    {"id": "C1", "change": "All required verdicts pass; Run Summary absent", "expected": "Finish existing closeout before heartbeat done"},
+    {"id": "C2", "change": "Interruption before current final review or closeout", "expected": "Truthful incomplete Run Summary/resume block, reconciled lanes, heartbeat paused"}
+  ]
+}

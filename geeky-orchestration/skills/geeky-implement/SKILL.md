@@ -55,7 +55,8 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 - Before every commit, run `check-commit`: `python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py" --message "<msg>"`. A non-zero exit blocks that commit until the message is fixed and the gate passes.
 - **Re-invocation is a resume, never a restart.** Read kanban/handoff first; skip Done tasks; reconcile orphaned In Progress tasks against git/file ground truth (protocol step 2b).
 - Prefer the bundled validator **scripts** over the `geeky_*` MCP tools (no permission prompts, immune to the plugin-root interpolation bug).
-- Maintain the **heartbeat**: write `<folder>/.heartbeat` (JSON: `{"ts":"<ISO>","task":"T<x>","status":"running"}`) at run start, refresh `ts`+`task` at every task transition, set `status` to `"paused"` (deliberate stop) or `"done"` (run complete) before ending. External watchdogs key on this file.
+- **Optional deadline context:** at each worker dispatch and phase boundary, read `GEEKY_DEADLINE_UTC` and `GEEKY_CLOSEOUT_RESERVE_S` when present. The reserve is advisory time inside the hard deadline. In reserve, prioritize required validation, review and closeout; avoid starting optional work. If required work cannot finish, persist exact incomplete state and current verdicts in notes/handoff and pause the heartbeat. Expiry never passes an unmet gate or grants extra time. With neither field present, follow the ordinary workflow unchanged. See the protocol's dispatch check.
+- Maintain the **heartbeat**: write `<folder>/.heartbeat` (JSON: `{"ts":"<ISO>","task":"T<x>","status":"running"}`) at run start, refresh `ts`+`task` at every task transition, set `status` to `"paused"` for an incomplete/interrupted run or `"done"` only after the Run Summary, lane reconciliation and current required verdicts are recorded (protocol step 18). External watchdogs key on this file.
 
 ## Review and batching rules
 
@@ -64,7 +65,7 @@ If validation fails, stop and report. If a validator itself CRASHES (traceback, 
 - Review cadence: ONE `code-reviewer` dispatch at each phase end reviews every task in the phase, with a separate verdict per task against its ACs and defined tests, and issues the phase verdict. There is no per-task review dispatch. A phase of more than 4 tasks, or one too large to review AC by AC in one pass, is split into dispatches of at most 4 related tasks.
 - A task is eligible when every dependency is Done, or is In Review in the current phase with passing validation evidence. Tasks wait in In Review until the phase review; Done moves follow once it clears.
 - Final implementation review uses `impl-review`; it does not replace the last phase review. Do not create a second final-review process.
-- Send blocking findings to `geeky-coder`, batched by owner. Re-review only the affected tasks, in one dispatch; dependents of a changed task re-run their validation. Keep separate task verdicts and evidence; isolate shared test resources.
+- Send blocking findings to `geeky-coder`, batched by owner. Re-review only the affected tasks, in one dispatch; dependents of a changed task re-run their validation. A resolved phase blocker requires a revised verdict for that same phase before Done; an earlier phase's READY verdict cannot substitute. Keep separate task verdicts and evidence; isolate shared test resources.
 - Record a consequence for another task in that task's notes and in `handoff.md`.
 - Verify saved test evidence before rerunning. Reuse it while the tested code, dependencies and relevant environment remain valid; record why a rerun is needed.
 

@@ -1,0 +1,2 @@
+OK: 3 task file(s) checked, 0 failing.
+EXIT_CODE=0

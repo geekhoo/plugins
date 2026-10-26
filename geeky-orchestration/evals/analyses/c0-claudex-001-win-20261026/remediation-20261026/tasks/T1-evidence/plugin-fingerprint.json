@@ -1,0 +1,271 @@
+{
+  "kind": "local-tracked-runtime-file-sha256-manifest",
+  "base_plugin_commit": "53fb54b5f30ab0397c1fc154e83a6af942797322",
+  "working_tree_fingerprint_sha256": "073eef81f19ab35a6cbc1271f42ce4f3ce29fb9057ffd37c15c849e86af0265a",
+  "entries": [
+    {
+      "path": ".claude-plugin/plugin.json",
+      "file_sha256": "cecfd33a6a8ce56bb3861cb6a47973fb8582527d47206d887570587106abfb8d"
+    },
+    {
+      "path": ".codex-plugin/hooks.json",
+      "file_sha256": "6a1f4c7545a61609c3f89ca566a427d2fdc9b66b1a9ac58bfe111b5591f07b21"
+    },
+    {
+      "path": ".codex-plugin/mcp.json",
+      "file_sha256": "3cf8b88dcad7ce09906a5c26c4f4311e1ed5a7fffc6ac8d004ef4f9c1d4474c6"
+    },
+    {
+      "path": ".codex-plugin/plugin.json",
+      "file_sha256": "a0e2dbfd9769829c5b9ee0b68dee39d14fce2fe526ad99215ca948a731064861"
+    },
+    {
+      "path": ".gitignore",
+      "file_sha256": "134ba38860808a3e8a9aa8ed97af74ccd739c283b3b4be8678044ed6266726b7"
+    },
+    {
+      "path": ".mcp.json",
+      "file_sha256": "9eb2cd4feaec018eccab127c407f4f22b60a69c0c7b1134db29c83fdd0657ab8"
+    },
+    {
+      "path": "AGENTS.md",
+      "file_sha256": "e6750f48fa460d33c69cc08e95efc1027d75301d2a435ec46dc9b91835cea69b"
+    },
+    {
+      "path": "README.md",
+      "file_sha256": "2c7d506eee500407364134a3feb04480206425ec5a3ffa30e94655037bf14500"
+    },
+    {
+      "path": "agents/code-architect.md",
+      "file_sha256": "c6898b99350dc3d01c93e1860719c51e4692b21b55d4844cd9625b67c28e2590"
+    },
+    {
+      "path": "agents/code-explorer.md",
+      "file_sha256": "50e34771b1d1a5949307571019d1c778379f722fe492544f9804fab56c812c65"
+    },
+    {
+      "path": "agents/code-reviewer.md",
+      "file_sha256": "c7c84a4dbad1f8a9216faab67eebc414ebcff790665dd8ac2a0da685813c59ef"
+    },
+    {
+      "path": "agents/geeky-coder.md",
+      "file_sha256": "9cbe22ec9d49d57043789419a687593e5de8dee18e829bfb652ac78466bbf0ee"
+    },
+    {
+      "path": "agents/geeky-implement-orchestrator.md",
+      "file_sha256": "55d2c9adb229a0d223a810f440bd34bb9b9611c579aaaa63c70103ffd1a6f87d"
+    },
+    {
+      "path": "agents/geeky-orchestrator.md",
+      "file_sha256": "d2145cbfd937ae1a1c195e5ff7576c09e285e8704d75c13343c2c62207da5d30"
+    },
+    {
+      "path": "docs/agent-eval-decisions.md",
+      "file_sha256": "2f8b05e973e6f6b09fe31e1db836d0dcfdb6817d4e6346f5410f57a86ab316fb"
+    },
+    {
+      "path": "docs/cross-harness-agent-registration.md",
+      "file_sha256": "a30f7e401d46a2630077255ddd0f0d46570edcef592112cf178fcc563615a74d"
+    },
+    {
+      "path": "docs/end-to-end-workflow.md",
+      "file_sha256": "41bf75dbdfb2179f031fcc429132730d4f16d27180ea95f8ffa0d061dccb15e2"
+    },
+    {
+      "path": "docs/framework-agnostic-quality-gates.md",
+      "file_sha256": "0e40dee992b393da7875f5104f352823b8e5f99b859db7eb286606c51255a4ab"
+    },
+    {
+      "path": "geeky.manifest.json",
+      "file_sha256": "83ec8a364f19a223ab6a1c45afbdf3318f4a13e922ea1132eba5d02db94034f3"
+    },
+    {
+      "path": "hooks/guard-planning-contract.ps1",
+      "file_sha256": "ddba183446cc393062d98cc7e69732085763bcac9b1ffa23f27bf7db22f9228b"
+    },
+    {
+      "path": "hooks/guard-planning-contract.py",
+      "file_sha256": "a39452509e9a2eaa9dd83c7d2511195dc2794a78c10baf6ce195eddbd4961b3d"
+    },
+    {
+      "path": "hooks/hooks.json",
+      "file_sha256": "a72bdb40c61cee98210b41e0d5b99f2072499d143ff883267c58422763e203b9"
+    },
+    {
+      "path": "hooks/py-run.sh",
+      "file_sha256": "285c8ad814106653ec593256ec3ace35b75522272e1d78681c66a2e29575bc8f"
+    },
+    {
+      "path": "mcp/.python-version",
+      "file_sha256": "73880611a18bf211ab229c2a2d93ec11a622693e79532c0b797b91fd056704dc"
+    },
+    {
+      "path": "mcp/README.md",
+      "file_sha256": "ca36a3172d87c06ae664e49f98f646b34a9c816bf15eeb43b9cee45a50e65486"
+    },
+    {
+      "path": "mcp/evaluations.md",
+      "file_sha256": "54706e0767c5a62eddba1d3602a27a62fe33a28d6d16218c74a59408255fb50d"
+    },
+    {
+      "path": "mcp/pyproject.toml",
+      "file_sha256": "69758286f3eeeaeda68240d3606f691b2cee8e28b08209c249d482d3746ccc63"
+    },
+    {
+      "path": "mcp/server.py",
+      "file_sha256": "50549180ec5a1c5a3a8901f19d8eebfb24fe89e5719599000ac772279210f88c"
+    },
+    {
+      "path": "mcp/wire_baseline.json",
+      "file_sha256": "4d769a8f9cba5a3ce4965c72b89b2ecbb79a97e44771042f6bbc37f51398de90"
+    },
+    {
+      "path": "mcp/wire_baseline.py",
+      "file_sha256": "6bd4250a4a0fe6aae7542eb0a403e49c9d6c47c84e4d0025ae144a009de6efc5"
+    },
+    {
+      "path": "scripts/check-commit.ps1",
+      "file_sha256": "1b95c5b9bfa7ff678c6fe467b3845666a32778ede60c1de93d1d5e4a6054e596"
+    },
+    {
+      "path": "scripts/check-commit.py",
+      "file_sha256": "bd6dfca9d5f0062881e29856e74f80950fbdeb5133d6ea2771213fb0d8ea0c68"
+    },
+    {
+      "path": "scripts/check-dod.ps1",
+      "file_sha256": "9c0f488126e62af56e3dbec75046879a7de89eff74c6f796565bd1d92f896176"
+    },
+    {
+      "path": "scripts/check-dod.py",
+      "file_sha256": "0ccd6a6bce2883a2e4dc5af02575ad6d8418e457d8dede57d68918d8b62cc662"
+    },
+    {
+      "path": "scripts/preflight.ps1",
+      "file_sha256": "4a5f2305be7bc23f866ea10c46d4a1b37952b1eba2a81664b59320376bbf49e1"
+    },
+    {
+      "path": "scripts/preflight.py",
+      "file_sha256": "30e963aff39cb5008688cc7b2828ad9b1d4a32c488cb0f30ad6e1c51ecaa0ffc"
+    },
+    {
+      "path": "scripts/sync-agents.js",
+      "file_sha256": "f46a3228182c3265de4bec04a97c2666a6510dc1633f491b624efbdfc1889682"
+    },
+    {
+      "path": "scripts/sync-agents.py",
+      "file_sha256": "7984ee10ffd3e95dd0b4c767778a28bafd821200f864d2255fb6a2a1835b1cd4"
+    },
+    {
+      "path": "scripts/validate-kanban.ps1",
+      "file_sha256": "881ac5eb08611b004ec5debb08d56cebac15840f6f6b8992cd3e6c62ef764a58"
+    },
+    {
+      "path": "scripts/validate-kanban.py",
+      "file_sha256": "29295a8c62933e75b6aabb9cd4043995fdf54da35b1792b6e605ede99c10773a"
+    },
+    {
+      "path": "scripts/validate-planning-folder.ps1",
+      "file_sha256": "0c09fa4169d220295350f77e8bd07e33705faa09fef2000c02c4a36922fc19f3"
+    },
+    {
+      "path": "scripts/validate-planning-folder.py",
+      "file_sha256": "74ea323be6c73956f9eaaae1ee4ebfb1dc0e3f0ae1fa3ce8bc85fefd3f0c2bfc"
+    },
+    {
+      "path": "scripts/validate-task-schema.ps1",
+      "file_sha256": "49157d3332c0c7b1250e6c8164fbe9a80ea1a0e521213f479303fbeaee838b11"
+    },
+    {
+      "path": "scripts/validate-task-schema.py",
+      "file_sha256": "183b21af4d51cc8e74a711eacfdb7b8759fde6b27f7e762394ad17f48bb4bc4c"
+    },
+    {
+      "path": "skills/archive/SKILL.md",
+      "file_sha256": "fdc02aa27a9a4d7c1e5bd81090d7b2d5013f11b37539c2cda5af18690263f224"
+    },
+    {
+      "path": "skills/geeky-implement/SKILL.md",
+      "file_sha256": "bec93da817ce7fd6c5470c3964563c2d5f7ef08d07c624094f96631647663054"
+    },
+    {
+      "path": "skills/geeky-implement/references/execution-protocol.md",
+      "file_sha256": "0e6d549e564608c8fe6c8510bcf37f357c7d69c2ec88a1fd9127fe07f4a9d2c8"
+    },
+    {
+      "path": "skills/geeky-plan/SKILL.md",
+      "file_sha256": "5280bfb8b2654387507ed7a1f3b7ac76ea33cb8fdede25b1613e47e607366ee7"
+    },
+    {
+      "path": "skills/geeky-plan/references/task-template-fallback.md",
+      "file_sha256": "ebcfde35f1d50615e9352b8ba20710e8c8dda9b8f2d3ec4d1448fdc0a74d90dc"
+    },
+    {
+      "path": "skills/geeky-resume/SKILL.md",
+      "file_sha256": "c786800d9ee76cbddfb7f1f4ae33e7c5bd05c1fe95140938f8e888ba4833c918"
+    },
+    {
+      "path": "skills/geeky-status/SKILL.md",
+      "file_sha256": "bcc32302e658fb0bb93109b466885c14a267bccd46ed0d6d4595fdf39b2b7a56"
+    },
+    {
+      "path": "skills/impl-review/SKILL.md",
+      "file_sha256": "3ffcfc67aaaa240c81bb1742de40d609eb8f114887d2e17e480c4d748e4e0046"
+    },
+    {
+      "path": "skills/plan-review/SKILL.md",
+      "file_sha256": "69775ce8679ff85ead409a10b037beafc3f2f5853228576b2f7ac0d315e9a000"
+    },
+    {
+      "path": "skills/spec-research/SKILL.md",
+      "file_sha256": "e2a86b009236d2f01350a29d2805a50029bb80e56574e7199828fe4aa10aa91c"
+    },
+    {
+      "path": "skills/spec-research/references/research-angle-menus.md",
+      "file_sha256": "4630bf93065a0457a8aceb9e90dccbe9963dab1ae30470b44106e86eaa0420c9"
+    },
+    {
+      "path": "skills/spec-research/references/spec-structure-template.md",
+      "file_sha256": "bed22bdbe2ee257531ab8c0a8c461dc3ea1e5c7392d9b9484620b32bcd168f09"
+    },
+    {
+      "path": "templates/task_template.md",
+      "file_sha256": "2fa01e917bed2aa5565b8577467c2f64b97bda1bf54f8862e62421157eb4d27c"
+    },
+    {
+      "path": "test_geeky_orchestrator.py",
+      "file_sha256": "aaf00994222417d21ac8d09459bf6e46fef3d8727d6a030f830eafceb494f1dc"
+    },
+    {
+      "path": "test_mcp_server.py",
+      "file_sha256": "2c64d82d143db486f4c063f1ced19ffd00d60290a9d42fa1c3164afe87e5f637"
+    },
+    {
+      "path": "test_mock_agent.py",
+      "file_sha256": "0d19938e97b915936f50e158ef7ce142b9a1c4e81d8198811a0ba5a53b994dd4"
+    },
+    {
+      "path": "test_plugin_metadata.py",
+      "file_sha256": "886511e6dd29e5688e78e3c904537c0d2e995441ac20f434a8aa2aff4839f337"
+    },
+    {
+      "path": "test_preflight.py",
+      "file_sha256": "28bc39a1b1af114ffb4bb8cb275887f0407ed44b719e82a885dd3c9f3f216183"
+    },
+    {
+      "path": "test_quality_gates.py",
+      "file_sha256": "e841959c9dc91a94ba0d3e5b477288cabd4e8b26aec40fae4a8fd806862093aa"
+    },
+    {
+      "path": "test_score_run.py",
+      "file_sha256": "6a10b72480e878b66051abbc72cc066277d8fca274a545fde8f5c4a633f7edce"
+    },
+    {
+      "path": "test_sync_agents.py",
+      "file_sha256": "8c67d511fe13f144956c267b03e9ee2ae04fba6d5360a7abfd8959466c6995ea"
+    },
+    {
+      "path": "tests/review-boundaries.md",
+      "file_sha256": "dcd1c5c183383dbc125406a5c3c0cfb69f2e4c3b35829744f589918a8afedbca"
+    }
+  ]
+}

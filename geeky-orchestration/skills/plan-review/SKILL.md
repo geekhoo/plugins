@@ -17,7 +17,7 @@ Accept a planning folder path (e.g., `docs/feature-name/`). If no argument is gi
 
 Execute the four phases in order, except for the safe Phase 2/3 overlap described under Execution Strategy. Each phase uses the findings it depends on.
 
-**Resume contract:** append each phase's output to `review-plan.md` in the planning folder as the phase completes (tagged `<!-- phase-N-complete -->`). On invocation, if `review-plan.md` already exists for this folder, this is a resumed run — skip phases already tagged complete and continue from the first missing phase. Re-invocation must never repeat completed phases or re-apply their fixes.
+**Resume contract:** append each phase's output to its existing `review-plan.md` section as it completes (tagged `<!-- phase-N-complete -->`), including reviewer agent ID where applicable, reviewed revision/file hashes, findings and verdict. Reuse completed phases only when their inputs remain valid against a complete diff, including untracked additions; a marker alone is insufficient. Recheck changed content and affected references for local mechanical fixes. Requirement/AC/task-scope/coverage changes invalidate alignment; dependency/order/phase/gate/resource/validation-feasibility changes invalidate sequencing. More than five changed files or cross-document task-ID/dependency/order changes require the full Phase 1 recheck and fresh affected sequencing verdict. Missing baseline/diff, omitted untracked additions, conflicts or unbounded impact require full sanity and fresh affected reviewer verdicts. Record what was reused, rechecked and why; do not re-apply already verified fixes.
 
 ---
 
@@ -58,10 +58,16 @@ Deploy a review subagent for the semantic cross-validation the scripts cannot co
 7. Acceptance criteria in the requirements document are covered by at least one task
 8. No orphaned tasks (in task files but not in kanban or plan)
 9. No phantom tasks (in kanban/plan but missing task file)
+10. **Accuracy** — technical claims match reality (file paths, package names, resource types)
+11. **References** — cross-document references point to correct paths, sections and task IDs
+12. **Non-conflicting instructions** — documents do not contradict each other on the same topic
+13. **Completeness** — table-of-contents sections exist and every “see X” link resolves
+14. **Freshness** — dates, versions and task counts are current
+15. **Convention adherence** — applicable CLAUDE.md/AGENTS.md conventions are reflected in tasks
 
 **Handling optional sections:** If a document contains a section stub marked as optional or placeholder (e.g., "[Optional: X]", "TBD"), do NOT flag it as missing content — optional stubs are valid and expected in planning packages.
 
-**Output:** A structured findings report with severity levels (Critical / Warning / Suggestion, within the plan-review scope).
+**Output:** In `review-plan.md` Phase 1, save the alignment reviewer ID, input revision/file hashes, findings and verdict with severity levels (Critical / Warning / Suggestion, within the plan-review scope).
 
 ### Phase 2: Issue Resolution
 
@@ -73,7 +79,7 @@ For each finding from Phase 1:
 
 **Unambiguous auto-fix criteria:** A fix is unambiguous when it (a) corrects a mechanical inconsistency (typo, broken link, mismatched ID), (b) does not change task scope or ordering, and (c) has exactly one valid correction. Examples: fixing a task ID typo, adding a missing task file for a declared task, correcting a file path. Requires judgment: rephrasing goals, splitting/merging tasks, reordering dependencies.
 
-After fixes, the orchestrator re-runs the deterministic validators (if available) and spot-checks the semantic findings on changed files. Re-run threshold is context-sensitive: if >5 files changed OR if changes affect cross-document references (task IDs, dependencies, ordering), redeploy the Phase 1 subagent for a full re-check. Otherwise spot-check the edited files only to confirm fixes did not introduce new inconsistencies.
+After fixes, re-run the deterministic validators (if available), then apply the resume invalidation rules above. A local mechanical correction with bounded impact needs a changed-content/reference check; scope, requirements and sequencing edits need fresh affected verdicts. Preserve independent alignment and sequencing reviewers, including on resume.
 
 **Output:** A table of finding → action taken → status (fixed / flagged / deferred).
 
@@ -97,18 +103,13 @@ Deploy a **time-master planner** subagent (`geeky-orchestration:code-architect` 
 > - Parallelization score (actual parallel tasks vs theoretical maximum)
 > - Recommendations (tasks to reorder, parallel groups to declare, splits to consider)
 
-Apply sequencing fixes (reorder tasks, update dependency declarations in the plan) that have no dependency side-effects. Flag trade-offs for user review.
+Save the sequencing reviewer ID, input revision/file hashes, findings and verdict in `review-plan.md` Phase 3. Apply sequencing fixes (reorder tasks, update dependency declarations in the plan) that have no dependency side-effects. Flag trade-offs for user review. Apply the same invalidation rules to these corrections before the final pass.
 
 ### Phase 4: Sanity Pass
 
-Final read-through of all spec documents after Phases 1-3 edits. Check:
+The parent checks unresolved findings, both current reviewer verdicts, the complete document diff since their recorded inputs (including untracked additions), and changed content/affected references. Reuse the initial whole-folder coverage of all six sanity dimensions; reopen reviews only under the invalidation rules above. If the baseline or impact cannot be bounded, perform the full sanity pass and obtain fresh affected verdicts.
 
-1. **Accuracy** — Technical claims match reality (file paths, package names, resource types)
-2. **References** — All cross-document references point to correct locations (file paths, section numbers, task IDs)
-3. **Non-conflicting instructions** — No two documents give contradictory guidance for the same topic
-4. **Completeness** — Every section referenced in a table of contents exists; every "see X" link resolves
-5. **Freshness** — Dates, version numbers, and task counts are current
-6. **Convention adherence** — CLAUDE.md conventions are reflected in task instructions
+After all corrections, including sequencing corrections, re-run all three Phase 1 validators (or their stated fallback if unavailable). Save commands/results and reuse/recheck decisions in `review-plan.md` Phase 4. Required findings or missing required evidence prevent READY FOR IMPLEMENTATION; optional suggestions alone need no further review.
 
 **Output:** Final status report:
 ```
@@ -118,7 +119,7 @@ Final read-through of all spec documents after Phases 1-3 edits. Check:
 - Phase 1 findings: X critical, Y warnings, Z suggestions
 - Phase 2 resolutions: X/X critical fixed, Y/Y warnings addressed
 - Phase 3 sequencing: [pass/adjusted] — N recommendations applied
-- Phase 4 sanity: [clean / N items flagged]
+- Phase 4 sanity: [clean / N items flagged] — [coverage reused / scope rechecked and reason]; final validator results
 
 Overall: READY FOR IMPLEMENTATION / NEEDS ATTENTION (list remaining items)
 ```

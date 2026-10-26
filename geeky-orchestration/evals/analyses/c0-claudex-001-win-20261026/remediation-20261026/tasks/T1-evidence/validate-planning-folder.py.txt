@@ -1,0 +1,2 @@
+OK: planning folder valid. 3 task file(s) found. (warnings: missing feature-specification.md, draft.md)
+EXIT_CODE=0

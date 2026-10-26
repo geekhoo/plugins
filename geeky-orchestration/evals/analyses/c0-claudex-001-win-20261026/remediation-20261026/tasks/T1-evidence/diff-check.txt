@@ -1,0 +1,4 @@
+warning: in the working copy of 'geeky-orchestration/evals/prompts/README.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'geeky-orchestration/evals/prompts/end-to-end.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'geeky-orchestration/skills/geeky-implement/references/execution-protocol.md', LF will be replaced by CRLF the next time Git touches it
+EXIT_CODE=0

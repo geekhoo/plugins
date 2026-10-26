@@ -18,4 +18,4 @@ Wherever a workflow would stop to ask a human, use these answers:
 
 You are authorized to make the commits these workflows' procedures make. Do not run any workflow other than these. Do not wait for human input at any point. If a workflow cannot continue, record the reason in `handoff.md` and stop.
 
-When you finish, end with the final report of each workflow you ran, in order, with the last `impl-review` report last.
+When you finish, give one concise completion report: the overall outcome; a table for the five stages, each with its substantive verdict or explicit unreached status, artifact path and brief supporting command/result, gate or reviewer verdict; final numeric test results with their evidence; commits made (short SHAs or subjects) and final revision; and deviations, blockers, interventions and deferred warnings, or an explicit statement that there were none. Include the evidence basis for each passing stage in the response itself, beyond links. Keep the detailed reports in the artifacts required by each workflow.

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\analyses\c0-claudex-001-win-20261026\remediation-20261026\tasks\T1-evidence\check-local.py", line 52, in <module>
+    protected.append({'path': name, 'git_blob': head_blobs[name], 'file_sha256': sha(path.read_bytes())})
+                                                                                     ~~~~~~~~~~~~~~~^^
+  File "C:\Python314\Lib\pathlib\__init__.py", line 777, in read_bytes
+    with self.open(mode='rb', buffering=0) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python314\Lib\pathlib\__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: 'C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c1-final-parity-20261024\\tmp\\run2-workspace'
+EXIT_CODE=1

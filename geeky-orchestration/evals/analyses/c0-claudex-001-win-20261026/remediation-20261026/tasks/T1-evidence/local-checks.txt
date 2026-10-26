@@ -1,0 +1,9 @@
+PASS: HEAD=53fb54b5f30ab0397c1fc154e83a6af942797322; baseline=8fff98b0f087f148d4f416f512dc9988d61a57aa exists
+PASS: only canonical prompt final paragraph changed; historical prompt bytes saved unchanged
+PASS: 2191 historical/case/scoring/frozen tracked files match pinned Git blobs; rule remains disabled
+LIMIT: 1 tracked Git links excluded from raw file hashing; no traversal into nested repositories
+PASS: local tracked runtime fingerprint SHA-256=073eef81f19ab35a6cbc1271f42ce4f3ce29fb9057ffd37c15c849e86af0265a; committed plugin_sha remains 53fb54b5f30ab0397c1fc154e83a6af942797322
+PASS: H1 synthetic selected aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa; missing=['test_core.py']; selected pytest exit=4; later pytest exit=0 (1 passed); reject selected snapshot
+PASS: original erratum preserved; Git blob object IDs (40 hex) and file SHA-256 (64 hex) remain distinct labels
+LIMIT: no LLM/judge/candidate execution; snapshot uses synthetic immutable file-set manifests, not real commits
+EXIT_CODE=0
