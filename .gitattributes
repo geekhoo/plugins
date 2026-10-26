@@ -15,3 +15,14 @@ geeky-orchestration/evals/analyses/c0-claudex-001-preparation-20261025/** -text
 geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/** -text
 geeky-orchestration/evals/analyses/telemetry-identity-20261025/** -text
 geeky-orchestration/evals/analyses/windows-mxc-setup-20261025/** -text
+
+# Preserve the 2026-10-26 C0 mock captures byte-for-byte for source fingerprint verification.
+geeky-orchestration/evals/baselines/c0-wordstat/20261026T105443Z/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261026T105717Z-b3b8245d/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261026T110135Z/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261026T110149Z/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261026T110212Z/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261026T110231Z/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261026T110548Z-de605bce/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261026T110713Z/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261026T110917Z/** -text
