@@ -11,3 +11,10 @@ F1 remains: finalized lifecycle records retain seed-oracle in-progress. F2 remai
 For reproduction, use a new shallow WorkRoot, distinct fresh CodexHome/MXC state and a checkout pinned to the verified commit, then apply only the saved fixture support. The recorded controllers are examples with historical absolute roots; do not overwrite those roots/evidence. `-MockAgent -NoTelemetry` and explicit `c0-full` are required for the full fixture, which denies egress. No sign-in or real API credential is needed. Provider/model/judge/live telemetry calls were zero by the observed executable path, not by querying account billing. Dry-run score previews remain unverified and were never published.
 
 Done criteria: terminal records, snapshot hashes, report accuracy and no matching live mock workloads checked; no follow-on implementation is inferred.
+
+## Publication update (2026-10-26)
+
+The preceding no-commit/uncommitted statements describe the evidence-capture state.
+The saved raw snapshots and derived mock analysis have since been committed in grouped
+repository history. The [follow-up plan](follow-up-plan.md) is planning only and grants
+no implementation, test rerun, paid evaluation, or live telemetry authorization.

@@ -18,6 +18,11 @@ defines three follow-up changes now implemented and accepted through offline rev
 The [implementation handoff](geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/handoff.md)
 records evidence and acceptance separately from future evaluation authorization.
 
+[Post-remediation non-chargeable MXC mocks](geeky-orchestration/evals/analyses/c0-post-remediation-mock-20261026/report.md)
+passed the full scripted C0 oracle for both harnesses (13/13, three repetitions).
+The records also identify stale terminal step metadata and measured timeout overhead;
+scripted reviews do not establish live-model behavior.
+
 ## Plugins
 
 | Plugin | Use it for | Version | Docs |

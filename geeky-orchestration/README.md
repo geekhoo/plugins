@@ -5,6 +5,10 @@ is accepted offline: review/closeout instructions and compact output, one-deadli
 runner records, and scoped accounting with verified score readback. Historical C0
 results remain preserved; this work includes no new paid evaluation or live publication.
 
+[Real-MXC post-remediation mock observations](evals/analyses/c0-post-remediation-mock-20261026/report.md)
+record both full scripted C0 fixtures, bounded fault cases, and an unresolved terminal
+step-status inconsistency. Model-free fixture success is separate from live-agent proof.
+
 Latest Windows C0: Codex completed `claudex-001` at runner-default thinking with
 **97.46 parity**, oracle 13/13 stable over 3 repetitions and 93 public tests passing. Ten session
 scores are published and verified. [Run report](evals/analyses/c0-claudex-001-win-20261026/codex/report.md).
