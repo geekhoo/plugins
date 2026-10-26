@@ -1,0 +1,20 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+workspace: C:\repos\c0-remediation-mock-20261026\claude-full\eval-c0-wordstat-20261026T111333Z (seed 1a8b02e0fca229beebdbc59a190dddf048c335e7)
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "cost_usd_estimate": 0,
+    "reasoning": 0
+  },
+  "model_calls": 27,
+  "latency_median_ms": 213,
+  "max_idle_gap_s": 5,
+  "impl_review_rounds": null,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}
+stored: C:\repos\c0-remediation-mock-20261026\full-harness\geeky-orchestration\evals\baselines\c0-wordstat\20261026T111333Z

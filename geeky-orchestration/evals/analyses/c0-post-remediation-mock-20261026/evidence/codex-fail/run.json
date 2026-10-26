@@ -1,0 +1,159 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "approach": "mock-agent:fail",
+  "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "worker_model": "gpt-6.1-sol",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+  "workspace": "C:\\repos\\c0-remediation-mock-20261026\\codex-fail\\eval-c0-wordstat-codex-20261026T110548Z-de605bce",
+  "config_directory": "C:\\repos\\c0-remediation-mock-20261026\\codex-fail\\.eval-cfg-codex-20261026T110548Z-de605bce",
+  "seed_sha": "a941196df28a1ac1019c5ba351f8944d198abfd3",
+  "session_id": "4339ccbb-8550-4ba1-9387-18ffd4b052c1",
+  "started_utc": "2026-10-26T11:05:53.2507110Z",
+  "ended_utc": "2026-10-26T11:05:55.7533469Z",
+  "wall_time_s": 2.4511103000259027,
+  "tokens": null,
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 0,
+  "exit_code": 1,
+  "exit_reason": "crash",
+  "is_error": true,
+  "raw_sha256": {
+    "stream": "108c3ae43c0971cf3d07457858e51bad07c8121ed18a8bca3d8aaa2892a12f74",
+    "session": "69bfe53cdd41ad4a9fedc9fe27aa45b6cedb07576f216e9a5029e78113b47253"
+  },
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "skipped-process-or-capture-error",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "27585256d4733836e61fcf73c95f92fe24f53c5e4730c352fc560c949c389e8f",
+  "mock_agent": true,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "required-for-windows-launch",
+    "override_reason": null
+  },
+  "provider": null,
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "e6bd65fa-b412-41ec-b0b4-950783b40f8c",
+    "segment_id": "2b0c13a2-e5de-400f-a539-21bd9d33da9b",
+    "authorization_reference": "user-20261026-nonchargeable-mock-c0",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "required-for-windows-launch",
+      "override_reason": null
+    },
+    "initial_deadline_utc": "2026-10-26T11:06:49.6301855Z",
+    "hard_wall_budget_s": 60,
+    "closeout_reserve_s": 5,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "worker_model": "gpt-6.1-sol",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "",
+      "mock": true,
+      "provider": "openai",
+      "hard_wall_budget_s": 60,
+      "closeout_reserve_s": 5,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "cbbb4bde8a24c7fac5071a3326204ace3a7882246eaa236e261a4460145f0731",
+    "invocations": [
+      {
+        "invocation_id": "dfebcd21-e532-4189-986e-2ce066230edc",
+        "kind": "initial",
+        "timeout_s": 56,
+        "started_utc": "2026-10-26T11:05:53.2833257Z",
+        "ended_utc": "2026-10-26T11:05:55.7365698Z",
+        "exit_code": 1,
+        "outcome": "crash"
+      }
+    ],
+    "process_outcome": "crash",
+    "capture_status": "captured",
+    "postprocessing": {
+      "launch-preparation": "completed",
+      "seed-oracle": "in-progress",
+      "parsing": "incomplete",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "telemetry": "completed"
+    },
+    "active_step": "telemetry",
+    "failure": null,
+    "contestant_time_s": 2.4511103000259027,
+    "attempt_elapsed_s": 6.175272200023755,
+    "finalization_time_s": 5.476789099979214,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 39152,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "a941196df28a1ac1019c5ba351f8944d198abfd3",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "mock-summary.json": "b22b37ce21fa4d7b1e440a1b79c85873b428a44b8b9d7c1d1b75b1d89b57abe1",
+      "mxc-build-provenance.json": "9bca2d133c24de9ef29d7b428f212050bb6bc862ac36e0fe253bcb16cf6e1e00",
+      "oracle-output.txt": "38e20c7c6df361bee392170c949729faae8b0cdce38065703981f1edce6d3538",
+      "oracle-seed-output.txt": "11edeaf99bc0803d7f9ef274b54d1b358a1ee1fddaf668f89bd749e7d0a98307",
+      "parity-preflight.json": "a3f2f4da7232b40c44228090b4b3c3ba2227852c3036115ad197a502b495e467",
+      "rollout-manifest.json": "8329729ee0d35fa06fdf3e0f710d39a3510089eb8bae929860a1b1f3c239047e",
+      "session.jsonl": "69bfe53cdd41ad4a9fedc9fe27aa45b6cedb07576f216e9a5029e78113b47253",
+      "solution.bundle": "39bf799587938dc466d1e34615a74a4d537feacfa672c105ad941b0d806bfb87",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream.jsonl": "108c3ae43c0971cf3d07457858e51bad07c8121ed18a8bca3d8aaa2892a12f74"
+    }
+  }
+}

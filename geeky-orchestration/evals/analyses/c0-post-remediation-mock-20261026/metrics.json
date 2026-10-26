@@ -1,0 +1,1026 @@
+{
+  "schema": "geeky-eval.mock-observations/1",
+  "as_of_utc": "2026-10-26T19:28:51.701029+08:00",
+  "accepted_source_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "purpose": "non-chargeable post-remediation C0 mock execution through real vetted Windows MXC",
+  "actual_mxc_runs": 12,
+  "real_provider_calls": 0,
+  "model_judge_calls": 0,
+  "live_telemetry_calls": 0,
+  "billing_readback_performed": false,
+  "billing_note": "Mock usage/parser fields are synthetic; no account-wide charge or live-model capability claim.",
+  "main_product_files_unchanged": 19,
+  "fixture_support_promoted_to_main": false,
+  "source_repo_commits_created": 0,
+  "fixture_local_tests": {
+    "passed": 25,
+    "exit": 0
+  },
+  "scope_previews": [
+    {
+      "harness": "claude",
+      "scope": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\evaluation-inputs.json",
+      "parity_command": [
+        "C:\\Python314\\python.exe",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\parity-eval.py",
+        "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z",
+        "--observations",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\observations.json",
+        "--score",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-claude\\score.json",
+        "--scope",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\evaluation-inputs.json",
+        "--out",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\parity"
+      ],
+      "parity_exit": 0,
+      "telemetry_observations": 0,
+      "model_judges_called": 0,
+      "first_exit": 0,
+      "repeat_exit": 0,
+      "other-version_exit": 0,
+      "preview_ids": 8,
+      "same_scope_idempotent": true,
+      "version_separated": true,
+      "scores_verified": false,
+      "http_requests": 0,
+      "unknown_efficiency": {
+        "tokens_total": null,
+        "calls": null,
+        "latency_median_ms": null,
+        "backend": null,
+        "cost": null
+      }
+    },
+    {
+      "harness": "codex",
+      "scope": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\evaluation-inputs.json",
+      "parity_command": [
+        "C:\\Python314\\python.exe",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\parity-eval.py",
+        "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe",
+        "--observations",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\observations.json",
+        "--score",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-codex\\score.json",
+        "--scope",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\evaluation-inputs.json",
+        "--out",
+        "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\parity"
+      ],
+      "parity_exit": 0,
+      "telemetry_observations": 0,
+      "model_judges_called": 0,
+      "first_exit": 0,
+      "repeat_exit": 0,
+      "other-version_exit": 0,
+      "preview_ids": 8,
+      "same_scope_idempotent": true,
+      "version_separated": true,
+      "scores_verified": false,
+      "http_requests": 0,
+      "unknown_efficiency": {
+        "tokens_total": null,
+        "calls": null,
+        "latency_median_ms": null,
+        "backend": null,
+        "cost": null
+      }
+    }
+  ],
+  "runs": [
+    {
+      "label": "claude-original",
+      "kind": "unchanged-source control",
+      "harness": "claude-code",
+      "raw_run_directory": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105443Z",
+      "snapshot": "evidence/claude-original",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 0,
+      "exit_reason": "completed",
+      "record_state": "finalized",
+      "process_outcome": "success",
+      "capture_status": "captured",
+      "postprocessing": {
+        "seed-oracle": "in-progress",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "parsing": "completed",
+        "telemetry": "completed",
+        "analysis": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 1,
+        "failed": 12,
+        "errors": 0,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 180,
+      "deadline_utc": "2026-10-26T10:57:44.4540649Z",
+      "invocations": [
+        {
+          "invocation_id": "16d4f9c4-3a6b-4547-a56d-430f1f361d82",
+          "kind": "initial",
+          "timeout_s": 177,
+          "started_utc": "2026-10-26T10:54:46.4798948Z",
+          "ended_utc": "2026-10-26T10:56:34.6543474Z",
+          "exit_code": 0,
+          "outcome": "success"
+        }
+      ],
+      "contestant_time_s": 108.1730548000196,
+      "attempt_elapsed_s": 110.23104840004817,
+      "finalization_time_s": 10.361762499902397,
+      "attempt_deadline_overrun_s": 0,
+      "parser_model_calls_not_billing": 99,
+      "parser_tokens_not_billing": {
+        "input": 604712,
+        "cached_input": 530100,
+        "cache_creation": 43010,
+        "output": 25311,
+        "total": 630023,
+        "cost_usd_estimate": 0.7112,
+        "reasoning": 50
+      },
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 10,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\eval-c0-wordstat-20261026T105443Z",
+      "mock_checks": {
+        "count": 74,
+        "passed": 70,
+        "failed": [],
+        "ok": true
+      }
+    },
+    {
+      "label": "codex-original",
+      "kind": "unchanged-source control",
+      "harness": "codex",
+      "raw_run_directory": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d",
+      "snapshot": "evidence/codex-original",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 0,
+      "exit_reason": "completed",
+      "record_state": "finalized",
+      "process_outcome": "success",
+      "capture_status": "captured",
+      "postprocessing": {
+        "launch-preparation": "completed",
+        "seed-oracle": "in-progress",
+        "parsing": "completed",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "telemetry": "completed",
+        "analysis": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 0,
+        "failed": 0,
+        "errors": 13,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 180,
+      "deadline_utc": "2026-10-26T11:00:17.9792205Z",
+      "invocations": [
+        {
+          "invocation_id": "a1cf68b7-57d5-4f05-9a7d-5d542baec584",
+          "kind": "initial",
+          "timeout_s": 177,
+          "started_utc": "2026-10-26T10:57:20.8422438Z",
+          "ended_utc": "2026-10-26T10:57:34.4034382Z",
+          "exit_code": 0,
+          "outcome": "success"
+        }
+      ],
+      "contestant_time_s": 13.563631900004111,
+      "attempt_elapsed_s": 16.474631799967028,
+      "finalization_time_s": 3.658218599972315,
+      "attempt_deadline_overrun_s": 0,
+      "parser_model_calls_not_billing": null,
+      "parser_tokens_not_billing": {
+        "input": 0,
+        "cached_input": 0,
+        "cache_creation": 0,
+        "output": 0,
+        "reasoning": 0,
+        "total": 0,
+        "cost_usd_estimate": null
+      },
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 13,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\codex-initial\\eval-c0-wordstat-codex-20261026T105717Z-b3b8245d",
+      "mock_checks": {
+        "count": 8,
+        "passed": 8,
+        "failed": [],
+        "ok": true
+      }
+    },
+    {
+      "label": "claude-crash",
+      "kind": "expected negative",
+      "harness": "claude-code",
+      "raw_run_directory": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110135Z",
+      "snapshot": "evidence/claude-crash",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 3,
+      "exit_reason": "crash",
+      "record_state": "finalized",
+      "process_outcome": "crash",
+      "capture_status": "captured",
+      "postprocessing": {
+        "seed-oracle": "in-progress",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "parsing": "completed",
+        "telemetry": "completed",
+        "analysis": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 0,
+        "failed": 0,
+        "errors": 13,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 45,
+      "deadline_utc": "2026-10-26T11:02:20.493935Z",
+      "invocations": [
+        {
+          "invocation_id": "f9642cc1-91bc-4074-9e7b-8abd7422c681",
+          "kind": "initial",
+          "timeout_s": 43,
+          "started_utc": "2026-10-26T11:01:37.0467935Z",
+          "ended_utc": "2026-10-26T11:01:39.6360046Z",
+          "exit_code": 3,
+          "outcome": "crash"
+        }
+      ],
+      "contestant_time_s": 2.5899932000320405,
+      "attempt_elapsed_s": 4.168766999966465,
+      "finalization_time_s": 6.386680099996738,
+      "attempt_deadline_overrun_s": 0,
+      "parser_model_calls_not_billing": 2,
+      "parser_tokens_not_billing": {
+        "input": 0,
+        "cached_input": 0,
+        "cache_creation": 0,
+        "output": 0,
+        "total": 0,
+        "cost_usd_estimate": 0,
+        "reasoning": 0
+      },
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 10,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-crash\\eval-c0-wordstat-20261026T110135Z",
+      "mock_checks": {
+        "count": 2,
+        "passed": 1,
+        "failed": [],
+        "ok": true
+      }
+    },
+    {
+      "label": "claude-timeout",
+      "kind": "expected negative",
+      "harness": "claude-code",
+      "raw_run_directory": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110149Z",
+      "snapshot": "evidence/claude-timeout",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 124,
+      "exit_reason": "timeout",
+      "record_state": "finalized",
+      "process_outcome": "timeout",
+      "capture_status": "captured",
+      "postprocessing": {
+        "seed-oracle": "in-progress",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "parsing": "completed",
+        "telemetry": "completed",
+        "analysis": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 0,
+        "failed": 0,
+        "errors": 13,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 15,
+      "deadline_utc": "2026-10-26T11:02:05.2377918Z",
+      "invocations": [
+        {
+          "invocation_id": "d44c4072-58fa-49da-bae8-e5c4a0f9d86a",
+          "kind": "initial",
+          "timeout_s": 13,
+          "started_utc": "2026-10-26T11:01:51.7355136Z",
+          "ended_utc": "2026-10-26T11:02:05.7642996Z",
+          "exit_code": 124,
+          "outcome": "timeout"
+        }
+      ],
+      "contestant_time_s": 14.029829200007953,
+      "attempt_elapsed_s": 15.55568220000714,
+      "finalization_time_s": 3.138885600026697,
+      "attempt_deadline_overrun_s": 0.5556822000071406,
+      "parser_model_calls_not_billing": 1,
+      "parser_tokens_not_billing": {
+        "input": 0,
+        "cached_input": 0,
+        "cache_creation": 0,
+        "output": 0,
+        "total": 0,
+        "cost_usd_estimate": 0,
+        "reasoning": 0
+      },
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 9,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-timeout\\eval-c0-wordstat-20261026T110149Z"
+    },
+    {
+      "label": "claude-refusal-zero",
+      "kind": "bounded recovery control",
+      "harness": "claude-code",
+      "raw_run_directory": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110212Z",
+      "snapshot": "evidence/claude-refusal-zero",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 0,
+      "exit_reason": "provider_refusal",
+      "record_state": "finalized",
+      "process_outcome": "success",
+      "capture_status": "captured",
+      "postprocessing": {
+        "seed-oracle": "in-progress",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "parsing": "completed",
+        "telemetry": "completed",
+        "analysis": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 0,
+        "failed": 0,
+        "errors": 13,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 45,
+      "deadline_utc": "2026-10-26T11:02:57.6336967Z",
+      "invocations": [
+        {
+          "invocation_id": "564931bb-90d0-4476-a944-76221c5380d8",
+          "kind": "initial",
+          "timeout_s": 43,
+          "started_utc": "2026-10-26T11:02:14.1327528Z",
+          "ended_utc": "2026-10-26T11:02:15.8129284Z",
+          "exit_code": 0,
+          "outcome": "success"
+        }
+      ],
+      "contestant_time_s": 1.6805057999445125,
+      "attempt_elapsed_s": 3.198514199932106,
+      "finalization_time_s": 4.075052900006995,
+      "attempt_deadline_overrun_s": 0,
+      "parser_model_calls_not_billing": 1,
+      "parser_tokens_not_billing": {
+        "input": 587352,
+        "cached_input": 514600,
+        "cache_creation": 41460,
+        "output": 23606,
+        "total": 610958,
+        "cost_usd_estimate": 0.6761,
+        "reasoning": 50
+      },
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 10,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-refusal-zero\\eval-c0-wordstat-20261026T110212Z",
+      "mock_checks": {
+        "count": 2,
+        "passed": 2,
+        "failed": [],
+        "ok": true
+      }
+    },
+    {
+      "label": "claude-refusal-one",
+      "kind": "bounded recovery control",
+      "harness": "claude-code",
+      "raw_run_directory": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110231Z",
+      "snapshot": "evidence/claude-refusal-one",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 0,
+      "exit_reason": "completed",
+      "record_state": "finalized",
+      "process_outcome": "success",
+      "capture_status": "captured",
+      "postprocessing": {
+        "seed-oracle": "in-progress",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "parsing": "completed",
+        "telemetry": "completed",
+        "analysis": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 0,
+        "failed": 0,
+        "errors": 13,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 45,
+      "deadline_utc": "2026-10-26T11:03:17.3220627Z",
+      "invocations": [
+        {
+          "invocation_id": "a3078515-41c2-4acc-9677-2051aa793b23",
+          "kind": "initial",
+          "timeout_s": 40,
+          "started_utc": "2026-10-26T11:02:37.0604227Z",
+          "ended_utc": "2026-10-26T11:02:41.0566869Z",
+          "exit_code": 0,
+          "outcome": "success"
+        },
+        {
+          "invocation_id": "401c1eca-0f93-4d82-9e12-3d51f2c5df5c",
+          "kind": "refusal-recovery",
+          "timeout_s": 36,
+          "started_utc": "2026-10-26T11:02:41.0820419Z",
+          "ended_utc": "2026-10-26T11:02:44.2640089Z",
+          "exit_code": 0,
+          "outcome": "success"
+        }
+      ],
+      "contestant_time_s": 7.179251300054602,
+      "attempt_elapsed_s": 11.995071499957703,
+      "finalization_time_s": 10.307747299899347,
+      "attempt_deadline_overrun_s": 0,
+      "parser_model_calls_not_billing": 1,
+      "parser_tokens_not_billing": {
+        "input": 587352,
+        "cached_input": 514600,
+        "cache_creation": 41460,
+        "output": 23606,
+        "total": 610958,
+        "cost_usd_estimate": 0.6761,
+        "reasoning": 100
+      },
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 10,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-refusal-one\\eval-c0-wordstat-20261026T110231Z",
+      "mock_checks": {
+        "count": 2,
+        "passed": 2,
+        "failed": [],
+        "ok": true
+      }
+    },
+    {
+      "label": "codex-fail",
+      "kind": "expected negative",
+      "harness": "codex",
+      "raw_run_directory": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce",
+      "snapshot": "evidence/codex-fail",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 1,
+      "exit_reason": "crash",
+      "record_state": "finalized",
+      "process_outcome": "crash",
+      "capture_status": "captured",
+      "postprocessing": {
+        "launch-preparation": "completed",
+        "seed-oracle": "in-progress",
+        "parsing": "incomplete",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "telemetry": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 0,
+        "failed": 0,
+        "errors": 13,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 60,
+      "deadline_utc": "2026-10-26T11:06:49.6301855Z",
+      "invocations": [
+        {
+          "invocation_id": "dfebcd21-e532-4189-986e-2ce066230edc",
+          "kind": "initial",
+          "timeout_s": 56,
+          "started_utc": "2026-10-26T11:05:53.2833257Z",
+          "ended_utc": "2026-10-26T11:05:55.7365698Z",
+          "exit_code": 1,
+          "outcome": "crash"
+        }
+      ],
+      "contestant_time_s": 2.4511103000259027,
+      "attempt_elapsed_s": 6.175272200023755,
+      "finalization_time_s": 5.476789099979214,
+      "attempt_deadline_overrun_s": 0,
+      "parser_model_calls_not_billing": null,
+      "parser_tokens_not_billing": null,
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 10,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\codex-fail\\eval-c0-wordstat-codex-20261026T110548Z-de605bce",
+      "mock_checks": {
+        "count": 1,
+        "passed": 0,
+        "failed": [],
+        "ok": false
+      }
+    },
+    {
+      "label": "claude-timeout-injection-missed",
+      "kind": "additional timeout; operator setup miss",
+      "harness": "claude-code",
+      "raw_run_directory": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z",
+      "snapshot": "evidence/claude-timeout-injection-missed",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 124,
+      "exit_reason": "timeout",
+      "record_state": "finalized",
+      "process_outcome": "timeout",
+      "capture_status": "captured",
+      "postprocessing": {
+        "seed-oracle": "in-progress",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "parsing": "completed",
+        "telemetry": "completed",
+        "analysis": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 0,
+        "failed": 0,
+        "errors": 13,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 30,
+      "deadline_utc": "2026-10-26T11:07:44.1937775Z",
+      "invocations": [
+        {
+          "invocation_id": "cac2e5ab-9fa2-4183-81b5-a9ae7a51db8f",
+          "kind": "initial",
+          "timeout_s": 28,
+          "started_utc": "2026-10-26T11:07:15.879487Z",
+          "ended_utc": "2026-10-26T11:07:45.3798282Z",
+          "exit_code": 124,
+          "outcome": "timeout"
+        }
+      ],
+      "contestant_time_s": 29.500792399980128,
+      "attempt_elapsed_s": 31.222718399949372,
+      "finalization_time_s": 5.499023300013505,
+      "attempt_deadline_overrun_s": 1.2227183999493718,
+      "parser_model_calls_not_billing": 1,
+      "parser_tokens_not_billing": {
+        "input": 0,
+        "cached_input": 0,
+        "cache_creation": 0,
+        "output": 0,
+        "total": 0,
+        "cost_usd_estimate": 0,
+        "reasoning": 0
+      },
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 9,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-timeout-postprocess-fault\\eval-c0-wordstat-20261026T110713Z"
+    },
+    {
+      "label": "claude-timeout-oracle-fault",
+      "kind": "verified postprocessing failure",
+      "harness": "claude-code",
+      "raw_run_directory": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110917Z",
+      "snapshot": "evidence/claude-timeout-oracle-fault",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 124,
+      "exit_reason": "timeout",
+      "record_state": "incomplete",
+      "process_outcome": "timeout",
+      "capture_status": "captured",
+      "postprocessing": {
+        "seed-oracle": "in-progress",
+        "native-capture": "completed",
+        "oracle": "failed"
+      },
+      "failure": {
+        "step": "oracle",
+        "message": "Unable to write content because it is a directory: 'C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110917Z\\oracle-output.txt'."
+      },
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": null,
+      "budget_s": 30,
+      "deadline_utc": "2026-10-26T11:09:48.279654Z",
+      "invocations": [
+        {
+          "invocation_id": "bed6bd36-dafe-4a36-a40f-a3e70f5fb1a9",
+          "kind": "initial",
+          "timeout_s": 27,
+          "started_utc": "2026-10-26T11:09:20.9442826Z",
+          "ended_utc": "2026-10-26T11:09:50.7909503Z",
+          "exit_code": 124,
+          "outcome": "timeout"
+        }
+      ],
+      "contestant_time_s": 29.847540399990976,
+      "attempt_elapsed_s": 32.542200200026855,
+      "finalization_time_s": 3.5288575999438763,
+      "attempt_deadline_overrun_s": 2.542200200026855,
+      "parser_model_calls_not_billing": null,
+      "parser_tokens_not_billing": null,
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 3,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-timeout-oracle-fault-verified\\eval-c0-wordstat-20261026T110917Z"
+    },
+    {
+      "label": "claude-c0-full",
+      "kind": "isolated scripted full fixture",
+      "harness": "claude-code",
+      "raw_run_directory": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z",
+      "snapshot": "evidence/claude-c0-full",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "58a9493869d60ac138a3dab4edf7bc40e5e92d2defb90b97f61cb85c25bd7e55",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 0,
+      "exit_reason": "completed",
+      "record_state": "finalized",
+      "process_outcome": "success",
+      "capture_status": "captured",
+      "postprocessing": {
+        "seed-oracle": "in-progress",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "parsing": "completed",
+        "telemetry": "completed",
+        "analysis": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 13,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 300,
+      "deadline_utc": "2026-10-26T11:18:33.5573158Z",
+      "invocations": [
+        {
+          "invocation_id": "9650165d-b24c-4a84-9a70-3639997ad521",
+          "kind": "initial",
+          "timeout_s": 297,
+          "started_utc": "2026-10-26T11:13:35.7054994Z",
+          "ended_utc": "2026-10-26T11:13:46.4872469Z",
+          "exit_code": 0,
+          "outcome": "success"
+        }
+      ],
+      "contestant_time_s": 10.781976800062694,
+      "attempt_elapsed_s": 12.965226599946618,
+      "finalization_time_s": 12.603282500058413,
+      "attempt_deadline_overrun_s": 0,
+      "parser_model_calls_not_billing": 27,
+      "parser_tokens_not_billing": {
+        "input": 0,
+        "cached_input": 0,
+        "cache_creation": 0,
+        "output": 0,
+        "total": 0,
+        "cost_usd_estimate": 0,
+        "reasoning": 0
+      },
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 10,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z",
+      "mock_checks": {
+        "count": 2,
+        "passed": 2,
+        "failed": [],
+        "ok": true
+      },
+      "scripted_fixture": {
+        "label": "SCRIPTED MOCK",
+        "model_calls": 0,
+        "billing_metrics": "not applicable; scripted local execution",
+        "deadline_environment": {
+          "GEEKY_DEADLINE_UTC": "2026-10-26T11:18:33.5573158Z",
+          "GEEKY_CLOSEOUT_RESERVE_S": 30
+        },
+        "stages": [
+          {
+            "stage": "spec-research",
+            "label": "SCRIPTED MOCK",
+            "detail": "Read only public brief.md and contract.md; copied requirements R1-R6."
+          },
+          {
+            "stage": "geeky-plan",
+            "label": "SCRIPTED MOCK",
+            "detail": "Planning-folder, task-schema and kanban validators exit 0."
+          },
+          {
+            "stage": "plan-review",
+            "label": "SCRIPTED MOCK",
+            "detail": "SCRIPTED MOCK plan verdict PASS; actual gate evidence saved."
+          },
+          {
+            "stage": "geeky-implement",
+            "label": "SCRIPTED MOCK",
+            "detail": "17 pytest tests passed; one current phase READY TO ADVANCE; both DoD gates passed."
+          },
+          {
+            "stage": "impl-review",
+            "label": "SCRIPTED MOCK",
+            "detail": "Three saved SCRIPTED MOCK domain replies consolidated Overall PASS against implementation revision and hashes."
+          }
+        ],
+        "tests_passed": 17,
+        "commits": [
+          "e499bb072e258b6375c144e35133f790d022575e",
+          "e3d096139701eb462b0b73cd13e1e1f908625dab",
+          "cf2ac572fb88d4be99f28457b67bcbe099f8ec3b"
+        ],
+        "source_hashes": {
+          "tests/test_wordstat.py": "17ea7d4d0cbfd212b45aa0ce2848540c4908e580ff86286006858a78974e4f85",
+          "wordstat/__init__.py": "29f890ae09a1b051e15dade082cfc768342e80629d05076f97ad28ec8bf00270",
+          "wordstat/__main__.py": "9d8520465f6ce556a709ad7b2f6ffd645ed7e4afb2ee0b669616051c6095df66"
+        },
+        "phase_verdict": "READY TO ADVANCE",
+        "final_verdict": "PASS",
+        "saved_domain_replies": [
+          "docs\\spec-001-feature\\mock-evidence\\review-cli-contract.md",
+          "docs\\spec-001-feature\\mock-evidence\\review-text-determinism.md",
+          "docs\\spec-001-feature\\mock-evidence\\review-test-coverage.md"
+        ],
+        "planning_folder": "docs\\spec-001-feature",
+        "closeout": "done"
+      }
+    },
+    {
+      "label": "codex-c0-full",
+      "kind": "isolated scripted full fixture",
+      "harness": "codex",
+      "raw_run_directory": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe",
+      "snapshot": "evidence/codex-c0-full",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "58a9493869d60ac138a3dab4edf7bc40e5e92d2defb90b97f61cb85c25bd7e55",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 0,
+      "exit_reason": "completed",
+      "record_state": "finalized",
+      "process_outcome": "success",
+      "capture_status": "captured",
+      "postprocessing": {
+        "launch-preparation": "completed",
+        "seed-oracle": "in-progress",
+        "parsing": "completed",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "telemetry": "completed",
+        "analysis": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 13,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 300,
+      "deadline_utc": "2026-10-26T11:18:33.3224703Z",
+      "invocations": [
+        {
+          "invocation_id": "5be76d87-a675-4f21-b4d3-4e807fab4a47",
+          "kind": "initial",
+          "timeout_s": 296,
+          "started_utc": "2026-10-26T11:13:36.6659066Z",
+          "ended_utc": "2026-10-26T11:13:46.1014469Z",
+          "exit_code": 0,
+          "outcome": "success"
+        }
+      ],
+      "contestant_time_s": 9.436486099963076,
+      "attempt_elapsed_s": 12.829809800023213,
+      "finalization_time_s": 10.55433539999649,
+      "attempt_deadline_overrun_s": 0,
+      "parser_model_calls_not_billing": null,
+      "parser_tokens_not_billing": {
+        "input": 0,
+        "cached_input": 0,
+        "cache_creation": 0,
+        "output": 0,
+        "reasoning": 0,
+        "total": 0,
+        "cost_usd_estimate": null
+      },
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 13,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe",
+      "mock_checks": {
+        "count": 1,
+        "passed": 1,
+        "failed": [],
+        "ok": true
+      },
+      "scripted_fixture": {
+        "label": "SCRIPTED MOCK",
+        "model_calls": 0,
+        "billing_metrics": "not applicable; scripted local execution",
+        "deadline_environment": {
+          "GEEKY_DEADLINE_UTC": "2026-10-26T11:18:33.3224703Z",
+          "GEEKY_CLOSEOUT_RESERVE_S": 30
+        },
+        "stages": [
+          {
+            "stage": "spec-research",
+            "label": "SCRIPTED MOCK",
+            "detail": "Read only public brief.md and contract.md; copied requirements R1-R6."
+          },
+          {
+            "stage": "geeky-plan",
+            "label": "SCRIPTED MOCK",
+            "detail": "Planning-folder, task-schema and kanban validators exit 0."
+          },
+          {
+            "stage": "plan-review",
+            "label": "SCRIPTED MOCK",
+            "detail": "SCRIPTED MOCK plan verdict PASS; actual gate evidence saved."
+          },
+          {
+            "stage": "geeky-implement",
+            "label": "SCRIPTED MOCK",
+            "detail": "17 pytest tests passed; one current phase READY TO ADVANCE; both DoD gates passed."
+          },
+          {
+            "stage": "impl-review",
+            "label": "SCRIPTED MOCK",
+            "detail": "Three saved SCRIPTED MOCK domain replies consolidated Overall PASS against implementation revision and hashes."
+          }
+        ],
+        "tests_passed": 17,
+        "commits": [
+          "e734137bacfe128c7702abd13a87e2ebf0321a5c",
+          "b7b7841f15a9e747ef8d9b93c3dcbc20d80b52bd",
+          "c5b4f735a7eac2c430a34625b3c13be930612d93"
+        ],
+        "source_hashes": {
+          "tests/test_wordstat.py": "17ea7d4d0cbfd212b45aa0ce2848540c4908e580ff86286006858a78974e4f85",
+          "wordstat/__init__.py": "29f890ae09a1b051e15dade082cfc768342e80629d05076f97ad28ec8bf00270",
+          "wordstat/__main__.py": "9d8520465f6ce556a709ad7b2f6ffd645ed7e4afb2ee0b669616051c6095df66"
+        },
+        "phase_verdict": "READY TO ADVANCE",
+        "final_verdict": "PASS",
+        "saved_domain_replies": [
+          "docs\\spec-001-feature\\mock-evidence\\review-cli-contract.md",
+          "docs\\spec-001-feature\\mock-evidence\\review-text-determinism.md",
+          "docs\\spec-001-feature\\mock-evidence\\review-test-coverage.md"
+        ],
+        "planning_folder": "docs\\spec-001-feature",
+        "closeout": "done"
+      }
+    },
+    {
+      "label": "codex-timeout",
+      "kind": "isolated mock negative",
+      "harness": "codex",
+      "raw_run_directory": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111622Z-c7eaa349",
+      "snapshot": "evidence/codex-timeout",
+      "source_plugin_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+      "prompt_sha256": "58a9493869d60ac138a3dab4edf7bc40e5e92d2defb90b97f61cb85c25bd7e55",
+      "controller_exit_not_used_as_acceptance": true,
+      "child_exit": 124,
+      "exit_reason": "timeout",
+      "record_state": "finalized",
+      "process_outcome": "timeout",
+      "capture_status": "captured",
+      "postprocessing": {
+        "launch-preparation": "completed",
+        "seed-oracle": "in-progress",
+        "parsing": "incomplete",
+        "native-capture": "completed",
+        "oracle": "completed",
+        "telemetry": "completed"
+      },
+      "failure": null,
+      "workflow_acceptance": "not-established",
+      "reference_eligible": false,
+      "telemetry_enabled": false,
+      "oracle": {
+        "collected": 13,
+        "passed": 0,
+        "failed": 0,
+        "errors": 13,
+        "skipped": 0,
+        "stable_over_3": true
+      },
+      "budget_s": 15,
+      "deadline_utc": "2026-10-26T11:16:37.7274493Z",
+      "invocations": [
+        {
+          "invocation_id": "207acf91-7cec-4ecb-bccf-569f7b6641f5",
+          "kind": "initial",
+          "timeout_s": 12,
+          "started_utc": "2026-10-26T11:16:25.3653241Z",
+          "ended_utc": "2026-10-26T11:16:38.4516437Z",
+          "exit_code": 124,
+          "outcome": "timeout"
+        }
+      ],
+      "contestant_time_s": 13.08770400006324,
+      "attempt_elapsed_s": 15.772627600003034,
+      "finalization_time_s": 2.5366075998172164,
+      "attempt_deadline_overrun_s": 0.7726276000030339,
+      "parser_model_calls_not_billing": null,
+      "parser_tokens_not_billing": null,
+      "real_provider_calls": 0,
+      "provider_call_evidence": "Python mock target; no model executable fallback; telemetry disabled; c0-full also denies egress",
+      "declared_artifact_hashes_checked": 9,
+      "workspace": "C:\\repos\\c0-remediation-mock-20261026\\codex-timeout\\eval-c0-wordstat-codex-20261026T111622Z-c7eaa349"
+    }
+  ],
+  "actual_mxc_workload_invocations": 13
+}

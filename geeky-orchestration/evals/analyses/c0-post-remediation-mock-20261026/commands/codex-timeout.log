@@ -1,0 +1,12 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+{"ok": true, "report": "C:\\repos\\c0-remediation-mock-20261026\\codex-timeout\\.eval-cfg-codex-20261026T111622Z-c7eaa349\\codex-profile.json"}
+workspace: C:\repos\c0-remediation-mock-20261026\codex-timeout\eval-c0-wordstat-codex-20261026T111622Z-c7eaa349 (seed d7f551bb9fb77e12ff613585355f223040d090f1)
+prepared: C:\repos\c0-remediation-mock-20261026\full-harness-codex\geeky-orchestration\evals\baselines\c0-wordstat\20261026T111622Z-c7eaa349
+{"main_thread_id": "1a9b8e92-d18c-4db8-a0cd-8b071881712b", "threads": [{"thread_id": "1a9b8e92-d18c-4db8-a0cd-8b071881712b", "parent_thread_id": null, "file": "session.jsonl"}]}
+stored: C:\repos\c0-remediation-mock-20261026\full-harness-codex\geeky-orchestration\evals\baselines\c0-wordstat\20261026T111622Z-c7eaa349 (analysis status: skipped-process-or-capture-error; score-run.py requires reviewed manual verdicts)
+Exception: C:\repos\c0-remediation-mock-20261026\full-harness-codex\geeky-orchestration\evals\scripts\run-codex-baseline.ps1:422
+Line |
+ 422 |  … $MockAgent -and $record.is_error) { throw "Codex mock failed: $out" }
+     |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Codex mock failed:
+     | C:\repos\c0-remediation-mock-20261026\full-harness-codex\geeky-orchestration\evals\baselines\c0-wordstat\20261026T111622Z-c7eaa349

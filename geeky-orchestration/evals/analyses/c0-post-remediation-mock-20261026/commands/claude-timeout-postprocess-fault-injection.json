@@ -1,0 +1,11 @@
+{
+  "label": "claude-timeout-postprocess-fault",
+  "injected_utc": "2026-10-26T11:07:30.7585566Z",
+  "record": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z\\run.json",
+  "fault_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z\\oracle-output.txt",
+  "fault": "directory at host oracle append path after seed/capture start",
+  "state_at_injection": "running",
+  "original_bytes_removed": false,
+  "applied": false,
+  "correction": "New-Item -LiteralPath was rejected; subsequent directory creation missed capture window. No fault applied; preserve this run as an additional timeout-only observation."
+}

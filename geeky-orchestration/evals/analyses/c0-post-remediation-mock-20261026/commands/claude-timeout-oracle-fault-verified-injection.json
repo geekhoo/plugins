@@ -1,0 +1,8 @@
+{
+  "original_bytes_removed": false,
+  "observed_state": "running",
+  "injected_utc": "2026-10-26T11:09:21.0246609Z",
+  "applied": true,
+  "fault_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110917Z\\oracle-output.txt",
+  "record": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110917Z\\run.json"
+}

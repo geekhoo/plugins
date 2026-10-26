@@ -1,0 +1,260 @@
+[
+  {
+    "name": "validate-planning-folder",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\validate-planning-folder.py",
+      "--path",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature"
+    ],
+    "exit_code": 0,
+    "stdout": "OK: planning folder valid. 2 task file(s) found.\n",
+    "stderr": ""
+  },
+  {
+    "name": "validate-task-schema",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\validate-task-schema.py",
+      "--path",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature"
+    ],
+    "exit_code": 0,
+    "stdout": "OK: 2 task file(s) checked, 0 failing.\n",
+    "stderr": ""
+  },
+  {
+    "name": "validate-kanban",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\validate-kanban.py",
+      "--path",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature"
+    ],
+    "exit_code": 0,
+    "stdout": "OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=2, In Progress=0, In Review=0, Blocked=0, Done=0\n",
+    "stderr": ""
+  },
+  {
+    "name": "check-commit",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\check-commit.py",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\.git\\c0-mock-commit.txt"
+    ],
+    "exit_code": 0,
+    "stdout": "OK: commit message valid.\n",
+    "stderr": ""
+  },
+  {
+    "name": "git.add",
+    "argv": [
+      "git",
+      "add",
+      "--",
+      "docs\\spec-001-feature"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "warning: in the working copy of 'docs/spec-001-feature/.heartbeat', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/draft.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/feature-specification.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/handoff.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/implementation-plan.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/kanban.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/mock-evidence/commands.json', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/references.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/tasks/T1-scaffold-package.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/tasks/T2-smoke-tests.md', LF will be replaced by CRLF the next time Git touches it\n"
+  },
+  {
+    "name": "git.commit",
+    "argv": [
+      "git",
+      "commit",
+      "-q",
+      "-F",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\.git\\c0-mock-commit.txt"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "name": "git.revision",
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit_code": 0,
+    "stdout": "e499bb072e258b6375c144e35133f790d022575e\n",
+    "stderr": ""
+  },
+  {
+    "name": "validate-kanban",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\validate-kanban.py",
+      "--path",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature"
+    ],
+    "exit_code": 0,
+    "stdout": "OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=2, In Review=0, Blocked=0, Done=0\n",
+    "stderr": ""
+  },
+  {
+    "name": "pytest",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "-m",
+      "pytest",
+      "-q",
+      "-p",
+      "no:cacheprovider",
+      "tests"
+    ],
+    "exit_code": 0,
+    "stdout": ".................                                                        [100%]\n17 passed in 3.72s\n",
+    "stderr": ""
+  },
+  {
+    "name": "validate-kanban",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\validate-kanban.py",
+      "--path",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature"
+    ],
+    "exit_code": 0,
+    "stdout": "OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=2, Blocked=0, Done=0\n",
+    "stderr": ""
+  },
+  {
+    "name": "validate-kanban",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\validate-kanban.py",
+      "--path",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature"
+    ],
+    "exit_code": 0,
+    "stdout": "OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2\n",
+    "stderr": ""
+  },
+  {
+    "name": "check-dod",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\check-dod.py",
+      "--path",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature",
+      "--task",
+      "T1"
+    ],
+    "exit_code": 0,
+    "stdout": "DOD_OK: T1\n  Re-run this task's validation block (verify, don't trust):\n    | - `python -m wordstat --help`\n    | - `python -m compileall wordstat`\n",
+    "stderr": ""
+  },
+  {
+    "name": "check-dod",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\check-dod.py",
+      "--path",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature",
+      "--task",
+      "T2"
+    ],
+    "exit_code": 0,
+    "stdout": "DOD_OK: T2\n  Re-run this task's validation block (verify, don't trust):\n    | - `python -m pytest -q -p no:cacheprovider tests`\n    | - `python -m compileall wordstat`\n",
+    "stderr": ""
+  },
+  {
+    "name": "check-commit",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\check-commit.py",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\.git\\c0-mock-commit.txt"
+    ],
+    "exit_code": 0,
+    "stdout": "OK: commit message valid.\n",
+    "stderr": ""
+  },
+  {
+    "name": "git.add",
+    "argv": [
+      "git",
+      "add",
+      "--",
+      "wordstat",
+      "tests",
+      "docs\\spec-001-feature"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "warning: in the working copy of 'docs/spec-001-feature/handoff.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/kanban.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/mock-evidence/commands.json', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/review-phase-1.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/review-plan.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/tasks/T1-scaffold-package.notes.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/tasks/T2-smoke-tests.notes.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'tests/test_wordstat.py', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'wordstat/__init__.py', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'wordstat/__main__.py', LF will be replaced by CRLF the next time Git touches it\n"
+  },
+  {
+    "name": "git.commit",
+    "argv": [
+      "git",
+      "commit",
+      "-q",
+      "-F",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\.git\\c0-mock-commit.txt"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "name": "git.revision",
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit_code": 0,
+    "stdout": "e3d096139701eb462b0b73cd13e1e1f908625dab\n",
+    "stderr": ""
+  },
+  {
+    "name": "check-commit",
+    "argv": [
+      "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\.eval-cfg-20261026T111333Z\\plugin\\geeky-orchestration\\scripts\\check-commit.py",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\.git\\c0-mock-commit.txt"
+    ],
+    "exit_code": 0,
+    "stdout": "OK: commit message valid.\n",
+    "stderr": ""
+  },
+  {
+    "name": "git.add",
+    "argv": [
+      "git",
+      "add",
+      "--",
+      "docs\\spec-001-feature"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "warning: in the working copy of 'docs/spec-001-feature/.heartbeat', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/handoff.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/mock-evidence/commands.json', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/mock-evidence/review-cli-contract.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/mock-evidence/review-test-coverage.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/mock-evidence/review-text-determinism.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/review-impl.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'docs/spec-001-feature/run-summary.md', LF will be replaced by CRLF the next time Git touches it\n"
+  },
+  {
+    "name": "git.commit",
+    "argv": [
+      "git",
+      "commit",
+      "-q",
+      "-F",
+      "C:\\Repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\.git\\c0-mock-commit.txt"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "name": "git.revision",
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exit_code": 0,
+    "stdout": "cf2ac572fb88d4be99f28457b67bcbe099f8ec3b\n",
+    "stderr": ""
+  }
+]

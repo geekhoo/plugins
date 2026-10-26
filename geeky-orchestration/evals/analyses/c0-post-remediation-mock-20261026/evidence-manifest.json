@@ -1,0 +1,1181 @@
+{
+  "schema": "mock-evidence.manifest/1",
+  "files": [
+    {
+      "path": "evidence/claude-original/run.json",
+      "sha256": "396fd605194faa95fc5c2fcddfdf1541a2db6b4ed73998b367b9b25c819204a9",
+      "bytes": 6115,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105443Z\\run.json"
+    },
+    {
+      "path": "evidence/claude-original/stream.jsonl",
+      "sha256": "ced96db1f50e9708569eac086ad1999b09778fe963724208075c1f31c44720bc",
+      "bytes": 190028,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105443Z\\stream.jsonl"
+    },
+    {
+      "path": "evidence/claude-original/stderr.txt",
+      "sha256": "6ca334bc4784193497008422f89791d698ecdc909a4d81962c57a13a6f8f1308",
+      "bytes": 11838,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105443Z\\stderr.txt"
+    },
+    {
+      "path": "evidence/claude-original/session.jsonl",
+      "sha256": "57add5b89330d5688aa1c9ccc01458dadd46c613536b10299d1fee27e298708e",
+      "bytes": 195968,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105443Z\\session.jsonl"
+    },
+    {
+      "path": "evidence/claude-original/mock-summary.json",
+      "sha256": "a44cd991b9befb508dcfd790c71d7ddd29ad704db29feffc920bf92857b93465",
+      "bytes": 18197,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105443Z\\mock-summary.json"
+    },
+    {
+      "path": "evidence/claude-original/oracle-output.txt",
+      "sha256": "6560ecdbb6af64ed99524377bed267303b994ca714c9cc8edc9cd4d89fb40865",
+      "bytes": 42837,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105443Z\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/claude-original/solution.bundle",
+      "sha256": "8a3079ba49fbfcca7dfd4ff99a96b04412405017adef0b0b2709bd884d86723c",
+      "bytes": 5494,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105443Z\\solution.bundle"
+    },
+    {
+      "path": "evidence/claude-original/analysis.json",
+      "sha256": "be5621af8ba58ff1cd54a96d6623e9117f4e16bf4daabb7d7b18e5a7a1e2143b",
+      "bytes": 3106,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105443Z\\analysis.json"
+    },
+    {
+      "path": "evidence/codex-original/run.json",
+      "sha256": "c8cf1252489bb0aa1dfe8339119e93726bb1650446c86fbafbbcff6fc8425760",
+      "bytes": 6414,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\run.json"
+    },
+    {
+      "path": "evidence/codex-original/stream.jsonl",
+      "sha256": "43641cb31bbbcf3f8f850b4f792236b27f48cdf7732719c22d9fa16f61b13f4c",
+      "bytes": 3335,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\stream.jsonl"
+    },
+    {
+      "path": "evidence/codex-original/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\stderr.txt"
+    },
+    {
+      "path": "evidence/codex-original/session.jsonl",
+      "sha256": "eb07c9e9eb1cc4d905ac87d412f681c39ca935f3d63ec14c1bcebcc6cb57e49a",
+      "bytes": 13559,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\session.jsonl"
+    },
+    {
+      "path": "evidence/codex-original/mock-summary.json",
+      "sha256": "2c81fe37bc4849c9d92465b3c5be2d91a7576038bf7f1077d88ca39e8b307b98",
+      "bytes": 1403,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\mock-summary.json"
+    },
+    {
+      "path": "evidence/codex-original/oracle-output.txt",
+      "sha256": "28de9fa9e6576a634e05a83f7b0776ba598a72079b3dc3aefcc34657d758dd5d",
+      "bytes": 34842,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/codex-original/oracle-seed-output.txt",
+      "sha256": "9b627d760d6280c53ed8609767d480e90805db8c7cb6d4c6062fb55688ba8374",
+      "bytes": 11614,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\oracle-seed-output.txt"
+    },
+    {
+      "path": "evidence/codex-original/solution.bundle",
+      "sha256": "d50feb904dcc7a157ba8e4a651dd175f84b4c319ebc38e0736c2e26a6e43a258",
+      "bytes": 2163,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\solution.bundle"
+    },
+    {
+      "path": "evidence/codex-original/analysis.json",
+      "sha256": "82f513d425e6bf1dfa78bb6d55dcc88f89f09b491077b3ce707e17cbcebb8714",
+      "bytes": 1020,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\analysis.json"
+    },
+    {
+      "path": "evidence/codex-original/mxc-build-provenance.json",
+      "sha256": "f7a969052402b49ca0f10ebe3c88f770ebf42ea0d9766a11b6ea8d7f6b06de32",
+      "bytes": 6114,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T105717Z-b3b8245d\\mxc-build-provenance.json"
+    },
+    {
+      "path": "evidence/claude-crash/run.json",
+      "sha256": "d8767362c83a43831e6dd64be582c333cb9f79bc1ff433bcbd70c37f581c80e8",
+      "bytes": 5177,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110135Z\\run.json"
+    },
+    {
+      "path": "evidence/claude-crash/stream.jsonl",
+      "sha256": "91b49b319d1f9b8eb0fabdf8244c44d21778e80028359567bb9d42c4920db94d",
+      "bytes": 5029,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110135Z\\stream.jsonl"
+    },
+    {
+      "path": "evidence/claude-crash/stderr.txt",
+      "sha256": "5e8c8913e08928222fb57956a91e3f451d1abcb738d87190b97ee677d5255cde",
+      "bytes": 417,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110135Z\\stderr.txt"
+    },
+    {
+      "path": "evidence/claude-crash/session.jsonl",
+      "sha256": "9565f6d48be2111af6586099fd1abc5f856882bd2e72baf7082ac3875d411d8f",
+      "bytes": 7399,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110135Z\\session.jsonl"
+    },
+    {
+      "path": "evidence/claude-crash/mock-summary.json",
+      "sha256": "415044dd05f17bbd0bc26e268c4c3a7ae92060682cf872af5bb61f3f7a6e691c",
+      "bytes": 1214,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110135Z\\mock-summary.json"
+    },
+    {
+      "path": "evidence/claude-crash/oracle-output.txt",
+      "sha256": "d0fb12ad2b3ecf10ad8f53d4ab93f407400e7954723fff51ca8602cf1f2bff39",
+      "bytes": 34218,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110135Z\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/claude-crash/solution.bundle",
+      "sha256": "eedcb63b370eae472b36326aa92cae0efae3703999b51c1f6f3258e89d5d5665",
+      "bytes": 2163,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110135Z\\solution.bundle"
+    },
+    {
+      "path": "evidence/claude-crash/analysis.json",
+      "sha256": "82a948f70b230a983e588fbe981434aeec6aca5bf27e1a8ab3b0ba300345a2ae",
+      "bytes": 567,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110135Z\\analysis.json"
+    },
+    {
+      "path": "evidence/claude-timeout/run.json",
+      "sha256": "f52f25d3446733d0671e8074833c6fdd4db3112ea4228f2c7a98afef1f1a3066",
+      "bytes": 5095,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110149Z\\run.json"
+    },
+    {
+      "path": "evidence/claude-timeout/stream.jsonl",
+      "sha256": "f87fe8442fd3cc88bfb4bfd16df22272cf77f0ac32715158c20eb43b6dbf10c9",
+      "bytes": 2814,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110149Z\\stream.jsonl"
+    },
+    {
+      "path": "evidence/claude-timeout/stderr.txt",
+      "sha256": "6dd79a23257aee6870f42407385e470376a12a9d09c24d48d16377c5167ab6f0",
+      "bytes": 340,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110149Z\\stderr.txt"
+    },
+    {
+      "path": "evidence/claude-timeout/session.jsonl",
+      "sha256": "3152ad96b5868e76640295eab9d5bf420d7953596ce4dcd6258ca552908e44b9",
+      "bytes": 6000,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110149Z\\session.jsonl"
+    },
+    {
+      "path": "evidence/claude-timeout/oracle-output.txt",
+      "sha256": "c14c4dc989e70bd1c5282e73b7fe8a645c30e01f0cca3bd32501be364783ae41",
+      "bytes": 34296,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110149Z\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/claude-timeout/solution.bundle",
+      "sha256": "2f32c909fae0b35dadeaa3b806e471e219a76e6abeb2b9b2e86b35a3f8da5a8e",
+      "bytes": 2163,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110149Z\\solution.bundle"
+    },
+    {
+      "path": "evidence/claude-timeout/analysis.json",
+      "sha256": "427f10f4f1fc044edffa3760ad3137a207cbb88a5c48c8c3cb80873f84fc2d1a",
+      "bytes": 542,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110149Z\\analysis.json"
+    },
+    {
+      "path": "evidence/claude-refusal-zero/run.json",
+      "sha256": "aa26cb84ada781362536be0d44aa264625862facfffff08c6f517f2ccb019a9c",
+      "bytes": 5251,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110212Z\\run.json"
+    },
+    {
+      "path": "evidence/claude-refusal-zero/stream.jsonl",
+      "sha256": "65f8df4439e8b1c4062bcf27b5e5ab7639595b88f52ab5d691cd8e88e057445d",
+      "bytes": 5318,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110212Z\\stream.jsonl"
+    },
+    {
+      "path": "evidence/claude-refusal-zero/stderr.txt",
+      "sha256": "a8777afdcb5f9b65f8413f54f43c7fb4ff17b9f9d9e7c761b1cd0343dedc79d2",
+      "bytes": 409,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110212Z\\stderr.txt"
+    },
+    {
+      "path": "evidence/claude-refusal-zero/session.jsonl",
+      "sha256": "a682d17d2fec8169ff0db0dd0810bdb79eb3200905ec4b36f67b5671ea24d23b",
+      "bytes": 6028,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110212Z\\session.jsonl"
+    },
+    {
+      "path": "evidence/claude-refusal-zero/mock-summary.json",
+      "sha256": "819eb5cfce65fc64069c0e6150b56fcae7be794c8139b7e6a41be7b18ec25777",
+      "bytes": 1404,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110212Z\\mock-summary.json"
+    },
+    {
+      "path": "evidence/claude-refusal-zero/oracle-output.txt",
+      "sha256": "526b325ea097dd256d76ca0be8ea39d70a5204634a6926c19683c415074199f6",
+      "bytes": 34491,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110212Z\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/claude-refusal-zero/solution.bundle",
+      "sha256": "e172ba66c7f5c3345d4a47f9d2c5f76d7961940ead855d4d1e1466ebd8009735",
+      "bytes": 2163,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110212Z\\solution.bundle"
+    },
+    {
+      "path": "evidence/claude-refusal-zero/analysis.json",
+      "sha256": "402ec3f3f2edfa0afa8191613b17de10500549de09d0aebefe37d390638d822f",
+      "bytes": 934,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110212Z\\analysis.json"
+    },
+    {
+      "path": "evidence/claude-refusal-one/run.json",
+      "sha256": "9ad6f17fbdc23e2a502676e79de4b704d3476c867a3c50c7347e3dec29971b49",
+      "bytes": 5550,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110231Z\\run.json"
+    },
+    {
+      "path": "evidence/claude-refusal-one/stream.jsonl",
+      "sha256": "138ba4b3c39cf60f880b0a8f8114005ed53c32aeee740a2dbc97a174e4b18c3f",
+      "bytes": 10540,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110231Z\\stream.jsonl"
+    },
+    {
+      "path": "evidence/claude-refusal-one/stderr.txt",
+      "sha256": "9d6e28a368d098639c7896ce0ae9ad90b8ca7e855b6b9c6c492692b2034cb2c7",
+      "bytes": 789,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110231Z\\stderr.txt"
+    },
+    {
+      "path": "evidence/claude-refusal-one/session.jsonl",
+      "sha256": "7c5090de1199319e5520ef6d0762b95075d08f13a1ea05619453605d12f3bbc2",
+      "bytes": 7750,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110231Z\\session.jsonl"
+    },
+    {
+      "path": "evidence/claude-refusal-one/mock-summary.json",
+      "sha256": "24a233359bd35e97986307c4f8a438dc7470350e4f743c30df658166321f0632",
+      "bytes": 1371,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110231Z\\mock-summary.json"
+    },
+    {
+      "path": "evidence/claude-refusal-one/oracle-output.txt",
+      "sha256": "cf107c22e0c6ae88bbb09aa5311cbd2398c4fdfd97a54c24522e45da5c901ece",
+      "bytes": 34452,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110231Z\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/claude-refusal-one/solution.bundle",
+      "sha256": "bfe63dfd932b96f58d84863791c6efbbc1848634c145255083f2852b2552cc9a",
+      "bytes": 2163,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110231Z\\solution.bundle"
+    },
+    {
+      "path": "evidence/claude-refusal-one/analysis.json",
+      "sha256": "c807d7eb6be1ae92c76efc989caf6c101870aab09ff51f6afa0ce59ad960897c",
+      "bytes": 934,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110231Z\\analysis.json"
+    },
+    {
+      "path": "evidence/codex-fail/run.json",
+      "sha256": "f74bb592fa9386e485b071f652a02b84b20cb4f112a6a79f50ac1685e9665de3",
+      "bytes": 5868,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce\\run.json"
+    },
+    {
+      "path": "evidence/codex-fail/stream.jsonl",
+      "sha256": "108c3ae43c0971cf3d07457858e51bad07c8121ed18a8bca3d8aaa2892a12f74",
+      "bytes": 657,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce\\stream.jsonl"
+    },
+    {
+      "path": "evidence/codex-fail/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce\\stderr.txt"
+    },
+    {
+      "path": "evidence/codex-fail/session.jsonl",
+      "sha256": "69bfe53cdd41ad4a9fedc9fe27aa45b6cedb07576f216e9a5029e78113b47253",
+      "bytes": 6165,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce\\session.jsonl"
+    },
+    {
+      "path": "evidence/codex-fail/mock-summary.json",
+      "sha256": "b22b37ce21fa4d7b1e440a1b79c85873b428a44b8b9d7c1d1b75b1d89b57abe1",
+      "bytes": 313,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce\\mock-summary.json"
+    },
+    {
+      "path": "evidence/codex-fail/oracle-output.txt",
+      "sha256": "38e20c7c6df361bee392170c949729faae8b0cdce38065703981f1edce6d3538",
+      "bytes": 34725,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/codex-fail/oracle-seed-output.txt",
+      "sha256": "11edeaf99bc0803d7f9ef274b54d1b358a1ee1fddaf668f89bd749e7d0a98307",
+      "bytes": 11575,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce\\oracle-seed-output.txt"
+    },
+    {
+      "path": "evidence/codex-fail/solution.bundle",
+      "sha256": "39bf799587938dc466d1e34615a74a4d537feacfa672c105ad941b0d806bfb87",
+      "bytes": 2163,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce\\solution.bundle"
+    },
+    {
+      "path": "evidence/codex-fail/mxc-build-provenance.json",
+      "sha256": "9bca2d133c24de9ef29d7b428f212050bb6bc862ac36e0fe253bcb16cf6e1e00",
+      "bytes": 6111,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110548Z-de605bce\\mxc-build-provenance.json"
+    },
+    {
+      "path": "evidence/claude-timeout-injection-missed/run.json",
+      "sha256": "be939d2dfd3985224a71737cf145f04c5723a2ae69631aa1c525bf16b9e76746",
+      "bytes": 5132,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z\\run.json"
+    },
+    {
+      "path": "evidence/claude-timeout-injection-missed/stream.jsonl",
+      "sha256": "4ae8fbe32ea663a74c7d66745c7edc4513d8d14eef1b9cd162600af3f1c26ed2",
+      "bytes": 2850,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z\\stream.jsonl"
+    },
+    {
+      "path": "evidence/claude-timeout-injection-missed/stderr.txt",
+      "sha256": "6dd79a23257aee6870f42407385e470376a12a9d09c24d48d16377c5167ab6f0",
+      "bytes": 340,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z\\stderr.txt"
+    },
+    {
+      "path": "evidence/claude-timeout-injection-missed/session.jsonl",
+      "sha256": "47849abb065d9a19104492a887e7739146136c96c7c65390ae095a039d637fc3",
+      "bytes": 6054,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z\\session.jsonl"
+    },
+    {
+      "path": "evidence/claude-timeout-injection-missed/oracle-output.txt",
+      "sha256": "6fb40b69881adb12fac4b05798e42880269e7e9b9fa48481b2b8b6451d9440b4",
+      "bytes": 34998,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/claude-timeout-injection-missed/solution.bundle",
+      "sha256": "1b4f9a5d605fe98b0f2838872f069e3ee6b992c3ea9110e4517e785c1683eb16",
+      "bytes": 2163,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z\\solution.bundle"
+    },
+    {
+      "path": "evidence/claude-timeout-injection-missed/analysis.json",
+      "sha256": "97ef2d3bd958f41e62b4e9f03d95cdd767b1e75b54852c9c7f00d3204f100252",
+      "bytes": 542,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110713Z\\analysis.json"
+    },
+    {
+      "path": "evidence/claude-timeout-oracle-fault/run.json",
+      "sha256": "02ebac1a074dc7fbbfdd0cc88e1d3074ac8e69db1e31c0c35ae1abb5eb56494f",
+      "bytes": 3677,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110917Z\\run.json"
+    },
+    {
+      "path": "evidence/claude-timeout-oracle-fault/stream.jsonl",
+      "sha256": "598aa8e7a579bb0407fa23532206c40bad323fda60a595f54c2f915a3d6ac996",
+      "bytes": 2858,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110917Z\\stream.jsonl"
+    },
+    {
+      "path": "evidence/claude-timeout-oracle-fault/stderr.txt",
+      "sha256": "6dd79a23257aee6870f42407385e470376a12a9d09c24d48d16377c5167ab6f0",
+      "bytes": 340,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110917Z\\stderr.txt"
+    },
+    {
+      "path": "evidence/claude-timeout-oracle-fault/session.jsonl",
+      "sha256": "869833a56892f7d3adf9c5b9e582b8a953b290ffc717d72f2a32e6c7d27612d7",
+      "bytes": 6066,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110917Z\\session.jsonl"
+    },
+    {
+      "path": "evidence/claude-c0-full/run.json",
+      "sha256": "4ce8e1f7dbf3e1fa36ac9fad49e6aab36c4c474b2ea1b066f75f3bf40faed5fe",
+      "bytes": 5204,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\run.json"
+    },
+    {
+      "path": "evidence/claude-c0-full/stream.jsonl",
+      "sha256": "0731d56ea5f87bdaca4f51da671efd33aa560f51a67b13be281e634e211ef54b",
+      "bytes": 43715,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\stream.jsonl"
+    },
+    {
+      "path": "evidence/claude-c0-full/stderr.txt",
+      "sha256": "76e3b22f42246df028d6285b64f5e2efbf47b4e3dcb0a95757fec00237455ec5",
+      "bytes": 815,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\stderr.txt"
+    },
+    {
+      "path": "evidence/claude-c0-full/session.jsonl",
+      "sha256": "7991f333e65aa601003ec61ae4c1ba75d2a1d70a76125092c527a88fa578aa8d",
+      "bytes": 52020,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\session.jsonl"
+    },
+    {
+      "path": "evidence/claude-c0-full/mock-summary.json",
+      "sha256": "76b8b499b71b1f31b5b69965bb1e6766b097d2990201dd38570fe7b5581ef180",
+      "bytes": 4490,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\mock-summary.json"
+    },
+    {
+      "path": "evidence/claude-c0-full/oracle-output.txt",
+      "sha256": "ba7e2357f314be5abd2b881fc93ed4c4a0ed6afaf0460cbcb08ee9043a2cb378",
+      "bytes": 2880,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/claude-c0-full/solution.bundle",
+      "sha256": "73f7b0aeabc183b83327907debdde896d398a5ffa6d04316beb3df197b8f5bc3",
+      "bytes": 12184,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\solution.bundle"
+    },
+    {
+      "path": "evidence/claude-c0-full/analysis.json",
+      "sha256": "1d6978fd25e8b751d0f5cb85bda59cdd2029e59deff8b2d810ec565f2305966a",
+      "bytes": 1366,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\analysis.json"
+    },
+    {
+      "path": "evidence/claude-c0-full/c0-full-summary.json",
+      "sha256": "a5ac4202ca177a57ee38d737c76eedc65a8977b7f315b591620c2d771c755bca",
+      "bytes": 1993,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\.git\\c0-full-summary.json"
+    },
+    {
+      "path": "evidence/claude-c0-full/c0-full-commands.json",
+      "sha256": "2f6b03c530ebcd9990bb83f9e673143894d26f08846e08ee112fb2a3501fba56",
+      "bytes": 12146,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\.git\\c0-full-commands.json"
+    },
+    {
+      "path": "evidence/claude-c0-full/scripted-artifacts/review-plan.md",
+      "sha256": "f5cc633a028f0c8decac619024f076ce549066e6683b5e37b95a589c2f2cbfe8",
+      "bytes": 127,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature\\review-plan.md"
+    },
+    {
+      "path": "evidence/claude-c0-full/scripted-artifacts/review-phase-1.md",
+      "sha256": "eff1fbd1ba3132a7688bd64f65ce0b2a65408fed0edba0c5315657d6739edbf7",
+      "bytes": 454,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature\\review-phase-1.md"
+    },
+    {
+      "path": "evidence/claude-c0-full/scripted-artifacts/review-impl.md",
+      "sha256": "f066b40128fae19ff57132f6857393ecdad7681dda8918bca433d83595f529e7",
+      "bytes": 2022,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature\\review-impl.md"
+    },
+    {
+      "path": "evidence/claude-c0-full/scripted-artifacts/run-summary.md",
+      "sha256": "850de2abaef443f4f03d3548beb901278c497481756c7fcc12f4ea1d088f6182",
+      "bytes": 1974,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature\\run-summary.md"
+    },
+    {
+      "path": "evidence/claude-c0-full/scripted-artifacts/handoff.md",
+      "sha256": "4702406800c848e3b87d32f1ad33cce6173926a0b090c3e4d203870d4cf505f6",
+      "bytes": 304,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature\\handoff.md"
+    },
+    {
+      "path": "evidence/claude-c0-full/scripted-artifacts/kanban.md",
+      "sha256": "6966d021cf0f894cbc6ac38c852fb6bd659de99a9e753f4f28b9b06c5d940004",
+      "bytes": 178,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature\\kanban.md"
+    },
+    {
+      "path": "evidence/claude-c0-full/scripted-artifacts/.heartbeat",
+      "sha256": "329625744b20b96923bd36199406eb6f2e11e82c289c5f207a2f6261355da4a1",
+      "bytes": 75,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\docs\\spec-001-feature\\.heartbeat"
+    },
+    {
+      "path": "evidence/codex-c0-full/run.json",
+      "sha256": "a2da2783efeab32c74df9621cb10bcb37f1e26561e1c1311a89653fedeb24492",
+      "bytes": 6411,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\run.json"
+    },
+    {
+      "path": "evidence/codex-c0-full/stream.jsonl",
+      "sha256": "a69481ed1f1f8da34d6fe86803f77ea0028171e2d163f498ce091e98a76e3956",
+      "bytes": 17438,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\stream.jsonl"
+    },
+    {
+      "path": "evidence/codex-c0-full/stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\stderr.txt"
+    },
+    {
+      "path": "evidence/codex-c0-full/session.jsonl",
+      "sha256": "042d7e5dcbdab01a8d7541b8c62fc6194c317eacba96a23a726733dce472eff6",
+      "bytes": 49352,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\session.jsonl"
+    },
+    {
+      "path": "evidence/codex-c0-full/mock-summary.json",
+      "sha256": "4fcde2d084e5ad0d4e667ebf2f33c1f04a0df7cd22c0bad7e7d5033de3c66770",
+      "bytes": 3413,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\mock-summary.json"
+    },
+    {
+      "path": "evidence/codex-c0-full/oracle-output.txt",
+      "sha256": "1ddc4635ce16bfac5dbfed83c8f1e62a83db0a05c1232639f172c637f80000b8",
+      "bytes": 2880,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/codex-c0-full/oracle-seed-output.txt",
+      "sha256": "366a6d7731fcc213dd3f71fa5863244b58f3ca90a941a54659627c60bfdf9f54",
+      "bytes": 11575,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\oracle-seed-output.txt"
+    },
+    {
+      "path": "evidence/codex-c0-full/solution.bundle",
+      "sha256": "bd30f97258b759e4fc15e6e171cc64841501481f22d8c1e77632e1b4cf6eb9e9",
+      "bytes": 12193,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\solution.bundle"
+    },
+    {
+      "path": "evidence/codex-c0-full/analysis.json",
+      "sha256": "fbdbe9fb570923ed8620c1d8527387508697d15fa5469e5e166008a625b3f3e8",
+      "bytes": 1021,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\analysis.json"
+    },
+    {
+      "path": "evidence/codex-c0-full/mxc-build-provenance.json",
+      "sha256": "4a81076f513dc4b0fe71786ab05c04a872dc9bd5546c52d683b7ec99a43a4813",
+      "bytes": 6131,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\mxc-build-provenance.json"
+    },
+    {
+      "path": "evidence/codex-c0-full/c0-full-summary.json",
+      "sha256": "81e34a3479f5e6b4f879c7d57fed8fbd78b8a05c95be9b6dd4d0dcf77d6b9fd2",
+      "bytes": 1993,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\.git\\c0-full-summary.json"
+    },
+    {
+      "path": "evidence/codex-c0-full/c0-full-commands.json",
+      "sha256": "c96cad4d0e23746cdb225b204ee62060febfe2b0839c72dc0977d0ddad28cfb5",
+      "bytes": 12496,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\.git\\c0-full-commands.json"
+    },
+    {
+      "path": "evidence/codex-c0-full/scripted-artifacts/review-plan.md",
+      "sha256": "f5cc633a028f0c8decac619024f076ce549066e6683b5e37b95a589c2f2cbfe8",
+      "bytes": 127,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\docs\\spec-001-feature\\review-plan.md"
+    },
+    {
+      "path": "evidence/codex-c0-full/scripted-artifacts/review-phase-1.md",
+      "sha256": "eff1fbd1ba3132a7688bd64f65ce0b2a65408fed0edba0c5315657d6739edbf7",
+      "bytes": 454,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\docs\\spec-001-feature\\review-phase-1.md"
+    },
+    {
+      "path": "evidence/codex-c0-full/scripted-artifacts/review-impl.md",
+      "sha256": "efe60447620917fd40498ca3972f31082084c16f82a4ddd664ea4e458ddde838",
+      "bytes": 2022,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\docs\\spec-001-feature\\review-impl.md"
+    },
+    {
+      "path": "evidence/codex-c0-full/scripted-artifacts/run-summary.md",
+      "sha256": "b0a2aa9515713391ac6e88e315717bd71a030d09729e31ba3b084cf8a4fd41c9",
+      "bytes": 1974,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\docs\\spec-001-feature\\run-summary.md"
+    },
+    {
+      "path": "evidence/codex-c0-full/scripted-artifacts/handoff.md",
+      "sha256": "4702406800c848e3b87d32f1ad33cce6173926a0b090c3e4d203870d4cf505f6",
+      "bytes": 304,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\docs\\spec-001-feature\\handoff.md"
+    },
+    {
+      "path": "evidence/codex-c0-full/scripted-artifacts/kanban.md",
+      "sha256": "6966d021cf0f894cbc6ac38c852fb6bd659de99a9e753f4f28b9b06c5d940004",
+      "bytes": 178,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\docs\\spec-001-feature\\kanban.md"
+    },
+    {
+      "path": "evidence/codex-c0-full/scripted-artifacts/.heartbeat",
+      "sha256": "39a7f55aa6c981970f4d8b88d2e1e64c703336c0f45f5e6763549f71dbd71fb3",
+      "bytes": 75,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\docs\\spec-001-feature\\.heartbeat"
+    },
+    {
+      "path": "evidence/codex-timeout/run.json",
+      "sha256": "eef76de09935370fcf69739e9a0f251eeb025e7de2d82a6efa131be126e61a94",
+      "bytes": 5788,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111622Z-c7eaa349\\run.json"
+    },
+    {
+      "path": "evidence/codex-timeout/stream.jsonl",
+      "sha256": "58e381020a1a3c05fa886dcb9792b77ec5e5768e2a9d3325bea062290a05800d",
+      "bytes": 107,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111622Z-c7eaa349\\stream.jsonl"
+    },
+    {
+      "path": "evidence/codex-timeout/stderr.txt",
+      "sha256": "63be5fc32b4a208e0bb200b0443012d37a61969cd5ebdc78f0f200dac18b9a01",
+      "bytes": 20,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111622Z-c7eaa349\\stderr.txt"
+    },
+    {
+      "path": "evidence/codex-timeout/session.jsonl",
+      "sha256": "30a9855c93a558b6ce2000480de5d75a0381abf4da4262d30528cf5554bdeba0",
+      "bytes": 3426,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111622Z-c7eaa349\\session.jsonl"
+    },
+    {
+      "path": "evidence/codex-timeout/oracle-output.txt",
+      "sha256": "eadcd7d123b220f21152d746da1961f7a77bbe8e062b1929f71dada317f6cacb",
+      "bytes": 34842,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111622Z-c7eaa349\\oracle-output.txt"
+    },
+    {
+      "path": "evidence/codex-timeout/oracle-seed-output.txt",
+      "sha256": "febb1ed17f53c425b0c19958ebe2c7e2fd4c43ef03a0caa952a1f4c185b90c17",
+      "bytes": 11614,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111622Z-c7eaa349\\oracle-seed-output.txt"
+    },
+    {
+      "path": "evidence/codex-timeout/solution.bundle",
+      "sha256": "9bc74f12e35314fb18b4830f92a538aad05bffe3b33811602b41b9ca3daada75",
+      "bytes": 2163,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111622Z-c7eaa349\\solution.bundle"
+    },
+    {
+      "path": "evidence/codex-timeout/mxc-build-provenance.json",
+      "sha256": "79058f2de9156a448f0c186bda130935b6be3d896af21cf974af7ce579fd7aa4",
+      "bytes": 6134,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111622Z-c7eaa349\\mxc-build-provenance.json"
+    },
+    {
+      "path": "commands/claude-crash-mxc-build.json",
+      "sha256": "0f33537aaf4cf0eb58b4a1f18d14fd4f4c51de955bf7536cfa4da1266c60e9c1",
+      "bytes": 6062,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-crash-mxc-build.json"
+    },
+    {
+      "path": "commands/claude-crash.log",
+      "sha256": "a5093e45ca6b6fb881787545eb391d69f06cad20340559127ceb4fd4267f1a09",
+      "bytes": 702,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-crash.log"
+    },
+    {
+      "path": "commands/claude-full-mxc-build.json",
+      "sha256": "3907be5a647f5d208f47147ec37fe329f179047c271e2137dc03f77a52d5b846",
+      "bytes": 6075,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-full-mxc-build.json"
+    },
+    {
+      "path": "commands/claude-full.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-full.exit.txt"
+    },
+    {
+      "path": "commands/claude-full.log",
+      "sha256": "75f5b64f4195427cce589e0f826132dcb895875a3998f0aa8a57cef371d4e5fa",
+      "bytes": 717,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-full.log"
+    },
+    {
+      "path": "commands/claude-full.ps1",
+      "sha256": "b1085b72eb5beb0360858d11fd0993765b9e54a2916eeda76f0b298689214036",
+      "bytes": 874,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-full.ps1"
+    },
+    {
+      "path": "commands/claude-initial-mxc-build.json",
+      "sha256": "5fe1707e9fe54b8348a76075d1c20a70761826b36553351dd8ea5a42469317d9",
+      "bytes": 6064,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-initial-mxc-build.json"
+    },
+    {
+      "path": "commands/claude-initial.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-initial.exit.txt"
+    },
+    {
+      "path": "commands/claude-initial.log",
+      "sha256": "b3bb42002b9704d2f87360719913d42c8f1a543614bca4dfccee59cc369e759e",
+      "bytes": 732,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-initial.log"
+    },
+    {
+      "path": "commands/claude-initial.ps1",
+      "sha256": "c37be3d6e500b224957bff23f7c8195f17ea3c286cba0b0516b1ae45267653b7",
+      "bytes": 884,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-initial.ps1"
+    },
+    {
+      "path": "commands/claude-negative-matrix.json",
+      "sha256": "60e80d6f3acacdaf5f66ff230bb08fdb834033a9d1b91c4d5b0ecf9fc6db696b",
+      "bytes": 15389,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-negative-matrix.json"
+    },
+    {
+      "path": "commands/claude-negative-matrix.ps1",
+      "sha256": "e5952e8cceafa1339eefa6e99038782abc7bb62b32c59cfea5b6cb1cce99f515",
+      "bytes": 2958,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-negative-matrix.ps1"
+    },
+    {
+      "path": "commands/claude-refusal-one-mxc-build.json",
+      "sha256": "55b9ee5c65c7e673a2bee6907e6779dbe11de64aad7d6990911461b68a91b784",
+      "bytes": 6068,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-refusal-one-mxc-build.json"
+    },
+    {
+      "path": "commands/claude-refusal-one.log",
+      "sha256": "14c2c0ca495b9f8845c03291d1c376fd39d1e9a3adb8ba43d0ebca146463e767",
+      "bytes": 817,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-refusal-one.log"
+    },
+    {
+      "path": "commands/claude-refusal-zero-mxc-build.json",
+      "sha256": "b188ded3edc1d4431c26cbf43479609381ea2cb6e4173b1aa6430a3f400ac8a3",
+      "bytes": 6069,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-refusal-zero-mxc-build.json"
+    },
+    {
+      "path": "commands/claude-refusal-zero.log",
+      "sha256": "d73458aab894339cfc84f11582f0010356c503a1181590b17fa6df95ae981190",
+      "bytes": 738,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-refusal-zero.log"
+    },
+    {
+      "path": "commands/claude-timeout-mxc-build.json",
+      "sha256": "06012c26ba453c19f7deb8719cae4728100a2645d73eaf7bc03d77b72da0f768",
+      "bytes": 6064,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-mxc-build.json"
+    },
+    {
+      "path": "commands/claude-timeout-oracle-fault-verified-injection.json",
+      "sha256": "593aa0f2dc2e0b715f8a546237c4952cd6decfaf2077045ad91f9264903d325b",
+      "bytes": 429,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-oracle-fault-verified-injection.json"
+    },
+    {
+      "path": "commands/claude-timeout-oracle-fault-verified-mxc-build.json",
+      "sha256": "7ca88de92da6cb37d77077ee7224318cfd8b1dece5ee4de4498775461a56228b",
+      "bytes": 6086,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-oracle-fault-verified-mxc-build.json"
+    },
+    {
+      "path": "commands/claude-timeout-oracle-fault-verified.exit.txt",
+      "sha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-oracle-fault-verified.exit.txt"
+    },
+    {
+      "path": "commands/claude-timeout-oracle-fault-verified.log",
+      "sha256": "ef75e9939e005c9eb8a93c692235efcd587129f574dd1ca987658b2bce508711",
+      "bytes": 715,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-oracle-fault-verified.log"
+    },
+    {
+      "path": "commands/claude-timeout-oracle-fault-verified.ps1",
+      "sha256": "b25a1812eadd9355f69728639d73f4537656c022079ce3a117dd77f5dc6ec2a0",
+      "bytes": 2611,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-oracle-fault-verified.ps1"
+    },
+    {
+      "path": "commands/claude-timeout-postprocess-fault-injection.json",
+      "sha256": "66a453b9bfe565f92a7244933997b962c594f886871001fd94e928b01e79dc1b",
+      "bytes": 747,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-postprocess-fault-injection.json"
+    },
+    {
+      "path": "commands/claude-timeout-postprocess-fault-mxc-build.json",
+      "sha256": "12586f177ce7c72d34f39dadec1493cf118f9bea48ac47d1b9c040ee9261d7f6",
+      "bytes": 6082,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-postprocess-fault-mxc-build.json"
+    },
+    {
+      "path": "commands/claude-timeout-postprocess-fault.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-postprocess-fault.exit.txt"
+    },
+    {
+      "path": "commands/claude-timeout-postprocess-fault.log",
+      "sha256": "f12e606ed5bed5090c4cc291139bd32a0aa123510ba0932c2e6bf94a854e8e3c",
+      "bytes": 722,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-postprocess-fault.log"
+    },
+    {
+      "path": "commands/claude-timeout-postprocess-fault.ps1",
+      "sha256": "6bc9d3caa66ffaa4203305cd04e90ef59730698ef7276c78b52a8371b6019513",
+      "bytes": 911,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout-postprocess-fault.ps1"
+    },
+    {
+      "path": "commands/claude-timeout.log",
+      "sha256": "9090d30d56be0691e5c584224a43d17a80c06969f445a229b9e8977e3c3b8efe",
+      "bytes": 704,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\claude-timeout.log"
+    },
+    {
+      "path": "commands/codex-fail-result.json",
+      "sha256": "d45b187d326a094d56c8a7dd82411c526f102cad6a5618dedb71e15a3aff79fa",
+      "bytes": 3691,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-fail-result.json"
+    },
+    {
+      "path": "commands/codex-fail.exit.txt",
+      "sha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-fail.exit.txt"
+    },
+    {
+      "path": "commands/codex-fail.log",
+      "sha256": "94625eb9132ca7efc8c4fabc3036628e35e13103940f8c832a65ccc5b8a892da",
+      "bytes": 1351,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-fail.log"
+    },
+    {
+      "path": "commands/codex-fail.ps1",
+      "sha256": "c2907b2f602c67608678a70e07fb8d7c79fa44c9695f6757b9670f25ecd67c72",
+      "bytes": 968,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-fail.ps1"
+    },
+    {
+      "path": "commands/codex-full.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-full.exit.txt"
+    },
+    {
+      "path": "commands/codex-full.log",
+      "sha256": "76a3dfecfec5dfa151be3d50ca8e2738311c104ea0109c5817642ce60419112f",
+      "bytes": 1291,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-full.log"
+    },
+    {
+      "path": "commands/codex-full.ps1",
+      "sha256": "0e1279da3d0f671c0e81d15ba88334a557f2f5f5104e8a1fd979e709f54e9557",
+      "bytes": 973,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-full.ps1"
+    },
+    {
+      "path": "commands/codex-initial.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-initial.exit.txt"
+    },
+    {
+      "path": "commands/codex-initial.log",
+      "sha256": "f416c8d3e97bec1d8e237fb456cde03a25da7e505f8798dbe72d18f46223b3d3",
+      "bytes": 1257,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-initial.log"
+    },
+    {
+      "path": "commands/codex-initial.ps1",
+      "sha256": "aa53f133b3f52646e4d0a51411636a24e9cdf3c478441ae739fbad9af315c9ee",
+      "bytes": 975,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-initial.ps1"
+    },
+    {
+      "path": "commands/codex-timeout.exit.txt",
+      "sha256": "f1b2f662800122bed0ff255693df89c4487fbdcf453d3524a42d4ec20c3d9c04",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-timeout.exit.txt"
+    },
+    {
+      "path": "commands/codex-timeout.log",
+      "sha256": "a1631498bee86f72810a41e72869c5c257c5bd8ee232548293769adf2a97c80c",
+      "bytes": 1437,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-timeout.log"
+    },
+    {
+      "path": "commands/codex-timeout.ps1",
+      "sha256": "e726c2e1584023cbcd601b5768bdfef0f05a0ceb0f15fcfb76914613d1af2c5d",
+      "bytes": 974,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\codex-timeout.ps1"
+    },
+    {
+      "path": "commands/collect.py",
+      "sha256": "aec7f851efcb4d32193de2543a6586de13170789e7e4886e850b4f31f5a5108a",
+      "bytes": 8328,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\collect.py"
+    },
+    {
+      "path": "commands/scoped-preview-results.json",
+      "sha256": "cca06a206b4f1464d995c782c77c2607a1474aa51624cfc5a04d6227e25476f2",
+      "bytes": 3108,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-results.json"
+    },
+    {
+      "path": "commands/scoped-preview.log",
+      "sha256": "cca06a206b4f1464d995c782c77c2607a1474aa51624cfc5a04d6227e25476f2",
+      "bytes": 3108,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview.log"
+    },
+    {
+      "path": "commands/scoped-preview.py",
+      "sha256": "52c8c0013debeea9d3d7e9cc98da9275bdf6fb25fab0c8bbcae7f9368896ca13",
+      "bytes": 4789,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview.py"
+    },
+    {
+      "path": "commands/scoring-claude.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-claude.exit.txt"
+    },
+    {
+      "path": "commands/scoring-claude.log",
+      "sha256": "580bace028fc90e6adce310d65d89324435597d3f55f1569b6e66c46ac3848dd",
+      "bytes": 232,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-claude.log"
+    },
+    {
+      "path": "commands/scoring-codex.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-codex.exit.txt"
+    },
+    {
+      "path": "commands/scoring-codex.log",
+      "sha256": "580bace028fc90e6adce310d65d89324435597d3f55f1569b6e66c46ac3848dd",
+      "bytes": 232,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-codex.log"
+    },
+    {
+      "path": "commands/scoring-fresh-claude.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-claude.exit.txt"
+    },
+    {
+      "path": "commands/scoring-fresh-claude.log",
+      "sha256": "686f2f2f032a03c76500db3d35b388ab2570d11a075895bbbd5d464b2e7847c0",
+      "bytes": 233,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-claude.log"
+    },
+    {
+      "path": "commands/scoring-fresh-codex.exit.txt",
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354",
+      "bytes": 3,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-codex.exit.txt"
+    },
+    {
+      "path": "commands/scoring-fresh-codex.log",
+      "sha256": "686f2f2f032a03c76500db3d35b388ab2570d11a075895bbbd5d464b2e7847c0",
+      "bytes": 233,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-codex.log"
+    },
+    {
+      "path": "scoring/scoring-claude/score.json",
+      "sha256": "a4b0a793ac1878f2239f5cd63f80596afd12c7ee362ae3d9b0ffa4241d6b2fdc",
+      "bytes": 14767,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-claude\\score.json"
+    },
+    {
+      "path": "scoring/scoring-claude/score.md",
+      "sha256": "3c06e4a1f0d5cd06aaf915558b68e885c400201e07dfd2dce0cb7bfa983b2ed9",
+      "bytes": 4804,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-claude\\score.md"
+    },
+    {
+      "path": "scoring/scoring-fresh-claude/score.json",
+      "sha256": "e2b1c18c298b830ce960197ebf4e078fb3738d9dec9b20a761d098b4e3185421",
+      "bytes": 15637,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-claude\\score.json"
+    },
+    {
+      "path": "scoring/scoring-fresh-claude/score.md",
+      "sha256": "fef8cee67f61ac748a1f0580a6aacb50979b33bc486b5f688620470f14bb1926",
+      "bytes": 4806,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-claude\\score.md"
+    },
+    {
+      "path": "scoped/scoped-preview-claude/evaluation-inputs.json",
+      "sha256": "4c709548672622b2e0f3c59c35028a7e0a07f1ec9b3c5d82540ec92bab3c85e4",
+      "bytes": 4029,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\evaluation-inputs.json"
+    },
+    {
+      "path": "scoped/scoped-preview-claude/first.json",
+      "sha256": "0fc534113f3d91ca8a076705db1595a98b052e74c791b442bfc98ccfabf91076",
+      "bytes": 9602,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\first.json"
+    },
+    {
+      "path": "scoped/scoped-preview-claude/observations.json",
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+      "bytes": 4,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\observations.json"
+    },
+    {
+      "path": "scoped/scoped-preview-claude/other-version.json",
+      "sha256": "1fd0f78cbff6eedc968ad0d0d06c04f9b060a1d688e7bf911f5aab7fed5cd46a",
+      "bytes": 9602,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\other-version.json"
+    },
+    {
+      "path": "scoped/scoped-preview-claude/parity.log",
+      "sha256": "bb40ea2039eaf7b543d63288dcc95517f4ccc2c259433bb8356155d7d19930c7",
+      "bytes": 194,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\parity.log"
+    },
+    {
+      "path": "scoped/scoped-preview-claude/repeat.json",
+      "sha256": "0fc534113f3d91ca8a076705db1595a98b052e74c791b442bfc98ccfabf91076",
+      "bytes": 9602,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\repeat.json"
+    },
+    {
+      "path": "scoped/scoped-preview-claude/parity/parity.json",
+      "sha256": "7109205f010f1973339a311b88fa408f0d5f2719be1ca16b783c123341d4d210",
+      "bytes": 15059,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\parity\\parity.json"
+    },
+    {
+      "path": "scoring/scoring-codex/score.json",
+      "sha256": "4144a39f21294ff9db3e0ceec2acced5d31470c4102b0649fccd3d784a1f1651",
+      "bytes": 14760,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-codex\\score.json"
+    },
+    {
+      "path": "scoring/scoring-codex/score.md",
+      "sha256": "7ede99db334614c789a1ed226b34837bf754e6de759fc6de8659b47224507aaa",
+      "bytes": 4784,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-codex\\score.md"
+    },
+    {
+      "path": "scoring/scoring-fresh-codex/score.json",
+      "sha256": "6f4a9d73724b5fada31c11925ae71190428125384a29ea799550122118c50f0b",
+      "bytes": 15630,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-codex\\score.json"
+    },
+    {
+      "path": "scoring/scoring-fresh-codex/score.md",
+      "sha256": "148a16d2e608af025bfcf2003093e6986047bb99e0463641895559befd869d9c",
+      "bytes": 4786,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-codex\\score.md"
+    },
+    {
+      "path": "scoped/scoped-preview-codex/evaluation-inputs.json",
+      "sha256": "bbb9fb6b828f6af3003d93b395bfbb84a1851b62a4f283ad503f666f0ddb1663",
+      "bytes": 4087,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\evaluation-inputs.json"
+    },
+    {
+      "path": "scoped/scoped-preview-codex/first.json",
+      "sha256": "bafebb266fc7242d780affa117d38f0452afb16d77e64e948a840566a6d09dd7",
+      "bytes": 9665,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\first.json"
+    },
+    {
+      "path": "scoped/scoped-preview-codex/observations.json",
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+      "bytes": 4,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\observations.json"
+    },
+    {
+      "path": "scoped/scoped-preview-codex/other-version.json",
+      "sha256": "f747c8d2375a8adbcab370488d5238fbed34f33a470a8257a7052b472b92e140",
+      "bytes": 9665,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\other-version.json"
+    },
+    {
+      "path": "scoped/scoped-preview-codex/parity.log",
+      "sha256": "d9b1ae250a2d7ead2c1756ad36b843009cad3dec9481a7c1f6ddd7be7602f9c0",
+      "bytes": 188,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\parity.log"
+    },
+    {
+      "path": "scoped/scoped-preview-codex/repeat.json",
+      "sha256": "bafebb266fc7242d780affa117d38f0452afb16d77e64e948a840566a6d09dd7",
+      "bytes": 9665,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\repeat.json"
+    },
+    {
+      "path": "scoped/scoped-preview-codex/parity/parity.json",
+      "sha256": "e3d00051ec3a7e97760298a7cb9a7eba7a7a64d3151ba2faa893615fac7b2dd3",
+      "bytes": 15189,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\parity\\parity.json"
+    },
+    {
+      "path": "support/fixture-support.diff",
+      "sha256": "d5b242c5fcbfca070617a049ff722841fd941407d8abb2b998b75ad1b2d0b2c8",
+      "bytes": 321064,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\outputs\\c0-full-fixture\\fixture-support.diff"
+    },
+    {
+      "path": "support/fixture-support-manifest.json",
+      "sha256": "231a216d1bf35797d27ee1228c0e27b71db2b0623f8f0cab6a02c06b39989334",
+      "bytes": 1963,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\outputs\\c0-full-fixture\\fixture-support-manifest.json"
+    },
+    {
+      "path": "support/verified-tests.log",
+      "sha256": "a4dfa00567fbb7aef5e64812dc2ad970b62c3ee89f4eb5a56a0310b0e504b9a6",
+      "bytes": 102,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\outputs\\c0-full-fixture\\verified-tests.log"
+    },
+    {
+      "path": "support/script-validation.log",
+      "sha256": "afdbd7998edbe9bb3b1ee38a1f9ccaef1703cd2b1be1e9dddcfbf9cf6e5f3744",
+      "bytes": 637,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\outputs\\c0-full-fixture\\script-validation.log"
+    },
+    {
+      "path": "support/README.md",
+      "sha256": "67c2f6623cab21aa3d1a924d026881930465f24756fb65ed22414b0eafaee462",
+      "bytes": 3417,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\outputs\\c0-full-fixture\\README.md"
+    },
+    {
+      "path": "support/c0_fixture.py",
+      "sha256": "89a867dfd5c5680b61e5add9a706cb8bc27aaff65e7a69e12258cf094d472b5e",
+      "bytes": 14910,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\c0_fixture.py"
+    },
+    {
+      "path": "support/test_c0_fixture.py",
+      "sha256": "9aa1418d97f72bd1c091078f45edadfbf7cc55d87e2a0a029b69ba3ebc6082fe",
+      "bytes": 10503,
+      "source": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\test_c0_fixture.py"
+    },
+    {
+      "path": "commands/collection.log",
+      "sha256": "a0fb7c079df0c6281752408be1d21128956ee097d1c4d28410f321b978df2ca4",
+      "bytes": 351,
+      "source": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\collection.log"
+    }
+  ]
+}

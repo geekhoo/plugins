@@ -1,0 +1,533 @@
+{
+  "schema": "geeky-eval.parity/1",
+  "harness": "claude-code",
+  "run": "eval-c0-wordstat-20261026T111333Z",
+  "session_id": "ddd65be2-4ffb-4a21-94d8-77f5906c3f58",
+  "composite": 65.07,
+  "quality": 100.0,
+  "adherence": 59.26,
+  "adherence_uncapped": 59.26,
+  "adherence_fraction": "16/27",
+  "consistency": 14.12,
+  "dpc": 0.1765,
+  "order": 0.0,
+  "efficiency": {
+    "tokens_total": null,
+    "wall_time_s": 10.781976800062694,
+    "latency_median_ms": null,
+    "commits": 3,
+    "interventions": 0,
+    "calls": null,
+    "backend": null,
+    "cost": null
+  },
+  "stage_bounds": {
+    "spec-research": [
+      "",
+      null
+    ],
+    "geeky-plan": [
+      null,
+      "2026-10-26T11:13:38.000000+00:00"
+    ],
+    "plan-review": [
+      "2026-10-26T11:13:38.000000+00:00",
+      null
+    ],
+    "geeky-implement": [
+      null,
+      "9999"
+    ],
+    "impl-review": [
+      null,
+      "9999"
+    ]
+  },
+  "phases": {
+    "P1": [
+      "T1",
+      "T2"
+    ]
+  },
+  "needs_judge": [
+    "a.one_concern_per_commit",
+    "a.final_report_claims",
+    "dp07",
+    "dp13"
+  ],
+  "checks": [
+    {
+      "id": "a.planning_folder",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 2 task file(s) found."
+    },
+    {
+      "id": "a.task_schema",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 2 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "a.kanban_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2"
+    },
+    {
+      "id": "a.dod.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "a.notes.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T1-scaffold-package.notes.md"
+    },
+    {
+      "id": "a.dod.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T2"
+    },
+    {
+      "id": "a.notes.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T2-smoke-tests.notes.md"
+    },
+    {
+      "id": "a.run_summary",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "a.heartbeat_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "{\"ts\": \"2026-10-26T11:13:45.510146+00:00\", \"task\": \"T2\", \"status\": \"done\"}"
+    },
+    {
+      "id": "a.prescribed.spec",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "spec-research commit subject"
+    },
+    {
+      "id": "a.prescribed.plan_review",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "plan-review commit subject exact"
+    },
+    {
+      "id": "a.prescribed.critical_fix",
+      "dimension": "adherence",
+      "status": "na",
+      "evidence": "no critical-fix commit"
+    },
+    {
+      "id": "a.commit_messages",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "0 post-plan-review commits; failing: []"
+    },
+    {
+      "id": "a.frozen_untouched",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "frozen files changed after plan-review: []"
+    },
+    {
+      "id": "a.no_forbidden_git",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reflog: []; commands: []"
+    },
+    {
+      "id": "a.task_dispatch.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T1"
+    },
+    {
+      "id": "a.task_review.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T1 or P1"
+    },
+    {
+      "id": "a.dod_gate.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T1 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T2"
+    },
+    {
+      "id": "a.task_review.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T2 or P1"
+    },
+    {
+      "id": "a.dod_gate.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T2 during implement"
+    },
+    {
+      "id": "a.phase_verdict.P1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.kanban_gate",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 validate-kanban runs for 2 tasks"
+    },
+    {
+      "id": "a.commit_gate",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "0 check-commit runs for 0 code commits"
+    },
+    {
+      "id": "a.tests_run",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 pytest runs during implement"
+    },
+    {
+      "id": "a.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "main-thread code/test writes: []"
+    },
+    {
+      "id": "a.run_completed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "exit_reason completed"
+    },
+    {
+      "id": "a.work_committed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "uncommitted at the end: []"
+    },
+    {
+      "id": "a.one_concern_per_commit",
+      "dimension": "adherence",
+      "status": "needs_judge",
+      "evidence": "from --manual"
+    },
+    {
+      "id": "a.final_report_claims",
+      "dimension": "adherence",
+      "status": "needs_judge",
+      "evidence": "from --manual"
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 spec-research dispatches"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "see a.prescribed.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "see a.prescribed.plan_review"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "every task reviewed"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "DoD gate for every task"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "phase verdict for every phase"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.commit_gate"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 impl-review dispatches"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.heartbeat_final"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "status": "needs_judge",
+      "evidence": "from --manual"
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "status": "needs_judge",
+      "evidence": "from --manual"
+    }
+  ],
+  "evaluation_scope": {
+    "schema": "geeky-eval.inputs/1",
+    "scope_id": "mock-c0-claude-20261026T111333Z",
+    "kind": "initial",
+    "parent_scope_id": null,
+    "configuration": {
+      "prompt_sha256": "58a9493869d60ac138a3dab4edf7bc40e5e92d2defb90b97f61cb85c25bd7e55",
+      "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210"
+    },
+    "sources": [
+      {
+        "id": "run",
+        "path": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\run.json",
+        "sha256": "4ce8e1f7dbf3e1fa36ac9fad49e6aab36c4c474b2ea1b066f75f3bf40faed5fe",
+        "ancestry": []
+      },
+      {
+        "id": "score",
+        "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-claude\\score.json",
+        "sha256": "e2b1c18c298b830ce960197ebf4e078fb3738d9dec9b20a761d098b4e3185421",
+        "ancestry": []
+      },
+      {
+        "id": "observations",
+        "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\observations.json",
+        "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+        "ancestry": []
+      },
+      {
+        "id": "scripted-evidence",
+        "path": "C:\\repos\\c0-remediation-mock-20261026\\claude-full\\eval-c0-wordstat-20261026T111333Z\\.git\\c0-full-summary.json",
+        "sha256": "a5ac4202ca177a57ee38d737c76eedc65a8977b7f315b591620c2d771c755bca",
+        "ancestry": []
+      },
+      {
+        "id": "bundle",
+        "path": "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z\\solution.bundle",
+        "sha256": "73f7b0aeabc183b83327907debdde896d398a5ffa6d04316beb3df197b8f5bc3",
+        "ancestry": []
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "7d979077-f3fa-4998-8a18-f251e8b679f1",
+        "attempt_id": "133ff005-2bdd-4791-8b89-685756522fd4",
+        "authorization_reference": "user-20261026-nonchargeable-mock-c0",
+        "start": "2026-10-26T11:13:33.557315+00:00",
+        "end": "2026-10-26T11:18:33.557315+00:00"
+      }
+    ],
+    "ownership": {
+      "method": "source-reviewed",
+      "rule": "Parent observed one fresh scripted mock invocation; no history merge; scripted evidence is not an independent model review.",
+      "evidence_source": "scripted-evidence",
+      "assignments": [
+        {
+          "source_id": "run",
+          "logical_ids": [
+            "7d979077-f3fa-4998-8a18-f251e8b679f1"
+          ]
+        }
+      ]
+    },
+    "metric_default": {
+      "scope_id": "mock-c0-claude-20261026T111333Z",
+      "population": "fresh scripted mock process and disposable candidate",
+      "source_ids": [
+        "run",
+        "bundle"
+      ],
+      "additive": false,
+      "complete": true
+    },
+    "metrics": {
+      "tokens": {
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "complete": false
+      },
+      "calls": {
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "complete": false
+      },
+      "latency_idle": {
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "complete": false
+      },
+      "backend": {
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "complete": false
+      },
+      "cost": {
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "complete": false
+      },
+      "coverage": {
+        "population": "telemetry disabled; no observations",
+        "source_ids": [
+          "observations"
+        ],
+        "complete": false
+      }
+    },
+    "input_sha256": "4c709548672622b2e0f3c59c35028a7e0a07f1ec9b3c5d82540ec92bab3c85e4",
+    "metric_labels": {
+      "runtime": {
+        "scope_id": "mock-c0-claude-20261026T111333Z",
+        "population": "fresh scripted mock process and disposable candidate",
+        "source_ids": [
+          "run",
+          "bundle"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "tokens": {
+        "scope_id": "mock-c0-claude-20261026T111333Z",
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "calls": {
+        "scope_id": "mock-c0-claude-20261026T111333Z",
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "latency_idle": {
+        "scope_id": "mock-c0-claude-20261026T111333Z",
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "commits": {
+        "scope_id": "mock-c0-claude-20261026T111333Z",
+        "population": "fresh scripted mock process and disposable candidate",
+        "source_ids": [
+          "run",
+          "bundle"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "coverage": {
+        "scope_id": "mock-c0-claude-20261026T111333Z",
+        "population": "telemetry disabled; no observations",
+        "source_ids": [
+          "observations"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "backend": {
+        "scope_id": "mock-c0-claude-20261026T111333Z",
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "cost": {
+        "scope_id": "mock-c0-claude-20261026T111333Z",
+        "population": "synthetic or unavailable; not provider billing evidence",
+        "source_ids": [
+          "run",
+          "scripted-evidence"
+        ],
+        "additive": false,
+        "complete": false
+      }
+    },
+    "completeness": "sources-verified",
+    "missing_sources": []
+  },
+  "prompt_sha256": "58a9493869d60ac138a3dab4edf7bc40e5e92d2defb90b97f61cb85c25bd7e55",
+  "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210"
+}

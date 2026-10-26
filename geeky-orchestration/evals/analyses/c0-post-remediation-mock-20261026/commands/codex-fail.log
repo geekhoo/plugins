@@ -1,0 +1,12 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+{"ok": true, "report": "C:\\repos\\c0-remediation-mock-20261026\\codex-fail\\.eval-cfg-codex-20261026T110548Z-de605bce\\codex-profile.json"}
+workspace: C:\repos\c0-remediation-mock-20261026\codex-fail\eval-c0-wordstat-codex-20261026T110548Z-de605bce (seed a941196df28a1ac1019c5ba351f8944d198abfd3)
+prepared: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c0-wordstat\20261026T110548Z-de605bce
+{"main_thread_id": "4339ccbb-8550-4ba1-9387-18ffd4b052c1", "threads": [{"thread_id": "4339ccbb-8550-4ba1-9387-18ffd4b052c1", "parent_thread_id": null, "file": "session.jsonl"}]}
+stored: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c0-wordstat\20261026T110548Z-de605bce (analysis status: skipped-process-or-capture-error; score-run.py requires reviewed manual verdicts)
+Exception: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\scripts\run-codex-baseline.ps1:417
+Line |
+ 417 |  … $MockAgent -and $record.is_error) { throw "Codex mock failed: $out" }
+     |                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Codex mock failed:
+     | C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c0-wordstat\20261026T110548Z-de605bce

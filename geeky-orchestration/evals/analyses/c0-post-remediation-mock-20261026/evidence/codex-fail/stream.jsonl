@@ -1,0 +1,6 @@
+{"type": "thread.started", "thread_id": "4339ccbb-8550-4ba1-9387-18ffd4b052c1"}
+{"type": "turn.started"}
+{"type": "mock_check", "name": "fail", "passed": false, "detail": "RuntimeError: Deliberate negative-control scenario"}
+{"type": "item.completed", "item": {"id": "mock-fail", "type": "agent_message", "text": "Mock fail: FAIL"}}
+{"type": "mock_summary", "checks": [{"name": "fail", "passed": false, "detail": "RuntimeError: Deliberate negative-control scenario"}], "passed": false, "ok": false, "model_calls": 0, "tokens": 0, "thread_id": "4339ccbb-8550-4ba1-9387-18ffd4b052c1"}
+{"type": "turn.failed", "error": {"message": "Mock checks failed"}}

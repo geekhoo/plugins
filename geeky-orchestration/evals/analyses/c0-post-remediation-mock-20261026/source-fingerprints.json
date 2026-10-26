@@ -1,0 +1,142 @@
+{
+  "accepted_source_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "main_product": [
+    {
+      "path": "geeky-orchestration/evals/mxc-litellm-runbook.md",
+      "sha256": "1a831b1159c227ff74d328b5c576a5fefadc65a34497fdbf83a535cd6c4baac8",
+      "git_blob": "6ca8952d641ced80d3b86ced8b7161ed54e22759"
+    },
+    {
+      "path": "geeky-orchestration/evals/prompts/end-to-end.md",
+      "sha256": "0b0f0cd28010362df331cd27a443dfe20f64ec2db1309246a72739f8b53ad38b",
+      "git_blob": "af2558d5f61dc6110766f685adbcb1f6c56c7c64"
+    },
+    {
+      "path": "geeky-orchestration/evals/prompts/README.md",
+      "sha256": "97c6d2b9284148c01bc39e292c039aad45830023bc443cfbdec6b2933e9ab6fb",
+      "git_blob": "ce65186ad1988a26af5e7e30227747d56cd0ff5b"
+    },
+    {
+      "path": "geeky-orchestration/evals/QUICKSTART.md",
+      "sha256": "75056499fc0af49a26968feb5e82d836e5116bb5baa9216061d6ad10a069bed3",
+      "git_blob": "b0f5352b9584a222e916a96b462b59c1effa8671"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/evaluation_scope.py",
+      "sha256": "c17ee14a52c0cca70d7a844df2bbf3b20f276553d3717d26b8ea19d11dfc8629",
+      "git_blob": "395f41d8e937da6808c68cafc61c2042c331ef11"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/parity-eval.py",
+      "sha256": "44883bccb41a7d1a5671696921c002c2cd6e0fdefbe250bb0853401d637c0807",
+      "git_blob": "8c627a9b1588db1f619563734fb4dfdb23dfa475"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/run-baseline.ps1",
+      "sha256": "5900c42e943e9d2791efbf40823cfe8f064ab50f7196049ff455f8e9d0884be5",
+      "git_blob": "ab68269375c8a2bba8495aed68621bc0f9ff64dc"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/run-codex-baseline.ps1",
+      "sha256": "32054a4da815033856e800529046cc4151e3746fe7f5a8a341af59db38f84010",
+      "git_blob": "b34baacf99b88ffcb1fec6495e4f30c5f916edcf"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/run-lifecycle.ps1",
+      "sha256": "eb7ee3183ed4bbd6505e8b860169bb89e8727da788bf608ef8732e8b50b19268",
+      "git_blob": "3a0ef0786da2485fe57e6ecab47547054ec561e8"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/test_parity_eval.py",
+      "sha256": "34c3eba78eb8526b08e47594f7d06f60dd3935e53246d9823623da1dd48fd764",
+      "git_blob": "e508da5c9f95802587046b1bd468806b05b6b701"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/test_run_lifecycle.py",
+      "sha256": "c548107e54aad68ec7e5b69bc21c6f14382f7f9bf40407b996ef192d59ea0aab",
+      "git_blob": "d3c8255585ec4060086c31be1b1474ac98ceba2e"
+    },
+    {
+      "path": "geeky-orchestration/evals/telemetry/langfuse-scores.py",
+      "sha256": "0f4143130359c713fd4f5382db39d12b6e56968ef9bbeb91dfb1299c8d12ebc1",
+      "git_blob": "e7c8a7ae9cfe24dd1f887e217d8f41a88ef56971"
+    },
+    {
+      "path": "geeky-orchestration/evals/telemetry/README.md",
+      "sha256": "7da00b39a4767652ae4a1ac0fbcc72ac2ba44099b8ead9407475a82abf653f5f",
+      "git_blob": "514c0df27ff3e616bc9db148e86c5d61366cc3a7"
+    },
+    {
+      "path": "geeky-orchestration/evals/telemetry/telemetry.ps1",
+      "sha256": "fbe561d295b970a6541795775cac2f3be306a372d583bec0a76f6f4303ef6670",
+      "git_blob": "8bff3924aea32866000a688e1ae46ba754d34521"
+    },
+    {
+      "path": "geeky-orchestration/evals/telemetry/test_langfuse_scores.py",
+      "sha256": "fd8b4635eba818912b0e76db26252ac27e9b261184c262c20267580fcd34be2c",
+      "git_blob": "4acaebd865febefd197d7d0290bbf4e95b87c3f8"
+    },
+    {
+      "path": "geeky-orchestration/skills/geeky-implement/references/execution-protocol.md",
+      "sha256": "bd21dca7093b3b08196cd1340030a81fa1244c81a67daa73b5b3ec8c7496c727",
+      "git_blob": "a6a356595b84d59997a35b67e868c47ac46bcb63"
+    },
+    {
+      "path": "geeky-orchestration/skills/geeky-implement/SKILL.md",
+      "sha256": "12096891b725c53abe23804b70887ce039b3faacc3779001ba80fc5f4dff0347",
+      "git_blob": "e7a837fa76a03782f76497a427bf8a11bb5f2d3e"
+    },
+    {
+      "path": "geeky-orchestration/skills/impl-review/SKILL.md",
+      "sha256": "3ffcfc67aaaa240c81bb1742de40d609eb8f114887d2e17e480c4d748e4e0046",
+      "git_blob": "5d1cc9f7a4c03a00e1750f20447e8eaaa172efa3"
+    },
+    {
+      "path": "geeky-orchestration/skills/plan-review/SKILL.md",
+      "sha256": "69775ce8679ff85ead409a10b037beafc3f2f5853228576b2f7ac0d315e9a000",
+      "git_blob": "ae723486daa6c308e693eb20e607dc168e88f32b"
+    }
+  ],
+  "fixture_support": {
+    "head": "d90bbd352d5722784180100bf5e431e91bc55210",
+    "python": "Python 3.14.7",
+    "scope": "isolated fixture support; no fixture checkout commit, push, oracle or MXC execution",
+    "files": [
+      {
+        "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\mock_claude.py",
+        "sha256": "a6a54a8ba74f982cd5e87a72ef67d96b64dedb8838624ebab5b950961e7243e2",
+        "bytes": 64612
+      },
+      {
+        "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\c0_fixture.py",
+        "sha256": "89a867dfd5c5680b61e5add9a706cb8bc27aaff65e7a69e12258cf094d472b5e",
+        "bytes": 14910
+      },
+      {
+        "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\test_c0_fixture.py",
+        "sha256": "9aa1418d97f72bd1c091078f45edadfbf7cc55d87e2a0a029b69ba3ebc6082fe",
+        "bytes": 10503
+      },
+      {
+        "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\README.md",
+        "sha256": "41a436c440629170111cb3195f819ebbb9c3ecb15f81c247b600a763da82ee69",
+        "bytes": 2264
+      },
+      {
+        "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\adapters\\codex\\mock_codex.py",
+        "sha256": "08b66a93de4fb5b3ea6ed4396f648e575a9c08968b767f6bbfbc5421851d6532",
+        "bytes": 21977
+      },
+      {
+        "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\scripts\\run-baseline.ps1",
+        "sha256": "c9a6ae7619d505d07a2b820c1a72f972639fe0e51e6701fe3579439c25af0409",
+        "bytes": 29716
+      },
+      {
+        "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\scripts\\run-codex-baseline.ps1",
+        "sha256": "14fa71730d60d3e1b5eb1ac81e3adee533947923d88a3c84f10b63546453a9dc",
+        "bytes": 30273
+      }
+    ]
+  }
+}

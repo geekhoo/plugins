@@ -1,0 +1,10 @@
+{
+  "mxc_runs": 12,
+  "snapshotted_files": 195,
+  "snapshot_bytes": 1891264,
+  "all_declared_hashes_checked": 116,
+  "full_c0_oracle": "13/13 x3 each",
+  "real_provider_calls": 0,
+  "main_product_unchanged": 19,
+  "report": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-post-remediation-mock-20261026"
+}

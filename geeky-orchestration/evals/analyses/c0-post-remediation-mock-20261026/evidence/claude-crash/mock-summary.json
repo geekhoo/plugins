@@ -1,0 +1,33 @@
+{
+  "type": "system",
+  "subtype": "mock_summary",
+  "session_id": "1f7eda5b-fcef-4645-9804-b1365fa43172",
+  "schema": "geeky-eval.mock-summary/1",
+  "cwd": "C:\\repos\\c0-remediation-mock-20261026\\claude-crash\\eval-c0-wordstat-20261026T110135Z",
+  "scenarios": [
+    "crash"
+  ],
+  "ok": true,
+  "counts": {
+    "pass": 1,
+    "fail": 0,
+    "warn": 0,
+    "info": 1
+  },
+  "failed": [],
+  "session_file": "C:\\repos\\c0-remediation-mock-20261026\\claude-crash-mxc\\home\\projects\\C--repos-c0-remediation-mock-20261026-claude-crash-eval-c0-wordstat-20261026T110135Z\\1f7eda5b-fcef-4645-9804-b1365fa43172.jsonl",
+  "checks": [
+    {
+      "name": "init.plugin_skills",
+      "status": "pass",
+      "detail": "8 plugin skills: geeky-orchestration:archive, geeky-orchestration:geeky-implement, geeky-orchestration:geeky-plan, geeky-orchestration:geeky-resume, geeky-orchestration:geeky-status, geeky-orchestration:impl-review, geeky-orchestration:plan-review, geeky-orchestration:spec-research",
+      "scenario": null
+    },
+    {
+      "name": "crash.simulated",
+      "status": "info",
+      "detail": "exiting 3 without a result event",
+      "scenario": "crash"
+    }
+  ]
+}

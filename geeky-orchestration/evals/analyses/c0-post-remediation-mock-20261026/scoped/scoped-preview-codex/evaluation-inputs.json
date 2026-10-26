@@ -1,0 +1,123 @@
+{
+  "schema": "geeky-eval.inputs/1",
+  "scope_id": "mock-c0-codex-20261026T111332Z-497b0ffe",
+  "kind": "initial",
+  "parent_scope_id": null,
+  "configuration": {
+    "prompt_sha256": "58a9493869d60ac138a3dab4edf7bc40e5e92d2defb90b97f61cb85c25bd7e55",
+    "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210"
+  },
+  "sources": [
+    {
+      "id": "run",
+      "path": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\run.json",
+      "sha256": "a2da2783efeab32c74df9621cb10bcb37f1e26561e1c1311a89653fedeb24492",
+      "ancestry": []
+    },
+    {
+      "id": "score",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-codex\\score.json",
+      "sha256": "6f4a9d73724b5fada31c11925ae71190428125384a29ea799550122118c50f0b",
+      "ancestry": []
+    },
+    {
+      "id": "observations",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\observations.json",
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+      "ancestry": []
+    },
+    {
+      "id": "scripted-evidence",
+      "path": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe\\.git\\c0-full-summary.json",
+      "sha256": "81e34a3479f5e6b4f879c7d57fed8fbd78b8a05c95be9b6dd4d0dcf77d6b9fd2",
+      "ancestry": []
+    },
+    {
+      "id": "bundle",
+      "path": "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe\\solution.bundle",
+      "sha256": "bd30f97258b759e4fc15e6e171cc64841501481f22d8c1e77632e1b4cf6eb9e9",
+      "ancestry": []
+    }
+  ],
+  "segments": [
+    {
+      "segment_id": "71e81810-191a-4e44-b02b-4e1d5410586a",
+      "attempt_id": "1db008cf-17f5-40f5-a83d-3f69bff06692",
+      "authorization_reference": "user-20261026-nonchargeable-mock-c0",
+      "start": "2026-10-26T11:13:33.322470+00:00",
+      "end": "2026-10-26T11:18:33.322470+00:00"
+    }
+  ],
+  "ownership": {
+    "method": "source-reviewed",
+    "rule": "Parent observed one fresh scripted mock invocation; no history merge; scripted evidence is not an independent model review.",
+    "evidence_source": "scripted-evidence",
+    "assignments": [
+      {
+        "source_id": "run",
+        "logical_ids": [
+          "71e81810-191a-4e44-b02b-4e1d5410586a"
+        ]
+      }
+    ]
+  },
+  "metric_default": {
+    "scope_id": "mock-c0-codex-20261026T111332Z-497b0ffe",
+    "population": "fresh scripted mock process and disposable candidate",
+    "source_ids": [
+      "run",
+      "bundle"
+    ],
+    "additive": false,
+    "complete": true
+  },
+  "metrics": {
+    "tokens": {
+      "population": "synthetic or unavailable; not provider billing evidence",
+      "source_ids": [
+        "run",
+        "scripted-evidence"
+      ],
+      "complete": false
+    },
+    "calls": {
+      "population": "synthetic or unavailable; not provider billing evidence",
+      "source_ids": [
+        "run",
+        "scripted-evidence"
+      ],
+      "complete": false
+    },
+    "latency_idle": {
+      "population": "synthetic or unavailable; not provider billing evidence",
+      "source_ids": [
+        "run",
+        "scripted-evidence"
+      ],
+      "complete": false
+    },
+    "backend": {
+      "population": "synthetic or unavailable; not provider billing evidence",
+      "source_ids": [
+        "run",
+        "scripted-evidence"
+      ],
+      "complete": false
+    },
+    "cost": {
+      "population": "synthetic or unavailable; not provider billing evidence",
+      "source_ids": [
+        "run",
+        "scripted-evidence"
+      ],
+      "complete": false
+    },
+    "coverage": {
+      "population": "telemetry disabled; no observations",
+      "source_ids": [
+        "observations"
+      ],
+      "complete": false
+    }
+  }
+}

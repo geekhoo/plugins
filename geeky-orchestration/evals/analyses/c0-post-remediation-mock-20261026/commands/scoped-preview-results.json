@@ -1,0 +1,72 @@
+[
+  {
+    "harness": "claude",
+    "scope": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\evaluation-inputs.json",
+    "parity_command": [
+      "C:\\Python314\\python.exe",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\parity-eval.py",
+      "C:\\repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111333Z",
+      "--observations",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\observations.json",
+      "--score",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-claude\\score.json",
+      "--scope",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\evaluation-inputs.json",
+      "--out",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-claude\\parity"
+    ],
+    "parity_exit": 0,
+    "telemetry_observations": 0,
+    "model_judges_called": 0,
+    "first_exit": 0,
+    "repeat_exit": 0,
+    "other-version_exit": 0,
+    "preview_ids": 8,
+    "same_scope_idempotent": true,
+    "version_separated": true,
+    "scores_verified": false,
+    "http_requests": 0,
+    "unknown_efficiency": {
+      "tokens_total": null,
+      "calls": null,
+      "latency_median_ms": null,
+      "backend": null,
+      "cost": null
+    }
+  },
+  {
+    "harness": "codex",
+    "scope": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\evaluation-inputs.json",
+    "parity_command": [
+      "C:\\Python314\\python.exe",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\parity-eval.py",
+      "C:\\repos\\c0-remediation-mock-20261026\\full-harness-codex\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T111332Z-497b0ffe",
+      "--observations",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\observations.json",
+      "--score",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoring-fresh-codex\\score.json",
+      "--scope",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\evaluation-inputs.json",
+      "--out",
+      "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-remediation-mock-20261026\\scoped-preview-codex\\parity"
+    ],
+    "parity_exit": 0,
+    "telemetry_observations": 0,
+    "model_judges_called": 0,
+    "first_exit": 0,
+    "repeat_exit": 0,
+    "other-version_exit": 0,
+    "preview_ids": 8,
+    "same_scope_idempotent": true,
+    "version_separated": true,
+    "scores_verified": false,
+    "http_requests": 0,
+    "unknown_efficiency": {
+      "tokens_total": null,
+      "calls": null,
+      "latency_median_ms": null,
+      "backend": null,
+      "cost": null
+    }
+  }
+]

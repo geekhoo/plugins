@@ -1,0 +1,23 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+{"ok": true, "report": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\.eval-cfg-codex-20261026T111332Z-497b0ffe\\codex-profile.json"}
+workspace: C:\repos\c0-remediation-mock-20261026\codex-full\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe (seed 1a8b02e0fca229beebdbc59a190dddf048c335e7)
+prepared: C:\repos\c0-remediation-mock-20261026\full-harness-codex\geeky-orchestration\evals\baselines\c0-wordstat\20261026T111332Z-497b0ffe
+{"main_thread_id": "38c14bdc-2006-4d06-ab08-da9eb4a062f2", "threads": [{"thread_id": "38c14bdc-2006-4d06-ab08-da9eb4a062f2", "parent_thread_id": null, "file": "session.jsonl"}]}
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "reasoning": 0,
+    "total": 0,
+    "cost_usd_estimate": null
+  },
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 4,
+  "impl_review_rounds": null,
+  "token_ceiling": 6000000,
+  "over_token_ceiling": false
+}
+stored: C:\repos\c0-remediation-mock-20261026\full-harness-codex\geeky-orchestration\evals\baselines\c0-wordstat\20261026T111332Z-497b0ffe (analysis status: complete; score-run.py requires reviewed manual verdicts)

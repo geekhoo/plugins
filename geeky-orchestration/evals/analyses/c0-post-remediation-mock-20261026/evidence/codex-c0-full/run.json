@@ -1,0 +1,174 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "approach": "mock-agent:c0-full",
+  "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "worker_model": "gpt-6.1-sol",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "scope": "all-descendants"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "58a9493869d60ac138a3dab4edf7bc40e5e92d2defb90b97f61cb85c25bd7e55",
+  "workspace": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\eval-c0-wordstat-codex-20261026T111332Z-497b0ffe",
+  "config_directory": "C:\\repos\\c0-remediation-mock-20261026\\codex-full\\.eval-cfg-codex-20261026T111332Z-497b0ffe",
+  "seed_sha": "1a8b02e0fca229beebdbc59a190dddf048c335e7",
+  "session_id": "38c14bdc-2006-4d06-ab08-da9eb4a062f2",
+  "started_utc": "2026-10-26T11:13:36.6435702Z",
+  "ended_utc": "2026-10-26T11:13:46.1119303Z",
+  "wall_time_s": 9.436486099963076,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "reasoning": 0,
+    "total": 0,
+    "cost_usd_estimate": null
+  },
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 4,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 3,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "a69481ed1f1f8da34d6fe86803f77ea0028171e2d163f498ce091e98a76e3956",
+    "session": "042d7e5dcbdab01a8d7541b8c62fc6194c317eacba96a23a726733dce472eff6"
+  },
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "complete",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "508f375612b0a408bbafa2f3bbd6e40ca8539a4357333a92c6ef707149a3984f",
+  "mock_agent": true,
+  "runtime_toolchain_verified": true,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "required-for-windows-launch",
+    "override_reason": null
+  },
+  "provider": null,
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "1db008cf-17f5-40f5-a83d-3f69bff06692",
+    "segment_id": "71e81810-191a-4e44-b02b-4e1d5410586a",
+    "authorization_reference": "user-20261026-nonchargeable-mock-c0",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "required-for-windows-launch",
+      "override_reason": null
+    },
+    "initial_deadline_utc": "2026-10-26T11:18:33.3224703Z",
+    "hard_wall_budget_s": 300,
+    "closeout_reserve_s": 30,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "worker_model": "gpt-6.1-sol",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "",
+      "mock": true,
+      "provider": "openai",
+      "hard_wall_budget_s": 300,
+      "closeout_reserve_s": 30,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "f5b7baddc30c915d96a455344df88d4980f26de8dbccd1146cb3eb317f46543a",
+    "invocations": [
+      {
+        "invocation_id": "5be76d87-a675-4f21-b4d3-4e807fab4a47",
+        "kind": "initial",
+        "timeout_s": 296,
+        "started_utc": "2026-10-26T11:13:36.6659066Z",
+        "ended_utc": "2026-10-26T11:13:46.1014469Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "launch-preparation": "completed",
+      "seed-oracle": "in-progress",
+      "parsing": "completed",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "telemetry": "completed",
+      "analysis": "completed"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 9.436486099963076,
+    "attempt_elapsed_s": 12.829809800023213,
+    "finalization_time_s": 10.55433539999649,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 10044,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "c5b4f735a7eac2c430a34625b3c13be930612d93",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "analysis.json": "fbdbe9fb570923ed8620c1d8527387508697d15fa5469e5e166008a625b3f3e8",
+      "mock-summary.json": "4fcde2d084e5ad0d4e667ebf2f33c1f04a0df7cd22c0bad7e7d5033de3c66770",
+      "mxc-build-provenance.json": "4a81076f513dc4b0fe71786ab05c04a872dc9bd5546c52d683b7ec99a43a4813",
+      "oracle-output.txt": "1ddc4635ce16bfac5dbfed83c8f1e62a83db0a05c1232639f172c637f80000b8",
+      "oracle-seed-output.txt": "366a6d7731fcc213dd3f71fa5863244b58f3ca90a941a54659627c60bfdf9f54",
+      "parity-preflight.json": "57b36e9683c67cd8b2be96e327d60be73c2336b484fcc9a9ad2c2a56e2ed574a",
+      "rollout-manifest.json": "cdc46a0eb07a722668e4a2a6871622622ec769087ecdfe1314ab1c217084c52f",
+      "session.jsonl": "042d7e5dcbdab01a8d7541b8c62fc6194c317eacba96a23a726733dce472eff6",
+      "solution.bundle": "bd30f97258b759e4fc15e6e171cc64841501481f22d8c1e77632e1b4cf6eb9e9",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream.jsonl": "a69481ed1f1f8da34d6fe86803f77ea0028171e2d163f498ce091e98a76e3956",
+      "derived/analysis.json": "fbdbe9fb570923ed8620c1d8527387508697d15fa5469e5e166008a625b3f3e8",
+      "derived/run.json": "9450da49ec95e029dc81c3ec472fff0b34beb0ac63352a2e4e238e935a50f97f"
+    }
+  },
+  "over_token_ceiling": false,
+  "trace_complete": true,
+  "trace_errors": []
+}

@@ -1,0 +1,8 @@
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+workspace: C:\repos\c0-remediation-mock-20261026\claude-timeout-oracle-fault-verified\eval-c0-wordstat-20261026T110917Z (seed 5208b86acae743c8b91819c5649ac1f7d632b980)
+Add-Content: C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\scripts\run-baseline.ps1:107
+Line |
+ 107 |      if ($outFile) { Add-Content -Path $outFile -Value $out }
+     |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Unable to write content because it is a directory:
+     | 'C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\baselines\c0-wordstat\20261026T110917Z\oracle-output.txt'.

@@ -1,0 +1,71 @@
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "by_model": {},
+    "cost_usd_estimate": 0
+  },
+  "model_calls": 27,
+  "latency_median_ms": 213,
+  "latency_samples": 22,
+  "max_idle_gap_s": 5,
+  "stages": null,
+  "impl_review_rounds": null,
+  "skill_invocations": {},
+  "tool_calls_main": {
+    "PowerShell": 21
+  },
+  "tool_calls_subagents": {},
+  "subagent_dispatches": {},
+  "validation_runs": {
+    "main": 1
+  },
+  "gate_invocations": {
+    "validate-planning-folder": 1,
+    "validate-task-schema": 1,
+    "validate-kanban": 4,
+    "check-commit": 3,
+    "check-dod": 2
+  },
+  "gate_results": {
+    "validate-planning-folder": {
+      "pass": 1,
+      "fail": 0,
+      "unknown": 0,
+      "main": 1,
+      "sub": 0
+    },
+    "validate-task-schema": {
+      "pass": 1,
+      "fail": 0,
+      "unknown": 0,
+      "main": 1,
+      "sub": 0
+    },
+    "validate-kanban": {
+      "pass": 4,
+      "fail": 0,
+      "unknown": 0,
+      "main": 4,
+      "sub": 0
+    },
+    "check-commit": {
+      "pass": 3,
+      "fail": 0,
+      "unknown": 0,
+      "main": 3,
+      "sub": 0
+    },
+    "check-dod": {
+      "pass": 2,
+      "fail": 0,
+      "unknown": 0,
+      "main": 2,
+      "sub": 0
+    }
+  },
+  "duration_api_ms": 1080
+}

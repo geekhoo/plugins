@@ -1,0 +1,25 @@
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "by_model": {},
+    "cost_usd_estimate": 0
+  },
+  "model_calls": 1,
+  "latency_median_ms": 40,
+  "latency_samples": 1,
+  "max_idle_gap_s": 0,
+  "stages": null,
+  "impl_review_rounds": null,
+  "skill_invocations": {},
+  "tool_calls_main": {},
+  "tool_calls_subagents": {},
+  "subagent_dispatches": {},
+  "validation_runs": {},
+  "gate_invocations": {},
+  "gate_results": {},
+  "duration_api_ms": null
+}

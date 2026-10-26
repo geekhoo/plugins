@@ -1,0 +1,42 @@
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "reasoning": 0,
+    "total": 0,
+    "cost_usd_estimate": null,
+    "by_model": null
+  },
+  "model_calls": null,
+  "latency_median_ms": null,
+  "latency_samples": 0,
+  "max_idle_gap_s": 4,
+  "stages": null,
+  "impl_review_rounds": null,
+  "skill_invocations": {},
+  "tool_calls_main": {
+    "mock_check": 27
+  },
+  "tool_calls_subagents": {},
+  "subagent_dispatches": {},
+  "validation_runs": {},
+  "gate_invocations": {},
+  "gate_results": {},
+  "duration_api_ms": null,
+  "trace_complete": true,
+  "trace_errors": [],
+  "trace_warnings": [],
+  "harness": "codex",
+  "usage_by_thread": {
+    "38c14bdc-2006-4d06-ab08-da9eb4a062f2": {
+      "input_tokens": 0,
+      "cached_input_tokens": 0,
+      "output_tokens": 0,
+      "reasoning_output_tokens": 0,
+      "total_tokens": 0
+    }
+  },
+  "skill_evidence": "successful explicit SKILL.md reads; no workflow completion inferred"
+}

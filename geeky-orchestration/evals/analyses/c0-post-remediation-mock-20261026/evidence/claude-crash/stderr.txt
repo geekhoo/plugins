@@ -1,0 +1,3 @@
+MOCK CHECK PASS init.plugin_skills: 8 plugin skills: geeky-orchestration:archive, geeky-orchestration:geeky-implement, geeky-orchestration:geeky-plan, geeky-orchestration:geeky-resume, geeky-orchestration:geeky-status, geeky-orchestration:impl-review, geeky-orchestration:plan-review, geeky-orchestration:spec-research
+MOCK CHECK INFO crash.simulated: exiting 3 without a result event
+mock-claude: simulated crash

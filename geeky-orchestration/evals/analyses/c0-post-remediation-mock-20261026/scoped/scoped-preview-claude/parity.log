@@ -1,0 +1,1 @@
+{"harness": "claude-code", "composite": 65.07, "quality": 100.0, "adherence": 59.26, "consistency": 14.12, "needs_judge": ["a.one_concern_per_commit", "a.final_report_claims", "dp07", "dp13"]}

@@ -1,0 +1,473 @@
+{
+  "type": "system",
+  "subtype": "mock_summary",
+  "session_id": "d995f5c5-03fb-497e-b9e3-f47c2878d363",
+  "schema": "geeky-eval.mock-summary/1",
+  "cwd": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\eval-c0-wordstat-20261026T105443Z",
+  "scenarios": [
+    "env-probe",
+    "grants",
+    "pwsh",
+    "python",
+    "git",
+    "gates",
+    "mcp",
+    "happy"
+  ],
+  "ok": true,
+  "counts": {
+    "pass": 70,
+    "fail": 0,
+    "warn": 0,
+    "info": 4
+  },
+  "failed": [],
+  "session_file": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial-mxc\\home\\projects\\C--repos-c0-remediation-mock-20261026-claude-initial-eval-c0-wordstat-20261026T105443Z\\d995f5c5-03fb-497e-b9e3-f47c2878d363.jsonl",
+  "checks": [
+    {
+      "name": "init.plugin_skills",
+      "status": "pass",
+      "detail": "8 plugin skills: geeky-orchestration:archive, geeky-orchestration:geeky-implement, geeky-orchestration:geeky-plan, geeky-orchestration:geeky-resume, geeky-orchestration:geeky-status, geeky-orchestration:impl-review, geeky-orchestration:plan-review, geeky-orchestration:spec-research",
+      "scenario": null
+    },
+    {
+      "name": "env.pwsh",
+      "status": "pass",
+      "detail": "PSVersion=7.6.5 | USER=gerald.khoo",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "env.python",
+      "status": "pass",
+      "detail": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.EXE: 3.13.15 C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.EXE",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "env.pytest",
+      "status": "pass",
+      "detail": "pytest 9.0.3",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "env.git_identity",
+      "status": "pass",
+      "detail": "geeky-eval-agent <agent@geeky-eval.local> 1793012089 +0800",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "env.home_outside_workspace",
+      "status": "pass",
+      "detail": "C:\\Users\\gerald.khoo",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "env.writable.TEMP",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\.eval-cfg-20261026T105443Z\\tmp",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "env.writable.workspace",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\eval-c0-wordstat-20261026T105443Z",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "env.bg_wait_ceiling",
+      "status": "pass",
+      "detail": "CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "env.vars",
+      "status": "info",
+      "detail": "CLAUDE_CONFIG_DIR=C:\\repos\\c0-remediation-mock-20261026\\claude-initial-mxc\\home; TEMP=C:\\Users\\gerald.khoo\\AppData\\Local\\Packages\\sandbox.{8d566179-c21e-40b2-85a8-d56c04f56283}\\AC\\Temp; VIRTUAL_ENV=C:\\repos\\.eval-tools\\agent-py; XDG_CONFIG_HOME=C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\.eval-cfg-20261026T105443Z; CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1; GIT_CONFIG_COUNT=1; GIT_CONFIG_VALUE_0=C:/repos/c0-remediation-mock-20261026/claude-initial/eval-c0-wordstat-20261026T105443Z; GIT_AUTHOR_NAME=geeky-eval-agent; LOCALAPPDATA=C:\\Users\\gerald.khoo\\AppData\\Local\\Packages\\sandbox.{8d566179-c21e-40b2-85a8-d56c04f56283}\\AC; USERPROFILE=C:\\Users\\gerald.khoo",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "env.path",
+      "status": "info",
+      "detail": "C:\\repos\\.eval-tools\\agent-py\\Scripts;C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell;C:\\Users\\gerald.khoo\\.codex\\tmp\\arg0-windows\\codex-arg0rp6oIQ;C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\libheif\\libheif\\bin;C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\jxrlib\\jxrlib\\bin;C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\poppler\\Library\\bin;C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\bin\\override;C:\\Program Files\\Microsoft SDKs\\Azure\\CLI2\\wbin;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\;C:\\Program Files\\Microsoft SQL Server\\Client SDK\\ODBC\\170\\Tools\\Binn\\;C:\\Program Files\\dotnet\\;C:\\Program Files (x86)\\Google\\Cloud SDK\\google-cloud-sdk\\bin;C:\\ProgramData\\chocolatey\\bin;C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\;C:\\Program Files\\WSL\\;C:\\Program Files\\PowerToys\\DSCModules\\;C:\\Program Files\\PowerToys\\bin\\;C:\\Program Files\\nodejs\\;C:\\Program Files\\Git\\cmd;C:\\Program Files\\GitHub CLI\\;C:\\Program Files\\Git\\bin;C:\\Users\\gerald.khoo\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\;C:\\Users\\gerald.khoo\\AppData\\Local\\Programs\\Python\\Python313\\;C:\\Python314;C:\\Python314\\Scripts;C:\\Users\\gerald.khoo\\.local\\bin;C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell;C:\\Users\\gerald.khoo\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\gerald.khoo\\AppData\\Local\\GitHubDesktop\\bin;C:\\Users\\gerald.khoo\\AppData\\Local\\Programs\\Microsoft VS Code Insiders\\bin;C:\\Users\\gerald.khoo\\.dotnet\\tools;C:\\Users\\gerald.khoo\\.lmstudio\\bin;C:\\Users\\gerald.khoo\\.dotnet\\tools;C:\\Users\\gerald.khoo\\bin;C:\\Users\\gerald.khoo\\AppData\\Local\\Programs\\Antigravity\\bin;C:\\Users\\gerald.khoo\\.dotnet\\tools;C:\\Users\\geral",
+      "scenario": "env-probe"
+    },
+    {
+      "name": "grants.workspace_rw",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\eval-c0-wordstat-20261026T105443Z",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.plugin_scandir.skills",
+      "status": "pass",
+      "detail": "8 entries: archive, geeky-implement, geeky-plan, geeky-resume, geeky-status, impl-review, plan-review, spec-research",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.plugin_scandir.agents",
+      "status": "pass",
+      "detail": "6 entries: code-architect.md, code-explorer.md, code-reviewer.md, geeky-coder.md, geeky-implement-orchestrator.md, geeky-orchestrator.md",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.plugin_scandir.commands",
+      "status": "info",
+      "detail": "absent",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.plugin_read",
+      "status": "pass",
+      "detail": "read 8 SKILL.md files",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.config_dir_rw",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial-mxc\\home\\projects\\C--repos-c0-remediation-mock-20261026-claude-initial-eval-c0-wordstat-20261026T105443Z",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.settings_readable",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\.eval-cfg-20261026T105443Z\\settings.json",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.mcp_config_readable",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\.eval-cfg-20261026T105443Z\\mcp.json",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.temp_write",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\.eval-cfg-20261026T105443Z\\tmp\\mock-exec-40268",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.temp_exec_script",
+      "status": "pass",
+      "detail": "exit 0: tempexec-ok",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.temp_exec_binary",
+      "status": "pass",
+      "detail": "exit 0: CPC-geral-J9OHY",
+      "scenario": "grants"
+    },
+    {
+      "name": "grants.temp_mkdtemp",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\.eval-cfg-20261026T105443Z\\tmp\\mock-mkdtemp-fl9mchks",
+      "scenario": "grants"
+    },
+    {
+      "name": "pwsh.found",
+      "status": "pass",
+      "detail": "C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.EXE",
+      "scenario": "pwsh"
+    },
+    {
+      "name": "pwsh.exit_0",
+      "status": "pass",
+      "detail": "exit 0 (expected 0)",
+      "scenario": "pwsh"
+    },
+    {
+      "name": "pwsh.exit_7",
+      "status": "pass",
+      "detail": "exit 7 (expected 7)",
+      "scenario": "pwsh"
+    },
+    {
+      "name": "pwsh.native_exit_3",
+      "status": "pass",
+      "detail": "exit 3 (expected 3)",
+      "scenario": "pwsh"
+    },
+    {
+      "name": "pwsh.cmdlet_error",
+      "status": "pass",
+      "detail": "exit 1 (expected 1)",
+      "scenario": "pwsh"
+    },
+    {
+      "name": "pwsh.profile_stderr",
+      "status": "pass",
+      "detail": "exit 0; stderr: (empty)",
+      "scenario": "pwsh"
+    },
+    {
+      "name": "pwsh.profile_path",
+      "status": "info",
+      "detail": "C:\\Users\\gerald.khoo\\OneDrive - Pippin Puffin Pte Ltd\\Documents\\PowerShell\\Microsoft.PowerShell_profile.ps1\r\nFalse\r\nC:\\Users\\gerald.khoo\\OneDrive - Pippin Puffin Pte Ltd\\Documents",
+      "scenario": "pwsh"
+    },
+    {
+      "name": "python.which",
+      "status": "pass",
+      "detail": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.EXE",
+      "scenario": "python"
+    },
+    {
+      "name": "python.version",
+      "status": "pass",
+      "detail": "Python 3.13.15",
+      "scenario": "python"
+    },
+    {
+      "name": "python.pytest_version",
+      "status": "pass",
+      "detail": "pytest 9.0.3",
+      "scenario": "python"
+    },
+    {
+      "name": "python.pytest_run",
+      "status": "pass",
+      "detail": "exit 0: 1 passed in 0.01s",
+      "scenario": "python"
+    },
+    {
+      "name": "python.pytest_tmp_path",
+      "status": "pass",
+      "detail": "exit 0: 1 passed in 0.02s ",
+      "scenario": "python"
+    },
+    {
+      "name": "git.version",
+      "status": "pass",
+      "detail": "git version 2.56.0.windows.3",
+      "scenario": "git"
+    },
+    {
+      "name": "git.identity",
+      "status": "pass",
+      "detail": "geeky-eval-agent <agent@geeky-eval.local> 1793012111 +0800",
+      "scenario": "git"
+    },
+    {
+      "name": "git.workspace_status",
+      "status": "pass",
+      "detail": "## master",
+      "scenario": "git"
+    },
+    {
+      "name": "git.commit_temp",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\.eval-cfg-20261026T105443Z\\tmp\\mock-git-cde04c50f2c7: 728bc97de0d25b7b3640ca92c3bbf07bc41d904f geeky-eval-agent <agent@geeky-eval.local>",
+      "scenario": "git"
+    },
+    {
+      "name": "git.commit_workspace",
+      "status": "pass",
+      "detail": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\eval-c0-wordstat-20261026T105443Z\\.git\\mock-git-probe-fed8e159: 728bc97de0d25b7b3640ca92c3bbf07bc41d904f geeky-eval-agent <agent@geeky-eval.local>",
+      "scenario": "git"
+    },
+    {
+      "name": "gate.validate-planning-folder.py",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.validate-task-schema.py",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.validate-kanban.py",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.check-dod.py",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): DOD_OK: T1",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.check-commit.py",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: commit message valid.",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.validate-kanban.py.rejects_bad",
+      "status": "pass",
+      "detail": "exit 1 (expected 1): INVALID_KANBAN: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=1, In Progress=0, In Review=0, Blocked=0, Done=2",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.validate-planning-folder.ps1",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.validate-task-schema.ps1",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.validate-kanban.ps1",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.check-dod.ps1",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): DOD_OK: T1",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.check-commit.ps1",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: commit message valid.",
+      "scenario": "gates"
+    },
+    {
+      "name": "gate.validate-kanban.ps1.rejects_bad",
+      "status": "pass",
+      "detail": "exit 1 (expected 1): INVALID_KANBAN: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=1, In Progress=0, In Review=0, Blocked=0, Done=2",
+      "scenario": "gates"
+    },
+    {
+      "name": "mcp.geeky.handshake",
+      "status": "pass",
+      "detail": "geeky_mcp 0.3.0: 6 tools in 3.2s: geeky_validate_planning_folder, geeky_validate_task_schema, geeky_validate_kanban, geeky_check_dod, geeky_check_commit, geeky_check_frozen_artifact",
+      "scenario": "mcp"
+    },
+    {
+      "name": "skill.spec-research",
+      "status": "pass",
+      "detail": "SKILL.md present and launched",
+      "scenario": "happy"
+    },
+    {
+      "name": "skill.geeky-plan",
+      "status": "pass",
+      "detail": "SKILL.md present and launched",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.validate-planning-folder",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.validate-task-schema",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.validate-kanban.plan",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=2, In Progress=0, In Review=0, Blocked=0, Done=0",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.plan.check-commit",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: commit message valid.",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.plan.commit",
+      "status": "pass",
+      "detail": "exit 0: ",
+      "scenario": "happy"
+    },
+    {
+      "name": "skill.plan-review",
+      "status": "pass",
+      "detail": "SKILL.md present and launched",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.plan-review.validate-task-schema.ps1",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.",
+      "scenario": "happy"
+    },
+    {
+      "name": "skill.geeky-implement",
+      "status": "pass",
+      "detail": "SKILL.md present and launched",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.implement.validate-planning-folder",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.validate-kanban.in-progress",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=2, In Review=0, Blocked=0, Done=0",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.pytest",
+      "status": "pass",
+      "detail": "exit 0: 2 passed in 0.16s",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.validate-kanban.done",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.check-dod.T1",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): DOD_OK: T1",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.check-dod.T2",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): DOD_OK: T2",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.implement.check-commit",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: commit message valid.",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.implement.commit",
+      "status": "pass",
+      "detail": "exit 0: ",
+      "scenario": "happy"
+    },
+    {
+      "name": "skill.impl-review",
+      "status": "pass",
+      "detail": "SKILL.md present and launched",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.impl-review.check-commit",
+      "status": "pass",
+      "detail": "exit 0 (expected 0): OK: commit message valid.",
+      "scenario": "happy"
+    },
+    {
+      "name": "happy.impl-review.commit",
+      "status": "pass",
+      "detail": "exit 0: ",
+      "scenario": "happy"
+    }
+  ],
+  "summary_file": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\eval-c0-wordstat-20261026T105443Z\\.git\\mock-summary.json"
+}

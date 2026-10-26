@@ -1,0 +1,42 @@
+{
+  "head": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "python": "Python 3.14.7",
+  "scope": "isolated fixture support; no fixture checkout commit, push, oracle or MXC execution",
+  "files": [
+    {
+      "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\mock_claude.py",
+      "sha256": "a6a54a8ba74f982cd5e87a72ef67d96b64dedb8838624ebab5b950961e7243e2",
+      "bytes": 64612
+    },
+    {
+      "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\c0_fixture.py",
+      "sha256": "89a867dfd5c5680b61e5add9a706cb8bc27aaff65e7a69e12258cf094d472b5e",
+      "bytes": 14910
+    },
+    {
+      "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\test_c0_fixture.py",
+      "sha256": "9aa1418d97f72bd1c091078f45edadfbf7cc55d87e2a0a029b69ba3ebc6082fe",
+      "bytes": 10503
+    },
+    {
+      "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\mock-agent\\README.md",
+      "sha256": "41a436c440629170111cb3195f819ebbb9c3ecb15f81c247b600a763da82ee69",
+      "bytes": 2264
+    },
+    {
+      "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\adapters\\codex\\mock_codex.py",
+      "sha256": "08b66a93de4fb5b3ea6ed4396f648e575a9c08968b767f6bbfbc5421851d6532",
+      "bytes": 21977
+    },
+    {
+      "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\scripts\\run-baseline.ps1",
+      "sha256": "c9a6ae7619d505d07a2b820c1a72f972639fe0e51e6701fe3579439c25af0409",
+      "bytes": 29716
+    },
+    {
+      "path": "C:\\Repos\\c0-remediation-mock-20261026\\full-harness\\geeky-orchestration\\evals\\scripts\\run-codex-baseline.ps1",
+      "sha256": "14fa71730d60d3e1b5eb1ac81e3adee533947923d88a3c84f10b63546453a9dc",
+      "bytes": 30273
+    }
+  ]
+}

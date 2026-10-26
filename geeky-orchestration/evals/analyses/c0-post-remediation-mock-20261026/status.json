@@ -1,0 +1,19 @@
+{
+  "schema": "mock-evaluation.status/1",
+  "live_telemetry_calls": 0,
+  "mxc_workload_invocations": 13,
+  "scheduled_followup": false,
+  "paid_judge_calls": 0,
+  "source_commits_created": 0,
+  "paid_contestant_calls": 0,
+  "report_accuracy_reviewer": "/root/mock_observation_audit",
+  "main_product_modified": false,
+  "status": "complete-with-findings",
+  "findings": [
+    "F1-terminal-seed-step-status",
+    "F2-measured-host-deadline-overhead"
+  ],
+  "source_commit": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "ts": "2026-10-26T11:35:42.0332367Z",
+  "runner_attempts": 12
+}
