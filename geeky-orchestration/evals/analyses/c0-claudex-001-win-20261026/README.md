@@ -11,6 +11,13 @@ decomposition, task snapshots, timing, usage scopes, and evidence limits.
 [Comparison metrics](comparison-metrics.json) preserve the numeric breakdowns
 and provenance. Both use saved evidence without new candidate or provider runs.
 
+The [minimum-effort remediation plan](remediation-20261026/implementation-plan.md)
+combines the process and side reviews into three sequenced tasks: streamlined
+review/closeout and a versioned concise final report, runner deadlines/evidence,
+then scoped accounting/readback. It is planning only; the
+[kanban](remediation-20261026/kanban.md) and [handoff](remediation-20261026/handoff.md)
+track implementation readiness separately from future evaluation authorization.
+
 | Harness | Parity | Quality | Adherence | Consistency | Oracle | Wall time |
 |---|---:|---:|---:|---:|---|---|
 | Codex 0.164.0 | **97.46** | 95.64 | 97.83 (45/46) | 100.00 | 13/13, stable over 3 | 47m 26s |

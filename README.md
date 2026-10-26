@@ -13,6 +13,9 @@ and closeout at 98.33 cumulative parity; its earlier timeout remains at 90.33.
 Both passed oracle 13/13, and Langfuse scores are verified. The cumulative
 continuation includes additional time and context.
 
+The [C0 remediation plan](geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/implementation-plan.md)
+defines three small follow-up changes; implementation has not started.
+
 ## Plugins
 
 | Plugin | Use it for | Version | Docs |
