@@ -94,7 +94,7 @@ if ($Litellm) {
     $env:ANTHROPIC_API_KEY = $env:LITELLM_PROXY_API_KEY
     Remove-Item Env:ANTHROPIC_AUTH_TOKEN, Env:CLAUDE_CODE_OAUTH_TOKEN -ErrorAction SilentlyContinue
 } else {
-    if (-not $env:CLAUDE_CODE_OAUTH_TOKEN) {
+    if (-not $MockAgent -and -not $env:CLAUDE_CODE_OAUTH_TOKEN) {
         $env:CLAUDE_CODE_OAUTH_TOKEN = [Environment]::GetEnvironmentVariable('CLAUDE_CODE_OAUTH_TOKEN', 'User')
     }
     if (-not $MockAgent -and -not $env:CLAUDE_CODE_OAUTH_TOKEN) { throw 'CLAUDE_CODE_OAUTH_TOKEN is not set (run claude setup-token).' }
@@ -184,6 +184,10 @@ if ($MockAgent) {
     $mockDir = Join-Path $cfg 'mock-agent'
     New-Item -ItemType Directory -Force $mockDir | Out-Null
     Copy-Item (Join-Path $plugin 'evals/mock-agent/mock_claude.py') $mockDir
+    if ($MockScenario -eq 'c0-full') {
+        if ($Case -ne 'c0-wordstat' -or -not $NoTelemetry) { throw 'c0-full requires c0-wordstat and -NoTelemetry' }
+        Copy-Item (Join-Path $plugin 'evals/mock-agent/c0_fixture.py') $mockDir
+    }
     $claudeArgs = @((Join-Path $mockDir 'mock_claude.py')) + $claudeArgs + @('--mock-scenario', $MockScenario, '--mock-case', $Case)
 }
 # Git sees the workspace as owned by another identity inside the container ("dubious ownership").
@@ -213,6 +217,7 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host
     # Neutral commit identity (the seed repo has none); set via env so no repo or global config changes.
     '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
+if ($MockAgent -and $MockScenario -eq 'c0-full') { $hostArgs += '--deny-net' }
 if ($telemetry) { $hostArgs += @('--rw', $telemetry.StateDir) + @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs }
 if ($Litellm) {
     $hostArgs += @('--env', "ANTHROPIC_BASE_URL=$($env:LITELLM_PROXY_URL.TrimEnd('/'))", '--env', 'ANTHROPIC_API_KEY',

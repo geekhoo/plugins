@@ -55,8 +55,10 @@ def parse_args(argv):
         merge(config, parsed)
     a.config = config
     a.scenarios = list(CHECKS) if a.mock_scenario in ('happy', 'all') else a.mock_scenario.split(',')
-    if any(s not in (*CHECKS, 'fail') for s in a.scenarios):
+    if any(s not in (*CHECKS, 'fail', 'c0-full', 'slow', 'crash') for s in a.scenarios):
         p.error('unknown mock scenario')
+    if 'c0-full' in a.scenarios and (a.scenarios != ['c0-full'] or (config.get('hooks') or {}).get('Stop')):
+        p.error('c0-full must run alone with no telemetry/Stop hooks')
     return a
 
 
@@ -88,6 +90,29 @@ class Trace:
         self.record('response_item', {'type': 'function_call_output', 'call_id': call_id,
                                       'output': json.dumps(result)})
 
+    def file_change(self, path, content, output, started_at_ms, added):
+        self.record('event_msg', {'type': 'item_completed', 'started_at_ms': started_at_ms, 'item': {
+            'id': 'file-' + uuid.uuid4().hex[:12], 'type': 'FileChange', 'status': 'completed',
+            'exit_code': 0, 'stdout': output,
+            'changes': {str(path): {'type': 'add' if added else 'update', 'content': content}}}})
+
+    def command_execution(self, argv, stdout, stderr, exit_code, started_at_ms):
+        command = subprocess.list2cmdline([str(x) for x in argv]) if os.name == 'nt' else shlex.join([str(x) for x in argv])
+        self.record('event_msg', {'type': 'item_completed', 'started_at_ms': started_at_ms, 'item': {
+            'id': 'command-' + uuid.uuid4().hex[:12], 'type': 'CommandExecution',
+            'status': 'completed' if exit_code == 0 else 'failed', 'exit_code': exit_code,
+            'command': command, 'stdout': stdout, 'stderr': stderr}})
+
+    def skill_read(self, skill, args, plugin):
+        call_id = 'call-' + uuid.uuid4().hex[:12]
+        self.record('response_item', {'type': 'function_call', 'name': 'Skill', 'call_id': call_id,
+                                      'arguments': json.dumps({'skill': skill, 'args': args})})
+        path = plugin / 'skills' / skill / 'SKILL.md'
+        content = path.read_text(encoding='utf-8')
+        result = f'SCRIPTED MOCK read {path} ({len(content)} characters)'
+        self.record('response_item', {'type': 'function_call_output', 'call_id': call_id, 'output': result})
+        return result
+
     def complete_turn(self, text):
         self.record('response_item', {'type': 'reasoning', 'summary': [{'type': 'summary_text',
                                       'text': 'Mock reasoning summary: report the check results.'}]})
@@ -111,6 +136,8 @@ class Trace:
         failed = any(not c['passed'] for c in checks)
         summary = {'type': 'mock_summary', 'checks': checks, 'passed': not failed, 'ok': not failed,
                    'model_calls': 0, 'tokens': 0, 'thread_id': self.sid}
+        if hasattr(self, 'c0_full'):
+            summary.update(c0_full=self.c0_full, label='SCRIPTED MOCK')
         self.emit(summary)
         self.record('event_msg', {'type': 'token_count', 'info': {'total_token_usage': {
             **ZERO_USAGE, 'reasoning_output_tokens': 0, 'total_tokens': 0},
@@ -337,8 +364,48 @@ def main(argv=None):
     scratch = Path(os.environ['TMPDIR']) / ('mock-codex-' + uuid.uuid4().hex)
     scratch.mkdir()  # Avoid Python's Windows user-only mkdtemp ACL inside MXC.
     for name in a.scenarios:
+        if name == 'slow':
+            time.sleep(float(os.environ.get('MOCK_SLOW_SECONDS', '600')))
+            continue
+        if name == 'crash':
+            print('SCRIPTED MOCK simulated crash', file=sys.stderr, flush=True)
+            os._exit(3)
         try:
-            detail = perform(name, a, scratch)
+            if name == 'c0-full':
+                helper_dir = Path(__file__).resolve().parents[2] / 'mock-agent'
+                if helper_dir.is_dir():
+                    sys.path.insert(0, str(helper_dir))
+                from c0_fixture import execute
+
+                def report(stage, item):
+                    if 'skill' in item:
+                        trace.skill_read(item['skill'], item['args'], Path(os.environ['CLAUDE_PLUGIN_ROOT']))
+                    elif 'argv' in item:
+                        trace.command_execution(item['argv'], item['stdout'], item['stderr'],
+                                                item['exit_code'], item['started_at_ms'])
+                    else:
+                        trace.tool_call('SCRIPTED MOCK ' + stage, item)
+                    trace.emit({'type': 'mock_stage', 'label': 'SCRIPTED MOCK', 'stage': stage, **item})
+
+                def write_kanban(path, content):
+                    started_at_ms = int(time.time() * 1000)
+                    added = not path.exists()
+                    try:
+                        path.parent.mkdir(parents=True, exist_ok=True)
+                        path.write_text(content, encoding='utf-8', newline='\n')
+                    except OSError as exc:
+                        trace.record('event_msg', {'type': 'item_completed', 'started_at_ms': started_at_ms, 'item': {
+                            'id': 'file-' + uuid.uuid4().hex[:12], 'type': 'FileChange', 'status': 'failed',
+                            'exit_code': 1, 'stdout': f'{type(exc).__name__}: {exc}',
+                            'changes': {str(path): {'type': 'add' if added else 'update', 'content': content}}}})
+                        return False
+                    trace.file_change(path, content, f'File written successfully at: {path}', started_at_ms, added)
+                    return True
+
+                trace.c0_full = execute(a.cd, Path(os.environ['CLAUDE_PLUGIN_ROOT']), a.prompt, report, write_kanban)
+                detail = trace.c0_full['completion_report']
+            else:
+                detail = perform(name, a, scratch)
             result = {'name': name, 'passed': True, 'detail': detail}
         except Exception as exc:
             result = {'name': name, 'passed': False, 'detail': f'{type(exc).__name__}: {exc}'}
@@ -347,7 +414,8 @@ def main(argv=None):
         trace.emit({'type': 'mock_check', **result})
         trace.emit({'type': 'item.completed', 'item': {'id': 'mock-' + name,
             'type': 'agent_message', 'text': f"Mock {name}: {'PASS' if result['passed'] else 'FAIL'}"}})
-    trace.complete_turn('Mock checks: ' + ', '.join(f"{c['name']}={'PASS' if c['passed'] else 'FAIL'}" for c in checks))
+    trace.complete_turn(trace.c0_full['completion_report'] if hasattr(trace, 'c0_full') else
+        'Mock checks: ' + ', '.join(f"{c['name']}={'PASS' if c['passed'] else 'FAIL'}" for c in checks))
     if stop_hooks(a.config):
         try:
             result = {'name': 'telemetry', 'passed': True, 'detail': check_telemetry(a, trace)}

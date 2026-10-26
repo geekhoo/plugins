@@ -62,7 +62,7 @@ VERSION = "0.0.0-mock"
 DEFAULT_MODEL = "claude-mock-5-5"
 SUB_MODEL = "claude-mock-haiku"
 ALL = ["env-probe", "grants", "pwsh", "python", "git", "gates", "mcp"]
-KNOWN = set(ALL) | {"network", "happy", "gate-fail", "crash", "slow", "bg-wait", "telemetry", "refusal"}
+KNOWN = set(ALL) | {"network", "happy", "c0-full", "gate-fail", "crash", "slow", "bg-wait", "telemetry", "refusal"}
 STAGES = ["spec-research", "geeky-plan", "plan-review", "geeky-implement", "impl-review"]
 GATES = ["validate-planning-folder", "validate-task-schema", "validate-kanban", "check-dod", "check-commit"]
 BUILTIN_SKILLS = ["debug", "simplify", "code-review", "verify"]
@@ -259,6 +259,9 @@ class Transcript:
         model = SUB_MODEL if sub else self.model
         usage = {"input_tokens": 2, "cache_creation_input_tokens": 100 + n, "cache_read_input_tokens": 2000 + 10 * n,
                  "output_tokens": 20 + n % 7, "service_tier": "standard"}
+        if "c0-full" in self.scenarios:
+            usage = {"input_tokens": 0, "cache_creation_input_tokens": 0,
+                     "cache_read_input_tokens": 0, "output_tokens": 0}
         for block in blocks:
             msg = {"model": model, "id": msg_id, "type": "message", "role": "assistant", "content": [block],
                    "stop_reason": None, "stop_sequence": None, "usage": usage}
@@ -319,7 +322,9 @@ class Transcript:
         return {"schema": "geeky-eval.mock-summary/1", "session_id": self.sid, "cwd": str(self.cwd),
                 "scenarios": self.scenarios, "ok": counts["fail"] == 0, "counts": counts,
                 "failed": [c["name"] for c in self.checks if c["status"] == "fail"],
-                "session_file": str(self.session_path), "checks": self.checks}
+                "session_file": str(self.session_path), "checks": self.checks,
+                **({"c0_full": self.c0_full, "model_calls": 0, "label": "SCRIPTED MOCK"}
+                   if hasattr(self, "c0_full") else {})}
 
 
 # ----------------------------------------------------------------------------- agent context
@@ -362,7 +367,7 @@ class Agent:
         def go(_tid=None):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text(content, encoding="utf-8", newline="\n")
-            return f"File created successfully at: {path}", False, None
+            return f"File written successfully at: {path}", False, None
         _, err = self.t.tool("Write", {"file_path": str(path), "content": content}, go, parent, agent)
         return not err
 
@@ -1062,6 +1067,38 @@ def sc_happy(a: Agent, broken_kanban: bool = False) -> None:
     a.say("All stages ran. impl-review: PASS.")
 
 
+def sc_c0_full(a: Agent) -> None:
+    from c0_fixture import execute
+
+    def report(name, item):
+        if "file_path" in item:
+            path = Path(item["file_path"]).resolve()
+            rel = path.relative_to(a.cwd.resolve()).as_posix()
+            return a.write(rel, item["content"])
+        if "skill" in item:
+            path = a.plugin / "skills" / item["skill"] / "SKILL.md"
+
+            def read_skill(_tid=None):
+                content = path.read_text(encoding="utf-8")
+                return f"SCRIPTED MOCK read {path} ({len(content)} characters)", False, None
+
+            _, is_error = a.t.tool("Skill", {"skill": item["skill"], "args": item["args"]}, read_skill)
+            return not is_error
+        if "argv" in item:
+            a.t.tool("PowerShell", {"command": display(item["argv"]),
+                     "description": "SCRIPTED MOCK " + name},
+                     lambda _tid: (item["stdout"] + item["stderr"], item["exit_code"] != 0, None))
+        else:
+            a.say("SCRIPTED MOCK " + name + ": " + item["detail"])
+
+    def write_kanban(path, content):
+        rel = path.resolve().relative_to(a.cwd.resolve()).as_posix()
+        return a.write(rel, content)
+
+    a.t.c0_full = execute(a.cwd, a.plugin, a.opts["prompt"] or "", report, write_kanban)
+    a.t.check("c0-full.complete", "pass", a.t.c0_full["completion_report"])
+
+
 def settings_hooks(opts: dict) -> dict:
     try:
         return json.loads(Path(opts["settings"]).read_text(encoding="utf-8-sig")).get("hooks") or {}
@@ -1128,7 +1165,7 @@ def sc_refusal(a: Agent) -> None:
 SCENARIOS = {"env-probe": sc_env_probe, "grants": sc_grants, "pwsh": sc_pwsh, "python": sc_python,
              "git": sc_git, "gates": sc_gates, "mcp": sc_mcp, "network": sc_network, "crash": sc_crash,
              "slow": sc_slow, "bg-wait": sc_bg_wait, "happy": sc_happy, "gate-fail": lambda a: sc_happy(a, broken_kanban=True),
-             "telemetry": sc_telemetry, "refusal": sc_refusal}
+             "telemetry": sc_telemetry, "refusal": sc_refusal, "c0-full": sc_c0_full}
 
 
 # ----------------------------------------------------------------------------- init / result
@@ -1176,6 +1213,8 @@ def main(argv: list[str]) -> int:
     opts = parse_args(argv)
     spec = opts["scenario"] or os.environ.get("MOCK_SCENARIO") or "happy"
     scenarios = expand_scenarios(spec)
+    if "c0-full" in scenarios and (scenarios != ["c0-full"] or settings_hooks(opts)):
+        raise ValueError("c0-full must run alone with no telemetry/hooks")
     if settings_hooks(opts).get("Stop") and "telemetry" not in scenarios:
         scenarios.append("telemetry")
     cwd = Path(os.getcwd())
@@ -1226,6 +1265,8 @@ def main(argv: list[str]) -> int:
     failed = summary["failed"]
     text = (f"Mock run ({', '.join(scenarios)}): {summary['counts']['pass']} passed, {len(failed)} failed"
             + (f": {', '.join(failed)}" if failed else "."))
+    if hasattr(t, "c0_full"):
+        text = t.c0_full["completion_report"]
     t.say(text)
     # claude fires Stop after the final reply and SessionEnd on exit; the final turn uploads here.
     for event in ("Stop", "SessionEnd"):
@@ -1235,6 +1276,10 @@ def main(argv: list[str]) -> int:
     model_usage = token_usage(scenarios, t.model)
     last = {"input_tokens": 6, "cache_creation_input_tokens": 1200, "cache_read_input_tokens": 40000,
             "output_tokens": 800, "output_tokens_details": {"thinking_tokens": 50}, "service_tier": "standard"}
+    if "c0-full" in scenarios:
+        model_usage = {}
+        last = {"input_tokens": 0, "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0, "output_tokens": 0}
     t.stream({"type": "result", "subtype": "success", "is_error": bool(failed),
               "duration_ms": int((time.time() - t.started) * 1000),
               "duration_api_ms": int((t.calls + t.sub_calls) * t.latency * 1000),

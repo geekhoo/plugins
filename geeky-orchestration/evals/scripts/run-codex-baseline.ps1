@@ -34,7 +34,7 @@ param(
     [switch]$SkipNativeQualification,
     [string]$QualificationOverrideReason,
     [switch]$MockAgent,
-    [ValidateSet('happy', 'all', 'fail')][string]$MockScenario = 'happy',
+    [ValidateSet('happy', 'all', 'fail', 'c0-full', 'slow', 'crash')][string]$MockScenario = 'happy',
     [switch]$Launch,
     [switch]$NoTelemetry,
     # Route every model through LiteLLM's Responses API (LITELLM_PROXY_URL, LITELLM_PROXY_API_KEY);
@@ -205,6 +205,10 @@ $codexArgs += $prompt
 if ($MockAgent) {
     $mockPath = Join-Path $cfg 'mock_codex.py'
     Copy-Item -LiteralPath (Join-Path $adapter 'mock_codex.py') -Destination $mockPath
+    if ($MockScenario -eq 'c0-full') {
+        if ($Case -ne 'c0-wordstat' -or -not $NoTelemetry) { throw 'c0-full requires c0-wordstat and -NoTelemetry' }
+        Copy-Item (Join-Path $plugin 'evals/mock-agent/c0_fixture.py'), (Join-Path $plugin 'evals/mock-agent/mock_claude.py') $cfg
+    }
     $codexArgs = @($mockPath) + $codexArgs + @('--mock-scenario', $MockScenario,
         '--mock-forbidden-path', (Join-Path $caseDir 'spec.md'),
         '--mock-forbidden-path', (Join-Path $plugin 'agents/geeky-coder.md'))
@@ -227,6 +231,7 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--no-e
     '--env', "PATH=$agentPyBin$([IO.Path]::PathSeparator)$env:PATH", '--env', "VIRTUAL_ENV=$(Join-Path $ToolsDir 'agent-py')",
     '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
+if ($MockAgent -and $MockScenario -eq 'c0-full') { $hostArgs += '--deny-net' }
 if ($telemetry) { $hostArgs += @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs }
 if ($Litellm) { $hostArgs += @('--env', 'LITELLM_PROXY_API_KEY') }   # bare name: the MXC host copies the value
 if ($CodexRustLog) { $hostArgs += @('--env', "RUST_LOG=$CodexRustLog") }
