@@ -21,7 +21,11 @@ refusal recovery shares the original deadline; `-ResumeOnRefusal` remains 0 by
 default. Token ceilings remain informational. Both contestants receive identical
 `GEEKY_DEADLINE_UTC`/`GEEKY_CLOSEOUT_RESERVE_S` context. See the
 [record and timing contract](mxc-litellm-runbook.md#runner-record-and-timing-contract)
-before recovering an interrupted run.
+before recovering an interrupted run. Remaining seconds are floored at invocation
+preparation. Measured invocation time includes the running-record write and the
+synchronous MXC call through return; finalization is measured separately. These
+durations do not isolate startup from termination overhead or prove an upper bound
+on timeout excess.
 
 ## A. Set up the host (once, ~20 min)
 

@@ -23,6 +23,10 @@ def quote(value):
     return "'" + str(value).replace("'", "''") + "'"
 
 
+def assert_no_in_progress_postprocessing(record):
+    assert all(status != 'in-progress' for status in record['execution']['postprocessing'].values())
+
+
 FAKE_PYTHON = r'''
 $a = @($args)
 $global:LASTEXITCODE = 0
@@ -230,11 +234,13 @@ def test_actual_runner_prepared_and_running_deadline_context(estate, harness):
     assert prepared['execution']['process_outcome'] == 'not-started'
     assert launches[0]['execution']['state'] == 'running'
     assert launches[0]['timeout'] == 10
+    assert launches[0]['execution']['postprocessing']['seed-oracle'] == 'completed'
     args = launches[0]['args']
     assert 'GEEKY_DEADLINE_UTC=' + record['execution']['initial_deadline_utc'] in args
     assert 'GEEKY_CLOSEOUT_RESERVE_S=2' in args
     assert record['execution']['workflow_acceptance'] == 'not-established'
     assert record['execution']['state'] == 'finalized'
+    assert_no_in_progress_postprocessing(record)
     assert record['execution']['contestant_time_s'] == 1
     assert record['execution']['finalization_time_s'] == 0
     assert record['fixture_analyzed']
@@ -255,6 +261,17 @@ def test_no_authorized_recovery_never_relaunches(estate):
     result, record, launches, _ = estate[0]('claude', durations='1', recoveries=0)
     assert result.returncode == 0, result.stdout + result.stderr
     assert len(launches) == 1
+
+
+@pytest.mark.parametrize('harness', ['claude', 'codex'])
+@pytest.mark.parametrize(('child_exit', 'outcome'), [(0, 'success'), (7, 'crash'), (124, 'timeout')])
+def test_finalized_records_close_only_completed_steps(estate, harness, child_exit, outcome):
+    result, record, launches, _ = estate[0](harness, child_exit=child_exit)
+    assert len(launches) == 1
+    assert launches[0]['execution']['postprocessing']['seed-oracle'] == 'completed'
+    assert record['execution']['process_outcome'] == outcome
+    assert record['execution']['state'] == 'finalized', result.stdout + result.stderr
+    assert_no_in_progress_postprocessing(record)
 
 
 @pytest.mark.parametrize('harness', ['claude', 'codex'])
@@ -280,10 +297,14 @@ def test_actual_runners_preserve_truth_on_failures(estate, harness, failure):
         assert (folder / 'stream.jsonl').read_bytes()
         assert 'fixture stderr bytes' in (folder / 'stderr.txt').read_text(encoding='utf-8-sig')
         assert record['execution']['process_outcome'] == ('unknown' if failure == 'capture' else 'success')
+    if failure == 'seed':
+        assert record['execution']['postprocessing']['seed-oracle'] == 'failed'
     if failure != 'replacement':
         assert record['execution']['failure']
     else:
         assert (folder / 'run.json').read_bytes() == (estate[1] / 'before-replacement.json').read_bytes()
+    if failure in ('oracle', 'telemetry', 'analysis'):
+        assert record['execution']['postprocessing'][failure] == 'failed'
     assert not list(folder.glob('*.tmp'))
 
 
@@ -296,6 +317,7 @@ def test_timeout_survives_postprocessing_failure(estate, harness, failure):
     assert record['exit_code'] == 124
     assert record['execution']['process_outcome'] == 'timeout'
     assert record['execution']['invocations'][0]['outcome'] == 'timeout'
+    assert record['execution']['postprocessing'][failure] == 'failed'
     assert (folder / 'stream.jsonl').read_bytes()
 
 
@@ -353,3 +375,16 @@ def test_finalization_time_is_separate_and_cannot_extend_contestant_budget(estat
     assert record['execution']['finalization_time_s'] == 3
     assert record['wall_time_s'] == 8
     assert record['execution']['workflow_acceptance'] == 'not-established'
+
+
+@pytest.mark.parametrize('harness', ['claude', 'codex'])
+def test_fake_host_timeout_overrun_is_measured_without_recovery(estate, harness):
+    result, record, launches, _ = estate[0](harness, durations='12', child_exit=124, recoveries=1)
+    assert [item['timeout'] for item in launches] == [10]
+    assert record['execution']['process_outcome'] == 'timeout'
+    assert record['execution']['invocations'][0]['outcome'] == 'timeout'
+    assert record['execution']['invocations'][0]['timeout_s'] == 10
+    assert record['execution']['contestant_time_s'] == 12
+    assert record['execution']['attempt_elapsed_s'] == 12
+    assert record['execution']['state'] == 'finalized'
+    assert_no_in_progress_postprocessing(record)

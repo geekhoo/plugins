@@ -27,7 +27,8 @@ or contestant. Claude's legacy `-DryRun` still executes the seed oracle.
 `hard_wall_budget_s` is positive. The initial UTC deadline and monotonic elapsed
 time begin when the prepared record is created; configuration, seed checks and
 authorized refusal recovery consume that same budget. Before **every** contestant
-launch, remaining seconds are floored; below one whole second no child starts.
+launch, remaining seconds are floored at invocation preparation; below one whole
+second no child starts.
 MXC never receives zero (unlimited). `allowed_recoveries` defaults to zero;
 no generic transient retry is added. Both existing environment argument lists
 carry `GEEKY_DEADLINE_UTC` and `GEEKY_CLOSEOUT_RESERVE_S`. The reserve defaults
@@ -44,9 +45,12 @@ exit code and outcome. `process_outcome` is independent of `capture_status`,
 parsing, oracle, diagnostics or telemetry fails. A successful child never proves
 workflow acceptance. Running capture interrupted by an exception is `unknown`
 with `capture_status=incomplete`; later failures identify the active step.
-`contestant_time_s` sums child intervals, `attempt_elapsed_s` includes budget
+`contestant_time_s` sums measured invocation intervals, each beginning before its
+running-record write and ending when the synchronous MXC call returns. It therefore
+includes record handling as well as the MXC call. `attempt_elapsed_s` includes budget
 consumption between launches, and `finalization_time_s` measures subsequent local
-capture/analysis work separately.
+capture/analysis work separately. These measurements do not isolate startup from
+termination overhead or prove an upper bound on timeout excess.
 
 Post-processing can exceed the contestant wall. Existing Codex replay MXC timeout
 is 900 seconds, sandbox telemetry hooks retain 600 seconds, and telemetry polling

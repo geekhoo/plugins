@@ -66,6 +66,10 @@ function Start-EvalInvocation($Record, [string]$Path, [string]$Kind, [ref]$HostA
         started_utc = [DateTime]::UtcNow.ToString('o'); ended_utc = $null; exit_code = $null; outcome = 'unknown'
     }
     $script:evalInvocationStart = Get-EvalMonotonicSeconds
+    # Reaching capture means the seed oracle returned and its acceptance check passed.
+    if ($execution.active_step -eq 'seed-oracle' -and $execution.postprocessing['seed-oracle'] -eq 'in-progress') {
+        $execution.postprocessing['seed-oracle'] = 'completed'
+    }
     $execution.state = 'running'; $execution.capture_status = 'in-progress'; $execution.active_step = 'capture'
     if (-not $Record.started_utc) { $Record.started_utc = [DateTime]::UtcNow.ToString('o') }
     Write-EvalRecord $Record $Path
