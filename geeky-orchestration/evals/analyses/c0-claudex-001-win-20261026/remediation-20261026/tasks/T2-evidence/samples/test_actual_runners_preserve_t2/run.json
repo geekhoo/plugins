@@ -1,0 +1,79 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "",
+  "reasoning": "default",
+  "workspace": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_runners_preserve_t2\\work\\eval-c0-wordstat-20261026T095613Z",
+  "config_directory": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_runners_preserve_t2\\work\\.eval-cfg-20261026T095613Z",
+  "seed_sha": "a773f07dafc533ac84852cfd7a2eb22fa94053a1",
+  "plugin_sha": "ad52beb12598a4f3c245680ac74cb55b4aa09441",
+  "prompt_sha256": "fef5c409a3cef4427305f56d0267620dd7a5d7442412ed4b214faacad48f3a1c",
+  "session_id": "ed44bd53-073e-4519-91a6-9a434e66fb0a",
+  "started_utc": null,
+  "ended_utc": null,
+  "wall_time_s": 0.0,
+  "exit_code": null,
+  "exit_reason": "prepared",
+  "is_error": true,
+  "reference_eligible": false,
+  "token_ceiling": 123,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "incomplete",
+    "attempt_id": "c9f198aa-1f21-4e2e-b04c-7b83f39ffd2e",
+    "segment_id": "740a1303-5d97-4be5-a664-f9148f06f7f5",
+    "authorization_reference": "offline-fixture",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T09:56:23.6265864Z",
+    "hard_wall_budget_s": 10,
+    "closeout_reserve_s": 2,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 10,
+      "closeout_reserve_s": 2,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "2fd33bb90cf66f77df7382d8f44fec54827f26c88eef030fffe4e2c78ffa1e11",
+    "invocations": [],
+    "process_outcome": "not-started",
+    "capture_status": "not-started",
+    "postprocessing": {
+      "seed-oracle": "failed"
+    },
+    "active_step": "seed-oracle",
+    "failure": {
+      "step": "seed-oracle",
+      "message": "Injected seed oracle failure"
+    },
+    "contestant_time_s": 0.0,
+    "attempt_elapsed_s": 0.0,
+    "finalization_time_s": 0.0,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 5020,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "a773f07dafc533ac84852cfd7a2eb22fa94053a1",
+    "workspace_status": [],
+    "artifact_sha256": {}
+  }
+}

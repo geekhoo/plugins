@@ -1,0 +1,17 @@
+PASS: 43 actual-runner fixtures retained; 86 runner copies match final source SHA256
+{
+  "evals/scripts/run-baseline.ps1": "5900c42e943e9d2791efbf40823cfe8f064ab50f7196049ff455f8e9d0884be5",
+  "evals/scripts/run-codex-baseline.ps1": "32054a4da815033856e800529046cc4151e3746fe7f5a8a341af59db38f84010",
+  "evals/scripts/run-lifecycle.ps1": "eb7ee3183ed4bbd6505e8b860169bb89e8727da788bf608ef8732e8b50b19268",
+  "evals/scripts/test_run_lifecycle.py": "c548107e54aad68ec7e5b69bc21c6f14382f7f9bf40407b996ef192d59ea0aab",
+  "evals/QUICKSTART.md": "75056499fc0af49a26968feb5e82d836e5116bb5baa9216061d6ad10a069bed3",
+  "evals/mxc-litellm-runbook.md": "52937ec1cae462cda5177625262e9b6b66b37363bc9fd78e5fad145dcd105cf1",
+  "skills/geeky-implement/SKILL.md": "12096891b725c53abe23804b70887ce039b3faacc3779001ba80fc5f4dff0347",
+  "skills/geeky-implement/references/execution-protocol.md": "bd21dca7093b3b08196cd1340030a81fa1244c81a67daa73b5b3ec8c7496c727",
+  "evals/scripts/test_codex_run2_prep.py": "173c277fbb880721589458801370a56219ec2ff0404ece3029398e45352e1871",
+  "evals/scripts/test_codex_auto_process.py": "75a26a1442fe389a026dc77fec8e186125b4b2e7de6e4e8708a703d72e9271fe",
+  "evals/scripts/analyze-run.py": "f74fadd1eaa84004c452fd38ffc98dac425de35a5fea87d72692575cc096bf86",
+  "evals/telemetry/telemetry.ps1": "41bae41bfeb0d50acf3ec3af3705f94786ec140014627d226ea1b0bb6090c692",
+  "evals/prompts/end-to-end.md": "0b0f0cd28010362df331cd27a443dfe20f64ec2db1309246a72739f8b53ad38b"
+}
+EXIT_CODE=0

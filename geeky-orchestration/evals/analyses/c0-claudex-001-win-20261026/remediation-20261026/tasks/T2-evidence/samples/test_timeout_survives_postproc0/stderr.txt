@@ -1,0 +1,6 @@
+mxc.ps1: C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-685\test_timeout_survives_postproc0\repo\geeky-orchestration\evals\scripts\run-baseline.ps1:283
+Line |
+ 283 |          & $mxc @hostArgs -- @claudeArgs > (Join-Path $out 'stream.jso …
+     |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | fixture stderr bytes
+

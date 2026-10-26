@@ -1,0 +1,25 @@
+...........................F
+================================== FAILURES ===================================
+________________ test_waiver_retains_no_extra_probe_semantics _________________
+
+estate = (<function estate.<locals>.run at 0x000001B76FF4B740>, WindowsPath('C:/Users/gerald.khoo/AppData/Local/Temp/pytest-of-gerald.khoo/pytest-683/test_waiver_retains_no_extra_p0'))
+
+>   ???
+E   AssertionError: workspace: C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-683\test_waiver_retains_no_extra_p0\work\eval-c0-wordstat-codex-20261026T094910Z-d0054fb5 (seed 633c2532e0f2a7263a0168c9d97173a4a073ad78)
+E     prepared: C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-683\test_waiver_retains_no_extra_p0\repo\geeky-orchestration\evals\baselines\c0-wordstat\20261026T094910Z-d0054fb5
+E     warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+E     Get-Content: C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-683\test_waiver_retains_no_extra_p0\repo\geeky-orchestration\evals\scripts\run-codex-baseline.ps1:378
+E     Line |
+E      378 |  … $analyzed = Get-Content -LiteralPath (Join-Path $analysisOut 'run.jso …
+E          |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+E          | Cannot find path
+E          | 'C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-683\test_waiver_retains_no_extra_p0\repo\geeky-orchestration\evals\baselines\c0-wordstat\20261026T094910Z-d0054fb5\derived\run.json' because it does not exist.
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\p...hestration\\evals\\baselines\\c0-wordstat\\20261026T094910Z-d0054fb5\\derived\\run.json' because it does not exist.\n").returncode
+
+evals\scripts\test_run_lifecycle.py:300: AssertionError
+=========================== short test summary info ===========================
+FAILED evals/scripts/test_run_lifecycle.py::test_waiver_retains_no_extra_probe_semantics
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 27 passed in 134.16s (0:02:14)

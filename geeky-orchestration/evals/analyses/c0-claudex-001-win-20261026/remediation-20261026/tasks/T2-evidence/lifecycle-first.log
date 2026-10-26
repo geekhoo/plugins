@@ -1,0 +1,28 @@
+F
+================================== FAILURES ===================================
+______ test_actual_runner_prepared_and_running_deadline_context[claude] _______
+
+estate = (<function estate.<locals>.run at 0x0000021C6CB45380>, WindowsPath('C:/Users/gerald.khoo/AppData/Local/Temp/pytest-of-gerald.khoo/pytest-681/test_actual_runner_prepared_an0'))
+harness = 'claude'
+
+    @pytest.mark.parametrize('harness', ['claude', 'codex'])
+    def test_actual_runner_prepared_and_running_deadline_context(estate, harness):
+        run, root = estate
+        result, record, launches, folder = run(harness)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: run-baseline.ps1: C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-681\test_actual_runner_prepared_an0\wrapper.ps1:9
+E         Line |
+E            9 |  … o\geeky-orchestration\evals\scripts\run-baseline.ps1' '-Case' 'c0-wor …
+E              |                                                          ~~~~~~~
+E              | Cannot validate argument on parameter 'Case'. The argument "-Case" does not belong to the set
+E              | "c0-wordstat,c1-csvledger,c2-linkvault,c3-minisql" specified by the ValidateSet attribute. Supply an argument
+E              | that is in the set and then try the command again.
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\p...ecified by the ValidateSet attribute. Supply an argument\n     | that is in the set and then try the command again.\n').returncode
+
+evals\scripts\test_run_lifecycle.py:216: AssertionError
+=========================== short test summary info ===========================
+FAILED evals/scripts/test_run_lifecycle.py::test_actual_runner_prepared_and_running_deadline_context[claude]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 4.29s

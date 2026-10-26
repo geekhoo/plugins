@@ -1,0 +1,73 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "",
+  "reasoning": "default",
+  "workspace": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_runners_preserve_t8\\work\\eval-c0-wordstat-20261026T095635Z",
+  "config_directory": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_runners_preserve_t8\\work\\.eval-cfg-20261026T095635Z",
+  "seed_sha": "95753f91e49f25c4f274644b033cccdedc9e7107",
+  "plugin_sha": "be86f6499e4ed3da7150ca4e7c7f0ff3e0275a89",
+  "prompt_sha256": "fef5c409a3cef4427305f56d0267620dd7a5d7442412ed4b214faacad48f3a1c",
+  "session_id": "aeb0c6a5-1c2c-4a44-911c-b31462969794",
+  "started_utc": null,
+  "ended_utc": null,
+  "wall_time_s": null,
+  "exit_code": null,
+  "exit_reason": "prepared",
+  "is_error": false,
+  "reference_eligible": false,
+  "token_ceiling": 123,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": true
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "prepared",
+    "attempt_id": "08c5ff07-9d38-4117-b5ea-825ae960c1c2",
+    "segment_id": "9d549029-136a-45a4-af7f-e5bd5b459472",
+    "authorization_reference": "offline-fixture",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T09:56:47.0784685Z",
+    "hard_wall_budget_s": 10,
+    "closeout_reserve_s": 2,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 10,
+      "closeout_reserve_s": 2,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "2fd33bb90cf66f77df7382d8f44fec54827f26c88eef030fffe4e2c78ffa1e11",
+    "invocations": [],
+    "process_outcome": "not-started",
+    "capture_status": "not-started",
+    "postprocessing": {
+      "seed-oracle": "in-progress"
+    },
+    "active_step": "seed-oracle",
+    "failure": null,
+    "contestant_time_s": 0.0,
+    "attempt_elapsed_s": 0.0,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 46444,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  }
+}

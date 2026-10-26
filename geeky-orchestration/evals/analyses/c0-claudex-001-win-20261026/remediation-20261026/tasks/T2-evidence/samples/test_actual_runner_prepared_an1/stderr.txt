@@ -1,0 +1,6 @@
+mxc.ps1: C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-685\test_actual_runner_prepared_an1\repo\geeky-orchestration\evals\scripts\run-codex-baseline.ps1:294
+Line |
+ 294 |          & $mxc @hostArgs -- @codexArgs > (Join-Path $out 'stream.json …
+     |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | fixture stderr bytes
+

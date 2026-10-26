@@ -1,0 +1,150 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "fixture-codex",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "approach": "mock-agent:happy",
+  "plugin_sha": "95b07c8c217d94711570c3405abea6368666e450",
+  "worker_model": "fixture",
+  "worker_reasoning": "high",
+  "model_matrix": [],
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "fef5c409a3cef4427305f56d0267620dd7a5d7442412ed4b214faacad48f3a1c",
+  "workspace": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_runners_preserve_t9\\work\\eval-c0-wordstat-codex-20261026T095641Z-48ea9039",
+  "config_directory": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_runners_preserve_t9\\work\\.eval-cfg-codex-20261026T095641Z-48ea9039",
+  "seed_sha": "c8a3cb62d9175a46e939bdf4be0d0b523cee32d6",
+  "session_id": "fixture-thread",
+  "started_utc": "2026-10-26T09:56:42.3440936Z",
+  "ended_utc": "2026-10-26T09:56:42.5481390Z",
+  "wall_time_s": 1.0,
+  "tokens": null,
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 1,
+    "passed": 1,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 0,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": true,
+  "raw_sha256": {
+    "stream": "70dd9fa8f5148ed97cc591aa1580ae01d2496f43b9c4f11dab63794aed1e9f03",
+    "session": "7c3f45726dd411de42afdd2724e0d17f763fe2d95737c45185f4accd862fee2d"
+  },
+  "interventions": 0,
+  "token_ceiling": 123,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "awaiting-rollout",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "fixture-profile",
+  "mock_agent": true,
+  "runtime_toolchain_verified": true,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "required-for-windows-launch",
+    "override_reason": null
+  },
+  "provider": null,
+  "telemetry": {
+    "enabled": true
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "incomplete",
+    "attempt_id": "6ae47f46-ee7c-4f78-96d1-306480252193",
+    "segment_id": "744f716e-0207-4278-a8d4-b4e12c527660",
+    "authorization_reference": "offline-fixture",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "required-for-windows-launch",
+      "override_reason": null
+    },
+    "initial_deadline_utc": "2026-10-26T09:56:52.0222809Z",
+    "hard_wall_budget_s": 10,
+    "closeout_reserve_s": 2,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "worker_model": "gpt-6.1-sol",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "",
+      "mock": true,
+      "provider": "openai",
+      "hard_wall_budget_s": 10,
+      "closeout_reserve_s": 2,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "5e043779bd481030484d26c1b7982041df665bbe389ea5e0c25c087bb83b82a4",
+    "invocations": [
+      {
+        "invocation_id": "d9e696eb-000f-495c-b0a6-ebe297c39610",
+        "kind": "initial",
+        "timeout_s": 10,
+        "started_utc": "2026-10-26T09:56:42.3636617Z",
+        "ended_utc": "2026-10-26T09:56:42.5336815Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "launch-preparation": "completed",
+      "seed-oracle": "in-progress",
+      "parsing": "completed",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "telemetry": "failed"
+    },
+    "active_step": "telemetry",
+    "failure": {
+      "step": "telemetry",
+      "message": "Injected telemetry failure"
+    },
+    "contestant_time_s": 1.0,
+    "attempt_elapsed_s": 1.0,
+    "finalization_time_s": 0.0,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 47776,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "c8a3cb62d9175a46e939bdf4be0d0b523cee32d6",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "mock-summary.json": "8add4b1bfe8f6b2f8fc2cbee3a070e200ba0f6bea5a45ffd0de4300570146d1a",
+      "oracle-output.txt": "000f424898b28a89aae8e4dda3e9e76bb796699f2e1b6bf38f165d0e298c3829",
+      "oracle-seed-output.txt": "f86aae7bd4812e72e8c8c2bc75e8abe4e5e0be31ff07d5c91ee2392eef23251c",
+      "parity-preflight.json": "ec1cd784dc7a910658cd940c2dbb8a9866eee3833ec9f67b68f78f3dfb1277be",
+      "session.jsonl": "7c3f45726dd411de42afdd2724e0d17f763fe2d95737c45185f4accd862fee2d",
+      "solution.bundle": "2c6a8338118c4fa90b54d581dc800e028d5fddfc55cb2ce8b129bc084a705581",
+      "stderr.txt": "d84287ba6e45c4486cacbad35e6908f2efae81a42f88a4b612fd8b5eb455111b",
+      "stream.jsonl": "70dd9fa8f5148ed97cc591aa1580ae01d2496f43b9c4f11dab63794aed1e9f03"
+    }
+  }
+}

@@ -21,6 +21,8 @@ param(
     [ValidateSet('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')][string]$WorkerReasoning,
     [ValidateSet('minimal', 'low', 'medium', 'high', 'xhigh', 'max', 'ultra')][string]$ReviewerReasoning,
     [int]$TimeoutSec,
+    [int]$CloseoutReserveSec = 0,
+    [string]$AuthorizationReference,
     [string]$ToolsDir,
     [string]$WorkRoot,
     [string]$CodexHome,
@@ -43,6 +45,7 @@ param(
     [string]$CodexRustLog
 )
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'run-lifecycle.ps1')
 $PSNativeCommandUseErrorActionPreference = $false
 if ($MockAgent -and $Launch) { throw 'Choose -MockAgent or -Launch, not both.' }
 if ($SkipNativeQualification -and -not $QualificationOverrideReason) {
@@ -84,8 +87,9 @@ foreach ($required in @($python, $CodexHome, $mxc) + @(if ($onWindows) { $tarExe
 & $python -c 'import pytest'
 if ($LASTEXITCODE) { throw 'agent-py must have pytest installed' }
 $caseCfg = Get-Content (Join-Path $caseDir 'case.json') -Raw | ConvertFrom-Json
-if (-not $TimeoutSec) { $TimeoutSec = [int]$caseCfg.wall_time_ceiling_s }
+if (-not $PSBoundParameters.ContainsKey('TimeoutSec')) { $TimeoutSec = [int]$caseCfg.wall_time_ceiling_s }
 if ($TimeoutSec -le 0) { throw 'TimeoutSec must be positive' }
+if ($CloseoutReserveSec -lt 0 -or $CloseoutReserveSec -ge $TimeoutSec) { throw 'CloseoutReserveSec must be nonnegative and smaller than TimeoutSec' }
 
 function Invoke-Git {
     $result = & git @args
@@ -138,6 +142,22 @@ Invoke-Git @('-C', $ws, 'add', '-A') | Out-Null
 Invoke-Git @('-C', $ws, '-c', 'user.name=eval-seed', '-c', 'user.email=eval-seed@local', 'commit', '-q', '-m', 'seed: brief and contract') | Out-Null
 $baseSha = Invoke-Git @('-C', $ws, 'rev-parse', 'HEAD')
 $pluginSha = Invoke-Git @('-C', $repoRoot, 'rev-parse', 'HEAD')
+$recordPath = Join-Path $out 'run.json'
+$waiver = [ordered]@{
+    status = $(if ($SkipNativeQualification) { 'waived-by-owner' } else { 'required-for-windows-launch' })
+    override_reason = $(if ($SkipNativeQualification) { $QualificationOverrideReason } else { $null })
+}
+$execution = New-EvalExecution $TimeoutSec $CloseoutReserveSec 0 $AuthorizationReference $waiver `
+    ([ordered]@{ model = $Model; reasoning = $Reasoning; worker_model = $WorkerModel; worker_reasoning = $WorkerReasoning
+        reviewer_reasoning = $ReviewerReasoning; mock = [bool]$MockAgent; provider = $(if ($Litellm) { 'litellm' } else { 'openai' }) })
+$record = [ordered]@{ schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'codex'; model = $Model
+    workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; plugin_sha = $pluginSha
+    started_utc = $null; ended_utc = $null; exit_code = $null; exit_reason = 'prepared'
+    is_error = $false; reference_eligible = $false; analysis_status = 'not-started'; execution = $execution }
+Write-EvalRecord $record $recordPath
+$lock = $null
+$finalizationStart = Get-EvalMonotonicSeconds
+try {
 $archive = Join-Path $cfg 'plugin.tar'
 Invoke-Git @('-C', $repoRoot, 'archive', '--format=tar', "--output=$archive", $pluginSha, 'geeky-orchestration', ':(exclude)geeky-orchestration/evals') | Out-Null
 & $tarExe -xf $archive -C $export
@@ -235,10 +255,13 @@ $record = [ordered]@{
 }
 if ($ReviewerReasoning) { $record['reviewer_reasoning'] = $ReviewerReasoning }
 if ($ReviewerProofFolder) { $record['reviewer_proof_folder'] = [IO.Path]::GetFullPath($ReviewerProofFolder) }
-$record | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $out 'run.json')
+$record['execution'] = $execution
+$hostArgs += @('--env', "GEEKY_DEADLINE_UTC=$($record.execution.initial_deadline_utc)", '--env', "GEEKY_CLOSEOUT_RESERVE_S=$CloseoutReserveSec")
+Write-EvalRecord $record $recordPath
 Write-Host "workspace: $ws (seed $baseSha)"
 Write-Host "prepared: $out"
 if (-not $Launch -and -not $MockAgent) { Write-Host 'Preparation only; no MXC workload or model call launched.'; return }
+Set-EvalStep $record $recordPath 'launch-preparation'
 $mxcState = Join-Path $cfg 'mxc-runner'
 if ($MxcBuildSource) {
     . (Join-Path $adapter 'copy-vetted-mxc-build.ps1')
@@ -258,7 +281,7 @@ if ($Launch -and -not $SkipNativeQualification -and $NativeProofFolder) {
 
 # Serialize this dedicated auth/session store, without touching its auth files.
 $lock = [IO.File]::Open((Join-Path $ToolsDir '.codex-baseline.lock'), [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)
-try {
+    Set-EvalStep $record $recordPath 'seed-oracle'
     $empty = Invoke-Oracle $ws (Join-Path $out 'oracle-seed-output.txt')
     if ($empty.passed -gt 0 -or $empty.exit_code -ne 1 -or ($empty.failed + $empty.errors) -eq 0) { throw 'Seed oracle did not establish expected test failures' }
     $started = (Get-Date).ToUniversalTime()
@@ -267,14 +290,18 @@ try {
     $env:MXC_CLAUDE_EXE = $python
     $env:MXC_SANDBOX_HOME = $mxcState
     try {
+        if (-not (Start-EvalInvocation $record $recordPath 'initial' ([ref]$hostArgs))) { throw 'Attempt deadline exhausted before launch' }
         & $mxc @hostArgs -- @codexArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
         $exitCode = $LASTEXITCODE
+        Complete-EvalInvocation $record $recordPath $exitCode
     } finally { $env:MXC_CLAUDE_EXE = $savedExe; $env:MXC_SANDBOX_HOME = $savedMxcHome }
     $ended = (Get-Date).ToUniversalTime()
     $record.started_utc = $started.ToString('o'); $record.ended_utc = $ended.ToString('o')
     $record.wall_time_s = [int]($ended - $started).TotalSeconds; $record.exit_code = $exitCode
     $record.exit_reason = if ($exitCode -eq 124) { 'timeout' } elseif ($exitCode -eq 0) { 'completed' } else { 'crash' }
     $record.is_error = $exitCode -ne 0
+    $finalizationStart = Get-EvalMonotonicSeconds
+    Set-EvalStep $record $recordPath 'parsing'
     $events = @(Get-Content (Join-Path $out 'stream.jsonl') | ForEach-Object { try { $_ | ConvertFrom-Json -ErrorAction Stop } catch { } })
     if ($MockAgent) {
         $summary = $events | Where-Object type -eq 'mock_summary' | Select-Object -Last 1
@@ -284,26 +311,34 @@ try {
         }
         if (-not $summary -or $summary.ok -ne $true) {
             $record.is_error = $true; $record.exit_reason = 'mock-checks-failed'
+            $record.execution.postprocessing['parsing'] = 'incomplete'
         }
     }
     if (@($events | Where-Object { $_.type -in @('turn.failed', 'error') }).Count -gt 0) {
         $record.is_error = $true; $record.exit_reason = 'turn-failed'
+        $record.execution.postprocessing['parsing'] = 'incomplete'
     } elseif (-not ($events | Where-Object type -eq 'turn.completed')) {
         $record.is_error = $true
+        $record.execution.postprocessing['parsing'] = 'incomplete'
         if ($exitCode -eq 0) { $record.exit_reason = 'missing-turn-completed' }
     }
     $thread = $events | Where-Object type -eq 'thread.started' | Select-Object -First 1
     if ($thread) {
+        Set-EvalStep $record $recordPath 'native-capture'
         $record.session_id = $thread.thread_id
         $sessions = Join-Path $CodexHome 'sessions'
         # Only rollout transcripts are enumerated, never the home or auth files.
         & $python (Join-Path $adapter 'capture-rollouts.py') --sessions $sessions --thread-id $thread.thread_id --output $out
-        if ($LASTEXITCODE -ne 0) { $record.is_error = $true; $record.exit_reason = 'missing-or-ambiguous-rollout' }
+        if ($LASTEXITCODE -ne 0) {
+            $record.is_error = $true; $record.exit_reason = 'missing-or-ambiguous-rollout'
+            $record.execution.postprocessing['native-capture'] = 'incomplete'
+        }
         # The Stop hook only fires when a turn ends; a run that times out or is killed mid-turn would leave
         # Langfuse empty. Replay the main rollout (children are found beside it) through the tracer in a short
         # network-enabled MXC workload: its exporter ignores proxies, so it needs the sandbox's direct egress.
         $rollout = Get-ChildItem -LiteralPath $sessions -Recurse -Filter "rollout-*$($thread.thread_id).jsonl" | Select-Object -First 1
         if ($telemetry -and $Launch -and $rollout) {
+            Set-EvalStep $record $recordPath 'telemetry-replay'
             $payloadFile = Join-Path $runTmp 'codex-flush-payload.json'
             @{ session_id = $thread.thread_id; transcript_path = $rollout.FullName; hook_event_name = 'Stop' } | ConvertTo-Json -Compress |
                 Set-Content -LiteralPath $payloadFile -NoNewline
@@ -313,10 +348,16 @@ try {
             try {
                 & $mxc @flushArgs -- (Join-Path $cfg 'codex-flush.py') $telemetry.Node $telemetry.HookScript $payloadFile *> (Join-Path $out 'langfuse-flush.log')
                 $telemetry.Record.host_flush = "exit $LASTEXITCODE"
+                if ($LASTEXITCODE -ne 0) { $record.execution.postprocessing['telemetry-replay'] = 'incomplete' }
             } finally { $env:MXC_CLAUDE_EXE = $savedExe; $env:MXC_SANDBOX_HOME = $savedMxcHome }
         }
-    } else { $record.is_error = $true; $record.exit_reason = 'missing-thread-id' }
+    } else {
+        $record.is_error = $true; $record.exit_reason = 'missing-thread-id'
+        $record.execution.postprocessing['parsing'] = 'incomplete'
+        $record.execution.postprocessing['native-capture'] = 'not-available'
+    }
     $record.plugin_modified_during_run = (Get-TreeHash $pluginRun) -ne $exportHash
+    Set-EvalStep $record $recordPath 'oracle'
     $runs = @(1..3 | ForEach-Object { Invoke-Oracle $ws (Join-Path $out 'oracle-output.txt') })
     $first = $runs[0]
     $record.oracle = [ordered]@{ collected = $first.passed + $first.failed + $first.errors + $first.skipped; passed = $first.passed; failed = $first.failed; errors = $first.errors; skipped = $first.skipped
@@ -324,7 +365,9 @@ try {
     Invoke-Git @('-C', $ws, 'bundle', 'create', (Join-Path $out 'solution.bundle'), '--all') | Out-Null
     $record.commits = [int](Invoke-Git @('-C', $ws, 'rev-list', '--count', "$baseSha..HEAD"))
     $record.raw_sha256 = [ordered]@{ stream = Get-Sha (Join-Path $out 'stream.jsonl'); session = Get-Sha (Join-Path $out 'session.jsonl') }
+    Set-EvalStep $record $recordPath 'telemetry'
     if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $record.session_id -OutDir $out -Python $python }
+    if ($telemetry -and -not $telemetry.Record.delivered) { $record.execution.postprocessing['telemetry'] = 'pending-or-incomplete' }
     if ($Launch -and (Test-Path (Join-Path $runTmp 'native-hook-trust'))) {
         # Launch evidence (codex-exit.json, hook catalogue, denial proof) travels with the run.
         Copy-Item (Join-Path $runTmp 'native-hook-trust') (Join-Path $out 'launch-evidence') -Recurse -Exclude 'hook-catalog-home'
@@ -335,7 +378,7 @@ try {
         $record.runtime_parity_verified = $false
     } elseif ($Launch) {
         # Preserve oracle/bundle/rollouts first; diagnostics must pass before automatic analysis.
-        $record | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $out 'run.json')
+        Set-EvalStep $record $recordPath 'diagnostics'
         & $python (Join-Path $adapter 'paid-diagnostic-audit.py') --run-folder $out `
             --runtime-evidence (Join-Path $runTmp 'native-hook-trust') --forbidden-skill-root $forbiddenSkillRoot `
             --pin $mxcPin `
@@ -344,17 +387,31 @@ try {
         $record.runtime_parity_verified = $record.diagnostics_passed
         $record.runtime_toolchain_verified = $record.diagnostics_passed
         if (-not $record.diagnostics_passed) {
+            $record.execution.postprocessing['diagnostics'] = 'failed'
             $record.is_error = $true; $record.exit_reason = 'diagnostics-failed'
             $record.analysis_status = 'diagnostics-failed'
         }
     }
-} finally {
-    $record | ConvertTo-Json -Depth 8 | Set-Content (Join-Path $out 'run.json')
-    $lock.Dispose()
-}
 if (-not $record.is_error) {
-    & $python (Join-Path $PSScriptRoot 'analyze-run.py') $out --token-ceiling $caseCfg.token_ceiling
+    Set-EvalStep $record $recordPath 'analysis'
+    $record.analysis_status = 'in-progress'
+    $analysisOut = Join-Path $out 'derived'
+    & $python (Join-Path $PSScriptRoot 'analyze-run.py') $out --token-ceiling $caseCfg.token_ceiling --out $analysisOut
     if ($LASTEXITCODE -ne 0) { throw "Codex trace analysis failed: $out" }
+    $analyzed = Get-Content -LiteralPath (Join-Path $analysisOut 'run.json') -Raw | ConvertFrom-Json -AsHashtable
+    foreach ($key in $analyzed.Keys) { if ($key -ne 'execution') { $record[$key] = $analyzed[$key] } }
+    Copy-Item -LiteralPath (Join-Path $analysisOut 'analysis.json') -Destination (Join-Path $out 'analysis.json')
+} else { $record.analysis_status = 'skipped-process-or-capture-error' }
+} catch {
+    if ($record.execution.active_step -eq 'capture' -or $record.execution.process_outcome -eq 'not-started') { $finalizationStart = Get-EvalMonotonicSeconds }
+    Set-EvalFailure $record $_
+    throw
+} finally {
+    try {
+        if ($record.execution.state -eq 'prepared') { Write-EvalRecord $record $recordPath }
+        else { Save-EvalFinalRecord $record $recordPath $ws $finalizationStart }
+    }
+    finally { if ($lock) { $lock.Dispose() } }
 }
 Write-Host "stored: $out (analysis status: $($record.analysis_status); score-run.py requires reviewed manual verdicts)"
 if ($MockAgent -and $record.is_error) { throw "Codex mock failed: $out" }

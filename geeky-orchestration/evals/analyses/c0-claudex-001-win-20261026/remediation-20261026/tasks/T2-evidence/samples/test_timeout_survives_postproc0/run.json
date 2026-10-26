@@ -1,0 +1,94 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "",
+  "reasoning": "default",
+  "workspace": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_timeout_survives_postproc0\\work\\eval-c0-wordstat-20261026T095701Z",
+  "config_directory": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_timeout_survives_postproc0\\work\\.eval-cfg-20261026T095701Z",
+  "seed_sha": "67c092edcd0e49a7553e2cfd423f73106539c264",
+  "plugin_sha": "73708117764f9bc8896be6f7514a24af0af2a067",
+  "prompt_sha256": "fef5c409a3cef4427305f56d0267620dd7a5d7442412ed4b214faacad48f3a1c",
+  "session_id": "6d3fef34-35eb-43db-9816-bd1025aa337e",
+  "started_utc": "2026-10-26T09:57:02.8989579Z",
+  "ended_utc": "2026-10-26T09:57:03.0542873Z",
+  "wall_time_s": 1.0,
+  "exit_code": 124,
+  "exit_reason": "timeout",
+  "is_error": true,
+  "reference_eligible": false,
+  "token_ceiling": 123,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "incomplete",
+    "attempt_id": "bf50893a-c484-425f-ab50-74d8c6adbf64",
+    "segment_id": "cb86b7a7-9415-48c3-933b-d495e343dd72",
+    "authorization_reference": "offline-fixture",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T09:57:12.2610541Z",
+    "hard_wall_budget_s": 10,
+    "closeout_reserve_s": 2,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 10,
+      "closeout_reserve_s": 2,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "2fd33bb90cf66f77df7382d8f44fec54827f26c88eef030fffe4e2c78ffa1e11",
+    "invocations": [
+      {
+        "invocation_id": "e73183dc-f78f-4d9e-973b-691e8eb548fd",
+        "kind": "initial",
+        "timeout_s": 10,
+        "started_utc": "2026-10-26T09:57:02.8924005Z",
+        "ended_utc": "2026-10-26T09:57:03.0542873Z",
+        "exit_code": 124,
+        "outcome": "timeout"
+      }
+    ],
+    "process_outcome": "timeout",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "in-progress",
+      "native-capture": "completed",
+      "oracle": "failed"
+    },
+    "active_step": "oracle",
+    "failure": {
+      "step": "oracle",
+      "message": "Injected result oracle failure"
+    },
+    "contestant_time_s": 1.0,
+    "attempt_elapsed_s": 1.0,
+    "finalization_time_s": 0.0,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 30260,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "67c092edcd0e49a7553e2cfd423f73106539c264",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "stderr.txt": "928c63af17f234d5ab68d8b07b017010999af43e67e5de72893601be28b701bd",
+      "stream.jsonl": "692bf57a5f1f5ba25c3adeef08c01c6279c590d382d4b718ebabefb4ff617efd"
+    }
+  }
+}

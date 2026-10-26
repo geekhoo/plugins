@@ -1,0 +1,140 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "fixture",
+  "reasoning": "default",
+  "workspace": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_no_authorized_recovery_ne0\\work\\eval-c0-wordstat-20261026T095554Z",
+  "config_directory": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_no_authorized_recovery_ne0\\work\\.eval-cfg-20261026T095554Z",
+  "seed_sha": "2ba0a25091626204468f37ca73855c4713df0a0b",
+  "plugin_sha": "68c366076733afa9bdd0f6b446376ab9aa2489fb",
+  "prompt_sha256": "fef5c409a3cef4427305f56d0267620dd7a5d7442412ed4b214faacad48f3a1c",
+  "session_id": "1bed518c-52ee-4679-b13f-c225c7d09b87",
+  "started_utc": "2026-10-26T09:55:55.2570734Z",
+  "ended_utc": "2026-10-26T09:55:55.5309231Z",
+  "wall_time_s": 1.0,
+  "exit_code": 0,
+  "exit_reason": "provider_refusal",
+  "is_error": false,
+  "reference_eligible": false,
+  "token_ceiling": 123,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "complete",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "bfcd3634-8a65-4fac-8e22-9b84c3954547",
+    "segment_id": "b7b04f96-d1b3-411c-b80e-8680c197c987",
+    "authorization_reference": "offline-fixture",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T09:56:04.8023837Z",
+    "hard_wall_budget_s": 10,
+    "closeout_reserve_s": 2,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 10,
+      "closeout_reserve_s": 2,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "2fd33bb90cf66f77df7382d8f44fec54827f26c88eef030fffe4e2c78ffa1e11",
+    "invocations": [
+      {
+        "invocation_id": "882ce951-f226-4a73-9d9e-83e79eccb87a",
+        "kind": "initial",
+        "timeout_s": 10,
+        "started_utc": "2026-10-26T09:55:55.2901905Z",
+        "ended_utc": "2026-10-26T09:55:55.5108971Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "in-progress",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "completed"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 1.0,
+    "attempt_elapsed_s": 1.0,
+    "finalization_time_s": 0.0,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 20136,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "2ba0a25091626204468f37ca73855c4713df0a0b",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "analysis.json": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f",
+      "notes.md": "73350fa3e92772dbac599d15e216836ec89bda9a15b77f611d70535b0d833a2e",
+      "oracle-output.txt": "000f424898b28a89aae8e4dda3e9e76bb796699f2e1b6bf38f165d0e298c3829",
+      "solution.bundle": "9f36ae4c683d5b0fd7931b5c253452ad16b352d1aa4be8eba9a781889cec3e79",
+      "stderr.txt": "081ff6d835912519d69f55bf33d4aa6a488803caef271be5c8c31869b5fe8a1e",
+      "stream.jsonl": "692bf57a5f1f5ba25c3adeef08c01c6279c590d382d4b718ebabefb4ff617efd",
+      "derived/analysis.json": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f",
+      "derived/run.json": "18be41d07b09ae749bfdfa6edc606306ed2ad028adcfdbb14990a5c49a457d0d"
+    }
+  },
+  "harness_version": "fixture",
+  "approach": "mock-agent:happy",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 0,
+  "tokens": {
+    "input": 1,
+    "cached_input": 0,
+    "output": 1,
+    "reasoning": 0,
+    "total": 2
+  },
+  "model_calls": 1.0,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 1,
+    "passed": 1,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 0
+  },
+  "commits": 0,
+  "stop_reason": "refusal",
+  "raw_sha256": {
+    "stream": "692bf57a5f1f5ba25c3adeef08c01c6279c590d382d4b718ebabefb4ff617efd",
+    "session": null
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": null,
+  "fixture_analyzed": true
+}

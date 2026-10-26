@@ -1,0 +1,4 @@
+{"type":"system","subtype":"init","model":"fixture","claude_code_version":"fixture","skills":[]}
+{"type":"result","stop_reason":"refusal","is_error":false,"num_turns":1,"usage":{"input_tokens":1,"output_tokens":1}}
+{"type":"system","subtype":"init","model":"fixture","claude_code_version":"fixture","skills":[]}
+{"type":"result","stop_reason":"refusal","is_error":false,"num_turns":1,"usage":{"input_tokens":1,"output_tokens":1}}

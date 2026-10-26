@@ -1,0 +1,13 @@
+[
+  {
+    "runner": "run-baseline.ps1",
+    "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e"
+  },
+  {
+    "runner": "run-codex-baseline.ps1",
+    "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e"
+  }
+]
+historical_render_sha256=7c3ed1b8ab6eda83d9e221cb279293d66a732901cda6bc7bbf9979c57df7cdbc; matches frozen C0 prompt_sha256
+PASS: executed only actual render/hash assignment ASTs; no runner/model/telemetry launch
+EXIT_CODE=0

@@ -1,0 +1,149 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "fixture",
+  "reasoning": "default",
+  "workspace": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_claude_recovery_us1\\work\\eval-c0-wordstat-20261026T095532Z",
+  "config_directory": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_claude_recovery_us1\\work\\.eval-cfg-20261026T095532Z",
+  "seed_sha": "680428e142adf0457d35597ae7eef02933a399ca",
+  "plugin_sha": "83f5af9470c4c4f69e10af21039046adf28c856d",
+  "prompt_sha256": "fef5c409a3cef4427305f56d0267620dd7a5d7442412ed4b214faacad48f3a1c",
+  "session_id": "480bf9ce-d063-4c89-b6fb-0a9dc0d5797d",
+  "started_utc": "2026-10-26T09:55:33.0149943Z",
+  "ended_utc": "2026-10-26T09:55:33.2864035Z",
+  "wall_time_s": 8.2,
+  "exit_code": 0,
+  "exit_reason": "provider_refusal",
+  "is_error": false,
+  "reference_eligible": false,
+  "token_ceiling": 123,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "complete",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "4e2d492e-1821-407f-ab3a-8e59e96e6248",
+    "segment_id": "b24aeaf7-2b0d-464b-92b0-d97c4df4beb5",
+    "authorization_reference": "offline-fixture",
+    "allowed_recoveries": 1,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T09:55:42.6785904Z",
+    "hard_wall_budget_s": 10,
+    "closeout_reserve_s": 2,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 10,
+      "closeout_reserve_s": 2,
+      "allowed_recoveries": 1
+    },
+    "configuration_sha256": "0525602f1b3f1f661f88901398a38b6486e89200ff7e48c06496d2626fe39ec0",
+    "invocations": [
+      {
+        "invocation_id": "3501e499-d6b0-401a-890c-b1559b0a651b",
+        "kind": "initial",
+        "timeout_s": 10,
+        "started_utc": "2026-10-26T09:55:33.0373536Z",
+        "ended_utc": "2026-10-26T09:55:33.1884283Z",
+        "exit_code": 0,
+        "outcome": "success"
+      },
+      {
+        "invocation_id": "e11e62e4-2f50-4e85-8b05-e38773774482",
+        "kind": "refusal-recovery",
+        "timeout_s": 1,
+        "started_utc": "2026-10-26T09:55:33.2217573Z",
+        "ended_utc": "2026-10-26T09:55:33.2813951Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "in-progress",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "completed"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 8.2,
+    "attempt_elapsed_s": 8.2,
+    "finalization_time_s": 0.0,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 10128,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "680428e142adf0457d35597ae7eef02933a399ca",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "analysis.json": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f",
+      "notes.md": "7133ebeb0cf1a08c140ae8531d7ff66c93c688f95a335e363a5cdb85cab4e4f3",
+      "oracle-output.txt": "000f424898b28a89aae8e4dda3e9e76bb796699f2e1b6bf38f165d0e298c3829",
+      "solution.bundle": "182a6297c8d7ad007d02efc7fd9c415341dd7a0f881ee693a9f9dc64754f8360",
+      "stderr.txt": "e7ea94e83bce5ad294b93da0335059ba9af8ff41e8c09de1bcda7837a2cdc50a",
+      "stream.jsonl": "f6c80053752f368739c89574a36068e6c6fbe94f9cc3c9dda5904f21df7983ec",
+      "derived/analysis.json": "e3566b3a06430868d71e9287dfd6c6c520a3da027aabea01951d407ee131dc2f",
+      "derived/run.json": "e50aeaa95f126b193e080030d9689d1586ef8d2fc6556dab79fc952fb86ef150"
+    }
+  },
+  "harness_version": "fixture",
+  "approach": "mock-agent:happy",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 0,
+  "tokens": {
+    "input": 2,
+    "cached_input": 0,
+    "output": 2,
+    "reasoning": 0,
+    "total": 4
+  },
+  "model_calls": 2.0,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 1,
+    "passed": 1,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 0
+  },
+  "commits": 0,
+  "stop_reason": "refusal",
+  "raw_sha256": {
+    "stream": "f6c80053752f368739c89574a36068e6c6fbe94f9cc3c9dda5904f21df7983ec",
+    "session": null
+  },
+  "interventions": 1,
+  "resumed_after_refusal": 1,
+  "provider": null,
+  "fixture_analyzed": true
+}

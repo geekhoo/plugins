@@ -1,0 +1,29 @@
+F
+================================== FAILURES ===================================
+______ test_actual_runner_prepared_and_running_deadline_context[claude] _______
+
+estate = (<function estate.<locals>.run at 0x000001E9031F1380>, WindowsPath('C:/Users/gerald.khoo/AppData/Local/Temp/pytest-of-gerald.khoo/pytest-682/test_actual_runner_prepared_an0'))
+harness = 'claude'
+
+    @pytest.mark.parametrize('harness', ['claude', 'codex'])
+    def test_actual_runner_prepared_and_running_deadline_context(estate, harness):
+        run, root = estate
+        result, record, launches, folder = run(harness)
+>       assert result.returncode == 0, result.stdout + result.stderr
+E       AssertionError: workspace: C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-682\test_actual_runner_prepared_an0\work\eval-c0-wordstat-20261026T094639Z (seed 3cebfe378a00354cbfe4f3d076e9b286cbc0cb34)
+E         warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+E         C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-682\test_actual_runner_prepared_an0\tools\agent-py\Scripts\python.exe: C:\Users\gerald.khoo\AppData\Local\Temp\pytest-of-gerald.khoo\pytest-682\test_actual_runner_prepared_an0\repo\geeky-orchestration\evals\scripts\run-baseline.ps1:106
+E         Line |
+E          106 |      try { $out = & $python -m pytest -q -rA -p no:cacheprovider 2>&1  …
+E              |                                              ~~
+E              | Parameter cannot be processed because the parameter name 'p' is ambiguous. Possible matches include:
+E              | -ProgressAction -PipelineVariable.
+E         
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\p...d because the parameter name 'p' is ambiguous. Possible matches include:\n     | -ProgressAction -PipelineVariable.\n").returncode
+
+evals\scripts\test_run_lifecycle.py:220: AssertionError
+=========================== short test summary info ===========================
+FAILED evals/scripts/test_run_lifecycle.py::test_actual_runner_prepared_and_running_deadline_context[claude]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed in 4.37s

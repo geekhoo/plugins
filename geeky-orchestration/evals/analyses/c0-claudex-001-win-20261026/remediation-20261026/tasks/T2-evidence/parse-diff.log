@@ -1,0 +1,6 @@
+PARSE PASS evals/scripts/run-baseline.ps1
+PARSE PASS evals/scripts/run-codex-baseline.ps1
+PARSE PASS evals/scripts/run-lifecycle.ps1
+warning: in the working copy of 'geeky-orchestration/evals/mxc-litellm-runbook.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'geeky-orchestration/skills/geeky-implement/references/execution-protocol.md', LF will be replaced by CRLF the next time Git touches it
+EXIT_CODE=0

@@ -13,6 +13,16 @@ by the owner. The [Windows claudex-001 results](analyses/c0-claudex-001-win-2026
 record Codex's completed run, Claude's same-folder continuation and cumulative
 closeout, and the earlier router-fixed timeout.
 
+Both runners accept a positive `-TimeoutSec`, optional `-AuthorizationReference`
+and `-CloseoutReserveSec` (default 0, nonnegative and smaller than the wall budget).
+The reserve is advisory time **inside** the hard wall; a proposed next-C0 value
+is 900 of 5400 seconds, pending separate run authorization. Each authorized
+refusal recovery shares the original deadline; `-ResumeOnRefusal` remains 0 by
+default. Token ceilings remain informational. Both contestants receive identical
+`GEEKY_DEADLINE_UTC`/`GEEKY_CLOSEOUT_RESERVE_S` context. See the
+[record and timing contract](mxc-litellm-runbook.md#runner-record-and-timing-contract)
+before recovering an interrupted run.
+
 ## A. Set up the host (once, ~20 min)
 
 1. **System packages.** Ubuntu 24.04 was verified. MXC's Linux backend is described in [mxc-sandbox/README.md](../../mxc-sandbox/README.md).

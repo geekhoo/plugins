@@ -1,0 +1,69 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "",
+  "workspace": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_runners_preserve_t0\\work\\eval-c0-wordstat-20261026T095606Z",
+  "config_directory": "C:\\Users\\gerald.khoo\\AppData\\Local\\Temp\\pytest-of-gerald.khoo\\pytest-685\\test_actual_runners_preserve_t0\\work\\.eval-cfg-20261026T095606Z",
+  "seed_sha": "671f70821eceabb014e725221308a0084f57d8a8",
+  "started_utc": null,
+  "ended_utc": null,
+  "exit_code": null,
+  "exit_reason": "prepared",
+  "is_error": true,
+  "reference_eligible": false,
+  "analysis_status": "not-started",
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "incomplete",
+    "attempt_id": "b985af52-322f-412e-b4f3-030aef6c6429",
+    "segment_id": "94f0439e-1be5-426b-b8f3-6c5f726a114f",
+    "authorization_reference": "offline-fixture",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T09:56:17.4994915Z",
+    "hard_wall_budget_s": 10,
+    "closeout_reserve_s": 2,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 10,
+      "closeout_reserve_s": 2,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "2fd33bb90cf66f77df7382d8f44fec54827f26c88eef030fffe4e2c78ffa1e11",
+    "invocations": [],
+    "process_outcome": "not-started",
+    "capture_status": "not-started",
+    "postprocessing": {
+      "prepared": "failed"
+    },
+    "active_step": "prepared",
+    "failure": {
+      "step": "prepared",
+      "message": "Injected telemetry configuration failure"
+    },
+    "contestant_time_s": 0.0,
+    "attempt_elapsed_s": 0.0,
+    "finalization_time_s": 0.0,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 62512,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "671f70821eceabb014e725221308a0084f57d8a8",
+    "workspace_status": [],
+    "artifact_sha256": {}
+  }
+}

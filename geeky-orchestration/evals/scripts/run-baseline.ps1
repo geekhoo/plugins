@@ -31,6 +31,8 @@ param(
     [Parameter(Mandatory)][ValidateSet('c0-wordstat', 'c1-csvledger', 'c2-linkvault', 'c3-minisql')][string]$Case,
     [string]$Model,
     [int]$TimeoutSec,
+    [int]$CloseoutReserveSec = 0,
+    [string]$AuthorizationReference,
     [string]$ToolsDir,
     [string]$WorkRoot,
     [switch]$DryRun,
@@ -49,6 +51,7 @@ param(
     [int]$ResumeOnRefusal = 0
 )
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'run-lifecycle.ps1')
 if ($PrepareOnly -and ($DryRun -or $MockAgent)) { throw '-PrepareOnly cannot be combined with -DryRun or -MockAgent.' }
 $onWindows = $IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop'
 if (-not $ToolsDir) { $ToolsDir = if ($onWindows) { 'C:\repos\.eval-tools' } else { Join-Path $HOME 'repos/.eval-tools' } }
@@ -76,9 +79,12 @@ $agentPy = Join-Path $ToolsDir 'agent-py'   # venv with pytest, first on the san
 $agentPython = & $venvPython $agentPy
 if (-not (Test-Path $agentPython)) { throw "missing $agentPy (uv venv + uv pip install --offline pytest)" }
 $caseCfg = Get-Content (Join-Path $caseDir 'case.json') -Raw | ConvertFrom-Json   # D66 limits
-if (-not $TimeoutSec) { $TimeoutSec = [int]$caseCfg.wall_time_ceiling_s }
+if (-not $PSBoundParameters.ContainsKey('TimeoutSec')) { $TimeoutSec = [int]$caseCfg.wall_time_ceiling_s }
 # The slow scenario exists to hit the timeout; keep it short unless one was given.
 if ($MockAgent -and $MockScenario -match '\bslow\b' -and -not $PSBoundParameters.ContainsKey('TimeoutSec')) { $TimeoutSec = 30 }
+if ($TimeoutSec -le 0) { throw 'TimeoutSec must be positive' }
+if ($CloseoutReserveSec -lt 0 -or $CloseoutReserveSec -ge $TimeoutSec) { throw 'CloseoutReserveSec must be nonnegative and smaller than TimeoutSec' }
+if ($ResumeOnRefusal -lt 0) { throw 'ResumeOnRefusal must be nonnegative' }
 
 if ($Litellm) {
     if (-not $Model) { throw '-Litellm needs -Model (the LiteLLM model name)' }
@@ -116,18 +122,21 @@ git -C $ws -c user.name=eval-seed -c user.email=eval-seed@local commit -q -m 'se
 $baseSha = git -C $ws rev-parse HEAD
 Write-Host "workspace: $ws (seed $baseSha)"
 
-# 2. Oracle must fail entirely on the seed
-if ($PrepareOnly) {
-    Write-Host 'Preparation only: seed oracle execution is deferred.'
-} else {
-    $empty = Invoke-Oracle $ws $null
-    if ($empty.passed -gt 0) { throw "oracle passed $($empty.passed) tests against the empty workspace" }
-    Write-Host "empty-workspace oracle: passed=0 failed=$($empty.failed) errors=$($empty.errors) (ok)"
-}
-
 # 3. Harness config, outside the workspace
 $cfg = Join-Path $WorkRoot ".eval-cfg-$stamp"
 New-Item -ItemType Directory -Force $cfg | Out-Null
+$out = Join-Path $plugin "evals/baselines/$Case/$stamp"
+New-Item -ItemType Directory -Force $out | Out-Null
+$recordPath = Join-Path $out 'run.json'
+$execution = New-EvalExecution $TimeoutSec $CloseoutReserveSec $ResumeOnRefusal $AuthorizationReference $null `
+    ([ordered]@{ model = $Model; mock = [bool]$MockAgent; provider = $(if ($Litellm) { 'litellm' } else { 'anthropic' }) })
+$record = [ordered]@{ schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'claude-code'; model = $Model
+    workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; started_utc = $null; ended_utc = $null
+    exit_code = $null; exit_reason = 'prepared'; is_error = $false; reference_eligible = $false
+    analysis_status = 'not-started'; execution = $execution }
+Write-EvalRecord $record $recordPath
+$finalizationStart = Get-EvalMonotonicSeconds
+try {
 # Plugin export at the committed HEAD without evals/ (D50: the contestant never sees oracles or specs).
 # Granted read-write: under a read-only MXC grant Claude's directory scan of skills/agents/commands
 # fails with EPERM and no plugin components load. The export is per run; its hash is checked after.
@@ -213,6 +222,18 @@ if ($Litellm) {
         '--env', 'CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1')
 }
 
+$record = [ordered]@{
+    schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'claude-code'; model = $Model; reasoning = 'default'
+    workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; plugin_sha = $pluginSha; prompt_sha256 = $promptSha
+    session_id = $sid; started_utc = $null; ended_utc = $null; wall_time_s = $null
+    exit_code = $null; exit_reason = 'prepared'; is_error = $false; reference_eligible = $false
+    token_ceiling = $caseCfg.token_ceiling; token_ceiling_policy = 'informational'
+    analysis_status = 'not-started'; telemetry = $(if ($telemetry) { $telemetry.Record } else { @{ enabled = $false } })
+}
+$record['execution'] = $execution
+$hostArgs += @('--env', "GEEKY_DEADLINE_UTC=$($record.execution.initial_deadline_utc)", '--env', "GEEKY_CLOSEOUT_RESERVE_S=$CloseoutReserveSec")
+Write-EvalRecord $record $recordPath
+
 if ($PrepareOnly) {
     $preparedExportManifest = @(Get-ChildItem -LiteralPath $pluginRun -Force -Recurse -File |
         Where-Object { $_.FullName -notmatch '[\\/]__pycache__[\\/]' } | Sort-Object FullName |
@@ -235,31 +256,39 @@ if ($PrepareOnly) {
         host_script = $mxc; host_args = $hostArgs; harness_args = $claudeArgs
         oracle_executed = $false; mxc_workload_started = $false; contestant_started = $false; model_calls = 0
     }
-    $prepared | ConvertTo-Json -Depth 12 | Set-Content (Join-Path $cfg 'prepared-launch.json') -Encoding utf8
+    $prepared['execution'] = $record.execution
+    Write-EvalRecord $prepared (Join-Path $cfg 'prepared-launch.json')
     Write-Host "prepared: $cfg"
     Write-Host 'Preparation complete; no oracle, MXC workload or contestant was started.'
     return
 }
 
+# Legacy DryRun executes the seed oracle; PrepareOnly above never does.
+Set-EvalStep $record $recordPath 'seed-oracle'
+$empty = Invoke-Oracle $ws $null
+if ($empty.passed -gt 0) { throw "oracle passed $($empty.passed) tests against the empty workspace" }
 if ($DryRun) {
     Write-Host "DRY RUN. Would launch (timeout ${TimeoutSec}s):`n  $mxc $($hostArgs -join ' ') -- <claude args: session $sid, plugin $pluginRun>"
     Write-Host "Workspace $ws and config $cfg were created; delete them when done."
-    exit 0
+    return
 }
 
 # Run
-$out = Join-Path $plugin "evals/baselines/$Case/$stamp"
-New-Item -ItemType Directory -Force $out | Out-Null
 $started = (Get-Date).ToUniversalTime()
+$resumes = 0
+$exitCode = $null
 if ($MockAgent) { $savedExe = $env:MXC_CLAUDE_EXE; $env:MXC_CLAUDE_EXE = $agentPython }
 try {
-    & $mxc @hostArgs -- @claudeArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
-    $exitCode = $LASTEXITCODE
+    if (Start-EvalInvocation $record $recordPath 'initial' ([ref]$hostArgs)) {
+        & $mxc @hostArgs -- @claudeArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
+        $exitCode = $LASTEXITCODE
+        Complete-EvalInvocation $record $recordPath $exitCode
+    }
 } finally { if ($MockAgent) { $env:MXC_CLAUDE_EXE = $savedExe } }
-$resumes = 0
-while ($exitCode -eq 0 -and $resumes -lt $ResumeOnRefusal) {
+while ($null -ne $exitCode -and $exitCode -eq 0 -and $resumes -lt $ResumeOnRefusal) {
     $last = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '"type":"result"' } | Select-Object -Last 1 | ConvertFrom-Json
     if ($last.stop_reason -notin 'content_filter', 'refusal') { break }
+    if (-not (Start-EvalInvocation $record $recordPath 'refusal-recovery' ([ref]$hostArgs))) { break }
     $resumes++
     Write-Host "provider refusal: resuming session $sid ($resumes/$ResumeOnRefusal)"
     # Same flags, with a neutral prompt in place of the canonical one and --resume for --session-id.
@@ -270,8 +299,12 @@ while ($exitCode -eq 0 -and $resumes -lt $ResumeOnRefusal) {
     try { & $mxc @hostArgs -- @resumeArgs >> (Join-Path $out 'stream.jsonl') 2>> (Join-Path $out 'stderr.txt') }
     finally { if ($MockAgent) { $env:MXC_CLAUDE_EXE = $savedExe } }
     $exitCode = $LASTEXITCODE
+    Complete-EvalInvocation $record $recordPath $exitCode
 }
 $ended = (Get-Date).ToUniversalTime()
+$finalizationStart = Get-EvalMonotonicSeconds
+if ($null -eq $exitCode) { throw 'Attempt deadline exhausted before launch' }
+Set-EvalStep $record $recordPath 'native-capture'
 if ($MockAgent) {
     $mockSummary = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '"subtype":"mock_summary"' } | Select-Object -Last 1
     if ($mockSummary) { $mockSummary | ConvertFrom-Json | ConvertTo-Json -Depth 6 | Set-Content (Join-Path $out 'mock-summary.json') }
@@ -288,11 +321,13 @@ if ($session) {
 }
 
 # 4. Oracle 3x
+Set-EvalStep $record $recordPath 'oracle'
 $oracleFile = Join-Path $out 'oracle-output.txt'
 $runs = 1..3 | ForEach-Object { Invoke-Oracle $ws $oracleFile }
 $stable = ($runs | ForEach-Object { "$($_.passed)/$($_.failed)/$($_.errors)/$($_.skipped)" } | Select-Object -Unique).Count -eq 1
 
 # 5. Store
+Set-EvalStep $record $recordPath 'parsing'
 git -C $ws bundle create (Join-Path $out 'solution.bundle') --all 2>$null
 $lines = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '^\{' }
 $init = $lines | Where-Object { $_ -match '"subtype":"init"' } | Select-Object -First 1 | ConvertFrom-Json
@@ -317,10 +352,12 @@ $exitReason = if ($exitCode -eq 124) { 'timeout' } elseif ($bgKilled) { 'bg_kill
 $o = $runs[0]
 $clean = $stable -and $o.failed -eq 0 -and $o.errors -eq 0 -and $o.passed -gt 0
 $sha = { param($p) if (Test-Path $p) { (Get-FileHash $p -Algorithm SHA256).Hash.ToLower() } }
+Set-EvalStep $record $recordPath 'telemetry'
 if ($telemetry -and $session -and -not $MockAgent) { Invoke-ClaudeTelemetryFlush -Telemetry $telemetry -SessionId $sid -TranscriptPath $session.FullName }
 if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $(if ($session) { $sid }) -OutDir $out -Python $python }
+if ($telemetry -and -not $telemetry.Record.delivered) { $record.execution.postprocessing['telemetry'] = 'pending-or-incomplete' }
 
-[ordered]@{
+$analysisRecord = [ordered]@{
     schema = 'geeky-eval.baseline/1'; case = $Case
     harness = 'claude-code'; harness_version = $init.claude_code_version; model = $init.model; reasoning = 'default'
     approach = $(if ($MockAgent) { "mock-agent:$MockScenario" } else { 'canonical-prompt' }); plugin_sha = $pluginSha; plugin_modified_during_run = $pluginTampered; prompt_sha256 = $promptSha
@@ -342,9 +379,28 @@ if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $(if ($ses
     telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })
     provider = $(if ($Litellm) { [ordered]@{ name = 'litellm'; base_url = $env:LITELLM_PROXY_URL; model = $Model } } else { $null })
     reference_eligible = (-not $MockAgent -and $clean -and $exitReason -eq 'completed' -and $resumes -eq 0 -and -not $pluginTampered -and @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count -gt 0)
-} | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $out 'run.json')
+}
+foreach ($key in $analysisRecord.Keys) { $record[$key] = $analysisRecord[$key] }
+Write-EvalRecord $record $recordPath
 
 Set-Content (Join-Path $out 'notes.md') "# Baseline $Case $stamp`n`nApproach: canonical prompt, Claude Code isolated in MXC.`nInterventions: none.`nOracle verdicts: (fill in for any failure)`n"
 # Derived measures (tokens summed over all models, stages, latency, idle gap) -> run.json + analysis.json
-& $python (Join-Path $PSScriptRoot 'analyze-run.py') $out --token-ceiling $caseCfg.token_ceiling
+Set-EvalStep $record $recordPath 'analysis'
+$record.analysis_status = 'in-progress'
+$analysisOut = Join-Path $out 'derived'
+& $python (Join-Path $PSScriptRoot 'analyze-run.py') $out --token-ceiling $caseCfg.token_ceiling --out $analysisOut
+if ($LASTEXITCODE -ne 0) { throw "Trace analysis failed: $out" }
+# Preserve fields written by the existing analyzer.
+$analyzed = Get-Content -LiteralPath (Join-Path $analysisOut 'run.json') -Raw | ConvertFrom-Json -AsHashtable
+foreach ($key in $analyzed.Keys) { if ($key -ne 'execution') { $record[$key] = $analyzed[$key] } }
+Copy-Item -LiteralPath (Join-Path $analysisOut 'analysis.json') -Destination (Join-Path $out 'analysis.json')
+$record.analysis_status = 'complete'
+} catch {
+    if ($record.execution.active_step -eq 'capture' -or $record.execution.process_outcome -eq 'not-started') { $finalizationStart = Get-EvalMonotonicSeconds }
+    Set-EvalFailure $record $_
+    throw
+} finally {
+    if ($record.execution.state -eq 'prepared') { Write-EvalRecord $record $recordPath }
+    else { Save-EvalFinalRecord $record $recordPath $ws $finalizationStart }
+}
 Write-Host "stored: $out"
