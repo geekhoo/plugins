@@ -3,3 +3,8 @@ support/** -text
 scoring/** -text
 scoped/** -text
 commands/** -text
+
+# These records are SHA256-referenced by the saved review evidence.
+follow-up-evidence.json -text
+phase-review.md -text
+review-impl.md -text

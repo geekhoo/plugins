@@ -1,4 +1,12 @@
-# Fresh-session evidence handoff
+# Current follow-up handoff — 2026-10-26
+
+Target Gerald's Windows machine, PowerShell7; workdir `C:\Users\gerald.khoo\geekhoo-plugins`; report budget 600 words. Verify `git rev-parse HEAD` equals `2d30f483c4f322488c2843a8423f1a467a16171f` and inspect `git status --short`; do not reset. Read `geeky-orchestration/AGENTS.md`, [approved follow-up scope](follow-up-plan.md), [current implementation/evidence](follow-up-implementation.md), [machine evidence](follow-up-evidence.json), then the saved current phase/final review when present. Current source changes are uncommitted; no source commit/push is authorized.
+
+Takeover scope is read-only inspection of the verified uncommitted follow-up. Source is frozen after 147 passing tests / 1 optional skip, two successful full real-MXC fixtures and one verified timeout/oracle-fault case; exactly three attempts/three workload invocations, all terminal, zero matching workloads. F1 is freshly fixed; H1 selects implementation rather than final documentation snapshots and the negative test rejects late-only tests. F2 absolute cutoff, historical replay without `validation-cache.json`, live telemetry and model behavior remain limits. Do not rerun workloads, call a provider/judge, sign in, publish telemetry, broaden architecture or alter historical evidence. Fresh external evidence is `C:/repos/c0f-20261026-7c2b53`; hashes and precise records are in the machine evidence. Done criteria are satisfied: [phase READY TO ADVANCE](phase-review.md), [three current final domains / Overall PASS](review-impl.md), zero required findings and root coordinator's independent combined hash verification. No new evaluation is scheduled.
+
+The following capture/publication handoff is historical and preserved; its earlier planning-only authorization was superseded by the later explicit implementation request described above.
+
+# Historical fresh-session evidence handoff
 
 Target: Gerald's Windows machine, PowerShell7. Workdir: `C:\Users\gerald.khoo\geekhoo-plugins`. Report budget:600words. Verify `git rev-parse HEAD` and `git cat-file -t d90bbd352d5722784180100bf5e431e91bc55210` before acting; do not reset. The main accepted product is unchanged; new records remain uncommitted.
 
@@ -18,3 +26,12 @@ The preceding no-commit/uncommitted statements describe the evidence-capture sta
 The saved raw snapshots and derived mock analysis have since been committed in grouped
 repository history. The [follow-up plan](follow-up-plan.md) is planning only and grants
 no implementation, test rerun, paid evaluation, or live telemetry authorization.
+
+## Publication update — 2026-10-26
+
+A later user request authorized grouped commits and push. Source commits are `ebcbacd`
+(lifecycle and timing) and `6462c6d` (guarded fixture and runner wiring); the current
+documentation/evidence reconciliation is in the following history entry (`git log`).
+Pre-commit reviewer statements and saved test hashes remain as recorded; see
+[implementation note](follow-up-implementation.md) for the five CRLF-to-LF Git blob
+SHA256 mappings. No tests or workloads were repeated during publication.

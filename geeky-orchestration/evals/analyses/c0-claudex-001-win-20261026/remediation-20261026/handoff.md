@@ -47,3 +47,15 @@ Stale passages updated: review verdict/persistence/reuse/closeout skills; final-
 Historical scores stay97.46/90.33/98.33, with original failures/denominators. New future rendered prompt hash: `4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e`; record committed plugin HEAD separately. Unknown cumulative usage/backend/cost stays N/A. No evaluation/publication/push is authorized by this closeout. Use `/geeky-status` for read-only inspection.
 
 RESUME: run complete — next eligible: none.
+
+## Dated follow-up — 2026-10-26
+
+A later explicit request authorized the narrow [F1/F2/H1 follow-up implementation](../../c0-post-remediation-mock-20261026/follow-up-implementation.md), with source HEAD still `2d30f483c4f322488c2843a8423f1a467a16171f` and uncommitted changes. Its current test/runtime/reviewer evidence is separate from this original acceptance: F1 seed transition, precise F2 boundary and maintained guarded H1 fixtures. No historical contracts/reviews/scores are rewritten. The new handoff forbids additional workloads, paid/live operations or source commit/push without a further request.
+
+## Publication update — 2026-10-26
+
+A later user request authorized commits and push for the separately completed F1/F2/H1
+follow-up. Source commits: `ebcbacd` lifecycle/timing and `6462c6d` guarded fixture/runner
+wiring. The current state and line-ending hash mapping are recorded in the linked
+[follow-up implementation note](../../c0-post-remediation-mock-20261026/follow-up-implementation.md).
+This dated closeout and its original authorization limits remain historical.

@@ -1,0 +1,450 @@
+{
+  "schema": "c0-followup.acceptance-evidence/1",
+  "source_head": "2d30f483c4f322488c2843a8423f1a467a16171f",
+  "source_files": {
+    "geeky-orchestration/evals/QUICKSTART.md": {
+      "sha256": "f382e0ecdbfd79570cd92c1915ae9a81cfeff0ea2520d6f1371185753eb367d7",
+      "bytes": 7919
+    },
+    "geeky-orchestration/evals/adapters/codex/mock_codex.py": {
+      "sha256": "0666c649c86cabc8eaefd7c4f021b9792ae5234d34974bb37dcb45ef7562e665",
+      "bytes": 24906
+    },
+    "geeky-orchestration/evals/mock-agent/c0_fixture.py": {
+      "sha256": "8eab0b6fcc55a301c9db834bd09e9d1aaa265261d53d56d119fe9a5b35193838",
+      "bytes": 16130
+    },
+    "geeky-orchestration/evals/mock-agent/mock_claude.py": {
+      "sha256": "cd99d8fa233b63c6bac61ecd8e8df558cffd3c7e45a7c51c7f354d2829359f76",
+      "bytes": 65409
+    },
+    "geeky-orchestration/evals/mock-agent/test_c0_fixture.py": {
+      "sha256": "86754dc11a48da7f0b52fd7100f15e01ae3ed6411fc28507c55c362b700a969e",
+      "bytes": 21119
+    },
+    "geeky-orchestration/evals/mxc-litellm-runbook.md": {
+      "sha256": "95cdbb8df4a9f0dc646ceeb69a0c3f90d033656e32f46f45565c806f436fe4d9",
+      "bytes": 17105
+    },
+    "geeky-orchestration/evals/scripts/run-baseline.ps1": {
+      "sha256": "c9a6ae7619d505d07a2b820c1a72f972639fe0e51e6701fe3579439c25af0409",
+      "bytes": 29716
+    },
+    "geeky-orchestration/evals/scripts/run-codex-baseline.ps1": {
+      "sha256": "14fa71730d60d3e1b5eb1ac81e3adee533947923d88a3c84f10b63546453a9dc",
+      "bytes": 30273
+    },
+    "geeky-orchestration/evals/scripts/run-lifecycle.ps1": {
+      "sha256": "d9ae84e13ccbcacf50da49f99272e1198ff8dd04de1a060a56606575528c98eb",
+      "bytes": 8184
+    },
+    "geeky-orchestration/evals/scripts/test_run_lifecycle.py": {
+      "sha256": "0ec7d665c54d4689fe01428b98e2bbadfad813ab80f5b6ab59cd5b71c43e487e",
+      "bytes": 21173
+    },
+    "geeky-orchestration/evals/mock-agent/README.md": {
+      "sha256": "c169ef2f6e971b0bcb55ca28d292da528767d468ae0bc72d84798cdd5ab1a03d",
+      "bytes": 1356
+    }
+  },
+  "unchanged_scoring_and_parser_dependencies": {
+    "geeky-orchestration/evals/scripts/score-run.py": "14cc3e687094e417b01d76d6060b1a206992274df7c56852a230af91c7e19306",
+    "geeky-orchestration/evals/scripts/analyze-run.py": "f74fadd1eaa84004c452fd38ffc98dac425de35a5fea87d72692575cc096bf86",
+    "geeky-orchestration/evals/scripts/codex-process.py": "b495fa02e31984718de488d6feb6557bdf8b1691953b3c26d42cca03bfc465d6",
+    "geeky-orchestration/evals/scripts/codex-trace.py": "867ad031d7c750af6d069754d99200c52fd92617d59407acb91b683a8d4b193c",
+    "geeky-orchestration/evals/scripts/parity-eval.py": "44883bccb41a7d1a5671696921c002c2cd6e0fdefbe250bb0853401d637c0807"
+  },
+  "validation": {
+    "exit": 0,
+    "terminal_utc": "2026-10-26T13:31:21.9069607Z",
+    "command": [
+      "C:/Python314/python.exe",
+      "-m",
+      "pytest",
+      "-q",
+      "-p",
+      "no:cacheprovider",
+      "geeky-orchestration/evals/scripts/test_run_lifecycle.py",
+      "geeky-orchestration/evals/mock-agent/test_c0_fixture.py",
+      "geeky-orchestration/evals/adapters/codex/test_mock_codex.py",
+      "geeky-orchestration/test_score_run.py",
+      "geeky-orchestration/evals/scripts/test_codex_trace.py",
+      "--basetemp=C:\\repos\\c0f-20261026-7c2b53\\aggregate-temp"
+    ],
+    "log": "C:\\repos\\c0f-20261026-7c2b53\\aggregate-attempt-1.log",
+    "result": "147 passed, 1 optional native-proof skipped in 296.08s",
+    "scope": "CURRENT source bytes; full lifecycle, fixture/mock, scorer and Codex trace suites"
+  },
+  "old_defect_sensitivity": {
+    "expected_exit": 1,
+    "result": "2 failed, 49 deselected in 6.90s; both fail seed in-progress vs completed against pinned old helper"
+  },
+  "real_mxc": {
+    "actual_attempts": 3,
+    "actual_top_level_workload_invocations": 3,
+    "rows": [
+      {
+        "name": "claude-full",
+        "record": "C:\\repos\\c0f-20261026-7c2b53\\harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T133248Z\\run.json",
+        "record_sha256": "819100583220b3e875259d5f43959d33347ad989cb4059142887280565183062",
+        "workspace": "C:\\repos\\c0f-20261026-7c2b53\\claude-full\\eval-c0-wordstat-20261026T133248Z",
+        "process_outcome": "success",
+        "exit_code": 0,
+        "state": "finalized",
+        "postprocessing": {
+          "seed-oracle": "completed",
+          "native-capture": "completed",
+          "oracle": "completed",
+          "parsing": "completed",
+          "telemetry": "completed",
+          "analysis": "completed"
+        },
+        "timeout_s": [
+          298
+        ],
+        "budget_s": 300,
+        "contestant_time_s": 16.12867849995382,
+        "attempt_elapsed_s": 17.576578999869525,
+        "finalization_time_s": 9.81005849991925,
+        "oracle": {
+          "collected": 13,
+          "passed": 13,
+          "failed": 0,
+          "errors": 0,
+          "skipped": 0,
+          "stable_over_3": true
+        },
+        "implementation_sha": "ebca998faa0761691fcdf1ee544336dd31c27ff0",
+        "selected_full_shas": {
+          "T1": "ebca998faa0761691fcdf1ee544336dd31c27ff0",
+          "T2": "ebca998faa0761691fcdf1ee544336dd31c27ff0"
+        },
+        "selection_bases": {
+          "T1": "first commit naming it after its Done move (phase committed after the move)",
+          "T2": "first commit naming it after its Done move (phase committed after the move)"
+        },
+        "validation_commands": 4,
+        "score_sha256": "5fc2add3133869f33ac5e7475d637c573528a41bb30f086377fad0d5c1e715bb",
+        "fixture_summary_sha256": "6318415ed0cda673336346c6ef4603f565c022470dc52d56fb8e47f0bd08c34b"
+      },
+      {
+        "name": "claude-timeout-oracle-fault",
+        "record": "C:\\repos\\c0f-20261026-7c2b53\\harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T133839Z\\run.json",
+        "record_sha256": "28c54d14aa16855d405552aefc3633359059f2042991ef68b2861f0a009f13ab",
+        "workspace": "C:\\repos\\c0f-20261026-7c2b53\\claude-timeout-oracle-fault\\eval-c0-wordstat-20261026T133839Z",
+        "process_outcome": "timeout",
+        "exit_code": 124,
+        "state": "incomplete",
+        "postprocessing": {
+          "seed-oracle": "completed",
+          "native-capture": "completed",
+          "oracle": "failed"
+        },
+        "timeout_s": [
+          28
+        ],
+        "budget_s": 30,
+        "contestant_time_s": 28.807893100194633,
+        "attempt_elapsed_s": 30.42076630005613,
+        "finalization_time_s": 0.9793901999946684,
+        "injection": {
+          "applied": true,
+          "record": "C:\\Repos\\c0f-20261026-7c2b53\\harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T133839Z\\run.json",
+          "observed_state": "running",
+          "original_bytes_removed": false,
+          "fault_path": "C:\\Repos\\c0f-20261026-7c2b53\\harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T133839Z\\oracle-output.txt",
+          "injected_utc": "2026-10-26T13:38:41.4307325Z"
+        }
+      },
+      {
+        "name": "codex-full",
+        "record": "C:\\repos\\c0f-20261026-7c2b53\\harness\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T133650Z-a0a33acf\\run.json",
+        "record_sha256": "dabac6a61cefbac9e7315d74a58052fa497586957b3dcf20b5db59716e70b10a",
+        "workspace": "C:\\repos\\c0f-20261026-7c2b53\\codex-full\\eval-c0-wordstat-codex-20261026T133650Z-a0a33acf",
+        "process_outcome": "success",
+        "exit_code": 0,
+        "state": "finalized",
+        "postprocessing": {
+          "launch-preparation": "completed",
+          "seed-oracle": "completed",
+          "parsing": "completed",
+          "native-capture": "completed",
+          "oracle": "completed",
+          "telemetry": "completed",
+          "analysis": "completed"
+        },
+        "timeout_s": [
+          297
+        ],
+        "budget_s": 300,
+        "contestant_time_s": 8.90184499998577,
+        "attempt_elapsed_s": 11.764811400091276,
+        "finalization_time_s": 9.222059099934995,
+        "oracle": {
+          "collected": 13,
+          "passed": 13,
+          "failed": 0,
+          "errors": 0,
+          "skipped": 0,
+          "stable_over_3": true
+        },
+        "implementation_sha": "7e8dc09923e6bf1374f1a641dd69ba568e7799bc",
+        "selected_full_shas": {
+          "T1": "7e8dc09923e6bf1374f1a641dd69ba568e7799bc",
+          "T2": "7e8dc09923e6bf1374f1a641dd69ba568e7799bc"
+        },
+        "selection_bases": {
+          "T1": "first commit naming it after its Done move (phase committed after the move)",
+          "T2": "first commit naming it after its Done move (phase committed after the move)"
+        },
+        "validation_commands": 4,
+        "score_sha256": "8a141926109c9b5c069ade6fdea6fdf660e6574eb2d10ec87a9cf7d2314d9696",
+        "fixture_summary_sha256": "7f18fdb1b2b8323ddf48967a5b250e163bbe24ce73ca025f0d4afd7d0d29efbf"
+      }
+    ]
+  },
+  "offline_h1": {
+    "schema": "c0-followup.offline-h1/1",
+    "no_candidate_reexecution": true,
+    "rows": [
+      {
+        "kind": "positive",
+        "actor": "claude",
+        "candidate": "C:\\Repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_full_scripted_fixture_bot0\\candidate",
+        "trace_folder": "C:\\repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_full_scripted_fixture_bot0\\claude-run",
+        "functional_sha": "8d0287175d6e5ae29f39e72ace61572cec7cbc18",
+        "final_head_sha": "fc39584bece9fa7d35397db24f9862f621b4b177",
+        "in_progress_call": {
+          "id": "toolu_mock_9b2b0782c8d5482fa396",
+          "path": "C:\\Repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_full_scripted_fixture_bot0\\candidate\\docs\\spec-001-feature\\kanban.md",
+          "time_utc": "2026-10-26T13:29:37.148000+00:00"
+        },
+        "done_call": {
+          "id": "toolu_mock_21917ebb598f4f11a760",
+          "path": "C:\\Repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_full_scripted_fixture_bot0\\candidate\\docs\\spec-001-feature\\kanban.md",
+          "time_utc": "2026-10-26T13:29:45.378000+00:00"
+        },
+        "selected": {
+          "T1": {
+            "full_sha": "8d0287175d6e5ae29f39e72ace61572cec7cbc18",
+            "fallback": false,
+            "basis": "first commit naming it after its Done move (phase committed after the move)"
+          },
+          "T2": {
+            "full_sha": "8d0287175d6e5ae29f39e72ace61572cec7cbc18",
+            "fallback": false,
+            "basis": "first commit naming it after its Done move (phase committed after the move)"
+          }
+        },
+        "validation_evidence": {
+          "kind": "assertions in completed current-byte pytest run",
+          "log": "C:\\repos\\c0f-20261026-7c2b53\\aggregate-attempt-1.log",
+          "test_source_sha256": "86754dc11a48da7f0b52fd7100f15e01ae3ed6411fc28507c55c362b700a969e",
+          "outcome": "all declared selected-commit commands passed"
+        }
+      },
+      {
+        "kind": "positive",
+        "actor": "codex",
+        "candidate": "C:\\Repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_full_scripted_fixture_bot1\\candidate",
+        "trace_folder": "C:\\repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_full_scripted_fixture_bot1\\codex-run",
+        "functional_sha": "18440df27f5115dcc3cb9f5ca4f00bfd64872b76",
+        "final_head_sha": "77b3aa1a9523dd4394e75cb138d7104a9294cdff",
+        "in_progress_call": {
+          "id": "acf34e39-b232-4004-b9e3-9481639dce23:file-f85075b62cd4:file0",
+          "path": "C:\\Repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_full_scripted_fixture_bot1\\candidate\\docs\\spec-001-feature\\kanban.md",
+          "time_utc": "2026-10-26T13:30:11.167000+00:00"
+        },
+        "done_call": {
+          "id": "acf34e39-b232-4004-b9e3-9481639dce23:file-1aa6f6d84322:file0",
+          "path": "C:\\Repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_full_scripted_fixture_bot1\\candidate\\docs\\spec-001-feature\\kanban.md",
+          "time_utc": "2026-10-26T13:30:14.409000+00:00"
+        },
+        "selected": {
+          "T1": {
+            "full_sha": "18440df27f5115dcc3cb9f5ca4f00bfd64872b76",
+            "fallback": false,
+            "basis": "first commit naming it after its Done move (phase committed after the move)"
+          },
+          "T2": {
+            "full_sha": "18440df27f5115dcc3cb9f5ca4f00bfd64872b76",
+            "fallback": false,
+            "basis": "first commit naming it after its Done move (phase committed after the move)"
+          }
+        },
+        "validation_evidence": {
+          "kind": "assertions in completed current-byte pytest run",
+          "log": "C:\\repos\\c0f-20261026-7c2b53\\aggregate-attempt-1.log",
+          "test_source_sha256": "86754dc11a48da7f0b52fd7100f15e01ae3ed6411fc28507c55c362b700a969e",
+          "outcome": "all declared selected-commit commands passed"
+        }
+      },
+      {
+        "kind": "negative",
+        "actor": "codex",
+        "candidate": "C:\\Repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_h1_does_not_substitute_fi0\\candidate",
+        "trace_folder": "C:\\repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_h1_does_not_substitute_fi0\\codex-run",
+        "functional_sha": "dc38a855df99f2a6c103f829d9782a8894ee96cd",
+        "final_head_sha": "46131cd119bf8354823ec6b92f08354608ae05f4",
+        "in_progress_call": {
+          "id": "c54746ee-da15-47f1-9f90-79719a976b72:file-bf55e6580cb5:file0",
+          "path": "C:\\Repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_h1_does_not_substitute_fi0\\candidate\\docs\\spec-001-feature\\kanban.md",
+          "time_utc": "2026-10-26T13:30:34.911000+00:00"
+        },
+        "done_call": {
+          "id": "c54746ee-da15-47f1-9f90-79719a976b72:file-ffd4676ddb5a:file0",
+          "path": "C:\\Repos\\c0f-20261026-7c2b53\\aggregate-temp\\test_h1_does_not_substitute_fi0\\candidate\\docs\\spec-001-feature\\kanban.md",
+          "time_utc": "2026-10-26T13:30:38.140000+00:00"
+        },
+        "selected": {
+          "T2": {
+            "full_sha": "dc38a855df99f2a6c103f829d9782a8894ee96cd",
+            "fallback": false,
+            "basis": "last commit naming it before its Done move"
+          }
+        },
+        "validation_evidence": {
+          "kind": "assertions in completed current-byte pytest run",
+          "log": "C:\\repos\\c0f-20261026-7c2b53\\aggregate-attempt-1.log",
+          "test_source_sha256": "86754dc11a48da7f0b52fd7100f15e01ae3ed6411fc28507c55c362b700a969e",
+          "outcome": "selected required pytest failed; every final-HEAD declared command passed"
+        },
+        "later_test_commit_sha": "9630724790c8746fa12b80abe9c5cd2a3f8339fd"
+      }
+    ]
+  },
+  "preservation": {
+    "saved_snapshots": 196,
+    "snapshot_bytes": 1891615,
+    "new_raw_files": 93,
+    "historical_live_raw_files": 141,
+    "frozen_contracts": 8,
+    "mismatches": 0,
+    "historical_scores": [
+      97.46,
+      90.33,
+      98.33
+    ]
+  },
+  "historical_cache": {
+    "schema": "c0-followup.historical-cache-check/1",
+    "checked_utc": "2026-10-26T13:04:57.2889105Z",
+    "search_count": 1,
+    "search_roots": [
+      "C:/repos/.eval-tools/c0-claudex-001/evaluation/20261025T154802Z-c140d9e7",
+      "C:/repos/.eval-tools/c0-claudex-001/evaluation/20261025T183455Z",
+      "C:/repos/.eval-tools/c0-claudex-001/evaluation/closeout",
+      "C:/repos/.eval-tools/c0-claudex-001/evaluation/router-fixed",
+      "C:/Users/gerald.khoo/geekhoo-plugins/geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026"
+    ],
+    "validation_caches_found": [],
+    "missing_input": "validation-cache.json with source-bound per-task per-selected-commit command results/output hashes",
+    "replay_performed": false,
+    "warning": "Full historical scorer replay remains OPEN; no candidate execution or historical rewrite performed."
+  },
+  "process_after": {
+    "checked_utc": "2026-10-26T13:40:59.5342186Z",
+    "matching_workloads": [],
+    "count": 0,
+    "note": "Checked after all collection Python processes reached terminal; earlier broad concurrent check retained separately."
+  },
+  "artifacts": {
+    "aggregate-attempt-1.log": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\aggregate-attempt-1.log",
+      "sha256": "5dffc720874d2e5c91a3c723952471cf54c890865127c0cfeb065dc92615278a",
+      "bytes": 303
+    },
+    "aggregate-result.json": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\aggregate-result.json",
+      "sha256": "827ec78abcb1b7f4e795a07e889bb2234b44017e11e3792dedcdd5de87ba699f",
+      "bytes": 635
+    },
+    "working-export.json": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\working-export.json",
+      "sha256": "3ffe8ce3ae7f44ebfef53c894ae941435985a2afa9411e8923312ae8a356d26c",
+      "bytes": 2367
+    },
+    "tested-working-tree.diff": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\tested-working-tree.diff",
+      "sha256": "eaef65e66620c6c259fb043fd5c0ef1f3859cd005492e8f1cc16444cb982f090",
+      "bytes": 27439
+    },
+    "offline-h1-results.json": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\offline-h1-results.json",
+      "sha256": "3f4c422267991c0e8255e491b6002e6763df771dfadc1f089d66183936137e7b",
+      "bytes": 5584
+    },
+    "integration-results.json": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\integration-results.json",
+      "sha256": "9b8573986bac6cef8bdc9512bfd00f4c556ee4c68a9b050e809c239deef3352d",
+      "bytes": 9336
+    },
+    "attempt-ledger.jsonl": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\attempt-ledger.jsonl",
+      "sha256": "1d05f92bd61c957aba8622b3162bcfe121b4ee10ab9b1736ec57a8f3f9e74ec0",
+      "bytes": 725
+    },
+    "integrity-before.json": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\integrity-before.json",
+      "sha256": "68717aef3b291a0e59d4173cdd431ccfc50529b35281875cd8bef6255281a8d0",
+      "bytes": 47155
+    },
+    "integrity-after.log": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\integrity-after.log",
+      "sha256": "fb697dd5eb87056b0f07aa659b9ba285a001957f164f9cc39ea7c3852b29f340",
+      "bytes": 371
+    },
+    "historical-cache-check.json": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\historical-cache-check.json",
+      "sha256": "03a56555bf3bd9efcb5fcbcf5cb065b86b9be2ab9a74bd6c447c54f1eb274ef4",
+      "bytes": 852
+    },
+    "process-after.json": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\process-after.json",
+      "sha256": "966721e8774b3e3c9ec866a022d6a9fed8a031fdd13c5da79ee5156365036dcc",
+      "bytes": 229
+    },
+    "old-defect-proof.log": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\old-defect-proof.log",
+      "sha256": "da7c4d3a4fa35eed2117500e3d0dc40451115fa27e4c45821b46a679774aad45",
+      "bytes": 2961
+    },
+    "claude-full.log": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\claude-full.log",
+      "sha256": "0801f7403ccc2b04975e9f0240dc3c0fda5261286d39d0b45cc0faecfd33f3d4",
+      "bytes": 691
+    },
+    "codex-full.log": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\codex-full.log",
+      "sha256": "1ea0269f0a08da2ed66686d7e71825e8ad688091b1234c16560b8089cc1f84a1",
+      "bytes": 1230
+    },
+    "claude-timeout-oracle-fault.log": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\claude-timeout-oracle-fault.log",
+      "sha256": "9eb8b11befba774a1910b66334f5a4d556583ef5f272a18994b16ff90ae264b5",
+      "bytes": 701
+    },
+    "claude-full-score/score.json": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\claude-full-score\\score.json",
+      "sha256": "5fc2add3133869f33ac5e7475d637c573528a41bb30f086377fad0d5c1e715bb",
+      "bytes": 16312
+    },
+    "codex-full-score/score.json": {
+      "path": "C:\\repos\\c0f-20261026-7c2b53\\codex-full-score\\score.json",
+      "sha256": "8a141926109c9b5c069ade6fdea6fdf660e6574eb2d10ec87a9cf7d2314d9696",
+      "bytes": 16326
+    }
+  },
+  "excluded_diagnostics": [
+    "Initial lifecycle diagnostic49pass/2fail: original log overwritten, reconstructed output retained; interrupted weakened run excluded.",
+    "Fixture attempt01:23pass/3test-harness failures; attempt02 passed26 but2posttest source wording changes, superseded by final147-pass aggregate.",
+    "Early broad process check during parallel collection matched only evidence collector Python processes; final sequential after-check found0."
+  ],
+  "limits": [
+    "F2 absolute process-stop deadline and upper bound on timeout excess remain unproved.",
+    "Full historical scorer replay remains OPEN without retained source-bound validation-cache.json.",
+    "Synthetic composites are not eligible for model ranking;4scorer judgment items remain unresolved.",
+    "Live telemetry compatibility/delivery, model obedience/speed and billing readback were not evaluated."
+  ],
+  "operations": "No source repository commit/push, paid contestant/provider/judge evaluation, sign-in or live telemetry operation. Disposable candidate commits only."
+}

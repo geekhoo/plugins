@@ -6,8 +6,10 @@ runner records, and scoped accounting with verified score readback. Historical C
 results remain preserved; this work includes no new paid evaluation or live publication.
 
 [Real-MXC post-remediation mock observations](evals/analyses/c0-post-remediation-mock-20261026/report.md)
-record both full scripted C0 fixtures, bounded fault cases, and an unresolved terminal
-step-status inconsistency. Model-free fixture success is separate from live-agent proof.
+record both full scripted C0 fixtures, bounded fault cases, and the original terminal
+step-status inconsistency. The [minimal follow-up implementation](evals/analyses/c0-post-remediation-mock-20261026/follow-up-implementation.md)
+fixes that transition and maintains guarded H1 fixtures with fresh verification.
+Model-free fixture success is separate from live-agent proof.
 
 Latest Windows C0: Codex completed `claudex-001` at runner-default thinking with
 **97.46 parity**, oracle 13/13 stable over 3 repetitions and 93 public tests passing. Ten session

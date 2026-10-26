@@ -20,8 +20,10 @@ records evidence and acceptance separately from future evaluation authorization.
 
 [Post-remediation non-chargeable MXC mocks](geeky-orchestration/evals/analyses/c0-post-remediation-mock-20261026/report.md)
 passed the full scripted C0 oracle for both harnesses (13/13, three repetitions).
-The records also identify stale terminal step metadata and measured timeout overhead;
-scripted reviews do not establish live-model behavior.
+The original records identify stale terminal step metadata and measured timeout overhead.
+The [minimal follow-up implementation](geeky-orchestration/evals/analyses/c0-post-remediation-mock-20261026/follow-up-implementation.md)
+fixes the seed-step transition and maintains guarded H1 fixtures, with fresh offline
+and bounded real-MXC evidence. Scripted reviews do not establish live-model behavior.
 
 ## Plugins
 
