@@ -5,6 +5,10 @@ Copilot CLI, Gemini CLI, or an SDK/LangGraph orchestrator) working with this
 plugin's plan → execute → track workflow. Claude Code reads this via `@AGENTS.md`;
 most other CLI agents read `AGENTS.md` natively.
 
+## Eval operator readiness
+
+This section applies only to operators in the source checkout. Contestant exports deliberately omit `evals/`; exported contestants must follow the canonical authorization and exported skills without looking for these operator files or adding a new approval gate. For source-checkout C0 preparation, read [current readiness](evals/c0-readiness.md) and [lessons learned](evals/lessons-learned.md). Generate fresh offline inventory and verify its exact HEAD, source hashes and prompt hash before a separately authorized live action. Local inventory and mock success grant no launch or telemetry publication authority. Preserve historical evidence and scores. Record desired and observed model/effort by role, the authorization reference, attempt/recovery limits, reserve and existing qualification waiver. Once a particular contestant run is authorized, retain the end-to-end workflow permissions already granted by its canonical prompt.
+
 ## The workflow
 
 1. **spec-research** — research and write `feature-specification.md`.

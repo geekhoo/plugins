@@ -1,5 +1,7 @@
 # geeky-orchestration
 
+Current [C0 operator readiness](evals/c0-readiness.md) records installed tools, local mock proof and paste-verbatim verification prompts. Live telemetry and paid canaries remain held. See [lessons learned](evals/lessons-learned.md) before preparing another run.
+
 The [C0 remediation implementation](evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/handoff.md)
 is accepted offline: review/closeout instructions and compact output, one-deadline
 runner records, and scoped accounting with verified score readback. Historical C0

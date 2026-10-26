@@ -1,6 +1,9 @@
 # Minimal C0 follow-up implementation — 2026-10-26
 
-Current source HEAD and implementation baseline: `2d30f483c4f322488c2843a8423f1a467a16171f` (unchanged). Changes are uncommitted. The user's later request authorizes this exact [follow-up plan](follow-up-plan.md), guarded mock-support promotion and bounded model-free verification. The plan's older planning-only authorization paragraph remains historical; its scope is unchanged. No source commit/push, paid contestant/provider/judge evaluation, sign-in or live telemetry operation occurred.
+Current publication: source fixes are in `ebcbacd` and `6462c6d`; reconciliation reached `599e07c`. Read [current handoff](handoff.md) and [operator readiness](../../c0-readiness.md) for present instructions. The remaining text records review-time state and evidence. Its historical SHA, hashes and verdicts remain unchanged; uncommitted/no-push statements do not describe current publication.
+
+
+Review-time source HEAD and implementation baseline: `2d30f483c4f322488c2843a8423f1a467a16171f`. Changes were uncommitted during the review recorded below. The user's later request authorizes this exact [follow-up plan](follow-up-plan.md), guarded mock-support promotion and bounded model-free verification. The plan's older planning-only authorization paragraph remains historical; its scope is unchanged. No source commit/push, paid contestant/provider/judge evaluation, sign-in or live telemetry operation occurred.
 
 One implementation phase contains two sequential units. Lead `/root/sol_followup_implementation` is GPT-6.1-Sol/xhigh; `geeky-coder` workers `/root/sol_followup_implementation/luna_lifecycle` and `/root/sol_followup_implementation/luna_fixture` used GPT-6-Luna/max with cold, disjoint ownership and one writer at a time. The lead owns integration and records. The phase reviewer is `/root/sol_followup_implementation/phase_followup` (GPT-6.1-Sol/xhigh, code-architect). Phase and final-review verdicts are recorded separately below; passing commands alone do not issue acceptance.
 

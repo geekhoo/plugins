@@ -84,19 +84,23 @@ pwsh -NoProfile -File evals/scripts/run-mock-matrix.ps1 -Case c0-wordstat
 
 Both rows must say `PASS ... telemetry=delivered`. The checks are listed in [runbook §3](mxc-litellm-runbook.md#3-before-every-paid-run-the-preflight-no-model-calls). Any `FAIL` means the toolchain or tracing is broken; fix it before spending money.
 
-## D. Run (paid; ~60-90 min each for C0; the two can run in parallel)
+## D. Paid run, only after explicit authorization
+
+HOLD here. Preflight success grants no paid launch. Read [current operator readiness](c0-readiness.md), then obtain the exact run authorization, role models/efforts, 5400-second budget, proposed 900-second advisory reserve, one-attempt/zero-recovery limit and existing qualification waiver. Use the separate Windows canary prompts there for that estate. The Linux commands below illustrate runner syntax and require authorized paths/settings; do not copy legacy defaults into a new run.
 
 ```bash
-pwsh -NoProfile -File evals/scripts/run-codex-baseline.ps1 -Case c0-wordstat -Model <litellm-model> -Litellm -Launch -TimeoutSec 5400
-pwsh -NoProfile -File evals/scripts/run-baseline.ps1       -Case c0-wordstat -Model <litellm-model> -Litellm -ResumeOnRefusal 2
+pwsh -NoProfile -File evals/scripts/run-codex-baseline.ps1 -Case c0-wordstat -Model <litellm-model> -Litellm -Launch -TimeoutSec 5400 -CloseoutReserveSec 900 -AuthorizationReference <authorized-reference>
+pwsh -NoProfile -File evals/scripts/run-baseline.ps1       -Case c0-wordstat -Model <litellm-model> -Litellm -TimeoutSec 5400 -CloseoutReserveSec 900 -ResumeOnRefusal 0 -AuthorizationReference <authorized-reference>
 ```
 
 - **Cases:** `c0-wordstat` (start here), `c1-csvledger`, `c2-linkvault`, `c3-minisql` ([cases](cases/)).
 - **Progress:** watch the commit count in `~/repos/eval-<case>-<stamp>`.
 - **Output:** each runner ends with `stored: evals/baselines/<case>/<stamp>`.
-- **Warning signs:** exit 255, repeated `API Error: 400`, or more than two refusal resumes. See the [pitfalls table](mxc-litellm-runbook.md#7-pitfalls-warning-and-guidance).
+- **Warning signs:** exit 255 or repeated `API Error: 400`. With recovery zero, any refusal ends the authorized attempt. See the [pitfalls table](mxc-litellm-runbook.md#7-pitfalls-warning-and-guidance).
 
-## E. Score and publish (~15 min per run)
+## E. Score and publish, with separate write authorization
+
+HOLD before remote writes or judge calls. Local scoring and publisher `--dry-run` do not authorize publication. Verify scope and automatic-judge exclusion before an authorized telemetry diagnostic; an existing-session query proves reads only. Use the [telemetry diagnostic prompt](c0-readiness.md#later-telemetry-diagnostic-only-after-explicit-authorization).
 
 ```bash
 P=$T/agent-py/bin/python; RUN=evals/baselines/c0-wordstat/<stamp>; H=claude-code   # or codex
@@ -123,5 +127,6 @@ $P evals/telemetry/langfuse-scores.py --run $RUN --parity $OUT/parity.json
 | Telemetry, coverage, Langfuse scores and evaluators | [telemetry/README.md](telemetry/README.md), [telemetry/langfuse-evaluators/](telemetry/langfuse-evaluators/README.md) |
 | Codex adapter internals | [adapters/codex/README.md](adapters/codex/README.md) |
 | What the C0 cases check | [cases/c0-wordstat/spec.md](cases/c0-wordstat/spec.md) |
-| Results so far | [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md) |
+| Latest Windows C0 | [claudex-001 comparison](analyses/c0-claudex-001-win-20261026/README.md), Codex 97.46, Claude timeout 90.33 and cumulative continuation 98.33 |
+| Earlier Linux results | [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md) |
 | Session evidence and archives | [session-20261025-evidence/](analyses/session-20261025-evidence/README.md), [archives/session-20261025/](../../archives/session-20261025/README.md) |

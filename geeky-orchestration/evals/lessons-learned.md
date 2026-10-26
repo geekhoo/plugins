@@ -1,4 +1,29 @@
-# Eval Runs: Lessons Learned
+# Eval runs: lessons learned
+
+## Current Windows C0 lessons, 2026-10-26
+
+Read [operator readiness](c0-readiness.md) for the current commands, evidence hashes and future verification prompts. Local executables are installed and version-probed. The readiness suite passed 10 tests; the actual mock command passed 28 local telemetry/publisher checks. Inventory alone reports `inventory-ready`; mock execution reports `mocktested-ready`. Both keep LIVE HELD. Neither proves credentials, remote service compatibility, model routing or live delivery.
+
+Earlier live Windows C0 records remain 97.46 for Codex, 90.33 for Claude's timeout and 98.33 for Claude's cumulative continuation. Extra continuation time/context prevents a clean initial-attempt comparison. Keep those scores immutable. [Comparison](analyses/c0-claudex-001-win-20261026/README.md).
+
+The [accepted follow-up](analyses/c0-post-remediation-mock-20261026/follow-up-implementation.md) fixes stale seed-step metadata and maintains actual Done/H1 positive and negative fixtures. Its prior evidence is 147 tests passed, one optional skip and three bounded real-MXC checks. Four synthetic judgment items remain unresolved; scripted success supplies no model ranking. Absolute process-stop timing and historical replay without the missing validation cache remain open. Do not rerun historical candidates merely to fill that gap.
+
+Use the actual publisher's dry-run path before an authorized remote diagnostic. Mock write/readback tests prove local behavior. An existing-session read proves only reads; live publisher compatibility needs an explicitly authorized write and matching readback after automatic-judge exclusion is verified. The installed CLI uses `langfuse.cmd api schema --json`, not older `langfuse-cli` or `__schema` examples.
+
+Future proposed C0 settings are `claudex-001`, Claude default thinking, Codex main/worker/reviewer high, 5400 seconds with 900 advisory closeout seconds inside the wall, one attempt and zero recoveries. Retain the owner's qualification waiver. Record desired and observed settings separately and make no backend-equivalence claim. New authorization must name the exact live phase; preparation never supplies it.
+
+Oracle success does not prove workflow closeout. Save each review reply, update the affected phase verdict and final summary, then emit the heartbeat. Optional warnings do not justify an endless fix/review loop. The [Windows C0 comparison](analyses/c0-claudex-001-win-20261026/README.md) separates the earlier timeout from the later accepted continuation.
+
+Commit required tests with the code they validate. H1 checks the selected implementation commit, not a later documentation HEAD that happens to pass. The maintained negative fixture rejects tests added only after that commit. Preserve the exact task/commit/review ownership evidence; a source-owned fork's history is not additive. Compaction proposals and failed writes do not prove execution.
+
+One attempt has one budget. Recovery consumes its remaining time rather than resetting the wall. A router 400 needs a route fix, not an identical paid retry. Keep each attempt's logs distinct and verify a fault injection actually applied before interpreting the result. Real MXC checks exposed the stale seed-step bug that earlier offline coverage missed; the timeout/oracle-fault capture preserves the separate failure states. See the [follow-up evidence](analyses/c0-post-remediation-mock-20261026/follow-up-implementation.md).
+
+Sanitize subprocess credentials without discarding the nonsecret configuration paths the command needs. Dropping Git's home/XDG locations changed global-ignore behavior and falsely reported a private ignored file as untracked. The corrected readiness command preserves those paths only for read-only Git inventory and checks its dirty scope against normal Git status.
+
+## Historical C1 and Linux notes
+
+The dated procedures below explain earlier runs. Their launch, cleanup, publication and recovery examples are historical recipes, not current authority. Preserve retained evidence and use the current readiness prompts before a new action.
+
 
 Final-pair lesson: [automatic extraction](analyses/c1-final-parity-20261024/README.md) now replaces run-2 process annotations for supported shapes. Reject ambiguous task/commit/review mappings, do not count JS/poll wrappers twice, and fail strict scoring when withholding a composite. A pre-override untrusted hook catalog does not establish an untrusted launch.
 

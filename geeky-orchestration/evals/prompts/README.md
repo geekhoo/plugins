@@ -1,6 +1,8 @@
-# Canonical Eval Prompt
+# Canonical eval prompt
 
-`/geeky-eval` sends one prompt, [`end-to-end.md`](end-to-end.md), to every contestant for every case. It runs as a single headless session. That keeps mid-session interaction to a minimum and tests how robustly geeky-orchestration runs the whole lifecycle from one instruction: `spec-research` → `geeky-plan` → `plan-review` → `geeky-implement` → `impl-review`, with fixes repeated until the verdict is PASS.
+The existing baseline runners render one prompt, [`end-to-end.md`](end-to-end.md), to every contestant for every case. It runs as a single headless session. That keeps mid-session interaction to a minimum and tests how robustly geeky-orchestration runs the whole lifecycle from one instruction: `spec-research` → `geeky-plan` → `plan-review` → `geeky-implement` → `impl-review`, with fixes repeated until the verdict is PASS.
+
+The `/geeky-eval` skill remains planned. The runner scripts are the implemented entrypoints. See [operator readiness](../c0-readiness.md) for the offline check and separate live authorization requirements.
 
 ## Rules for the prompt
 

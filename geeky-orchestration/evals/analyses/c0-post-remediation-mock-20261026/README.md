@@ -6,6 +6,8 @@ The separately authorized [follow-up implementation](follow-up-implementation.md
 
 Read [report](report.md), [metrics](metrics.json), [manifest](evidence-manifest.json), [source fingerprints](source-fingerprints.json), then [handoff](handoff.md).
 
+Current [operator readiness](../../c0-readiness.md) records installed local tools and 28 passing mock checks. Live telemetry and paid canaries remain held.
+
 ## Publication status
 
 The mock evidence is committed in grouped history. [Follow-up plan](follow-up-plan.md)

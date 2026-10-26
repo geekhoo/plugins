@@ -11,6 +11,10 @@ This is the process that produced complete C0 runs on both harnesses (2026-10-25
 
 Short version: [QUICKSTART.md](QUICKSTART.md). Results so far: [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md).
 
+## Current authorization hold
+
+Read [C0 operator readiness](c0-readiness.md) before using the procedures below. Local inventory and mock checks pass; live telemetry compatibility and paid canaries remain held. Launch only the separately authorized attempt with explicit role models/efforts, budget/reserve, recovery limit, waiver and authorization reference. Remote score publication and any judge inference need their own covered scope. Read-only session queries do not prove publisher write/readback.
+
 ## Runner record and timing contract
 
 Both runners persist `run.json` before configuration/preflight and contestant
