@@ -1,0 +1,130 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "claude-mock-5-5",
+  "reasoning": "default",
+  "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-timeout-postprocess-fault\\eval-c0-wordstat-20261026T110713Z",
+  "config_directory": "C:\\repos\\c0-remediation-mock-20261026\\claude-timeout-postprocess-fault\\.eval-cfg-20261026T110713Z",
+  "seed_sha": "efb8079692d87c0cc88f0e91c05e9e41e4c9e8af",
+  "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+  "session_id": "f085f3bc-7f07-4f9b-a1a2-45bc7351b4bd",
+  "started_utc": "2026-10-26T11:07:15.8501411Z",
+  "ended_utc": "2026-10-26T11:07:45.3996217Z",
+  "wall_time_s": 30,
+  "exit_code": 124,
+  "exit_reason": "timeout",
+  "is_error": true,
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "process-finished",
+    "attempt_id": "92833b29-526d-48f1-8be1-670e3e6d3324",
+    "segment_id": "5c3d4e05-d177-4aa6-94e4-981aed3fd66d",
+    "authorization_reference": "user-20261026-nonchargeable-mock-c0",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T11:07:44.1937775Z",
+    "hard_wall_budget_s": 30,
+    "closeout_reserve_s": 3,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 30,
+      "closeout_reserve_s": 3,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "d7ca8614a610e74fba5ffd9cfb0f51d3a158de55fcc7d17b536b4e7b63df501d",
+    "invocations": [
+      {
+        "invocation_id": "cac2e5ab-9fa2-4183-81b5-a9ae7a51db8f",
+        "kind": "initial",
+        "timeout_s": 28,
+        "started_utc": "2026-10-26T11:07:15.8794870Z",
+        "ended_utc": "2026-10-26T11:07:45.3798282Z",
+        "exit_code": 124,
+        "outcome": "timeout"
+      }
+    ],
+    "process_outcome": "timeout",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "in-progress",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "in-progress"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 29.500792399980128,
+    "attempt_elapsed_s": 31.222718399949372,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 37496,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  },
+  "harness_version": "0.0.0-mock",
+  "approach": "mock-agent:slow",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "cost_usd_estimate": 0,
+    "reasoning": 0
+  },
+  "model_calls": 1,
+  "latency_median_ms": 40,
+  "max_idle_gap_s": 0,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 0
+  },
+  "commits": 0,
+  "stop_reason": null,
+  "raw_sha256": {
+    "stream": "4ae8fbe32ea663a74c7d66745c7edc4513d8d14eef1b9cd162600af3f1c26ed2",
+    "session": "47849abb065d9a19104492a887e7739146136c96c7c65390ae095a039d637fc3"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": null,
+  "over_token_ceiling": false
+}

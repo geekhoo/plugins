@@ -1,0 +1,95 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "",
+  "reasoning": "default",
+  "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-timeout-oracle-fault-verified\\eval-c0-wordstat-20261026T110917Z",
+  "config_directory": "C:\\repos\\c0-remediation-mock-20261026\\claude-timeout-oracle-fault-verified\\.eval-cfg-20261026T110917Z",
+  "seed_sha": "5208b86acae743c8b91819c5649ac1f7d632b980",
+  "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+  "session_id": "cda6f7b7-9139-4ea7-b244-1a9b13e5baf1",
+  "started_utc": "2026-10-26T11:09:20.9511433Z",
+  "ended_utc": "2026-10-26T11:09:50.7909503Z",
+  "wall_time_s": 29.847540399990976,
+  "exit_code": 124,
+  "exit_reason": "timeout",
+  "is_error": true,
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "incomplete",
+    "attempt_id": "6b8d2be4-c328-4e4c-bc88-223a1a87fe1d",
+    "segment_id": "58796d97-c14f-4359-a215-e32dbb742d14",
+    "authorization_reference": "user-20261026-nonchargeable-mock-c0",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T11:09:48.2796540Z",
+    "hard_wall_budget_s": 30,
+    "closeout_reserve_s": 3,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 30,
+      "closeout_reserve_s": 3,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "d7ca8614a610e74fba5ffd9cfb0f51d3a158de55fcc7d17b536b4e7b63df501d",
+    "invocations": [
+      {
+        "invocation_id": "bed6bd36-dafe-4a36-a40f-a3e70f5fb1a9",
+        "kind": "initial",
+        "timeout_s": 27,
+        "started_utc": "2026-10-26T11:09:20.9442826Z",
+        "ended_utc": "2026-10-26T11:09:50.7909503Z",
+        "exit_code": 124,
+        "outcome": "timeout"
+      }
+    ],
+    "process_outcome": "timeout",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "in-progress",
+      "native-capture": "completed",
+      "oracle": "failed"
+    },
+    "active_step": "oracle",
+    "failure": {
+      "step": "oracle",
+      "message": "Unable to write content because it is a directory: 'C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261026T110917Z\\oracle-output.txt'."
+    },
+    "contestant_time_s": 29.847540399990976,
+    "attempt_elapsed_s": 32.542200200026855,
+    "finalization_time_s": 3.5288575999438763,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 28204,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "5208b86acae743c8b91819c5649ac1f7d632b980",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "session.jsonl": "869833a56892f7d3adf9c5b9e582b8a953b290ffc717d72f2a32e6c7d27612d7",
+      "stderr.txt": "6dd79a23257aee6870f42407385e470376a12a9d09c24d48d16377c5167ab6f0",
+      "stream.jsonl": "598aa8e7a579bb0407fa23532206c40bad323fda60a595f54c2f915a3d6ac996"
+    }
+  }
+}
