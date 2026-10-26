@@ -1,0 +1,4 @@
+MOCK CHECK PASS init.plugin_skills: 8 plugin skills: geeky-orchestration:archive, geeky-orchestration:geeky-implement, geeky-orchestration:geeky-plan, geeky-orchestration:geeky-resume, geeky-orchestration:geeky-status, geeky-orchestration:impl-review, geeky-orchestration:plan-review, geeky-orchestration:spec-research
+MOCK CHECK PASS refusal.filtered: first invocation ends with stop_reason content_filter
+MOCK CHECK PASS init.plugin_skills: 8 plugin skills: geeky-orchestration:archive, geeky-orchestration:geeky-implement, geeky-orchestration:geeky-plan, geeky-orchestration:geeky-resume, geeky-orchestration:geeky-status, geeky-orchestration:impl-review, geeky-orchestration:plan-review, geeky-orchestration:spec-research
+MOCK CHECK PASS refusal.resumed: resumed session completes

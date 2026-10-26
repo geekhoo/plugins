@@ -1,0 +1,130 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "claude-mock-5-5",
+  "reasoning": "default",
+  "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-timeout\\eval-c0-wordstat-20261026T110149Z",
+  "config_directory": "C:\\repos\\c0-remediation-mock-20261026\\claude-timeout\\.eval-cfg-20261026T110149Z",
+  "seed_sha": "c1a73db351bcc3ca4c9e555b995bb58cac9a4977",
+  "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+  "session_id": "08cc7f70-253c-44c8-b085-670b89b13f42",
+  "started_utc": "2026-10-26T11:01:51.7117788Z",
+  "ended_utc": "2026-10-26T11:02:05.7775077Z",
+  "wall_time_s": 14,
+  "exit_code": 124,
+  "exit_reason": "timeout",
+  "is_error": true,
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "process-finished",
+    "attempt_id": "a2139b96-1705-4055-9b5b-8c99edb3e9f8",
+    "segment_id": "14c90b5e-a6db-4611-bdc3-608e1b0d944d",
+    "authorization_reference": "user-20261026-nonchargeable-mock-c0",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T11:02:05.2377918Z",
+    "hard_wall_budget_s": 15,
+    "closeout_reserve_s": 2,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 15,
+      "closeout_reserve_s": 2,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "ef3efad1fc8faa0eaec691cf1ffa9953c942f82847a064ac8e96a979d10dcf24",
+    "invocations": [
+      {
+        "invocation_id": "d44c4072-58fa-49da-bae8-e5c4a0f9d86a",
+        "kind": "initial",
+        "timeout_s": 13,
+        "started_utc": "2026-10-26T11:01:51.7355136Z",
+        "ended_utc": "2026-10-26T11:02:05.7642996Z",
+        "exit_code": 124,
+        "outcome": "timeout"
+      }
+    ],
+    "process_outcome": "timeout",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "in-progress",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "in-progress"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 14.029829200007953,
+    "attempt_elapsed_s": 15.55568220000714,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 15504,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  },
+  "harness_version": "0.0.0-mock",
+  "approach": "mock-agent:slow",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "cost_usd_estimate": 0,
+    "reasoning": 0
+  },
+  "model_calls": 1,
+  "latency_median_ms": 41,
+  "max_idle_gap_s": 0,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 0
+  },
+  "commits": 0,
+  "stop_reason": null,
+  "raw_sha256": {
+    "stream": "f87fe8442fd3cc88bfb4bfd16df22272cf77f0ac32715158c20eb43b6dbf10c9",
+    "session": "3152ad96b5868e76640295eab9d5bf420d7953596ce4dcd6258ca552908e44b9"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": null,
+  "over_token_ceiling": false
+}

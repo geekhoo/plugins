@@ -1,0 +1,139 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "claude-mock-5-5",
+  "reasoning": "default",
+  "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-refusal-one\\eval-c0-wordstat-20261026T110231Z",
+  "config_directory": "C:\\repos\\c0-remediation-mock-20261026\\claude-refusal-one\\.eval-cfg-20261026T110231Z",
+  "seed_sha": "b3a08e9890b16ebcd95d897cda898f0bde67a8f7",
+  "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+  "session_id": "6e193005-89b4-43d0-8899-8f432ba74af6",
+  "started_utc": "2026-10-26T11:02:37.0135183Z",
+  "ended_utc": "2026-10-26T11:02:44.2676935Z",
+  "wall_time_s": 7,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "process-finished",
+    "attempt_id": "a3568c03-0f74-499f-ba0c-9da0d609bad3",
+    "segment_id": "da9dbc8b-6fea-4ba4-aa1c-fac3d53128e8",
+    "authorization_reference": "user-20261026-nonchargeable-mock-c0",
+    "allowed_recoveries": 1,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T11:03:17.3220627Z",
+    "hard_wall_budget_s": 45,
+    "closeout_reserve_s": 2,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 45,
+      "closeout_reserve_s": 2,
+      "allowed_recoveries": 1
+    },
+    "configuration_sha256": "d9c34079f57552c1c9930fa733770710af325a76b31bc0bd675aa2011120740b",
+    "invocations": [
+      {
+        "invocation_id": "a3078515-41c2-4acc-9677-2051aa793b23",
+        "kind": "initial",
+        "timeout_s": 40,
+        "started_utc": "2026-10-26T11:02:37.0604227Z",
+        "ended_utc": "2026-10-26T11:02:41.0566869Z",
+        "exit_code": 0,
+        "outcome": "success"
+      },
+      {
+        "invocation_id": "401c1eca-0f93-4d82-9e12-3d51f2c5df5c",
+        "kind": "refusal-recovery",
+        "timeout_s": 36,
+        "started_utc": "2026-10-26T11:02:41.0820419Z",
+        "ended_utc": "2026-10-26T11:02:44.2640089Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "in-progress",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "in-progress"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 7.179251300054602,
+    "attempt_elapsed_s": 11.995071499957703,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 19040,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  },
+  "harness_version": "0.0.0-mock",
+  "approach": "mock-agent:refusal",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 587352,
+    "cached_input": 514600,
+    "cache_creation": 41460,
+    "output": 23606,
+    "total": 610958,
+    "cost_usd_estimate": 0.6761,
+    "reasoning": 100
+  },
+  "model_calls": 1,
+  "latency_median_ms": 70,
+  "max_idle_gap_s": 3,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 0
+  },
+  "commits": 0,
+  "stop_reason": "end_turn",
+  "raw_sha256": {
+    "stream": "138ba4b3c39cf60f880b0a8f8114005ed53c32aeee740a2dbc97a174e4b18c3f",
+    "session": "7c5090de1199319e5520ef6d0762b95075d08f13a1ea05619453605d12f3bbc2"
+  },
+  "interventions": 1,
+  "resumed_after_refusal": 1,
+  "provider": null,
+  "over_token_ceiling": false
+}

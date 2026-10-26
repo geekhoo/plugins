@@ -1,0 +1,38 @@
+{
+  "tokens": {
+    "input": 587352,
+    "cached_input": 514600,
+    "cache_creation": 41460,
+    "output": 23606,
+    "total": 610958,
+    "by_model": {
+      "claude-mock-5-5": {
+        "inputTokens": 1146,
+        "cacheReadInputTokens": 514600,
+        "cacheCreationInputTokens": 41460,
+        "outputTokens": 21460
+      },
+      "claude-mock-haiku": {
+        "inputTokens": 30146,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "outputTokens": 2146
+      }
+    },
+    "cost_usd_estimate": 0.6761
+  },
+  "model_calls": 1,
+  "latency_median_ms": 43,
+  "latency_samples": 1,
+  "max_idle_gap_s": 0,
+  "stages": null,
+  "impl_review_rounds": null,
+  "skill_invocations": {},
+  "tool_calls_main": {},
+  "tool_calls_subagents": {},
+  "subagent_dispatches": {},
+  "validation_runs": {},
+  "gate_invocations": {},
+  "gate_results": {},
+  "duration_api_ms": 40
+}
