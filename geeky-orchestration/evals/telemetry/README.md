@@ -4,7 +4,7 @@ The [Windows C0 comparison](../analyses/c0-claudex-001-win-20261026/README.md)
 records paid-run identity audits and ten verified published scores per session.
 The earlier model-free identity fixtures remain [separate evidence](../analyses/telemetry-identity-20261025/README.md).
 
-Both runners can send every eval session to Langfuse in full. The Claude Code runner is `run-baseline.ps1` and the Codex runner is `run-codex-baseline.ps1`. "In full" means every turn, model generation, subagent or child thread, tool call with its input and output, and thinking or reasoning summary, with nothing truncated. Use the traces to inspect, evaluate and score runs alongside `score-run.py`.
+Both runners are configured to capture every eval session for Langfuse. The Claude Code runner is `run-baseline.ps1` and the Codex runner is `run-codex-baseline.ps1`. Capture includes turns, model generations, subagents or child threads, tool inputs/outputs and available reasoning summaries without configured truncation. Delivery and required coverage need separate evidence. Use the traces to inspect, evaluate and score runs alongside `score-run.py`.
 
 Each harness uses Langfuse's own transcript hook, pinned in `pins.json` and verified by SHA-256:
 
@@ -106,6 +106,34 @@ python geeky-orchestration/evals/telemetry/langfuse-run.py --session-id <id> --o
 
 `langfuse-run.py` reads `/api/public/v2/observations`, the only read API on Langfuse v4 events-only deployments.
 
+`delivered` is retained as a compatibility alias for `observations_present`
+(observations > 0). It proves presence only. `observations_status` is `present`
+or `pending`; `coverage_status` is `met`, `missing` or `unknown` for the required
+harness points. Neither establishes that every captured observation arrived.
+`scores_verified` stays false in runner telemetry: the separate publisher's
+readback report proves score delivery. A hook exit of zero or two equal poll
+counts cannot prove complete ingestion. A failed read resets presence/coverage
+claims even if an earlier local summary remains on disk.
+
+Recover from healthy retained captures using the existing pinned flush/replay,
+with the original identity, environment and hook state. Do not rerun a contestant
+to repair telemetry. From the plugin root, the existing operator commands are:
+
+```powershell
+# Codex: existing Stop payload points at the retained rollout; preserve its .langfuse state.
+python evals/telemetry/codex-flush.py <node> <pinned-tracer.mjs> <payload.json>
+# Claude: in a host session with the original resolved telemetry object and pinned hook.
+. ./evals/telemetry/telemetry.ps1
+Invoke-ClaudeTelemetryFlush -Telemetry $telemetry -SessionId <native-id> -TranscriptPath <session.jsonl>
+# Re-read presence and required coverage independently, after egress recovers.
+python evals/telemetry/langfuse-run.py --session-id <id> --output summary.json --full observations.json
+python evals/telemetry/langfuse-coverage.py --session-id <id> --output coverage.json
+```
+
+DNS/export errors and partial delivery remain pending. Keep the local evidence
+and use these commands after the outage; there is no inference, automatic paid
+recovery or new outbox in this procedure.
+
 ## Harness coverage
 
 `langfuse-coverage.py` checks which harness points a session reached, using its Langfuse observations: all five skills, subagents, the coder and reviewer roles, planning gates, pytest, commits, file edits, reasoning summaries and token usage. It also reports nested subagents (the agent may run `geeky-implement` itself or delegate it to `geeky-implement-orchestrator`), MCP gate tools and encrypted Codex handoffs as information only. The runners call it after each run and write `langfuse-coverage.json`, plus `telemetry.coverage_complete` and `telemetry.coverage_missed` in `run.json`. Run it on demand too:
@@ -126,10 +154,64 @@ It was calibrated on two real sessions, Claude C1 run 6 and Codex C1 run 3 (repl
 
 ## Scoring in Langfuse
 
-After scoring with `scripts/parity-eval.py`, `langfuse-scores.py --run <run>
---parity <parity.json>` posts 10 scores on the readable run session, falling
-back to the native ID for historical records. Score IDs derive from session and
-name, so reposting updates. Evaluator definitions are in
+After scoring with `scripts/parity-eval.py`, new publication requires an explicit
+`geeky-eval.inputs/1` sidecar. Historical sidecars and score IDs stay unchanged;
+create a separate sidecar for a newly authorized scope. Example commands (paths
+relative to plugin root):
+
+```powershell
+python evals/scripts/parity-eval.py <run> --observations observations.json --score score.json --manual manual.json --scope evaluation-inputs.json --out derived
+python evals/telemetry/langfuse-scores.py --run <run> --parity derived/parity.json --scope evaluation-inputs.json --dry-run
+# Only after separate publication authorization:
+python evals/telemetry/langfuse-scores.py --run <run> --parity derived/parity.json --scope evaluation-inputs.json --output score-readback.json
+```
+
+The sidecar declares `schema`, `scope_id`, `kind` (`initial`, `continuation` or
+`cumulative`), `parent_scope_id` (null only for initial), `configuration`
+(`prompt_sha256`, `plugin_sha`; null only when unknown), and `sources` with
+unique `id`, `path`, `sha256` and `ancestry` source IDs. Source paths resolve
+relative to the sidecar. Include every run/observation/score/manual input;
+include any coverage override used for publication. Each `segments` entry has
+`segment_id`, `authorization_reference`, timezone-aware `start` and `end`.
+For new `geeky-eval.execution/1` records, also include `attempt_id`; attempt,
+segment and authorization reference must match the bound run record. The
+runner's execution metadata supplies these declarations; local IDs alone do
+not prove continuation authorization.
+
+`ownership` declares `method` (`native` for an initial input, `source-reviewed`
+for resumed inputs), a `rule`, optional `cutoff`, and hashed `evidence_source`
+for source review. Resumed inputs also require `assignments`, each containing
+`source_id` and explicit retained `logical_ids`; duplicates are rejected.
+Cutoff timestamps alone never establish novel ownership. Retain source ancestry
+when using the existing C0 reviewed logical derivation. This validator does not
+merge arbitrary forks or certify the contents of a human review.
+
+Use `metric_default` plus optional `metrics` overrides for `runtime`, `tokens`,
+`calls`, `latency_idle`, `commits`, `coverage`, `backend` and `cost`. Each resolved
+label requires `scope_id`, `population`, `source_ids`, `additive` and `complete`.
+Default `additive` to false. Medians/idle spans, coverage, backend and cost cannot
+be added. A mismatched population or incomplete source nulls the associated
+efficiency value: render null as N/A. Thus cumulative time/commits can be shown
+alongside explicitly labeled continuation usage, but cumulative tokens, backend
+or cost remain N/A when unknown. Missing sources make completeness unknown and
+block dependent evaluation/publication. Hash changes fail closed. Historical
+parity evaluation without a sidecar remains available for retained comparisons;
+publication always requires explicit scope. A retained parity file without an
+embedded scope must itself be a hashed sidecar source.
+
+Score IDs hash a structured tuple of session, scope ID, evaluator version and
+score name. Same-scope reposts are idempotent; other scopes/versions have distinct
+IDs. Metadata includes scope, evaluator, sidecar/parity SHA-256 and prompt/plugin
+fingerprints. An existing scoped ID with different bindings/values blocks writes;
+use a distinct authorized scope/version instead of overwriting its evidence.
+No legacy session/name score IDs are written. The publisher reads
+expected IDs through `/api/public/v3/scores?fields=details,subject` and compares
+session, name, data type, typed numeric/boolean value and all four binding fields
+(`scope_id`, `evaluator`, `input_sha256`, `parity_sha256`). Only exact readback
+sets `scores_verified=true`; missing/mismatched IDs, partial POSTs, DNS failures
+or unsupported v3 return pending and exit 3. An unsupported instance requires
+operator action; there is no fallback that declares delivery. `--dry-run`
+previews IDs without connecting. Evaluator definitions are in
 [langfuse-evaluators/](langfuse-evaluators/README.md). The full procedure is in
 [../mxc-litellm-runbook.md](../mxc-litellm-runbook.md).
 

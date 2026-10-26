@@ -1,0 +1,43 @@
+{
+  "head": "53fb54b5f30ab0397c1fc154e83a6af942797322",
+  "state": "uncommitted T3 source; parent-owned T1/T2 work also present",
+  "workdir": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration",
+  "environment": {
+    "python_executable": "C:\\Python314\\python.exe",
+    "python": "3.14.7 (tags/v3.14.7:823f032, Aug  5 2026, 10:51:32) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "powershell": "7.6.5"
+  },
+  "files": {
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\evaluation_scope.py": "c17ee14a52c0cca70d7a844df2bbf3b20f276553d3717d26b8ea19d11dfc8629",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\parity-eval.py": "44883bccb41a7d1a5671696921c002c2cd6e0fdefbe250bb0853401d637c0807",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\test_parity_eval.py": "34c3eba78eb8526b08e47594f7d06f60dd3935e53246d9823623da1dd48fd764",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\langfuse-scores.py": "0f4143130359c713fd4f5382db39d12b6e56968ef9bbeb91dfb1299c8d12ebc1",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\test_langfuse_scores.py": "fd8b4635eba818912b0e76db26252ac27e9b261184c262c20267580fcd34be2c",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\telemetry.ps1": "fbe561d295b970a6541795775cac2f3be306a372d583bec0a76f6f4303ef6670",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\README.md": "7da00b39a4767652ae4a1ac0fbcc72ac2ba44099b8ead9407475a82abf653f5f",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\mxc-litellm-runbook.md": "1a831b1159c227ff74d328b5c576a5fefadc65a34497fdbf83a535cd6c4baac8",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T3-evidence\\check-retained.py": "95899266c1cac6d95ab630893dfab2aaa6426c4cb48840de7fb138f69774f0d5",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T3-evidence\\check-static.ps1": "3b567721094ce2bc6266ce4900d1c1e50d2e8cb7e92db71ca248e7fa9570a571"
+  },
+  "validation": [
+    {
+      "command": "& C:/Python314/python.exe -m pytest -q test_score_run.py evals/scripts/test_parity_eval.py evals/scripts/test_codex_trace.py evals/scripts/test_process_replay.py evals/telemetry/test_langfuse_run.py evals/telemetry/test_langfuse_coverage.py evals/telemetry/test_langfuse_scores.py",
+      "exit": 0,
+      "log": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T3-evidence\\required-suite-final.log",
+      "result": "........................................................................ [ 54%]\n.......s...................................................              [100%]\n130 passed, 1 skipped in 16.47s"
+    },
+    {
+      "command": "& C:/Python314/python.exe evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/tasks/T3-evidence/check-retained.py",
+      "exit": 0,
+      "log": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T3-evidence\\retained-invariants-final.log",
+      "result": "{\n  \"status\": \"retained-invariants-verified\",\n  \"excluded_history_rows\": 438,\n  \"logical_rows\": 1612,\n  \"observations\": 1485,\n  \"retained_by_source\": {\n    \"continuation\": 807,\n    \"previous\": 678\n  },\n  \"parent_requests\": {\n    \"fresh\": 42,\n    \"historical\": 48,\n    \"shared\": 0,\n    \"population\": \"parent assistant message IDs only, not all agents\"\n  },\n  \"scores\": {\n    \"codex_initial\": {\n      \"composite\": 97.46,\n      \"adherence_fraction\": \"45/46\",\n      \"quality\": 95.63636363636363,\n      \"weighted_consistency_denominator\": 19\n    },\n    \"claude_initial\": {\n      \"composite\": 90.33,\n      \"adherence_fraction\": \"37/42\",\n      \"quality\": 96.66666666666667,\n      \"weighted_consistency_denominator\": 19\n    },\n    \"claude_cumulative\": {\n      \"composite\": 98.33,\n      \"adherence_fraction\": \"42/42\",\n      \"quality\": 95.71428571428571,\n      \"weighted_consistency_denominator\": 19\n    }\n  },\n  \"full_scorer_replay\": \"open: no retained validation-cache.json; candidate commands/oracles prohibited\"\n}"
+    },
+    {
+      "command": "& pwsh -NoProfile -File evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/tasks/T3-evidence/check-static.ps1",
+      "exit": 0,
+      "log": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\remediation-20261026\\tasks\\T3-evidence\\static.log",
+      "result": "PASS: telemetry.ps1 PowerShell syntax\nPASS: five Python AST parses\nwarning: in the working copy of 'geeky-orchestration/evals/mxc-litellm-runbook.md', LF will be replaced by CRLF the next time Git touches it\nwarning: in the working copy of 'geeky-orchestration/evals/telemetry/README.md', LF will be replaced by CRLF the next time Git touches it\nPASS: touched-file whitespace check"
+    }
+  ]
+}

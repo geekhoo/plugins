@@ -1,6 +1,7 @@
 import importlib.util
 import json
 from pathlib import Path
+import pytest
 
 HERE = Path(__file__).resolve().parent
 
@@ -108,11 +109,94 @@ def test_score_publication_uses_named_session_and_retains_native_id(tmp_path, ca
         'checks': [{'id': 'a.no_forbidden_git', 'status': 'pass', 'evidence': 'fixture'}]}))
     coverage = tmp_path / 'coverage.json'
     coverage.write_text(json.dumps({'session_id': 'codex-mxc-win-c0-wordstat-stamp', 'complete': True}))
-    assert ls.main(['--run', str(run_dir), '--parity', str(parity), '--coverage', str(coverage), '--dry-run']) == 0
+    scope = tmp_path / 'evaluation-inputs.json'
+    scope.write_text(json.dumps(scope_document([run_dir / 'run.json', parity, coverage])))
+    assert ls.main(['--run', str(run_dir), '--parity', str(parity), '--coverage', str(coverage), '--scope', str(scope), '--dry-run']) == 0
     published = json.loads(capsys.readouterr().out)
     assert published['session'] == 'codex-mxc-win-c0-wordstat-stamp'
     assert published['metadata']['native_session_id'] == 'native-thread'
     assert published['metadata']['environment'] == 'mxc-win'
     assert published['scores']['harness_coverage_complete'] is True
     assert len(published['metadata']['coverage_report_sha256']) == 64
+    assert published['metadata']['input_sha256'] == ls.sha256(scope)
+    assert published['metadata']['parity_sha256'] == ls.sha256(parity)
+    assert published['scores_verified'] is False and published['status'] == 'preview'
     assert json.loads((run_dir / 'run.json').read_text())['telemetry']['coverage_complete'] is False
+
+
+def scope_document(paths):
+    return {'schema': 'geeky-eval.inputs/1', 'scope_id': 'initial', 'kind': 'initial', 'parent_scope_id': None,
+            'configuration': {'prompt_sha256': None, 'plugin_sha': None},
+            'sources': [{'id': str(i), 'path': str(p), 'sha256': ls.sha256(p), 'ancestry': []} for i, p in enumerate(paths)],
+            'segments': [{'segment_id': 'one', 'authorization_reference': 'fixture',
+                          'start': '2026-10-25T03:00:00Z', 'end': '2026-10-25T04:00:00Z'}],
+            'ownership': {'method': 'native', 'rule': 'single initial capture'},
+            'metric_default': {'scope_id': 'initial', 'population': 'all captured agents',
+                               'source_ids': ['0'], 'additive': False, 'complete': True}}
+
+
+def test_scope_labels_block_mixed_cumulative_metrics(tmp_path):
+    source = tmp_path / 'source'
+    source.write_text('reviewed evidence')
+    doc = scope_document([source])
+    doc.update(scope_id='cumulative', kind='cumulative', parent_scope_id='initial')
+    doc['ownership'] = {'method': 'source-reviewed', 'rule': 'UUID ownership from retained source review',
+                        'evidence_source': '0', 'cutoff': '2026-10-25T03:00:00Z',
+                        'assignments': [{'source_id': '0', 'logical_ids': ['previous:a', 'continuation:b']}]}
+    doc['metric_default'].update(scope_id='cumulative')
+    doc['metrics'] = {m: {'scope_id': 'continuation', 'population': 'continuation only', 'complete': False}
+                      for m in ('tokens', 'backend', 'cost')}
+    path = tmp_path / 'evaluation-inputs.json'
+    path.write_text(json.dumps(doc))
+    loaded = pe.load_scope(path, [source])
+    from evaluation_scope import scoped_efficiency
+    result = scoped_efficiency({'wall_time_s': 7180, 'commits': 12, 'tokens_total': 100, 'backend': 'x', 'cost': 1}, loaded)
+    assert result == {'wall_time_s': 7180, 'commits': 12, 'tokens_total': None, 'backend': None, 'cost': None}
+    assert loaded['metric_labels']['tokens']['population'] == 'continuation only'
+    doc['metrics']['tokens']['additive'] = True
+    path.write_text(json.dumps(doc))
+    with pytest.raises(ValueError, match='Unsupported addition'):
+        pe.load_scope(path)
+    doc['metrics']['tokens']['additive'] = False
+    doc['ownership']['assignments'].append({'source_id': '0', 'logical_ids': ['previous:a']})
+    path.write_text(json.dumps(doc))
+    with pytest.raises(ValueError, match='duplicate logical ownership'):
+        pe.load_scope(path)
+
+
+def test_scope_missing_and_changed_sources_never_establish_completeness(tmp_path):
+    source = tmp_path / 'source'
+    source.write_text('original')
+    doc = scope_document([source])
+    path = tmp_path / 'evaluation-inputs.json'
+    path.write_text(json.dumps(doc))
+    source.unlink()
+    loaded = pe.load_scope(path)
+    assert loaded['completeness'] == 'unknown' and loaded['missing_sources'] == ['0']
+    assert loaded['metric_labels']['tokens']['complete'] is False
+    source.write_text('changed')
+    with pytest.raises(ValueError, match='hash mismatch'):
+        pe.load_scope(path)
+
+
+def test_duplicate_observation_identity_is_rejected():
+    with pytest.raises(ValueError, match='duplicate observation IDs'):
+        pe.events([obs('a', 'Tool: Read', ''), obs('a', 'Tool: Read', '')])
+
+
+def test_scope_binds_future_prompt_plugin_and_execution_identity(tmp_path):
+    from evaluation_scope import bind_run
+    doc = scope_document([])
+    run = {'prompt_sha256': 'a' * 64, 'plugin_sha': 'b' * 40,
+           'execution': {'schema': 'geeky-eval.execution/1', 'segment_id': 'one',
+                         'attempt_id': 'attempt', 'authorization_reference': 'fixture'}}
+    doc['configuration'] = {key: run[key] for key in ('prompt_sha256', 'plugin_sha')}
+    doc['segments'][0]['attempt_id'] = 'attempt'
+    bind_run(doc, run)
+    run['plugin_sha'] = 'c' * 40
+    with pytest.raises(ValueError, match='configuration differs'):
+        bind_run(doc, run)
+    run['plugin_sha'] = 'b' * 40
+    run['execution']['attempt_id'] = 'another-attempt'
+    with pytest.raises(ValueError, match='segment/attempt/authorization'):
+        bind_run(doc, run)

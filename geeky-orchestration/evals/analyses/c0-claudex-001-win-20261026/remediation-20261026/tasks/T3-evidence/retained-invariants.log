@@ -1,0 +1,37 @@
+{
+  "status": "retained-invariants-verified",
+  "excluded_history_rows": 438,
+  "logical_rows": 1612,
+  "observations": 1485,
+  "retained_by_source": {
+    "continuation": 807,
+    "previous": 678
+  },
+  "parent_requests": {
+    "fresh": 42,
+    "historical": 48,
+    "shared": 0,
+    "population": "parent assistant message IDs only, not all agents"
+  },
+  "scores": {
+    "codex_initial": {
+      "composite": 97.46,
+      "adherence_fraction": "45/46",
+      "quality": 95.63636363636363,
+      "weighted_consistency_denominator": 19
+    },
+    "claude_initial": {
+      "composite": 90.33,
+      "adherence_fraction": "37/42",
+      "quality": 96.66666666666667,
+      "weighted_consistency_denominator": 19
+    },
+    "claude_cumulative": {
+      "composite": 98.33,
+      "adherence_fraction": "42/42",
+      "quality": 95.71428571428571,
+      "weighted_consistency_denominator": 19
+    }
+  },
+  "full_scorer_replay": "open: no retained validation-cache.json; candidate commands/oracles prohibited"
+}

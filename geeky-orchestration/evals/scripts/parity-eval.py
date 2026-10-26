@@ -24,6 +24,9 @@ import statistics
 import subprocess
 import sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from evaluation_scope import bind_run, load_scope, scoped_efficiency
+
 HERE = Path(__file__).resolve().parent
 PLUGIN = HERE.parents[1]
 SPEC_SUBJECT = re.compile(r'^docs: author feature specification in \S+$')
@@ -90,6 +93,8 @@ def head_moves(ws):
 def events(observations):
     """Tool calls in time order, each tagged main/subagent, with decoded input text."""
     by_id = {o['id']: o for o in observations}
+    if len(by_id) != len(observations):
+        raise ValueError('Ambiguous duplicate observation IDs; supply source-reviewed logical inputs')
 
     def thread(o):
         seen, parent = set(), by_id.get(o.get('parentObservationId'))
@@ -142,8 +147,10 @@ def gate(script, *args):
 
 
 class Evaluation:
-    def __init__(self, run_dir, observations, score, manual):
+    def __init__(self, run_dir, observations, score, manual, scope=None):
         self.run = json.loads((run_dir / 'run.json').read_text(encoding='utf-8'))
+        if scope:
+            bind_run(scope, self.run)
         self.ws = Path(self.run['workspace'])
         self.folder = self.ws / 'docs/spec-001-feature'
         self.commits = commits(self.ws)
@@ -151,6 +158,7 @@ class Evaluation:
         self.latency = latency_median_ms(observations)
         self.score = score
         self.manual = manual
+        self.scope = scope
         self.checks = []
         # Tasks and phases as score-run parsed them from the plan, so both evaluations agree.
         self.phases = {p: list(ts) for p, ts in score['phases'].items()} if isinstance(score.get('phases'), dict) else \
@@ -333,7 +341,7 @@ class Evaluation:
         consistency = 100 * (0.8 * dpc + 0.2 * oc)
         quality = self.score['dimensions']['quality']['capped']
         composite = (0.35 * quality + 0.35 * adherence + 0.20 * consistency) / 0.90
-        return {'schema': 'geeky-eval.parity/1', 'harness': self.run.get('harness') or 'claude-code',
+        result = {'schema': 'geeky-eval.parity/1', 'harness': self.run.get('harness') or 'claude-code',
                 'run': self.run.get('run_id') or Path(self.run['workspace']).name,
                 'session_id': (self.run.get('telemetry') or {}).get('session_id') or self.run.get('session_id'),
                 'composite': round(composite, 2), 'quality': round(quality, 2),
@@ -345,6 +353,12 @@ class Evaluation:
                                'interventions': self.run.get('interventions', 0)},
                 'stage_bounds': self.bounds, 'phases': self.phases,
                 'needs_judge': [c['id'] for c in self.checks if c['status'] == 'needs_judge'], 'checks': self.checks}
+        if self.scope:
+            result['evaluation_scope'] = self.scope
+            result['efficiency'] = scoped_efficiency(result['efficiency'], self.scope)
+            result['prompt_sha256'] = self.run.get('prompt_sha256')
+            result['plugin_sha'] = self.run.get('plugin_sha')
+        return result
 
 
 def main(argv=None):
@@ -353,12 +367,17 @@ def main(argv=None):
     ap.add_argument('--observations', type=Path, required=True)
     ap.add_argument('--score', type=Path, required=True, help="score-run.py's score.json (for Quality)")
     ap.add_argument('--manual', type=Path)
+    ap.add_argument('--scope', type=Path, help='Validated evaluation-inputs.json; required for new publication')
     ap.add_argument('--out', type=Path, required=True)
     a = ap.parse_args(argv)
+    inputs = [a.run_dir / 'run.json', a.observations, a.score] + ([a.manual] if a.manual else [])
+    scope = load_scope(a.scope, inputs) if a.scope else None
+    if scope and scope['missing_sources']:
+        raise ValueError(f"Scope completeness unknown; missing sources: {scope['missing_sources']}")
     obs = json.loads(a.observations.read_text(encoding='utf-8'))
     obs = obs if isinstance(obs, list) else obs.get('observations') or obs.get('data')
     manual = json.loads(a.manual.read_text(encoding='utf-8')) if a.manual else {}
-    result = Evaluation(a.run_dir, obs, json.loads(a.score.read_text(encoding='utf-8')), manual).evaluate()
+    result = Evaluation(a.run_dir, obs, json.loads(a.score.read_text(encoding='utf-8')), manual, scope).evaluate()
     a.out.mkdir(parents=True, exist_ok=True)
     (a.out / 'parity.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     print(json.dumps({k: result[k] for k in ('harness', 'composite', 'quality', 'adherence', 'consistency', 'needs_judge')}))

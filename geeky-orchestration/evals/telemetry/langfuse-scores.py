@@ -2,9 +2,10 @@
 
 Reads parity.json (scripts/parity-eval.py) and the run folder's run.json, and writes run-level scores
 on the run's Langfuse session, so Claude Code and Codex runs sit side by side in the Scores view.
-Score ids derive from session id and score name, so posting again updates rather than duplicates.
+Score IDs bind session, explicit scope, evaluator version and name. POST alone is pending;
+only exact Scores v3 readback establishes score delivery. Legacy IDs are never written.
 
-  python langfuse-scores.py --run <run-folder> --parity <parity.json> [--dry-run]
+  python langfuse-scores.py --run <run-folder> --parity <parity.json> --scope <evaluation-inputs.json> [--dry-run]
 
 Credentials come from LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY / LANGFUSE_BASE_URL (names overridable).
 """
@@ -16,6 +17,10 @@ import os
 from pathlib import Path
 import sys
 import urllib.request
+import urllib.parse
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+from evaluation_scope import bind_run, load_scope, sha256
 
 # name -> (data type, min, max, description)
 CONFIGS = {
@@ -64,10 +69,77 @@ def scores(run, parity):
     return {k: v for k, v in out.items() if v is not None}, comments
 
 
+def score_id(session, scope_id, evaluator, name):
+    # Structured encoding avoids delimiter collisions in user-supplied scope IDs.
+    return hashlib.sha256(json.dumps([session, scope_id, evaluator, name], separators=(',', ':')).encode()).hexdigest()[:32]
+
+
+def verify_scores(client, expected, allow_missing=False):
+    """Scores v3 details include metadata; unsupported readback remains pending."""
+    query = {'id': ','.join(row['id'] for row in expected), 'fields': 'details,subject', 'limit': 100}
+    found, cursors = {}, set()
+    while True:
+        page = client.call('GET', '/api/public/v3/scores?' + urllib.parse.urlencode(query))
+        for row in page['data']:
+            if row['id'] in found:
+                return False, ['duplicate score ID in readback']
+            found[row['id']] = row
+        cursor = (page.get('meta') or {}).get('cursor')
+        if not cursor:
+            break
+        if cursor in cursors:
+            return False, ['repeated score cursor']
+        cursors.add(cursor)
+        query['cursor'] = cursor
+    errors = []
+    for wanted in expected:
+        if allow_missing and wanted['id'] not in found:
+            continue
+        actual = found.get(wanted['id'], {})
+        meta = actual.get('metadata') or {}
+        # POST accepts 0/1 for BOOLEAN; Scores v3 returns a typed JSON boolean.
+        same_value = ((type(actual.get('value')) is bool and actual['value'] == bool(wanted['value']))
+                      if wanted['dataType'] == 'BOOLEAN' else
+                      (type(actual.get('value')) in (int, float) and actual['value'] == wanted['value']))
+        if (actual.get('subject') != {'kind': 'session', 'id': wanted['sessionId']} or
+                actual.get('name') != wanted['name'] or actual.get('dataType') != wanted['dataType'] or not same_value or
+                any(meta.get(key) != wanted['metadata'][key] for key in
+                    ('scope_id', 'evaluator', 'input_sha256', 'parity_sha256'))):
+            errors.append(wanted['id'])
+    return not errors, errors
+
+
+def publish(client, expected):
+    """No retries or inference: the same authorized command can safely be repeated."""
+    try:
+        compatible, errors = verify_scores(client, expected, allow_missing=True)
+        if not compatible:
+            return {'status': 'pending', 'scores_verified': False, 'error': 'Existing scoped score binding differs; no writes',
+                    'unverified_ids': errors, 'expected_ids': [row['id'] for row in expected]}
+        existing = {c['name']: c['id'] for c in client.call('GET', '/api/public/score-configs?limit=100')['data']}
+        for name in {row['name'] for row in expected}:
+            dtype, lo, hi, desc = CONFIGS[name]
+            if name not in existing:
+                body = {'name': name, 'dataType': dtype, 'description': desc}
+                body.update({k: v for k, v in (('minValue', lo), ('maxValue', hi)) if v is not None})
+                existing[name] = client.call('POST', '/api/public/score-configs', body)['id']
+        for row in expected:
+            client.call('POST', '/api/public/scores', {**row, 'configId': existing[row['name']]})
+        verified, errors = verify_scores(client, expected)
+        return {'status': 'verified' if verified else 'pending', 'scores_verified': verified,
+                'expected_ids': [row['id'] for row in expected], 'unverified_ids': errors}
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        return {'status': 'pending', 'scores_verified': False, 'error': str(exc),
+                'expected_ids': [row['id'] for row in expected]}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--run', type=Path, required=True)
     ap.add_argument('--parity', type=Path, required=True)
+    ap.add_argument('--scope', type=Path, required=True, help='Explicit geeky-eval.inputs/1 sidecar')
+    ap.add_argument('--evaluator-version', default='parity-eval/1')
+    ap.add_argument('--output', type=Path, help='Save readback status; pending exits 3')
     ap.add_argument('--dry-run', action='store_true')
     ap.add_argument('--coverage', type=Path, help='Source-audited derived coverage report; original run.json stays unchanged')
     ap.add_argument('--public-key-env', default='LANGFUSE_PUBLIC_KEY')
@@ -76,6 +148,17 @@ def main(argv=None):
     a = ap.parse_args(argv)
     run = json.loads((a.run / 'run.json').read_text(encoding='utf-8'))
     parity = json.loads(a.parity.read_text(encoding='utf-8'))
+    scope = load_scope(a.scope, [a.run / 'run.json'] + ([a.coverage] if a.coverage else []))
+    bind_run(scope, run)
+    embedded = parity.get('evaluation_scope')
+    if scope['missing_sources'] or not a.evaluator_version.strip():
+        raise ValueError('Publication requires verified sources and an evaluator version')
+    if embedded:
+        if embedded.get('input_sha256') != scope['input_sha256'] or embedded.get('scope_id') != scope['scope_id']:
+            raise ValueError('Parity scope does not match publication scope')
+    else:
+        # Historical parity is publishable only with explicit source-reviewed binding.
+        load_scope(a.scope, [a.parity])
     session = (run.get('telemetry') or {}).get('session_id') or run['session_id']
     coverage_hash = None
     if a.coverage:
@@ -87,31 +170,31 @@ def main(argv=None):
     values, comments = scores(run, parity)
     environment = (run.get('telemetry') or {}).get('environment') or 'mxc'
     meta = {'harness': parity['harness'], 'case': run.get('case'), 'run': a.run.name, 'model': run.get('model'),
-            'plugin_sha': run.get('plugin_sha'), 'evaluator': 'parity-eval/1',
+            'plugin_sha': run.get('plugin_sha'), 'prompt_sha256': run.get('prompt_sha256'), 'evaluator': a.evaluator_version,
+            'scope_id': scope['scope_id'], 'scope_kind': scope['kind'],
+            'input_sha256': scope['input_sha256'], 'parity_sha256': sha256(a.parity),
             'environment': environment, 'agent_family': (run.get('telemetry') or {}).get('agent_family'),
             'native_session_id': run.get('session_id')}
     if coverage_hash:
         meta['coverage_report_sha256'] = coverage_hash
-    if a.dry_run:
-        print(json.dumps({'session': session, 'scores': values, 'metadata': meta}, indent=2))
-        return 0
-    client = Client(a)
-    existing = {c['name']: c['id'] for c in client.call('GET', '/api/public/score-configs?limit=100')['data']}
-    for name, (dtype, lo, hi, desc) in CONFIGS.items():
-        if name not in existing:
-            body = {'name': name, 'dataType': dtype, 'description': desc}
-            body.update({k: v for k, v in (('minValue', lo), ('maxValue', hi)) if v is not None})
-            existing[name] = client.call('POST', '/api/public/score-configs', body)['id']
+    expected = []
     for name, value in values.items():
         dtype = CONFIGS[name][0]
-        body = {'id': hashlib.sha256(f'{session}:{name}'.encode()).hexdigest()[:32], 'sessionId': session, 'name': name,
+        body = {'id': score_id(session, scope['scope_id'], a.evaluator_version, name), 'sessionId': session, 'name': name,
                 'value': (1 if value else 0) if dtype == 'BOOLEAN' else value, 'dataType': dtype,
-                'configId': existing[name], 'environment': environment, 'source': 'API', 'metadata': meta}
+                'environment': environment, 'source': 'API', 'metadata': meta}
         if comments.get(name):
             body['comment'] = str(comments[name])[:1000]
-        client.call('POST', '/api/public/scores', body)
-    print(f"langfuse: {len(values)} scores on session {session} ({parity['harness']})")
-    return 0
+        expected.append(body)
+    if a.dry_run:
+        result = {'status': 'preview', 'scores_verified': False, 'session': session,
+                  'scores': values, 'metadata': meta, 'expected': expected}
+    else:
+        result = publish(Client(a), expected)
+    if a.output:
+        a.output.write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
+    print(json.dumps(result, indent=2))
+    return 0 if a.dry_run or result['scores_verified'] else 3
 
 
 if __name__ == '__main__':

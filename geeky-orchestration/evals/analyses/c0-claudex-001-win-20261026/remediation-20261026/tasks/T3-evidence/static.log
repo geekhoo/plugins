@@ -1,0 +1,5 @@
+PASS: telemetry.ps1 PowerShell syntax
+PASS: five Python AST parses
+warning: in the working copy of 'geeky-orchestration/evals/mxc-litellm-runbook.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'geeky-orchestration/evals/telemetry/README.md', LF will be replaced by CRLF the next time Git touches it
+PASS: touched-file whitespace check

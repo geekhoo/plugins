@@ -1,0 +1,170 @@
+{
+  "status": "retained-invariants-verified",
+  "scope": "historical cached evidence, no fresh candidate validation or oracle",
+  "excluded_history_rows": 438,
+  "logical_rows": 1612,
+  "observations": 1485,
+  "retained_by_source": {
+    "continuation": 807,
+    "previous": 678
+  },
+  "parent_requests": {
+    "fresh": 42,
+    "historical": 48,
+    "shared": 0,
+    "population": "parent assistant message IDs only, not all agents"
+  },
+  "scores": {
+    "codex_initial": {
+      "composite": 97.46,
+      "adherence_fraction": "45/46",
+      "quality": 95.63636363636363,
+      "weighted_consistency_denominator": 19
+    },
+    "claude_initial": {
+      "composite": 90.33,
+      "adherence_fraction": "37/42",
+      "quality": 96.66666666666667,
+      "weighted_consistency_denominator": 19
+    },
+    "claude_cumulative": {
+      "composite": 98.33,
+      "adherence_fraction": "42/42",
+      "quality": 95.71428571428571,
+      "weighted_consistency_denominator": 19
+    }
+  },
+  "codex_T1_selected_commit": {
+    "commit": "9336491",
+    "fallback": false,
+    "basis": "first commit naming it after its Done move (phase committed after the move); source-reviewed Done anchor",
+    "results": [
+      {
+        "command": "python -m pytest tests/test_core.py -q",
+        "exit": 4,
+        "tail": "no tests ran in 0.00s"
+      },
+      {
+        "command": "python -c \"import wordstat.core\"",
+        "exit": 0,
+        "tail": ""
+      }
+    ]
+  },
+  "scoped_efficiency": {
+    "tokens_total": null,
+    "wall_time_s": 7180,
+    "latency_median_ms": null,
+    "commits": 13,
+    "interventions": 1,
+    "calls": null,
+    "backend": null,
+    "cost": null
+  },
+  "unknowns": {
+    "actual_billed_cost": "N/A, adaptive router alias lacks proven backend/pricing",
+    "backend_identity": "N/A, claudex-001 is an adaptive alias",
+    "matched_thinking_effort": "N/A, Codex high versus Claude default",
+    "cumulative_claude_tokens": "N/A, continuation process and historical/replayed observations overlap",
+    "cumulative_claude_model_calls": "N/A, resumed history scopes overlap",
+    "continuation_active_max_idle_gap": "N/A, raw maximum includes retained history and overnight gap"
+  },
+  "historical_source_hashes": {
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\alignment-closeout-2026-10-26.md": "4d18b1d5826cfd9eefb0ffc3743b816ad4c6466779336817b332a26480779bbe",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\alignment-report-2026-10-26.md": "8f3727f10dd1680e1a115645710f45327ae0ff24c10e7693fb96a46244f660af",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\comparison-metrics.json": "d01e02ad310dfbd96903f9c22b1aa763c5edfb99570cdfa84a2ad41517f215a4",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\comparison-report.md": "35492f9b18d7b84d3efde0768fbd36550b6ab7eef8ff28d438977417b48dd964",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\publication-2026-10-26.md": "3d2351f90042b3653f7d8efe62d24cfff94bf5feb35a518b6d19a2e336ca4004",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\publication-closeout-2026-10-26.md": "d1290e86608a7f3e98b57e20d6e85438e7c688c96ef1436b704413371384a722",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\README.md": "57d3a1ff8b9a7a12178761d5b44b0f4dfe1424f868d61550bfb95032fba182d7",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\geeky-resume-restart-outcome.json": "30ef71cf31c79f53da652e03a38609615acfc1c3d693df9d7a4a4a0834fd45e7",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\handoff.md": "589bc4a4594c33cbdce5df1ff8d2dede4c468202727a9994cb64205e3edcf51b",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\health-scores-verified.json": "515c1d5f760087c479e845ab229791c76fed716d6bc7704a1d2e16125d0155b5",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\kanban.md": "887c64004c35b96d4b686b49f58241e2aed10d4f776a211d48cde28e7574e860",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\references.md": "7f77e5cdfdfee56420f02aa781c35ebb55adc032b25f26d1c8b9711e56fe966c",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\report.md": "2059af5038fd723f61c4e1af6da4bcc6ddfdd07ce0dd7e2c85a94fd27431c7cf",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\run-outcome.json": "3eb7a165388a8518a538e35f4632c271e235000ca74a9fe55471f7c8398fc4b1",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\telemetry-audit.json": "45493cac9cf375f44c3c796cf31cd9db14b976b6785003ef0129986b576df5cf",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\coder-lifetimes.json": "27f3d8fd300760f23e0166a8fcac3f80c3f4350ec93a4a2de6792b1d1cc53791",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\coverage-corrected.json": "65490fed25f9653f30fcef6224745b0a15b2828a98067346d33c9ac3f00760c3",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\evaluation-tool-regressions.log": "a0d22730f969df0bc6495d54f365bf20d010abbcb78393206f6d28427e77f9fc",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\handoff.md": "320ad477805f9e9e3aad4c4f15d45a62f9bbcff19aa1bc6a585d7e52204f2903",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\host-flush-recovery.json": "e8fd20daf56766c79026f1e6154472c629e36e2e83f0d19797256d455efa9079",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\independent-pytest.log": "eac724104f1761f0e2a8cb693518472945888e503575f2c306a44ade0375f7fa",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\kanban.md": "2aaf3aa5618cf49b70e064176a0c4ac546ed52eaa0aeb4c7d8500e25f33a1ed1",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\langfuse-scores-verified-before-own-commit-correction.json": "82ccc85c848cf5030dc4b99542bc2b403aad3d6fe962703ec561dc0303c96738",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\langfuse-scores-verified.json": "a51b6af8ac65b8a92084eea5f0eada014fec3e6c7a25824056f47277d46612f7",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\manual-verdicts.json": "acc9de48478b0ee241253d2543145abfa183b744d128315e2ed17355c1fbfd35",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\original-run-hashes.json": "3008163f53cecdaf89ad7dffe26cee6c3364ff2d4802f03442cf6bc352b86dd0",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\parity-before-batch-correction.json": "deb1be7836247e323613f7f2999563f653998352ef8b3a4a3ce702c8860f3d14",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\parity-before-own-commit-correction.json": "640db98e1ed39c79ef2e82fe085f568c5272d573a27114880ea187d174a07661",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\parity-before-timezone-correction.json": "6738bbb05b93c4c811bbe21ef9ed6a0a8b723ed6445e7a4fd3e692e088028346",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\parity.json": "c4ce2981519581d50517cdd44cc2c6668b5762f1a44cca4aee2d43e21675fa2a",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\references.md": "a1cfd789217a5874671398275e8a65c1abfb090c7a431b7f00b99f1ea6dc3171",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\report.md": "615c6e64c60de578d593ed3d02b01236b8b6a4feefdb0c7e97a6eba6b3d0389c",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\run-outcome.json": "0acfe9d36e9130d51b402b1ebbe634c36cf837ea3ce9b6532d4ed88ecc592231",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\score-before-own-commit-correction.json": "3eec24355b5d56bac6ade1293abb2cb430d3bc2a99e944d7023bcd78e6df14e2",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\score-before-phase-correction.json": "10ef247f7cc9e7220f8f59610f3d6144e2395b1025d3ec2bbe647ceb9a2586dc",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\score-before-start-anchor-correction.json": "052c4a9a1853241e54db4d7932ef0b69cd5cfff23768ad910c7305a66bd0231e",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\score.json": "b69a934811b67de2dfdaf5cc3913599359d1f0079cb398179683347dc362ab32",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\score.md": "470fd7b82f5523ad67bc30fd0aec1256dddb8ce5b2835a690395a05b0a06a5bd",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\scores-to-publish.json": "bcee226b0729407985fb80b65f638be5ddcd5692c2b26e83c2bc19c926d9d027",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\source-manifest.json": "713231e4ef9871faa9c77e79647980741d486113f4e0d49c156ba6fafac87499",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\telemetry-audit.json": "17b76dc02e15085672470df53fdbf1a9ac757f2a7e414554f9abce43a7b1a7c5",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\codex\\validation-anchors.json": "00b604068c75b389ec5585a3fd2574dfecd843fbfecd3473fda06a1daa179bd5",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\coverage-cumulative.json": "25ba6ab32b8561dbcbc76a3620e952d0af232aae9a50898e8276e60d6fc8735f",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\evaluation-inputs.json": "a20b1e8d8099a7d7890b29f3b0b16ba289de7c4f99b4cf09f443929085cd8685",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\handoff.md": "f1b66a0246c3828bc1087fac7c1f5a8933abba34fcc26dc556d194e03bc32286",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\kanban.md": "b6e329b918a128acd955d220806a25ac3b391275851008aa023541a88fce8deb",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\langfuse-scores-verified.json": "f1e25ce094a7bfcd5a3d52b2ee6d5e9410ec43bdd8f904c28519db41ab378201",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\manual-verdicts.json": "93e04c9766431ee0492db57ddb9a3311a4ec6f46556fed6b2eac3c5274c4f00b",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\parity.json": "5e4b5105ecca4c35b968895cd9f65eb29bc77671c1130ced32a2d25ac69e3bb5",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\references.md": "e6d0b27b0ce0f887e1459ce96f7d59c01381a428157928fd6f9e1f0b7ebe04d7",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\report.md": "d6b01a0aca821d8b763e46562854798b5fcb8b96339c0cb2f8ca36847251c6ce",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\review-metadata-erratum.json": "f7f5305a722cb31080ff7feef93c03d00bcb0dcffea1ffd5045454b7ce3e4bc5",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\score.json": "88323f7abab039f734b526e5d0edab1afec64268bb87d632ea846d80b75eeb1c",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\score.md": "d155043c4f6b5c828ee9fe206e29c1583a1fad8bc0ff54619e62a909242b1bf3",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\scores-to-publish.json": "40e43846d27adff0ca2e42e6fb640d218fb68d09765a92d3bec69cc84bd2832c",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\source-manifest.json": "ad7b6c0f6c72bb7a16fda9063f0d1ff4c4c4b9e31d1b2055396060ce8f5aa4b3",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\telemetry-audit.json": "7cb060d5c7cf83db2828cbb191b507223b7da7491db6aba26576893ddc8c7cf6",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\closeout-20261026\\validation.json": "ffabc79c8788270960c372c4034b1d9231bdfbfb543ab2239061150be3d4f5e9",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\coverage-corrected.json": "8295ee4a9bf4a734bd8cdb6b70cf0d5081ab2f1408fe6249ae138d7e5e8b2a63",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\handoff.md": "d01a3e9993648a69bcca3faae7b822fc02a236e26ad8e9e2f2c8cc3879673307",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\kanban.md": "c5b0c63561d8e4e189fab6d9cd7c616ccb0960728bd893b7862b44debf0723bd",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\langfuse-scores-verified.json": "d803774c14e9808ab7566b7260dba2c83f97394b5815bf87d5c259e3e2733ad5",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\manual-verdicts.json": "76f4bf08c20ac2b74208982d396968068109a66748f14ec73e834e3e85ea4af8",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\parity-before-parser-correction.json": "0869ff0b0f9bd0f965767c777647eeece1c3d259b9708b68e594563cc2d85a64",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\parity.json": "c156802bb33179ca649e6922200f43994abdf77380742f4738cf510ca6f9c521",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\references.md": "041894fba64c35bc5eec78852a79853ac37634328d5ff0859b88cfba2dab6384",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\report.md": "884922b56c0d62b5963d3080d6c79b6b414cdcf4df31552b06fb5b799dc8a7f8",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\run-outcome.json": "87f1e332ece89c84725bf42bb714dbd1b74186b9b1eac774cdd228485e4e1264",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\score-before-parser-correction.json": "30ff42ffea39290712a09d5073ad0dc70af8da3aa309ca7130c5c51735eab1ca",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\score-before-parser-correction.md": "40f357313a3e8df5ff4b3d74e43b7a1fa7c9ed3b83d87277410b25d478be293a",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\score.json": "88c4611c011eb2b07de859bdf69be8fc217615889bfd8cd6389e3cfca907345e",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\score.md": "c6a0a5735709c9a6a67f7cb69d0a32a5365118ea4495d7ecd634e7c97270670e",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\scores-to-publish.json": "2389bbc7664f4dbbaad274274097f4282eabf1a574a9bd68c72b7ae1ee4a158f",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\source-manifest.json": "ad7b6c0f6c72bb7a16fda9063f0d1ff4c4c4b9e31d1b2055396060ce8f5aa4b3",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\analyses\\c0-claudex-001-win-20261026\\claude-code\\router-fixed\\telemetry-audit.json": "ed931661e9918f0d7a9cc907644c4c01f32e6abacd35587e29a02114d3265e0c",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z-recovered\\session.jsonl": "eff06d26e79e38b6404ba98f918befb9002254250a8569b0d5b2ec82c14896e3",
+    "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261025T183455Z-closeout-20261026T054222Z\\session.jsonl": "02f70e5c0e732aacc3c9c3287d8f2ea0dafd98c54ca2070ded291a7a0fa2296b",
+    "C:\\repos\\.eval-tools\\c0-claudex-001\\evaluation\\closeout\\scoring-input\\session.jsonl": "e6af0c50875a4cd766753e037ff87e21f8f6a3b32ab7a715f48ec420a029c876",
+    "C:\\repos\\.eval-tools\\c0-claudex-001\\evaluation\\closeout\\observations-cumulative.json": "2755c9f7560376c190a1764119cc9681227f7d6e01995d676fa5f91e632243b3",
+    "C:\\repos\\.eval-tools\\c0-claudex-001\\evaluation\\closeout\\observations-native.json": "a813f60435c6e586aa007978300342fad151ce9b78d4fcb06d14b7f24f193867",
+    "C:\\repos\\.eval-tools\\c0-claudex-001\\evaluation\\router-fixed\\observations.json": "4bb797d8097d96bb66deb3808c8cb0bd2a743e70d64b90cb7b4dcefd45771254",
+    "C:\\repos\\.eval-tools\\c0-claudex-001\\evaluation\\closeout\\derive_inputs.py": "a3b64a78481c456fc4586b03afea58c8b3c5048b928f7662e08175587a863f35"
+  },
+  "original_evaluator_source_hashes": {
+    "geeky-orchestration\\evals\\scripts\\score-run.py": "14cc3e687094e417b01d76d6060b1a206992274df7c56852a230af91c7e19306",
+    "geeky-orchestration\\evals\\scripts\\parity-eval.py": "55ac4c57d8a1334dbd644eaf44afec1863d8496b7c3290d6382d39a2eb821d9d",
+    "geeky-orchestration\\evals\\telemetry\\langfuse-coverage.py": "145a566c90a24fa47b2015c11860fdcfe41d43ab0b6d399ba585d64499e7bbb1",
+    "geeky-orchestration\\evals\\telemetry\\langfuse-scores.py": "2ff678d65ec976f97c22f84067ef6243f62dd49b1d2719d186418bb6bf590278"
+  },
+  "parity_formula_ast_unchanged": true,
+  "full_scorer_replay": "open: no retained validation-cache.json; candidate commands/oracles prohibited",
+  "isolated_derived_output": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\remediation-20261026\\T3-derived",
+  "derived_hashes": {
+    "session.jsonl": "e6af0c50875a4cd766753e037ff87e21f8f6a3b32ab7a715f48ec420a029c876",
+    "observations.json": "2755c9f7560376c190a1764119cc9681227f7d6e01995d676fa5f91e632243b3",
+    "evaluation-inputs.json": "2bbef98e7779cfbaf9bda8be28f3d4f9389a17f16d8dfddc1e3a840c5c35ff3e"
+  }
+}

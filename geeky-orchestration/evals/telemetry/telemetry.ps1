@@ -193,6 +193,17 @@ function Invoke-ClaudeTelemetryFlush {
 function Save-EvalTelemetry {
     param([Parameter(Mandatory)]$Telemetry, [string]$SessionId, [Parameter(Mandatory)][string]$OutDir,
           [Parameter(Mandatory)][string]$Python, [int]$WaitSec = 120)
+    # Presence, required harness coverage and score readback are independent claims.
+    # Reset stale presence/coverage when a later recovery cannot read the service.
+    $Telemetry.Record.delivered = $false # compatibility alias: observations > 0 only
+    $Telemetry.Record.observations_present = $false
+    $Telemetry.Record.observations = $null
+    $Telemetry.Record.trace_count = $null
+    $Telemetry.Record.observations_status = 'pending'
+    $Telemetry.Record.coverage_complete = $null
+    $Telemetry.Record.coverage_status = 'unknown'
+    $Telemetry.Record.scores_verified = $false # published/read back separately by langfuse-scores.py
+    $Telemetry.Record.scores_status = 'pending'
     $Telemetry.Record.session_id = $SessionId
     $Telemetry.Record.native_session_id = $SessionId
     if ($SessionId -and $Telemetry.Record.agent_family) {
@@ -209,11 +220,13 @@ function Save-EvalTelemetry {
     & $Python (Join-Path $PSScriptRoot 'langfuse-run.py') --session-id $SessionId --wait $WaitSec --output $summary `
         --public-key-env $Telemetry.KeyNames[0] --secret-key-env $Telemetry.KeyNames[1] --base-url-env $Telemetry.KeyNames[2]
     $Telemetry.Record.summary = if ($LASTEXITCODE -eq 0) { 'langfuse.json' } else { "langfuse-run exit $LASTEXITCODE" }
-    if (Test-Path $summary) {
+    if ($LASTEXITCODE -eq 0 -and (Test-Path $summary)) {
         $sessionSummary = Get-Content $summary -Raw | ConvertFrom-Json
         $observations = [int]$sessionSummary.observations
         $Telemetry.Record.observations = $observations
         $Telemetry.Record.delivered = $observations -gt 0
+        $Telemetry.Record.observations_present = $observations -gt 0
+        $Telemetry.Record.observations_status = if ($observations -gt 0) { 'present' } else { 'pending' }
         $Telemetry.Record.user_ids = @($sessionSummary.user_ids)
         $Telemetry.Record.agent_roles = @($sessionSummary.agent_roles)
         $Telemetry.Record.trace_count = $sessionSummary.traces
@@ -223,9 +236,10 @@ function Save-EvalTelemetry {
         $coverage = Join-Path $OutDir 'langfuse-coverage.json'
         & $Python (Join-Path $PSScriptRoot 'langfuse-coverage.py') --session-id $SessionId --output $coverage `
             --public-key-env $Telemetry.KeyNames[0] --secret-key-env $Telemetry.KeyNames[1] --base-url-env $Telemetry.KeyNames[2] | Out-Null
-        if (Test-Path $coverage) {
+        if ($LASTEXITCODE -eq 0 -and (Test-Path $coverage)) {
             $report = Get-Content $coverage -Raw | ConvertFrom-Json
             $Telemetry.Record.coverage_complete = [bool]$report.complete
+            $Telemetry.Record.coverage_status = if ($report.complete) { 'met' } else { 'missing' }
             $Telemetry.Record.coverage_missed = @($report.missed)
         }
     }

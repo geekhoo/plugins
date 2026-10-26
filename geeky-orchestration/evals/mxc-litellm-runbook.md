@@ -11,6 +11,65 @@ This is the process that produced complete C0 runs on both harnesses (2026-10-25
 
 Short version: [QUICKSTART.md](QUICKSTART.md). Results so far: [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md).
 
+## Runner record and timing contract
+
+Both runners persist `run.json` before configuration/preflight and contestant
+launch, then update it to running before invoking MXC. `execution.schema` is
+`geeky-eval.execution/1`. Its `attempt_id`, `segment_id`,
+`authorization_reference` (an operator-supplied reference, not a grant of authority),
+`allowed_recoveries`, `qualification_waiver`, whitelisted `configuration` and
+`configuration_sha256` bind the local record. Existing prompt/plugin/profile/model
+fields remain alongside it. Credentials and the full environment are never
+fingerprinted. An owner qualification waiver still skips the existing probes and
+does not establish runtime qualification; preparation does not start an oracle
+or contestant. Claude's legacy `-DryRun` still executes the seed oracle.
+
+`hard_wall_budget_s` is positive. The initial UTC deadline and monotonic elapsed
+time begin when the prepared record is created; configuration, seed checks and
+authorized refusal recovery consume that same budget. Before **every** contestant
+launch, remaining seconds are floored; below one whole second no child starts.
+MXC never receives zero (unlimited). `allowed_recoveries` defaults to zero;
+no generic transient retry is added. Both existing environment argument lists
+carry `GEEKY_DEADLINE_UTC` and `GEEKY_CLOSEOUT_RESERVE_S`. The reserve defaults
+to zero, must be smaller than the hard budget, and only advises the existing
+dispatch/phase boundaries to prioritize required acceptance and closeout. The
+proposed next-C0 900-second reserve within 5400 seconds is uncalibrated and needs
+separate launch authorization. Reserve/deadline expiry cannot pass an unmet gate.
+Case token ceilings are **informational**, without a live token supervisor.
+
+Each `invocations[]` entry retains its ID, kind, supplied timeout, timestamps,
+exit code and outcome. `process_outcome` is independent of `capture_status`,
+`postprocessing` step statuses and `analysis_status`; `workflow_acceptance` stays
+`not-established`. A known timeout/crash retains its top-level exit reason when
+parsing, oracle, diagnostics or telemetry fails. A successful child never proves
+workflow acceptance. Running capture interrupted by an exception is `unknown`
+with `capture_status=incomplete`; later failures identify the active step.
+`contestant_time_s` sums child intervals, `attempt_elapsed_s` includes budget
+consumption between launches, and `finalization_time_s` measures subsequent local
+capture/analysis work separately.
+
+Post-processing can exceed the contestant wall. Existing Codex replay MXC timeout
+is 900 seconds, sandbox telemetry hooks retain 600 seconds, and telemetry polling
+retains its 120-second wait setting. These are separate step settings, **not**
+extra contestant allowance. Synchronous seed/result oracles, Claude host flush,
+host telemetry/coverage processes and analysis have no enclosing process deadline;
+the 120-second poll setting is not a hard process kill. `step_timeouts_s` records
+these distinctions with null for unbounded steps. This patch adds no universal
+post-processing cancellation or process-tree cleanup guarantee.
+
+Runner JSON writes use a same-directory temporary file and atomic replacement;
+the analyzer writes into `derived/`, then its result is merged atomically. Existing
+raw stream/stderr and native transcripts are retained, with Git HEAD/status and
+available artifact SHA-256 hashes in the final execution record. Failed replacement
+leaves the previous valid record. A hard host death can leave prepared/running or
+in-progress steps; `finally` cannot guarantee recovery. Before any separately
+authorized continuation, explicitly reconcile the last valid metadata, partial
+bytes, `writer_host`/`writer_pid`, MXC/contestant descendants and workspace state;
+verify **no surviving writer** before changing records. Mark unresolved outcomes
+interrupted/unknown, never completed. No automatic continuation is provided. A
+later authorized segment needs its own deadline and links to the retained initial
+result; do not reinterpret an unfinished record as accepted.
+
 ## 1. One-time setup (Linux host)
 
 1. **Sandbox backend:** `apt install bubblewrap slirp4netns iproute2 iptables`. You also need the .NET 10 SDK, `pwsh`, `uv`, Node 22+ and `git`.
@@ -83,7 +142,7 @@ pwsh -NoProfile -File evals/scripts/run-baseline.ps1       -Case c0-wordstat -Mo
    # Judge the needs_judge items by hand against the workspace -> <analysis-dir>/manual-verdicts.json
    $P evals/scripts/score-run.py <run> --harness <h> --manual <analysis-dir>/manual-verdicts.json --out <analysis-dir>
    $P evals/scripts/parity-eval.py <run> --observations /tmp/obs.json --score <analysis-dir>/score.json --manual <analysis-dir>/manual-verdicts.json --out <analysis-dir>
-   $P evals/telemetry/langfuse-scores.py --run <run> --parity <analysis-dir>/parity.json                     # 10 session scores in Langfuse
+   $P evals/telemetry/langfuse-scores.py --run <run> --parity <analysis-dir>/parity.json --scope <evaluation-inputs.json> --output <analysis-dir>/score-readback.json # explicit scope; exact readback required
    ```
 
 4. **Audit before you trust a number.** Check every failing check, and the sensitive passes (stage windows, orchestrator code edits), against the raw evidence. Every scoring bug found this session was found that way.
