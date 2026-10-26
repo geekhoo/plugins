@@ -1,0 +1,10 @@
+{
+  "main_thread_id": "2063d2de-32ff-402a-be28-3565d43f5472",
+  "threads": [
+    {
+      "thread_id": "2063d2de-32ff-402a-be28-3565d43f5472",
+      "parent_thread_id": null,
+      "file": "session.jsonl"
+    }
+  ]
+}

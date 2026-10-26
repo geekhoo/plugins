@@ -1,0 +1,74 @@
+MOCK CHECK PASS init.plugin_skills: 8 plugin skills: geeky-orchestration:archive, geeky-orchestration:geeky-implement, geeky-orchestration:geeky-plan, geeky-orchestration:geeky-resume, geeky-orchestration:geeky-status, geeky-orchestration:impl-review, geeky-orchestration:plan-review, geeky-orchestration:spec-research
+MOCK CHECK PASS env.pwsh: PSVersion=7.6.5 | USER=gerald.khoo
+MOCK CHECK PASS env.python: C:\repos\.eval-tools\agent-py\Scripts\python.EXE: 3.13.15 C:\repos\.eval-tools\agent-py\Scripts\python.EXE
+MOCK CHECK PASS env.pytest: pytest 9.0.3
+MOCK CHECK PASS env.git_identity: geeky-eval-agent <agent@geeky-eval.local> 1793012089 +0800
+MOCK CHECK PASS env.home_outside_workspace: C:\Users\gerald.khoo
+MOCK CHECK PASS env.writable.TEMP: C:\repos\c0-remediation-mock-20261026\claude-initial\.eval-cfg-20261026T105443Z\tmp
+MOCK CHECK PASS env.writable.workspace: C:\repos\c0-remediation-mock-20261026\claude-initial\eval-c0-wordstat-20261026T105443Z
+MOCK CHECK PASS env.bg_wait_ceiling: CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0
+MOCK CHECK INFO env.vars: CLAUDE_CONFIG_DIR=C:\repos\c0-remediation-mock-20261026\claude-initial-mxc\home; TEMP=C:\Users\gerald.khoo\AppData\Local\Packages\sandbox.{8d566179-c21e-40b2-85a8-d56c04f56283}\AC\Temp; VIRTUAL_ENV=C:\repos\.eval-tools\agent-py; XDG_CONFIG_HOME=C:\repos\c0-remediation-mock-20261026\claude-initial\.eval-cfg-20261026T105443Z; CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1; GIT_CONFIG_COUNT=1; GIT_CONFIG_VALUE_0=C:/repos/c0-remediation-mock-20261026/claude-initial/eval-c0-wordstat-20261026T105443Z; GIT_AUTHOR_NAME=geeky-eval-agent; LOCALAPPDATA=C:\Users\gerald.khoo\AppData\Local\Packages\sandbox.{8d566179-c21e-40b2-85a8-d56c04f56283}\AC; USERPROFILE=C:\Users\gerald.khoo
+MOCK CHECK INFO env.path: C:\repos\.eval-tools\agent-py\Scripts;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell;C:\Users\gerald.khoo\.codex\tmp\arg0-windows\codex-arg0rp6oIQ;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\libheif\libheif\bin;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\jxrlib\jxrlib\bin;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\poppler\Library\bin;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\override;C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files\WSL\;C:\Program Files\PowerToys\DSCModules\;C:\Program Files\PowerToys\bin\;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\GitHub CLI\;C:\Program Files\Git\bin;C:\Users\gerald.khoo\AppData\Local\Programs\Python\Python313\Scripts\;C:\Users\gerald.khoo\AppData\Local\Programs\Python\Python313\;C:\Python314;C:\Python314\Scripts;C:\Users\gerald.khoo\.local\bin;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell;C:\Users\gerald.khoo\AppData\Local\Microsoft\WindowsApps;C:\Users\gerald.khoo\AppData\Local\GitHubDesktop\bin;C:\Users\gerald.khoo\AppData\Local\Programs\Microsoft VS Code Insiders\bin;C:\Users\gerald.khoo\.dotnet\tools;C:\Users\gerald.khoo\.lmstudio\bin;C:\Users\gerald.khoo\.dotnet\tools;C:\Users\gerald.khoo\bin;C:\Users\gerald.khoo\AppData\Local\Programs\Antigravity\bin;C:\Users\gerald.khoo\.dotnet\tools;C:\Users\gerald.khoo\AppData\Local\Microsoft\WinGet\Links;C:\Users\gerald.khoo\AppData\Local\Microsoft\WinGet\Packages\GitHub.Copilot_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\gerald.khoo\AppData\Local\Programs\Antigravity IDE\bin;C:\Users\gerald.khoo\AppData\Local\Programs\Podman\;C:\Users\gerald.khoo\AppData\Local\Microsoft\WinGet\Packages\BurntSushi.ripgrep.MSVC_Microsoft.Winget.Source_8wekyb3d8bbwe\ripgrep-15.2.0-x86_64-pc-windows-msvc;C:\Users\gerald.khoo\.dotnet\tools;C:\Users\gerald.khoo\.bun\bin;C:\Users\gerald.khoo\AppData\Local\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\gerald.khoo\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.2-full_build\bin;C:\Users\gerald.khoo\AppData\Local\Microsoft\WinGet\Packages\Oven-sh.Bun_Microsoft.Winget.Source_8wekyb3d8bbwe\.\bun-windows-x64;C:\Users\gerald.khoo\AppData\Roaming\npm;C:\Users\gerald.khoo\AppData\Local\Programs\Microsoft VS Code Insiders\bin\copilot-shim;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\bin\fallback;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin;C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd;C:\Users\gerald.khoo\AppData\Local\OpenAI\Codex\bin\c602dfdab3808440;C:\Users\gerald.khoo\AppData\Local\OpenAI\Codex\bin\2993767bd1dfb009
+MOCK CHECK PASS grants.workspace_rw: C:\repos\c0-remediation-mock-20261026\claude-initial\eval-c0-wordstat-20261026T105443Z
+MOCK CHECK PASS grants.plugin_scandir.skills: 8 entries: archive, geeky-implement, geeky-plan, geeky-resume, geeky-status, impl-review, plan-review, spec-research
+MOCK CHECK PASS grants.plugin_scandir.agents: 6 entries: code-architect.md, code-explorer.md, code-reviewer.md, geeky-coder.md, geeky-implement-orchestrator.md, geeky-orchestrator.md
+MOCK CHECK INFO grants.plugin_scandir.commands: absent
+MOCK CHECK PASS grants.plugin_read: read 8 SKILL.md files
+MOCK CHECK PASS grants.config_dir_rw: C:\repos\c0-remediation-mock-20261026\claude-initial-mxc\home\projects\C--repos-c0-remediation-mock-20261026-claude-initial-eval-c0-wordstat-20261026T105443Z
+MOCK CHECK PASS grants.settings_readable: C:\repos\c0-remediation-mock-20261026\claude-initial\.eval-cfg-20261026T105443Z\settings.json
+MOCK CHECK PASS grants.mcp_config_readable: C:\repos\c0-remediation-mock-20261026\claude-initial\.eval-cfg-20261026T105443Z\mcp.json
+MOCK CHECK PASS grants.temp_write: C:\repos\c0-remediation-mock-20261026\claude-initial\.eval-cfg-20261026T105443Z\tmp\mock-exec-40268
+MOCK CHECK PASS grants.temp_exec_script: exit 0: tempexec-ok
+MOCK CHECK PASS grants.temp_exec_binary: exit 0: CPC-geral-J9OHY
+MOCK CHECK PASS grants.temp_mkdtemp: C:\repos\c0-remediation-mock-20261026\claude-initial\.eval-cfg-20261026T105443Z\tmp\mock-mkdtemp-fl9mchks
+MOCK CHECK PASS pwsh.found: C:\Users\gerald.khoo\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\powershell\pwsh.EXE
+MOCK CHECK PASS pwsh.exit_0: exit 0 (expected 0)
+MOCK CHECK PASS pwsh.exit_7: exit 7 (expected 7)
+MOCK CHECK PASS pwsh.native_exit_3: exit 3 (expected 3)
+MOCK CHECK PASS pwsh.cmdlet_error: exit 1 (expected 1)
+MOCK CHECK PASS pwsh.profile_stderr: exit 0; stderr: (empty)
+MOCK CHECK INFO pwsh.profile_path: C:\Users\gerald.khoo\OneDrive - Pippin Puffin Pte Ltd\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+MOCK CHECK PASS python.which: C:\repos\.eval-tools\agent-py\Scripts\python.EXE
+MOCK CHECK PASS python.version: Python 3.13.15
+MOCK CHECK PASS python.pytest_version: pytest 9.0.3
+MOCK CHECK PASS python.pytest_run: exit 0: 1 passed in 0.01s
+MOCK CHECK PASS python.pytest_tmp_path: exit 0: 1 passed in 0.02s 
+MOCK CHECK PASS git.version: git version 2.56.0.windows.3
+MOCK CHECK PASS git.identity: geeky-eval-agent <agent@geeky-eval.local> 1793012111 +0800
+MOCK CHECK PASS git.workspace_status: ## master
+MOCK CHECK PASS git.commit_temp: C:\repos\c0-remediation-mock-20261026\claude-initial\.eval-cfg-20261026T105443Z\tmp\mock-git-cde04c50f2c7: 728bc97de0d25b7b3640ca92c3bbf07bc41d904f geeky-eval-agent <agent@geeky-eval.local>
+MOCK CHECK PASS git.commit_workspace: C:\repos\c0-remediation-mock-20261026\claude-initial\eval-c0-wordstat-20261026T105443Z\.git\mock-git-probe-fed8e159: 728bc97de0d25b7b3640ca92c3bbf07bc41d904f geeky-eval-agent <agent@geeky-eval.local>
+MOCK CHECK PASS gate.validate-planning-folder.py: exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.
+MOCK CHECK PASS gate.validate-task-schema.py: exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.
+MOCK CHECK PASS gate.validate-kanban.py: exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2
+MOCK CHECK PASS gate.check-dod.py: exit 0 (expected 0): DOD_OK: T1
+MOCK CHECK PASS gate.check-commit.py: exit 0 (expected 0): OK: commit message valid.
+MOCK CHECK PASS gate.validate-kanban.py.rejects_bad: exit 1 (expected 1): INVALID_KANBAN: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=1, In Progress=0, In Review=0, Blocked=0, Done=2
+MOCK CHECK PASS gate.validate-planning-folder.ps1: exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.
+MOCK CHECK PASS gate.validate-task-schema.ps1: exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.
+MOCK CHECK PASS gate.validate-kanban.ps1: exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2
+MOCK CHECK PASS gate.check-dod.ps1: exit 0 (expected 0): DOD_OK: T1
+MOCK CHECK PASS gate.check-commit.ps1: exit 0 (expected 0): OK: commit message valid.
+MOCK CHECK PASS gate.validate-kanban.ps1.rejects_bad: exit 1 (expected 1): INVALID_KANBAN: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=1, In Progress=0, In Review=0, Blocked=0, Done=2
+MOCK CHECK PASS mcp.geeky.handshake: geeky_mcp 0.3.0: 6 tools in 3.2s: geeky_validate_planning_folder, geeky_validate_task_schema, geeky_validate_kanban, geeky_check_dod, geeky_check_commit, geeky_check_frozen_artifact
+MOCK CHECK PASS skill.spec-research: SKILL.md present and launched
+MOCK CHECK PASS skill.geeky-plan: SKILL.md present and launched
+MOCK CHECK PASS happy.validate-planning-folder: exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.
+MOCK CHECK PASS happy.validate-task-schema: exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.
+MOCK CHECK PASS happy.validate-kanban.plan: exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=2, In Progress=0, In Review=0, Blocked=0, Done=0
+MOCK CHECK PASS happy.plan.check-commit: exit 0 (expected 0): OK: commit message valid.
+MOCK CHECK PASS happy.plan.commit: exit 0: 
+MOCK CHECK PASS skill.plan-review: SKILL.md present and launched
+MOCK CHECK PASS happy.plan-review.validate-task-schema.ps1: exit 0 (expected 0): OK: 2 task file(s) checked, 0 failing.
+MOCK CHECK PASS skill.geeky-implement: SKILL.md present and launched
+MOCK CHECK PASS happy.implement.validate-planning-folder: exit 0 (expected 0): OK: planning folder valid. 2 task file(s) found.
+MOCK CHECK PASS happy.validate-kanban.in-progress: exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=2, In Review=0, Blocked=0, Done=0
+MOCK CHECK PASS happy.pytest: exit 0: 2 passed in 0.16s
+MOCK CHECK PASS happy.validate-kanban.done: exit 0 (expected 0): OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2
+MOCK CHECK PASS happy.check-dod.T1: exit 0 (expected 0): DOD_OK: T1
+MOCK CHECK PASS happy.check-dod.T2: exit 0 (expected 0): DOD_OK: T2
+MOCK CHECK PASS happy.implement.check-commit: exit 0 (expected 0): OK: commit message valid.
+MOCK CHECK PASS happy.implement.commit: exit 0: 
+MOCK CHECK PASS skill.impl-review: SKILL.md present and launched
+MOCK CHECK PASS happy.impl-review.check-commit: exit 0 (expected 0): OK: commit message valid.
+MOCK CHECK PASS happy.impl-review.commit: exit 0: 

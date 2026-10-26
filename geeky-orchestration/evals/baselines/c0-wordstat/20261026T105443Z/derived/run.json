@@ -1,0 +1,161 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "claude-mock-5-5",
+  "reasoning": "default",
+  "workspace": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\eval-c0-wordstat-20261026T105443Z",
+  "config_directory": "C:\\repos\\c0-remediation-mock-20261026\\claude-initial\\.eval-cfg-20261026T105443Z",
+  "seed_sha": "3db138ec70295a2b432750a4941ad0a6a92583cc",
+  "plugin_sha": "d90bbd352d5722784180100bf5e431e91bc55210",
+  "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+  "session_id": "d995f5c5-03fb-497e-b9e3-f47c2878d363",
+  "started_utc": "2026-10-26T10:54:46.4507084Z",
+  "ended_utc": "2026-10-26T10:56:34.6670520Z",
+  "wall_time_s": 108,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "process-finished",
+    "attempt_id": "739ca52f-6826-4e7f-b765-f7d1a6dfb989",
+    "segment_id": "6e0a16b4-6414-471c-9507-913836d15f42",
+    "authorization_reference": "user-20261026-nonchargeable-mock-c0",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-26T10:57:44.4540649Z",
+    "hard_wall_budget_s": 180,
+    "closeout_reserve_s": 20,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 180,
+      "closeout_reserve_s": 20,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "a5c4e5cf6506047fc4386b0c3faf827d05613a659b1bae2c48904cc61854a6b2",
+    "invocations": [
+      {
+        "invocation_id": "16d4f9c4-3a6b-4547-a56d-430f1f361d82",
+        "kind": "initial",
+        "timeout_s": 177,
+        "started_utc": "2026-10-26T10:54:46.4798948Z",
+        "ended_utc": "2026-10-26T10:56:34.6543474Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "in-progress",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "in-progress"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 108.1730548000196,
+    "attempt_elapsed_s": 110.23104840004817,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 13924,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  },
+  "harness_version": "0.0.0-mock",
+  "approach": "mock-agent:all,happy",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 604712,
+    "cached_input": 530100,
+    "cache_creation": 43010,
+    "output": 25311,
+    "total": 630023,
+    "cost_usd_estimate": 0.7112,
+    "reasoning": 50
+  },
+  "model_calls": 99,
+  "latency_median_ms": 41,
+  "max_idle_gap_s": 12,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-26T10:56:18.972000+00:00",
+      "ended_utc": "2026-10-26T10:56:19.262000+00:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-26T10:56:19.262000+00:00",
+      "ended_utc": "2026-10-26T10:56:20.851000+00:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-26T10:56:20.851000+00:00",
+      "ended_utc": "2026-10-26T10:56:29.227000+00:00",
+      "minutes": 0.1
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-26T10:56:29.227000+00:00",
+      "ended_utc": "2026-10-26T10:56:32.976000+00:00",
+      "minutes": 0.1
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-26T10:56:32.976000+00:00",
+      "ended_utc": "2026-10-26T10:56:34.559000+00:00",
+      "minutes": 0.0
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 13,
+    "passed": 1,
+    "failed": 12,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 7,
+    "files_changed": 14
+  },
+  "commits": 3,
+  "stop_reason": "end_turn",
+  "raw_sha256": {
+    "stream": "ced96db1f50e9708569eac086ad1999b09778fe963724208075c1f31c44720bc",
+    "session": "57add5b89330d5688aa1c9ccc01458dadd46c613536b10299d1fee27e298708e"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": null,
+  "over_token_ceiling": false
+}
