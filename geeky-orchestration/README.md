@@ -3,10 +3,12 @@
 Latest Windows C0: Codex completed `claudex-001` at runner-default thinking with
 **97.46 parity**, oracle 13/13 stable over 3 repetitions and 93 public tests passing. Ten session
 scores are published and verified. [Run report](evals/analyses/c0-claudex-001-win-20261026/codex/report.md).
-After the owner's router fix, Claude's same-folder geeky-resume retry reached
-final review and timed out at 90m02s: **90.33 parity**, oracle 13/13 stable over 3 repetitions,
-56 public tests passing with 2 platform skips. Its ten scores are also verified.
-See the [Claude retry report](evals/analyses/c0-claudex-001-win-20261026/claude-code/router-fixed/report.md)
+Claude's same-folder geeky-resume continuation is now complete: **98.33 cumulative
+parity**, final review PASS WITH WARNINGS, oracle 13/13 across three fresh runs,
+and 60 public tests passing with 2 platform skips. All ten scores are verified.
+The earlier timeout remains recorded at 90.33. The continuation used additional
+time and context, so its score is not a clean initial-attempt comparison.
+See the [Claude closeout report](evals/analyses/c0-claudex-001-win-20261026/claude-code/closeout-20261026/report.md)
 and [comparison](evals/analyses/c0-claudex-001-win-20261026/README.md).
 
 C1 run 3 completed: **99.6 reviewed QACT**, oracle 118/118 stable over 3 repetitions, final 110 tests, exact requested Sol/high–medium–xhigh matrix. [Report](evals/baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md) and [operator evidence](evals/adapters/codex/evidence/20261023T230039Z-run3-operator/README.md). The automatic extractor did not support this delegation shape; source-bound reviewed scoring is explicit. One paid attempt completed; no further launch authorized.

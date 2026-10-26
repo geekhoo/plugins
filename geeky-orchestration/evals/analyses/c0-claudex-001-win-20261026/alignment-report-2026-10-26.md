@@ -1,5 +1,9 @@
 # Documentation alignment, 2026-10-26
 
+Historical record of the first publication, through the Claude timeout.
+The later [closeout publication](publication-closeout-2026-10-26.md) records the
+completed continuation and supersedes current-state claims below.
+
 ## Drift recorded before edits
 
 This is an evaluation analysis, not a planning package. No task contracts or

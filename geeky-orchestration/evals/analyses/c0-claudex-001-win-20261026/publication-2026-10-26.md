@@ -1,5 +1,9 @@
 # Repository publication, 2026-10-26
 
+Historical record of the first publication, through the Claude timeout.
+The later [closeout publication](publication-closeout-2026-10-26.md) records the
+completed continuation and supersedes current-state claims below.
+
 The owner requested grouped commits, aligned documents, a writing refresh, and a
 push to origin. These publication task IDs describe repository work. They do not
 refer to either contestant's implementation tasks.

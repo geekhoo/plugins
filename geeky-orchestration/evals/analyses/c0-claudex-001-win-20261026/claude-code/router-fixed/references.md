@@ -1,5 +1,9 @@
 # Evidence references
 
+Historical timeout record. The [completed continuation](../closeout-20261026/report.md)
+supplies the later final review and T4 verdict. The state below describes the
+timeout capture and retains its 90.33 score.
+
 - [Comparable parity](parity.json), [artifact quality/task reruns](score.json),
   [manual source decisions](manual-verdicts.json), [verified scores](langfuse-scores-verified.json).
 - Raw run folder: `geeky-orchestration/evals/baselines/c0-wordstat/20261025T183455Z-geeky-resume-router-fixed-20261025T195444Z-recovered`.

@@ -1,5 +1,9 @@
 # Claude C0 after the router change
 
+Historical attempt. The later [authorized continuation](../closeout-20261026/report.md)
+completed final review and closeout at cumulative parity 98.33. This timeout's
+raw evidence and Langfuse score 90.33 remain unchanged.
+
 The authorized retry used `geeky-resume` in the existing Windows MXC folder set,
 LiteLLM `claudex-001`, and default thinking. It reached implementation and final
 review, then timed out at 5402 seconds (exit 124). The router's previous

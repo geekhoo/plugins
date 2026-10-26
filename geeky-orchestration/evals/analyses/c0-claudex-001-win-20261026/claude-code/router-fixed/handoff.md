@@ -1,5 +1,9 @@
 # Claude C0 takeover record
 
+Historical timeout record. The [completed continuation](../closeout-20261026/report.md)
+supplies the later final review and T4 verdict. The state below describes the
+timeout capture and retains its 90.33 score.
+
 Target machine: Gerald's Windows host, PowerShell 7. Working directory:
 `C:\Users\gerald.khoo\geekhoo-plugins`. Response budget: 600 words.
 Verify repository HEAD `c83d4b941341b4094b6e7d2f4ac125e5c1b74154` with Git before
