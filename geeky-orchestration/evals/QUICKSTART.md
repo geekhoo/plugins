@@ -10,7 +10,8 @@ For Windows preparation without oracle or contestant execution, use
 The [Windows claudex-001 preparation record](analyses/c0-claudex-001-preparation-20261025/README.md)
 contains the model-specific setup history; qualification was subsequently waived
 by the owner. The [Windows claudex-001 results](analyses/c0-claudex-001-win-20261026/README.md)
-record Codex's completed run and Claude's router-fixed, same-folder resume timeout.
+record Codex's completed run, Claude's same-folder continuation and cumulative
+closeout, and the earlier router-fixed timeout.
 
 ## A. Set up the host (once, ~20 min)
 

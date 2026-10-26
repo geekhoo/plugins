@@ -3,7 +3,9 @@
 Latest Windows C0 result, 2026-10-26: Codex completed at parity 97.46 with
 oracle 13/13 stable over three repetitions and 93 public tests passed.
 [The comparison](../../analyses/c0-claudex-001-win-20261026/README.md) includes
-Claude's router-fixed timeout at parity 90.33. The owner explicitly waived
+Claude's completed same-folder continuation at cumulative parity 98.33 and the
+earlier router-fixed timeout at 90.33. The continuation used additional time and
+retained conversation context. The owner explicitly waived
 native qualification for those attempts. The fixture limits below still apply.
 
 Windows host setup (2026-10-25): [current setup and qualification record](../../analyses/windows-mxc-setup-20261025/README.md).

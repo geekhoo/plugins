@@ -22,6 +22,7 @@ initial attempt remains 97.46. The continuation adds 29m 38s of execution and
 retained conversation context, so these results do not establish a causal ranking.
 
 Current root, plugin, and analysis READMEs point to the completed closeout.
+The adapter README, QUICKSTART, and MXC LiteLLM runbook carry the same current scope.
 The timeout kanban, handoff, and references now carry historical scope notices.
 Earlier publication and alignment records retain their dated findings and link
 this record. The new closeout handoff and kanban reflect publication authorization.

@@ -11,6 +11,7 @@ The source baseline is `4ec9691532cfd453fc977059648106f703e4cc56` on `main`.
 | Timeout kanban, handoff, and references | They describe absent closeout artifacts and a future continuation without a historical scope notice. | Preserve the dated timeout state and add a pointer to the completed continuation. |
 | Earlier publication and alignment records | They report the first publication and timeout result. | Label that scope historical and link this closeout publication. |
 | Closeout report and references | They record a local evaluation closeout before this publication request. | Preserve evaluation facts, add publication references, and retain the review hash-label erratum. |
+| Adapter README, QUICKSTART, and MXC LiteLLM runbook | Their latest C0 introductions still describe the Claude timeout. | Link the cumulative 98.33 closeout and retain the timeout and native qualification limits. |
 
 The analysis folders are evaluation reports, not frozen planning packages. They
 have no implementation plan or task contracts. Planning-folder, task-schema, and

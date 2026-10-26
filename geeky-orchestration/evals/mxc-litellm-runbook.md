@@ -2,8 +2,10 @@
 
 For the latest Windows `claudex-001` attempts, see the
 [C0 comparison](analyses/c0-claudex-001-win-20261026/README.md). Codex completed
-at parity 97.46. Claude's same-folder router-fixed retry timed out during final
-review at parity 90.33. These results do not replace native qualification proof.
+at parity 97.46. Claude completed its same-folder continuation at cumulative
+parity 98.33 after the earlier timeout at 90.33. The continuation used additional
+time and retained conversation context. These results do not replace native
+qualification proof.
 
 This is the process that produced complete C0 runs on both harnesses (2026-10-25). It covers Linux MXC (mxc-sandbox 0.2.1, Bubblewrap), models served by a LiteLLM proxy, full-content Langfuse tracing, and harness-neutral scoring. Windows specifics and the older C1 procedure are in [baseline-runs.md](baseline-runs.md). The reasons behind each step are in [lessons-learned.md](lessons-learned.md) and the D-numbers in [agent-eval-decisions.md](../docs/agent-eval-decisions.md).
 
