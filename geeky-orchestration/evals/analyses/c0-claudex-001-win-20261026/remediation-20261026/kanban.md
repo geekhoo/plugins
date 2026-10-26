@@ -1,13 +1,12 @@
 # C0 remediation kanban
 
-Planning complete; implementation not started or authorized. One implementation phase, WIP limit 1. Ready means technically startable after implementation is requested.
+Implementation authorized 2026-10-26. One implementation phase, WIP limit 1. All three tasks and the single phase are accepted; final implementation review is PASS.
 
 ## Backlog
-- T2 — Bound runner execution, preserve evidence and integrate optional clock context; follows the workflow task.
-- T3 — Scope and verified score delivery; follows runner protection.
+None.
 
 ## Ready
-- T1 — Streamline review/closeout and version the concise final-output contract.
+None.
 
 ## In Progress
 None.
@@ -19,9 +18,11 @@ None.
 None.
 
 ## Done
-None.
+- [x] T1 - streamline review/closeout and version concise output
+- [x] T2 - bound runner execution and preserve evidence
+- [x] T3 - scope accounting and verify score delivery
 
 ## Validation
-- Planning structure, task-schema, board integrity and source-link checks are recorded in [review-plan.md](review-plan.md).
-- Formal plan-review completed on 2026-10-26: READY FOR IMPLEMENTATION, with the retained runtime/replay limitations. Implementation still requires the user's request; task lanes are unchanged.
-- No implementation, offline runtime matrix, paid evaluation or cross-platform test has run for this plan.
+- Independent reviewer /root/phase_review: all task ACs PASS; phase READY TO ADVANCE.
+- Saved offline evidence and current DoD/kanban gates govern task acceptance.
+- Final impl-review: workflow PASS, runner PASS, accounting PASS WITH WARNINGS; Overall PASS. Two nonblocking warnings remain: full scorer replay open; live compatibility/delivery unverified. No paid evaluation, live publication or push is authorized.

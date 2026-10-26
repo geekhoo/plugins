@@ -1,5 +1,10 @@
 # geeky-orchestration
 
+The [C0 remediation implementation](evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/handoff.md)
+is accepted offline: review/closeout instructions and compact output, one-deadline
+runner records, and scoped accounting with verified score readback. Historical C0
+results remain preserved; this work includes no new paid evaluation or live publication.
+
 Latest Windows C0: Codex completed `claudex-001` at runner-default thinking with
 **97.46 parity**, oracle 13/13 stable over 3 repetitions and 93 public tests passing. Ten session
 scores are published and verified. [Run report](evals/analyses/c0-claudex-001-win-20261026/codex/report.md).

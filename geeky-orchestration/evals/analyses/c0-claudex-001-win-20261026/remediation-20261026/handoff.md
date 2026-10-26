@@ -1,25 +1,49 @@
 # Fresh-session handoff
 
-Target: Gerald's Windows machine, PowerShell 7. Workdir: `C:\Users\gerald.khoo\geekhoo-plugins`.
-Report budget: 600 words plus commands/evidence links.
+Target: Gerald's Windows machine, PowerShell 7. Workdir: `C:\Users\gerald.khoo\geekhoo-plugins`. Report budget: 600 words plus commands/evidence links.
 
-Before acting, run `git rev-parse HEAD`, `git status --short` and `git diff --stat`. Verify source baseline `8fff98b0f087f148d4f416f512dc9988d61a57aa` exists through Git and inspect changes since it before using the implementation anchors. The later local planning-review commit is expected; the pin identifies reviewed source, not a required current HEAD. Do not reset to the pin or overwrite other work. Find the review commit with `git log -1 --format=fuller -- geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/review-plan.md`.
+Verify these commits through Git before acting. Accepted product revision: `15760959e3bb6bb2094eb8e9a0153e200d9ecb28`; implementation baseline: `53fb54b5f30ab0397c1fc154e83a6af942797322`; original reviewed source: `8fff98b0f087f148d4f416f512dc9988d61a57aa`. Later changes are tracking/README closeout only. Do not reset to a pin.
 
-Read in order:
+```powershell
+git rev-parse HEAD
+git status --short
+git cat-file -t 15760959e3bb6bb2094eb8e9a0153e200d9ecb28
+git log -1 --format=fuller -- geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/handoff.md
+```
 
-1. `geeky-orchestration/AGENTS.md`.
-2. This folder's `implementation-plan.md`, `references.md`, `review-plan.md`, `kanban.md`.
-3. `tasks/T1-streamline-workflow.md`, `tasks/T2-bound-runner.md`, `tasks/T3-scope-and-readback.md` in that order.
-4. The task's implementation anchors and linked C0 reports.
+Read in order: `geeky-orchestration/AGENTS.md`; this folder's [kanban](kanban.md), [final review](review-impl.md); [T1 notes](tasks/T1-streamline-workflow.notes.md), [T2 notes](tasks/T2-bound-runner.notes.md), [T3 notes](tasks/T3-scope-and-readback.notes.md). Frozen [plan](implementation-plan.md), [references](references.md) and original task bodies retain the approved planning contract; their planning-era status is historical, not the current board.
 
-Current verified state: both external reviews, the side-review proposals and C0 evidence were checked against pinned source. The packet incorporates the three approved planning additions. T1 removes review/output overhead independently; T2 supplies runner/optional timing controls; T3 supplies scope/readback. Formal four-phase planning verification and its current verdict are recorded in `review-plan.md`; the earlier informal review is retained as history. Optional duplicate specification/draft documents are intentionally omitted. No runner, skill, prompt, scorer, candidate or raw evidence has been changed. No evaluation, provider/judge call, live telemetry access/publication or push was performed. The invoked plan-review workflow authorizes its local planning commit. No implementation task is Done.
+## Current verified state
 
-Takeover scope: when the user requests implementation, execute T1 → T2 → T3 with one writer and parent integration. Product/test changes go through `geeky-coder` under repository workflow rules. Use independent read-only reviewer domains after writes stop. An explicitly invoked plan-review permits the lead's required packet corrections and local commit under that skill; its reviewer assignments remain read-only. This handoff grants no additional implementation, evaluation or push authority.
+T1, T2 and T3 are Done. One implementation phase, sequential product ownership `/root/t1_workflow` → `/root/t2_runner` → `/root/t3_scope`; independent preparation lanes `/root/t2_prepare`, `/root/t3_prepare` ran read-only in parallel. Parent integrated, verified and committed. No active writer or outstanding required gate.
 
-Validation environment verified on 2026-10-26: PowerShell 7.6.5 and `C:\Python314\python.exe` with pytest 9.1.1. The task briefs' `python -m pytest` examples require this interpreter (invoke it with `& 'C:\Python314\python.exe' -m pytest ...`) or a verified equivalent. Default PATH Python 3.13 lacks pytest. Only version probes and planning validators ran during review; no implementation test result is implied.
+Phase reviewer `/root/phase_review`: each task PASS, all ACs covered; **READY TO ADVANCE**. Final three domains ran in parallel: `/root/final_workflow` PASS; `/root/final_runner` PASS; `/root/final_accounting` PASS WITH WARNINGS. **Overall PASS, zero required findings**; each reply was saved immediately with its revision. No second final-review process.
 
-Preserve historical prompt bytes/requirements, scores/IDs, raw captures, H1 selection and the owner qualification waiver. T1 permits one prospective change to the canonical prompt's final-output paragraph, preserving all five report criteria and recording a new prompt hash/baseline under D36. No coaching or case-contract change is allowed. Initial Codex 97.46, Claude timeout 90.33 and cumulative Claude 98.33 describe different scopes. Do not add model calls, paid retries, qualification probes, judges or live score publication. Preserve unknown backend identity, billed cost and cumulative token counts.
+| Offline evidence | Result |
+|---|---|
+| T1 gates/scorer, semantic scenarios, prompt/snapshot checks | 44 passed; both real render assignments match new prompt hash |
+| T2 actual runner lifecycle, fake boundaries | 43 passed; 86 runner copies verified |
+| Preparation/auto-process regressions | 15 passed, 1 optional corpus skip |
+| T3 seven-module scope/trace/telemetry/publisher suite | 130 passed, 1 optional native-proof skip |
+| Retained C0 derivation | 438 excluded;1612 logical;1485 observations=807+678;42 fresh/48 historical parent requests |
 
-Done criteria: all three task AC sets have offline evidence, including terminal-verdict scenarios, conservative planning-review invalidation, compact-report compatibility and prompt hash checks; planning/board state is consistent; phase reviewer accepts each task and the phase; final implementation review clears required findings; README, touched skill/prompt/runbook/telemetry guidance, kanban, references and this handoff reflect actual changes. All tasks and gates precede consideration of a separately authorized evaluation. No expanded outbox, orchestration engine, platform migration or arbitrary-trace work is required.
+Exact commands, exits and SHA-256 are in task notes and `T1-evidence/`, `T2-evidence/`, `T3-evidence/`. Large derived bytes stay ignored at `C:/Users/gerald.khoo/geekhoo-plugins/outputs/remediation-20261026/T3-derived`. Python: `C:/Python314/python.exe`, pytest9.1.1; PowerShell7.6.5. No real contestant/oracle/provider/judge/live telemetry call ran.
 
-Remaining uncertainty: reserve sizing and model obedience need a separately authorized future run. Linux/macOS runner behavior and descendant cleanup remain unproven. Missing full replay inputs leave the corresponding replay check open, not silently waived.
+## Phase commits and record reconciliation
+
+- `6799ec22a0d202cdd05c98fe6db9eac2853816b2`: workflow/prompt and T1 evidence.
+- `572bc267d3d782fce720a19988283554a27c4729`: runners/helper/tests and T2 evidence.
+- `15760959e3bb6bb2094eb8e9a0153e200d9ecb28`: scopes/publication/tests, shared runbook and T3 evidence.
+- This closeout's local record commit is discoverable with the handoff `git log` command above; no push.
+
+All19 product Git blobs and working-file SHA-256 match tested inputs; required code/tests share functional commits. All74 historical file hashes and five frozen contracts remain unchanged. Existing `-text` attributes preserve raw evidence, including captured diagnostic whitespace; source/notes checks passed with raw evidence excluded. Parent board-edit mistakes were rejected by gates and corrected before commits. No required gate was skipped/self-issued.
+
+Stale passages updated: review verdict/persistence/reuse/closeout skills; final-output paragraph and prompt README; QUICKSTART hard/informational limits; runbook recovery/deadline/publisher command; telemetry presence/coverage/readback README; repository/plugin/C0 README and board/handoff. Frozen references remain untouched; the new evidence references are recorded here and in task notes. Historical reports remain unchanged.
+
+## Run Summary
+
+2026-10-26: three tasks completed, zero blocked, three functional commits plus this record commit; about87 minutes including required review/closeout. Deferred: two nonblocking warnings—full scorer replay OPEN without retained validation cache; live Langfuse compatibility/delivery unverified. Offline Windows proof does not establish model obedience, reserve sufficiency, Linux/macOS behavior or universal cleanup; synchronous oracle finalization remains unbounded.
+
+Historical scores stay97.46/90.33/98.33, with original failures/denominators. New future rendered prompt hash: `4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e`; record committed plugin HEAD separately. Unknown cumulative usage/backend/cost stays N/A. No evaluation/publication/push is authorized by this closeout. Use `/geeky-status` for read-only inspection.
+
+RESUME: run complete — next eligible: none.

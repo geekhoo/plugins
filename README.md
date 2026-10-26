@@ -14,7 +14,9 @@ Both passed oracle 13/13, and Langfuse scores are verified. The cumulative
 continuation includes additional time and context.
 
 The [C0 remediation plan](geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/implementation-plan.md)
-defines three small follow-up changes; implementation has not started.
+defines three follow-up changes now implemented and accepted through offline review.
+The [implementation handoff](geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/handoff.md)
+records evidence and acceptance separately from future evaluation authorization.
 
 ## Plugins
 

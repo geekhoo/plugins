@@ -14,9 +14,9 @@ and provenance. Both use saved evidence without new candidate or provider runs.
 The [minimum-effort remediation plan](remediation-20261026/implementation-plan.md)
 combines the process and side reviews into three sequenced tasks: streamlined
 review/closeout and a versioned concise final report, runner deadlines/evidence,
-then scoped accounting/readback. It is planning only; the
+then scoped accounting/readback. All three passed task, phase and final offline review; the
 [kanban](remediation-20261026/kanban.md) and [handoff](remediation-20261026/handoff.md)
-track implementation readiness separately from future evaluation authorization.
+track implementation acceptance separately from future evaluation authorization.
 
 | Harness | Parity | Quality | Adherence | Consistency | Oracle | Wall time |
 |---|---:|---:|---:|---:|---|---|
