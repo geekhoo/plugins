@@ -24,7 +24,17 @@ INPUTS = [EVAL + p for p in (
     'telemetry/telemetry.ps1', 'telemetry/pins.json', 'adapters/codex/profile/mxc-pin.json',
     'telemetry/test_langfuse_scores.py', 'telemetry/test_langfuse_run.py',
     'telemetry/test_langfuse_coverage.py', 'scripts/test_c0_readiness.py',
-    'scripts/check-c0-readiness.py')]
+    'scripts/check-c0-readiness.py', 'scripts/run-lifecycle.ps1',
+    'adapters/codex/litellm-bridge.ps1',
+    'adapters/codex/test_litellm_bridge_lifecycle.py',
+    'adapters/codex/litellm_bridge/__init__.py',
+    'adapters/codex/litellm_bridge/__main__.py',
+    'adapters/codex/litellm_bridge/mapper.py',
+    'adapters/codex/litellm_bridge/server.py',
+    'adapters/codex/litellm_bridge/test_bridge.py')]
+INPUTS += ['geeky-orchestration/' + path for path in (
+    'scripts/workflow-budget.py', 'skills/spec-research/SKILL.md',
+    'skills/geeky-plan/SKILL.md', 'skills/plan-review/SKILL.md')]
 
 
 def digest(data):

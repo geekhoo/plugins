@@ -48,7 +48,9 @@ param(
     [string]$MockScenario = 'happy',
     # A provider content filter (stop_reason content_filter/refusal) ends `claude -p` mid-workflow. Resume
     # the same session with a neutral prompt up to this many times; each resume counts as an intervention.
-    [int]$ResumeOnRefusal = 0
+    [int]$ResumeOnRefusal = 0,
+    # Omit to preserve Claude's default effort; explicit effort applies to main and child requests.
+    [ValidateSet('low', 'medium', 'high', 'xhigh', 'max')][string]$Effort
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'run-lifecycle.ps1')
@@ -85,6 +87,8 @@ if ($MockAgent -and $MockScenario -match '\bslow\b' -and -not $PSBoundParameters
 if ($TimeoutSec -le 0) { throw 'TimeoutSec must be positive' }
 if ($CloseoutReserveSec -lt 0 -or $CloseoutReserveSec -ge $TimeoutSec) { throw 'CloseoutReserveSec must be nonnegative and smaller than TimeoutSec' }
 if ($ResumeOnRefusal -lt 0) { throw 'ResumeOnRefusal must be nonnegative' }
+if ($Effort) { $Effort = $Effort.ToLowerInvariant() }
+$configuredEffort = if ($Effort) { $Effort } else { 'default' }
 
 if ($Litellm) {
     if (-not $Model) { throw '-Litellm needs -Model (the LiteLLM model name)' }
@@ -129,9 +133,9 @@ $out = Join-Path $plugin "evals/baselines/$Case/$stamp"
 New-Item -ItemType Directory -Force $out | Out-Null
 $recordPath = Join-Path $out 'run.json'
 $execution = New-EvalExecution $TimeoutSec $CloseoutReserveSec $ResumeOnRefusal $AuthorizationReference $null `
-    ([ordered]@{ model = $Model; mock = [bool]$MockAgent; provider = $(if ($Litellm) { 'litellm' } else { 'anthropic' }) })
+    ([ordered]@{ model = $Model; reasoning = $configuredEffort; mock = [bool]$MockAgent; provider = $(if ($Litellm) { 'litellm' } else { 'anthropic' }) })
 $record = [ordered]@{ schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'claude-code'; model = $Model
-    workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; started_utc = $null; ended_utc = $null
+    reasoning = $configuredEffort; workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; started_utc = $null; ended_utc = $null
     exit_code = $null; exit_reason = 'prepared'; is_error = $false; reference_eligible = $false
     analysis_status = 'not-started'; execution = $execution }
 Write-EvalRecord $record $recordPath
@@ -149,6 +153,7 @@ git -C $repoRoot archive --format=tar "--output=$pluginTar" $pluginSha geeky-orc
 if ($LASTEXITCODE) { throw 'plugin export extraction failed' }
 Remove-Item $pluginTar
 $pluginRun = Join-Path $export 'geeky-orchestration'
+Assert-EvalWorkflowBudgetExport $plugin $pluginRun
 # Bytecode caches are not plugin changes (the agent's tooling may compile the gate scripts).
 $hashTree = { param($dir) (Get-ChildItem $dir -Recurse -File | Where-Object { $_.FullName -notmatch '[\\/]__pycache__[\\/]' } | Sort-Object FullName | ForEach-Object { (Get-FileHash $_.FullName -Algorithm SHA256).Hash }) -join '' }
 $exportHash = & $hashTree $pluginRun
@@ -158,6 +163,7 @@ $boot = "import site,runpy,sys; site.addsitedir(r'$mcpSitePackages'); sys.path.i
 . (Join-Path $plugin 'evals/telemetry/telemetry.ps1')
 $telemetry = Resolve-EvalTelemetry -Harness claude-code -ToolsDir $ToolsDir -Case $Case -Stamp $stamp -PluginSha $pluginSha `
     -ConfigDir $cfg -StateDir (Join-Path $cfg 'langfuse') -Model $Model `
+    -Reasoning $Effort -WorkerReasoning $Effort -ReviewerReasoning $Effort `
     -Provider $(if ($Litellm) { 'litellm' } else { 'anthropic' }) -Mock:$MockAgent -Disabled:$NoTelemetry
 $settings = [ordered]@{ env = @{ MCP_TIMEOUT = '120000' } }
 if ($telemetry) {
@@ -178,6 +184,7 @@ $claudeArgs = @('-p', $prompt, '--session-id', $sid, '--plugin-dir', $pluginRun,
 $disallowed = @(if ($onWindows) { 'Bash' }) + @(if ($Litellm) { 'WebSearch' })
 if ($disallowed) { $claudeArgs += @('--disallowedTools', ($disallowed -join ',')) }
 if ($Model) { $claudeArgs += @('--model', $Model) }
+if ($Effort) { $claudeArgs += @('--effort', $Effort) }
 if ($MockAgent) {
     # MXC_CLAUDE_EXE must be an .exe: the agent-py python runs the mock, copied under the read-only
     # config grant so the sandbox can read it (the repo itself is not granted).
@@ -218,6 +225,10 @@ $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--host
     '--env', 'GIT_AUTHOR_NAME=geeky-eval-agent', '--env', 'GIT_AUTHOR_EMAIL=agent@geeky-eval.local',
     '--env', 'GIT_COMMITTER_NAME=geeky-eval-agent', '--env', 'GIT_COMMITTER_EMAIL=agent@geeky-eval.local')
 if ($MockAgent -and $MockScenario -eq 'c0-full') { $hostArgs += '--deny-net' }
+if ($Effort) {
+    # The environment override also reaches subagent/reviewer requests and any child Claude process.
+    $hostArgs += @('--env', "CLAUDE_CODE_EFFORT_LEVEL=$Effort")
+}
 if ($telemetry) { $hostArgs += @('--rw', $telemetry.StateDir) + @($telemetry.RoPaths | ForEach-Object { '--ro', $_ }) + $telemetry.EnvArgs }
 if ($Litellm) {
     $hostArgs += @('--env', "ANTHROPIC_BASE_URL=$($env:LITELLM_PROXY_URL.TrimEnd('/'))", '--env', 'ANTHROPIC_API_KEY',
@@ -228,7 +239,7 @@ if ($Litellm) {
 }
 
 $record = [ordered]@{
-    schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'claude-code'; model = $Model; reasoning = 'default'
+    schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'claude-code'; model = $Model; reasoning = $configuredEffort
     workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; plugin_sha = $pluginSha; prompt_sha256 = $promptSha
     session_id = $sid; started_utc = $null; ended_utc = $null; wall_time_s = $null
     exit_code = $null; exit_reason = 'prepared'; is_error = $false; reference_eligible = $false
@@ -236,7 +247,8 @@ $record = [ordered]@{
     analysis_status = 'not-started'; telemetry = $(if ($telemetry) { $telemetry.Record } else { @{ enabled = $false } })
 }
 $record['execution'] = $execution
-$hostArgs += @('--env', "GEEKY_DEADLINE_UTC=$($record.execution.initial_deadline_utc)", '--env', "GEEKY_CLOSEOUT_RESERVE_S=$CloseoutReserveSec")
+$hostArgs += @('--env', "GEEKY_DEADLINE_UTC=$($record.execution.initial_deadline_utc)", '--env', "GEEKY_CLOSEOUT_RESERVE_S=$CloseoutReserveSec",
+    '--env', "GEEKY_HARD_WALL_BUDGET_S=$TimeoutSec")
 Write-EvalRecord $record $recordPath
 
 if ($PrepareOnly) {
@@ -253,7 +265,7 @@ if ($PrepareOnly) {
         [Text.Encoding]::UTF8.GetBytes($preparedManifestJson))).ToLowerInvariant()
     $prepared = [ordered]@{
         schema = 'geeky-eval.prepared-launch/1'; status = 'prepared'; harness = 'claude-code'; case = $Case
-        model = $Model; reasoning = 'default'; provider = $(if ($Litellm) { 'litellm' } else { 'anthropic' })
+        model = $Model; reasoning = $configuredEffort; provider = $(if ($Litellm) { 'litellm' } else { 'anthropic' })
         workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; plugin_sha = $pluginSha
         plugin_export_sha256 = $preparedExportSha; plugin_export_manifest = $preparedManifestPath
         prompt_sha256 = $promptSha; timeout_s = $TimeoutSec
@@ -364,7 +376,7 @@ if ($telemetry -and -not $telemetry.Record.delivered) { $record.execution.postpr
 
 $analysisRecord = [ordered]@{
     schema = 'geeky-eval.baseline/1'; case = $Case
-    harness = 'claude-code'; harness_version = $init.claude_code_version; model = $init.model; reasoning = 'default'
+    harness = 'claude-code'; harness_version = $init.claude_code_version; model = $init.model; reasoning = $configuredEffort
     approach = $(if ($MockAgent) { "mock-agent:$MockScenario" } else { 'canonical-prompt' }); plugin_sha = $pluginSha; plugin_modified_during_run = $pluginTampered; prompt_sha256 = $promptSha
     geeky_skills_loaded = @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count
     workspace = $ws; seed_sha = $baseSha; session_id = $sid

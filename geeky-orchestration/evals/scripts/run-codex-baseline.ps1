@@ -156,6 +156,7 @@ $record = [ordered]@{ schema = 'geeky-eval.baseline/1'; case = $Case; harness = 
     is_error = $false; reference_eligible = $false; analysis_status = 'not-started'; execution = $execution }
 Write-EvalRecord $record $recordPath
 $lock = $null
+$mappingBridge = $null
 $finalizationStart = Get-EvalMonotonicSeconds
 try {
 $archive = Join-Path $cfg 'plugin.tar'
@@ -163,6 +164,7 @@ Invoke-Git @('-C', $repoRoot, 'archive', '--format=tar', "--output=$archive", $p
 & $tarExe -xf $archive -C $export
 if ($LASTEXITCODE) { throw 'Plugin export extraction failed' }
 $pluginRun = Join-Path $export 'geeky-orchestration'
+Assert-EvalWorkflowBudgetExport $plugin $pluginRun
 if (Test-Path (Join-Path $pluginRun 'evals')) { throw 'Export contains forbidden evals directory' }
 $exportHash = Get-TreeHash $pluginRun
 
@@ -180,6 +182,17 @@ $providerArgs = @()
 if ($Litellm) {
     $litellmUrl = if ($env:LITELLM_PROXY_URL) { $env:LITELLM_PROXY_URL } else { throw '-Litellm needs LITELLM_PROXY_URL' }
     if (-not $env:LITELLM_PROXY_API_KEY) { throw '-Litellm needs LITELLM_PROXY_API_KEY' }
+    $providerBaseUrl = $litellmUrl.TrimEnd('/') + '/v1'
+    if ($Launch) {
+        # Keep native V2 tasks/roles. Only the provider wire format is adapted.
+        # This host listener makes no request until the authorized contestant does.
+        . (Join-Path $adapter 'litellm-bridge.ps1')
+        $mappingBridge = Start-CodexLitellmBridge -Python $python -AdapterDirectory $adapter `
+            -StateDirectory (Join-Path $cfg 'litellm-bridge') -UpstreamBaseUrl $litellmUrl
+        $record['mapping_bridge'] = $mappingBridge.Record
+        Write-EvalRecord $record $recordPath
+        $providerBaseUrl = $mappingBridge.Record.base_url
+    }
     # Catalog entries derive from this pinned binary's own catalog; an empty CODEX_HOME keeps auth out of it.
     $catalogBase = Join-Path $cfg 'codex-models.json'
     $catalogHome = Join-Path $cfg 'catalog-home'
@@ -187,7 +200,7 @@ if ($Litellm) {
     $savedHome = $env:CODEX_HOME; $env:CODEX_HOME = $catalogHome
     try { $null | & $codexExe debug models | Set-Content -LiteralPath $catalogBase -Encoding utf8 } finally { $env:CODEX_HOME = $savedHome }
     if ($LASTEXITCODE) { throw 'codex debug models failed' }
-    $providerArgs = @('--provider-base-url', ($litellmUrl.TrimEnd('/') + '/v1'), '--provider-env-key', 'LITELLM_PROXY_API_KEY',
+    $providerArgs = @('--provider-base-url', $providerBaseUrl, '--provider-env-key', 'LITELLM_PROXY_API_KEY',
         '--catalog-base', $catalogBase, '--context-window', $ContextWindow)
 }
 & $python (Join-Path $adapter 'prepare-profile.py') --plugin $pluginRun --home $runHome --codex-home $CodexHome --tools-dir $ToolsDir --profile (Join-Path $adapter 'profile') --output $profileResult --model $Model --reasoning $Reasoning --worker-model $WorkerModel --worker-reasoning $WorkerReasoning @reviewerArgs @telemetryArgs @providerArgs
@@ -259,9 +272,11 @@ $record = [ordered]@{
     telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })
 }
 if ($ReviewerReasoning) { $record['reviewer_reasoning'] = $ReviewerReasoning }
+if ($mappingBridge) { $record['mapping_bridge'] = $mappingBridge.Record }
 if ($ReviewerProofFolder) { $record['reviewer_proof_folder'] = [IO.Path]::GetFullPath($ReviewerProofFolder) }
 $record['execution'] = $execution
-$hostArgs += @('--env', "GEEKY_DEADLINE_UTC=$($record.execution.initial_deadline_utc)", '--env', "GEEKY_CLOSEOUT_RESERVE_S=$CloseoutReserveSec")
+$hostArgs += @('--env', "GEEKY_DEADLINE_UTC=$($record.execution.initial_deadline_utc)", '--env', "GEEKY_CLOSEOUT_RESERVE_S=$CloseoutReserveSec",
+    '--env', "GEEKY_HARD_WALL_BUDGET_S=$TimeoutSec")
 Write-EvalRecord $record $recordPath
 Write-Host "workspace: $ws (seed $baseSha)"
 Write-Host "prepared: $out"
@@ -416,7 +431,10 @@ if (-not $record.is_error) {
         if ($record.execution.state -eq 'prepared') { Write-EvalRecord $record $recordPath }
         else { Save-EvalFinalRecord $record $recordPath $ws $finalizationStart }
     }
-    finally { if ($lock) { $lock.Dispose() } }
+    finally {
+        try { if ($lock) { $lock.Dispose() } }
+        finally { if ($mappingBridge) { Stop-CodexLitellmBridge -Bridge $mappingBridge } }
+    }
 }
 Write-Host "stored: $out (analysis status: $($record.analysis_status); score-run.py requires reviewed manual verdicts)"
 if ($MockAgent -and $record.is_error) { throw "Codex mock failed: $out" }

@@ -1,5 +1,9 @@
 Use the geeky-orchestration workflows to take the requirement in `brief.md` and `contract.md` at the repository root from specification to a reviewed, accepted implementation, all in this one session.
 
+At the first stage and each stage transition, run the exported plugin's `scripts/workflow-budget.py --stage <stage-name> --json` with the available Python interpreter. It reads the shared deadline, reserve and total budget supplied by the runner. Inspect its status and action even when exit 0: reserve means checkpoint and start no new stage or delegation; invalid or exhausted means checkpoint and stop. Carry the absolute deadline, reserve and advisory stage target into every worker/reviewer brief and check again before and after a blocking wait. Cumulative targets allocate 15% to research, 30% through planning and 40% through plan review, leaving time for implementation and final review. These targets are advisory; reduce optional breadth when exceeded, preserve mandatory gates, and record exact incomplete state when required work cannot finish. They never establish acceptance or extend the hard deadline. With no deadline context, follow the ordinary workflow.
+
+Use the harness's actual structured tool interface for delegation and waits. Tool-call markup in an assistant message is ordinary text and executes nothing. After dispatching workers, invoke a real supported wait or receive operation and collect their results before ending the stage.
+
 This is explicit end-to-end authorization for the `geeky-orchestrator` to chain these workflows in order without pausing for confirmation:
 
 1. `spec-research`, with `{{PLANNING_FOLDER}}` as the feature folder.

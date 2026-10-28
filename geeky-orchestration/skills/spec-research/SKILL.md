@@ -14,6 +14,31 @@ Deploy a parallel research team to investigate requirements for a new spec, then
 Accept a spec topic or folder path (e.g., `notifications`, `feature-007`, `docs/notifications/`, or a plain description like "real-time notifications system").  
 If a stub README already exists in the feature folder (for example `docs/feature-name/README.md`), read it for initial scope constraints.
 
+## Time budget and checkpoint
+
+At entry, before each numbered task or phase, after a lengthy direct operation,
+and immediately before and after each worker dispatch or blocking wait, run
+`python "${CLAUDE_PLUGIN_ROOT}/scripts/workflow-budget.py" --stage spec-research --json`.
+Resolve `${CLAUDE_PLUGIN_ROOT}` to the installed plugin root containing this skill
+when the environment variable is unset, and use an available Python interpreter.
+If the helper cannot run or its output is unreadable, stop and report the missing
+budget check; do not assume unlimited time. Read the JSON status, not just the
+exit code: `unbounded` means no deadline was provided; `active` continues; `reserve` or `exhausted` stops starting new work
+and checkpoints the incomplete stage; `invalid` stops and reports the configuration
+error. A zero exit also covers `reserve`, so it is not permission to continue.
+The stage target is advisory, not a gate or guarantee: after it is exceeded,
+finish required work with the smallest sufficient evidence and defer optional
+expansion. Never skip a required review, validator or acceptance condition, or
+claim an incomplete stage passed. Pass the hard deadline, closeout reserve, and
+stage target from the check to every child brief. If the deadline is absent, say
+unbounded; if only the target is absent, say the target is unavailable. Do not
+invent either value. Tell each child to return its current evidence,
+unresolved questions and status before the available work time ends. Bound waits by
+the remaining usable time where the host supports it; if it cannot, record that
+limitation rather than claiming cancellation. Recheck after a wait; a child report alone does not override the budget result.
+
+If the budget stops this stage, preserve completed research and note missing evidence; do not declare the spec complete or start planning as if it passed.
+
 ## Workflow
 
 ### Phase 1: Scope Discovery
@@ -37,6 +62,8 @@ Deploy all 3 researchers simultaneously.
 
 - **Codebase Analyst**: use `geeky-orchestration:code-explorer` agent type.
 - **Web Researchers (2)**: use `general-purpose` agent type with instructions to use `WebSearch` and `WebFetch`.
+
+Give each researcher specific questions and source boundaries. Use the provided contract and existing authoritative evidence first; fetch further sources only to resolve a material requirement, uncertainty, or contradiction. Stop searching once those questions are answered. Each report should be concise and source-linked, with unresolved gaps stated explicitly. Avoid duplicate source collection across angles.
 
 Each research brief ends with:
 

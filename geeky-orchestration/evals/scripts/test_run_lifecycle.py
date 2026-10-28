@@ -23,6 +23,30 @@ def quote(value):
     return "'" + str(value).replace("'", "''") + "'"
 
 
+@pytest.mark.parametrize('variant', ['crlf-clean', 'modified', 'missing'])
+def test_export_comparison_handles_git_newlines_and_real_drift(tmp_path, variant):
+    source, exported = tmp_path / 'source', tmp_path / 'export'
+    relatives = ('scripts/workflow-budget.py', 'skills/spec-research/SKILL.md',
+                 'skills/geeky-plan/SKILL.md', 'skills/plan-review/SKILL.md')
+    for relative in relatives:
+        local, archived = source / relative, exported / relative
+        local.parent.mkdir(parents=True, exist_ok=True)
+        archived.parent.mkdir(parents=True, exist_ok=True)
+        local.write_bytes(b'first\r\nsecond\r\n')
+        archived.write_bytes(b'first\nsecond\n')
+    if variant == 'modified':
+        (source / relatives[0]).write_bytes(b'first\r\nchanged\r\n')
+    elif variant == 'missing':
+        (exported / relatives[0]).unlink()
+    command = (f". {quote(SOURCE / 'run-lifecycle.ps1')}; "
+               f"Assert-EvalWorkflowBudgetExport {quote(source)} {quote(exported)}")
+    result = subprocess.run([PWSH, '-NoProfile', '-Command', command], capture_output=True,
+                            text=True, timeout=30)
+    assert (result.returncode == 0) == (variant == 'crlf-clean'), result.stdout + result.stderr
+    if variant != 'crlf-clean':
+        assert 'Workflow budget' in result.stderr
+
+
 def assert_no_in_progress_postprocessing(record):
     assert all(status != 'in-progress' for status in record['execution']['postprocessing'].values())
 
@@ -155,6 +179,11 @@ function Invoke-ClaudeTelemetryFlush { throw 'DENIED unexpected Claude replay' }
     (root / 'mxc-sandbox/scripts/mxc.ps1').write_text(FAKE_MXC)
     (plugin / 'mcp').mkdir()
     (plugin / 'mcp/server.py').write_text('# exported fixture')
+    for relative in ('scripts/workflow-budget.py', 'skills/spec-research/SKILL.md',
+                     'skills/geeky-plan/SKILL.md', 'skills/plan-review/SKILL.md'):
+        target = plugin / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text('# budget export fixture')
     for command in (['git', 'init', '-q', str(root)], ['git', '-C', str(root), 'add', '.'],
                     ['git', '-C', str(root), '-c', 'user.name=fixture', '-c', 'user.email=fixture@local', 'commit', '-qm', 'fixture']):
         subprocess.run(command, check=True, capture_output=True)
@@ -180,6 +209,8 @@ function Invoke-ClaudeTelemetryFlush { throw 'DENIED unexpected Claude replay' }
 
     def run(harness, *, failure='', durations='1', pre_elapsed='0', recoveries=0,
             child_exit=0, prepare=False, waiver=False, post_elapsed='0', extra=()):
+        if failure == 'stale-budget-export':
+            (plugin / 'scripts/workflow-budget.py').write_text('# uncommitted changed policy')
         runner = scripts / ('run-baseline.ps1' if harness == 'claude' else 'run-codex-baseline.ps1')
         env = os.environ.copy()
         # No real credentials are needed or delivered to disposable fixtures.
@@ -330,6 +361,34 @@ def test_prepare_only_has_no_oracle_or_workload(estate, harness):
     assert not (estate[1] / 'observed-prepared.json').exists()
 
 
+@pytest.mark.parametrize('effort', [None, 'high'])
+def test_claude_preparation_records_and_forwards_explicit_effort(estate, effort):
+    extra = ('-Effort', effort) if effort else ()
+    result, record, launches, _ = estate[0]('claude', prepare=True, extra=extra)
+    assert result.returncode == 0, result.stdout + result.stderr
+    prepared = json.loads((Path(record['config_directory']) / 'prepared-launch.json').read_text(encoding='utf-8-sig'))
+    assert record['reasoning'] == prepared['reasoning'] == (effort or 'default')
+    assert record['execution']['configuration']['reasoning'] == (effort or 'default')
+    if effort:
+        args = prepared['harness_args']
+        assert args[args.index('--effort') + 1] == effort
+        assert f'CLAUDE_CODE_EFFORT_LEVEL={effort}' in prepared['host_args']
+    else:
+        assert '--effort' not in prepared['harness_args']
+        assert not any(str(arg).startswith('CLAUDE_CODE_EFFORT_LEVEL=') for arg in prepared['host_args'])
+    assert not launches
+    assert not (estate[1] / 'observed-prepared.json').exists()
+
+
+@pytest.mark.parametrize('harness', ['claude', 'codex'])
+def test_stale_committed_budget_export_blocks_before_workload(estate, harness):
+    result, record, launches, _ = estate[0](harness, failure='stale-budget-export', prepare=True)
+    assert result.returncode != 0
+    assert 'Workflow budget source differs from committed export' in result.stdout + result.stderr
+    assert not launches
+    assert record['execution']['process_outcome'] == 'not-started'
+
+
 def test_waiver_retains_no_extra_probe_semantics(estate):
     result, record, launches, _ = estate[0]('codex', waiver=True)
     assert result.returncode == 0, result.stdout + result.stderr
@@ -363,6 +422,16 @@ def test_first_launch_also_floors_remaining_attempt_time(estate, harness):
     result, record, launches, _ = estate[0](harness, pre_elapsed='0.01')
     assert result.returncode == 0, result.stdout + result.stderr
     assert [launch['timeout'] for launch in launches] == [9]
+
+
+@pytest.mark.parametrize('harness', ['claude', 'codex'])
+def test_both_harnesses_pass_same_budget_context_to_contestant(estate, harness):
+    result, record, launches, _ = estate[0](harness)
+    assert result.returncode == 0, result.stdout + result.stderr
+    args = launches[0]['args']
+    assert 'GEEKY_HARD_WALL_BUDGET_S=10' in args
+    assert 'GEEKY_CLOSEOUT_RESERVE_S=2' in args
+    assert f"GEEKY_DEADLINE_UTC={record['execution']['initial_deadline_utc']}" in args
 
 
 @pytest.mark.parametrize('harness', ['claude', 'codex'])

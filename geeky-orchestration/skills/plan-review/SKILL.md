@@ -13,6 +13,31 @@ Multi-phase planning package quality review that validates document alignment, r
 
 Accept a planning folder path (e.g., `docs/feature-name/`). If no argument is given, scan `docs/` for the most recent folder containing an `implementation-plan.md`.
 
+## Time budget and checkpoint
+
+At entry, before each numbered task or phase, after a lengthy direct operation,
+and immediately before and after each worker dispatch or blocking wait, run
+`python "${CLAUDE_PLUGIN_ROOT}/scripts/workflow-budget.py" --stage plan-review --json`.
+Resolve `${CLAUDE_PLUGIN_ROOT}` to the installed plugin root containing this skill
+when the environment variable is unset, and use an available Python interpreter.
+If the helper cannot run or its output is unreadable, stop and report the missing
+budget check; do not assume unlimited time. Read the JSON status, not just the
+exit code: `unbounded` means no deadline was provided; `active` continues; `reserve` or `exhausted` stops starting new work
+and checkpoints the incomplete stage; `invalid` stops and reports the configuration
+error. A zero exit also covers `reserve`, so it is not permission to continue.
+The stage target is advisory, not a gate or guarantee: after it is exceeded,
+finish required work with the smallest sufficient evidence and defer optional
+expansion. Never skip a required review, validator or acceptance condition, or
+claim an incomplete stage passed. Pass the hard deadline, closeout reserve, and
+stage target from the check to every child brief. If the deadline is absent, say
+unbounded; if only the target is absent, say the target is unavailable. Do not
+invent either value. Tell each child to return its current evidence,
+unresolved questions and status before the available work time ends. Bound waits by
+the remaining usable time where the host supports it; if it cannot, record that
+limitation rather than claiming cancellation. Recheck after a wait; a child report alone does not override the budget result.
+
+If the budget stops this stage, preserve the completed review sections and unresolved checks in `review-plan.md` and handoff; do not declare READY FOR IMPLEMENTATION. Resume with the existing invalidation rules.
+
 ## Workflow
 
 Execute the four phases in order, except for the safe Phase 2/3 overlap described under Execution Strategy. Each phase uses the findings it depends on.
@@ -33,7 +58,7 @@ If scripts are available, run the bundled deterministic validators and treat any
 
 **Fallback (when scripts unavailable):** Proceed directly to the semantic review below — the subagent performs manual structural checks that scripts would have automated.
 
-Deploy a review subagent for the semantic cross-validation the scripts cannot cover — read the ENTIRE spec/plan folder and cross-validate:
+Deploy a review subagent for the semantic cross-validation the scripts cannot cover; request concise, actionable findings and evidence rather than restating the package — read the ENTIRE spec/plan folder and cross-validate:
 
 **Files to read:**
 - `feature-specification.md` (preferred requirements doc)
@@ -97,7 +122,7 @@ Deploy a **time-master planner** subagent (`geeky-orchestration:code-architect` 
 > 6. **Task estimates are realistic** — flag any task marked S that touches multiple files/modules, or any L task that could be split into independent S/M tasks
 > 7. If the plan explicitly defines waves/phases or gates, additionally verify their internal consistency — do not flag their absence
 >
-> Produce a sequencing report:
+> Produce a concise sequencing report with evidence and actionable findings, without restating the plan:
 > - Dependency-graph validity (pass/fail)
 > - Critical path (nodes + depth)
 > - Parallelization score (actual parallel tasks vs theoretical maximum)

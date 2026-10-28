@@ -19,6 +19,31 @@ This is the _planning_ phase. After this run, use the `plan-review` skill (or `/
 
 **DO THIS SEQUENTIALLY IN THIS ORDER.** Resolve the working folder deterministically: if `$ARGUMENTS` is a folder path, use it; if it is one or more file paths, use the directory containing them; if it is a plain-text requirement with no files, ask the user for (or propose) a feature folder, e.g. `docs/<feature-name>/`, before creating any artifact. Save all artifacts in that folder.
 
+## Time budget and checkpoint
+
+At entry, before each numbered task or phase, after a lengthy direct operation,
+and immediately before and after each worker dispatch or blocking wait, run
+`python "${CLAUDE_PLUGIN_ROOT}/scripts/workflow-budget.py" --stage geeky-plan --json`.
+Resolve `${CLAUDE_PLUGIN_ROOT}` to the installed plugin root containing this skill
+when the environment variable is unset, and use an available Python interpreter.
+If the helper cannot run or its output is unreadable, stop and report the missing
+budget check; do not assume unlimited time. Read the JSON status, not just the
+exit code: `unbounded` means no deadline was provided; `active` continues; `reserve` or `exhausted` stops starting new work
+and checkpoints the incomplete stage; `invalid` stops and reports the configuration
+error. A zero exit also covers `reserve`, so it is not permission to continue.
+The stage target is advisory, not a gate or guarantee: after it is exceeded,
+finish required work with the smallest sufficient evidence and defer optional
+expansion. Never skip a required review, validator or acceptance condition, or
+claim an incomplete stage passed. Pass the hard deadline, closeout reserve, and
+stage target from the check to every child brief. If the deadline is absent, say
+unbounded; if only the target is absent, say the target is unavailable. Do not
+invent either value. Tell each child to return its current evidence,
+unresolved questions and status before the available work time ends. Bound waits by
+the remaining usable time where the host supports it; if it cannot, record that
+limitation rather than claiming cancellation. Recheck after a wait; a child report alone does not override the budget result.
+
+If the budget stops this stage, record missing artifacts, reviews and validators in the handoff; do not declare the package complete or frozen.
+
 ## Tasks
 
 1. Build an implementation plan to satisfy all requirements in `$ARGUMENTS`.
@@ -41,7 +66,7 @@ This is the _planning_ phase. After this run, use the `plan-review` skill (or `/
    3. A general-purpose subagent briefed with explicit PM-review instructions
    4. Perform the review directly in a dedicated pass
 
-   The review must check coverage, sequencing, dependency correctness, and scope gaps. Save the result as `review-development-project-manager.md` (exact filename — downstream skills look for it). Intelligently resolve all gaps but note them inside the review document.
+   The review must check coverage, sequencing, dependency correctness, and scope gaps. Request actionable findings with requirement/task references and a concise verdict; avoid restating the package. Record suggestions separately from required fixes. Save the result as `review-development-project-manager.md` (exact filename — downstream skills look for it). Intelligently resolve all gaps but note them inside the review document.
 
 7. Create a Kanban markdown `kanban.md` for tracking task progress. Standard lanes: Backlog, Ready, In Progress, Blocked, In Review, Done, plus a Validation Checklist (release gate). Place every newly-created task in **Ready** unless an explicit dependency keeps it in Backlog.
 

@@ -1,4 +1,26 @@
 # Shared local record/clock contract. No provider calls or recovery policy live here.
+function Assert-EvalWorkflowBudgetExport([string]$SourcePlugin, [string]$ExportPlugin) {
+    # The canonical prompt is an operator input, while contestant skills are
+    # exported from HEAD. Reject a new prompt paired with old committed skills.
+    foreach ($relative in @('scripts/workflow-budget.py', 'skills/spec-research/SKILL.md',
+            'skills/geeky-plan/SKILL.md', 'skills/plan-review/SKILL.md')) {
+        $source = Join-Path $SourcePlugin $relative
+        $exported = Join-Path $ExportPlugin $relative
+        if (-not (Test-Path -LiteralPath $source -PathType Leaf) -or
+            -not (Test-Path -LiteralPath $exported -PathType Leaf)) {
+            throw "Workflow budget prerequisite absent from source/committed export: $relative. Preserve changes; commit a reviewed source revision when authorized before preparation."
+        }
+        # Git may check out CRLF on Windows while git archive carries LF. These
+        # are text inputs: compare normalized newlines, retaining every other
+        # character so a substantive dirty policy still blocks preparation.
+        $sourceText = [IO.File]::ReadAllText($source).Replace("`r`n", "`n")
+        $exportText = [IO.File]::ReadAllText($exported).Replace("`r`n", "`n")
+        if (-not [string]::Equals($sourceText, $exportText, [StringComparison]::Ordinal)) {
+            throw "Workflow budget source differs from committed export: $relative. Preserve changes; commit a reviewed source revision when authorized before preparation."
+        }
+    }
+}
+
 function Get-EvalMonotonicSeconds {
     return [Diagnostics.Stopwatch]::GetTimestamp() / [double][Diagnostics.Stopwatch]::Frequency
 }
