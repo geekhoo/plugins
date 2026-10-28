@@ -1,5 +1,15 @@
 # C0 operator readiness and verification
 
+Latest [Luna/high preparation](analyses/c0-luna-preparation-20261028/README.md),
+2026-10-28: runner/workflow fixes are committed and the owner explicitly waived
+qualification for this Windows MXC C0 pair using `vercel/gpt-6-luna` at high for
+main, workers and reviewers. The new [waiver](analyses/c0-luna-preparation-20261028/qualification-waiver.json)
+does not establish qualification or grant launch authority. Fresh official
+preparation and private build copies are recorded under local
+`outputs/c0-luna-final-preparation-20261028/`; old draft commands are superseded.
+Both evaluations remain stopped. Preparation configures Langfuse hooks but performs
+no provider call, MXC workload, live telemetry operation or judge call.
+
 Current state, 2026-10-26: local inventory and mock verification pass. **LIVE HELD.**
 This record grants no paid run, provider or judge call, sign-in, live telemetry
 write, or schedule. The canonical contestant prompt remains unchanged.

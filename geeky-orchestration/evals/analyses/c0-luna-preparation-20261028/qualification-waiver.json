@@ -1,0 +1,28 @@
+{
+  "schema": "geeky-eval.owner-qualification-waiver/1",
+  "status": "waived-by-owner",
+  "recorded_date": "2026-10-28",
+  "timezone": "Asia/Singapore",
+  "authorization_reference": "User: commit the required runner and workflow fixes, waive qualification for vercel/gpt-6-luna, and finish preparing both runners. keep both evaluations stopped until i explicitly say run.",
+  "reason": "Owner explicitly waived qualification for vercel/gpt-6-luna for the prepared Windows MXC C0 Claude and Codex pair; no qualification claim is made.",
+  "scope": {
+    "case": "c0-wordstat",
+    "platform": "mxc-win",
+    "provider": "litellm",
+    "model": "vercel/gpt-6-luna",
+    "harnesses": ["codex", "claude-code"],
+    "roles": ["main", "workers", "reviewers"],
+    "effort": "high",
+    "timeout_seconds": 6000,
+    "closeout_reserve_seconds": 60,
+    "attempts_per_harness": 1,
+    "recoveries": 0,
+    "sequence": ["codex", "claude-code"]
+  },
+  "qualifies_model_or_workflow": false,
+  "relaxes_isolation": false,
+  "authorizes_provider_or_telemetry_probe": false,
+  "authorizes_evaluation_launch": false,
+  "launch_status": "held-until-separate-explicit-run-instruction",
+  "historical_waivers_unchanged": true
+}

@@ -1,5 +1,9 @@
 # geekhoo plugins
 
+[Luna/high C0 preparation](geeky-orchestration/evals/analyses/c0-luna-preparation-20261028/README.md)
+records committed runner/workflow fixes and the owner's Luna qualification waiver.
+Both MXC runners use LiteLLM and high effort; both evaluations remain held.
+
 This repository publishes five local plugins. They cover DevExtreme page work,
 design tokens, feature delivery, day-to-day engineering tasks, and sandboxed
 Claude Code runs. Pick the plugin that matches the job.
