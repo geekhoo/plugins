@@ -1,8 +1,55 @@
 # geekhoo plugins
 
+[Native Codex C0 result](geeky-orchestration/evals/analyses/c0-codex-native-run-20261029/README.md):
+native delegation worked, but the run stopped at the pre-task commit-rule conflict.
+Current C0 readiness is blocked; no automatic retry is scheduled. The fix, a
+docs-only `Tasks: none` gate rule, is specified in the
+[Codex kickoff](geeky-orchestration/evals/analyses/c0-codex-native-run-20261029/handoff.md).
+
+[Focused Codex native-wire preparation](geeky-orchestration/evals/analyses/c0-codex-native-preparation-20261029/README.md)
+re-examines the failed trace and prepares Luna's direct Responses/V2 route.
+The failed mapping bridge is bypassed for this profile; no evaluation was launched.
+
+[Claude C0 overtime completion](geeky-orchestration/evals/analyses/c0-luna-overtime-20261028/README.md)
+reached final-review PASS and cumulative parity **98.44** after 18m02s additional
+active time. Original timeout remains preserved at parity95.14. Scores were read back from Langfuse.
+
+[Luna C0 runtime results](geeky-orchestration/evals/analyses/c0-luna-sequential-20261028/README.md):
+Codex failed in plan review on a bridge mapping error; Claude timed out during
+final review after passing 13/13 oracle checks. Both runs are terminal and stopped.
+
 [Luna/high C0 preparation](geeky-orchestration/evals/analyses/c0-luna-preparation-20261028/README.md)
 records committed runner/workflow fixes and the owner's Luna qualification waiver.
 Both MXC runners use LiteLLM and high effort; both evaluations remain held.
+
+[Minimal real Claude/MXC Messages checks](geeky-orchestration/evals/analyses/mxc-claude-messages-20261027/README.md)
+passed tool roundtrips for Luna, GLM, Haiku and MiMo. MiniMax/DeepSeek returned
+upstream 404s on Messages. Both C0 evaluations remain stopped.
+
+[The minimal reasoning bridge repair](geeky-orchestration/evals/analyses/bridge-reasoning-normalization-20261027/README.md)
+passed 178 regressions and three live HTTP-bridge checks for MiniMax, DeepSeek and
+MiMo. Both evaluations remain stopped; full workflow qualification is separate.
+
+[Bounded LiteLLM retests](geeky-orchestration/evals/analyses/litellm-bounded-retest-20261027/README.md)
+finished the limited generations and verified Luna's selected native opaque relay.
+Other wire-contract and thinking-control gaps remain. Both evaluations stay stopped.
+
+[Six small LiteLLM model probes](geeky-orchestration/evals/analyses/litellm-six-models-20261027/README.md)
+returned basic HTTP 200 responses for every route. Selected bridge checks passed
+for Luna, GLM and Haiku; native gaps and low-cap results are recorded separately.
+Both C0 evaluations remain stopped.
+
+[Responses API / Codex V2 contract tools](geeky-orchestration/evals/tools/responses_contract/README.md)
+support offline plans/replay and explicit endpoint probes for later use.
+No endpoint was contacted while creating them; both C0 evaluations remain stopped.
+
+Fresh sequential [C0 results, 27 October](geeky-orchestration/evals/analyses/c0-fresh-sequential-20261027/README.md):
+Codex stopped during research; Claude timed out during plan review. Neither
+implemented the package. Both traced successfully to Langfuse; no further run is active.
+
+The [offline follow-up](geeky-orchestration/evals/analyses/c0-root-causes-20261027/README.md)
+adds planning budget checks and rejects the observed Codex tool-call text error.
+Its upstream origin and live improvement remain unproved. Both evaluations stay stopped.
 
 This repository publishes five local plugins. They cover DevExtreme page work,
 design tokens, feature delivery, day-to-day engineering tasks, and sandboxed
@@ -11,7 +58,7 @@ Claude Code runs. Pick the plugin that matches the job.
 The root includes a Claude Code marketplace plus Codex plugin manifests. Each
 plugin has its own docs and checks.
 
-Latest Windows MXC C0 records: [claudex-001 evaluation](geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/README.md).
+Historical completed Windows MXC C0 records: [claudex-001 evaluation](geeky-orchestration/evals/analyses/c0-claudex-001-win-20261026/README.md).
 Codex completed at 97.46 parity. Claude's later continuation completed review
 and closeout at 98.33 cumulative parity; its earlier timeout remains at 90.33.
 Both passed oracle 13/13, and Langfuse scores are verified. The cumulative
@@ -29,7 +76,14 @@ The [minimal follow-up implementation](geeky-orchestration/evals/analyses/c0-pos
 fixes the seed-step transition and maintains guarded H1 fixtures, with fresh offline
 and bounded real-MXC evidence. Scripted reviews do not establish live-model behavior.
 
-Current [C0 operator readiness](geeky-orchestration/evals/c0-readiness.md) records local inventory and 28 passing mock checks. Live telemetry and paid canaries remain held pending separate explicit authorization.
+The [C0 operator readiness](geeky-orchestration/evals/c0-readiness.md) distinguishes
+the recorded 28 mock checks from current mapping verification. Both evaluations
+remain stopped pending separate explicit launch authorization.
+
+The [Codex V2 wire mapper](geeky-orchestration/evals/analyses/codex-v2-litellm-mapping-20261027/README.md)
+translates agent traffic before LiteLLM and restores explicit plaintext metadata.
+Offline checks and one bounded synthetic live request pass. Both C0 evaluations
+remain stopped; this diagnostic does not qualify a complete Codex/MXC workflow.
 
 ## Plugins
 

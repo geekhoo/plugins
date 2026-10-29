@@ -1,5 +1,50 @@
 # C0 operator readiness and verification
 
+**Current native Codex C0 readiness: BLOCKED.** The authorized native run
+`20261029T043904Z-28148c1d` completed its agent turn but explicitly stopped with
+specification unaccepted. Global AGENTS requires `check-commit` before every
+commit; that implementation-format validator requires a task reference before
+spec-research has created task IDs. Native V2 delegation/waits worked. The earlier
+native preparation missed this known rule conflict and is not completion-ready.
+See [run outcome](analyses/c0-codex-native-run-20261029/README.md). Both evaluations
+are stopped; no retry or source change was made during this attempt.
+
+The unblock is specified but not applied. Allow `Tasks: none` on `docs` commits
+only, add it to the spec-research commit, prove it on both gate twins, commit,
+then re-prepare the native profile at the new HEAD. The
+[Codex kickoff](analyses/c0-codex-native-run-20261029/handoff.md) covers fix,
+preparation and one authorized launch. Readiness stays BLOCKED until that fix
+lands.
+
+Latest [focused Codex preparation](analyses/c0-codex-native-preparation-20261029/README.md),
+2026-10-29: Luna's prepared Codex profile uses explicit native Responses/V2,
+bypassing the mapping bridge that failed in the captured run. All eight roles
+remain Luna/high;6000/60 seconds, one attempt and zero recoveries. Seven focused
+offline checks pass. Full native C0 completion remains unverified and no run is
+authorized by this preparation. Operator runner/test changes are uncommitted;
+fresh source/tool pins and the exact held command are in local
+`outputs/c0-codex-native-preparation-20261029/`. Historical captures are unchanged.
+
+Latest [authorized Claude overtime closeout](analyses/c0-luna-overtime-20261028/README.md)
+completed at candidate `fba5d30`, with final-review PASS, 18 public tests and
+13/13 oracle tests stable over three repetitions. Additional active time was
+1082.148 seconds; cumulative active time7081.298 seconds. Source-reviewed parity
+is95.14 for the preserved initial timeout and98.44 cumulatively. Twenty scoped
+scores were published/read back with overtime metadata. This cumulative result
+retains the original timeout and does not replace the original budgeted outcome.
+Codex stayed stopped; no further run or recovery is scheduled.
+
+Latest [Luna/high runtime results](analyses/c0-luna-sequential-20261028/README.md):
+the owner-authorized pair is terminal. Codex failed on `bridge_mapping_error`
+during plan review (946 seconds, no implementation); Claude reached the hard
+limit during final review (5999 seconds), with 13/13 oracle tests stable over
+three repetitions. Both traced to Langfuse. Source remained
+`0b1f5fbc0e84b110ea0f9fa59ddfa711b46cf53a`; no live fixes or source commits were
+made. The initial operator-aborted Claude launch and explicitly authorized fresh
+replacement are preserved separately. No additional attempt, recovery, judge or
+score publication is authorized. Preparation recipes below are historical inputs,
+not permission to reuse the consumed attempts. Both evaluations are stopped.
+
 Latest [Luna/high preparation](analyses/c0-luna-preparation-20261028/README.md),
 2026-10-28: runner/workflow fixes are committed and the owner explicitly waived
 qualification for this Windows MXC C0 pair using `vercel/gpt-6-luna` at high for
@@ -10,9 +55,61 @@ preparation and private build copies are recorded under local
 Both evaluations remain stopped. Preparation configures Langfuse hooks but performs
 no provider call, MXC workload, live telemetry operation or judge call.
 
-Current state, 2026-10-26: local inventory and mock verification pass. **LIVE HELD.**
+Latest [minimal Claude/MXC Messages probes](analyses/mxc-claude-messages-20261027/README.md):
+Luna/GLM/Haiku/MiMo passed real MCP/tool_result/final-marker roundtrips on Claude
+2.1.311; MiniMax/DeepSeek returned provider-resource 404s. An initial relay path
+mistake is preserved separately. Both C0 evaluations remain stopped; these are
+selected diagnostic checks, not full workflow qualification.
+
+Latest [minimal reasoning normalization](analyses/bridge-reasoning-normalization-20261027/README.md):
+178 regressions and three actual HTTP-bridge checks passed for MiniMax, DeepSeek
+and MiMo. This is selected bridge proof, not native upstream or full workflow
+qualification. Source is uncommitted; old prepared source pins are stale. Both
+evaluations remain stopped.
+
+Latest [bounded retest](analyses/litellm-bounded-retest-20261027/README.md): Luna's
+selected opaque receive passed with a meaningful altered-value negative; the API
+did not explicitly reject tampering. Larger caps finished the formerly limited
+generations, exposing wire-shape failures. Thinking none remains unverified on
+MiniMax/DeepSeek/MiMo despite being requested. Both C0 evaluations remain stopped;
+these selected endpoint checks do not qualify a complete workflow.
+
+Latest separately authorized diagnostic: [six small model probes](analyses/litellm-six-models-20261027/README.md).
+All six basic routes returned HTTP 200; selected bridge cases passed for Luna,
+GLM and Haiku. Other low-cap results remain inconclusive and native V2 findings
+are recorded separately. Eighteen client requests do not prove underlying gateway
+attempts/billing; DeepSeek's error reports 20 internal attempts. No evaluation
+was started and these results are not full workflow qualification.
+
+New offline tooling, 2026-10-27: [Responses/Codex V2 diagnostics](tools/responses_contract/README.md).
+Plans/replay run without credentials/network. Endpoint probing is a separate
+explicit command for later authorization; no endpoint was tested while creating
+these tools. They are not C0 launches or native workflow qualification. Both
+evaluations remain stopped.
+
+Latest offline follow-up, 2026-10-27: [root-cause investigation](analyses/c0-root-causes-20261027/README.md).
+Both evaluations remain stopped. Research, planning and plan review now consume
+the shared budget; both runners pass the total as well as deadline/reserve. The
+canonical prompt has changed, so historical prompt hashes below are historical.
+The bridge rejects the observed tool-call text with a dedicated error; its
+upstream origin remains unresolved. No fresh live compatibility claim is made.
+Preparation rejects missing or substantively different budget helper/skills in
+the committed export. Current fixes are uncommitted and must be included in a
+reviewed source commit when authorized; do not reuse the old prepared launches.
+Generate new source/prompt pins after that step. Inventory alone does not prove
+this export gate, runtime obedience, qualification or live readiness.
+
+2026-10-27 update: the [Codex V2 wire mapping fix](analyses/codex-v2-litellm-mapping-20261027/README.md)
+has offline tests and one successful synthetic streaming LiteLLM request. Both
+evaluations remain stopped. This request was separately authorized for the
+mapping fix; it is not a C0 run, role/workflow qualification or telemetry proof.
+The inventory now fingerprints the mapper and its host lifecycle helper.
+Historical inventory/source pins and prepared launch artifacts below remain
+preserved and must be refreshed before any future authorized evaluation.
+
+Historical state, 2026-10-26: local inventory and mock verification pass. **LIVE HELD.**
 This record grants no paid run, provider or judge call, sign-in, live telemetry
-write, or schedule. The canonical contestant prompt remains unchanged.
+write, or schedule. The canonical contestant prompt was unchanged at that checkpoint.
 
 ## What is verified
 

@@ -1,6 +1,13 @@
 # Runbook: Claude Code and Codex evals in MXC, through LiteLLM, traced to Langfuse
 
-For the latest Windows `claudex-001` attempts, see the
+Both evaluations are stopped. The [latest pair](analyses/c0-fresh-sequential-20261027/README.md)
+produced no implementation. Its [offline follow-up](analyses/c0-root-causes-20261027/README.md)
+adds planning budget checks and explicit rejection of the observed tool-call text;
+upstream attribution and live effectiveness remain unresolved. Source changes
+are uncommitted, and old prepared commands/pins must not be reused. A later source
+commit requires authorization, followed by fresh preparation; launch remains separate.
+
+For historical completed Windows `claudex-001` attempts, see the
 [C0 comparison](analyses/c0-claudex-001-win-20261026/README.md). Codex completed
 at parity 97.46. Claude completed its same-folder continuation at cumulative
 parity 98.33 after the earlier timeout at 90.33. The continuation used additional
@@ -12,6 +19,15 @@ This is the process that produced complete C0 runs on both harnesses (2026-10-25
 Short version: [QUICKSTART.md](QUICKSTART.md). Results so far: [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md).
 
 ## Current authorization hold
+
+The [2026-10-27 V2 mapping fix](analyses/codex-v2-litellm-mapping-20261027/README.md)
+adds an authenticated host-side wire bridge for future Codex `-Litellm -Launch`
+invocations. It translates V2 messages/functions before LiteLLM and restores
+plaintext collaboration metadata on JSON/SSE responses. Native V2 roles and
+effort settings remain in use. One bounded synthetic provider request passed;
+it started no Codex/Claude/MXC evaluation and does not supply full workflow or
+telemetry qualification. Both evaluations are stopped. Historical launch and
+recovery recipes below grant no new authority.
 
 Read [C0 operator readiness](c0-readiness.md) before using the procedures below. Local inventory and mock checks pass; live telemetry compatibility and paid canaries remain held. Launch only the separately authorized attempt with explicit role models/efforts, budget/reserve, recovery limit, waiver and authorization reference. Remote score publication and any judge inference need their own covered scope. Read-only session queries do not prove publisher write/readback.
 

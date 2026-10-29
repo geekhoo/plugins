@@ -1,6 +1,67 @@
 # Codex baseline adapter
 
-Latest Windows C0 result, 2026-10-26: Codex completed at parity 97.46 with
+The [minimal reasoning normalization](../../analyses/bridge-reasoning-normalization-20261027/README.md)
+adds missing summaries, repairs the provider's reasoning content tag, and reconciles
+only exact text-equivalent terminal duplicates against the completed SSE reasoning
+item. Contradictory text/ciphertext/identities remain errors. Three actual bridged
+model calls and 178 regressions pass. Both C0 evaluations remain stopped.
+
+The [Responses contract tester](../../tools/responses_contract/README.md)
+provides pinned JSON/SSE/V2 cases, offline replay and an explicit later endpoint
+probe. It separates native support from mapper compatibility and never executes
+returned tools or starts Codex/MXC. Both evaluations remain stopped.
+
+The [offline tool-text investigation](../../analyses/c0-root-causes-20261027/codex.md)
+adds a fail-closed `bridge_tool_call_as_text` error when assistant output contains
+the observed markup naming an advertised function, including split SSE deltas.
+It never interprets that text as an executable call. Exact quoted examples also
+trigger the guard; other dialects may escape it. Its upstream producer remains
+unresolved, and no fresh live compatibility is claimed. Both evaluations stay stopped.
+
+## V2 mapping before LiteLLM, 2026-10-27
+
+[`litellm_bridge`](litellm_bridge/mapper.py) translates native V2 agent messages
+and namespace functions into ordinary Responses messages/functions before the
+LiteLLM request. Responses, including SSE function items, regain their exact
+native names/namespaces and explicit plaintext `encrypted_function_args: []`
+for collaboration spawn/send/follow-up calls. The catalog remains V2; native
+task names, roles, models and reasoning settings do not change.
+
+`run-codex-baseline.ps1 -Litellm -Launch` now starts a private authenticated
+loopback bridge, points the run profile at it, records its source hashes and
+stops it in `finally`. Listener startup makes no provider call. Preparation and
+mock modes do not start the bridge. Standalone use from this adapter directory:
+
+```powershell
+python -m litellm_bridge translate --input request.json --output mapped.json
+python -m litellm_bridge serve --port 0 --ready-file <new-absolute-path>
+```
+
+`translate` is offline. `serve` requires `LITELLM_PROXY_API_BASE` (a base ending
+in `/v1`, or an exact `/responses` endpoint) and `LITELLM_PROXY_API_KEY` in its
+process environment. Clients authenticate with that same key. The readiness
+file contains only the loopback base URL and PID. The bridge does not log bodies
+or credentials and performs no retries or redirect following.
+
+Unknown tagged encrypted collaboration content fails before forwarding.
+Recovery requires exact plaintext provenance, either from earlier plaintext
+responses in this bridge process or an explicit SHA256-to-text JSON file passed
+with `--known-plaintext`. The tool does not guess from token prefixes or discard
+delegated content. Opaque historical histories are not automatically repaired.
+Ordinary encrypted reasoning is preserved. Namespace functions are supported;
+namespaced custom tools, WebSockets and the compact endpoint are not implemented.
+Full MXC reachability and end-to-end workflow behavior remain unverified by the
+single direct-host diagnostic.
+
+[Verification and handoff](../../analyses/codex-v2-litellm-mapping-20261027/README.md):
+126 tests plus 45 subtests passed, followed by one synthetic streaming request
+to `claudex-001` returning `MAPPING_OK` with the plaintext marker. Both C0
+evaluations remain stopped. Existing prepared source pins must be refreshed
+before any separately authorized evaluation.
+
+## Historical baseline evidence
+
+Historical completed Windows C0 result, 2026-10-26: Codex completed at parity 97.46 with
 oracle 13/13 stable over three repetitions and 93 public tests passed.
 [The comparison](../../analyses/c0-claudex-001-win-20261026/README.md) includes
 Claude's completed same-folder continuation at cumulative parity 98.33 and the

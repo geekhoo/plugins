@@ -1,10 +1,65 @@
 # geeky-orchestration
 
+[Native Codex C0 is blocked at the spec commit gate](evals/analyses/c0-codex-native-run-20261029/README.md).
+The agent correctly stopped without fabricating a task reference. The preparation
+missed this existing policy conflict; it must be resolved before another attempt.
+The [Codex kickoff](evals/analyses/c0-codex-native-run-20261029/handoff.md) specifies
+the fix (`Tasks: none` on docs commits only), re-preparation and one launch.
+
+[Codex C0 native-wire preparation](evals/analyses/c0-codex-native-preparation-20261029/README.md)
+adds explicit `-LitellmWireMode native` for the Luna candidate, retaining bridge
+mode by default. Seven focused offline checks pass; live completion is held.
+
+[Claude Luna/high overtime completion](evals/analyses/c0-luna-overtime-20261028/README.md)
+records final acceptance, 18 public tests, 13/13 oracle checks over three runs,
+and verified cumulative parity98.44 after authorized overtime. Both evaluations are stopped.
+
+[Luna/high sequential C0 results](evals/analyses/c0-luna-sequential-20261028/README.md)
+record the Codex bridge failure and Claude timeout with 13/13 oracle results.
+Langfuse readback succeeded for both; no further run or recovery is active.
+
 [Luna/high C0 preparation](evals/analyses/c0-luna-preparation-20261028/README.md)
 uses committed workflow/runner fixes and an explicit Luna-only qualification waiver.
 Claude supports `-Effort high`; both MXC harnesses stay held for separate launch authority.
 
+[Claude inside MXC, Messages API checks](evals/analyses/mxc-claude-messages-20261027/README.md)
+verified four real MCP/tool-result roundtrips and recorded two provider-resource
+404s. This is minimal harness proof; both C0 evaluations remain stopped.
+
+[The reasoning bridge normalization](evals/analyses/bridge-reasoning-normalization-20261027/README.md)
+passed the saved failing streams and small actual HTTP-bridge calls for MiniMax,
+DeepSeek and MiMo. Both evaluations remain stopped.
+
+[The bounded endpoint retest](evals/analyses/litellm-bounded-retest-20261027/README.md)
+resolved the Luna opaque uncertainty and finished the token-limited generations.
+Completed payloads still expose wire-shape and thinking-option gaps; no C0 run started.
+
+[Small six-model LiteLLM diagnostics](evals/analyses/litellm-six-models-20261027/README.md)
+verified basic routing and selected native/bridge cases. Low-cap incompletes are
+inconclusive; the three bridge passes do not establish C0 readiness. Both
+evaluations remain stopped.
+
+Use the [Responses API / Codex V2 diagnostics](evals/tools/responses_contract/README.md)
+to prepare synthetic tests, validate saved data and later probe an explicit
+endpoint. Native V2 and mapper compatibility are reported separately.
+Both evaluations remain stopped; no endpoint was tested for this tooling work.
+
+The [fresh sequential C0 pair](evals/analyses/c0-fresh-sequential-20261027/README.md)
+is terminal: Codex research stopped early and Claude exhausted its budget during
+plan review. No implementation was produced. Langfuse readback succeeded for both.
+
+The [offline root-cause follow-up](evals/analyses/c0-root-causes-20261027/README.md)
+adds shared budget checks through planning and a dedicated bridge rejection for
+the observed tool-call text. No new evaluation was started; live effectiveness
+remains unverified. Changed policies must be committed when authorized before
+the runners can export them from HEAD.
+
 Current [C0 operator readiness](evals/c0-readiness.md) records installed tools, local mock proof and paste-verbatim verification prompts. Live telemetry and paid canaries remain held. See [lessons learned](evals/lessons-learned.md) before preparing another run.
+
+The [Codex V2 LiteLLM mapping fix](evals/analyses/codex-v2-litellm-mapping-20261027/README.md)
+has offline regression coverage and one successful synthetic provider request.
+It keeps native V2 roles and translates the provider wire format. Both evaluations
+remain stopped pending a new explicit launch instruction.
 
 The [C0 remediation implementation](evals/analyses/c0-claudex-001-win-20261026/remediation-20261026/handoff.md)
 is accepted offline: review/closeout instructions and compact output, one-deadline

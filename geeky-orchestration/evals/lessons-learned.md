@@ -1,5 +1,61 @@
 # Eval runs: lessons learned
 
+## Stage commit messages against the gate, 2026-10-29
+
+The [native Codex run](analyses/c0-codex-native-run-20261029/README.md) stopped
+because spec-research prescribes a commit message that `check-commit` rejects.
+Claude had already shown the same failure as a self-declared exception, and an
+earlier Codex run invented `Tasks: T1`. Before declaring readiness, run every
+skill's prescribed commit message through the gate. Harnesses resolve rule
+conflicts differently, so an unresolved conflict is a parity confound as well
+as a blocker.
+
+The secret scan before this commit found the Langfuse key pair in tracked
+capture `20261025T030323Z` (`stream.jsonl:7596`, one subagent log), which is
+already on the public remote. Rotate the keys. Scan captures for literal
+credential values, not only for key-shaped patterns, before each commit.
+
+## Narrow reasoning normalization, 2026-10-27
+
+The [bridge follow-up](analyses/bridge-reasoning-normalization-20261027/README.md)
+repairs missing reasoning summaries and the exact captured duplicate SSE form.
+Match completed item identity, text and ciphertext before reconciliation; do not
+silently replace conflicting payloads. Retain raw wire findings separately from
+validation of the normalized client stream. Three real HTTP-bridge calls passed;
+native upstream/full C0 readiness and thinking-off behavior remain separate.
+
+## Planning budgets and text tool calls, 2026-10-27
+
+The [latest pair's offline investigation](analyses/c0-root-causes-20261027/README.md)
+found that the deadline reached the runtime but only implementation consumed it.
+Apply budget checks during research, planning and review, propagate absolute
+limits into child briefs, narrow optional source collection, and preserve all
+required gates. The cumulative stage targets are advisory heuristics; they do
+not prove a future run will reach coding or finish on time.
+
+Codex's literal wait markup contains the bridge's advertised wire name. The
+retained trace proves no structured wait was executed; missing upstream bytes
+prevent assigning its origin. Reject this exact pattern with a dedicated error,
+never execute assistant text as tools, and keep live compatibility unproved.
+The source/export guard compares normalized line endings so Windows CRLF and
+Git archive LF do not falsely imply different policies. Historical captures and
+scores remain unchanged; both evaluations are stopped.
+
+## Codex V2 plaintext metadata, 2026-10-27
+
+Codex 0.164.0 distinguishes absent `encrypted_function_args` from an explicit
+empty list on collaboration messages. A Responses bridge returning plaintext
+without the marker can cause V2 to label that text encrypted. The
+[wire mapper](analyses/codex-v2-litellm-mapping-20261027/README.md) removes schema
+encryption annotations upstream and restores `[]` on supported plaintext
+collaboration responses. Request and response translation both matter.
+
+Reject opaque or malformed encryption metadata before forwarding or recording
+plaintext provenance. An authenticated alias or a single small API request does
+not establish full native workflow compatibility. The mapping verification used
+one synthetic request; both C0 evaluations remain stopped. Historical evidence
+and scores are unchanged.
+
 ## Current Windows C0 lessons, 2026-10-26
 
 Read [operator readiness](c0-readiness.md) for the current commands, evidence hashes and future verification prompts. Local executables are installed and version-probed. The readiness suite passed 10 tests; the actual mock command passed 28 local telemetry/publisher checks. Inventory alone reports `inventory-ready`; mock execution reports `mocktested-ready`. Both keep LIVE HELD. Neither proves credentials, remote service compatibility, model routing or live delivery.
