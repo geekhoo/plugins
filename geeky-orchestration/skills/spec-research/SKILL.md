@@ -109,7 +109,7 @@ Commit the spec (same command on all platforms). The spec is not yet frozen — 
 
 ```
 git add docs/<feature-folder>/
-git commit -m "docs: author feature specification in <feature-folder>" -m "[1-line summary of the spec focus]" -m "Research conducted by: codebase analyst, researcher 2 domain, researcher 3 domain"
+git commit -m "docs: author feature specification in <feature-folder>" -m "[1-line summary of the spec focus]" -m "Research conducted by: codebase analyst, researcher 2 domain, researcher 3 domain" -m "Tasks: none (pre-planning specification)"
 ```
 
 Then suggest next steps:

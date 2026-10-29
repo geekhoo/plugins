@@ -6,6 +6,8 @@
 #     type in feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert
 #   - subject length <= 72 chars
 #   - a task reference exists: "Tasks: T<n>" line (error if none; warn if only a bare T<n>)
+#     unless a docs commit has a case-insensitive "Tasks: none" line
+#   - a "Tasks: none" line is an error for every type other than docs
 #
 # Message source (first provided): positional FILE (git commit-msg), -Message, or stdin.
 #
@@ -26,7 +28,7 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $Types = 'feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert'
-$SubjectPattern = "^(?:$Types)(?:\([^)]+\))?!?: .+"
+$SubjectPattern = "^(?<type>$Types)(?:\([^)]+\))?!?: .+"
 $MaxSubject = 72
 
 function Out-Fail([string]$msg) {
@@ -57,14 +59,19 @@ $body = ($lines -join "`n")
 $errors = @()
 $warnings = @()
 
-if (-not [regex]::IsMatch($subject, $SubjectPattern)) {
+$subjectMatch = [regex]::Match($subject, $SubjectPattern)
+if (-not $subjectMatch.Success) {
     $errors += "subject is not Conventional Commits `"type(scope): summary`": '$subject'"
 }
 if ($subject.Length -gt $MaxSubject) {
     $errors += "subject exceeds $MaxSubject chars ($($subject.Length))"
 }
 
-if ([regex]::IsMatch($body, '^\s*Tasks:\s*.*\bT\d+\b', 'IgnoreCase,Multiline')) {
+if ([regex]::IsMatch($body, '^\s*Tasks:\s*none\b', 'IgnoreCase,Multiline')) {
+    if (-not $subjectMatch.Success -or $subjectMatch.Groups['type'].Value -ne 'docs') {
+        $errors += 'Tasks: none is allowed only for docs commits'
+    }
+} elseif ([regex]::IsMatch($body, '^\s*Tasks:\s*.*\bT\d+\b', 'IgnoreCase,Multiline')) {
     # ok
 } elseif ([regex]::IsMatch($body, '\bT\d+\b')) {
     $warnings += 'task referenced but no "Tasks: T<n>" line (recommended)'

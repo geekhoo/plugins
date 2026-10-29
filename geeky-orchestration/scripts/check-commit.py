@@ -2,8 +2,8 @@
 """check-commit.py
 
 Validate a commit message against the geeky-implement format: a Conventional
-Commits subject plus a task reference (Tasks: T<n> ...). The most natively
-portable gate — wire it as a git commit-msg hook, a pre-commit check, or a
+Commits subject plus a task reference (Tasks: T<n> ...), or Tasks: none for docs
+commits only. Wire this portable gate as a git commit-msg hook, a pre-commit check, or a
 Claude PreToolUse matcher on `Bash(git commit *)`.
 
 Rules (violations => ERROR, exit 1):
@@ -12,7 +12,9 @@ Rules (violations => ERROR, exit 1):
     (scope optional; '!' optional)
   - subject length <= 72 chars
   - a task reference exists somewhere in the message: a "Tasks:" line, or a
-    bare T<number> token (warn-only if only a bare token, error if neither).
+    bare T<number> token (warn-only if only a bare token, error if neither),
+    unless a docs commit has a case-insensitive "Tasks: none" line.
+  - a "Tasks: none" line is an error for every type other than docs.
 
 Message source (first that is provided):
   positional FILE  (git commit-msg passes the path to .git/COMMIT_EDITMSG)
@@ -36,8 +38,9 @@ import sys
 from pathlib import Path
 
 TYPES = "feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert"
-SUBJECT_RE = re.compile(rf"^(?:{TYPES})(?:\([^)]+\))?!?: .+")
+SUBJECT_RE = re.compile(rf"^(?P<type>{TYPES})(?:\([^)]+\))?!?: .+")
 TASKS_LINE_RE = re.compile(r"^\s*Tasks:\s*.*\bT\d+\b", re.IGNORECASE | re.MULTILINE)
+TASKS_NONE_LINE_RE = re.compile(r"^\s*Tasks:\s*none\b", re.IGNORECASE | re.MULTILINE)
 BARE_TASK_RE = re.compile(r"\bT\d+\b")
 MAX_SUBJECT = 72
 
@@ -71,14 +74,18 @@ def check(message: str) -> dict:
     errors: list[str] = []
     warnings: list[str] = []
 
-    if not SUBJECT_RE.match(subject):
+    subject_match = SUBJECT_RE.match(subject)
+    if not subject_match:
         errors.append(
             f'subject is not Conventional Commits "type(scope): summary": {subject!r}'
         )
     if len(subject) > MAX_SUBJECT:
         errors.append(f"subject exceeds {MAX_SUBJECT} chars ({len(subject)})")
 
-    if TASKS_LINE_RE.search(body):
+    if TASKS_NONE_LINE_RE.search(body):
+        if not subject_match or subject_match.group("type") != "docs":
+            errors.append("Tasks: none is allowed only for docs commits")
+    elif TASKS_LINE_RE.search(body):
         pass
     elif BARE_TASK_RE.search(body):
         warnings.append('task referenced but no "Tasks: T<n>" line (recommended)')
