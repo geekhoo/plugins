@@ -361,7 +361,8 @@ $pkg = $Case.Substring(3)
 $py = Get-ChildItem $ws -Recurse -Filter *.py -File | Where-Object { $_.FullName -notmatch '[\\/]\.git[\\/]' }
 $isTest = { param($f) $f.Name -like 'test_*' -or $f.Name -like '*_test.py' -or $f.FullName -match '[\\/]tests?[\\/]' }
 $pkgDir = (Join-Path $ws $pkg) + [IO.Path]::DirectorySeparatorChar
-$srcLoc = ($py | Where-Object { $_.FullName.StartsWith($pkgDir) -and -not (& $isTest $_) } | Get-Content | Measure-Object -Line).Lines
+# Get-ChildItem reports on-disk casing (C:\Repos) that may differ from $ws (C:\repos); compare case-insensitively.
+$srcLoc = ($py | Where-Object { $_.FullName.StartsWith($pkgDir, [StringComparison]::OrdinalIgnoreCase) -and -not (& $isTest $_) } | Get-Content | Measure-Object -Line).Lines
 $testLoc = ($py | Where-Object { & $isTest $_ } | Get-Content | Measure-Object -Line).Lines
 $bgKilled = Select-String -Path (Join-Path $out 'stderr.txt') -Pattern 'Background tasks still running .* stopping them' -Quiet
 # A provider-side refusal (content filter) ends the session cleanly, so it must not read as completed.
@@ -381,8 +382,10 @@ $analysisRecord = [ordered]@{
     geeky_skills_loaded = @($init.skills | Where-Object { "$_" -like 'geeky-orchestration:*' }).Count
     workspace = $ws; seed_sha = $baseSha; session_id = $sid
     started_utc = $started.ToString('o'); ended_utc = $ended.ToString('o'); wall_time_s = [int]($ended - $started).TotalSeconds
-    tokens = [ordered]@{ input = $inputTotal; cached_input = [long]$u.cache_read_input_tokens; output = [long]$u.output_tokens
-        reasoning = [long]$u.output_tokens_details.thinking_tokens; total = $inputTotal + [long]$u.output_tokens }
+    # Without a result line (timeout/crash) usage is unknown: record nulls, never zeros.
+    tokens = $(if ($results.Count) { [ordered]@{ input = $inputTotal; cached_input = [long]$u.cache_read_input_tokens; output = [long]$u.output_tokens
+        reasoning = [long]$u.output_tokens_details.thinking_tokens; total = $inputTotal + [long]$u.output_tokens } }
+        else { [ordered]@{ input = $null; cached_input = $null; output = $null; reasoning = $null; total = $null } })
     model_calls = ($results | ForEach-Object { [int]$_.num_turns } | Measure-Object -Sum).Sum; latency_median_ms = $null; max_idle_gap_s = $null
     stages = $null; tasks = $null; impl_review_rounds = $null
     oracle = [ordered]@{ collected = $o.passed + $o.failed + $o.errors + $o.skipped; passed = $o.passed; failed = $o.failed

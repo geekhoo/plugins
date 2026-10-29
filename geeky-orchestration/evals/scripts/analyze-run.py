@@ -293,6 +293,8 @@ def analyze(run_dir: Path, harness=None, process_path=None):
                      for m, u in usage.items()},
         "cost_usd_estimate": round(sum(u.get("costUSD", 0) for u in usage.values()), 4),
     }
+    if not usage:  # no final result (timeout/crash) or no accounting: usage is unknown, not zero
+        tokens = {k: None for k in tokens}
 
     # Tool calls, subagents, skills and validations from the stream
     main_tools, sub_tools, subagents, skills = (collections.Counter() for _ in range(4))
