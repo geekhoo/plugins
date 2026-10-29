@@ -5,8 +5,9 @@ param(
     [string]$ToolsDir = 'C:\repos\.eval-tools',
     [string]$CodexHome = 'C:\repos\.eval-tools\codex-home',
     [string]$MxcBuildSource,
-    [ValidateSet('default', 'paid-roles-defaultfork', 'paid-roles-forkall')][string]$Variant = 'default',
-    [ValidateSet('code-reviewer', 'code-architect-reviewer')][string]$ReviewerRole
+    [ValidateSet('default', 'paid-roles-defaultfork', 'paid-roles-forkall', 'cold-workers')][string]$Variant = 'default',
+    [ValidateSet('code-reviewer', 'code-architect-reviewer')][string]$ReviewerRole,
+    [switch]$NativePlaintextProxy
 )
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $false
@@ -41,6 +42,11 @@ if ($MxcBuildSource) {
 }
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'native-probe.py') -Destination $probe
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'diagnostics.py') -Destination $cfg
+if ($NativePlaintextProxy) {
+    $package = Join-Path $cfg 'litellm_bridge'
+    if (Test-Path -LiteralPath $package) { throw 'Use a fresh prepared config for native plaintext proxy proof' }
+    Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'litellm_bridge') -Destination $package -Recurse
+}
 $hostArgs = @('run', '--workspace', $ws, '--isolated', '--allow-win32k', '--no-enumerate-root', '--host-loopback', '--deny-net',
     '--rw', (Join-Path $cfg 'plugin'), '--ro', $cfg, '--rw', $runHome, '--rw', $runTmp,
     '--ro', $ToolsDir, '--rw', $CodexHome, '--timeout', '240',
@@ -56,6 +62,7 @@ $probeArgs = @($probe, '--codex', $codex, '--profile', (Join-Path $cfg 'codex-pr
     '--variant', $Variant,
     '--forbidden-skill-root', (Join-Path ([Environment]::GetFolderPath([Environment+SpecialFolder]::UserProfile)) '.agents\skills'))
 if ($ReviewerRole) { $probeArgs += @('--reviewer-role', $ReviewerRole) }
+if ($NativePlaintextProxy) { $probeArgs += '--native-plaintext-proxy' }
 $saved = $env:MXC_CLAUDE_EXE
 $savedState = $env:MXC_SANDBOX_HOME
 $lock = [IO.File]::Open((Join-Path $ToolsDir '.codex-baseline.lock'), [IO.FileMode]::OpenOrCreate, [IO.FileAccess]::ReadWrite, [IO.FileShare]::None)

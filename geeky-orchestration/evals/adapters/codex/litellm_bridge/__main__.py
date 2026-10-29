@@ -9,6 +9,7 @@ import sys
 import threading
 
 from .mapper import BridgeState, MappingError, translate_request
+from .native_plaintext import NativePlaintextState
 from .server import make_server
 
 
@@ -21,6 +22,7 @@ def main():
     serve = sub.add_parser("serve", help="Listen on 127.0.0.1; fixed upstream from environment")
     serve.add_argument("--port", type=int, default=0)
     serve.add_argument("--ready-file", type=Path, required=True)
+    serve.add_argument("--wire-mode", choices=('bridge', 'native-plaintext'), default='bridge')
     for command in (translate, serve):
         command.add_argument("--known-plaintext", type=Path, help="Explicit SHA256-to-plaintext JSON object")
     args = parser.parse_args()
@@ -28,7 +30,10 @@ def main():
     ready_written = False
     try:
         known = json.loads(args.known_plaintext.read_text(encoding="utf-8")) if args.known_plaintext else {}
-        state = BridgeState(known)
+        native = args.command == 'serve' and args.wire_mode == 'native-plaintext'
+        if native and args.known_plaintext:
+            raise ValueError('Native plaintext mode requires completed-response provenance')
+        state = NativePlaintextState() if native else BridgeState(known)
         if args.command == "translate":
             source = args.input.read_text(encoding="utf-8") if args.input else sys.stdin.read()
             mapped, _ = translate_request(json.loads(source), state)
@@ -39,8 +44,10 @@ def main():
                 sys.stdout.write(result)
             return 0
         server = make_server(os.environ.get("LITELLM_PROXY_API_BASE", ""),
-                             os.environ.get("LITELLM_PROXY_API_KEY", ""), port=args.port, state=state)
-        ready = {"base_url": f"http://127.0.0.1:{server.server_port}/v1", "pid": os.getpid()}
+                             os.environ.get("LITELLM_PROXY_API_KEY", ""), port=args.port, state=state,
+                             wire_mode=args.wire_mode)
+        ready = {"base_url": f"http://127.0.0.1:{server.server_port}/v1", "pid": os.getpid(),
+                 "wire_mode": args.wire_mode}
         # Exclusive creation prevents a stale file from masquerading as readiness.
         with args.ready_file.open("x", encoding="utf-8") as handle:
             json.dump(ready, handle)

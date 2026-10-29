@@ -68,6 +68,7 @@ def provider_catalog(base_catalog, slugs, context_window):
     for slug in dict.fromkeys(slugs):
         entry = dict(base, slug=slug, display_name=slug, description='Eval model routed through LiteLLM',
                      apply_patch_tool_type=None, multi_agent_version='v2', upgrade=None, availability_nux=None,
+                     supports_search_tool=False,
                      additional_speed_tiers=[], service_tiers=[], priority=0,
                      context_window=context_window, max_context_window=context_window)
         entries.append(entry)
@@ -164,9 +165,13 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
         config['model_provider'] = 'litellm'
         config['model_providers'] = {'litellm': {
             'name': 'LiteLLM', 'base_url': provider['base_url'], 'env_key': provider['env_key'],
-            'wire_api': 'responses', 'requires_openai_auth': False, 'supports_websockets': False}}
+            'wire_api': 'responses', 'requires_openai_auth': False, 'supports_websockets': False,
+            'request_max_retries': 0, 'stream_max_retries': 0}}
         # Hosted web search is an OpenAI server tool; a LiteLLM route cannot serve it.
         config['web_search'] = 'disabled'
+        # Third-party Responses SDKs have rewritten native tool-search item IDs.
+        # Keep MCP functions eagerly exposed and retain native V2 roles/namespaces.
+        config.setdefault('features', {}).update(tool_search=False, tool_search_always_defer_mcp_tools=False)
     shutil.copyfile(plugin / 'AGENTS.md', home / 'AGENTS.md')
     config['developer_instructions'] = (plugin / 'AGENTS.md').read_text(encoding='utf-8') + review_policy
     # Windows native skill discovery uses KnownFolder HOME, ignoring env HOME.
@@ -277,7 +282,9 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
     report.update(ok=all(c['passed'] for c in checks), codex_config_overrides=overrides,
         extra_args=[], telemetry=telemetry,
         provider=({'name': 'litellm', 'base_url': provider['base_url'], 'env_key': provider['env_key'],
-                   'context_window': provider['context_window'], 'tool_shape': 'classic-functions, multi-agent v2'}
+                   'context_window': provider['context_window'], 'tool_shape': 'classic-functions, multi-agent v2',
+                   'tool_search': 'disabled; MCP functions exposed eagerly',
+                   'client_retries': {'request': 0, 'stream': 0}}
                   if provider else None),
         profile_sha256=hashlib.sha256((digest(profile) + digest(home)).encode()).hexdigest(),
         reachability={'claude': required, 'codex': required,

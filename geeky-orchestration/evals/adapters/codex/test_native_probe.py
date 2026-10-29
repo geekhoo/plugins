@@ -2,6 +2,8 @@
 import importlib.util
 import io
 import json
+import copy
+import subprocess
 from pathlib import Path
 from types import SimpleNamespace
 import tomllib
@@ -354,13 +356,15 @@ def test_script_preserves_tools_and_requires_nested_and_default_final_answers(tm
     fallback = probe.fixture_output(child, state, tmp_path)
     fallback_args = json.loads(fallback['arguments'])
     assert fallback['name'] == 'spawn_agent'
-    if variant == 'default':
-        assert set(fallback_args) == {'task_name', 'message'}
+    if variant in ('default', 'cold-workers'):
+        assert set(fallback_args) == {'task_name', 'message'} | ({'fork_turns'} if variant == 'cold-workers' else set())
     else:
         assert fallback_args['agent_type'] == 'default'
     for args in (spawn, nested_args, fallback_args):
         if variant == 'paid-roles-forkall':
             assert args['fork_turns'] == 'all'
+        elif variant == 'cold-workers':
+            assert args['fork_turns'] == 'none'
         else:
             assert 'fork_turns' not in args
     assert fallback_args['task_name'] == 'cp2_native_default'
@@ -494,6 +498,7 @@ def test_variant_selection_is_local_and_rejects_unknown_variants():
     changed = probe.variant_roles('paid-roles-forkall')
     changed['child'] = 'unrelated'
     assert probe.variant_roles('default') == baseline
+    assert probe.variant_roles('cold-workers') == baseline
     assert probe.variant_roles('paid-roles-defaultfork') == {
         'child': 'geeky-orchestrator', 'grandchild': 'code-explorer'}
     assert probe.ROLES == baseline
@@ -501,7 +506,31 @@ def test_variant_selection_is_local_and_rejects_unknown_variants():
         probe.fixture_state('unknown')
 
 
-@pytest.mark.parametrize('variant', probe.VARIANTS[1:])
+def test_cold_worker_routing_and_role_evidence_require_no_parent_history(tmp_path):
+    expected, instructions = probe.model_expectations(independent_profile(tmp_path), 'cold-workers')
+    requests = []
+    for thread, (_, marker) in probe.THREADS.items():
+        request = native_request(thread)
+        request['input'] = [{'type': 'message', 'role': 'user', 'content': [
+            {'type': 'input_text', 'text': marker + '. Cold self-contained assignment.'}]}]
+        request['input'].append({'type': 'message', 'role': 'developer', 'content': [
+            {'type': 'input_text', 'text': instructions.get(thread, 'Default worker instructions.')} ]})
+        assert probe.request_thread(request) == thread
+        requests.append(request)
+    evidence = probe.request_evidence(requests, expected, instructions)
+    assert all(row['model_reasoning_ok'] for row in evidence.values())
+    assert all(evidence[thread]['instructions_ok'] for thread in ('main', 'child', 'grandchild'))
+
+
+def test_powershell_entrypoint_accepts_exact_python_fixture_variants():
+    import re
+    script = Path(__file__).with_name('run-native-probe.ps1').read_text(encoding='utf-8-sig')
+    declared = re.search(r"\[ValidateSet\(([^\r\n]+)\)\]\[string\]\$Variant", script)
+    assert declared is not None
+    assert tuple(re.findall(r"'([^']+)'", declared.group(1))) == probe.VARIANTS
+
+
+@pytest.mark.parametrize('variant', ['paid-roles-defaultfork', 'paid-roles-forkall'])
 def test_paid_variant_requires_actual_code_explorer_registered_body(tmp_path, variant):
     profile = independent_profile(tmp_path)
     expected, instructions = probe.model_expectations(profile, variant)
@@ -529,8 +558,9 @@ def test_spawn_report_uses_request_arguments_and_deduplicates_history():
         {'call_id': 'cp2_nested_spawn', 'request_index': 1, 'arguments': json.loads(nested_spawn['arguments'])}]
 
 
+@pytest.mark.parametrize('variant', ['default', 'cold-workers'])
 @pytest.mark.parametrize('role', ['code-reviewer', 'code-architect-reviewer'])
-def test_reviewer_probe_checks_distinct_effort_and_actual_role_dispatch(tmp_path, role):
+def test_reviewer_probe_checks_distinct_effort_and_actual_role_dispatch(tmp_path, role, variant):
     profile = independent_profile(tmp_path)
     profile.update(reasoning='high', worker_model='gpt-6.1-sol', worker_reasoning='medium', reviewer_reasoning='xhigh')
     profile['model_matrix'] = {
@@ -541,15 +571,17 @@ def test_reviewer_probe_checks_distinct_effort_and_actual_role_dispatch(tmp_path
     role_file = tmp_path / (role + '.toml')
     role_file.write_text('developer_instructions=' + json.dumps('Reviewer ' + role))
     profile['codex_config_overrides'].append('agents.' + role + '.config_file=' + json.dumps(str(role_file)))
-    expected, instructions = probe.model_expectations(profile, reviewer_role=role)
+    expected, instructions = probe.model_expectations(profile, variant, reviewer_role=role)
     assert expected['main']['reasoning'] == 'high'
     assert expected['child'] == expected['default'] == {'model': 'gpt-6.1-sol', 'reasoning': 'medium'}
     assert expected['grandchild'] == {'model': 'gpt-6.1-sol', 'reasoning': 'xhigh'}
     assert instructions['grandchild'] == 'Reviewer ' + role
-    state = probe.fixture_state()
-    state['roles'] = probe.probe_roles(profile, reviewer_role=role)
+    state = probe.fixture_state(variant)
+    state['roles'] = probe.probe_roles(profile, variant, reviewer_role=role)
     spawn = probe.fixture_output(native_request('child'), state, tmp_path)
     assert json.loads(spawn['arguments'])['agent_type'] == role
+    if variant == 'cold-workers':
+        assert json.loads(spawn['arguments'])['fork_turns'] == 'none'
     requests = evidence_requests(instructions)
     for request, thread in zip(requests, probe.THREADS):
         request['model'] = expected[thread]['model']
@@ -559,9 +591,166 @@ def test_reviewer_probe_checks_distinct_effort_and_actual_role_dispatch(tmp_path
     assert not probe.request_evidence(requests, expected, instructions)['grandchild']['model_reasoning_ok']
     profile['model_matrix']['reviewers']['reasoning'] = 'medium'
     with pytest.raises(ValueError, match='reviewer matrix'):
-        probe.model_expectations(profile, reviewer_role=role)
+        probe.model_expectations(profile, variant, reviewer_role=role)
 
 
 def test_reviewer_probe_rejects_unregistered_role_before_launch(tmp_path):
     with pytest.raises(ValueError, match='registered reviewer'):
         probe.model_expectations(independent_profile(tmp_path), reviewer_role='code-reviewer')
+
+
+def classic_request():
+    request = native_request()
+    request['tools'] = [{'type': 'function', 'name': 'exec_command'}]
+    return request
+
+
+def test_classic_profile_uses_declared_json_tools_and_real_deferred_search(tmp_path):
+    assert probe.profile_tool_shape({'provider': {'tool_shape': 'classic-functions, multi-agent v2'}}) == 'classic-functions'
+    assert probe.profile_tool_shape({}) == 'code-mode'
+    state = probe.fixture_state()
+    state.update(tool_shape='classic-functions', guard_python='C:/Python314/python.exe')
+    request = classic_request()
+    write = probe.fixture_output(request, state, tmp_path)
+    assert write['type'] == 'function_call' and write['name'] == 'exec_command'
+    command = json.loads(write['arguments'])['cmd']
+    assert 'WriteAllText' in command and 'guard-planning-contract.py' in command
+    assert '<<' not in command and 'apply_patch' not in command
+    read = probe.fixture_output(request, state, tmp_path)
+    assert read['name'] == 'exec_command' and 'CP2_NATIVE_SKILL_OK' in read['arguments']
+    request['tools'].append({'type': 'tool_search', 'execution': 'client'})
+    search = probe.fixture_output(request, state, tmp_path)
+    assert search['type'] == 'tool_search_call' and search['id'].startswith('tsc_')
+    assert search['call_id'].startswith('call_') and search['execution'] == 'client'
+    request['input'].extend([search, {'type': 'tool_search_output', 'id': 'tso_fixture',
+        'call_id': search['call_id'], 'tools': [{'type': 'namespace', 'name': 'mcp__geeky',
+        'tools': [{'type': 'function', 'name': 'geeky_check_commit'}]}]}])
+    call = probe.fixture_output(request, state, tmp_path)
+    assert call['type'] == 'function_call' and call['namespace'] == 'mcp__geeky'
+    assert call['name'] == 'geeky_check_commit'
+    assert json.loads(call['arguments']) == {'params': {'message': 'chore(mock): probe native MCP\n\nTasks: T0'}}
+    assert state['main_step'] == 3
+    assert probe.history_protocol_evidence([request])['ok']
+
+
+def test_classic_fixture_rejects_undeclared_or_ambiguous_functions():
+    request = classic_request()
+    with pytest.raises(ValueError, match='one declared function'):
+        probe.declared_call(request, 'apply_patch', {}, 'bad')
+    request['tools'].append({'type': 'function', 'name': 'exec_command'})
+    with pytest.raises(ValueError, match='one declared function'):
+        probe.declared_call(request, 'exec_command', {}, 'bad')
+
+
+def test_classic_discovery_is_bounded(tmp_path):
+    state = probe.fixture_state()
+    state.update(tool_shape='classic-functions', main_step=2, mcp_attempts=20)
+    output = probe.fixture_output(classic_request(), state, tmp_path)
+    assert output['type'] == 'message' and 'MCP_FAILED' in output['content'][0]['text']
+    assert state['errors'] == ['classic MCP discovery exhausted']
+
+
+def test_classic_discovery_waits_for_advertised_search_instead_of_unsupported_call(tmp_path):
+    state = probe.fixture_state()
+    state.update(tool_shape='classic-functions', main_step=2)
+    request = classic_request()
+    for _ in range(3):
+        pending = probe.fixture_output(request, state, tmp_path)
+        assert pending['type'] == 'function_call' and pending['name'] == 'exec_command'
+        assert 'Start-Sleep -Milliseconds 500' in json.loads(pending['arguments'])['cmd']
+        assert state['main_step'] == 2
+    request['tools'].append({'type': 'tool_search', 'execution': 'client'})
+    assert probe.fixture_output(request, state, tmp_path)['type'] == 'tool_search_call'
+    assert not state['errors']
+
+
+def test_classic_discovery_uses_direct_declared_mcp_without_search(tmp_path):
+    state = probe.fixture_state()
+    state.update(tool_shape='classic-functions', main_step=2)
+    request = classic_request()
+    request['tools'].append({'type': 'function', 'name': 'mcp__geeky__geeky_check_commit'})
+    output = probe.fixture_output(request, state, tmp_path)
+    assert output['type'] == 'function_call' and output['name'] == 'mcp__geeky__geeky_check_commit'
+    assert state['main_step'] == 3 and not state['errors']
+
+
+def test_classic_discovery_fails_clearly_when_no_supported_route_exists(tmp_path):
+    state = probe.fixture_state()
+    state.update(tool_shape='classic-functions', main_step=2)
+    request = native_request()
+    request['tools'] = []
+    output = probe.fixture_output(request, state, tmp_path)
+    assert output['type'] == 'message' and output['content'][0]['text'] == 'CP2_NATIVE_MCP_UNAVAILABLE'
+    assert state['errors'] == ['classic MCP unavailable: no declared gate, tool_search or exec_command']
+
+
+def test_tool_search_id_counterexample_fails_without_rewriting_history():
+    request = {'input': [{'type': 'tool_search_call', 'id': 'call_recorded_counterexample',
+                         'call_id': 'call_separate_identity'},
+                        {'type': 'tool_search_output', 'id': 'tso_fixture',
+                         'output': [{'type': 'encrypted_content', 'encrypted_content': 'opaque-unverified'}]}]}
+    before = copy.deepcopy(request)
+    result = probe.history_protocol_evidence([request])
+    assert not result['ok'] and result['errors'] == [{'request_index': 0, 'item_index': 0,
+        'code': 'tool_search_item_id_prefix', 'type': 'tool_search_call'}]
+    assert result['opaque_items'] == 1 and not result['cryptographic_compatibility_verified']
+    assert request == before and 'opaque-unverified' not in json.dumps(result)
+    request['input'][0]['id'] = 'tsc_valid_shape'
+    assert probe.history_protocol_evidence([request])['ok']
+    assert not probe.history_protocol_evidence([request])['cryptographic_compatibility_verified']
+
+
+def test_worker_routing_negative_proof_is_structured_and_scoped():
+    request = {'input': [probe.item('send_message', {'target': '/root/worker'}, 'self', 'collaboration'),
+                         probe.item('wait_agent', {'timeout_ms': 10000}, 'wait', 'collaboration')]}
+    assert probe.worker_routing_errors(request, '/root/worker') == ['self_target', 'wait_without_child']
+    request['input'][0]['arguments'] = json.dumps({'target': '/root'})
+    assert probe.worker_routing_errors(request, '/root/worker', ['/root/worker/real_child']) == []
+
+
+def test_classic_powershell_write_preserves_literal_path_and_utf8(tmp_path):
+    import shutil
+    pwsh = shutil.which('pwsh')
+    if not pwsh:
+        pytest.skip('PowerShell 7 unavailable')
+    workspace = tmp_path / "Unicode 测试 ' $literal $(throw 'injected')"
+    result = subprocess.run([pwsh, '-NoProfile', '-NonInteractive', '-Command',
+                             probe.fixture_file_write(workspace)], capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    assert (workspace / 'docs/spec-001-feature/draft.md').read_bytes() == b'CP2 disposable guard fixture'
+
+
+def test_native_plaintext_contract_checks_handoffs_but_preserves_reasoning_boundary():
+    request = {'tools': [], 'input': [
+        {'type': 'reasoning', 'encrypted_content': 'opaque-reasoning-unchanged'},
+        {'type': 'agent_message', 'content': [{'type': 'input_text', 'text': 'known task'}]},
+        {'type': 'function_call_output', 'call_id': 'call_1', 'output': 'ordinary result'},
+    ]}
+    assert probe.native_plaintext_contract_evidence([request]) == {
+        'encrypted_message_schemas': 0, 'tagged_encrypted_handoffs': 0, 'search_items': 0}
+    request['input'][1]['content'][0] = {'type': 'encrypted_content', 'encrypted_content': 'opaque'}
+    assert probe.native_plaintext_contract_evidence([request])['tagged_encrypted_handoffs'] == 1
+    request['input'].append({'type': 'tool_search_call', 'id': 'tsc_valid', 'call_id': 'call_separate'})
+    request['tools'] = [{'type': 'tool_search'}, {'type': 'namespace', 'name': 'collaboration',
+        'tools': [{'type': 'function', 'name': 'spawn_agent', 'parameters': {'properties': {
+            'message': {'type': 'string', 'encrypted': True}}}}]}]
+    evidence = probe.native_plaintext_contract_evidence([request])
+    assert evidence['search_items'] == 2 and evidence['encrypted_message_schemas'] == 1
+
+
+def test_classic_write_evidence_rejects_stale_file_and_unsuccessful_execution(tmp_path):
+    path = tmp_path / 'docs/spec-001-feature/draft.md'
+    path.parent.mkdir(parents=True)
+    marker = 'CP2 disposable guard fixture current-attempt'
+    event = {'type': 'item.completed', 'item': {'type': 'command_execution', 'exit_code': 0,
+        'command': probe.fixture_file_write(tmp_path, marker), 'aggregated_output': marker}}
+    path.write_bytes(b'CP2 disposable guard fixture previous-attempt')
+    assert not probe.classic_write_evidence(tmp_path, marker, [event])
+    path.write_bytes(marker.encode('utf-8'))
+    assert not probe.classic_write_evidence(tmp_path, marker, [])
+    event['item']['exit_code'] = 1
+    assert not probe.classic_write_evidence(tmp_path, marker, [event])
+    event['item']['exit_code'] = 0
+    assert probe.classic_write_evidence(tmp_path, marker, [event])
+    path.write_bytes(marker.encode('utf-8') + b'\n')
+    assert not probe.classic_write_evidence(tmp_path, marker, [event])

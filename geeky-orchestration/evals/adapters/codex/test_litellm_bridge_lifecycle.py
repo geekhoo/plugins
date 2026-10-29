@@ -33,7 +33,8 @@ def clean_env():
     str(WINDOWS_VENV_PYTHON), id='actual-windows-venv-redirector',
     marks=pytest.mark.skipif(os.name != 'nt' or not WINDOWS_VENV_PYTHON.is_file(),
                              reason='Recorded Windows venv launcher unavailable'))])
-def test_listener_routes_and_always_stops(tmp_path, python_executable):
+@pytest.mark.parametrize('wire_mode', ['bridge', 'native-plaintext'])
+def test_listener_routes_and_always_stops(tmp_path, python_executable, wire_mode):
     captured = []
 
     class Upstream(BaseHTTPRequestHandler):
@@ -43,9 +44,12 @@ def test_listener_routes_and_always_stops(tmp_path, python_executable):
         def do_POST(self):
             body = json.loads(self.rfile.read(int(self.headers['Content-Length'])))
             captured.append((self.path, body))
+            function = body['tools'][0]['tools'][0] if wire_mode == 'native-plaintext' else body['tools'][0]
             response = {'id': 'resp_fixture', 'status': 'completed', 'output': [{
-                'type': 'function_call', 'name': body['tools'][0]['name'],
+                'type': 'function_call', 'name': function['name'],
                 'call_id': 'call_fixture', 'arguments': '{"message":"OK"}'}]}
+            if wire_mode == 'native-plaintext':
+                response['output'][0]['namespace'] = 'collaboration'
             raw = json.dumps(response).encode()
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
@@ -62,7 +66,7 @@ def test_listener_routes_and_always_stops(tmp_path, python_executable):
 . {quote(HERE / 'litellm-bridge.ps1')}
 $bridge=$null
 try {{
-    $bridge=Start-CodexLitellmBridge -Python {quote(python_executable)} -AdapterDirectory {quote(HERE)} -StateDirectory {quote(state)} -UpstreamBaseUrl 'http://127.0.0.1:{upstream.server_port}'
+    $bridge=Start-CodexLitellmBridge -Python {quote(python_executable)} -AdapterDirectory {quote(HERE)} -StateDirectory {quote(state)} -UpstreamBaseUrl 'http://127.0.0.1:{upstream.server_port}' -WireMode {quote(wire_mode)}
     $ready=Get-Content -LiteralPath (Join-Path {quote(state)} 'ready.json') -Raw | ConvertFrom-Json
     if($ready.pid -ne $bridge.Process.Id){{throw 'Readiness PID must equal the owned native process'}}
     $body=@{{model='fixture';input=@(@{{type='agent_message';author='/root';recipient='/root/test';content=@(@{{type='input_text';text='synthetic task'}})}});tools=@(@{{type='namespace';name='collaboration';tools=@(@{{type='function';name='send_message';parameters=@{{type='object';properties=@{{message=@{{type='string';encrypted=$true}}}}}}}})}})}} | ConvertTo-Json -Depth 15
@@ -76,12 +80,14 @@ try {{
         assert result.returncode == 0, result.stderr
         report = json.loads(result.stdout)
         assert report['record']['provider_requests_on_start'] == 0
-        assert report['record']['protocol'] == 'codex-v2-to-responses-v1-wire'
+        assert report['record']['protocol'] == ('codex-v2-native-plaintext' if wire_mode == 'native-plaintext' else 'codex-v2-to-responses-v1-wire')
+        assert report['record']['wire_mode'] == wire_mode
+        assert 'native_plaintext.py' in report['record']['source_sha256']
         assert report['response']['output'][0]['namespace'] == 'collaboration'
         assert report['response']['output'][0]['encrypted_function_args'] == []
         assert len(captured) == 1 and captured[0][0] == '/v1/responses'
-        assert captured[0][1]['input'][0]['type'] == 'message'
-        assert captured[0][1]['tools'][0]['type'] == 'function'
+        assert captured[0][1]['input'][0]['type'] == ('agent_message' if wire_mode == 'native-plaintext' else 'message')
+        assert captured[0][1]['tools'][0]['type'] == ('namespace' if wire_mode == 'native-plaintext' else 'function')
         assert not (state / 'ready.json').exists()
         assert json.loads((state / 'stopped.json').read_text())['exited']
         from urllib.parse import urlsplit

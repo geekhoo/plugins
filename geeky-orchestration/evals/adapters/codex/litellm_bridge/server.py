@@ -9,10 +9,12 @@ from __future__ import annotations
 import hmac
 import http.client
 import json
+import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
 
 from .mapper import BridgeState, MappingError, ToolCallAsText, map_response_json, map_sse_frame, translate_request
+from .native_plaintext import NativePlaintextState, map_native_response_json, map_native_sse_frame, translate_native_request
 
 
 MAX_BODY = 16 * 1024 * 1024
@@ -30,12 +32,20 @@ def upstream_target(base_url):
     return parsed, path
 
 
-def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_body=MAX_BODY):
+def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_body=MAX_BODY, wire_mode='bridge'):
     """Create an unstarted loopback server; caller owns serve/shutdown/close."""
     parsed, upstream_path = upstream_target(base_url)
     if not isinstance(api_key, str) or not api_key.strip() or "\r" in api_key or "\n" in api_key:
         raise ValueError("A fixed upstream API key is required")
-    state = state if state is not None else BridgeState()
+    if wire_mode not in {'bridge', 'native-plaintext'}:
+        raise ValueError('Unsupported Responses wire mode')
+    native = wire_mode == 'native-plaintext'
+    state_type = NativePlaintextState if native else BridgeState
+    state = state if state is not None else state_type()
+    if not isinstance(state, state_type):
+        raise ValueError('Responses state does not match wire mode')
+    response_mapper = map_native_response_json if native else map_response_json
+    frame_mapper = map_native_sse_frame if native else map_sse_frame
 
     class Handler(BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.0"
@@ -80,7 +90,9 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                 raw = self.rfile.read(length)
                 if len(raw) != length:
                     raise MappingError("Truncated request")
-                request, context = translate_request(json.loads(raw), state)
+                body = json.loads(raw)
+                request, context = (translate_native_request(body, state, origin=uuid.uuid4().hex)
+                                    if native else translate_request(body, state))
                 payload = json.dumps(request, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
                 connection_type = http.client.HTTPSConnection if parsed.scheme == "https" else http.client.HTTPConnection
                 connection = connection_type(parsed.hostname, parsed.port, timeout=timeout)
@@ -116,11 +128,11 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                             raise MappingError("Upstream SSE frame too large")
                         if not line:
                             if frame:
-                                self.wfile.write(map_sse_frame(bytes(frame), context))
+                                self.wfile.write(frame_mapper(bytes(frame), context))
                             break
                         frame.extend(line)
                         if line in {b"\n", b"\r\n"}:
-                            self.wfile.write(map_sse_frame(bytes(frame), context))
+                            self.wfile.write(frame_mapper(bytes(frame), context))
                             self.wfile.flush()
                             frame.clear()
                 else:
@@ -130,7 +142,7 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                     raw_response = response.read(max_body + 1)
                     if len(raw_response) > max_body:
                         raise MappingError("Upstream response too large")
-                    result = map_response_json(json.loads(raw_response), context)
+                    result = response_mapper(json.loads(raw_response), context)
                     data = json.dumps(result, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
                     self.send_response(200)
                     self.send_header("Content-Type", "application/json")

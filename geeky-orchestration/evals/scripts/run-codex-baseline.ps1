@@ -43,7 +43,7 @@ param(
     [int]$ContextWindow = 200000,
     # Debugging: a RUST_LOG filter for the contestant Codex process; its log lands in stderr.txt.
     [string]$CodexRustLog,
-    # Keep the mapping bridge by default; native sends Codex Responses directly to LiteLLM.
+    # Native retains Responses V2 namespaces through a plaintext compatibility proxy.
     [ValidateSet('bridge', 'native')][string]$LitellmWireMode = 'bridge'
 )
 $ErrorActionPreference = 'Stop'
@@ -188,13 +188,16 @@ if ($Litellm) {
     $litellmUrl = if ($env:LITELLM_PROXY_URL) { $env:LITELLM_PROXY_URL } else { throw '-Litellm needs LITELLM_PROXY_URL' }
     if (-not $env:LITELLM_PROXY_API_KEY) { throw '-Litellm needs LITELLM_PROXY_API_KEY' }
     $providerBaseUrl = $litellmUrl.TrimEnd('/') + '/v1'
-    if ($Launch -and $LitellmWireMode -eq 'bridge') {
+    if ($Launch) {
         # Keep native V2 tasks/roles. Only the provider wire format is adapted.
         # This host listener makes no request until the authorized contestant does.
         . (Join-Path $adapter 'litellm-bridge.ps1')
+        $proxyMode = if ($LitellmWireMode -eq 'native') { 'native-plaintext' } else { 'bridge' }
+        $proxyState = if ($LitellmWireMode -eq 'native') { 'litellm-native-plaintext' } else { 'litellm-bridge' }
         $mappingBridge = Start-CodexLitellmBridge -Python $python -AdapterDirectory $adapter `
-            -StateDirectory (Join-Path $cfg 'litellm-bridge') -UpstreamBaseUrl $litellmUrl
-        $record['mapping_bridge'] = $mappingBridge.Record
+            -StateDirectory (Join-Path $cfg $proxyState) -UpstreamBaseUrl $litellmUrl -WireMode $proxyMode
+        $proxyKey = if ($LitellmWireMode -eq 'native') { 'compatibility_proxy' } else { 'mapping_bridge' }
+        $record[$proxyKey] = $mappingBridge.Record
         Write-EvalRecord $record $recordPath
         $providerBaseUrl = $mappingBridge.Record.base_url
     }
@@ -273,11 +276,15 @@ $record = [ordered]@{
         status = $(if ($SkipNativeQualification) { 'waived-by-owner' } else { 'required-for-windows-launch' })
         override_reason = $(if ($SkipNativeQualification) { $QualificationOverrideReason } else { $null })
     }
-    provider = $(if ($Litellm) { [ordered]@{ name = 'litellm'; base_url = $litellmUrl; context_window = $ContextWindow; wire_mode = $LitellmWireMode } } else { $null })
+    provider = $(if ($Litellm) { [ordered]@{ name = 'litellm'; base_url = $litellmUrl; context_window = $ContextWindow; wire_mode = $LitellmWireMode;
+        compatibility_protocol = $(if ($LitellmWireMode -eq 'native') { 'codex-v2-native-plaintext' } else { $null }) } } else { $null })
     telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })
 }
 if ($ReviewerReasoning) { $record['reviewer_reasoning'] = $ReviewerReasoning }
-if ($mappingBridge) { $record['mapping_bridge'] = $mappingBridge.Record }
+if ($mappingBridge) {
+    $proxyKey = if ($LitellmWireMode -eq 'native') { 'compatibility_proxy' } else { 'mapping_bridge' }
+    $record[$proxyKey] = $mappingBridge.Record
+}
 if ($ReviewerProofFolder) { $record['reviewer_proof_folder'] = [IO.Path]::GetFullPath($ReviewerProofFolder) }
 $record['execution'] = $execution
 $hostArgs += @('--env', "GEEKY_DEADLINE_UTC=$($record.execution.initial_deadline_utc)", '--env', "GEEKY_CLOSEOUT_RESERVE_S=$CloseoutReserveSec",

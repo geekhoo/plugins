@@ -30,6 +30,10 @@ INPUTS = [EVAL + p for p in (
     'adapters/codex/litellm_bridge/__init__.py',
     'adapters/codex/litellm_bridge/__main__.py',
     'adapters/codex/litellm_bridge/mapper.py',
+    'adapters/codex/prepare-profile.py',
+    'adapters/codex/litellm_bridge/native_plaintext.py',
+    'adapters/codex/litellm_bridge/test_native_plaintext.py',
+    'adapters/codex/litellm_bridge/test_native_plaintext_http.py',
     'adapters/codex/litellm_bridge/server.py',
     'adapters/codex/litellm_bridge/test_bridge.py')]
 INPUTS += ['geeky-orchestration/' + path for path in (

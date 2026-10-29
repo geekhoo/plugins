@@ -164,7 +164,15 @@ def estate(tmp_path):
     for name in ('prepare-profile.py', 'mock_codex.py', 'trusted-exec.py', 'native-probe.py', 'diagnostics.py'):
         (adapter / name).write_text("raise RuntimeError('DENIED real executable boundary')")
     (adapter / 'copy-vetted-mxc-build.ps1').write_text("function Copy-VettedMxcBuild { if ($env:FAKE_FAILURE -eq 'build') { throw 'Injected build failure' } }")
-    (adapter / 'litellm-bridge.ps1').write_text("function Start-CodexLitellmBridge { throw 'DENIED mapping bridge startup' }")
+    (adapter / 'litellm-bridge.ps1').write_text(r'''
+function Start-CodexLitellmBridge {
+    param($Python,$AdapterDirectory,$StateDirectory,$UpstreamBaseUrl,$WireMode)
+    if ($WireMode -ne 'native-plaintext') { throw 'DENIED mapping bridge startup' }
+    @{wire_mode=$WireMode;state_directory=$StateDirectory} | ConvertTo-Json | Set-Content (Join-Path $env:FAKE_ROOT 'proxy-start.json')
+    return @{Record=@{enabled=$true;wire_mode=$WireMode;protocol='codex-v2-native-plaintext';base_url='http://127.0.0.1:54321/v1'}}
+}
+function Stop-CodexLitellmBridge { param($Bridge); Set-Content (Join-Path $env:FAKE_ROOT 'proxy-stopped.txt') 'stopped' }
+''')
     (plugin / 'evals/mock-agent').mkdir()
     (plugin / 'evals/mock-agent/mock_claude.py').write_text("raise RuntimeError('DENIED contestant')")
     (plugin / 'evals/telemetry').mkdir()
@@ -381,13 +389,14 @@ def test_actual_codex_litellm_preparation_selects_wire_mode_without_bridge(estat
     assert record['execution']['configuration']['wire_mode'] == expected
     assert record['execution']['state'] == 'prepared'
     assert 'mapping_bridge' not in record
+    assert 'compatibility_proxy' not in record
     arguments = json.loads((estate[1] / 'profile-arguments.json').read_text(encoding='utf-8-sig'))
     assert arguments[arguments.index('--provider-base-url') + 1] == 'https://offline.invalid/litellm/v1'
     assert not launches
     assert not (estate[1] / 'observed-prepared.json').exists()
 
 
-def test_actual_codex_native_wire_mode_launch_skips_mapping_bridge(estate):
+def test_actual_codex_native_wire_mode_launch_uses_separate_compatibility_proxy(estate):
     result, record, launches, _ = estate[0]('codex', waiver=True, litellm=True, wire_mode='native')
     assert result.returncode == 0, result.stdout + result.stderr
     assert len(launches) == 1
@@ -395,6 +404,13 @@ def test_actual_codex_native_wire_mode_launch_skips_mapping_bridge(estate):
     assert record['provider']['wire_mode'] == 'native'
     assert record['execution']['configuration']['wire_mode'] == 'native'
     assert 'mapping_bridge' not in record
+    assert record['provider']['compatibility_protocol'] == 'codex-v2-native-plaintext'
+    assert record['compatibility_proxy']['wire_mode'] == 'native-plaintext'
+    assert record['compatibility_proxy']['protocol'] == 'codex-v2-native-plaintext'
+    assert json.loads((estate[1] / 'proxy-start.json').read_text(encoding='utf-8-sig'))['wire_mode'] == 'native-plaintext'
+    assert (estate[1] / 'proxy-stopped.txt').read_text(encoding='utf-8-sig').strip() == 'stopped'
+    arguments = json.loads((estate[1] / 'profile-arguments.json').read_text(encoding='utf-8-sig'))
+    assert arguments[arguments.index('--provider-base-url') + 1] == 'http://127.0.0.1:54321/v1'
 
 
 def test_actual_codex_native_wire_mode_requires_litellm(estate):
@@ -405,10 +421,11 @@ def test_actual_codex_native_wire_mode_requires_litellm(estate):
     assert not launches
 
 
-def test_codex_mapping_bridge_start_requires_launch_and_bridge_wire_mode():
+def test_codex_proxy_start_requires_launch_and_records_selected_protocol():
     source = (SOURCE / 'run-codex-baseline.ps1').read_text(encoding='utf-8')
-    branch = re.search(r"if \(\$Launch -and \$LitellmWireMode -eq 'bridge'\) \{(.*?)\n    \}", source, re.S)
+    branch = re.search(r"if \(\$Launch\) \{(.*?)\n    \}", source, re.S)
     assert branch and 'Start-CodexLitellmBridge' in branch.group(1)
+    assert "'native-plaintext'" in branch.group(1) and "'compatibility_proxy'" in branch.group(1)
     assert source.count('Start-CodexLitellmBridge') == 1
 
 

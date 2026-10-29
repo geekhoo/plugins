@@ -5,7 +5,8 @@ function Start-CodexLitellmBridge {
         [Parameter(Mandatory)][string]$Python,
         [Parameter(Mandatory)][string]$AdapterDirectory,
         [Parameter(Mandatory)][string]$StateDirectory,
-        [Parameter(Mandatory)][string]$UpstreamBaseUrl
+        [Parameter(Mandatory)][string]$UpstreamBaseUrl,
+        [ValidateSet('bridge','native-plaintext')][string]$WireMode = 'bridge'
     )
     $ErrorActionPreference = 'Stop'
     if (-not $env:LITELLM_PROXY_API_KEY) { throw 'LiteLLM bridge requires the process API key.' }
@@ -57,6 +58,10 @@ function Start-CodexLitellmBridge {
     foreach ($argument in @('-m','litellm_bridge','serve','--port','0','--ready-file',$ready)) {
         $start.ArgumentList.Add($argument)
     }
+    if ($WireMode -ne 'bridge') {
+        $start.ArgumentList.Add('--wire-mode')
+        $start.ArgumentList.Add($WireMode)
+    }
     $start.Environment['LITELLM_PROXY_API_BASE'] = $base
     $start.Environment['PYTHONDONTWRITEBYTECODE'] = '1'
     $process = [Diagnostics.Process]::new()
@@ -78,17 +83,20 @@ function Start-CodexLitellmBridge {
         if (-not $metadata) { throw 'LiteLLM bridge did not become ready; no contestant launched.' }
         $uri = [Uri]$metadata.base_url
         if ($metadata.pid -ne $process.Id -or $uri.Scheme -ne 'http' -or $uri.Host -ne '127.0.0.1' -or
-            $uri.Port -le 0 -or $uri.AbsolutePath -ne '/v1' -or $uri.UserInfo -or $uri.Query -or $uri.Fragment) {
+            $uri.Port -le 0 -or $uri.AbsolutePath -ne '/v1' -or $uri.UserInfo -or $uri.Query -or $uri.Fragment -or
+            ($WireMode -eq 'native-plaintext' -and $metadata.wire_mode -ne $WireMode)) {
             throw 'Invalid LiteLLM bridge readiness record.'
         }
         $hashes = [ordered]@{}
-        foreach ($name in '__init__.py','__main__.py','mapper.py','server.py') {
+        $sourceFiles = @('__init__.py','__main__.py','mapper.py','server.py','native_plaintext.py')
+        foreach ($name in $sourceFiles) {
             $path = Join-Path (Join-Path $AdapterDirectory 'litellm_bridge') $name
             $hashes[$name] = (Get-FileHash -LiteralPath $path -Algorithm SHA256).Hash.ToLowerInvariant()
         }
         return [pscustomobject]@{
             Process = $process; Stdout = $stdout; Stderr = $stderr; StateDirectory = $StateDirectory
-            Record = [ordered]@{ enabled = $true; protocol = 'codex-v2-to-responses-v1-wire';
+            Record = [ordered]@{ enabled = $true; wire_mode = $WireMode;
+                protocol = $(if ($WireMode -eq 'native-plaintext') { 'codex-v2-native-plaintext' } else { 'codex-v2-to-responses-v1-wire' });
                 base_url = [string]$metadata.base_url; pid = $process.Id; source_sha256 = $hashes;
                 state_directory = $StateDirectory;
                 known_plaintext_policy = 'process-local-provenance-only'; provider_requests_on_start = 0 }

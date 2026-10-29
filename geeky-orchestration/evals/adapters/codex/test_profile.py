@@ -51,7 +51,7 @@ class ProfileTests(unittest.TestCase):
             import shutil
             for part in ('agents', 'skills', 'templates', 'scripts', 'hooks', 'mcp'):
                 shutil.copytree(PLUGIN / part, export / part,
-                                ignore=shutil.ignore_patterns('__pycache__'))
+                                ignore=shutil.ignore_patterns('__pycache__', '.venv', '.pytest_cache'))
             for part in ('AGENTS.md', 'geeky.manifest.json'):
                 shutil.copyfile(PLUGIN / part, export / part)
             tools = root / 'tools'

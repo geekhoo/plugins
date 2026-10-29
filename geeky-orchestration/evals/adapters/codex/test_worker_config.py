@@ -25,7 +25,7 @@ class WorkerConfigTests(unittest.TestCase):
         self.export = self.root / 'plugin'
         for part in ('agents', 'skills', 'templates', 'scripts', 'hooks', 'mcp'):
             shutil.copytree(PLUGIN / part, self.export / part,
-                            ignore=shutil.ignore_patterns('__pycache__'))
+                            ignore=shutil.ignore_patterns('__pycache__', '.venv', '.pytest_cache'))
         for part in ('AGENTS.md', 'geeky.manifest.json'):
             shutil.copyfile(PLUGIN / part, self.export / part)
         self.tools = self.root / 'tools'
@@ -81,6 +81,26 @@ class WorkerConfigTests(unittest.TestCase):
         report = profile.prepare(self.export, self.root / 'home', self.signed, self.tools,
             HERE / 'profile', 'gpt-6.1-sol', 'medium')
         self.assert_matrix(report, 'gpt-6.1-sol', 'medium')
+
+    def test_provider_disables_client_retries_without_changing_worker_settings(self):
+        catalog = self.root / 'catalog.json'
+        catalog.write_text(json.dumps({'models': [{'slug': 'gpt-5.5'}]}), encoding='utf-8')
+        report = profile.prepare(self.export, self.root / 'home', self.signed, self.tools,
+            HERE / 'profile', 'gpt-6.1-sol', 'medium', 'gpt-6-luna', 'max', provider={
+                'base_url': 'https://offline.invalid/v1', 'env_key': 'OFFLINE_NOT_READ',
+                'catalog_base': catalog, 'context_window': 200000})
+        self.assert_matrix(report, 'gpt-6-luna', 'max')
+        config = tomllib.loads('\n'.join(report['codex_config_overrides']))
+        provider = config['model_providers']['litellm']
+        self.assertEqual(provider['request_max_retries'], 0)
+        self.assertEqual(provider['stream_max_retries'], 0)
+        self.assertEqual(provider['wire_api'], 'responses')
+        self.assertFalse(config['features']['tool_search'])
+        self.assertFalse(config['features']['tool_search_always_defer_mcp_tools'])
+        self.assertEqual(report['provider']['tool_search'], 'disabled; MCP functions exposed eagerly')
+        models = json.loads(Path(config['model_catalog_json']).read_text(encoding='utf-8'))['models']
+        self.assertTrue(all(model['multi_agent_version'] == 'v2' for model in models))
+        self.assertTrue(all(model['supports_search_tool'] is False for model in models))
 
     def test_worker_settings_default_independently(self):
         for i, (model, effort, expected_model, expected_effort) in enumerate([
