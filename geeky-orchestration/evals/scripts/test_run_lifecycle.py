@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 
@@ -80,6 +81,7 @@ if ($a[0] -eq '-m' -and $a[1] -eq 'pytest') {
 $name = Split-Path $a[0] -Leaf
 if ($name -eq 'prepare-profile.py') {
     if ($env:FAKE_FAILURE -eq 'preflight') { throw 'Injected preflight failure' }
+    ConvertTo-Json -InputObject $a | Set-Content (Join-Path $env:FAKE_ROOT 'profile-arguments.json')
     $output = $a[[array]::IndexOf($a, '--output') + 1]
     @{ok=$true; worker_model='fixture'; worker_reasoning='high'; model_matrix=@(); codex_config_overrides=@();
       runtime_verified=$false; profile_sha256='fixture-profile'} | ConvertTo-Json | Set-Content $output
@@ -162,6 +164,7 @@ def estate(tmp_path):
     for name in ('prepare-profile.py', 'mock_codex.py', 'trusted-exec.py', 'native-probe.py', 'diagnostics.py'):
         (adapter / name).write_text("raise RuntimeError('DENIED real executable boundary')")
     (adapter / 'copy-vetted-mxc-build.ps1').write_text("function Copy-VettedMxcBuild { if ($env:FAKE_FAILURE -eq 'build') { throw 'Injected build failure' } }")
+    (adapter / 'litellm-bridge.ps1').write_text("function Start-CodexLitellmBridge { throw 'DENIED mapping bridge startup' }")
     (plugin / 'evals/mock-agent').mkdir()
     (plugin / 'evals/mock-agent/mock_claude.py').write_text("raise RuntimeError('DENIED contestant')")
     (plugin / 'evals/telemetry').mkdir()
@@ -208,7 +211,8 @@ function Invoke-ClaudeTelemetryFlush { throw 'DENIED unexpected Claude replay' }
     shim.write_text(FAKE_PYTHON)
 
     def run(harness, *, failure='', durations='1', pre_elapsed='0', recoveries=0,
-            child_exit=0, prepare=False, waiver=False, post_elapsed='0', extra=()):
+            child_exit=0, prepare=False, waiver=False, post_elapsed='0', extra=(),
+            litellm=False, wire_mode=None):
         if failure == 'stale-budget-export':
             (plugin / 'scripts/workflow-budget.py').write_text('# uncommitted changed policy')
         runner = scripts / ('run-baseline.ps1' if harness == 'claude' else 'run-codex-baseline.ps1')
@@ -222,12 +226,19 @@ function Invoke-ClaudeTelemetryFlush { throw 'DENIED unexpected Claude replay' }
                    FAKE_FAILURE=failure, FAKE_TELEMETRY='1' if failure == 'telemetry' else '0',
                    FAKE_POST_ELAPSED=post_elapsed,
                    CLAUDE_CODE_OAUTH_TOKEN='offline-fixture-only')
+        if litellm:
+            env.update(LITELLM_PROXY_URL='https://offline.invalid/litellm',
+                       LITELLM_PROXY_API_KEY='offline-fixture-only')
         command = [str(runner), '-Case', 'c0-wordstat', '-ToolsDir', str(tools), '-WorkRoot', str(work),
                    '-TimeoutSec', '10', '-CloseoutReserveSec', '2', '-AuthorizationReference', 'offline-fixture']
         if harness == 'claude':
             command += ['-PrepareOnly'] if prepare else ['-MockAgent', '-ResumeOnRefusal', str(recoveries)]
         else:
             command += ['-CodexExe', str(codex)]
+            if litellm:
+                command += ['-Litellm']
+            if wire_mode is not None:
+                command += ['-LitellmWireMode', wire_mode]
             if not prepare:
                 command += (['-Launch', '-SkipNativeQualification', '-QualificationOverrideReason', 'fixture-owner',
                              '-MxcBuildSource', str(tmp_path)] if waiver else ['-MockAgent'])
@@ -241,7 +252,7 @@ function Invoke-ClaudeTelemetryFlush { throw 'DENIED unexpected Claude replay' }
             f"$fakePython = Get-Content -LiteralPath {quote(shim)} -Raw\n" +
             '\n'.join(f"Set-Item -LiteralPath {quote('Function:global:' + str(path))} -Value ([scriptblock]::Create($fakePython))"
                       for path in (python, mcp_python, Path('C:/Python314/python.exe'))) + '\n' +
-            f"Set-Item -LiteralPath {quote('Function:global:' + str(codex))} -Value {{ if ($args[0] -ne '--version') {{ throw 'DENIED unexpected Codex call' }}; 'fixture-codex'; $global:LASTEXITCODE=0 }}\n" +
+            f"Set-Item -LiteralPath {quote('Function:global:' + str(codex))} -Value {{ if ($args[0] -eq '--version') {{ 'fixture-codex' }} elseif ($args[0] -eq 'debug' -and $args[1] -eq 'models') {{ '{{\"models\":[]}}' }} else {{ throw 'DENIED unexpected Codex call' }}; $global:LASTEXITCODE=0 }}\n" +
             # Override discovery too: prevent fallback to any real Python.
             f"function Get-Command {{ [pscustomobject]@{{Source={quote(python)}}} }}\n" +
             '& ' + ' '.join(part if part.startswith('-') and not part[1:].isdigit() else quote(part) for part in command) + '\n', encoding='utf-8')
@@ -359,6 +370,46 @@ def test_prepare_only_has_no_oracle_or_workload(estate, harness):
     assert record['execution']['state'] == 'prepared'
     assert not launches
     assert not (estate[1] / 'observed-prepared.json').exists()
+
+
+@pytest.mark.parametrize('wire_mode', [None, 'native'])
+def test_actual_codex_litellm_preparation_selects_wire_mode_without_bridge(estate, wire_mode):
+    result, record, launches, _ = estate[0]('codex', prepare=True, litellm=True, wire_mode=wire_mode)
+    assert result.returncode == 0, result.stdout + result.stderr
+    expected = wire_mode or 'bridge'
+    assert record['provider']['wire_mode'] == expected
+    assert record['execution']['configuration']['wire_mode'] == expected
+    assert record['execution']['state'] == 'prepared'
+    assert 'mapping_bridge' not in record
+    arguments = json.loads((estate[1] / 'profile-arguments.json').read_text(encoding='utf-8-sig'))
+    assert arguments[arguments.index('--provider-base-url') + 1] == 'https://offline.invalid/litellm/v1'
+    assert not launches
+    assert not (estate[1] / 'observed-prepared.json').exists()
+
+
+def test_actual_codex_native_wire_mode_launch_skips_mapping_bridge(estate):
+    result, record, launches, _ = estate[0]('codex', waiver=True, litellm=True, wire_mode='native')
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert len(launches) == 1
+    assert record['execution']['state'] == 'finalized'
+    assert record['provider']['wire_mode'] == 'native'
+    assert record['execution']['configuration']['wire_mode'] == 'native'
+    assert 'mapping_bridge' not in record
+
+
+def test_actual_codex_native_wire_mode_requires_litellm(estate):
+    result, record, launches, _ = estate[0]('codex', prepare=True, wire_mode='native')
+    assert result.returncode != 0
+    assert '-LitellmWireMode native requires -Litellm.' in result.stdout + result.stderr
+    assert record is None
+    assert not launches
+
+
+def test_codex_mapping_bridge_start_requires_launch_and_bridge_wire_mode():
+    source = (SOURCE / 'run-codex-baseline.ps1').read_text(encoding='utf-8')
+    branch = re.search(r"if \(\$Launch -and \$LitellmWireMode -eq 'bridge'\) \{(.*?)\n    \}", source, re.S)
+    assert branch and 'Start-CodexLitellmBridge' in branch.group(1)
+    assert source.count('Start-CodexLitellmBridge') == 1
 
 
 @pytest.mark.parametrize('effort', [None, 'high'])

@@ -42,12 +42,16 @@ param(
     [switch]$Litellm,
     [int]$ContextWindow = 200000,
     # Debugging: a RUST_LOG filter for the contestant Codex process; its log lands in stderr.txt.
-    [string]$CodexRustLog
+    [string]$CodexRustLog,
+    # Keep the mapping bridge by default; native sends Codex Responses directly to LiteLLM.
+    [ValidateSet('bridge', 'native')][string]$LitellmWireMode = 'bridge'
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'run-lifecycle.ps1')
 $PSNativeCommandUseErrorActionPreference = $false
 if ($MockAgent -and $Launch) { throw 'Choose -MockAgent or -Launch, not both.' }
+if (-not $Litellm -and $LitellmWireMode -eq 'native') { throw '-LitellmWireMode native requires -Litellm.' }
+$LitellmWireMode = $LitellmWireMode.ToLowerInvariant()
 if ($SkipNativeQualification -and -not $QualificationOverrideReason) {
     throw '-SkipNativeQualification requires an explicit -QualificationOverrideReason.'
 }
@@ -147,9 +151,10 @@ $waiver = [ordered]@{
     status = $(if ($SkipNativeQualification) { 'waived-by-owner' } else { 'required-for-windows-launch' })
     override_reason = $(if ($SkipNativeQualification) { $QualificationOverrideReason } else { $null })
 }
-$execution = New-EvalExecution $TimeoutSec $CloseoutReserveSec 0 $AuthorizationReference $waiver `
-    ([ordered]@{ model = $Model; reasoning = $Reasoning; worker_model = $WorkerModel; worker_reasoning = $WorkerReasoning
-        reviewer_reasoning = $ReviewerReasoning; mock = [bool]$MockAgent; provider = $(if ($Litellm) { 'litellm' } else { 'openai' }) })
+$executionConfiguration = [ordered]@{ model = $Model; reasoning = $Reasoning; worker_model = $WorkerModel; worker_reasoning = $WorkerReasoning
+    reviewer_reasoning = $ReviewerReasoning; mock = [bool]$MockAgent; provider = $(if ($Litellm) { 'litellm' } else { 'openai' }) }
+if ($Litellm) { $executionConfiguration['wire_mode'] = $LitellmWireMode }
+$execution = New-EvalExecution $TimeoutSec $CloseoutReserveSec 0 $AuthorizationReference $waiver $executionConfiguration
 $record = [ordered]@{ schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'codex'; model = $Model
     workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; plugin_sha = $pluginSha
     started_utc = $null; ended_utc = $null; exit_code = $null; exit_reason = 'prepared'
@@ -183,7 +188,7 @@ if ($Litellm) {
     $litellmUrl = if ($env:LITELLM_PROXY_URL) { $env:LITELLM_PROXY_URL } else { throw '-Litellm needs LITELLM_PROXY_URL' }
     if (-not $env:LITELLM_PROXY_API_KEY) { throw '-Litellm needs LITELLM_PROXY_API_KEY' }
     $providerBaseUrl = $litellmUrl.TrimEnd('/') + '/v1'
-    if ($Launch) {
+    if ($Launch -and $LitellmWireMode -eq 'bridge') {
         # Keep native V2 tasks/roles. Only the provider wire format is adapted.
         # This host listener makes no request until the authorized contestant does.
         . (Join-Path $adapter 'litellm-bridge.ps1')
@@ -268,7 +273,7 @@ $record = [ordered]@{
         status = $(if ($SkipNativeQualification) { 'waived-by-owner' } else { 'required-for-windows-launch' })
         override_reason = $(if ($SkipNativeQualification) { $QualificationOverrideReason } else { $null })
     }
-    provider = $(if ($Litellm) { [ordered]@{ name = 'litellm'; base_url = $litellmUrl; context_window = $ContextWindow } } else { $null })
+    provider = $(if ($Litellm) { [ordered]@{ name = 'litellm'; base_url = $litellmUrl; context_window = $ContextWindow; wire_mode = $LitellmWireMode } } else { $null })
     telemetry = $(if ($telemetry) { $telemetry.Record } else { [ordered]@{ enabled = $false } })
 }
 if ($ReviewerReasoning) { $record['reviewer_reasoning'] = $ReviewerReasoning }

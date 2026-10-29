@@ -1,0 +1,44 @@
+{
+  "scope": "Synthetic subset only; neither full Responses validation nor proof of encryption or endpoint behavior.",
+  "codex_version": "rust-v0.164.0",
+  "codex_commit": "6aaac694803004a63c6f393d153c96d22521a6b9",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/openai/codex/6aaac694803004a63c6f393d153c96d22521a6b9/codex-rs/protocol/src/models.rs",
+      "sha256": "753498bc730ba21ded710d9aa2b2f9163e6bbe4eaa18f1c25d998c36138a54f7",
+      "symbols": ["ResponseItem::AgentMessage", "AgentMessageInputContent", "ResponseItem::FunctionCall", "ResponseItem::FunctionCallOutput", "named_unpaired_function_call_output_round_trips_without_call_id", "function_call_preserves_empty_encrypted_function_args"]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/openai/codex/6aaac694803004a63c6f393d153c96d22521a6b9/codex-rs/core/src/tools/router.rs",
+      "sha256": "7345f8d2c467637e3d646d5510770457db89e4259e0515d5175de363e2c9c79e",
+      "symbols": ["ToolCall::direct_source"]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/openai/codex/6aaac694803004a63c6f393d153c96d22521a6b9/codex-rs/core/src/tools/handlers/multi_agents_v2.rs",
+      "sha256": "ae414817a043502f54d313c03b1144d5c57fbbe6e69082c2295d99a636489b8a",
+      "symbols": ["ToolCallSource", "AgentMessage"]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/openai/codex/6aaac694803004a63c6f393d153c96d22521a6b9/codex-rs/core/src/tools/handlers/multi_agents_v2/spawn.rs",
+      "sha256": "440d1558ccd53dcf49ae08979a35cb44db5e8c55a7068b5cb00ac5add20a4504",
+      "symbols": ["SpawnAgentArgs"]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/openai/codex/6aaac694803004a63c6f393d153c96d22521a6b9/codex-rs/core/src/tools/handlers/multi_agents_v2/message_tool.rs",
+      "sha256": "bcd9b05f785196f211f7e36a072b99c6ec7c332702b677d6ba64f12a675cd27f",
+      "symbols": ["SendMessageArgs", "FollowupTaskArgs"]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/openai/codex/6aaac694803004a63c6f393d153c96d22521a6b9/codex-rs/core/src/tools/handlers/multi_agents_v2/wait.rs",
+      "sha256": "6ea6b484878aa9ee812a860cdc4147124c0453c6f7bc3f9a43eb0b50e60d993e",
+      "symbols": ["WaitArgs"]
+    },
+    {
+      "url": "https://platform.openai.com/docs/api-reference/responses/create",
+      "symbols": ["Responses create", "function calls"],
+      "sha256": null,
+      "note": "Live documentation is not pinned; use the pinned Rust sources for the V2 extensions."
+    }
+  ],
+  "limits": ["Plaintext synthetic collaboration probes require an explicit empty encrypted_function_args array; opaque function arguments and envelopes are rejected as unsupported.", "Only selected text, function, reasoning, agent message and function output shapes are checked; opaque agent or tool content receives structural checks only and is not decrypted or verified.", "Cases prove neither provider implementation nor decryption capability."]
+}
