@@ -1,0 +1,62 @@
+[
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\latest-native-attempt.json",
+    "sha256": "e7c16255b9ab009576f3e689ec278671613147da04f8051c3f7427b89de5b84c"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\mxc-build-proof.json",
+    "sha256": "cadf96cc0faf47c88db87960036f0637c6493ab5fe3c0753b42a1e891ec41f66"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\mxc-build-provenance.json",
+    "sha256": "e2a5ad8f6010bfe2936486db7630217f31e203acba9fb6a3fe2acab48ea97c5e"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-fixture-requests.json",
+    "sha256": "f9e544a829d78a7e1e1067f0332d720cc3d0291ca7f3c5c08273ffab479e488a"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-hook-catalog-stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-hook-catalog.json",
+    "sha256": "e0f38ff455f1f36c733018c56ed1c6c9e0b0a22adfd5813c0e85320267eb690c"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-plugin-install-stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-plugin-install.json",
+    "sha256": "14d291415f6431270ac5bf6dcb7f42022d93d649eab75a815935d2512fa4adc6"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-probe-stderr.txt",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-probe-stdout.txt",
+    "sha256": "48240a460d0b3f1c7ec48c8ea1ac27e73cf4799633d6545b4ac34cb994556209"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-stderr.txt",
+    "sha256": "98f5bb06646e143182bbeae65064befcd6e393fdd08ba163882df66c7126d018"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-stream.jsonl",
+    "sha256": "3d485b92594416b7ed752231a17c9b7c7c522fbdd286dd9bb14a1c46bbb54762"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b\\native-summary.json",
+    "sha256": "9ea1723cfbcd56ed55dab16547a76c8a9f5e2ac82f7d0332af8c3ae0098c84f1"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\parity-preflight.json",
+    "sha256": "c26b5da429a04315b1a4cf1e201ccb928cb5cc96a6269fd684f8f007e28fcc79"
+  },
+  {
+    "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\run.json",
+    "sha256": "194015673478b972ec9579f7a027916f650c29faf5da38a61effef05e7a0b4b2"
+  }
+]

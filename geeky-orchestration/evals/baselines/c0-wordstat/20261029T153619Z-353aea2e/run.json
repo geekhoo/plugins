@@ -1,0 +1,128 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "approach": "canonical-prompt",
+  "plugin_sha": "c2287f7e7978f72bdce1dfbee8717323d7d98857",
+  "worker_model": "gpt-6.1-sol",
+  "worker_reasoning": "medium",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "workers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "workspace": "C:\\repos\\c0-sol-proposal-20261029-2d1abe64\\runtime\\eval-c0-wordstat-codex-20261029T153619Z-353aea2e",
+  "config_directory": "C:\\repos\\c0-sol-proposal-20261029-2d1abe64\\runtime\\.eval-cfg-codex-20261029T153619Z-353aea2e",
+  "seed_sha": "fd05bd36562d0735503f039e893a811de0ffed69",
+  "session_id": null,
+  "started_utc": null,
+  "ended_utc": null,
+  "wall_time_s": null,
+  "tokens": null,
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": null,
+  "loc": null,
+  "commits": 0,
+  "exit_code": null,
+  "exit_reason": "prepared",
+  "is_error": false,
+  "raw_sha256": null,
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "awaiting-rollout",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "fd9fc870471575ba8d71811baa0aef750bb75c13912b069b74c679af4550c8b9",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "required-for-windows-launch",
+    "override_reason": null
+  },
+  "provider": null,
+  "telemetry": {
+    "enabled": false
+  },
+  "reviewer_reasoning": "medium",
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "prepared",
+    "attempt_id": "e591e7af-263f-4672-9018-beaf623cfc7c",
+    "segment_id": "24765a70-52be-4e6b-89c5-d8cca31d25d4",
+    "authorization_reference": "User: consider prelaunch adjustments. Sol/medium completion-first PROPOSAL; offline profile/loopback fixture only, no launch authority, 2026-10-29",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "required-for-windows-launch",
+      "override_reason": null
+    },
+    "initial_deadline_utc": "2026-10-29T15:40:19.5494354Z",
+    "hard_wall_budget_s": 240,
+    "closeout_reserve_s": 30,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "worker_model": "gpt-6.1-sol",
+      "worker_reasoning": "medium",
+      "reviewer_reasoning": "medium",
+      "mock": false,
+      "provider": "openai",
+      "hard_wall_budget_s": 240,
+      "closeout_reserve_s": 30,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "14df4351f6a391e7b133c7d789634e679cd3b88fec29b00abc28c638efe209e4",
+    "invocations": [],
+    "process_outcome": "not-started",
+    "capture_status": "not-started",
+    "postprocessing": {},
+    "active_step": "prepared",
+    "failure": null,
+    "contestant_time_s": 0.0,
+    "attempt_elapsed_s": 0.0,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 21100,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  }
+}

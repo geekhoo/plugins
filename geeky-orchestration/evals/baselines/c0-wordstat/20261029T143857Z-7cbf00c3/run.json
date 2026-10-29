@@ -1,0 +1,135 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "vercel/gpt-6-luna",
+  "reasoning": "high",
+  "approach": "canonical-prompt",
+  "plugin_sha": "c2287f7e7978f72bdce1dfbee8717323d7d98857",
+  "worker_model": "vercel/gpt-6-luna",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "workspace": "C:\\repos\\c0-encrypted-offline-20261029-e0f6b857\\runtime\\eval-c0-wordstat-codex-20261029T143857Z-7cbf00c3",
+  "config_directory": "C:\\repos\\c0-encrypted-offline-20261029-e0f6b857\\runtime\\.eval-cfg-codex-20261029T143857Z-7cbf00c3",
+  "seed_sha": "0366fd6e5a4fbc0d69eb10fd7c467b33076acd9f",
+  "session_id": null,
+  "started_utc": null,
+  "ended_utc": null,
+  "wall_time_s": null,
+  "tokens": null,
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": null,
+  "loc": null,
+  "commits": 0,
+  "exit_code": null,
+  "exit_reason": "prepared",
+  "is_error": false,
+  "raw_sha256": null,
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "awaiting-rollout",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "06c6cd6674f7697b949f01d8956787dcc31355c8fd999ae17f50de273bffb2a7",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "required-for-windows-launch",
+    "override_reason": null
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "http://127.0.0.1:9",
+    "context_window": 200000,
+    "wire_mode": "native",
+    "compatibility_protocol": "codex-v2-native-plaintext"
+  },
+  "telemetry": {
+    "enabled": false
+  },
+  "reviewer_reasoning": "high",
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "prepared",
+    "attempt_id": "e67033ca-8812-4c31-b235-4d030e851fa1",
+    "segment_id": "8671d74e-ec76-4359-abe7-9f4fd73a0db0",
+    "authorization_reference": "User: model-free C0 MXC mocks and offline fixes; no paid calls, 2026-10-29",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "required-for-windows-launch",
+      "override_reason": null
+    },
+    "initial_deadline_utc": "2026-10-29T14:42:58.2221665Z",
+    "hard_wall_budget_s": 240,
+    "closeout_reserve_s": 30,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "worker_model": "vercel/gpt-6-luna",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "wire_mode": "native",
+      "hard_wall_budget_s": 240,
+      "closeout_reserve_s": 30,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "1cbb11644d6b93c5efa582c461e91c633e1e57a7ab5ebb69d400fad2e7d11dad",
+    "invocations": [],
+    "process_outcome": "not-started",
+    "capture_status": "not-started",
+    "postprocessing": {},
+    "active_step": "prepared",
+    "failure": null,
+    "contestant_time_s": 0.0,
+    "attempt_elapsed_s": 0.0,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 12296,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  }
+}

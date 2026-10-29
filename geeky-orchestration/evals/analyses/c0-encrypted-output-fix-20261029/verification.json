@@ -1,0 +1,103 @@
+{
+  "scope": "OFFLINE/MODEL-FREE ONLY",
+  "base_head": "c2287f7e7978f72bdce1dfbee8717323d7d98857",
+  "source_uncommitted": true,
+  "fix": "Native plaintext collaboration contract plus eager MCP on third-party Responses profiles",
+  "wire_mode": "native",
+  "compatibility_protocol": "codex-v2-native-plaintext",
+  "native_proxy_matrix": [
+    {
+      "label": "cold-reviewer",
+      "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T143627Z-523ca94a\\native-attempts\\native-probe-1e750b3b",
+      "run_dir": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T143627Z-523ca94a",
+      "ok": true,
+      "checks": 23,
+      "passed": 23,
+      "contract": {
+        "encrypted_message_schemas": 0,
+        "tagged_encrypted_handoffs": 0,
+        "search_items": 0
+      },
+      "paid_model_calls": 0,
+      "local_requests": 13
+    },
+    {
+      "label": "cold-architect",
+      "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T143857Z-7cbf00c3\\native-attempts\\native-probe-1ab9bb4c",
+      "run_dir": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T143857Z-7cbf00c3",
+      "ok": true,
+      "checks": 23,
+      "passed": 23,
+      "contract": {
+        "encrypted_message_schemas": 0,
+        "tagged_encrypted_handoffs": 0,
+        "search_items": 0
+      },
+      "paid_model_calls": 0,
+      "local_requests": 14
+    },
+    {
+      "label": "fork-all",
+      "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T143916Z-c7b86970\\native-attempts\\native-probe-7f2f76ff",
+      "run_dir": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T143916Z-c7b86970",
+      "ok": true,
+      "checks": 23,
+      "passed": 23,
+      "contract": {
+        "encrypted_message_schemas": 0,
+        "tagged_encrypted_handoffs": 0,
+        "search_items": 0
+      },
+      "paid_model_calls": 0,
+      "local_requests": 13
+    }
+  ],
+  "native_checks_passed": 69,
+  "regressions": {
+    "passed": 290,
+    "subtests": 64,
+    "skipped": 0
+  },
+  "full_mock": {
+    "run_id": "20261029T143429Z-c595db7f",
+    "exit_code": 0,
+    "execution_state": "finalized",
+    "oracle": {
+      "collected": 13,
+      "passed": 13,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "stable_over_3": true
+    }
+  },
+  "source_sha256": {
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/native_plaintext.py": "54b11c21f2d84e949a809938ccce612bea4ae76ee8e345f1f45bfba6ca7df0e0",
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/server.py": "5230831616113e8406eaf12cc9f0ee2d8abda2ce50e3631dcec9bf9c529c6a7c",
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/__main__.py": "4d5e2c064a72bdde2fa609b757a9e4850f315315303db29e577f42fc6fbee1bc",
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/test_native_plaintext.py": "dc08eebdb11cf0f25a7ce8e8e9b9e1747a38019f5ea0a6f67fe39e8bfda50ec7",
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/test_native_plaintext_http.py": "eb84a74aa2f58fb3ab92db2d533f6d5966912152c4f03ac5d2f04bdb26edcb84",
+    "geeky-orchestration/evals/adapters/codex/native-probe.py": "42754e5241b5befc838623b7516edc43b49387ee59c0e40e5d7e9d0660f8dbed",
+    "geeky-orchestration/evals/adapters/codex/run-native-probe.ps1": "e9180aa9170c8ca78fb094655f4d10b0397977c213d6c102a249d89041fa8ad1",
+    "geeky-orchestration/evals/adapters/codex/test_native_probe.py": "6a5aa713ddad00c9bc6e97b2bdc9c39d8ba37a44cfed4b8ab669346ac4de3ec7",
+    "geeky-orchestration/evals/adapters/codex/litellm-bridge.ps1": "8e2af6f0f00bfc33441ae9aed5da09b04e8dcb81dc01a8bcb183bb1d3cc5879d",
+    "geeky-orchestration/evals/adapters/codex/prepare-profile.py": "df41f65803eec471c0bee3fcaf2069f891f71401fcaeb5fa5a12f435f75feeb3",
+    "geeky-orchestration/evals/adapters/codex/test_worker_config.py": "ab3485850fbf1ffbf715417a54345af6f6918d5f35fc5cffae6532b41e3f3035",
+    "geeky-orchestration/evals/adapters/codex/test_litellm_bridge_lifecycle.py": "fc2595fef0b68bd0700790385be898da6d3f81beea2ecf4e64d80e341762a9ad",
+    "geeky-orchestration/evals/scripts/run-codex-baseline.ps1": "80ec350365c41df8564ca7c733bf9d00e72c1e45f62125bc1c471e3e4901e9df",
+    "geeky-orchestration/evals/scripts/test_run_lifecycle.py": "b28a66c28be9912bff66dec289b5ce207e86364fdd89aaeca4f026be414c6237",
+    "geeky-orchestration/evals/scripts/check-c0-readiness.py": "2e39f02c1c358df405caadbe0452e75a51cb27be3476f0d0cd6cf786cd9f11f4"
+  },
+  "paid_model_calls": 0,
+  "provider_probes": 0,
+  "live_telemetry": false,
+  "historical_opaque_fragments_rewritten": 0,
+  "live_provider_verified": false,
+  "review": "gate_review: no actionable high-confidence source findings",
+  "attached_worktree_source_mirrored": true,
+  "readiness_tests": {
+    "passed": 10,
+    "inventory": "inventory-ready",
+    "commit_only_proof": false
+  }
+}

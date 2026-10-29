@@ -1,0 +1,30 @@
+{
+  "data": [
+    {
+      "cwd": "C:\\repos\\c0-encrypted-offline-20261029-e0f6b857\\runtime\\eval-c0-wordstat-codex-20261029T143857Z-7cbf00c3",
+      "hooks": [
+        {
+          "key": "C:\\<session-flags>\\config.toml:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe C:\\repos\\c0-encrypted-offline-20261029-e0f6b857\\runtime\\.eval-cfg-codex-20261029T143857Z-7cbf00c3\\home\\guard-bridge.py --guard C:\\repos\\c0-encrypted-offline-20261029-e0f6b857\\runtime\\.eval-cfg-codex-20261029T143857Z-7cbf00c3\\plugin\\geeky-orchestration\\hooks\\guard-planning-contract.py",
+          "async": false,
+          "matcher": "Edit|Write|NotebookEdit|apply_patch",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "C:\\<session-flags>\\config.toml",
+          "source": "sessionFlags",
+          "pluginId": null,
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:9b70356e342c7a3afc38f9caabbaf09dbc3c491dcb26354c18c4ad0d2c625506",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "warnings": [],
+      "errors": []
+    }
+  ]
+}

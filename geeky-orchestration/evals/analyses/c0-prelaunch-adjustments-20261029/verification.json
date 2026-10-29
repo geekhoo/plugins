@@ -1,0 +1,131 @@
+{
+  "status": "SELECTED LUNA COMPARISON CONFIGURATION / LIVE HELD",
+  "base_head": "c2287f7e7978f72bdce1dfbee8717323d7d98857",
+  "source_uncommitted": true,
+  "route_selection": "OWNER SELECTED: preserve comparison, Luna/high through LiteLLM",
+  "launch_authorized": false,
+  "paid_calls": 0,
+  "provider_probes": 0,
+  "live_telemetry": false,
+  "remaining_before_launch": [
+    "Commit source fixes under separate commit instruction",
+    "Fresh clean committed inventory and official export; read back roles/hashes",
+    "New explicit one-attempt authorization; fresh deadline at launch"
+  ],
+  "unselected_alternative": {
+    "case": "c0-wordstat",
+    "route": "authenticated OpenAI-native (not externally verified here)",
+    "model": "gpt-6.1-sol",
+    "main_reasoning": "medium",
+    "worker_model": "gpt-6.1-sol",
+    "worker_reasoning": "medium",
+    "reviewer_reasoning": "medium",
+    "timeout_s": 6000,
+    "reserve_s": 60,
+    "attempts": 1,
+    "recoveries": 0,
+    "litellm": false,
+    "telemetry_from_startup": "required for any later authorized live attempt, not exercised here"
+  },
+  "alternative_role_readback": {
+    "code-architect-reviewer": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "code-architect": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "code-explorer": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "code-reviewer": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "geeky-coder": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "geeky-implement-orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "geeky-orchestrator": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    },
+    "general-purpose": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium"
+    }
+  },
+  "alternative_fixture": {
+    "run_dir": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e",
+    "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T153619Z-353aea2e\\native-attempts\\native-probe-59bf975b",
+    "ok": true,
+    "checks": 21,
+    "tool_shape": "code-mode",
+    "timeout_s": 240,
+    "reserve_s": 30,
+    "model_capability_verified": false,
+    "source": "committed export plus declared working-source overlay; not a launchable committed candidate"
+  },
+  "selected_candidate": {
+    "case": "c0-wordstat",
+    "model": "vercel/gpt-6-luna",
+    "main_reasoning": "high",
+    "worker_model": "vercel/gpt-6-luna",
+    "worker_reasoning": "high",
+    "reviewer_reasoning": "high",
+    "litellm": true,
+    "wire_mode": "native",
+    "compatibility_protocol": "codex-v2-native-plaintext",
+    "tool_shape": "classic-functions, multi-agent v2",
+    "mcp": "eager functions; tool_search disabled",
+    "client_request_retries": 0,
+    "client_stream_retries": 0,
+    "timeout_s": 6000,
+    "reserve_s": 60,
+    "attempts": 1,
+    "recoveries": 0,
+    "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+    "roles": {
+      "code-architect-reviewer": {
+        "model": "vercel/gpt-6-luna",
+        "reasoning": "high"
+      },
+      "code-architect": {
+        "model": "vercel/gpt-6-luna",
+        "reasoning": "high"
+      },
+      "code-explorer": {
+        "model": "vercel/gpt-6-luna",
+        "reasoning": "high"
+      },
+      "code-reviewer": {
+        "model": "vercel/gpt-6-luna",
+        "reasoning": "high"
+      },
+      "geeky-coder": {
+        "model": "vercel/gpt-6-luna",
+        "reasoning": "high"
+      },
+      "geeky-implement-orchestrator": {
+        "model": "vercel/gpt-6-luna",
+        "reasoning": "high"
+      },
+      "geeky-orchestrator": {
+        "model": "vercel/gpt-6-luna",
+        "reasoning": "high"
+      },
+      "general-purpose": {
+        "model": "vercel/gpt-6-luna",
+        "reasoning": "high"
+      }
+    },
+    "offline_evidence": "retained 290tests/64subtests,10readiness tests,69/69 realCodex native proxy checks, scriptedC0oracle13/13x3",
+    "source_hashes_reverified": 15
+  }
+}

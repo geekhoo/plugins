@@ -1,5 +1,23 @@
 # Codex baseline adapter
 
+## Native plaintext compatibility, 2026-10-29
+
+`-LitellmWireMode native` now selects an authenticated loopback compatibility
+proxy using `codex-v2-native-plaintext`. It preserves native namespaces, V2
+roles, models, session metadata and reasoning envelopes. Collaboration message
+schemas request plaintext, and streaming added/completed calls receive explicit
+`encrypted_function_args: []`. Unknown opaque content is never guessed or erased.
+Third-party catalogs disable native tool search and expose MCP functions eagerly;
+client request and stream retries are zero. Native records use `compatibility_proxy`;
+legacy mode continues to use `mapping_bridge`. Preparation starts no listener.
+
+The [offline encrypted-output fix](../../analyses/c0-encrypted-output-fix-20261029/README.md)
+passed 290 regressions, 64 subtests, 10 readiness tests and 69 real-Codex MXC
+proxy checks. The full scripted C0 mock passed oracle 13/13 over three runs.
+All endpoint responses were local fixtures with external network denied. Changes
+are uncommitted; no live provider was verified and no paid run is authorized.
+The prior direct-native launch recipes are historical and must not be reused.
+
 The [minimal reasoning normalization](../../analyses/bridge-reasoning-normalization-20261027/README.md)
 adds missing summaries, repairs the provider's reasoning content tag, and reconciles
 only exact text-equivalent terminal duplicates against the completed SSE reasoning

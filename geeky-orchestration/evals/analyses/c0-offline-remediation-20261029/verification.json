@@ -1,0 +1,60 @@
+{
+  "label": "OFFLINE / MODEL-FREE ONLY",
+  "base_head": "c2287f7e7978f72bdce1dfbee8717323d7d98857",
+  "source_uncommitted": true,
+  "paid_model_calls": 0,
+  "telemetry_enabled": false,
+  "external_network_denied_in_mxc": true,
+  "native_matrix": [
+    {
+      "label": "default",
+      "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T101748Z-14c41c7e\\native-attempts\\native-probe-53987dc2",
+      "ok": true,
+      "checks": 21,
+      "passed": 21
+    },
+    {
+      "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T101748Z-14c41c7e\\native-attempts\\native-probe-deb83e5c",
+      "checks": 21,
+      "label": "cold-workers-code-reviewer",
+      "failed": [],
+      "passed": 21,
+      "ok": true
+    },
+    {
+      "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T101748Z-14c41c7e\\native-attempts\\native-probe-39493419",
+      "checks": 21,
+      "label": "cold-workers-code-architect-reviewer",
+      "failed": [],
+      "passed": 21,
+      "ok": true
+    },
+    {
+      "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T101748Z-14c41c7e\\native-attempts\\native-probe-cc6bb580",
+      "checks": 21,
+      "label": "paid-roles-defaultfork",
+      "failed": [],
+      "passed": 21,
+      "ok": true
+    },
+    {
+      "attempt": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T101748Z-14c41c7e\\native-attempts\\native-probe-74d7436b",
+      "checks": 21,
+      "label": "paid-roles-forkall",
+      "failed": [],
+      "passed": 21,
+      "ok": true
+    }
+  ],
+  "source_sha256": {
+    "geeky-orchestration/agents/geeky-coder.md": "400cfac26fce72a3f41fb09ef88b215097c68ea0a48ae82d22b547750d06637c",
+    "geeky-orchestration/skills/geeky-implement/references/execution-protocol.md": "4f519535e95e351f3a3aeabd409de450bed8bdf000a5e7aecc789173b1faf275",
+    "geeky-orchestration/evals/adapters/codex/native-probe.py": "648f4abdc8e9717cc5c2ceb5391a7b0f5a44240ffadd35b9a7da4e08ee36632c",
+    "geeky-orchestration/evals/adapters/codex/run-native-probe.ps1": "3e9d7c71fd7bc5d4b33801053b3be711357048898554ebebdb1ab445a8b62ee1",
+    "geeky-orchestration/evals/adapters/codex/test_native_probe.py": "b8c6b039a9b8b55c980bd3c414369da811adefb5b0c149363cd111d32b6986e9",
+    "geeky-orchestration/evals/adapters/codex/test_profile.py": "7ac95e4e86912cf22166656638691c52a3f8d0e98931db6014e1e5007c0e43ba",
+    "geeky-orchestration/evals/adapters/codex/test_worker_config.py": "133f3f9a30a94c863bebae352b82abdda7c513970702f1b58197a99cc23c00c4"
+  },
+  "upstream_cryptographic_compatibility_verified": false,
+  "model_instruction_obedience_verified": false
+}

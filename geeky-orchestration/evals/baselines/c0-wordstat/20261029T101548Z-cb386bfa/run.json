@@ -1,0 +1,215 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "vercel/gpt-6-luna",
+  "reasoning": "high",
+  "approach": "mock-agent:c0-full",
+  "plugin_sha": "c2287f7e7978f72bdce1dfbee8717323d7d98857",
+  "worker_model": "vercel/gpt-6-luna",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "workspace": "C:\\repos\\c0-offline-20261029-d8a57e0f\\runtime\\eval-c0-wordstat-codex-20261029T101548Z-cb386bfa",
+  "config_directory": "C:\\repos\\c0-offline-20261029-d8a57e0f\\runtime\\.eval-cfg-codex-20261029T101548Z-cb386bfa",
+  "seed_sha": "2d304c2eb09e036df6aeac77a5c430cb09eefbff",
+  "session_id": "dcccdf43-eb12-4eba-9d31-8b94be1139aa",
+  "started_utc": "2026-10-29T10:15:51.656946Z",
+  "ended_utc": "2026-10-29T10:16:02.827842Z",
+  "wall_time_s": 11.138910999987274,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "reasoning": 0,
+    "total": 0,
+    "cost_usd_estimate": null
+  },
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 5,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-29T18:15:53.217109+08:00",
+      "ended_utc": "2026-10-29T18:15:53.219672+08:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-29T18:15:53.219672+08:00",
+      "ended_utc": "2026-10-29T18:15:54.392607+08:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-29T18:15:54.392607+08:00",
+      "ended_utc": "2026-10-29T18:15:54.394454+08:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-29T18:15:54.394454+08:00",
+      "ended_utc": "2026-10-29T18:16:02.054467+08:00",
+      "minutes": 0.1
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-29T18:16:02.054467+08:00",
+      "ended_utc": "2026-10-29T18:16:02.735441+08:00",
+      "minutes": 0.0
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 3,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "9815dc70a165060dc985241930e5bfbc94985ce79785687d969fb8bf9de493e5",
+    "session": "c68345b1fab424f544f2b053429c1da8e86595edff4c9e310a84bb90f0747a68"
+  },
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "complete",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "bbedcfa4ada032afa91f7e5ee9f3d7964b7859785e2924b6c0c8547275ccdef0",
+  "mock_agent": true,
+  "runtime_toolchain_verified": true,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "required-for-windows-launch",
+    "override_reason": null
+  },
+  "provider": null,
+  "telemetry": {
+    "enabled": false
+  },
+  "reviewer_reasoning": "high",
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "5a7bdeb9-a42d-4b8b-af4c-5f0bf49cdd86",
+    "segment_id": "8fa33dbf-d43c-436b-9e79-a87bf96ef470",
+    "authorization_reference": "User: model-free C0 MXC mocks and offline fixes; no paid calls, 2026-10-29",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "required-for-windows-launch",
+      "override_reason": null
+    },
+    "initial_deadline_utc": "2026-10-29T10:19:49.3823696Z",
+    "hard_wall_budget_s": 240,
+    "closeout_reserve_s": 30,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "worker_model": "vercel/gpt-6-luna",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "mock": true,
+      "provider": "openai",
+      "hard_wall_budget_s": 240,
+      "closeout_reserve_s": 30,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "6a800cc20e411fa9394c7509046b476faaba867ab5e775e326e47bcb7d5aaa64",
+    "invocations": [
+      {
+        "invocation_id": "7bc96c79-5893-4faf-9b8d-2e78934a00b7",
+        "kind": "initial",
+        "timeout_s": 237,
+        "started_utc": "2026-10-29T10:15:51.6779105Z",
+        "ended_utc": "2026-10-29T10:16:02.8152734Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "launch-preparation": "completed",
+      "seed-oracle": "completed",
+      "parsing": "completed",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "telemetry": "completed",
+      "analysis": "completed"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 11.138910999987274,
+    "attempt_elapsed_s": 13.44809680012986,
+    "finalization_time_s": 33.80007890006527,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 33516,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "62792dfbfd6187350dcb15d76defa0d0f6405924",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "analysis.json": "f3e7b78a32d5379a8d846ef6b53d40eeee4d084151f69f92a3e49ef9fb20d046",
+      "mock-summary.json": "8b76cf48103039e891670fcec74b6cb540029dd22572575620cf13f159c5bfd9",
+      "mxc-build-provenance.json": "94dd01cfa9cb5053e912a83e7c470e7dc9466f1ea22c255ec27266fc2703eae8",
+      "oracle-output.txt": "21cddce24e998c15094791cbeeb139f03e6fef85d8b6628b3146b382cdb4361a",
+      "oracle-seed-output.txt": "b3380c17bb3314e8562d96795f89cc75c266d45bf3d2339593b7a41b5a97ae46",
+      "parity-preflight.json": "237bb61de6283c85c9539316261ada67e89bafd611f211c3925bd813be8f6d5d",
+      "rollout-manifest.json": "1e34127d9fa68ef7361c89a789d97665c7083af44b6bb526d6fcfdbcc0947cf9",
+      "session.jsonl": "c68345b1fab424f544f2b053429c1da8e86595edff4c9e310a84bb90f0747a68",
+      "solution.bundle": "c82a2ff542f075c53201bfa6b528370aa77cfd2b48f0dff94587effa99790489",
+      "stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream.jsonl": "9815dc70a165060dc985241930e5bfbc94985ce79785687d969fb8bf9de493e5",
+      "derived/analysis.json": "f3e7b78a32d5379a8d846ef6b53d40eeee4d084151f69f92a3e49ef9fb20d046",
+      "derived/run.json": "85687de10aee37e5b57275e6b693d19a17169a2bb69d6f9c46cdf89ed2c2c053"
+    }
+  },
+  "over_token_ceiling": false,
+  "trace_complete": true,
+  "trace_errors": []
+}

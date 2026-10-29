@@ -30,3 +30,20 @@ geeky-orchestration/evals/baselines/c0-wordstat/20261026T110917Z/** -text
 # Preserve this native C0 terminal capture, snapshot and evidence hashes exactly.
 geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/** -text
 geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/** -text
+
+# Preserve offline native compatibility evidence as captured.
+geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/** -text
+geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/** -text
+geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/** -text
+geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/** -text
+
+# Preserve the unselected completion-first prelaunch fixture and decision record.
+geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/** -text
+geeky-orchestration/evals/analyses/c0-prelaunch-adjustments-20261029/** -text
+
+# Preserve authorized native C0 operation records.
+geeky-orchestration/evals/analyses/c0-luna-native-authorized-20261029/** -text

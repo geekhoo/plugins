@@ -1,5 +1,9 @@
 # geekhoo plugins
 
+[Native encrypted-output compatibility fix](geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/README.md) implements plaintext V2 collaboration and eager MCP. Offline verification: 290 tests, 64 subtests, 10 readiness tests, 69/69 real-Codex MXC checks, scripted C0 oracle 13/13 x3. Source is uncommitted; no paid run or provider probe was used.
+
+[Offline C0 remediation](geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/README.md): full scripted C0 mock passes; five real-Codex MXC fixture configurations pass 105/105 checks. Fixes are uncommitted; live upstream compatibility remains unverified.
+
 [Native Codex C0 after the gate fix](geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/README.md)
 passed specification and plan review, then crashed during the first implementation
 task on an encrypted-output decode error. Oracle 0/13 over three runs; Langfuse
