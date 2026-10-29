@@ -1,0 +1,185 @@
+{
+  "schema": "geeky-eval.harness-coverage/1",
+  "session_id": "claude-mxc-win-c0-wordstat-20261028T115941Z",
+  "observations": 953,
+  "complete": true,
+  "missed": [],
+  "points": [
+    {
+      "point": "stage:spec-research",
+      "required": true,
+      "hit": true,
+      "count": 3,
+      "example": "8cf4fb78b3b87798",
+      "detail": ""
+    },
+    {
+      "point": "stage:geeky-plan",
+      "required": true,
+      "hit": true,
+      "count": 2,
+      "example": "2be1d2d23e6ddfe3",
+      "detail": ""
+    },
+    {
+      "point": "stage:plan-review",
+      "required": true,
+      "hit": true,
+      "count": 5,
+      "example": "68b5857eff47873f",
+      "detail": ""
+    },
+    {
+      "point": "stage:geeky-implement",
+      "required": true,
+      "hit": true,
+      "count": 2,
+      "example": "c08d54a396df5af4",
+      "detail": ""
+    },
+    {
+      "point": "stage:impl-review",
+      "required": true,
+      "hit": true,
+      "count": 1,
+      "example": "08e5da3b4236d1a2",
+      "detail": ""
+    },
+    {
+      "point": "subagents",
+      "required": true,
+      "hit": true,
+      "count": 18,
+      "example": "d5fbb066dc21b138",
+      "detail": ""
+    },
+    {
+      "point": "nested_subagents",
+      "required": false,
+      "hit": true,
+      "count": 2,
+      "example": "1b79733258f25491",
+      "detail": "a subagent dispatched another (implement orchestrator -> coder/reviewer)"
+    },
+    {
+      "point": "role:geeky-coder",
+      "required": true,
+      "hit": true,
+      "count": 4,
+      "example": "d5fbb066dc21b138",
+      "detail": ""
+    },
+    {
+      "point": "role:code-reviewer",
+      "required": true,
+      "hit": true,
+      "count": 8,
+      "example": "b3e5f44546bca06e",
+      "detail": ""
+    },
+    {
+      "point": "gates",
+      "required": true,
+      "hit": true,
+      "count": 37,
+      "example": "cfc791dd089cbac8",
+      "detail": "validate-planning-folder=10, validate-task-schema=10, validate-kanban=13, check-dod=1, check-commit=3"
+    },
+    {
+      "point": "gate:validate-planning-folder",
+      "required": false,
+      "hit": true,
+      "count": 10,
+      "example": "cfc791dd089cbac8",
+      "detail": ""
+    },
+    {
+      "point": "gate:validate-task-schema",
+      "required": false,
+      "hit": true,
+      "count": 10,
+      "example": "2bb9ed133776ca2f",
+      "detail": ""
+    },
+    {
+      "point": "gate:validate-kanban",
+      "required": false,
+      "hit": true,
+      "count": 13,
+      "example": "4d1e1b5b39250668",
+      "detail": ""
+    },
+    {
+      "point": "gate:check-dod",
+      "required": false,
+      "hit": true,
+      "count": 1,
+      "example": "e4d001342f1979b1",
+      "detail": ""
+    },
+    {
+      "point": "gate:check-commit",
+      "required": false,
+      "hit": true,
+      "count": 3,
+      "example": "b10c8248d07404fc",
+      "detail": ""
+    },
+    {
+      "point": "mcp_tools",
+      "required": false,
+      "hit": false,
+      "count": 0,
+      "example": null,
+      "detail": "gates may run as scripts instead"
+    },
+    {
+      "point": "pytest",
+      "required": true,
+      "hit": true,
+      "count": 11,
+      "example": "caa1b86188479f44",
+      "detail": ""
+    },
+    {
+      "point": "git_commit",
+      "required": true,
+      "hit": true,
+      "count": 3,
+      "example": "bedde98f1db04b53",
+      "detail": ""
+    },
+    {
+      "point": "file_edits",
+      "required": true,
+      "hit": true,
+      "count": 72,
+      "example": "76a297f7afbba8a7",
+      "detail": ""
+    },
+    {
+      "point": "reasoning_summaries",
+      "required": true,
+      "hit": true,
+      "count": 209,
+      "example": "51c6791af893b3bc",
+      "detail": "thinking (Claude) or reasoning summary (Codex) on generations"
+    },
+    {
+      "point": "token_usage",
+      "required": true,
+      "hit": true,
+      "count": 347,
+      "example": "51c6791af893b3bc",
+      "detail": ""
+    },
+    {
+      "point": "encrypted_handoffs",
+      "required": false,
+      "hit": false,
+      "count": 0,
+      "example": null,
+      "detail": "Codex inter-agent payloads the provider encrypted (no plaintext exists)"
+    }
+  ]
+}

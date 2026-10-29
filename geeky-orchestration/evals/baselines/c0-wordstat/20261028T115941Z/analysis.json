@@ -1,0 +1,230 @@
+{
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "by_model": {},
+    "cost_usd_estimate": 0
+  },
+  "model_calls": 144,
+  "latency_median_ms": 6758,
+  "latency_samples": 145,
+  "max_idle_gap_s": 1981,
+  "stages": [
+    {
+      "name": "geeky-orchestration",
+      "started_utc": "2026-10-28T12:00:13.520000+00:00",
+      "ended_utc": "2026-10-28T12:02:36.616000+00:00",
+      "minutes": 2.4
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-28T12:02:36.616000+00:00",
+      "ended_utc": "2026-10-28T12:12:26.384000+00:00",
+      "minutes": 9.8
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-28T12:12:26.384000+00:00",
+      "ended_utc": "2026-10-28T12:12:33.675000+00:00",
+      "minutes": 0.1
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-28T12:12:33.675000+00:00",
+      "ended_utc": "2026-10-28T12:29:20.762000+00:00",
+      "minutes": 16.8
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-28T12:29:20.762000+00:00",
+      "ended_utc": "2026-10-28T12:48:36.143000+00:00",
+      "minutes": 19.3
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-28T12:48:36.143000+00:00",
+      "ended_utc": "2026-10-28T13:23:56.738000+00:00",
+      "minutes": 35.3
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-28T13:23:56.738000+00:00",
+      "ended_utc": "2026-10-28T13:39:40.978000+00:00",
+      "minutes": 15.7
+    }
+  ],
+  "impl_review_rounds": 1,
+  "skill_invocations": {
+    "geeky-orchestration": 1,
+    "spec-research": 3,
+    "geeky-plan": 2,
+    "plan-review": 3,
+    "geeky-implement": 1,
+    "impl-review": 1
+  },
+  "tool_calls_main": {
+    "PowerShell": 102,
+    "Read": 32,
+    "Edit": 27,
+    "Agent": 16,
+    "Glob": 13,
+    "Write": 11,
+    "Skill": 7,
+    "ToolSearch": 1,
+    "SendMessage": 1
+  },
+  "tool_calls_subagents": {
+    "Read": 137,
+    "PowerShell": 81,
+    "Glob": 78,
+    "Edit": 28,
+    "WebFetch": 26,
+    "Grep": 8,
+    "Write": 5,
+    "Skill": 4,
+    "ToolSearch": 3,
+    "Agent": 2
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 4,
+    "geeky-orchestration:code-reviewer": 7,
+    "geeky-orchestration:code-architect": 2,
+    "geeky-orchestration:geeky-implement-orchestrator": 1,
+    "geeky-orchestration:geeky-coder": 3
+  },
+  "validation_runs": {
+    "sub": 10,
+    "main": 1
+  },
+  "gate_invocations": {
+    "check-commit": 3,
+    "validate-planning-folder": 9,
+    "validate-task-schema": 9,
+    "validate-kanban": 12,
+    "check-dod": 1
+  },
+  "gate_results": {
+    "check-commit": {
+      "pass": 2,
+      "fail": 1,
+      "unknown": 0,
+      "main": 2,
+      "sub": 1
+    },
+    "validate-planning-folder": {
+      "pass": 8,
+      "fail": 1,
+      "unknown": 0,
+      "main": 6,
+      "sub": 3
+    },
+    "validate-task-schema": {
+      "pass": 9,
+      "fail": 0,
+      "unknown": 0,
+      "main": 6,
+      "sub": 3
+    },
+    "validate-kanban": {
+      "pass": 11,
+      "fail": 1,
+      "unknown": 0,
+      "main": 5,
+      "sub": 7
+    },
+    "check-dod": {
+      "pass": 1,
+      "fail": 0,
+      "unknown": 0,
+      "main": 0,
+      "sub": 1
+    }
+  },
+  "duration_api_ms": null,
+  "subagent_transcripts": {
+    "transcripts": 18,
+    "calls_only_in_transcripts": 59,
+    "by_type": {
+      "geeky-orchestration:geeky-implement-orchestrator": 1,
+      "general-purpose": 4,
+      "geeky-orchestration:code-reviewer": 7,
+      "geeky-orchestration:geeky-coder": 3,
+      "geeky-orchestration:code-architect": 2,
+      "geeky-orchestration:code-explorer": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "PowerShell": 102,
+          "Read": 32,
+          "Edit": 27,
+          "Agent": 16,
+          "Glob": 13,
+          "Write": 11,
+          "Skill": 7,
+          "ToolSearch": 1,
+          "SendMessage": 1
+        },
+        "dispatches": {
+          "geeky-orchestration:code-reviewer": 6,
+          "general-purpose": 4,
+          "geeky-orchestration:code-architect": 2,
+          "geeky-orchestration:geeky-coder": 2,
+          "geeky-orchestration:code-explorer": 1,
+          "geeky-orchestration:geeky-implement-orchestrator": 1
+        },
+        "gates": {
+          "validate-task-schema": 6,
+          "validate-planning-folder": 6,
+          "validate-kanban": 5,
+          "check-commit": 2
+        }
+      },
+      "orchestrator": {
+        "tool_calls": {
+          "PowerShell": 33,
+          "Glob": 21,
+          "Read": 16,
+          "Edit": 16,
+          "Agent": 2,
+          "Write": 1,
+          "Grep": 1
+        },
+        "dispatches": {
+          "geeky-orchestration:geeky-coder": 1,
+          "geeky-orchestration:code-reviewer": 1
+        },
+        "gates": {
+          "validate-kanban": 5,
+          "validate-planning-folder": 1,
+          "validate-task-schema": 1,
+          "check-dod": 1,
+          "check-commit": 1
+        }
+      },
+      "workers": {
+        "tool_calls": {
+          "Read": 121,
+          "Glob": 57,
+          "PowerShell": 48,
+          "WebFetch": 26,
+          "Edit": 12,
+          "Grep": 7,
+          "Skill": 4,
+          "Write": 4,
+          "ToolSearch": 3
+        },
+        "dispatches": {},
+        "gates": {
+          "validate-planning-folder": 2,
+          "validate-task-schema": 2,
+          "validate-kanban": 2
+        }
+      }
+    }
+  }
+}

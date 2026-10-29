@@ -1,0 +1,267 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "claude-code",
+  "model": "vercel/gpt-6-luna",
+  "reasoning": "high",
+  "workspace": "C:\\repos\\c0-luna-sequential-20261028-626d36e4\\claude\\runtime\\eval-c0-wordstat-20261028T115941Z",
+  "config_directory": "C:\\repos\\c0-luna-sequential-20261028-626d36e4\\claude\\runtime\\.eval-cfg-20261028T115941Z",
+  "seed_sha": "ea79c7fb5e19c6b0aa07ae44ceccba05c74ba9bf",
+  "plugin_sha": "0b1f5fbc0e84b110ea0f9fa59ddfa711b46cf53a",
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "session_id": "427f3c87-4544-4f57-b766-ea52cb860b12",
+  "started_utc": "2026-10-28T11:59:44.2330488Z",
+  "ended_utc": "2026-10-28T13:39:43.4509034Z",
+  "wall_time_s": 5999,
+  "exit_code": 124,
+  "exit_reason": "timeout",
+  "is_error": true,
+  "reference_eligible": false,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc-win",
+    "trace_name": "claude-mxc-win-orchestrator",
+    "tags": [
+      "geeky-eval",
+      "identity:agent-v1",
+      "harness:claude-code",
+      "platform:win",
+      "environment:mxc-win",
+      "agent-family:claude-mxc-win",
+      "case:c0-wordstat",
+      "run:20261028T115941Z",
+      "plugin:0b1f5fb"
+    ],
+    "user_id": "claude-mxc-win-orchestrator-427f3c87-4544-4f57-b766-ea52cb860b12",
+    "user_id_policy": "source-bound-agent",
+    "agent_family": "claude-mxc-win",
+    "metadata": {
+      "identity_schema": "geeky-eval.agent-identity/1",
+      "harness": "claude-code",
+      "platform": "win",
+      "environment": "mxc-win",
+      "agent_family": "claude-mxc-win",
+      "case": "c0-wordstat",
+      "run": "20261028T115941Z",
+      "run_group_id": "claude-mxc-win-c0-wordstat-20261028T115941Z",
+      "plugin_sha": "0b1f5fbc0e84b110ea0f9fa59ddfa711b46cf53a",
+      "configured_model": "vercel/gpt-6-luna",
+      "configured_reasoning": "high",
+      "worker_model": "vercel/gpt-6-luna",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "provider": "litellm",
+      "configured_provider": "litellm",
+      "mock": "false",
+      "claude_hook_commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "codex_tracer_version": "0.4.2"
+    },
+    "full_content": true,
+    "ca_passthrough": [],
+    "session_id": "claude-mxc-win-c0-wordstat-20261028T115941Z",
+    "native_session_id": "427f3c87-4544-4f57-b766-ea52cb860b12",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 953,
+    "coverage_complete": true,
+    "coverage_missed": [],
+    "user_ids": [
+      "claude-mxc-win-coder-geeky-orchestration-geeky-coder-a56aea178f2f3e3e9",
+      "claude-mxc-win-coder-geeky-orchestration-geeky-coder-aa29887331d4cedd4",
+      "claude-mxc-win-coder-geeky-orchestration-geeky-coder-aaca2dff0557c14c3",
+      "claude-mxc-win-orchestrator-427f3c87-4544-4f57-b766-ea52cb860b12",
+      "claude-mxc-win-orchestrator-geeky-orchestration-geeky-implement-orchestrator-a03b12c6c5aa99927",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a43b98a6b33be93de",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-a8cd3b4da50e03e77",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-ac11be0677783e8ed",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-ad8c4edf442c48afe",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-aedf7d36cdc0336fc",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-af2e60316fea89c87",
+      "claude-mxc-win-reviewer-geeky-orchestration-code-reviewer-afc678a752750395e",
+      "claude-mxc-win-unknown-geeky-orchestration-code-architect-a86f24bf248945b91",
+      "claude-mxc-win-unknown-geeky-orchestration-code-architect-ae733f21b51618a4f",
+      "claude-mxc-win-unknown-geeky-orchestration-code-explorer-ae857da13b4809a4c",
+      "claude-mxc-win-unknown-general-purpose-a3ab46327b82149fa",
+      "claude-mxc-win-unknown-general-purpose-a59a290db7f93fb53",
+      "claude-mxc-win-unknown-general-purpose-a992cf586f1c03ff7",
+      "claude-mxc-win-unknown-general-purpose-aed21e728d764d989"
+    ],
+    "agent_roles": [
+      "coder",
+      "orchestrator",
+      "reviewer",
+      "unknown"
+    ],
+    "trace_count": 20,
+    "hook": {
+      "kind": "claude-stop-sessionend",
+      "commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "langfuse_python": "4.18.0",
+      "state_dir": "C:\\repos\\c0-luna-sequential-20261028-626d36e4\\claude\\runtime\\.eval-cfg-20261028T115941Z\\langfuse"
+    },
+    "host_flush": "exit 0",
+    "observations_present": true,
+    "observations_status": "present",
+    "coverage_status": "met",
+    "scores_verified": false,
+    "scores_status": "pending"
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "process-finished",
+    "attempt_id": "80afca33-0492-44f2-950b-72cf6eb42077",
+    "segment_id": "c8c36d4c-b910-44e4-a8d5-a10753f3064f",
+    "authorization_reference": "User: run mxc codex c0 and monitor, complete the run then follow by mxc claude c0. 2026-10-28 Asia/Singapore.",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-10-28T13:39:42.3365015Z",
+    "hard_wall_budget_s": 6000,
+    "closeout_reserve_s": 60,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "hard_wall_budget_s": 6000,
+      "closeout_reserve_s": 60,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "6d6c4aac445dda351311c3159db0985b432c470895f035ef181fdfe33d71870e",
+    "invocations": [
+      {
+        "invocation_id": "79ab8a6c-823c-4e9c-91a2-708e1e7032b7",
+        "kind": "initial",
+        "timeout_s": 5998,
+        "started_utc": "2026-10-28T11:59:44.2539890Z",
+        "ended_utc": "2026-10-28T13:39:43.4340193Z",
+        "exit_code": 124,
+        "outcome": "timeout"
+      }
+    ],
+    "process_outcome": "timeout",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "completed",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "in-progress"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 5999.150312699843,
+    "attempt_elapsed_s": 6001.08303790004,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 41300,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  },
+  "harness_version": "2.1.311",
+  "approach": "canonical-prompt",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 0,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 0,
+    "total": 0,
+    "cost_usd_estimate": 0,
+    "reasoning": 0
+  },
+  "model_calls": 144,
+  "latency_median_ms": 6758,
+  "max_idle_gap_s": 1981,
+  "stages": [
+    {
+      "name": "geeky-orchestration",
+      "started_utc": "2026-10-28T12:00:13.520000+00:00",
+      "ended_utc": "2026-10-28T12:02:36.616000+00:00",
+      "minutes": 2.4
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-28T12:02:36.616000+00:00",
+      "ended_utc": "2026-10-28T12:12:26.384000+00:00",
+      "minutes": 9.8
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-28T12:12:26.384000+00:00",
+      "ended_utc": "2026-10-28T12:12:33.675000+00:00",
+      "minutes": 0.1
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-28T12:12:33.675000+00:00",
+      "ended_utc": "2026-10-28T12:29:20.762000+00:00",
+      "minutes": 16.8
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-28T12:29:20.762000+00:00",
+      "ended_utc": "2026-10-28T12:48:36.143000+00:00",
+      "minutes": 19.3
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-28T12:48:36.143000+00:00",
+      "ended_utc": "2026-10-28T13:23:56.738000+00:00",
+      "minutes": 35.3
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-28T13:23:56.738000+00:00",
+      "ended_utc": "2026-10-28T13:39:40.978000+00:00",
+      "minutes": 15.7
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 140,
+    "files_changed": 12
+  },
+  "commits": 3,
+  "stop_reason": null,
+  "raw_sha256": {
+    "stream": "c0029d6daa6e2de527fee7068a0342688f491d70c73719666e54544b476fdffa",
+    "session": "7dd85e5930cbe24ac0f15fb54d10452cab78d40f7eeca7a8b6594a4bcd6451fb"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "model": "vercel/gpt-6-luna"
+  },
+  "over_token_ceiling": false
+}

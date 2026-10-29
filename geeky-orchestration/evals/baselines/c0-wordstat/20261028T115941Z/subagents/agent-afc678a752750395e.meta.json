@@ -1,0 +1,1 @@
+{"agentType":"geeky-orchestration:code-reviewer","isBuiltIn":false,"description":"Review wordstat phase and T1","toolUseId":"call_eiLOnIr0tZkJu8SsjZo2smZo","parentAgentId":"a03b12c6c5aa99927","spawnDepth":2,"requestShape":"foreground","requestNonInteractive":true,"finished":true}
