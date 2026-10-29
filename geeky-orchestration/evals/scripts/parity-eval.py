@@ -40,6 +40,10 @@ SHELL = {'Tool: Bash', 'Tool: PowerShell', 'exec', 'exec_command', 'shell', 'loc
 EDIT = {'Tool: Write', 'Tool: Edit', 'Tool: MultiEdit', 'apply_patch'}
 REVIEW_FINAL = re.compile(r'impl[-_ ]review|\bimpl_\w*review|final (implementation )?review|implementation review'
                           r'|expert reviewing \S+ implementation', re.I)
+# Workers dispatched by the implement stage; their briefs mention impl-review only to defer it.
+IMPLEMENT_ROLE = re.compile(r'implement-orchestrator|geeky-coder', re.I)
+# A mention that defers or forbids the stage ("do not run impl-review", "before impl-review").
+NEGATED = re.compile(r"(?i)\b(?:do not|don't|never|not|before|until|without)\b[^.\n]{0,40}$")
 # A shell command that writes a file: redirection, tee, sed -i, apply_patch, or a Python write.
 WRITES = re.compile(r'>>?\s*([\w./-]+)|\btee\s+(?:-a\s+)?([\w./-]+)|\bsed\s+-i\S*\s.*?([\w./-]+\.\w+)'
                     r"|\*\*\* (?:Add|Update) File: ([\w./-]+)|open\(\s*['\"]([\w./-]+)['\"]\s*,\s*['\"][wa]"
@@ -127,6 +131,17 @@ def events(observations):
     return sorted(out, key=lambda e: e['t'])
 
 
+def final_review_dispatch(event):
+    """A spawn that starts final implementation review: not an implement worker, not a phase
+    review, and at least one review mention that is not deferred or forbidden."""
+    text = event['text']
+    if event['kind'] != 'spawn' or IMPLEMENT_ROLE.search(event.get('role', '')):
+        return False
+    if re.search(r'(?i)\bphase\s*\d', text[:400]):
+        return False
+    return any(not NEGATED.search(text[max(0, m.start() - 60):m.start()]) for m in REVIEW_FINAL.finditer(text))
+
+
 def latency_median_ms(observations):
     values = [o['latency'] * 1000 for o in observations if o.get('type') == 'GENERATION' and o.get('latency')]
     return round(statistics.median(values)) if values else None
@@ -206,8 +221,8 @@ class Evaluation:
         plan_t = earliest(plan_c, skill_at('plan-review', spec_c), plan_dispatch)
         review_t = earliest(review_c, skill_at('geeky-implement', plan_c))
         plan_end = review_t
-        final = next((e for e in self.events if e['kind'] == 'spawn' and plan_end and self.iso(e['t']) > plan_end
-                      and REVIEW_FINAL.search(e['text']) and not re.search(r'(?i)\bphase\s*\d', e['text'][:400])), None)
+        final = next((e for e in self.events if plan_end and self.iso(e['t']) > plan_end
+                      and final_review_dispatch(e)), None)
         final_t = earliest(skill_at('impl-review', review_t), self.iso(final['t']) if final else None)
         return {'spec-research': (start, spec_t),
                 'geeky-plan': (spec_t, plan_t),

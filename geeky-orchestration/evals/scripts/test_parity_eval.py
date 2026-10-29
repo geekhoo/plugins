@@ -76,6 +76,35 @@ def test_stage_boundaries_use_explicit_review_dispatch_and_skill():
     assert bounds['impl-review'][0] == times[4]
 
 
+def test_deferred_impl_review_mention_does_not_start_final_review():
+    evaluation = pe.Evaluation.__new__(pe.Evaluation)
+    times = [pe.utc_time(f'2026-10-25T03:{minute}:00Z') for minute in ('00', '05', '10', '20', '30', '40', '50')]
+    evaluation.moves = [
+        {'subject': 'docs: author feature specification in docs/spec', 'time': times[1], 'files': []},
+        {'subject': pe.PLAN_REVIEW_SUBJECT, 'time': times[2], 'files': ['implementation-plan.md']}]
+    evaluation.events = [
+        {'t': times[0], 'kind': 'shell', 'name': 'Tool: PowerShell', 'text': 'read'},
+        {'t': times[3], 'kind': 'spawn', 'name': 'Tool: Agent', 'role': 'geeky-orchestration:geeky-implement-orchestrator',
+         'text': 'Execute the implementation. Do not run impl-review here; the parent launches it next.'},
+        {'t': times[4], 'kind': 'spawn', 'name': 'spawn_agent', 'role': '',
+         'text': 'Implement the remaining tasks and commit before impl-review starts.'},
+        {'t': times[5], 'kind': 'spawn', 'name': 'Tool: Agent', 'role': 'geeky-orchestration:code-reviewer',
+         'text': '{"description": "Impl review: CLI core", "prompt": "Do not edit files."}'}]
+    bounds = evaluation.stage_bounds()
+    assert bounds['geeky-implement'] == (times[2], times[5])
+    assert bounds['impl-review'][0] == times[5]
+
+
+def test_final_review_dispatch_rules():
+    spawn = {'kind': 'spawn', 'role': 'code-reviewer'}
+    assert pe.final_review_dispatch({**spawn, 'text': 'a CLI expert reviewing wordstat\'s implementation'})
+    assert not pe.final_review_dispatch({**spawn, 'text': "Don't start the impl-review yet"})
+    assert not pe.final_review_dispatch({**spawn, 'text': 'Phase 1 review; implementation review follows'})
+    assert not pe.final_review_dispatch({'kind': 'spawn', 'role': 'geeky-coder', 'text': 'Fix impl-review finding F1'})
+    # One affirmative mention is enough even when another is deferred.
+    assert pe.final_review_dispatch({**spawn, 'text': 'Not a phase gate. Impl review: run the final review now.'})
+
+
 def test_named_actor_trace_does_not_turn_coder_edits_into_orchestrator_edits():
     root = obs('actor', 'codex-mxc-win-coder-worker', '', kind='AGENT')
     root['metadata'] = {'actor_scope': 'subagent', 'agent_role': 'coder'}
