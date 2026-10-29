@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "cwd": "C:\\repos\\c0-luna-sequential-20261028-626d36e4\\codex\\runtime\\eval-c0-wordstat-codex-20261028T114114Z-eb4361e5",
+      "hooks": [
+        {
+          "key": "C:\\<session-flags>\\config.toml:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe C:\\repos\\c0-luna-sequential-20261028-626d36e4\\codex\\runtime\\.eval-cfg-codex-20261028T114114Z-eb4361e5\\home\\guard-bridge.py --guard C:\\repos\\c0-luna-sequential-20261028-626d36e4\\codex\\runtime\\.eval-cfg-codex-20261028T114114Z-eb4361e5\\plugin\\geeky-orchestration\\hooks\\guard-planning-contract.py",
+          "async": false,
+          "matcher": "Edit|Write|NotebookEdit|apply_patch",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "C:\\<session-flags>\\config.toml",
+          "source": "sessionFlags",
+          "pluginId": null,
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:7e89f4c684468296c0b1905c225bf347d8d9f1e8ab53acfbe4fa7131f492181d",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "C:\\<session-flags>\\config.toml:stop:0:0",
+          "eventName": "stop",
+          "handlerType": "command",
+          "command": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe C:\\repos\\c0-luna-sequential-20261028-626d36e4\\codex\\runtime\\.eval-cfg-codex-20261028T114114Z-eb4361e5\\home\\langfuse-tracer.py",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 600,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "C:\\<session-flags>\\config.toml",
+          "source": "sessionFlags",
+          "pluginId": null,
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:eede6c813e82bff43741c4262cdf26a1cc343048ae64536749999795a44517e2",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "warnings": [],
+      "errors": []
+    }
+  ]
+}

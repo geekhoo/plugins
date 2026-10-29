@@ -1,0 +1,94 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "codex-mxc-win-c0-wordstat-20261026T202318Z-fc8f0aa8",
+  "traces": 4,
+  "observations": 41,
+  "by_type": {
+    "TOOL": 26,
+    "GENERATION": 11,
+    "AGENT": 4
+  },
+  "generations": 11,
+  "tool_calls": 26,
+  "subagents": 3,
+  "user_ids": [
+    "codex-mxc-win-orchestrator-01a179e1-d60c-7f50-9208-65cc4f7c87dd",
+    "codex-mxc-win-unknown-plato-01a179e2-b262-7d62-bea9-1fc079d77fa5",
+    "codex-mxc-win-unknown-tesla-01a179e2-d53b-7fa1-9843-a3b279c2026f",
+    "codex-mxc-win-unknown-zeno-01a179e2-bfe9-7633-a974-dc044094b4dc"
+  ],
+  "agent_roles": [
+    "orchestrator",
+    "unknown"
+  ],
+  "agent_families": [
+    "codex-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 110515,
+    "output": 3645,
+    "total": 281983,
+    "input_cached_tokens": 166550,
+    "output_reasoning_tokens": 1273
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-26T20:23:27.057Z",
+  "last_start": "2026-10-26T20:24:49.604Z",
+  "top_names": [
+    [
+      "exec_command",
+      18
+    ],
+    [
+      "LLM",
+      7
+    ],
+    [
+      "LLM Subagent",
+      4
+    ],
+    [
+      "spawn_agent",
+      3
+    ],
+    [
+      "codex-mxc-win-unknown-tesla",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-zeno",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-plato",
+      1
+    ],
+    [
+      "skill:impl-review",
+      1
+    ],
+    [
+      "skill:geeky-implement",
+      1
+    ],
+    [
+      "skill:plan-review",
+      1
+    ],
+    [
+      "skill:geeky-plan",
+      1
+    ],
+    [
+      "skill:spec-research",
+      1
+    ],
+    [
+      "codex-mxc-win-orchestrator",
+      1
+    ]
+  ]
+}

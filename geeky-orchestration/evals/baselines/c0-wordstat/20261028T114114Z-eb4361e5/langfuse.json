@@ -1,0 +1,103 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "codex-mxc-win-c0-wordstat-20261028T114114Z-eb4361e5",
+  "traces": 8,
+  "observations": 258,
+  "by_type": {
+    "TOOL": 142,
+    "GENERATION": 108,
+    "AGENT": 8
+  },
+  "generations": 108,
+  "tool_calls": 142,
+  "subagents": 7,
+  "user_ids": [
+    "codex-mxc-win-orchestrator-01a18250-9973-7aa1-b0a7-a7d631486418",
+    "codex-mxc-win-reviewer-aquinas-01a1825e-0d8d-71b1-ae38-561fab386f9e",
+    "codex-mxc-win-reviewer-lagrange-01a1825e-7d77-7482-a74a-579380a0bd69",
+    "codex-mxc-win-reviewer-lorentz-01a18258-a948-7e22-801b-6eea624e55e2",
+    "codex-mxc-win-reviewer-schrodinger-01a1825b-61eb-7070-a649-ef119a2a50d2",
+    "codex-mxc-win-unknown-maxwell-01a18251-84b2-7332-967d-1b4e473cb2c2",
+    "codex-mxc-win-unknown-pasteur-01a18251-b037-72c2-bc9f-263ddbef7efc",
+    "codex-mxc-win-unknown-peirce-01a18251-d626-78b3-893c-696c0df9753b"
+  ],
+  "agent_roles": [
+    "orchestrator",
+    "reviewer",
+    "unknown"
+  ],
+  "agent_families": [
+    "codex-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 180864,
+    "output": 43450,
+    "total": 7372009,
+    "input_cached_tokens": 7115067,
+    "output_reasoning_tokens": 32628
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-28T11:41:23.588Z",
+  "last_start": "2026-10-28T11:56:56.967Z",
+  "top_names": [
+    [
+      "exec_command",
+      128
+    ],
+    [
+      "LLM",
+      87
+    ],
+    [
+      "LLM Subagent",
+      21
+    ],
+    [
+      "spawn_agent",
+      7
+    ],
+    [
+      "wait_agent",
+      5
+    ],
+    [
+      "list_agents",
+      2
+    ],
+    [
+      "codex-mxc-win-reviewer-lagrange",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-aquinas",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-schrodinger",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-lorentz",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-peirce",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-pasteur",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-maxwell",
+      1
+    ],
+    [
+      "codex-mxc-win-orchestrator",
+      1
+    ]
+  ]
+}

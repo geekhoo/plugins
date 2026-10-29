@@ -1,0 +1,8 @@
+{
+  "pluginId": "geeky-orchestration@geeky-eval",
+  "name": "geeky-orchestration",
+  "marketplaceName": "geeky-eval",
+  "version": "0.3.0-eval.50bbcf17843f",
+  "installedPath": "C:\\Repos\\c0-clean-live-20261027-cbf0d98f\\codex\\configuration\\codex-home\\plugins\\cache\\geeky-eval\\geeky-orchestration\\0.3.0-eval.50bbcf17843f",
+  "authPolicy": "ON_INSTALL"
+}

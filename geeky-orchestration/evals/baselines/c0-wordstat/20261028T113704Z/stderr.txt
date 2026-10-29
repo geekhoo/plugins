@@ -1,0 +1,1 @@
+[claude-code:unrecognized_model] {"model":"vercel/gpt-6-luna","query_source":"sdk"}

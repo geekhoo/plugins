@@ -1,0 +1,145 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "claudex-001",
+  "reasoning": "high",
+  "approach": "canonical-prompt",
+  "plugin_sha": "4228c3f73fc3894c86725cf42900406c1d2d981f",
+  "worker_model": "claudex-001",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "claudex-001",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "claudex-001",
+      "reasoning": "high",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "claudex-001",
+      "reasoning": "high",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "4d8ebd2f16b83a14c8f7278935105ab31e86b01e2b51098a7d7af0f07a17cf2e",
+  "workspace": "C:\\repos\\c0-prepared-20261027-3dff7ddc\\codex\\future-runtime\\eval-c0-wordstat-codex-20261026T174513Z-7fe848cb",
+  "config_directory": "C:\\repos\\c0-prepared-20261027-3dff7ddc\\codex\\future-runtime\\.eval-cfg-codex-20261026T174513Z-7fe848cb",
+  "seed_sha": "2531bafd5e3c8f95f8b4f507965098612e99ca69",
+  "session_id": null,
+  "started_utc": "2026-10-26T17:45:16.9648822Z",
+  "ended_utc": null,
+  "wall_time_s": null,
+  "tokens": null,
+  "model_calls": null,
+  "latency_median_ms": null,
+  "max_idle_gap_s": null,
+  "stages": null,
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": null,
+  "loc": null,
+  "commits": 0,
+  "exit_code": null,
+  "exit_reason": "prepared",
+  "is_error": false,
+  "raw_sha256": null,
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "awaiting-rollout",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "308e648a005a4b56ad4a7f7c6d479c68b4d5280f9128a95b187cf3dd8a7d1ae3",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": false,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "waived-by-owner",
+    "override_reason": "Owner explicitly instructed: ignore any qualification; model has already answered on both Claude and Codex in MXC."
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "context_window": 200000
+  },
+  "telemetry": {
+    "enabled": false
+  },
+  "reviewer_reasoning": "high",
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "running",
+    "attempt_id": "04ad0681-ea17-4a73-a832-b462e707083b",
+    "segment_id": "9c0b73ea-4fa9-400c-a3e6-42a289059b6b",
+    "authorization_reference": "User instruction in current chat: run sequentially, codex one first, then claude; 2026-10-27 Asia/Singapore",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "waived-by-owner",
+      "override_reason": "Owner explicitly instructed: ignore any qualification; model has already answered on both Claude and Codex in MXC."
+    },
+    "initial_deadline_utc": "2026-10-26T19:25:14.0782660Z",
+    "hard_wall_budget_s": 6000,
+    "closeout_reserve_s": 60,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "claudex-001",
+      "reasoning": "high",
+      "worker_model": "claudex-001",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "hard_wall_budget_s": 6000,
+      "closeout_reserve_s": 60,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "924b0a0466fd308eb751a9ae312c9b65c983fbdb4071859df078a0fbb1f7f3d0",
+    "invocations": [
+      {
+        "invocation_id": "6cf8d07d-8b7a-40ef-afb6-5910a28de52a",
+        "kind": "initial",
+        "timeout_s": 5997,
+        "started_utc": "2026-10-26T17:45:16.9597387Z",
+        "ended_utc": null,
+        "exit_code": null,
+        "outcome": "unknown"
+      }
+    ],
+    "process_outcome": "not-started",
+    "capture_status": "in-progress",
+    "postprocessing": {
+      "launch-preparation": "completed",
+      "seed-oracle": "completed"
+    },
+    "active_step": "capture",
+    "failure": null,
+    "contestant_time_s": 0.0,
+    "attempt_elapsed_s": 0.0,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 39316,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  }
+}

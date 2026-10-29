@@ -1,0 +1,77 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "model": "claudex-001",
+  "workspace": "C:\\repos\\c0-fresh-sequential-20261027-4ee3bd59\\codex\\runtime\\eval-c0-wordstat-codex-20261026T201843Z-68b14336",
+  "config_directory": "C:\\repos\\c0-fresh-sequential-20261027-4ee3bd59\\codex\\runtime\\.eval-cfg-codex-20261026T201843Z-68b14336",
+  "seed_sha": "ab34d36c35a07f30c6032e433f4df0254560350a",
+  "plugin_sha": "4228c3f73fc3894c86725cf42900406c1d2d981f",
+  "started_utc": null,
+  "ended_utc": null,
+  "exit_code": null,
+  "exit_reason": "prepared",
+  "is_error": true,
+  "reference_eligible": false,
+  "analysis_status": "not-started",
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "incomplete",
+    "attempt_id": "52c25631-dda6-438a-b889-a03357880e7d",
+    "segment_id": "a6f6b977-5f11-4b40-9d0b-e05d8a19773d",
+    "authorization_reference": "User: now start fresh C0 runs sequentially, Codex first then Claude, prepared settings and Langfuse from startup; run each to completion or unrecoverable failure; monitor and report. 2026-10-27 Asia/Singapore",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "waived-by-owner",
+      "override_reason": "Owner explicitly instructed: ignore any qualification; model has already answered on both Claude and Codex in MXC."
+    },
+    "initial_deadline_utc": "2026-10-26T21:58:44.2457841Z",
+    "hard_wall_budget_s": 6000,
+    "closeout_reserve_s": 60,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "claudex-001",
+      "reasoning": "high",
+      "worker_model": "claudex-001",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "hard_wall_budget_s": 6000,
+      "closeout_reserve_s": 60,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "924b0a0466fd308eb751a9ae312c9b65c983fbdb4071859df078a0fbb1f7f3d0",
+    "invocations": [],
+    "process_outcome": "not-started",
+    "capture_status": "not-started",
+    "postprocessing": {
+      "prepared": "failed"
+    },
+    "active_step": "prepared",
+    "failure": {
+      "step": "prepared",
+      "message": "Invalid LiteLLM bridge readiness record."
+    },
+    "contestant_time_s": 0.0,
+    "attempt_elapsed_s": 0.0,
+    "finalization_time_s": 0.2337245000526309,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 39716,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "ab34d36c35a07f30c6032e433f4df0254560350a",
+    "workspace_status": [],
+    "artifact_sha256": {}
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "codex-mxc-win-c0-wordstat-20261026T175158Z-48285be4",
+  "traces": 0,
+  "observations": 0,
+  "by_type": {},
+  "generations": 0,
+  "tool_calls": 0,
+  "subagents": 0,
+  "user_ids": [],
+  "agent_roles": [],
+  "agent_families": [],
+  "environments": [],
+  "usage_details": {},
+  "truncated_observations": 0,
+  "first_start": null,
+  "last_start": null,
+  "top_names": []
+}
