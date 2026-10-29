@@ -2,6 +2,13 @@
 
 ## Stage commit messages against the gate, 2026-10-29
 
+Resolved by `629ae3f`: pre-planning docs commits use `Tasks: none`; both Python
+and PowerShell gates enforce the docs-only exception. Ten tests and 12
+subprocess subtests pass. The owner reports the previously exposed Langfuse
+keys rotated; one read-only Codex authentication check passed. The exposure
+record below is historical. Scan literal current credential values in every
+staged file before each commit and every outgoing blob before public push.
+
 The [native Codex run](analyses/c0-codex-native-run-20261029/README.md) stopped
 because spec-research prescribes a commit message that `check-commit` rejects.
 Claude had already shown the same failure as a self-declared exception, and an

@@ -50,6 +50,8 @@ exercised. Known friction, recorded rather than fixed: one heredoc-into-`apply_p
 failure, and researchers without WebSearch/WebFetch. The paste-ready Codex kickoff
 is [handoff.md](handoff.md).
 
+Commit-gate blocker resolved by `629ae3f31dd230b859abaa2e9a2152ce1f3de5d5`; see [fix and fresh attempt record](../c0-commit-gate-fix-20261029/README.md).
+
 Evidence: original [run record](../../baselines/c0-wordstat/20261029T043904Z-28148c1d/run.json)
 and [stream](../../baselines/c0-wordstat/20261029T043904Z-28148c1d/stream.jsonl);
 local `outputs/c0-codex-native-live-20261029/` contains results.json, cleanup.json,

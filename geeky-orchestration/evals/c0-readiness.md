@@ -1,6 +1,12 @@
 # C0 operator readiness and verification
 
-**Current native Codex C0 readiness: BLOCKED.** The authorized native run
+**Current native Codex C0 gate blocker: RESOLVED.** Fix `629ae3f` passes 10 tests
+and 12 paired subprocess subtests. Offline inventory returned `inventory-ready`
+with no errors. Fresh preparation at committed HEAD is pending before the
+owner's one authorized native attempt. See [current work](analyses/c0-commit-gate-fix-20261029/README.md).
+The rotated Codex Langfuse keys passed one read-only existing-session check.
+
+Historical blocked result: the earlier authorized native run
 `20261029T043904Z-28148c1d` completed its agent turn but explicitly stopped with
 specification unaccepted. Global AGENTS requires `check-commit` before every
 commit; that implementation-format validator requires a task reference before
@@ -9,12 +15,12 @@ native preparation missed this known rule conflict and is not completion-ready.
 See [run outcome](analyses/c0-codex-native-run-20261029/README.md). Both evaluations
 are stopped; no retry or source change was made during this attempt.
 
-The unblock is specified but not applied. Allow `Tasks: none` on `docs` commits
-only, add it to the spec-research commit, prove it on both gate twins, commit,
-then re-prepare the native profile at the new HEAD. The
+The blocker is now fixed: `Tasks: none` is accepted on `docs` commits only,
+the spec-research commit includes it, and both gate twins have regression proof.
+Re-prepare the native profile at the new HEAD. The
 [Codex kickoff](analyses/c0-codex-native-run-20261029/handoff.md) covers fix,
 preparation and one authorized launch. Readiness stays BLOCKED until that fix
-lands.
+lands; that source gate is now satisfied, while fresh profile verification remains pending.
 
 Latest [focused Codex preparation](analyses/c0-codex-native-preparation-20261029/README.md),
 2026-10-29: Luna's prepared Codex profile uses explicit native Responses/V2,

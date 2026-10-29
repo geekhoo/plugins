@@ -1,10 +1,9 @@
 # geekhoo plugins
 
-[Native Codex C0 result](geeky-orchestration/evals/analyses/c0-codex-native-run-20261029/README.md):
-native delegation worked, but the run stopped at the pre-task commit-rule conflict.
-Current C0 readiness is blocked; no automatic retry is scheduled. The fix, a
-docs-only `Tasks: none` gate rule, is specified in the
-[Codex kickoff](geeky-orchestration/evals/analyses/c0-codex-native-run-20261029/handoff.md).
+[Native Codex C0 gate fix](geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/README.md)
+resolves the specification commit conflict. Paired gate tests and offline
+readiness pass; fresh preparation and the owner's single authorized native
+attempt are pending. Historical results remain preserved.
 
 [Focused Codex native-wire preparation](geeky-orchestration/evals/analyses/c0-codex-native-preparation-20261029/README.md)
 re-examines the failed trace and prepares Luna's direct Responses/V2 route.

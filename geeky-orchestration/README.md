@@ -1,10 +1,9 @@
 # geeky-orchestration
 
-[Native Codex C0 is blocked at the spec commit gate](evals/analyses/c0-codex-native-run-20261029/README.md).
-The agent correctly stopped without fabricating a task reference. The preparation
-missed this existing policy conflict; it must be resolved before another attempt.
-The [Codex kickoff](evals/analyses/c0-codex-native-run-20261029/handoff.md) specifies
-the fix (`Tasks: none` on docs commits only), re-preparation and one launch.
+[Native Codex C0 gate fix](evals/analyses/c0-commit-gate-fix-20261029/README.md)
+allows pre-planning docs commits to use `Tasks: none`. Both gates pass the
+regression suite and offline readiness passes. Fresh preparation and one
+owner-authorized native attempt are pending; historical results are preserved.
 
 [Codex C0 native-wire preparation](evals/analyses/c0-codex-native-preparation-20261029/README.md)
 adds explicit `-LitellmWireMode native` for the Luna candidate, retaining bridge
