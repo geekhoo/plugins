@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "staged_files": 6,
+  "checked_files_or_blobs": 6,
+  "hits": [],
+  "checked": [
+    {
+      "path": "geeky-orchestration/AGENTS.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/mcp/server.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/scripts/check-commit.ps1",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/scripts/check-commit.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/skills/spec-research/SKILL.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/test_quality_gates.py",
+      "revision": "index"
+    }
+  ]
+}

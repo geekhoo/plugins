@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "staged_files": 0,
+  "checked_files_or_blobs": 15,
+  "hits": [],
+  "checked": [
+    {
+      "path": "README.md",
+      "revision": "183aead10805fdc15ad5ec76dc97733c501e5a23"
+    },
+    {
+      "path": "geeky-orchestration/README.md",
+      "revision": "183aead10805fdc15ad5ec76dc97733c501e5a23"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-run-20261029/README.md",
+      "revision": "183aead10805fdc15ad5ec76dc97733c501e5a23"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/README.md",
+      "revision": "183aead10805fdc15ad5ec76dc97733c501e5a23"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/handoff.md",
+      "revision": "183aead10805fdc15ad5ec76dc97733c501e5a23"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/kanban.md",
+      "revision": "183aead10805fdc15ad5ec76dc97733c501e5a23"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/references.md",
+      "revision": "183aead10805fdc15ad5ec76dc97733c501e5a23"
+    },
+    {
+      "path": "geeky-orchestration/evals/c0-readiness.md",
+      "revision": "183aead10805fdc15ad5ec76dc97733c501e5a23"
+    },
+    {
+      "path": "geeky-orchestration/evals/lessons-learned.md",
+      "revision": "183aead10805fdc15ad5ec76dc97733c501e5a23"
+    },
+    {
+      "path": "geeky-orchestration/AGENTS.md",
+      "revision": "629ae3f31dd230b859abaa2e9a2152ce1f3de5d5"
+    },
+    {
+      "path": "geeky-orchestration/mcp/server.py",
+      "revision": "629ae3f31dd230b859abaa2e9a2152ce1f3de5d5"
+    },
+    {
+      "path": "geeky-orchestration/scripts/check-commit.ps1",
+      "revision": "629ae3f31dd230b859abaa2e9a2152ce1f3de5d5"
+    },
+    {
+      "path": "geeky-orchestration/scripts/check-commit.py",
+      "revision": "629ae3f31dd230b859abaa2e9a2152ce1f3de5d5"
+    },
+    {
+      "path": "geeky-orchestration/skills/spec-research/SKILL.md",
+      "revision": "629ae3f31dd230b859abaa2e9a2152ce1f3de5d5"
+    },
+    {
+      "path": "geeky-orchestration/test_quality_gates.py",
+      "revision": "629ae3f31dd230b859abaa2e9a2152ce1f3de5d5"
+    }
+  ]
+}

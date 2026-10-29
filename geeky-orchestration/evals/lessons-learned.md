@@ -1,5 +1,23 @@
 # Eval runs: lessons learned
 
+## Native transport is not full workflow proof, 2026-10-29
+
+The [fixed native Codex attempt](analyses/c0-codex-native-fixed-run-20261029/README.md)
+passed the former spec-commit blocker and repeated reviewer exchanges, then
+crashed during its first implementation task. The gateway reported Bedrock503,
+an Azure tool-search call-ID rejection and OpenAI encrypted-output decoding
+failure. This identifies reported failure boundaries, not an isolated root cause;
+no replay or provider probe was authorized. One operator launch can contain
+internal gateway provider attempts, which must not be counted as new operator
+attempts or hidden as proven backend equivalence.
+
+The runner finalized the crash and ran the oracle three times:0/13, all missing
+package setup errors. Langfuse delivery (23 traces / 920 observations) is activity
+evidence, not acceptance. The official scorer rejected the failed/incomplete
+trace, so parity is unavailable. Preserve that boundary instead of inserting a
+synthetic Quality score. Existing Windows patch-command friction remains out of
+scope for this fix. Cleanup and preservation completed; no retry is authorized.
+
 ## Stage commit messages against the gate, 2026-10-29
 
 Resolved by `629ae3f`: pre-planning docs commits use `Tasks: none`; both Python

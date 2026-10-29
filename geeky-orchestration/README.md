@@ -1,9 +1,9 @@
 # geeky-orchestration
 
-[Native Codex C0 gate fix](evals/analyses/c0-commit-gate-fix-20261029/README.md)
-allows pre-planning docs commits to use `Tasks: none`. Both gates pass the
-regression suite and offline readiness passes. Fresh preparation and one
-owner-authorized native attempt are pending; historical results are preserved.
+[Native Codex C0 after the gate fix](evals/analyses/c0-codex-native-fixed-run-20261029/README.md)
+used the docs-only `Tasks: none` rule successfully, then crashed during the first
+implementation task on an encrypted-output decode error. Oracle 0/13 x3,
+Langfuse 23 traces / 920 observations; parity unavailable. No retry is authorized.
 
 [Codex C0 native-wire preparation](evals/analyses/c0-codex-native-preparation-20261029/README.md)
 adds explicit `-LitellmWireMode native` for the Luna candidate, retaining bridge

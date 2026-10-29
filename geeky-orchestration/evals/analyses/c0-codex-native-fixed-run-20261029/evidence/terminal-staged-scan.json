@@ -1,0 +1,400 @@
+{
+  "status": "PASS",
+  "staged_files": 98,
+  "checked_files_or_blobs": 98,
+  "hits": [],
+  "checked": [
+    {
+      "path": ".gitattributes",
+      "revision": "index"
+    },
+    {
+      "path": "README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/authorization.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/cleanup.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/current-inventory.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/gate-tests.log",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/langfuse-readback.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/mxc-build.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/parity.log",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/preparation.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/results.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/role-readback.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/rotated-langfuse-auth.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/scan-before-code-commit.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/scan-before-docs-commit.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/scan-before-initial-push.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/scoring-status.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/scoring.log",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/terminal-evidence-pins.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/terminal-working-files-scan.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/evidence/verification.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/failure-evidence.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/.gitignore",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/brief.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/contract.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/.heartbeat",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/draft.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/feature-specification.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/handoff.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/implementation-plan.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/kanban.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/references.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/review-development-project-manager.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/review-plan.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/tasks/T1-counting-core.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/final-workspace/docs/spec-001-feature/tasks/T2-cli-contract.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/handoff.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/kanban.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/references.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/handoff.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/kanban.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/references.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/langfuse-coverage.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/langfuse-flush.log",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/langfuse.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/codex-exit.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/.sandbox/sandbox.2026-10-29.log",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/.tmp/git-AHIjWN/HEAD",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/.tmp/plugins.sync.lock",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/goals_1.sqlite",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/goals_1.sqlite-shm",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/goals_1.sqlite-wal",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/installation_id",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/logs_2.sqlite",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/logs_2.sqlite-shm",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/logs_2.sqlite-wal",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/memories_1.sqlite",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/memories_1.sqlite-shm",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/memories_1.sqlite-wal",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/queue_1.sqlite",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/queue_1.sqlite-shm",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/queue_1.sqlite-wal",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/state_5.sqlite",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/state_5.sqlite-shm",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/hook-catalog-home/state_5.sqlite-wal",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/launch-evidence/runtime-denial-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/oracle-output.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/oracle-seed-output.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/parity-preflight.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/rollout-manifest.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/session.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/solution.bundle",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a18655-3ddc-75a2-8320-0036f37249ff.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a18655-4020-7552-950c-0c2b099b7434.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a18655-42e8-7d12-8783-4a0c938c2af9.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a1865a-a35b-7892-9500-4a8ec60d0ca6.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a1865a-a5a9-7e73-9e7c-25e13693d1ec.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a18660-30c4-72b0-981f-c579631721c6.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a18662-6e5b-7033-8ddb-35a87ffb3aee.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a18663-e6ef-72e3-a96b-c56d972aa10c.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a18668-e246-7f73-9a12-7a2658f0c080.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a1866a-e24b-78a3-b826-eb97571b1b5a.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a1866c-d8f7-73b0-8d16-cd1289f5e90e.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/subagents/rollout-01a18670-7133-7ae0-9a8f-53fa973eb17f.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/c0-readiness.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/lessons-learned.md",
+      "revision": "index"
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "codex-mxc-win-c0-wordstat-20261029T062343Z-ffd63c3c",
+  "traces": 23,
+  "observations": 920,
+  "by_type": {
+    "TOOL": 526,
+    "GENERATION": 371,
+    "AGENT": 23
+  },
+  "generations": 371,
+  "tool_calls": 526,
+  "subagents": 22,
+  "user_ids": [
+    "codex-mxc-win-coder-averroes-01a18670-7133-7ae0-9a8f-53fa973eb17f",
+    "codex-mxc-win-orchestrator-01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+    "codex-mxc-win-reviewer-epicurus-01a18660-30c4-72b0-981f-c579631721c6",
+    "codex-mxc-win-reviewer-feynman-01a1865a-a35b-7892-9500-4a8ec60d0ca6",
+    "codex-mxc-win-reviewer-hypatia-01a1866a-e24b-78a3-b826-eb97571b1b5a",
+    "codex-mxc-win-reviewer-nash-01a18662-6e5b-7033-8ddb-35a87ffb3aee",
+    "codex-mxc-win-reviewer-planck-01a18663-e6ef-72e3-a96b-c56d972aa10c",
+    "codex-mxc-win-reviewer-singer-01a1866c-d8f7-73b0-8d16-cd1289f5e90e",
+    "codex-mxc-win-reviewer-wegener-01a1865a-a5a9-7e73-9e7c-25e13693d1ec",
+    "codex-mxc-win-unknown-bacon-01a18668-e246-7f73-9a12-7a2658f0c080",
+    "codex-mxc-win-unknown-boyle-01a18655-42e8-7d12-8783-4a0c938c2af9",
+    "codex-mxc-win-unknown-cicero-01a18655-4020-7552-950c-0c2b099b7434",
+    "codex-mxc-win-unknown-ohm-01a18655-3ddc-75a2-8320-0036f37249ff"
+  ],
+  "agent_roles": [
+    "coder",
+    "orchestrator",
+    "reviewer",
+    "unknown"
+  ],
+  "agent_families": [
+    "codex-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 1353341,
+    "output": 85978,
+    "total": 24114961,
+    "input_cached_tokens": 22603126,
+    "output_reasoning_tokens": 72516
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-29T06:23:52.745Z",
+  "last_start": "2026-10-29T07:03:29.993Z",
+  "top_names": [
+    [
+      "exec_command",
+      388
+    ],
+    [
+      "LLM",
+      227
+    ],
+    [
+      "LLM Subagent",
+      144
+    ],
+    [
+      "wait_agent",
+      39
+    ],
+    [
+      "list_agents",
+      31
+    ],
+    [
+      "send_message",
+      22
+    ],
+    [
+      "spawn_agent",
+      16
+    ],
+    [
+      "followup_task",
+      9
+    ],
+    [
+      "skill:plan-review",
+      7
+    ],
+    [
+      "skill:geeky-implement",
+      6
+    ],
+    [
+      "codex-mxc-win-reviewer-hypatia",
+      4
+    ],
+    [
+      "codex-mxc-win-reviewer-wegener",
+      4
+    ],
+    [
+      "codex-mxc-win-coder-averroes",
+      3
+    ],
+    [
+      "skill:geeky-orchestration",
+      3
+    ],
+    [
+      "interrupt_agent",
+      2
+    ],
+    [
+      "codex-mxc-win-unknown-bacon",
+      2
+    ],
+    [
+      "codex-mxc-win-reviewer-nash",
+      2
+    ],
+    [
+      "get_goal",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-singer",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-planck",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-epicurus",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-feynman",
+      1
+    ],
+    [
+      "skill:geeky-plan",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-boyle",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-cicero",
+      1
+    ]
+  ]
+}

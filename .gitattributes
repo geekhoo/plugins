@@ -26,3 +26,7 @@ geeky-orchestration/evals/baselines/c0-wordstat/20261026T110231Z/** -text
 geeky-orchestration/evals/baselines/c0-wordstat/20261026T110548Z-de605bce/** -text
 geeky-orchestration/evals/baselines/c0-wordstat/20261026T110713Z/** -text
 geeky-orchestration/evals/baselines/c0-wordstat/20261026T110917Z/** -text
+
+# Preserve this native C0 terminal capture, snapshot and evidence hashes exactly.
+geeky-orchestration/evals/baselines/c0-wordstat/20261029T062343Z-ffd63c3c/** -text
+geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/** -text

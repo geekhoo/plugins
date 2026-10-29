@@ -1,0 +1,8 @@
+{
+  "pluginId": "geeky-orchestration@geeky-eval",
+  "name": "geeky-orchestration",
+  "marketplaceName": "geeky-eval",
+  "version": "0.3.0-eval.0ec9c1977c64",
+  "installedPath": "C:\\Repos\\c0-codex-native-20261029-25a63614\\codex-home\\plugins\\cache\\geeky-eval\\geeky-orchestration\\0.3.0-eval.0ec9c1977c64",
+  "authPolicy": "ON_INSTALL"
+}

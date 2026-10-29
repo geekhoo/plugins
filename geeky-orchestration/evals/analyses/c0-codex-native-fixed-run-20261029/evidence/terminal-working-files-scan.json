@@ -1,0 +1,372 @@
+{
+  "status": "PASS",
+  "staged_files": 0,
+  "checked_files_or_blobs": 91,
+  "hits": [],
+  "checked": [
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\langfuse-coverage.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\langfuse-flush.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\langfuse.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\mxc-build-provenance.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\oracle-output.txt",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\oracle-seed-output.txt",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\parity-preflight.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\rollout-manifest.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\run.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\session.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\solution.bundle",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\stderr.txt",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\stream.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\codex-exit.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\native-hook-catalog-stderr.txt",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\native-hook-catalog.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\native-plugin-install-stderr.txt",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\native-plugin-install.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\runtime-denial-proof.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a18655-3ddc-75a2-8320-0036f37249ff.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a18655-4020-7552-950c-0c2b099b7434.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a18655-42e8-7d12-8783-4a0c938c2af9.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a1865a-a35b-7892-9500-4a8ec60d0ca6.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a1865a-a5a9-7e73-9e7c-25e13693d1ec.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a18660-30c4-72b0-981f-c579631721c6.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a18662-6e5b-7033-8ddb-35a87ffb3aee.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a18663-e6ef-72e3-a96b-c56d972aa10c.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a18668-e246-7f73-9a12-7a2658f0c080.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a1866a-e24b-78a3-b826-eb97571b1b5a.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a1866c-d8f7-73b0-8d16-cd1289f5e90e.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\subagents\\rollout-01a18670-7133-7ae0-9a8f-53fa973eb17f.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\goals_1.sqlite",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\goals_1.sqlite-shm",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\goals_1.sqlite-wal",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\installation_id",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\logs_2.sqlite",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\logs_2.sqlite-shm",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\logs_2.sqlite-wal",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\memories_1.sqlite",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\memories_1.sqlite-shm",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\memories_1.sqlite-wal",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\queue_1.sqlite",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\queue_1.sqlite-shm",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\queue_1.sqlite-wal",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\state_5.sqlite",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\state_5.sqlite-shm",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\state_5.sqlite-wal",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\.sandbox\\sandbox.2026-10-29.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\.tmp\\plugins.sync.lock",
+      "revision": "working-file"
+    },
+    {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c\\launch-evidence\\hook-catalog-home\\.tmp\\git-AHIjWN\\HEAD",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\analyze.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\attempt-claimed.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\authorization.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\codex-kickoff.md",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\committed-readiness.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\controller.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\credential-scan.py",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\current-inventory.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\gate-tests.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\invoke-codex.ps1",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\langfuse-observations.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\langfuse-readback.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\langfuse-readback.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\launch-command.ps1.txt",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\launch.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\live-run-pointer.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\monitor.jsonl",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\mxc-build.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\parity.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\prelaunch-verification.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\preliminary-capture-scan.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\preparation.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\prepare-held.ps1",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\prepare.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\readiness.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\role-readback.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\rotated-langfuse-auth.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\scan-before-code-commit.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\scan-before-docs-commit.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\scan-before-initial-push.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\scoring.log",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\status.py",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\verification.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\verify-preparation.py",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\derived-analysis\\analysis.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\derived-analysis\\run.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\preparation-capture\\parity-preflight.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\preparation-capture\\run.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\readiness\\20261029T061819Z-1244138b\\readiness.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\readiness\\20261029T062124Z-725a5ce3\\readiness.json",
+      "revision": "working-file"
+    },
+    {
+      "path": "outputs\\c0-codex-native-fix-20261029\\readiness\\20261029T062159Z-986a21a7\\readiness.json",
+      "revision": "working-file"
+    }
+  ]
+}

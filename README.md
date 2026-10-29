@@ -1,9 +1,9 @@
 # geekhoo plugins
 
-[Native Codex C0 gate fix](geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/README.md)
-resolves the specification commit conflict. Paired gate tests and offline
-readiness pass; fresh preparation and the owner's single authorized native
-attempt are pending. Historical results remain preserved.
+[Native Codex C0 after the gate fix](geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/README.md)
+passed specification and plan review, then crashed during the first implementation
+task on an encrypted-output decode error. Oracle 0/13 over three runs; Langfuse
+23 traces / 920 observations. Parity is unavailable; no retry is authorized.
 
 [Focused Codex native-wire preparation](geeky-orchestration/evals/analyses/c0-codex-native-preparation-20261029/README.md)
 re-examines the failed trace and prepares Luna's direct Responses/V2 route.

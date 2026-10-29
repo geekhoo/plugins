@@ -1,10 +1,16 @@
 # C0 operator readiness and verification
 
-**Current native Codex C0 gate blocker: RESOLVED.** Fix `629ae3f` passes 10 tests
-and 12 paired subprocess subtests. Offline inventory returned `inventory-ready`
-with no errors. Fresh preparation at committed HEAD is pending before the
-owner's one authorized native attempt. See [current work](analyses/c0-commit-gate-fix-20261029/README.md).
-The rotated Codex Langfuse keys passed one read-only existing-session check.
+**Current native Codex C0 readiness: BLOCKED after terminal protocol failure.**
+The single authorized run `20261029T062343Z-ffd63c3c` crashed after2511.334 s
+during implementation T1: encrypted function output could not be decoded.
+Oracle 0/13 x3; Langfuse 23 traces / 920 observations; parity unavailable because the
+scorer rejects the failed trace. No retry, resume, probe or overtime is authorized.
+See [terminal analysis](analyses/c0-codex-native-fixed-run-20261029/README.md).
+
+The specification gate is fixed by `629ae3f`:10 tests and 12 paired subprocess
+subtests pass. Fresh preparation at `183aead` passed clean committed inventory,
+eight Luna/high role readbacks and 18 private build pins. The rotated Codex keys
+authenticated, and the live specification commit used `Tasks: none` successfully.
 
 Historical blocked result: the earlier authorized native run
 `20261029T043904Z-28148c1d` completed its agent turn but explicitly stopped with
@@ -17,10 +23,10 @@ are stopped; no retry or source change was made during this attempt.
 
 The blocker is now fixed: `Tasks: none` is accepted on `docs` commits only,
 the spec-research commit includes it, and both gate twins have regression proof.
-Re-prepare the native profile at the new HEAD. The
+That fresh profile was prepared and consumed by the terminal attempt above. The
 [Codex kickoff](analyses/c0-codex-native-run-20261029/handoff.md) covers fix,
-preparation and one authorized launch. Readiness stays BLOCKED until that fix
-lands; that source gate is now satisfied, while fresh profile verification remains pending.
+preparation and the now-consumed authorized launch. The source gate is satisfied;
+the new protocol failure prevents a full native-workflow compatibility claim.
 
 Latest [focused Codex preparation](analyses/c0-codex-native-preparation-20261029/README.md),
 2026-10-29: Luna's prepared Codex profile uses explicit native Responses/V2,

@@ -1,0 +1,282 @@
+{
+  "schema": "geeky-eval.c0-readiness/1",
+  "repo_head": "183aead10805fdc15ad5ec76dc97733c501e5a23",
+  "dirty_scope": [],
+  "commit_only_proof": true,
+  "sources": {
+    "geeky-orchestration/evals/cases/c0-wordstat/case.json": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\cases\\c0-wordstat\\case.json",
+      "sha256": "954b499b7c0a4b27b84b3edfbd38eab6047e17ea043d0c21f37acc03b09e3038"
+    },
+    "geeky-orchestration/evals/cases/c0-wordstat/brief.md": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\cases\\c0-wordstat\\brief.md",
+      "sha256": "d79e499d5897166458f784f90f239a43e24392d10c11eac9ebe5e94a9805e8ce"
+    },
+    "geeky-orchestration/evals/cases/c0-wordstat/contract.md": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\cases\\c0-wordstat\\contract.md",
+      "sha256": "d9b6bf18178972daeb2036bb33622084b6dc6394051b0fd84a7e9fc5f9d63f81"
+    },
+    "geeky-orchestration/evals/prompts/end-to-end.md": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\prompts\\end-to-end.md",
+      "sha256": "8d2dad9ccc7cf392719f0eae643a6728650f25ec7275d88a90ef4e4cdf29c7a1"
+    },
+    "geeky-orchestration/evals/scripts/run-baseline.ps1": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\run-baseline.ps1",
+      "sha256": "7130a8fb991d904e15d12bc2e732c71533dde3352794fa8cf47d2c654b135f93"
+    },
+    "geeky-orchestration/evals/scripts/run-codex-baseline.ps1": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\run-codex-baseline.ps1",
+      "sha256": "59535cc535de71a9586c0b7f775082507614420fff23ea67235a5091eabea52d"
+    },
+    "geeky-orchestration/evals/scripts/evaluation_scope.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\evaluation_scope.py",
+      "sha256": "c17ee14a52c0cca70d7a844df2bbf3b20f276553d3717d26b8ea19d11dfc8629"
+    },
+    "geeky-orchestration/evals/telemetry/langfuse-scores.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\langfuse-scores.py",
+      "sha256": "0f4143130359c713fd4f5382db39d12b6e56968ef9bbeb91dfb1299c8d12ebc1"
+    },
+    "geeky-orchestration/evals/telemetry/telemetry.ps1": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\telemetry.ps1",
+      "sha256": "fbe561d295b970a6541795775cac2f3be306a372d583bec0a76f6f4303ef6670"
+    },
+    "geeky-orchestration/evals/telemetry/pins.json": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\pins.json",
+      "sha256": "1c21cf9ce6d76a39f01813f5eb5eef405385315e1a168dbe5ce684b0b2c075d2"
+    },
+    "geeky-orchestration/evals/adapters/codex/profile/mxc-pin.json": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\profile\\mxc-pin.json",
+      "sha256": "4611cced19000e04423035cec15c549f8c9d2bc1392f3078e8fbdef6d27f5407"
+    },
+    "geeky-orchestration/evals/telemetry/test_langfuse_scores.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\test_langfuse_scores.py",
+      "sha256": "fd8b4635eba818912b0e76db26252ac27e9b261184c262c20267580fcd34be2c"
+    },
+    "geeky-orchestration/evals/telemetry/test_langfuse_run.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\test_langfuse_run.py",
+      "sha256": "5cced72b302cdf65cd10fe0554fb053dd67a125a65f87577e611b88e7a33281b"
+    },
+    "geeky-orchestration/evals/telemetry/test_langfuse_coverage.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\telemetry\\test_langfuse_coverage.py",
+      "sha256": "4d01a3b9b8fa57e15e0b0c29a9eda906a142fb5d7d9ccb3d6b6ff1efa84f4fd4"
+    },
+    "geeky-orchestration/evals/scripts/test_c0_readiness.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\test_c0_readiness.py",
+      "sha256": "58f163ad099e1b14aaa5b960a1a04aca794f25b5988588df9d7d44433e8f8e57"
+    },
+    "geeky-orchestration/evals/scripts/check-c0-readiness.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\check-c0-readiness.py",
+      "sha256": "df8c4b3abe2a18abe6fe6498a1fe3f4262ce48c91f248196cd8a478109e1cf42"
+    },
+    "geeky-orchestration/evals/scripts/run-lifecycle.ps1": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\scripts\\run-lifecycle.ps1",
+      "sha256": "f8dc37e5ee13a8eb4e76aace7f049153fd1fe7e6b1cc313c28676126e245e3af"
+    },
+    "geeky-orchestration/evals/adapters/codex/litellm-bridge.ps1": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\litellm-bridge.ps1",
+      "sha256": "1b0ebf8e478f8555b667e28c4fa4eac9214b41a87aeee71d72b56e4665ad851b"
+    },
+    "geeky-orchestration/evals/adapters/codex/test_litellm_bridge_lifecycle.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\test_litellm_bridge_lifecycle.py",
+      "sha256": "f8fc036eec0d6e6870647b8c5a1b7bbf8bd2cf26c7605f7ca0028aee70383505"
+    },
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/__init__.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\litellm_bridge\\__init__.py",
+      "sha256": "84a07a37abc8a3e7645e1d2888e2c079a40e868c46ee11f4961ed5fb2461e423"
+    },
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/__main__.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\litellm_bridge\\__main__.py",
+      "sha256": "cd3786875ce0875b3d43d6134f1ead6b998f7718b9ad15fedff531bb6057c068"
+    },
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/mapper.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\litellm_bridge\\mapper.py",
+      "sha256": "7bde0384018ca1e5f83f9f2304be0e7cb867ddacf799149a006438c1a849a21c"
+    },
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/server.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\litellm_bridge\\server.py",
+      "sha256": "efde1d74451017aa48e51ca04c73093a15e55ce6daf41e6b0e4342eb2eb4e18b"
+    },
+    "geeky-orchestration/evals/adapters/codex/litellm_bridge/test_bridge.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\adapters\\codex\\litellm_bridge\\test_bridge.py",
+      "sha256": "7446b318a1a5036576324dd50b9f5ebf225adca2553f15f95da2f1f3d6b875a9"
+    },
+    "geeky-orchestration/scripts/workflow-budget.py": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\scripts\\workflow-budget.py",
+      "sha256": "c70f526074b6529c31e36f22099d7dcde068e992adf809cd1fac303251e1ba9a"
+    },
+    "geeky-orchestration/skills/spec-research/SKILL.md": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\skills\\spec-research\\SKILL.md",
+      "sha256": "b5a1cfaa4b25aa18272fdbe8830b00243cf9b2681a4204d460693516847d46ce"
+    },
+    "geeky-orchestration/skills/geeky-plan/SKILL.md": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\skills\\geeky-plan\\SKILL.md",
+      "sha256": "79ca326d623ff821172dcaff1e8e3044d37afed24780f0bb797cb35658eaa967"
+    },
+    "geeky-orchestration/skills/plan-review/SKILL.md": {
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\skills\\plan-review\\SKILL.md",
+      "sha256": "9511c65c1b106ca342fa159bee23ceaec2e81be7906a24a4a278919a4f26160d"
+    }
+  },
+  "effective_prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "tools": {
+    "python_tests": {
+      "path": "C:\\Python314\\python.exe",
+      "present": true,
+      "version": "Python 3.14.7",
+      "sha256": "4942b86a6597e5aee0128daa00050ed79bc21f6e709a78eb19cbfeb0c2f39ac9",
+      "version_probe": {
+        "command": [
+          "C:\\Python314\\python.exe",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "Python 3.14.7\n",
+        "stderr": ""
+      }
+    },
+    "codex": {
+      "path": "C:\\repos\\.eval-tools\\codex\\0.164.0\\bin\\codex.exe",
+      "present": true,
+      "version": "codex-cli 0.164.0",
+      "sha256": "6f267830b029ee25d9339864aa867cd45de9f8fd4c5ea007d2e63c13a0c66d36",
+      "version_probe": {
+        "command": [
+          "C:\\repos\\.eval-tools\\codex\\0.164.0\\bin\\codex.exe",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "codex-cli 0.164.0\n",
+        "stderr": ""
+      }
+    },
+    "mxc": {
+      "path": "C:\\repos\\.eval-tools\\windows-mxc\\bin\\MxcClaude.exe",
+      "present": true,
+      "version": null,
+      "sha256": "015811e7c058b582e5280d87c0aa188f9334ffc5feabaab4f0cac44f4d0b9125"
+    },
+    "langfuse": {
+      "path": "C:\\Users\\gerald.khoo\\AppData\\Roaming\\npm\\langfuse.cmd",
+      "present": true,
+      "version": "1.2.4",
+      "sha256": "c1c8a2483692c2667253c4da36fa76489986faad357ec83290bff2d100079262",
+      "version_probe": {
+        "command": [
+          "C:\\Users\\gerald.khoo\\AppData\\Roaming\\npm\\langfuse.cmd",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "1.2.4\n",
+        "stderr": ""
+      }
+    },
+    "node": {
+      "path": "C:\\Program Files\\nodejs\\node.EXE",
+      "present": true,
+      "version": "v24.22.1",
+      "sha256": "d702daa815eabbff763c7d3808e235cf031cf2ca70211b56847bc72f51e240e5",
+      "version_probe": {
+        "command": [
+          "C:\\Program Files\\nodejs\\node.EXE",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "v24.22.1\n",
+        "stderr": ""
+      }
+    },
+    "pwsh": {
+      "path": "C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.EXE",
+      "present": true,
+      "version": "PowerShell 7.6.5",
+      "sha256": "362a356ce7f0940ec74f73a8fc2c990a2cc24a38a11c90bbd8eca947110ad139",
+      "version_probe": {
+        "command": [
+          "C:\\Users\\gerald.khoo\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.EXE",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "PowerShell 7.6.5\n",
+        "stderr": ""
+      }
+    },
+    "claude": {
+      "path": "C:\\Users\\gerald.khoo\\.local\\bin\\claude.EXE",
+      "present": true,
+      "version": "2.1.311 (Claude Code)",
+      "sha256": "966f4b2ce962298f5dee6a942e8c47c8f97392e69e728e622319a98b259c0680",
+      "version_probe": {
+        "command": [
+          "C:\\Users\\gerald.khoo\\.local\\bin\\claude.EXE",
+          "--version"
+        ],
+        "exit": 0,
+        "stdout": "2.1.311 (Claude Code)\n",
+        "stderr": ""
+      }
+    }
+  },
+  "artifacts": {
+    "claude_hook": {
+      "path": "C:\\repos\\.eval-tools\\langfuse\\claude-hook\\b5b7cc364996467e856dc17575b5674f4799ad87\\langfuse_hook.py",
+      "sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "expected_sha256": "6bfe30ebef382f3f7f1884a97c1783dc2a47ae8413ae5e10877f919846c1e698",
+      "ready": true
+    },
+    "codex_tarball": {
+      "path": "C:\\repos\\.eval-tools\\langfuse\\codex-tracing\\0.4.2.tgz",
+      "sha256": "67cead133a9fa96a71f927c1331ead181c94979f5d7ebbaaf4bcef61a30c5ba2",
+      "expected_sha256": "67cead133a9fa96a71f927c1331ead181c94979f5d7ebbaaf4bcef61a30c5ba2",
+      "ready": true
+    },
+    "mxc_exe": {
+      "path": "C:\\repos\\.eval-tools\\windows-mxc\\bin\\MxcClaude.exe",
+      "sha256": "015811e7c058b582e5280d87c0aa188f9334ffc5feabaab4f0cac44f4d0b9125",
+      "expected_sha256": "015811E7C058B582E5280D87C0AA188F9334FFC5FEABAAB4F0CAC44F4D0B9125",
+      "ready": true
+    },
+    "mxc_dll": {
+      "path": "C:\\repos\\.eval-tools\\windows-mxc\\bin\\MxcClaude.dll",
+      "sha256": "8b415d7f43fa751cba1e33532bb2fe87ef8bfe2915eec3de7002e10436085499",
+      "expected_sha256": "8B415D7F43FA751CBA1E33532BB2FE87EF8BFE2915EEC3DE7002E10436085499",
+      "ready": true
+    },
+    "derived_codex_hook": {
+      "path": "C:\\repos\\.eval-tools\\langfuse\\codex-tracing\\0.4.2\\dist\\index.geeky.mjs",
+      "sha256": "d5122f39db519019107bc428ed62a06b5ecc5e3887d54736832f9830153882cf",
+      "expected_sha256": null,
+      "ready": true
+    }
+  },
+  "errors": [],
+  "readiness": "inventory-ready",
+  "mock_tests": null,
+  "paid_run_authorized": false,
+  "live_launch": "held",
+  "live_telemetry_verified": false,
+  "models": {
+    "configured": null,
+    "observed": null
+  },
+  "future_launch_required": [
+    "explicit models and efforts by role",
+    "reserve",
+    "waiver",
+    "authorization reference"
+  ],
+  "telemetry_preview_arguments": [
+    "--run",
+    "<run-folder>",
+    "--parity",
+    "<parity.json>",
+    "--scope",
+    "<evaluation-inputs.json>",
+    "--dry-run"
+  ],
+  "limitations": [
+    "Offline inventory and mocks do not establish live provider, MXC, auth, or remote telemetry readiness.",
+    "Derived Codex hook has an observed hash but no expected hash in existing pins.",
+    "Tool presence/version does not establish runtime compatibility; configured and observed models remain unknown."
+  ],
+  "report_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-codex-native-fix-20261029\\readiness\\20261029T062159Z-986a21a7\\readiness.json"
+}

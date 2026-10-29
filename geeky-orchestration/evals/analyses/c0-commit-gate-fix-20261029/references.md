@@ -18,3 +18,6 @@
 - Preparation baseline plugin: `0b1f5fbc0e84b110ea0f9fa59ddfa711b46cf53a`.
   Before the fix the exported plugin delta was README-only; preparation will
   record the exact final exported delta and source/tool hashes.
+- [Consumed attempt and terminal analysis](../c0-codex-native-fixed-run-20261029/README.md):
+  preparation at 183aead passed; one launch crashed during T1; oracle 0/13 x3,
+  Langfuse 23 traces / 920 observations, parity unavailable.

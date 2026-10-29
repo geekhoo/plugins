@@ -1,0 +1,60 @@
+{
+  "schema": "geeky-eval.native-c0-closeout/1",
+  "run_id": "20261029T062343Z-ffd63c3c",
+  "run_dir": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261029T062343Z-ffd63c3c",
+  "plugin_sha": "183aead10805fdc15ad5ec76dc97733c501e5a23",
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "preparation_path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-codex-native-fix-20261029",
+  "exit_code": 1,
+  "exit_reason": "crash",
+  "execution_state": "finalized",
+  "workflow_acceptance": "not-established",
+  "stage_reached": "geeky-implement / T1 dispatched; no product package or accepted task",
+  "terminal_error": "Encrypted function output content could not be decrypted or decoded.",
+  "wall_time_s": 2511.3336598000024,
+  "contestant_time_s": 2511.3336598000024,
+  "attempts": 1,
+  "operator_recoveries": 0,
+  "retries_or_resumes_by_operator": 0,
+  "gate_tests": 10,
+  "gate_subprocess_subtests": 12,
+  "readiness": "inventory-ready; clean committed source at183aead",
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "langfuse": {
+    "readback_exit": 0,
+    "traces": 23,
+    "observations": 920,
+    "truncated_observations": 0,
+    "coverage_status": "met"
+  },
+  "parity_composite": null,
+  "parity_status": "unavailable: score-run exit2 rejects failed/error trace and missing turn.completed; parity-eval exit1 because no score.json produced",
+  "source_commits": [
+    {
+      "sha": "629ae3f31dd230b859abaa2e9a2152ce1f3de5d5",
+      "pushed": true
+    },
+    {
+      "sha": "183aead10805fdc15ad5ec76dc97733c501e5a23",
+      "pushed": true
+    }
+  ],
+  "contestant_commits": [
+    "850c950",
+    "8001c868b37977ac576189fb86fceef997e3f13d"
+  ],
+  "terminal_working_file_literal_scan": "PASS; 91 files; zero hits",
+  "cleanup_verified": true,
+  "remaining": [
+    "Implementation and final review incomplete",
+    "No comparable parity composite",
+    "Protocol cause not isolated by replay; no retry/probe/overtime authorized"
+  ]
+}

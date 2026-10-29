@@ -1,0 +1,42 @@
+{
+  "code-architect-reviewer": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high",
+    "path": "C:\\Repos\\c0-codex-native-20261029-25a63614\\runtime\\.eval-cfg-codex-20261029T062103Z-e776490e\\home\\roles\\code-architect-reviewer.toml"
+  },
+  "code-architect": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high",
+    "path": "C:\\Repos\\c0-codex-native-20261029-25a63614\\runtime\\.eval-cfg-codex-20261029T062103Z-e776490e\\home\\roles\\code-architect.toml"
+  },
+  "code-explorer": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high",
+    "path": "C:\\Repos\\c0-codex-native-20261029-25a63614\\runtime\\.eval-cfg-codex-20261029T062103Z-e776490e\\home\\roles\\code-explorer.toml"
+  },
+  "code-reviewer": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high",
+    "path": "C:\\Repos\\c0-codex-native-20261029-25a63614\\runtime\\.eval-cfg-codex-20261029T062103Z-e776490e\\home\\roles\\code-reviewer.toml"
+  },
+  "geeky-coder": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high",
+    "path": "C:\\Repos\\c0-codex-native-20261029-25a63614\\runtime\\.eval-cfg-codex-20261029T062103Z-e776490e\\home\\roles\\geeky-coder.toml"
+  },
+  "geeky-implement-orchestrator": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high",
+    "path": "C:\\Repos\\c0-codex-native-20261029-25a63614\\runtime\\.eval-cfg-codex-20261029T062103Z-e776490e\\home\\roles\\geeky-implement-orchestrator.toml"
+  },
+  "geeky-orchestrator": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high",
+    "path": "C:\\Repos\\c0-codex-native-20261029-25a63614\\runtime\\.eval-cfg-codex-20261029T062103Z-e776490e\\home\\roles\\geeky-orchestrator.toml"
+  },
+  "general-purpose": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high",
+    "path": "C:\\Repos\\c0-codex-native-20261029-25a63614\\runtime\\.eval-cfg-codex-20261029T062103Z-e776490e\\home\\roles\\general-purpose.toml"
+  }
+}

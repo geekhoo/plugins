@@ -1,0 +1,70 @@
+{
+  "main_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+  "threads": [
+    {
+      "thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "parent_thread_id": null,
+      "file": "session.jsonl"
+    },
+    {
+      "thread_id": "01a18655-3ddc-75a2-8320-0036f37249ff",
+      "parent_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "file": "subagents/rollout-01a18655-3ddc-75a2-8320-0036f37249ff.jsonl"
+    },
+    {
+      "thread_id": "01a18655-4020-7552-950c-0c2b099b7434",
+      "parent_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "file": "subagents/rollout-01a18655-4020-7552-950c-0c2b099b7434.jsonl"
+    },
+    {
+      "thread_id": "01a18655-42e8-7d12-8783-4a0c938c2af9",
+      "parent_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "file": "subagents/rollout-01a18655-42e8-7d12-8783-4a0c938c2af9.jsonl"
+    },
+    {
+      "thread_id": "01a1865a-a35b-7892-9500-4a8ec60d0ca6",
+      "parent_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "file": "subagents/rollout-01a1865a-a35b-7892-9500-4a8ec60d0ca6.jsonl"
+    },
+    {
+      "thread_id": "01a1865a-a5a9-7e73-9e7c-25e13693d1ec",
+      "parent_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "file": "subagents/rollout-01a1865a-a5a9-7e73-9e7c-25e13693d1ec.jsonl"
+    },
+    {
+      "thread_id": "01a18660-30c4-72b0-981f-c579631721c6",
+      "parent_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "file": "subagents/rollout-01a18660-30c4-72b0-981f-c579631721c6.jsonl"
+    },
+    {
+      "thread_id": "01a18662-6e5b-7033-8ddb-35a87ffb3aee",
+      "parent_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "file": "subagents/rollout-01a18662-6e5b-7033-8ddb-35a87ffb3aee.jsonl"
+    },
+    {
+      "thread_id": "01a18663-e6ef-72e3-a96b-c56d972aa10c",
+      "parent_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "file": "subagents/rollout-01a18663-e6ef-72e3-a96b-c56d972aa10c.jsonl"
+    },
+    {
+      "thread_id": "01a18668-e246-7f73-9a12-7a2658f0c080",
+      "parent_thread_id": "01a18662-6e5b-7033-8ddb-35a87ffb3aee",
+      "file": "subagents/rollout-01a18668-e246-7f73-9a12-7a2658f0c080.jsonl"
+    },
+    {
+      "thread_id": "01a1866a-e24b-78a3-b826-eb97571b1b5a",
+      "parent_thread_id": "01a18662-6e5b-7033-8ddb-35a87ffb3aee",
+      "file": "subagents/rollout-01a1866a-e24b-78a3-b826-eb97571b1b5a.jsonl"
+    },
+    {
+      "thread_id": "01a1866c-d8f7-73b0-8d16-cd1289f5e90e",
+      "parent_thread_id": "01a18662-6e5b-7033-8ddb-35a87ffb3aee",
+      "file": "subagents/rollout-01a1866c-d8f7-73b0-8d16-cd1289f5e90e.jsonl"
+    },
+    {
+      "thread_id": "01a18670-7133-7ae0-9a8f-53fa973eb17f",
+      "parent_thread_id": "01a18654-4426-7cc2-b9e2-9352e3ca44f3",
+      "file": "subagents/rollout-01a18670-7133-7ae0-9a8f-53fa973eb17f.jsonl"
+    }
+  ]
+}

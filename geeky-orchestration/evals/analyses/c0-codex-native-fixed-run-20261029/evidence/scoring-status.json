@@ -1,0 +1,8 @@
+{
+  "score_run_exit": 2,
+  "score_error": "Incomplete Codex trace: Failed/error stream; Missing turn.completed stream event",
+  "parity_eval_exit": 1,
+  "parity_composite": null,
+  "quality_input_produced": false,
+  "score_publication_performed": false
+}

@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "plugin_sha": "183aead10805fdc15ad5ec76dc97733c501e5a23",
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "role_count": 8,
+  "all_roles": "vercel/gpt-6-luna/high",
+  "native_wire": true,
+  "telemetry_from_startup_configured": true,
+  "timeout_s": 6000,
+  "reserve_s": 60,
+  "attempts": 1,
+  "recoveries": 0,
+  "mxc_build_files_verified": 18,
+  "committed_source_inventory_clean": true,
+  "exported_changed_files": [
+    "geeky-orchestration/AGENTS.md",
+    "geeky-orchestration/README.md",
+    "geeky-orchestration/mcp/server.py",
+    "geeky-orchestration/scripts/check-commit.ps1",
+    "geeky-orchestration/scripts/check-commit.py",
+    "geeky-orchestration/skills/spec-research/SKILL.md",
+    "geeky-orchestration/test_quality_gates.py"
+  ],
+  "baseline_plugin_sha": "0b1f5fbc0e84b110ea0f9fa59ddfa711b46cf53a",
+  "functional_plugin_delta": "docs-only Tasks: none gate and exact-message regressions; README status also changed",
+  "auth_check_exit": 0,
+  "live_launch_started": false
+}

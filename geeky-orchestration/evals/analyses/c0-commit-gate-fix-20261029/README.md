@@ -25,7 +25,9 @@ The owner's 29 October instruction authorizes one native Codex C0 attempt
 after preparation passes: Luna/high on eight roles, native LiteLLM, 6000/60
 seconds, zero recoveries. It also authorizes fast-forward publication after
 literal credential scans. No retry, resume, provider probe, overtime or score
-publication is authorized. Preparation and the live result are still pending.
+publication is authorized. Preparation and the single launch have now completed;
+the [terminal result](../c0-codex-native-fixed-run-20261029/README.md) is a crash
+during implementation T1. The gate fix worked in the live specification commit.
 
 Task T1 denotes W1/W2, the gate fix and regression proof. W3 records and commits
 that proof; W4 prepares a fresh pinned export; W5 consumes the single launch.

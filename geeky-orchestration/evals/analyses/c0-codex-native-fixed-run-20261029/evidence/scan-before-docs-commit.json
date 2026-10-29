@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "staged_files": 9,
+  "checked_files_or_blobs": 9,
+  "hits": [],
+  "checked": [
+    {
+      "path": "README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-codex-native-run-20261029/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/handoff.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/kanban.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-commit-gate-fix-20261029/references.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/c0-readiness.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/lessons-learned.md",
+      "revision": "index"
+    }
+  ]
+}
