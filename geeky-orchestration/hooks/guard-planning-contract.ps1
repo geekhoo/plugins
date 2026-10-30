@@ -7,6 +7,13 @@
 #   - implementation-plan.md, feature-specification.md, draft.md, references.md
 #   - tasks/Tx-*.md           (but NOT tasks/Tx-*.notes.md — those are writable)
 #
+# Stage via -Stage or $env:GEEKY_STAGE:
+#   plan-review -> plan, draft, references and task bodies are editable; each edit
+#                  invalidates the affected review (mechanical fix: changed-content check;
+#                  scope/requirement/AC/sequencing edit: fresh verdict).
+#   implement, missing or unknown -> frozen patterns keep their usual behavior.
+#   feature-specification.md stays frozen at every stage.
+#
 # Modes (default warn) via -Mode or $env:GEEKY_GUARD_MODE:
 #   warn   -> advisory. Writes the message to stdout (context channel) and stderr; exit 0.
 #   block  -> emits Claude/Codex-style deny JSON on stdout; exit 0 (host parses & blocks).
@@ -19,7 +26,8 @@
 param(
     [ValidateSet('warn', 'block')]
     [string]$Mode = $(if ($env:GEEKY_GUARD_MODE) { $env:GEEKY_GUARD_MODE } else { 'warn' }),
-    [switch]$ExitCode
+    [switch]$ExitCode,
+    [string]$Stage = $env:GEEKY_STAGE
 )
 
 $ErrorActionPreference = 'SilentlyContinue'
@@ -55,6 +63,15 @@ if ($frozenLeaves -contains $leaf) {
 }
 
 if (-not $reason) { exit 0 }
+
+if ($Stage -ceq 'plan-review' -and $leaf -ne 'feature-specification.md') {
+    $reviewMessage = "[geeky-orchestration] $filePath may be edited during plan-review. " +
+                     "This edit invalidates the affected review: a bounded mechanical fix needs a " +
+                     "changed-content/reference check; scope, requirement, AC or sequencing edits need a fresh verdict."
+    [Console]::Out.WriteLine($reviewMessage)
+    [Console]::Error.WriteLine($reviewMessage)
+    exit 0
+}
 
 $msg = "[geeky-orchestration] $filePath $reason. " +
        "Planning artifacts are the frozen contract between geeky-plan and geeky-implement. " +

@@ -23,7 +23,7 @@ import asyncio
 import json
 import sys
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -189,6 +189,10 @@ class FrozenInput(BaseModel):
         description="Path an agent intends to edit; checks whether it is a "
                     "frozen planning artifact",
         min_length=1)
+    stage: Optional[Literal["plan-review", "implement"]] = Field(
+        default=None,
+        description="Workflow stage; plan-review permits planning edits with review "
+                    "invalidation. Omitted stages keep the planning contract frozen.")
 
 
 # --------------------------------------------------------------------------- #
@@ -312,12 +316,15 @@ async def geeky_check_frozen_artifact(params: FrozenInput) -> dict[str, Any]:
     """Check whether a file path is a frozen geeky-plan planning artifact.
 
     Use this as a pre-edit guardrail (the in-process equivalent of the PreToolUse
-    guard hook): call it before editing a file inside a planning folder. Frozen:
-    implementation-plan.md, feature-specification.md, draft.md, references.md, and
-    tasks/Tx-*.md bodies (but NOT tasks/Tx-*.notes.md).
+    guard hook): call it before editing a file inside a planning folder. During
+    plan-review, implementation-plan.md, draft.md, references.md and tasks/Tx-*.md
+    bodies are editable; a bounded mechanical edit needs a changed-content check and
+    a scope, requirement, AC or sequencing edit needs a fresh verdict. feature-specification.md stays frozen. Missing stages and
+    implement freeze all those artifacts. Notes, kanban and handoff stay mutable.
 
     Args:
-        params (FrozenInput): file_path = the path an agent intends to edit.
+        params (FrozenInput): file_path = the path an agent intends to edit;
+            stage = plan-review or implement (default unknown, treated as frozen).
 
     Returns:
         dict: { frozen: bool, file_path: str, reason: str|None, exit_code: int }.
@@ -325,12 +332,13 @@ async def geeky_check_frozen_artifact(params: FrozenInput) -> dict[str, Any]:
     """
     payload = json.dumps({"tool_name": "Edit", "tool_input": {"file_path": params.file_path}})
     res = await _run(HOOKS / "guard-planning-contract.py",
-                     ["--mode", "block", "--exit-code"], stdin_text=payload)
+                     ["--mode", "block", "--exit-code", "--stage",
+                      params.stage or "implement"], stdin_text=payload)
     frozen = res.get("exit_code") == 2
     return {
         "frozen": frozen,
         "file_path": params.file_path,
-        "reason": res.get("stderr") if frozen else None,
+        "reason": res.get("stderr"),
         "exit_code": res.get("exit_code"),
     }
 

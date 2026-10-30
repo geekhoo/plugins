@@ -13,6 +13,13 @@ Frozen patterns (inside a planning folder under docs/<feature>/):
   - references.md
   - tasks/Tx-*.md           (but NOT tasks/Tx-*.notes.md — those are writable)
 
+Stage via --stage or $GEEKY_STAGE:
+  plan-review -> plan, draft, references and task bodies are editable; each edit
+                 invalidates the affected review (mechanical fix: changed-content check;
+                 scope/requirement/AC/sequencing edit: fresh verdict).
+  implement, missing or unknown -> frozen patterns above keep their usual behavior.
+  feature-specification.md stays frozen at every stage.
+
 Modes (default warn) via --mode or $GEEKY_GUARD_MODE:
   warn   -> advisory only. Writes the message to BOTH stdout (plain text) and
             stderr, then exit 0. On exit 0, Claude Code treats non-JSON stdout as
@@ -61,6 +68,9 @@ def parse_args() -> argparse.Namespace:
                    default=os.environ.get("GEEKY_GUARD_MODE", "warn"))
     p.add_argument("--exit-code", dest="exit_code", action="store_true",
                    help="in block mode, return exit 2 instead of deny JSON")
+    p.add_argument("--stage", default=os.environ.get("GEEKY_STAGE"),
+                   help="plan-review permits planning edits with review invalidation; "
+                        "missing or unknown stages keep the contract frozen")
     return p.parse_args()
 
 
@@ -125,6 +135,13 @@ def main() -> int:
 
     if reason is None:
         return 0
+
+    if args.stage == "plan-review" and leaf != "feature-specification.md":
+        return emit_warn(
+            f"[geeky-orchestration] {file_path} may be edited during plan-review. "
+            "This edit invalidates the affected review: a bounded mechanical fix needs a "
+            "changed-content/reference check; scope, requirement, AC or sequencing edits need a fresh verdict."
+        )
 
     msg = message(file_path, reason)
     if args.mode == "block":
