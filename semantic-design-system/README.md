@@ -24,7 +24,7 @@ Skills:
 - `derive-design-system`: inspect an existing codebase and infer primitive, semantic, and component tokens.
 - `apply-design-system`: migrate code from hardcoded styling values to semantic/component tokens.
 - `audit-design-system`: validate naming, references, accessibility risks, and migration readiness.
-- `tokens-to-figma-sync`: push a validated DTCG token directory into Figma variable collections (code→Figma one-way). Claude Code only — it composes the figma plugin's `figma-use` / `figma-generate-library` skills, so it has no Codex mirror.
+- `tokens-to-figma-sync`: push a validated DTCG token directory into Figma variable collections (code→Figma one-way). It composes the figma plugin's `figma-use` / `figma-generate-library` skills. A Codex mirror ships in `.codex-plugin/skills/tokens-to-figma-sync/`.
 
 Utilities:
 
@@ -75,7 +75,7 @@ Version 0.3.0 fixes portable Codex MCP startup and isolates bundled-script disco
 
 Version 0.2.0 fixed the critical theme-corruption bug where theme files were deep-merged into `:root`, standardized token source files on `design/tokens/`, tightened token-file matching, added DTCG `$type` validation warnings, fixed the `apply-design-system` skill name, aligned tool permissions with skill instructions, and updated agents/MCP descriptions for DTCG 2025.10.
 
-Version 0.1.1 fixed Claude Code manifest validation by making `agents` point at explicit agent Markdown files instead of a directory.
+Version 0.1.1 fixed Claude Code manifest validation for `agents`. The manifest now has no `agents` key. Claude Code auto-discovers agent files from `agents/`.
 
 ## Local Verification
 

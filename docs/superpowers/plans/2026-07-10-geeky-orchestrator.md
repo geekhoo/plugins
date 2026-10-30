@@ -1,5 +1,7 @@
 # Geeky Orchestrator Implementation Plan
 
+**Status:** Implemented. Current shipped version: geeky-orchestration 0.3.0. Version targets in this plan (`0.2.5`, `0.2.6`) are historical.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Build a portable, evidence-gated `geeky-orchestrator` agent with a native Codex projection and a generic fallback definition, while preserving unrelated in-progress work.
@@ -13,7 +15,7 @@
 - Treat `docs/superpowers/specs/2026-07-10-geeky-orchestrator-design.md` as the approved behavior contract.
 - Preserve the existing fix in `geeky-orchestration/scripts/sync-agents.py` that computes `escaped_description` before the Codex f-string.
 - Do not modify or commit `geeky-orchestration/agents/geeky-implement-orchestrator.md` or `.github/agents/geeky-implement-orchestrator.agent.md`.
-- Do not modify or commit `dev-workflows/skills/codex-work-cleaner/`, `dev-workflows/skills/podman-containers/`, or `outputs/`.
+- Do not modify or commit `dev-workflows/skills/codex-work-cleaner/` (since renamed `work-cleaner/`), `dev-workflows/skills/podman-containers/`, or `outputs/`.
 - Generate only `geeky-orchestrator` during this implementation by passing `--agents geeky-orchestrator`.
 - Codex inherits the active model; do not add a version-pinned model to `.codex/agents/geeky-orchestrator.toml`.
 - The generic `.agents/geeky-orchestrator.md` file is a manual import surface, not a claimed universal discovery standard.

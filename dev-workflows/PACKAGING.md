@@ -17,7 +17,7 @@ and, crucially, the **Figma MCP server** they call (`use_figma`, `get_metadata`,
 | `figma-generate-library` | `figma` plugin (`claude-plugins-official`) | `figma-consolidate` |
 
 **How it's declared** (cross-marketplace, because `dev-workflows` lives in `geekhoo-plugins`):
-- `dev-workflows/.claude-plugin/plugin.json` →
+- `dev-workflows/.codex-plugin/plugin.json` →
   `"dependencies": [ { "name": "figma", "marketplace": "claude-plugins-official" } ]`
   (unversioned, so it tracks the marketplace's latest and always installs; pin with a `version`
   semver range later if `figma` ever ships a breaking change — note that requires upstream

@@ -1,6 +1,6 @@
 # dx-webdev
 
-Personal Codex plugin for pure HTML, JavaScript, and CSS apps that use DevExtreme jQuery widgets.
+Personal Claude Code and Codex plugin for pure HTML, JavaScript, and CSS apps that use DevExtreme jQuery widgets.
 
 ## Scope
 
@@ -19,6 +19,7 @@ Personal Codex plugin for pure HTML, JavaScript, and CSS apps that use DevExtrem
 - `dx-ux-review`: review widget fit, load order, styling scope, states, accessibility, and validation.
 - `dx-options-recipes`: explicit-only recipe and starter option examples.
 - `dx-saas-ux-pattern-translation`: explicit-only SaaS workflow pattern translation.
+- `devextreme-grid-updater`: change DataGrid columns, bands, widths, or grid styling in the v2 project, with a dependency scan and an ordered, atomic checklist.
 
 For substantial UI work, produce a short `ux-intent.json` or `component-plan.md`, consult the smallest relevant file under `references/capability-map/`, implement, then run validation.
 

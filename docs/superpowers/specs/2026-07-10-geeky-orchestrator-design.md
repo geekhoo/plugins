@@ -2,7 +2,7 @@
 
 **Date:** 2026-07-10
 
-**Status:** Approved for implementation planning
+**Status:** Implemented; shipped in geeky-orchestration 0.3.0 (current)
 **Target plugin:** `geeky-orchestration`
 
 ## Purpose
@@ -258,7 +258,8 @@ Expected repository changes:
 - Update cross-harness registration documentation and agent inventory.
 - Update `AGENTS.md` with the full seven-stage lifecycle and triage contract.
 - Bump the Claude manifest, Codex manifest, and marketplace entry from `0.2.5`
-  to `0.2.6`, and align their descriptions with the new orchestrator.
+  to `0.2.6`, and align their descriptions with the new orchestrator. (Historical target when
+  this spec was written.)
 - Leave `geeky.manifest.json` at its existing quality-gate manifest version;
   it is not treated as the plugin package version without contrary evidence.
 
