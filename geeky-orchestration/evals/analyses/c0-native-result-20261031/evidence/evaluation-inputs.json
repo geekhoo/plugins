@@ -1,0 +1,55 @@
+{
+  "schema": "geeky-eval.inputs/1",
+  "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+  "kind": "initial",
+  "parent_scope_id": null,
+  "configuration": {
+    "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+    "plugin_sha": "7f079186af3411400580ca770d90f789bdcac94b"
+  },
+  "sources": [
+    {
+      "id": "run",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261030T174312Z-26cab838\\run.json",
+      "sha256": "1726b5f451eaf9fbce0b56601872bb70ac0a8e906843ad0e41c51c7015c1d4be",
+      "ancestry": []
+    },
+    {
+      "id": "observations",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-native-run-20261031\\langfuse-observations.json",
+      "sha256": "372c94eae05ecaa13569aa1ea58089d442ea37baeb79639085313485a9300dde",
+      "ancestry": []
+    },
+    {
+      "id": "score",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-native-run-20261031\\strict-score\\score.json",
+      "sha256": "e455dcca9557dfa70af2a7059887141880f7a24ed5cd617c03afd56ef791737b",
+      "ancestry": []
+    }
+  ],
+  "segments": [
+    {
+      "segment_id": "a49618e2-0516-4b8d-a95e-3bfd19dc1dc0",
+      "attempt_id": "7b88de20-1fae-43e1-bd12-685d437e0dc5",
+      "authorization_reference": "Owner 2026-10-31: one native Luna/high C0 MXC attempt at 7f079186af3411400580ca770d90f789bdcac94b; 6000/60; one attempt, zero recoveries; closeout and local commit, no push.",
+      "start": "2026-10-30T17:43:46.5708726Z",
+      "end": "2026-10-30T18:40:47.3176262Z"
+    }
+  ],
+  "ownership": {
+    "method": "native",
+    "rule": "One initial invocation; no continuation."
+  },
+  "metric_default": {
+    "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+    "population": "one initial native Codex C0 attempt; strict score incomplete",
+    "source_ids": [
+      "run",
+      "observations",
+      "score"
+    ],
+    "additive": false,
+    "complete": false
+  },
+  "metrics": {}
+}

@@ -1,0 +1,482 @@
+{
+  "schema": "geeky-eval.parity/1",
+  "harness": "codex",
+  "run": "eval-c0-wordstat-codex-20261030T174312Z-26cab838",
+  "session_id": "codex-mxc-win-c0-wordstat-20261030T174312Z-26cab838",
+  "composite": 73.68,
+  "quality": 94.0,
+  "adherence": 57.14,
+  "adherence_uncapped": 57.14,
+  "adherence_fraction": "16/28",
+  "consistency": 67.06,
+  "dpc": 0.5882,
+  "order": 1.0,
+  "efficiency": {
+    "tokens_total": null,
+    "wall_time_s": null,
+    "latency_median_ms": null,
+    "commits": null,
+    "interventions": 0,
+    "calls": null,
+    "backend": null,
+    "cost": null
+  },
+  "stage_bounds": {
+    "spec-research": [
+      "2026-10-30T17:44:24.961000+00:00",
+      "2026-10-30T17:48:42.000000+00:00"
+    ],
+    "geeky-plan": [
+      "2026-10-30T17:48:42.000000+00:00",
+      "2026-10-30T17:56:30.000000+00:00"
+    ],
+    "plan-review": [
+      "2026-10-30T17:56:30.000000+00:00",
+      "2026-10-30T18:10:49.000000+00:00"
+    ],
+    "geeky-implement": [
+      "2026-10-30T18:10:49.000000+00:00",
+      "2026-10-30T18:10:56.586000+00:00"
+    ],
+    "impl-review": [
+      "2026-10-30T18:10:56.586000+00:00",
+      "9999"
+    ]
+  },
+  "phases": {
+    "P1": [
+      "T1"
+    ],
+    "P2": [
+      "T2"
+    ]
+  },
+  "needs_judge": [
+    "a.one_concern_per_commit",
+    "a.final_report_claims",
+    "dp07",
+    "dp13"
+  ],
+  "checks": [
+    {
+      "id": "a.planning_folder",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 2 task file(s) found."
+    },
+    {
+      "id": "a.task_schema",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 2 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "a.kanban_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 2 task(s) tracked, 2 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=2"
+    },
+    {
+      "id": "a.dod.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "a.notes.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T1-core-cli.notes.md"
+    },
+    {
+      "id": "a.dod.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T2"
+    },
+    {
+      "id": "a.notes.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T2-contract-edge-cases.notes.md"
+    },
+    {
+      "id": "a.run_summary",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "a.heartbeat_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "{\"ts\":\"2026-10-30T18:39:30Z\",\"task\":\"T2\",\"status\":\"done\"}"
+    },
+    {
+      "id": "a.prescribed.spec",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "spec-research commit subject"
+    },
+    {
+      "id": "a.prescribed.plan_review",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "plan-review commit subject exact"
+    },
+    {
+      "id": "a.prescribed.critical_fix",
+      "dimension": "adherence",
+      "status": "na",
+      "evidence": "no critical-fix commit"
+    },
+    {
+      "id": "a.commit_messages",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 post-plan-review commits; failing: []"
+    },
+    {
+      "id": "a.frozen_untouched",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "frozen files changed after plan-review: []"
+    },
+    {
+      "id": "a.no_forbidden_git",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reflog: []; commands: []"
+    },
+    {
+      "id": "a.task_dispatch.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T1"
+    },
+    {
+      "id": "a.task_review.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T1 or P1"
+    },
+    {
+      "id": "a.dod_gate.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T1 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T2"
+    },
+    {
+      "id": "a.task_review.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T2 or P2"
+    },
+    {
+      "id": "a.dod_gate.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T2 during implement"
+    },
+    {
+      "id": "a.phase_verdict.P1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.kanban_gate",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 validate-kanban runs for 2 tasks"
+    },
+    {
+      "id": "a.commit_gate",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-commit runs for 2 code commits"
+    },
+    {
+      "id": "a.tests_run",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 pytest runs during implement"
+    },
+    {
+      "id": "a.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "main-thread code/test writes: []"
+    },
+    {
+      "id": "a.run_completed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "exit_reason completed"
+    },
+    {
+      "id": "a.work_committed",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "uncommitted at the end: [' M docs/spec-001-feature/handoff.md', ' M docs/spec-001-feature/kanban.md', '?? docs/spec-001-feature/review-impl.md', '?? docs/spec-001-feature/tasks/T1-core-cli.notes.md', '?? docs/spec-001-feature/tasks/T2-contract-edge-cases.notes.md']"
+    },
+    {
+      "id": "a.one_concern_per_commit",
+      "dimension": "adherence",
+      "status": "needs_judge",
+      "evidence": "from --manual"
+    },
+    {
+      "id": "a.final_report_claims",
+      "dimension": "adherence",
+      "status": "needs_judge",
+      "evidence": "from --manual"
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "3 spec-research dispatches"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "2 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.plan_review"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "every task reviewed"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "DoD gate for every task"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "phase verdict for every phase"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "see a.commit_gate"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "5 impl-review dispatches"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.heartbeat_final"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "status": "needs_judge",
+      "evidence": "from --manual"
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "status": "needs_judge",
+      "evidence": "from --manual"
+    }
+  ],
+  "evaluation_scope": {
+    "schema": "geeky-eval.inputs/1",
+    "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+    "kind": "initial",
+    "parent_scope_id": null,
+    "configuration": {
+      "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+      "plugin_sha": "7f079186af3411400580ca770d90f789bdcac94b"
+    },
+    "sources": [
+      {
+        "id": "run",
+        "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261030T174312Z-26cab838\\run.json",
+        "sha256": "1726b5f451eaf9fbce0b56601872bb70ac0a8e906843ad0e41c51c7015c1d4be",
+        "ancestry": []
+      },
+      {
+        "id": "observations",
+        "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-native-run-20261031\\langfuse-observations.json",
+        "sha256": "372c94eae05ecaa13569aa1ea58089d442ea37baeb79639085313485a9300dde",
+        "ancestry": []
+      },
+      {
+        "id": "score",
+        "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-native-run-20261031\\strict-score\\score.json",
+        "sha256": "e455dcca9557dfa70af2a7059887141880f7a24ed5cd617c03afd56ef791737b",
+        "ancestry": []
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "a49618e2-0516-4b8d-a95e-3bfd19dc1dc0",
+        "attempt_id": "7b88de20-1fae-43e1-bd12-685d437e0dc5",
+        "authorization_reference": "Owner 2026-10-31: one native Luna/high C0 MXC attempt at 7f079186af3411400580ca770d90f789bdcac94b; 6000/60; one attempt, zero recoveries; closeout and local commit, no push.",
+        "start": "2026-10-30T17:43:46.5708726Z",
+        "end": "2026-10-30T18:40:47.3176262Z"
+      }
+    ],
+    "ownership": {
+      "method": "native",
+      "rule": "One initial invocation; no continuation."
+    },
+    "metric_default": {
+      "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+      "population": "one initial native Codex C0 attempt; strict score incomplete",
+      "source_ids": [
+        "run",
+        "observations",
+        "score"
+      ],
+      "additive": false,
+      "complete": false
+    },
+    "metrics": {},
+    "input_sha256": "7b174f4ebfb515600337149acee7fa4c0a6665eaf19d3313495e40de3f062368",
+    "metric_labels": {
+      "runtime": {
+        "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+        "population": "one initial native Codex C0 attempt; strict score incomplete",
+        "source_ids": [
+          "run",
+          "observations",
+          "score"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "tokens": {
+        "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+        "population": "one initial native Codex C0 attempt; strict score incomplete",
+        "source_ids": [
+          "run",
+          "observations",
+          "score"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "calls": {
+        "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+        "population": "one initial native Codex C0 attempt; strict score incomplete",
+        "source_ids": [
+          "run",
+          "observations",
+          "score"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "latency_idle": {
+        "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+        "population": "one initial native Codex C0 attempt; strict score incomplete",
+        "source_ids": [
+          "run",
+          "observations",
+          "score"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "commits": {
+        "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+        "population": "one initial native Codex C0 attempt; strict score incomplete",
+        "source_ids": [
+          "run",
+          "observations",
+          "score"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "coverage": {
+        "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+        "population": "one initial native Codex C0 attempt; strict score incomplete",
+        "source_ids": [
+          "run",
+          "observations",
+          "score"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "backend": {
+        "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+        "population": "one initial native Codex C0 attempt; strict score incomplete",
+        "source_ids": [
+          "run",
+          "observations",
+          "score"
+        ],
+        "additive": false,
+        "complete": false
+      },
+      "cost": {
+        "scope_id": "codex-c0-20261030T174312Z-26cab838-initial",
+        "population": "one initial native Codex C0 attempt; strict score incomplete",
+        "source_ids": [
+          "run",
+          "observations",
+          "score"
+        ],
+        "additive": false,
+        "complete": false
+      }
+    },
+    "completeness": "sources-verified",
+    "missing_sources": []
+  },
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "plugin_sha": "7f079186af3411400580ca770d90f789bdcac94b"
+}

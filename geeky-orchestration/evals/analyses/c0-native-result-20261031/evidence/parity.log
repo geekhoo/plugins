@@ -1,0 +1,1 @@
+{"harness": "codex", "composite": 73.68, "quality": 94.0, "adherence": 57.14, "consistency": 67.06, "needs_judge": ["a.one_concern_per_commit", "a.final_report_claims", "dp07", "dp13"]}

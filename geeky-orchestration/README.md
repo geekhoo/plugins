@@ -1,6 +1,8 @@
 # geeky-orchestration
 
-[Latest native C0 attempt](evals/analyses/c0-native-result-20261030b/README.md): NOT ACCEPTED after a proxy-reported 502 during plan review. Oracle 0/13 x3; Langfuse 9 traces / 198 observations; parity withheld. No cold implementer was reached.
+[Latest native C0 capture](evals/analyses/c0-native-result-20261031/README.md): completed with final review PASS and oracle 13/13 x3; Langfuse 19 traces / 911 observations. Cold-worker post-proxy receipt and comparable parity remain unverified.
+
+[Previous native C0 attempt](evals/analyses/c0-native-result-20261030b/README.md): NOT ACCEPTED after a proxy-reported 502 during plan review. Oracle 0/13 x3; Langfuse 9 traces / 198 observations; parity withheld. No cold implementer was reached.
 
 [Previous native Luna/high C0 result](evals/analyses/c0-plan-freeze-native-result-20261030/README.md): NOT ACCEPTED at geeky-implement/T1 Blocked after 97m49s. No product code or tests; oracle 0/13 x3. Langfuse 32 traces/999 observations; strict Quality/parity unavailable. Source ae126e3, one host invocation, no operator recovery or overtime; W5 and push waived by owner. Cause, found after closeout: LiteLLM drops `agent_message` input whenever a request carries tools, so cold workers never saw their briefs. Main now lowers each one to a framed user message (`3bfc927`); the later live attempt included the fix but ended before reaching a cold implementation worker.
 

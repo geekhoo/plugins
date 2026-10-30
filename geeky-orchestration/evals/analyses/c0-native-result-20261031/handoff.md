@@ -1,0 +1,7 @@
+# Handoff: completed native C0 capture
+
+Target Windows 11, PowerShell 7; workdir `C:\Users\gerald.khoo\geekhoo-plugins`, branch `main`. Read this folder's README, kanban, references, then `../../c0-readiness.md`. Verify HEAD and status with Git and verify `7f079186af3411400580ca770d90f789bdcac94b` is an ancestor before acting; the source commit precedes the local terminal-record commit. Word budget: 300 words for a status response.
+
+Run `20261030T174312Z-26cab838` completed one invocation; review records overall PASS and oracle 13/13 x3. Candidate `c9d55883f644fe0c85ef963610e9f66d15438891`; final review and tracking are retained as uncommitted workspace files. The lifecycle acceptance field remains its initialized `not-established` default. Langfuse readback: 19 traces / 911 observations. Four cold workers received locally captured assignments, but no post-proxy first request is retained. Strict scoring lacks task-process and own-commit evidence; four judgments remain pending. Scoped diagnostic is not comparable. Sixteen proxy stream transport errors occurred; no upstream HTTP error event was recorded.
+
+Scope is read-only status/evidence review unless the owner supplies new explicit instructions. Preserve the baseline, workspace, local observations and frozen rubric. No retry, provider probe, resume, overtime or push is authorized. Done means reporting verified state and limits without equating process exit with acceptance or asserting provider receipt.

@@ -1,0 +1,383 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "vercel/gpt-6-luna",
+  "reasoning": "high",
+  "approach": "canonical-prompt",
+  "plugin_sha": "7f079186af3411400580ca770d90f789bdcac94b",
+  "worker_model": "vercel/gpt-6-luna",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "workspace": "C:\\repos\\c0-native-20261031-67d1a321\\runtime\\eval-c0-wordstat-codex-20261030T174312Z-26cab838",
+  "config_directory": "C:\\repos\\c0-native-20261031-67d1a321\\runtime\\.eval-cfg-codex-20261030T174312Z-26cab838",
+  "seed_sha": "7a4a702dc556feea4beb6944c403207b59ffdd5c",
+  "session_id": "01a18de9-6239-7400-a978-884ec868c74b",
+  "started_utc": "2026-10-30T17:43:46.5708726Z",
+  "ended_utc": "2026-10-30T18:40:47.3176262Z",
+  "wall_time_s": 3420.686125499895,
+  "tokens": {
+    "input": 25313871,
+    "cached_input": 24126764,
+    "cache_creation": 1186351,
+    "output": 191049,
+    "reasoning": 72371,
+    "total": 25504920,
+    "cost_usd_estimate": null
+  },
+  "model_calls": 378,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 120,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-31T01:44:24.961+08:00",
+      "ended_utc": "2026-10-31T01:46:41.749+08:00",
+      "minutes": 2.3
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-31T01:46:41.749+08:00",
+      "ended_utc": "2026-10-31T01:46:52.768+08:00",
+      "minutes": 0.2
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-31T01:46:52.768+08:00",
+      "ended_utc": "2026-10-31T01:48:57.944+08:00",
+      "minutes": 2.1
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-31T01:48:57.944+08:00",
+      "ended_utc": "2026-10-31T01:56:37.532+08:00",
+      "minutes": 7.7
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-31T01:56:37.532+08:00",
+      "ended_utc": "2026-10-31T02:10:56.586+08:00",
+      "minutes": 14.3
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-31T02:10:56.586+08:00",
+      "ended_utc": "2026-10-31T02:16:25.56+08:00",
+      "minutes": 5.5
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-31T02:16:25.56+08:00",
+      "ended_utc": "2026-10-31T02:16:25.625+08:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-31T02:16:25.625+08:00",
+      "ended_utc": "2026-10-31T02:40:29.972+08:00",
+      "minutes": 24.1
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 2,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 5,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "9f1e6163846cec606294195a11a2d442727292be64be23e617936c84ad29de0f",
+    "session": "d38cc91851fc1c8f656a16c3fff4d7981a1a83b5171a70f26db2e3f74bb54582"
+  },
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "complete",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "dba340bff92652deb66c043f2211066205a499db7dea2991302044878ab9a588",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": null,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "waived-by-owner",
+    "override_reason": "Existing owner waiver for the Windows MXC C0 Luna/high pair; no qualification claim. geeky-orchestration/evals/analyses/c0-luna-preparation-20261028/qualification-waiver.json"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "context_window": 200000,
+    "wire_mode": "native",
+    "compatibility_protocol": "codex-v2-native-plaintext"
+  },
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc-win",
+    "trace_name": "codex-mxc-win-orchestrator",
+    "tags": [
+      "geeky-eval",
+      "identity:agent-v1",
+      "harness:codex",
+      "platform:win",
+      "environment:mxc-win",
+      "agent-family:codex-mxc-win",
+      "case:c0-wordstat",
+      "run:20261030T174312Z-26cab838",
+      "plugin:7f07918"
+    ],
+    "user_id": "codex-mxc-win-orchestrator-01a18de9-6239-7400-a978-884ec868c74b",
+    "user_id_policy": "source-bound-agent",
+    "agent_family": "codex-mxc-win",
+    "metadata": {
+      "identity_schema": "geeky-eval.agent-identity/1",
+      "harness": "codex",
+      "platform": "win",
+      "environment": "mxc-win",
+      "agent_family": "codex-mxc-win",
+      "case": "c0-wordstat",
+      "run": "20261030T174312Z-26cab838",
+      "run_group_id": "codex-mxc-win-c0-wordstat-20261030T174312Z-26cab838",
+      "plugin_sha": "7f079186af3411400580ca770d90f789bdcac94b",
+      "configured_model": "vercel/gpt-6-luna",
+      "configured_reasoning": "high",
+      "worker_model": "vercel/gpt-6-luna",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "provider": "litellm",
+      "configured_provider": "litellm",
+      "mock": "false",
+      "claude_hook_commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "codex_tracer_version": "0.4.2"
+    },
+    "full_content": true,
+    "ca_passthrough": [],
+    "session_id": "codex-mxc-win-c0-wordstat-20261030T174312Z-26cab838",
+    "native_session_id": "01a18de9-6239-7400-a978-884ec868c74b",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 911,
+    "coverage_complete": true,
+    "coverage_missed": [],
+    "user_ids": [
+      "codex-mxc-win-orchestrator-01a18de9-6239-7400-a978-884ec868c74b",
+      "codex-mxc-win-reviewer-fermat-01a18e06-4e9f-7c90-8e1b-5f40b48f0c88",
+      "codex-mxc-win-reviewer-galileo-01a18e17-0f01-7710-9704-0320c655f910",
+      "codex-mxc-win-reviewer-kierkegaard-01a18e16-c094-7a71-a45f-f87baba7be0a",
+      "codex-mxc-win-reviewer-locke-01a18df5-4e1a-7492-a979-065b728808f6",
+      "codex-mxc-win-reviewer-nietzsche-01a18e16-e7e1-7063-bbc4-bce35915f515",
+      "codex-mxc-win-unknown-carson-01a18dfc-72e8-7c10-bd70-f0762d2dea19",
+      "codex-mxc-win-unknown-huygens-01a18dea-ddaf-7350-bc94-8dbdf6ac26b7",
+      "codex-mxc-win-unknown-pasteur-01a18deb-2209-7932-a5a3-43304e4a650b",
+      "codex-mxc-win-unknown-pauli-01a18dea-f7ed-75d3-93e0-4ffb129ae872",
+      "codex-mxc-win-unknown-popper-01a18e02-f86f-7af1-994d-be76e3b52f23",
+      "codex-mxc-win-unknown-russell-01a18def-0708-75f0-8669-ceebaf0e980c"
+    ],
+    "agent_roles": [
+      "orchestrator",
+      "reviewer",
+      "unknown"
+    ],
+    "trace_count": 19,
+    "hook": {
+      "kind": "codex-stop",
+      "package": "@langfuse/codex-observability-plugin@0.4.2",
+      "node": "C:\\Program Files\\nodejs\\node.exe",
+      "script": "C:\\repos\\.eval-tools\\langfuse\\codex-tracing\\0.4.2\\dist\\index.geeky.mjs"
+    },
+    "host_flush": "exit 0",
+    "observations_present": true,
+    "observations_status": "present",
+    "coverage_status": "met",
+    "scores_verified": false,
+    "scores_status": "pending"
+  },
+  "reviewer_reasoning": "high",
+  "compatibility_proxy": {
+    "enabled": true,
+    "wire_mode": "native-plaintext",
+    "protocol": "codex-v2-native-plaintext",
+    "base_url": "http://127.0.0.1:61481/v1",
+    "pid": 52164,
+    "source_sha256": {
+      "__init__.py": "84a07a37abc8a3e7645e1d2888e2c079a40e868c46ee11f4961ed5fb2461e423",
+      "__main__.py": "4d5e2c064a72bdde2fa609b757a9e4850f315315303db29e577f42fc6fbee1bc",
+      "mapper.py": "7bde0384018ca1e5f83f9f2304be0e7cb867ddacf799149a006438c1a849a21c",
+      "server.py": "7214b0a5ee057e19104b53317a560ebf8ea0cf76c95c9437d988fcbef2aa9ffc",
+      "native_plaintext.py": "caf927d848e717579c381090e225d9286a728f9b69a532ed1d11fe60ec2e5b93"
+    },
+    "state_directory": "C:\\repos\\c0-native-20261031-67d1a321\\runtime\\.eval-cfg-codex-20261030T174312Z-26cab838\\litellm-native-plaintext",
+    "known_plaintext_policy": "process-local-provenance-only",
+    "provider_requests_on_start": 0
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "7b88de20-1fae-43e1-bd12-685d437e0dc5",
+    "segment_id": "a49618e2-0516-4b8d-a95e-3bfd19dc1dc0",
+    "authorization_reference": "Owner 2026-10-31: one native Luna/high C0 MXC attempt at 7f079186af3411400580ca770d90f789bdcac94b; 6000/60; one attempt, zero recoveries; closeout and local commit, no push.",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "waived-by-owner",
+      "override_reason": "Existing owner waiver for the Windows MXC C0 Luna/high pair; no qualification claim. geeky-orchestration/evals/analyses/c0-luna-preparation-20261028/qualification-waiver.json"
+    },
+    "initial_deadline_utc": "2026-10-30T19:23:24.0825621Z",
+    "hard_wall_budget_s": 6000,
+    "closeout_reserve_s": 60,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "worker_model": "vercel/gpt-6-luna",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "wire_mode": "native",
+      "hard_wall_budget_s": 6000,
+      "closeout_reserve_s": 60,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "7bf3b043cd2a78a2b9f0dcaaf5fc5ba1acaab2ea31a04cad8d7d5ada2e2e6618",
+    "invocations": [
+      {
+        "invocation_id": "7d2bb353-4f6f-4cf1-9deb-927463924c2b",
+        "kind": "initial",
+        "timeout_s": 5977,
+        "started_utc": "2026-10-30T17:43:46.6029135Z",
+        "ended_utc": "2026-10-30T18:40:47.3062448Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "launch-preparation": "completed",
+      "seed-oracle": "completed",
+      "parsing": "completed",
+      "native-capture": "completed",
+      "telemetry-replay": "completed",
+      "oracle": "completed",
+      "telemetry": "completed",
+      "analysis": "completed"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 3420.686125499895,
+    "attempt_elapsed_s": 3443.23166629998,
+    "finalization_time_s": 38.57880270015448,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 68072,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "c9d55883f644fe0c85ef963610e9f66d15438891",
+    "workspace_status": [
+      " M docs/spec-001-feature/handoff.md",
+      " M docs/spec-001-feature/kanban.md",
+      "?? docs/spec-001-feature/.heartbeat",
+      "?? docs/spec-001-feature/review-impl.md",
+      "?? docs/spec-001-feature/tasks/T1-core-cli.notes.md",
+      "?? docs/spec-001-feature/tasks/T2-contract-edge-cases.notes.md"
+    ],
+    "artifact_sha256": {
+      "analysis.json": "fec71be1be11a38482d6ffab9d19e015ca0474ce147b65138e4d6606110533a6",
+      "langfuse-coverage.json": "4309f1aef0161eb30c9d893eb856fe86005f4286fd284d63e41d8e9ee2063226",
+      "langfuse-flush.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "langfuse.json": "84f1f6337bc36bb2bb059c6f524336bebe3dd37a2be79bae20dca9557b13a02d",
+      "mxc-build-provenance.json": "015da6e5189421321ab2ff23b0e385af7e901dc72c6d3daa23eea733dc124558",
+      "oracle-output.txt": "1d1ac1aec3adecfdfceea42aae59f72e246681c3ff07d2661605b3fa62ef65b7",
+      "oracle-seed-output.txt": "0a4539ea9cba2b95cb353f03ff2ce499645b3a897de25cd4b1a44c3822b9c665",
+      "parity-preflight.json": "663a38914436229a6abe487ca74c1accc100a0c1763a036664d39bd967c8a9cf",
+      "rollout-manifest.json": "3cef0f791434d16a8aa96a82c427406b742991dfebc402ea6ed2458ed8a188d2",
+      "session.jsonl": "d38cc91851fc1c8f656a16c3fff4d7981a1a83b5171a70f26db2e3f74bb54582",
+      "solution.bundle": "c3714bfb7a0377db7ba38ae97e01636ffbd42b9758a5b1867cd6d543813e1697",
+      "stderr.txt": "3d75e8d6f2ba05d4ce6360c38083899ffa3a43dfc63fe85529f7ebfb9b3f8166",
+      "stream.jsonl": "9f1e6163846cec606294195a11a2d442727292be64be23e617936c84ad29de0f",
+      "derived/analysis.json": "fec71be1be11a38482d6ffab9d19e015ca0474ce147b65138e4d6606110533a6",
+      "derived/run.json": "c013fbdabe65b5a0a1fe5720243d607424c5a993101c6da1d10bc4de11eb4b37",
+      "launch-evidence/codex-exit.json": "cfea6277d41b76361b2a2337397f7ea3aabf93ea0de1c66a968384288d44a980",
+      "launch-evidence/native-hook-catalog-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "launch-evidence/native-hook-catalog.json": "bc09b5ee5c440950b0773049db5af2d13a8b8213e871a5fd9f7fe6bc888fd602",
+      "launch-evidence/native-plugin-install-stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "launch-evidence/native-plugin-install.json": "7ab9da5f670fbc42760588219774b86877021d6446a4bb7737b93d6e15e0c663",
+      "launch-evidence/runtime-denial-proof.json": "f862345cb6fb289f5bab02dd8111297c1acff726e2431be14eacf7231a4de641",
+      "launch-evidence/hook-catalog-home/goals_1.sqlite": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "launch-evidence/hook-catalog-home/goals_1.sqlite-shm": "d90ab1f9b3316af29daec1ec345a7ee5ce7f279ac6ae0ec3d3cfab25a2e49997",
+      "launch-evidence/hook-catalog-home/goals_1.sqlite-wal": "56486c055088d48062004ef49cbff09820e449e17a41d452a11160ee043338e5",
+      "launch-evidence/hook-catalog-home/installation_id": "c4357d361a838e8a0d29002ded86eb0b422146515f20e4649a3fc4b9937f561d",
+      "launch-evidence/hook-catalog-home/logs_2.sqlite": "344fe2ac37f20761f2711a012542361ae7d126db4afbbce0fb6b817cf6d10b49",
+      "launch-evidence/hook-catalog-home/logs_2.sqlite-shm": "3a53198f03dd28aac3561da47dc02f3ff5d555aa4234f895823dad48f9320253",
+      "launch-evidence/hook-catalog-home/logs_2.sqlite-wal": "c4bdfbe7a1ce4215903a51cb2d198e0fd12eac03d6da7e2b1fbf0b0189c4b11d",
+      "launch-evidence/hook-catalog-home/memories_1.sqlite": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "launch-evidence/hook-catalog-home/memories_1.sqlite-shm": "089d0f808e9398a813c8b0c26798931452c60c5d35bedf0790776b0359f083d5",
+      "launch-evidence/hook-catalog-home/memories_1.sqlite-wal": "7751923ad8b0cfa21e481410ca301eebc397be0fcbbae2f9df5d170ddf479b85",
+      "launch-evidence/hook-catalog-home/queue_1.sqlite": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "launch-evidence/hook-catalog-home/queue_1.sqlite-shm": "0ce63af0564ffa883156d7a9fd456c1798e4419539d7d324f0d3448736f2fd6c",
+      "launch-evidence/hook-catalog-home/queue_1.sqlite-wal": "631299c4557c76d78f50940f2336e135bc6c229602f9ce0bb5fe85944b978b55",
+      "launch-evidence/hook-catalog-home/state_5.sqlite": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "launch-evidence/hook-catalog-home/state_5.sqlite-shm": "39843d25ed316e37670256b6cedabd9caad2078caabe9b385053220af527f351",
+      "launch-evidence/hook-catalog-home/state_5.sqlite-wal": "3ae36b4619bc834fff775b948d6eb6f958c9a727c2ccffb4fd8bf3973ee867ef",
+      "launch-evidence/hook-catalog-home/.sandbox/sandbox.2026-10-30.log": "674b66d78db204847b30dd78e407012672312f0a2dcbb6a3456df237dbea489e",
+      "launch-evidence/hook-catalog-home/.tmp/plugins.sync.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "launch-evidence/hook-catalog-home/.tmp/git-CbgFln/HEAD": "28d25bf82af4c0e2b72f50959b2beb859e3e60b9630a5e8c603dad4ddb2b6e80",
+      "subagents/rollout-01a18dea-ddaf-7350-bc94-8dbdf6ac26b7.jsonl": "b30f53d0e39625068dbe247d18a15bfc3effe851d5246a535342dedf3d8087b9",
+      "subagents/rollout-01a18dea-f7ed-75d3-93e0-4ffb129ae872.jsonl": "527eeaaff8b2251af1191bcd399c8648c45c22133b7fb36f3cc29b595ca8714e",
+      "subagents/rollout-01a18deb-2209-7932-a5a3-43304e4a650b.jsonl": "0b78164f613fa07fd36fb1df85610e8b3cc3fcf21c4cc080e28a2cb50d3d1c04",
+      "subagents/rollout-01a18def-0708-75f0-8669-ceebaf0e980c.jsonl": "e61e6981ea81f8202133f608165e66e22746e9b9e13788d9b17e808085c4b278",
+      "subagents/rollout-01a18df5-4e1a-7492-a979-065b728808f6.jsonl": "a479dd77eda1294c16ee4cdef619b40bc9e64c201997ba714b9ba861383523c3",
+      "subagents/rollout-01a18dfc-72e8-7c10-bd70-f0762d2dea19.jsonl": "5d2394437e7f55b336c44442fa15087e2f5c1d2e554b9929c04ca52812666914",
+      "subagents/rollout-01a18e02-f86f-7af1-994d-be76e3b52f23.jsonl": "0561f8c97af68a744f973be3d3a4d4cb094e8919de68379f672aea0ce490122f",
+      "subagents/rollout-01a18e06-4e9f-7c90-8e1b-5f40b48f0c88.jsonl": "a723b914cd4204bc07daa3fac8842a704cf3041744eb6d6e9568362c4b4161df",
+      "subagents/rollout-01a18e16-c094-7a71-a45f-f87baba7be0a.jsonl": "72411f69c820c5f65b3fc7b64f656007d20c7f25e673a8d9bf74ab1d82058667",
+      "subagents/rollout-01a18e16-e7e1-7063-bbc4-bce35915f515.jsonl": "7130301ca9a290b3a2d2d4ccf8c6fbd66eaced4b0d8134da6f43243146763a8c",
+      "subagents/rollout-01a18e17-0f01-7710-9704-0320c655f910.jsonl": "4e8e0c9ea76840c48a25b06b7efa0d6b90fb530d4d194d8029e27aa03983284d"
+    }
+  },
+  "over_token_ceiling": true,
+  "trace_complete": true,
+  "trace_errors": []
+}

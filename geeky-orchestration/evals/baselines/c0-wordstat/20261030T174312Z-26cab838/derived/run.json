@@ -1,0 +1,321 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "vercel/gpt-6-luna",
+  "reasoning": "high",
+  "approach": "canonical-prompt",
+  "plugin_sha": "7f079186af3411400580ca770d90f789bdcac94b",
+  "worker_model": "vercel/gpt-6-luna",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "workspace": "C:\\repos\\c0-native-20261031-67d1a321\\runtime\\eval-c0-wordstat-codex-20261030T174312Z-26cab838",
+  "config_directory": "C:\\repos\\c0-native-20261031-67d1a321\\runtime\\.eval-cfg-codex-20261030T174312Z-26cab838",
+  "seed_sha": "7a4a702dc556feea4beb6944c403207b59ffdd5c",
+  "session_id": "01a18de9-6239-7400-a978-884ec868c74b",
+  "started_utc": "2026-10-30T17:43:46.5708726Z",
+  "ended_utc": "2026-10-30T18:40:47.3176262Z",
+  "wall_time_s": 3421,
+  "tokens": {
+    "input": 25313871,
+    "cached_input": 24126764,
+    "cache_creation": 1186351,
+    "output": 191049,
+    "reasoning": 72371,
+    "total": 25504920,
+    "cost_usd_estimate": null
+  },
+  "model_calls": 378,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 120,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-30T17:44:24.961000+00:00",
+      "ended_utc": "2026-10-30T17:46:41.749000+00:00",
+      "minutes": 2.3
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-30T17:46:41.749000+00:00",
+      "ended_utc": "2026-10-30T17:46:52.768000+00:00",
+      "minutes": 0.2
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-30T17:46:52.768000+00:00",
+      "ended_utc": "2026-10-30T17:48:57.944000+00:00",
+      "minutes": 2.1
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-30T17:48:57.944000+00:00",
+      "ended_utc": "2026-10-30T17:56:37.532000+00:00",
+      "minutes": 7.7
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-30T17:56:37.532000+00:00",
+      "ended_utc": "2026-10-30T18:10:56.586000+00:00",
+      "minutes": 14.3
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-30T18:10:56.586000+00:00",
+      "ended_utc": "2026-10-30T18:16:25.560000+00:00",
+      "minutes": 5.5
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-30T18:16:25.560000+00:00",
+      "ended_utc": "2026-10-30T18:16:25.625000+00:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-30T18:16:25.625000+00:00",
+      "ended_utc": "2026-10-30T18:40:29.972000+00:00",
+      "minutes": 24.1
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 2,
+  "oracle": {
+    "collected": 13,
+    "passed": 13,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 5,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "9f1e6163846cec606294195a11a2d442727292be64be23e617936c84ad29de0f",
+    "session": "d38cc91851fc1c8f656a16c3fff4d7981a1a83b5171a70f26db2e3f74bb54582"
+  },
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "complete",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "dba340bff92652deb66c043f2211066205a499db7dea2991302044878ab9a588",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": null,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "waived-by-owner",
+    "override_reason": "Existing owner waiver for the Windows MXC C0 Luna/high pair; no qualification claim. geeky-orchestration/evals/analyses/c0-luna-preparation-20261028/qualification-waiver.json"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "context_window": 200000,
+    "wire_mode": "native",
+    "compatibility_protocol": "codex-v2-native-plaintext"
+  },
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc-win",
+    "trace_name": "codex-mxc-win-orchestrator",
+    "tags": [
+      "geeky-eval",
+      "identity:agent-v1",
+      "harness:codex",
+      "platform:win",
+      "environment:mxc-win",
+      "agent-family:codex-mxc-win",
+      "case:c0-wordstat",
+      "run:20261030T174312Z-26cab838",
+      "plugin:7f07918"
+    ],
+    "user_id": "codex-mxc-win-orchestrator-01a18de9-6239-7400-a978-884ec868c74b",
+    "user_id_policy": "source-bound-agent",
+    "agent_family": "codex-mxc-win",
+    "metadata": {
+      "identity_schema": "geeky-eval.agent-identity/1",
+      "harness": "codex",
+      "platform": "win",
+      "environment": "mxc-win",
+      "agent_family": "codex-mxc-win",
+      "case": "c0-wordstat",
+      "run": "20261030T174312Z-26cab838",
+      "run_group_id": "codex-mxc-win-c0-wordstat-20261030T174312Z-26cab838",
+      "plugin_sha": "7f079186af3411400580ca770d90f789bdcac94b",
+      "configured_model": "vercel/gpt-6-luna",
+      "configured_reasoning": "high",
+      "worker_model": "vercel/gpt-6-luna",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "provider": "litellm",
+      "configured_provider": "litellm",
+      "mock": "false",
+      "claude_hook_commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "codex_tracer_version": "0.4.2"
+    },
+    "full_content": true,
+    "ca_passthrough": [],
+    "session_id": "codex-mxc-win-c0-wordstat-20261030T174312Z-26cab838",
+    "native_session_id": "01a18de9-6239-7400-a978-884ec868c74b",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 911,
+    "coverage_complete": true,
+    "coverage_missed": [],
+    "user_ids": [
+      "codex-mxc-win-orchestrator-01a18de9-6239-7400-a978-884ec868c74b",
+      "codex-mxc-win-reviewer-fermat-01a18e06-4e9f-7c90-8e1b-5f40b48f0c88",
+      "codex-mxc-win-reviewer-galileo-01a18e17-0f01-7710-9704-0320c655f910",
+      "codex-mxc-win-reviewer-kierkegaard-01a18e16-c094-7a71-a45f-f87baba7be0a",
+      "codex-mxc-win-reviewer-locke-01a18df5-4e1a-7492-a979-065b728808f6",
+      "codex-mxc-win-reviewer-nietzsche-01a18e16-e7e1-7063-bbc4-bce35915f515",
+      "codex-mxc-win-unknown-carson-01a18dfc-72e8-7c10-bd70-f0762d2dea19",
+      "codex-mxc-win-unknown-huygens-01a18dea-ddaf-7350-bc94-8dbdf6ac26b7",
+      "codex-mxc-win-unknown-pasteur-01a18deb-2209-7932-a5a3-43304e4a650b",
+      "codex-mxc-win-unknown-pauli-01a18dea-f7ed-75d3-93e0-4ffb129ae872",
+      "codex-mxc-win-unknown-popper-01a18e02-f86f-7af1-994d-be76e3b52f23",
+      "codex-mxc-win-unknown-russell-01a18def-0708-75f0-8669-ceebaf0e980c"
+    ],
+    "agent_roles": [
+      "orchestrator",
+      "reviewer",
+      "unknown"
+    ],
+    "trace_count": 19,
+    "hook": {
+      "kind": "codex-stop",
+      "package": "@langfuse/codex-observability-plugin@0.4.2",
+      "node": "C:\\Program Files\\nodejs\\node.exe",
+      "script": "C:\\repos\\.eval-tools\\langfuse\\codex-tracing\\0.4.2\\dist\\index.geeky.mjs"
+    },
+    "host_flush": "exit 0",
+    "observations_present": true,
+    "observations_status": "present",
+    "coverage_status": "met",
+    "scores_verified": false,
+    "scores_status": "pending"
+  },
+  "reviewer_reasoning": "high",
+  "compatibility_proxy": {
+    "enabled": true,
+    "wire_mode": "native-plaintext",
+    "protocol": "codex-v2-native-plaintext",
+    "base_url": "http://127.0.0.1:61481/v1",
+    "pid": 52164,
+    "source_sha256": {
+      "__init__.py": "84a07a37abc8a3e7645e1d2888e2c079a40e868c46ee11f4961ed5fb2461e423",
+      "__main__.py": "4d5e2c064a72bdde2fa609b757a9e4850f315315303db29e577f42fc6fbee1bc",
+      "mapper.py": "7bde0384018ca1e5f83f9f2304be0e7cb867ddacf799149a006438c1a849a21c",
+      "server.py": "7214b0a5ee057e19104b53317a560ebf8ea0cf76c95c9437d988fcbef2aa9ffc",
+      "native_plaintext.py": "caf927d848e717579c381090e225d9286a728f9b69a532ed1d11fe60ec2e5b93"
+    },
+    "state_directory": "C:\\repos\\c0-native-20261031-67d1a321\\runtime\\.eval-cfg-codex-20261030T174312Z-26cab838\\litellm-native-plaintext",
+    "known_plaintext_policy": "process-local-provenance-only",
+    "provider_requests_on_start": 0
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "process-finished",
+    "attempt_id": "7b88de20-1fae-43e1-bd12-685d437e0dc5",
+    "segment_id": "a49618e2-0516-4b8d-a95e-3bfd19dc1dc0",
+    "authorization_reference": "Owner 2026-10-31: one native Luna/high C0 MXC attempt at 7f079186af3411400580ca770d90f789bdcac94b; 6000/60; one attempt, zero recoveries; closeout and local commit, no push.",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "waived-by-owner",
+      "override_reason": "Existing owner waiver for the Windows MXC C0 Luna/high pair; no qualification claim. geeky-orchestration/evals/analyses/c0-luna-preparation-20261028/qualification-waiver.json"
+    },
+    "initial_deadline_utc": "2026-10-30T19:23:24.0825621Z",
+    "hard_wall_budget_s": 6000,
+    "closeout_reserve_s": 60,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "worker_model": "vercel/gpt-6-luna",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "wire_mode": "native",
+      "hard_wall_budget_s": 6000,
+      "closeout_reserve_s": 60,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "7bf3b043cd2a78a2b9f0dcaaf5fc5ba1acaab2ea31a04cad8d7d5ada2e2e6618",
+    "invocations": [
+      {
+        "invocation_id": "7d2bb353-4f6f-4cf1-9deb-927463924c2b",
+        "kind": "initial",
+        "timeout_s": 5977,
+        "started_utc": "2026-10-30T17:43:46.6029135Z",
+        "ended_utc": "2026-10-30T18:40:47.3062448Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "launch-preparation": "completed",
+      "seed-oracle": "completed",
+      "parsing": "completed",
+      "native-capture": "completed",
+      "telemetry-replay": "completed",
+      "oracle": "completed",
+      "telemetry": "completed",
+      "analysis": "in-progress"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 3420.686125499895,
+    "attempt_elapsed_s": 3443.23166629998,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 68072,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  },
+  "over_token_ceiling": true,
+  "trace_complete": true,
+  "trace_errors": []
+}

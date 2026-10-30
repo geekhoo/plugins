@@ -1,0 +1,151 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "codex-mxc-win-c0-wordstat-20261030T174312Z-26cab838",
+  "traces": 19,
+  "observations": 911,
+  "by_type": {
+    "GENERATION": 394,
+    "TOOL": 498,
+    "AGENT": 19
+  },
+  "generations": 394,
+  "tool_calls": 498,
+  "subagents": 18,
+  "user_ids": [
+    "codex-mxc-win-orchestrator-01a18de9-6239-7400-a978-884ec868c74b",
+    "codex-mxc-win-reviewer-fermat-01a18e06-4e9f-7c90-8e1b-5f40b48f0c88",
+    "codex-mxc-win-reviewer-galileo-01a18e17-0f01-7710-9704-0320c655f910",
+    "codex-mxc-win-reviewer-kierkegaard-01a18e16-c094-7a71-a45f-f87baba7be0a",
+    "codex-mxc-win-reviewer-locke-01a18df5-4e1a-7492-a979-065b728808f6",
+    "codex-mxc-win-reviewer-nietzsche-01a18e16-e7e1-7063-bbc4-bce35915f515",
+    "codex-mxc-win-unknown-carson-01a18dfc-72e8-7c10-bd70-f0762d2dea19",
+    "codex-mxc-win-unknown-huygens-01a18dea-ddaf-7350-bc94-8dbdf6ac26b7",
+    "codex-mxc-win-unknown-pasteur-01a18deb-2209-7932-a5a3-43304e4a650b",
+    "codex-mxc-win-unknown-pauli-01a18dea-f7ed-75d3-93e0-4ffb129ae872",
+    "codex-mxc-win-unknown-popper-01a18e02-f86f-7af1-994d-be76e3b52f23",
+    "codex-mxc-win-unknown-russell-01a18def-0708-75f0-8669-ceebaf0e980c"
+  ],
+  "agent_roles": [
+    "orchestrator",
+    "reviewer",
+    "unknown"
+  ],
+  "agent_families": [
+    "codex-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 1200705,
+    "output": 122031,
+    "total": 26631692,
+    "input_cached_tokens": 25234275,
+    "output_reasoning_tokens": 74681
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-30T17:44:12.022Z",
+  "last_start": "2026-10-30T18:40:07.240Z",
+  "top_names": [
+    [
+      "exec_command",
+      383
+    ],
+    [
+      "LLM",
+      258
+    ],
+    [
+      "LLM Subagent",
+      136
+    ],
+    [
+      "wait_agent",
+      29
+    ],
+    [
+      "send_message",
+      27
+    ],
+    [
+      "list_agents",
+      17
+    ],
+    [
+      "spawn_agent",
+      11
+    ],
+    [
+      "followup_task",
+      7
+    ],
+    [
+      "geeky_check_commit",
+      4
+    ],
+    [
+      "geeky_check_frozen_artifact",
+      4
+    ],
+    [
+      "skill:impl-review",
+      3
+    ],
+    [
+      "codex-mxc-win-unknown-popper",
+      3
+    ],
+    [
+      "geeky_workflow_budget",
+      3
+    ],
+    [
+      "codex-mxc-win-reviewer-locke",
+      3
+    ],
+    [
+      "codex-mxc-win-reviewer-fermat",
+      2
+    ],
+    [
+      "skill:geeky-implement",
+      2
+    ],
+    [
+      "geeky_validate_kanban",
+      2
+    ],
+    [
+      "codex-mxc-win-unknown-carson",
+      2
+    ],
+    [
+      "skill:plan-review",
+      2
+    ],
+    [
+      "codex-mxc-win-unknown-russell",
+      2
+    ],
+    [
+      "codex-mxc-win-reviewer-galileo",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-nietzsche",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-kierkegaard",
+      1
+    ],
+    [
+      "skill:geeky-coder",
+      1
+    ],
+    [
+      "skill:geeky-plan",
+      1
+    ]
+  ]
+}
