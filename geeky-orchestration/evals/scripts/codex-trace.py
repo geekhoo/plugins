@@ -33,6 +33,14 @@ import re
 from pathlib import Path
 
 STAGES = ('spec-research', 'geeky-plan', 'plan-review', 'geeky-implement', 'impl-review')
+# The contestant's own stage declaration; its output schema proves the script ran.
+BUDGET_STAGE = re.compile(r'workflow-budget\.py\W+--stage\s+["\']?(' + '|'.join(STAGES) + r')\b', re.I)
+BUDGET_OUTPUT = 'workflow-budget/1'
+
+
+def budget_stage(cmd, out):
+    m = BUDGET_STAGE.search(cmd)
+    return m.group(1).lower() if m and BUDGET_OUTPUT in out else None
 
 
 def read_jsonl(path, errors):
@@ -511,6 +519,18 @@ def load(run_dir, process_path=None):
         # Completed runtime items include tools nested inside functions.exec.
         handled = set()
         last_skill = None
+
+        def command_text(item, local_id):
+            cmd = item.get('command') or ''
+            cmd = cmd[-1] if isinstance(cmd, list) else cmd
+            out = text(item.get('aggregated_output') or item.get('stdout')) + text(item.get('stderr'))
+            if not out and local_id in outputs:
+                out = text(outputs[local_id][1].get('output'))
+            return cmd, out
+        # Codex pre-reads several SKILL.md files back to back, so when the thread declares its stages
+        # through workflow-budget.py, those declarations (forward only) mark stage entry instead.
+        stages_declared = any(item.get('type') == 'CommandExecution' and budget_stage(*command_text(item, local_id))
+                       for local_id, (_, item) in completed.items())
         for local_id, (row, item) in completed.items():
             kind = item.get('type')
             timestamp = row.get('timestamp')
@@ -522,12 +542,12 @@ def load(run_dir, process_path=None):
                     start = dt.datetime.fromtimestamp(start_ms / 1000, dt.timezone.utc).isoformat()
             failed = item.get('status') in ('failed', 'declined') or item.get('exit_code', 0) not in (None, 0)
             if kind == 'CommandExecution':
-                cmd = item.get('command') or ''
-                cmd = cmd[-1] if isinstance(cmd, list) else cmd
-                out = text(item.get('aggregated_output') or item.get('stdout')) + text(item.get('stderr'))
-                if not out and local_id in outputs:
-                    out = text(outputs[local_id][1].get('output'))
-                if not failed and re.search(r'\b(?:Get-Content|cat|type)\b', cmd, re.I):
+                cmd, out = command_text(item, local_id)
+                stage = budget_stage(cmd, out) if stages_declared else None
+                if stage and (last_skill is None or STAGES.index(stage) > STAGES.index(last_skill)):
+                    call(sid, str(local_id) + ':skill', 'CodexSkillRead' if reviewed_mode else 'Skill', {'skill': stage, 'args': '', 'evidence': 'workflow-budget-stage-declaration'}, start, timestamp)
+                    last_skill = stage
+                elif not stages_declared and not failed and re.search(r'\b(?:Get-Content|cat|type)\b', cmd, re.I):
                     for skill in STAGES:
                         if re.search(r'(?:/|\\)' + re.escape(skill) + r'(?:/|\\)SKILL\.md', cmd, re.I) and skill != last_skill:
                             call(sid, str(local_id) + ':skill', 'CodexSkillRead' if reviewed_mode else 'Skill', {'skill': skill, 'args': '', 'evidence': 'successful-skill-file-read'}, start, timestamp)

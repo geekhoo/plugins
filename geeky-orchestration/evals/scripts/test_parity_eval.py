@@ -76,6 +76,30 @@ def test_stage_boundaries_use_explicit_review_dispatch_and_skill():
     assert bounds['impl-review'][0] == times[4]
 
 
+def test_workflow_budget_declarations_replace_skill_read_ahead():
+    evaluation = pe.Evaluation.__new__(pe.Evaluation)
+    times = [pe.utc_time(f'2026-10-25T03:{minute}:00Z') for minute in ('00', '05', '10', '20', '30', '40')]
+    evaluation.moves = [
+        {'subject': 'docs: author feature specification in docs/spec', 'time': times[1], 'files': []},
+        {'subject': pe.PLAN_REVIEW_SUBJECT, 'time': times[2], 'files': ['implementation-plan.md']}]
+
+    def budget(t, stage, thread='main', output='{"schema": "workflow-budget/1"}'):
+        return {'t': t, 'kind': 'shell', 'name': 'exec_command', 'thread': thread, 'output': output,
+                'text': f'python "C:/p/scripts/workflow-budget.py" --stage {stage} --json'}
+    evaluation.events = [
+        {'t': times[0], 'kind': 'shell', 'name': 'Tool: PowerShell', 'text': 'read'},
+        budget(times[3], 'geeky-implement'),
+        # Codex reads the impl-review skill right after entering implement: read-ahead, not entry
+        {'t': times[3], 'kind': 'skill', 'name': 'skill:impl-review', 'text': ''},
+        budget(times[4], 'impl-review', thread='sub'),           # a forked worker's check is not the main thread
+        budget(times[4], 'impl-review', output='Traceback'),     # the script did not run
+        budget(times[4], 'plan-review'),                          # backwards declaration is ignored
+        budget(times[5], 'impl-review')]
+    bounds = evaluation.stage_bounds()
+    assert bounds['geeky-implement'] == (times[2], times[5])
+    assert bounds['impl-review'][0] == times[5]
+
+
 def test_deferred_impl_review_mention_does_not_start_final_review():
     evaluation = pe.Evaluation.__new__(pe.Evaluation)
     times = [pe.utc_time(f'2026-10-25T03:{minute}:00Z') for minute in ('00', '05', '10', '20', '30', '40', '50')]

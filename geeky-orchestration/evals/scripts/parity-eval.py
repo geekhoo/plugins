@@ -36,6 +36,8 @@ FROZEN = ('implementation-plan.md', 'feature-specification.md', 'draft.md', 'ref
 CRITICAL = {'dp02', 'dp05', 'dp09', 'dp10', 'dp11'}
 SPAWN = {'Tool: Agent', 'Tool: Task', 'spawn_agent'}
 REDISPATCH = {'followup_task', 'send_message', 'Tool: SendMessage'}
+STAGE_ORDER = ('spec-research', 'geeky-plan', 'plan-review', 'geeky-implement', 'impl-review')
+BUDGET_STAGE = re.compile(r'workflow-budget\.py\W+--stage\s+["\']?(' + '|'.join(STAGE_ORDER) + r')\b', re.I)
 SHELL = {'Tool: Bash', 'Tool: PowerShell', 'exec', 'exec_command', 'shell', 'local_shell'}
 EDIT = {'Tool: Write', 'Tool: Edit', 'Tool: MultiEdit', 'apply_patch'}
 REVIEW_FINAL = re.compile(r'impl[-_ ]review|\bimpl_\w*review|final (implementation )?review|implementation review'
@@ -198,6 +200,17 @@ class Evaluation:
             m = re.match(r'skill:([\w-]+)$', e['name']) or re.search(r'geeky-orchestration:([\w-]+)', e['text'][:200])
             return m.group(1) if e['kind'] == 'skill' and m else None
         reads = [(self.iso(e['t']), stage_of(e)) for e in self.events if stage_of(e)]
+        # A main thread that declares its stages through workflow-budget.py (output schema proves it ran)
+        # marks stage entry by those declarations, forward only, instead of its SKILL.md reads.
+        declared = []
+        for e in self.events:
+            m = BUDGET_STAGE.search(e['text']) if e['kind'] == 'shell' and e.get('thread') == 'main' else None
+            if m and 'workflow-budget/1' in e.get('output', ''):
+                st = m.group(1).lower()
+                if not declared or STAGE_ORDER.index(st) > STAGE_ORDER.index(declared[-1][1]):
+                    declared.append((self.iso(e['t']), st))
+        if declared:
+            reads = declared
 
         def seconds(t):
             return dt.datetime.fromisoformat(t).timestamp()
@@ -290,6 +303,10 @@ class Evaluation:
         impl = self.within('geeky-implement')
         shells = [e for e in impl if e['kind'] in ('shell', 'skill') or e['name'].startswith('mcp')]
         coder = [e for e in impl if e['kind'] == 'spawn' and 'coder' in (e['role'] + e['text'][:300]).lower()]
+        # Codex re-tasks a live coder (followup_task target "/root/<task_name>"); that is a dispatch to it.
+        names = {m.group(1) for e in coder for m in [re.search(r'"task_name":\s*"([^"]+)"', e['text'])] if m}
+        coder += [e for e in impl if e['kind'] == 'redispatch' and names and
+                  (m := re.search(r'"target":\s*"(?:[^"]*/)?([^"/]+)"', e['text'])) and m.group(1) in names]
         reviewers = [e for e in impl if (e['kind'] == 'spawn' and 'review' in (e['role'] + e['text'][:300]).lower()) or e['kind'] == 'redispatch']
         for t in self.tasks:
             name = re.compile(rf'\b{t}\b')
@@ -306,7 +323,9 @@ class Evaluation:
         kanban = sum('validate-kanban' in e['text'] for e in shells)
         self.check('a.kanban_gate', A, 'pass' if kanban >= len(self.tasks) else 'fail', f'{kanban} validate-kanban runs for {len(self.tasks)} tasks')
         code_commits = [c for c in after if any(not f.startswith('docs/') for f in c['files'])]
-        cc = sum(commit_gate_runs(e) for e in shells)
+        # code_commits spans implement and impl-review (fix commits), so gate runs are counted over both
+        cc = sum(commit_gate_runs(e) for e in shells + [e for e in self.within('impl-review')
+                                                         if e['kind'] in ('shell', 'skill') or e['name'].startswith('mcp')])
         self.check('a.commit_gate', A, 'pass' if cc >= len(code_commits) else 'fail', f'{cc} check-commit runs for {len(code_commits)} code commits')
         tests = sum(bool(re.search(r'\bpytest\b', e['text'])) for e in impl if e['kind'] == 'shell')
         self.check('a.tests_run', A, 'pass' if tests else 'fail', f'{tests} pytest runs during implement')

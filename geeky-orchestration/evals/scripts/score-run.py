@@ -775,10 +775,13 @@ class Scorer:
         impl = [c for c in T.calls if T.stage_of(c) in ("geeky-implement", "impl-review")]
         # coder dispatches per task
         self.coders = {}
+        codex = self.run.get('harness') == 'codex'
         for c in T.agents("geeky-implement") + T.agents("impl-review"):
             st = T.role(c)
             desc = str(c.inp.get("description", ""))
-            if "coder" not in st and not re.match(r"(?i)(implement|fix|code)\b", desc):
+            # Codex names a dispatch by its task_name (e.g. t1_coder) and may use the generic worker role.
+            if "coder" not in st and not re.match(r"(?i)(implement|fix|code)\b", desc) and \
+                    not (codex and re.search(r"(?i)coder", desc)):
                 continue
             ids = expand_ids(desc) & set(self.tasks) or (lambda s: s if len(s) == 1 else set())(
                 expand_ids(str(c.inp.get("prompt", ""))) & set(self.tasks))
@@ -790,6 +793,27 @@ class Scorer:
                 ids = set(T.contexts.get(c.id, {}).get('tasks', [])) & set(self.tasks)
             for t in ids:
                 self.coders.setdefault(t, []).append(c)
+        # Codex re-tasks a live coder with followup_task: each one-task follow-up assigns that coder's later work
+        # to the named task until its next assignment.
+        self.assignments = {}
+        if codex:
+            spawned = {str(d.inp.get("description", "")): d for ds in self.coders.values() for d in ds}
+            for d in {d.id: d for ds in self.coders.values() for d in ds}.values():
+                first = sorted((t for t, ds in self.coders.items() if d in ds), key=task_key)
+                self.assignments[d.id] = [(T.dispatch_start(d), first[0])] if len(first) == 1 else []
+            for c in T.mains():
+                if c.name != "followup_task" or c.is_error or not c.ts:
+                    continue
+                d = spawned.get(str(c.inp.get("target", "")).rsplit("/", 1)[-1])
+                # the assignment's opening names its task; later text may cite dependencies
+                ids = expand_ids(str(c.inp.get("message", ""))[:160]) & set(self.tasks)
+                if d and len(ids) == 1 and self.assignments.get(d.id) is not None:
+                    t = ids.pop()
+                    self.assignments[d.id].append((c.ts, t))
+                    if d not in self.coders.setdefault(t, []):
+                        self.coders[t].append(d)
+            for d_id in self.assignments:
+                self.assignments[d_id].sort(key=lambda x: x[0])
         # file ownership: earliest single-task commit, else first coder that wrote it
         self.coder_writes = {}
         for t, dispatches in self.coders.items():
@@ -972,7 +996,7 @@ class Scorer:
     def attempts(self):
         T = self.trace
         coder_ids = {t: {d.id for d in ds} for t, ds in self.coders.items()}
-        first_ack = {t: min(T.dispatch_start(d) for d in ds) for t, ds in self.coders.items()}
+        first_ack = {t: min(self.assignment_start(d, t) for d in ds) for t, ds in self.coders.items()}
         coder_end = {t: max(T.agent_end.get(d.id) or d.rts or d.ts for d in ds) for t, ds in self.coders.items()}
         self.runs = {t: [] for t in self.tasks}
         self.first_pass = {}
@@ -987,6 +1011,9 @@ class Scorer:
                 continue
             if not c.orch:
                 owners = [t for t, ids in coder_ids.items() if c.top.id in ids]
+                if self.assignments.get(c.top.id) and c.ts:
+                    current = [t for s, t in self.assignments[c.top.id] if s and s <= c.ts]
+                    owners = current[-1:]
             elif stage == "geeky-implement":
                 owners = [t for t in self.tasks if t in first_ack and first_ack[t] <= c.ts
                           and coder_end[t] and coder_end[t] <= c.ts and t not in self.first_pass]
@@ -1021,7 +1048,8 @@ class Scorer:
                 fenced = not fenced
                 continue
             # a bullet's command is its leading code span; spans later in the prose are commentary
-            lead = re.match(r"^\s*(?:[-*]|\d+\.)\s*`([^`]+)`", line)
+            # ... or the span right after a leading "Run" ("- Run `pytest -q` from the repository root")
+            lead = re.match(r"^\s*(?:[-*]|\d+\.)\s*(?:Run\s+)?`([^`]+)`", line)
             for cmd in [lead.group(1)] if lead else [] if re.match(r"^\s*(?:[-*]|\d+\.)\s", line) else re.findall(r"`([^`]+)`", line):
                 if re.match(r"\s*(python|py|pytest|pwsh|bash|sh|node|npm|uv)\b", cmd):
                     cmds.append(cmd.strip())
@@ -1256,12 +1284,12 @@ class Scorer:
             if not dc:
                 self.check(f"adh.handoff_batch.{t}", A, "fail", "no Done move found in the trace")
                 continue
-            window = [dc, self.trace.next_main(dc)]
+            window = self.native_window(dc)
             hit = next((h for h in self.handoff_calls if h in window and t in self.handoff_tasks.get(h.id, expand_ids(h.raw))), None)
             self.check(f"adh.handoff_batch.{t}", A, "pass" if hit else "fail",
                        f"Done move call {dc.idx}; handoff naming {t} in call {hit.idx}" if hit else
-                       f"Done move call {dc.idx}; no handoff.md write naming {t} in calls {dc.idx}/"
-                       f"{window[1].idx if window[1] else '-'}")
+                       f"Done move call {dc.idx}; no handoff.md write naming {t} in calls "
+                       + "/".join(str(c.idx) if c else "-" for c in window))
         tdir = self.folder / "tasks"
         for t in self.tasks:
             notes = [p for p in tdir.glob(f"{t}*.notes.md") if re.match(rf"{t}\b", p.name) and p.stat().st_size > 0]
@@ -1299,8 +1327,8 @@ class Scorer:
                                                          if ok and hidden else ""))
         missing = []
         for c in self.kanban_calls:
-            nxt = self.trace.next_main(c)
-            if not any(i in (c.idx, nxt.idx if nxt else -1) and p is not False for i, p in self.kanban_gate_runs):
+            window = {x.idx for x in self.native_window(c) if x}
+            if not any(i in window and p is not False for i, p in self.kanban_gate_runs):
                 missing.append(c.idx)
         self.check("adh.kanban_after_moves", A, "pass" if self.kanban_calls and not missing else "fail",
                    f"{len(self.kanban_calls)} lane-move calls; without validate-kanban: {missing or 'none'}")
@@ -1387,6 +1415,18 @@ class Scorer:
                     if "READY TO ADVANCE" in b and (set(ids) & expand_ids(b) or re.search(rf"\bPhase\s*{num}\b", b, re.I)):
                         out.setdefault(p, name)
         return out
+
+    def native_window(self, call):
+        """<call> and the next orchestrator call (D82/kanban window). codex-trace splits one native patch into
+        per-file calls (<id>:file0, :file1, ...); those count as the one call they came from."""
+        native = re.sub(r":file\d+$", "", call.id)
+        same = [c for c in self.trace.calls if c.orch and re.sub(r":file\d+$", "", c.id) == native] or [call]
+        return same + [self.trace.next_main(same[-1])]
+
+    def assignment_start(self, d, t):
+        """When coder dispatch d started on task t: its first assignment to t, else its dispatch start."""
+        return next((s for s, x in self.assignments.get(d.id, []) if x == t and s), None) or \
+            self.trace.dispatch_start(d)
 
     def last_code_edit(self, t, before):
         if before is None:
@@ -1544,7 +1584,7 @@ class Scorer:
             rv = [r for r in self.reviews if t in r["ids"]]
             first_ok = next((k for k, r in enumerate(rv, 1) if r["pass"]), None)
             R = r_score(first_ok)
-            start = min((self.trace.dispatch_start(d) for d in self.coders.get(t, [])), default=None)
+            start = min((self.assignment_start(d, t) for d in self.coders.get(t, [])), default=None)
             ends = []
             if t in self.first_pass:
                 ends.append(self.first_pass[t].rts)

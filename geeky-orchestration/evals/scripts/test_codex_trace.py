@@ -253,6 +253,47 @@ def test_failed_skill_read_is_not_invocation(trace_folder):
     assert AR.analyze(folder)['skill_invocations'] == {}
 
 
+def test_workflow_budget_declarations_mark_stage_entry(trace_folder):
+    folder, rows = trace_folder
+    budget = '{"schema": "workflow-budget/1", "remaining_s": 4000}'
+
+    def command(call_id, cmd, output, second):
+        return [row('response_item', {'type': 'function_call', 'call_id': call_id, 'name': 'exec_command',
+                                      'arguments': json.dumps({'cmd': cmd})}, second),
+                row('event_msg', {'type': 'item_completed', 'item': {'type': 'CommandExecution', 'id': call_id,
+                    'command': ['pwsh', '-Command', cmd], 'aggregated_output': output, 'exit_code': 0,
+                    'status': 'completed'}}, second)]
+    extra = (command('b1', "python 'C:/p/scripts/workflow-budget.py' --stage plan-review --json", budget, 1)
+             + command('r1', 'Get-Content skills/geeky-implement/SKILL.md', 'skill', 2)
+             + command('r2', 'Get-Content skills/impl-review/SKILL.md', 'skill', 2)
+             + command('b2', "python 'C:/p/scripts/workflow-budget.py' --stage geeky-implement --json", budget, 2)
+             + command('b3', "python 'C:/p/scripts/workflow-budget.py' --stage plan-review --json", budget, 3)
+             + command('b4', "python 'C:/p/scripts/workflow-budget.py' --stage impl-review --json", 'Traceback', 4)
+             + command('b5', "python 'C:/p/scripts/workflow-budget.py' --stage impl-review --json", budget, 5))
+    write_jsonl(folder / 'session.jsonl', rows[:1] + extra + rows[1:])
+    skills = [(name, ts.second) for _, name, ts, _ in SR.Trace(folder, harness='codex').skills]
+    assert skills == [('plan-review', 1), ('geeky-implement', 2), ('impl-review', 5)]
+
+
+def test_validation_block_reads_run_bullets_but_not_prose_spans(tmp_path):
+    task = tmp_path / 'T1-core.md'
+    task.write_text('Tests/Validation Before Next Task:\n'
+                    '- Run `python -m pytest -q tests/test_x.py` from repository root and require exit 0.\n'
+                    '- The tests must invoke `python -m wordstat --help` and assert exit 0.\n'
+                    '- `python -m compileall -q wordstat`\n\nEstimate:\nM\n', encoding='utf-8')
+    scorer = SimpleNamespace(task_files={'T1': task}, run={'harness': 'codex'})
+    assert SR.Scorer.validation_commands(scorer, 'T1') == ['python -m pytest -q tests/test_x.py',
+                                                           'python -m compileall -q wordstat']
+
+
+def test_split_patch_counts_as_one_call_for_done_window():
+    calls = [SimpleNamespace(id=i, idx=n, orch=True) for n, i in enumerate(['a', 'p:file0', 'p:file1', 'p:file2', 'b'])]
+    trace = SimpleNamespace(calls=calls, next_main=lambda c: calls[c.idx + 1] if c.idx + 1 < len(calls) else None)
+    scorer = SimpleNamespace(trace=trace)
+    assert [c.id for c in SR.Scorer.native_window(scorer, calls[1])] == ['p:file0', 'p:file1', 'p:file2', 'b']
+    assert [c.id for c in SR.Scorer.native_window(scorer, calls[0])] == ['a', 'p:file0']
+
+
 def test_full_shared_scorer_non_reference_empty_fixture(trace_folder, monkeypatch):
     folder, _ = trace_folder
     ws = folder / 'workspace'
