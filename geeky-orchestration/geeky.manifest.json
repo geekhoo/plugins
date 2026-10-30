@@ -20,7 +20,8 @@
       "geeky_validate_kanban",
       "geeky_check_dod",
       "geeky_check_commit",
-      "geeky_check_frozen_artifact"
+      "geeky_check_frozen_artifact",
+      "geeky_workflow_budget"
     ]
   },
   "validators": [

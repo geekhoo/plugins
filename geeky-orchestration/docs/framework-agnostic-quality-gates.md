@@ -138,9 +138,9 @@ frozen-artifact rule, and the validator commands. `geeky.manifest.json` lists ea
 invoke it, so SDK wrappers and MCP servers can discover them programmatically.
 
 ### P7 — ✅ BUILT: validators wrapped as an MCP server
-`mcp/server.py` is a stdio FastMCP server (`geeky_mcp`) registered via `.mcp.json`. It exposes six
+`mcp/server.py` is a stdio FastMCP server (`geeky_mcp`) registered via `.mcp.json`. It exposes seven
 read-only tools — `geeky_validate_planning_folder`, `geeky_validate_task_schema`,
-`geeky_validate_kanban`, `geeky_check_dod`, `geeky_check_commit`, `geeky_check_frozen_artifact` —
+`geeky_validate_kanban`, `geeky_check_dod`, `geeky_check_commit`, `geeky_check_frozen_artifact`, `geeky_workflow_budget` —
 callable from Claude, Cursor, OpenAI Agents SDK, LangGraph, etc., with no per-framework hook config.
 It is a **thin adapter**: each tool shells out to the same validator script with `--json` and returns
 the parsed report, so there is zero logic duplication and MCP output matches the CLI/hook output.

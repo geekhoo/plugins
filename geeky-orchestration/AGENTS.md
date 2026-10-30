@@ -98,7 +98,7 @@ and re-run the same gate until it exits 0 before proceeding.
 - **Any MCP-capable agent:** a bundled stdio MCP server (`geeky_mcp`, see `mcp/server.py`,
   registered in `.mcp.json`) exposes the gates as tools — `geeky_validate_planning_folder`,
   `geeky_validate_task_schema`, `geeky_validate_kanban`, `geeky_check_dod`,
-  `geeky_check_commit`, `geeky_check_frozen_artifact` — for tool-style invocation with
+  `geeky_check_commit`, `geeky_check_frozen_artifact`, `geeky_workflow_budget` — for tool-style invocation with
   no per-framework hook config. Run it with `uv run --with "mcp>=1.2.0" python mcp/server.py`
   (or `pip install mcp && python mcp/server.py`).
 

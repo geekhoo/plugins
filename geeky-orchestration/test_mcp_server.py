@@ -102,5 +102,21 @@ class StdioTransportGuardTests(unittest.TestCase):
                     "validator that is fed nothing needs a real empty stdin" % call.lineno)
 
 
+class WorkflowBudgetToolTests(unittest.TestCase):
+    """The MCP budget tool must accept exactly the script's stages."""
+
+    def test_budget_stages_match_the_script(self) -> None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "workflow_budget", SERVER.parent.parent / "scripts" / "workflow-budget.py")
+        budget = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(budget)
+        model = next(node for node in ast.walk(_server_tree())
+                     if isinstance(node, ast.ClassDef) and node.name == "BudgetInput")
+        literal = next(node for node in ast.walk(model)
+                       if isinstance(node, ast.Subscript) and getattr(node.value, "id", "") == "Literal")
+        self.assertEqual({elt.value for elt in literal.slice.elts}, set(budget.STAGE_TARGETS))
+
+
 if __name__ == "__main__":
     unittest.main()
