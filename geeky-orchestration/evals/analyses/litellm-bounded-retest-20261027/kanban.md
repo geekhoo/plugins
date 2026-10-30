@@ -11,6 +11,6 @@
 ## Unresolved / held
 
 - Thinking-off mapping for MiniMax, DeepSeek and MiMo through this deployed path.
-- Missing reasoning summaries and inconsistent SSE terminal items.
+- Missing reasoning summaries and inconsistent SSE terminal items. Bridge path resolved later: missing summaries become `[]` and the three captured terminal-item mismatches reconcile, see [bridge reasoning normalization](../bridge-reasoning-normalization-20261027/README.md). Native path unchanged.
 - Native tool-shape failures on the other routes; full native/bridge qualification.
 - Both evaluations stopped; no further probe, commit, push, judge or telemetry publication authorized by this record.

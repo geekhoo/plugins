@@ -7,7 +7,7 @@
 | Independent protocol review | Done | /root/bridge_contract PASS after both encryption-boundary corrections |
 | One bounded real LiteLLM request | Done | live-probe-result.json PASS; one upstream POST; MAPPING_OK |
 | Records and preservation | Done | README, handoff, references and final verification |
-| Codex/Claude evaluation launches | Held | Explicit owner instruction: do not start until separately told |
+| Codex/Claude evaluation launches | Held | Explicit owner instruction: do not start until separately told. Superseded: both launched later, see [fresh sequential results](../c0-fresh-sequential-20261027/README.md) |
 
 This is a fix record, not a new frozen implementation planning package or an
 authorization to advance into evaluation.

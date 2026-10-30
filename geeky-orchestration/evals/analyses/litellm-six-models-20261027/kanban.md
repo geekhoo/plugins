@@ -11,5 +11,5 @@
 ## Held
 
 - Both C0 evaluations and all additional endpoint probes/retries.
-- Larger-cap, disabled-reasoning, encryption and roundtrip qualification.
+- Larger-cap, disabled-reasoning, encryption and roundtrip qualification. Partly done later: larger caps, thinking controls and Luna opaque receive ran in [bounded retest](../litellm-bounded-retest-20261027/README.md); thinking-off and full qualification stayed open there.
 - Commit, push, judges and telemetry publication.

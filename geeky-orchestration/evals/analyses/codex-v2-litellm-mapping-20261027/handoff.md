@@ -17,7 +17,7 @@ Read in order:
 4. `geeky-orchestration/evals/adapters/codex/litellm-bridge.ps1`, its lifecycle tests and the `geeky-orchestration/evals/scripts/run-codex-baseline.ps1` diff.
 5. `outputs/codex-v2-bridge-verification-20261027/` verification logs/results.
 
-Verified state: 126 tests and 45 subtests passed; review PASS. Exactly one
+Verified state: two suites passed, 63 tests and 63 tests with 45 subtests; review PASS. Exactly one
 synthetic real LiteLLM request returned MAPPING_OK with restored namespace and
 explicit empty encryption metadata, using 296 reported tokens. No tool was
 executed and no evaluation was started. The diagnostic listener is stopped.

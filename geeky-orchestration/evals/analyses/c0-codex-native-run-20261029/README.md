@@ -20,11 +20,11 @@ to fabricate an ID or bypass the mandatory gate and stopped correctly.
 Preparation failure: the operator verified native transport but failed to resolve
 this already-visible workflow conflict before declaring the next attempt ready.
 The earlier Claude run had disclosed the same commit-gate failure as a self-declared
-exception. Current readiness is BLOCKED pending a legitimate pre-task commit rule
+exception. Readiness at the time of this run was BLOCKED pending a legitimate pre-task commit rule
 and regression proof for the exact prescribed spec message, while retaining task
 references for implementation commits. No fix or retry is claimed here.
 
-## Proposed unblock (specified, not yet applied)
+## Proposed unblock (applied later in 629ae3f)
 
 Specified on 29 October 2026. The gate contradiction is the only blocker this run
 exposed. The fix stays narrow:

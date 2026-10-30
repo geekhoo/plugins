@@ -12,7 +12,7 @@
 
 - Attribute Codex's upstream malformed representation: route/parser source and raw upstream bytes unavailable in retained evidence.
 - Demonstrate live tool compatibility and budget effectiveness; no live activity authorized.
-- Incorporate changes into a reviewed source commit when authorized, refresh pins and preparation; no commit or launch authorized here.
+- Incorporate changes into a reviewed source commit when authorized, refresh pins and preparation; no commit or launch authorized here. Done later: committed in `b74536a`, see [Luna preparation](../c0-luna-preparation-20261028/README.md).
 
 ## Runtime
 
