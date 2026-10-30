@@ -1,5 +1,11 @@
 # Eval runs: lessons learned
 
+## One gateway 502 ended a run because retries were off, 2026-10-30
+
+Run `20261030T150121Z-a55a910b` died at 809 s on a single LiteLLM 502 that came back in under 0.2 s. The run profile had set Codex's request and stream retries to 0, so nothing absorbed it. The proxy kept no error body, so the cause is unknown. Codex never retries 4xx, so retries do not hide route errors. Keep two retries on run profiles and zero on probes, and keep redacted upstream error excerpts in the proxy's stderr log.
+
+Preparation writes `evals/baselines/<case>/<stamp>/run.json` even without `-Launch`, and `-Launch` makes its own stamp. Move the prepared folder out of the repo before a clean-tree launch check.
+
 ## LiteLLM drops agent_message input when tools are present, 2026-10-30
 
 The T1 stop in [the plan-freeze follow-up](analyses/c0-plan-freeze-native-result-20261030/README.md) came from delivery after all. All 16 forked agents worked and all 7 cold implementers denied having a task. Forked agents could read their brief in the inherited `spawn_agent` call; cold ones had only the `agent_message`. Five cold workers with briefs from 403 to 10,989 characters each billed exactly 13,233 input tokens, so the brief never reached the prompt.

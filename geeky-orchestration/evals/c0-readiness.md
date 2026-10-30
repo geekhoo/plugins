@@ -2,6 +2,8 @@
 
 **Latest native C0 attempt, 2026-10-30: NOT ACCEPTED; crash during plan-review.** Run `20261030T150121Z-a55a910b` at source `ef2cd7f` ended after 809.255 seconds on a proxy-reported 502. Oracle 0/13 x3 (missing-package setup errors), Langfuse 9 traces / 198 observations. No cold implementation worker was captured; the agent-message fix remains live-unverified for cold workers. Strict score and parity are withheld because the trace is incomplete. One initial invocation, zero recoveries or retries; the attempt is consumed. See [terminal record](analyses/c0-native-result-20261030b/README.md).
 
+**Post-closeout diagnosis.** The 502 came from LiteLLM in under 0.2 seconds, and the run profile had Codex retries at 0, so one error ended the attempt. The `agent_message` lowering ran live six times without error. Main now allows 2 request and 2 stream retries and logs redacted upstream error excerpts in the proxy's stderr. A new attempt needs fresh owner authorization, preparation from the new HEAD, and the prepared baseline moved out of the repo before launch.
+
 **Historical 2026-10-30 preparation: initial launch blocked before invocation.** Preparation `20261030T143704Z-4ab4c0dc` at `7cf5b3f` passed the eight-role and prompt readback, but produced an untracked baseline directory. The single `launch.ps1` invocation failed its clean-tree gate before the attempt claim or runner call. No live run, oracle, telemetry readback, worker assessment or parity score exists for this preparation. No retry was performed. See [blocked launch record](analyses/c0-native-result-20261030b/README.md).
 
 **Latest W6 result, 2026-10-30: NOT ACCEPTED at geeky-implement/T1 Blocked.**

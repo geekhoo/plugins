@@ -13,6 +13,16 @@ Run `20261030T150121Z-a55a910b` is **NOT ACCEPTED**. The single authorized initi
 | Strict scoring and scoped parity | Withheld: strict scorer exit 2 on incomplete failed trace and missing cumulative token count; scoped parity exit 1 because no score source exists. No synthetic input or score published. |
 | Credential scan | Terminal baseline scan passed for current literal credentials; final staged scan performed before commit. |
 
+## Cause, found after closeout
+
+The 502 came from LiteLLM, not from the local proxy. The proxy passes any upstream 4xx or 5xx status through unchanged (`litellm_bridge/server.py`), and its own 502 paths carry other codes. The failing request was the main thread's first call after a recheck reviewer's verdict arrived at 15:15:06.991Z. The turn ended at 15:15:07.161Z, so the gateway answered in under 0.2 seconds: a fast rejection, not a timeout. The proxy kept no error body, Langfuse holds only Codex-side traces, and this LiteLLM key gets 403 on `/spend/logs`. The upstream cause is unknown.
+
+One 502 ended the run because the run profile set Codex's `request_max_retries` and `stream_max_retries` to 0. Codex would otherwise retry a 5xx.
+
+The `agent_message` lowering (`3bfc927`) did run live. Six reviewer messages to the main thread were lowered, and each was followed by a successful request. Cold implementation workers were not reached, so their brief delivery is still unverified.
+
+The commit that adds this section also changes the harness: the run profile allows 2 request and 2 stream retries, and the proxy writes each upstream error's status, trace headers and a redacted body excerpt to its stderr log. Native probes keep zero retries. The verdict stands: NOT ACCEPTED, capture bytes unchanged.
+
 ## Preparation and provenance
 
 The original preparation `20261030T143704Z-4ab4c0dc` at `7cf5b3f` never launched. Its untracked baseline caused the first launch script invocation to fail before claim; it was archived in `ef2cd7f`. On relaunch, the first offline preparation stopped at an existing provenance report; that report and prior preparation artifacts were preserved and offline preparation was rerun. Its eight role files and prompt hash passed; its new preparation baseline was moved to the ignored operator folder with hashes verified before the clean-tree launch gate. The live runner generated a separate run ID and one attempt claim. The carried authorization-reference string in run metadata names the original `7cf5b3f`; the owner's relaunch explicitly authorized this attempt after the archive commit and run.json binds the actual source `ef2cd7f`. No source, prompt, scoring code or rubric was changed.

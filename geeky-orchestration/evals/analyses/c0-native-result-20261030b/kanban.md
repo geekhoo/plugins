@@ -10,4 +10,5 @@
 | Cold-worker brief check | Unreached | Eight captured workers forked; no cold implementation worker |
 | Strict score / scoped parity | Withheld | Incomplete trace, no complete score source |
 | Records, staged scan, local commit | Done before commit | This folder, readiness and index updates; local scan report |
+| Post-closeout diagnosis and harness fixes | Done offline; live unverified | README "Cause, found after closeout"; retries 2/2; proxy upstream error log |
 | Further attempt / push | Not authorized / not performed | No retry, resume, provider probe, overtime or push |
