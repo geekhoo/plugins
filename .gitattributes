@@ -47,3 +47,7 @@ geeky-orchestration/evals/analyses/c0-prelaunch-adjustments-20261029/** -text
 
 # Preserve authorized native C0 operation records.
 geeky-orchestration/evals/analyses/c0-luna-native-authorized-20261029/** -text
+
+# Preserve the authorized Luna/high attempt and terminal evidence exactly.
+geeky-orchestration/evals/baselines/c0-wordstat/20261029T160022Z-45641609/** -text
+geeky-orchestration/evals/analyses/c0-luna-native-result-20261030/** -text

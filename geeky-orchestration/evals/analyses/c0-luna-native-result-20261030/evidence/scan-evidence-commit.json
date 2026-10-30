@@ -1,0 +1,1036 @@
+{
+  "status": "PASS",
+  "staged_files": 257,
+  "checked_files_or_blobs": 257,
+  "hits": [],
+  "checked": [
+    {
+      "path": ".gitattributes",
+      "revision": "index"
+    },
+    {
+      "path": "README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/cleanup.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/evidence-pins.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/handoff.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/kanban.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/readiness-tests.log",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/references.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/regression-tests.log",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/verification.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-luna-native-authorized-20261029/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-luna-native-authorized-20261029/handoff.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-luna-native-authorized-20261029/kanban.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-luna-native-authorized-20261029/references.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/evidence-pins.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/handoff.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/kanban.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/plan.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/references.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/regression-tests.log",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/verification.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-prelaunch-adjustments-20261029/README.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-prelaunch-adjustments-20261029/alternative-fixture-pins.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-prelaunch-adjustments-20261029/handoff.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-prelaunch-adjustments-20261029/kanban.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-prelaunch-adjustments-20261029/plan.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-prelaunch-adjustments-20261029/references.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/analyses/c0-prelaunch-adjustments-20261029/verification.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/analysis.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/derived/analysis.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/derived/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/mock-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/oracle-output.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/oracle-seed-output.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/parity-preflight.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/rollout-manifest.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/session.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/solution.bundle",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101548Z-cb386bfa/stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/latest-native-attempt.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-170d1a13/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-18d39a08/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-39493419/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-4c353d5b/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-50a8757b/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-53987dc2/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-74d7436b/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/model-catalog-no-search.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-864e9a34/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-cc6bb580/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-d1518f08/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/native-attempts/native-probe-deb83e5c/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/parity-preflight.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T101748Z-14c41c7e/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/analysis.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/derived/analysis.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/derived/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/mock-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/oracle-output.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/oracle-seed-output.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/parity-preflight.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/rollout-manifest.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/session.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/solution.bundle",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143429Z-c595db7f/stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/latest-native-attempt.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/native-attempts/native-probe-1e750b3b/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/parity-preflight.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143627Z-523ca94a/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/latest-native-attempt.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/native-attempts/native-probe-1ab9bb4c/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/parity-preflight.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143857Z-7cbf00c3/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/latest-native-attempt.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/native-attempts/native-probe-7f2f76ff/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/parity-preflight.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T143916Z-c7b86970/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/latest-native-attempt.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/mxc-build-proof.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/mxc-build-provenance.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-fixture-requests.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-hook-catalog-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-hook-catalog.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-plugin-install-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-plugin-install.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-probe-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-probe-stdout.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-stderr.txt",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-stream.jsonl",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/native-attempts/native-probe-59bf975b/native-summary.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/parity-preflight.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/baselines/c0-wordstat/20261029T153619Z-353aea2e/run.json",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/c0-readiness.md",
+      "revision": "index"
+    }
+  ]
+}

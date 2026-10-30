@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "staged_files": 16,
+  "checked_files_or_blobs": 16,
+  "hits": [],
+  "checked": [
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/litellm-bridge.ps1",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/litellm_bridge/__main__.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/litellm_bridge/native_plaintext.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/litellm_bridge/server.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/litellm_bridge/test_native_plaintext.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/litellm_bridge/test_native_plaintext_http.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/native-probe.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/prepare-profile.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/run-native-probe.ps1",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_litellm_bridge_lifecycle.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_native_probe.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_profile.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/adapters/codex/test_worker_config.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/check-c0-readiness.py",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/run-codex-baseline.ps1",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/evals/scripts/test_run_lifecycle.py",
+      "revision": "index"
+    }
+  ]
+}

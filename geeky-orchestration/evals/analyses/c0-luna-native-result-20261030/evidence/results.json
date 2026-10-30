@@ -1,0 +1,79 @@
+{
+  "run_id": "20261029T160022Z-45641609",
+  "plugin_sha": "1e921e007aa2936a65e45616a39f1995f2afb442",
+  "configured_model": "vercel/gpt-6-luna",
+  "configured_effort": "high-all-roles",
+  "observed_threads_verified": 7,
+  "accepted": false,
+  "terminal_process_exit": 0,
+  "terminal_reason": "completed turn, blocked workflow",
+  "stage_reached": "plan-review",
+  "blocker": "T2 read/decode error validation gap and conflicting plan-review edit/frozen-task instructions",
+  "contestant_time_s": 1870.5419491999783,
+  "budget_s": 6000,
+  "reserve_s": 60,
+  "attempts": 1,
+  "recoveries": 0,
+  "resumes": 0,
+  "overtime": 0,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "langfuse": {
+    "traces": 8,
+    "observations": 391,
+    "truncated_observations": 0
+  },
+  "scores": {
+    "strict_score_run_exit": 2,
+    "quality_input_produced": false,
+    "qact_composite": null,
+    "parity_composite": null,
+    "reason": "T1: no source-supported implementation commit; final HEAD fallback forbidden",
+    "parity_status": "blocked by missing source-bound Quality; not fabricated",
+    "score_publication": false
+  },
+  "native_protocol": {
+    "structured_errors": 0,
+    "tagged_handoff_parts": 0,
+    "tool_search_calls": 0
+  },
+  "commits": [
+    {
+      "sha": "a3a2c2d60987b7ed29579e46955bd1a6671029c9",
+      "pushed": false
+    },
+    {
+      "sha": "0b4a5c088e1def48a205812be988de1d98396be7",
+      "pushed": false
+    },
+    {
+      "sha": "1e921e007aa2936a65e45616a39f1995f2afb442",
+      "pushed": false
+    }
+  ],
+  "candidate_head": "d03bfc723e1a6d03f502bc628d807c74ec616086",
+  "credential_scans": "PASS before all three commits; terminal 101 files zero literal hits",
+  "cleanup_verified": true,
+  "remaining": [
+    "No product implementation or final review",
+    "No source-bound QACT/parity composite",
+    "Newly exposed plan-freeze/edit conflict not changed during this attempt"
+  ],
+  "terra_investigation": {
+    "model": "gpt-6.1-terra",
+    "reasoning": "xhigh",
+    "report": "terra-investigation.md",
+    "changes_applied": false
+  },
+  "final_credential_scan": {
+    "status": "PASS",
+    "files": 140,
+    "hits": 0
+  }
+}

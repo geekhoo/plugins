@@ -1,5 +1,14 @@
 # C0 operator readiness and verification
 
+**Current result: NOT ACCEPTED; the new one-attempt authorization is consumed.**
+Run `20261029T160022Z-45641609` ended after 31m11s at plan-review with a real T2
+validation gap and conflicting freeze/edit rules. No implementation or final
+review was reached. Oracle 0/13 x3; telemetry 8 traces / 391 observations.
+Strict QACT/parity are withheld because no supported implementation commit
+exists. No transport error recurred. See [terminal evidence](analyses/c0-luna-native-result-20261030/README.md).
+No retry, resume or overtime is authorized; earlier preparation notes below
+are historical.
+
 The owner has now authorized committing the fixes and ONE fresh native Luna/high C0 attempt at6000/60 seconds. [Current authorized operation](analyses/c0-luna-native-authorized-20261029/README.md) tracks clean-HEAD preparation, actual launch and terminal acceptance/scoring. The earlier no-paid state below is preauthorization history.
 
 The owner selected retaining Luna/high through LiteLLM for the next comparison.

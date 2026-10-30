@@ -1,5 +1,9 @@
 # Authorized attempt handoff
 
+TERMINAL: authorization consumed by `20261029T160022Z-45641609`. Read
+`../c0-luna-native-result-20261030/handoff.md` for current state. The original
+prelaunch instructions below are historical and must not be executed again.
+
 Windows11, PowerShell7. Workdir C:\Users\gerald.khoo\geekhoo-plugins, main.
 Verify base c2287f7e7978f72bdce1dfbee8717323d7d98857 and fixes a3a2c2d,0b4a5c0
 through Git. Read README.md, kanban.md, references.md, then local

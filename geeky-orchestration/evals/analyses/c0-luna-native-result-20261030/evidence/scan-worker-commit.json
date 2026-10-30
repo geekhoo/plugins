@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "staged_files": 7,
+  "checked_files_or_blobs": 7,
+  "hits": [],
+  "checked": [
+    {
+      "path": ".agents/geeky-coder.md",
+      "revision": "index"
+    },
+    {
+      "path": ".claude/agents/geeky-coder.md",
+      "revision": "index"
+    },
+    {
+      "path": ".codex/agents/geeky-coder.toml",
+      "revision": "index"
+    },
+    {
+      "path": ".cursor/agents/geeky-coder.md",
+      "revision": "index"
+    },
+    {
+      "path": ".github/agents/geeky-coder.agent.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/agents/geeky-coder.md",
+      "revision": "index"
+    },
+    {
+      "path": "geeky-orchestration/skills/geeky-implement/references/execution-protocol.md",
+      "revision": "index"
+    }
+  ]
+}

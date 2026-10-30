@@ -1,0 +1,8 @@
+{
+  "pluginId": "geeky-orchestration@geeky-eval",
+  "name": "geeky-orchestration",
+  "marketplaceName": "geeky-eval",
+  "version": "0.3.0-eval.b678e522c7df",
+  "installedPath": "C:\\Repos\\c0-luna-authorized-20261029-319ebeb3\\codex-home\\plugins\\cache\\geeky-eval\\geeky-orchestration\\0.3.0-eval.b678e522c7df",
+  "authPolicy": "ON_INSTALL"
+}

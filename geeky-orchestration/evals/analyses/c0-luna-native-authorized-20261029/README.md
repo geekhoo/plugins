@@ -1,5 +1,11 @@
 # Authorized native Luna/high C0 attempt
 
+Terminal update: the one attempt was consumed as `20261029T160022Z-45641609`.
+It ended after 31m11s with process 0 but actual NOT ACCEPTED at plan-review.
+Oracle 0/13 x3; Langfuse 8 traces / 391 observations; strict scores withheld.
+See [terminal result](../c0-luna-native-result-20261030/README.md). The preparation
+and authorization notes below retain their prelaunch state; no resume is allowed.
+
 The owner explicitly authorized source commits after literal credential scans,
 fresh clean-HEAD preparation, then exactly one native Codex C0 MXC attempt.
 Selected model: vercel/gpt-6-luna/high on main, workers and reviewers. The brief

@@ -1,5 +1,7 @@
 # References
 
+- [Terminal non-acceptance and score withholding](../c0-luna-native-result-20261030/README.md).
+
 - Direct owner instruction: commit fixes after credential scan, clean HEAD,
   one native Codex C0 Luna/high attempt6000/60, no retries/resumes/overtime.
 - Latest timing instruction: keep back to 6000s; supersedes 30-minute correction.

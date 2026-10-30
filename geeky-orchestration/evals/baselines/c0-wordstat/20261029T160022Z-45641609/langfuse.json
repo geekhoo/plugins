@@ -1,0 +1,114 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "codex-mxc-win-c0-wordstat-20261029T160022Z-45641609",
+  "traces": 8,
+  "observations": 391,
+  "by_type": {
+    "GENERATION": 173,
+    "TOOL": 210,
+    "AGENT": 8
+  },
+  "generations": 173,
+  "tool_calls": 210,
+  "subagents": 7,
+  "user_ids": [
+    "codex-mxc-win-orchestrator-01a18864-2d5b-70b0-b664-0bf5b2e1ea69",
+    "codex-mxc-win-reviewer-lorentz-01a18879-d762-71b3-8ca2-61998bed9612",
+    "codex-mxc-win-reviewer-ptolemy-01a18874-63d8-7432-b499-16d469c20c2b",
+    "codex-mxc-win-unknown-bohr-01a18866-bdb8-7911-add1-e55d0ad53b70",
+    "codex-mxc-win-unknown-helmholtz-01a18865-1bcf-7c60-be49-92298b261b83",
+    "codex-mxc-win-unknown-sagan-01a18865-16fe-7471-a77a-134452aac8f2",
+    "codex-mxc-win-unknown-singer-01a18865-1922-76d0-ab23-cb189470a7e5"
+  ],
+  "agent_roles": [
+    "orchestrator",
+    "reviewer",
+    "unknown"
+  ],
+  "agent_families": [
+    "codex-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 480352,
+    "output": 57718,
+    "total": 10598691,
+    "input_cached_tokens": 10001428,
+    "output_reasoning_tokens": 59193
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-29T16:00:30.255Z",
+  "last_start": "2026-10-29T16:31:09.338Z",
+  "top_names": [
+    [
+      "exec_command",
+      182
+    ],
+    [
+      "LLM",
+      141
+    ],
+    [
+      "LLM Subagent",
+      32
+    ],
+    [
+      "list_agents",
+      9
+    ],
+    [
+      "wait_agent",
+      6
+    ],
+    [
+      "spawn_agent",
+      6
+    ],
+    [
+      "send_message",
+      3
+    ],
+    [
+      "geeky_check_frozen_artifact",
+      2
+    ],
+    [
+      "codex-mxc-win-unknown-singer",
+      2
+    ],
+    [
+      "skill:plan-review",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-lorentz",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-ptolemy",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-bohr",
+      1
+    ],
+    [
+      "followup_task",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-helmholtz",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-sagan",
+      1
+    ],
+    [
+      "codex-mxc-win-orchestrator",
+      1
+    ]
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "strict_score_run_exit": 2,
+  "quality_input_produced": false,
+  "qact_composite": null,
+  "parity_composite": null,
+  "reason": "T1: no source-supported implementation commit; final HEAD fallback forbidden",
+  "parity_status": "blocked by missing source-bound Quality; not fabricated",
+  "score_publication": false
+}

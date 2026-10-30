@@ -1,5 +1,7 @@
 # geekhoo plugins
 
+[Actual Luna/high C0 result](geeky-orchestration/evals/analyses/c0-luna-native-result-20261030/README.md): NOT ACCEPTED at plan-review after 31m11s; T2 validation gap and frozen-plan/edit conflict. Oracle 0/13 x3; Langfuse 8 traces/391 observations; strict scores withheld. One attempt consumed, no retry/resume/overtime.
+
 [Native encrypted-output compatibility fix](geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/README.md) implements plaintext V2 collaboration and eager MCP. Offline verification: 290 tests, 64 subtests, 10 readiness tests, 69/69 real-Codex MXC checks, scripted C0 oracle 13/13 x3. Source is uncommitted; no paid run or provider probe was used.
 
 [Offline C0 remediation](geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/README.md): full scripted C0 mock passes; five real-Codex MXC fixture configurations pass 105/105 checks. Fixes are uncommitted; live upstream compatibility remains unverified.

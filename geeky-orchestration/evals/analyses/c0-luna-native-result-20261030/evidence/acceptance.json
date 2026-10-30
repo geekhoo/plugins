@@ -1,0 +1,70 @@
+{
+  "accepted": false,
+  "reason": "Critical T2 read/decode validation gap; conflicting plan-review edit/frozen-artifact rules; plan blocked",
+  "process_exit_code": 0,
+  "process_exit_reason": "completed",
+  "stage_reached": "plan-review",
+  "implementation_reached": false,
+  "final_review_reached": false,
+  "completed_tasks": 0,
+  "candidate_head": "d03bfc723e1a6d03f502bc628d807c74ec616086",
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "contestant_time_s": 1870.5419491999783,
+  "deadline_utc": "2026-10-29T17:40:22.8407389Z",
+  "budget_s": 6000,
+  "reserve_s": 60,
+  "timeout": false,
+  "attempts": 1,
+  "recoveries": 0,
+  "observed_thread_models": {
+    "session.jsonl": [
+      {
+        "model": "vercel/gpt-6-luna",
+        "effort": "high"
+      }
+    ],
+    "rollout-01a18865-16fe-7471-a77a-134452aac8f2.jsonl": [
+      {
+        "model": "vercel/gpt-6-luna",
+        "effort": "high"
+      }
+    ],
+    "rollout-01a18865-1922-76d0-ab23-cb189470a7e5.jsonl": [
+      {
+        "model": "vercel/gpt-6-luna",
+        "effort": "high"
+      }
+    ],
+    "rollout-01a18865-1bcf-7c60-be49-92298b261b83.jsonl": [
+      {
+        "model": "vercel/gpt-6-luna",
+        "effort": "high"
+      }
+    ],
+    "rollout-01a18866-bdb8-7911-add1-e55d0ad53b70.jsonl": [
+      {
+        "model": "vercel/gpt-6-luna",
+        "effort": "high"
+      }
+    ],
+    "rollout-01a18874-63d8-7432-b499-16d469c20c2b.jsonl": [
+      {
+        "model": "vercel/gpt-6-luna",
+        "effort": "high"
+      }
+    ],
+    "rollout-01a18879-d762-71b3-8ca2-61998bed9612.jsonl": [
+      {
+        "model": "vercel/gpt-6-luna",
+        "effort": "high"
+      }
+    ]
+  }
+}
