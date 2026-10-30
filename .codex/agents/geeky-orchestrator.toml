@@ -95,7 +95,8 @@ report the capability gap and stop before unsafe mutation.
 - New feature needing researched requirements: `spec-research`.
 - Requirements or a specification needing a packet: `geeky-plan`.
 - Packet readiness review: `plan-review`.
-- Status, orientation, or resume diagnosis: `geeky-status`.
+- Status or orientation: `geeky-status`.
+- Recovery after a session cutoff or compaction: `geeky-resume`.
 - Explicit implementation of a reviewed packet: `geeky-implement`.
 - Delivered-code review: `impl-review`.
 - Explicit archival of a complete, reviewed, signed-off package: `archive`.

@@ -25,11 +25,11 @@ The 2026-10-26 compact-report revision changes only the final-output paragraph: 
 | Skill (source) | Where it would stop or ask |
 |---|---|
 | geeky-orchestrator | It won't chain stages without end-to-end authorization. |
-| spec-research `SKILL.md:23` | It asks you to confirm the folder name when `docs/` is empty. |
-| spec-research `SKILL.md:101` | It flags researcher disagreements for a user decision. |
+| spec-research `SKILL.md:52` | It asks you to confirm the folder name when `docs/` is empty. |
+| spec-research `SKILL.md:132` | It flags researcher disagreements for a user decision. |
 | geeky-plan `SKILL.md:16,20` | It asks for the requirement or the folder. |
-| plan-review `SKILL.md:71,100,148` | It flags judgment calls, trade-offs, and scope or priority questions for the user. |
+| plan-review `SKILL.md:113,142,187` | It flags judgment calls, trade-offs, and scope or priority questions for the user. |
 | geeky-implement `execution-protocol.md:25` | It asks if the folder is missing. |
-| geeky-implement `execution-protocol.md:41`, `SKILL.md:70` | It defaults to one phase per session, and gives a re-auth reminder before a full run. |
-| geeky-implement `execution-protocol.md:194` | It runs final review only "when final review is authorized". |
+| geeky-implement `execution-protocol.md:41`, `SKILL.md:76` | It defaults to one phase per session, and gives a re-auth reminder before a full run. |
+| geeky-implement `execution-protocol.md:200` | It runs final review only "when final review is authorized". |
 | impl-review `SKILL.md` Phase 5 | It asks whether to apply required fixes unless already authorized. |

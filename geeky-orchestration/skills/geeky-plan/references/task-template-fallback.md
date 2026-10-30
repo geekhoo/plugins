@@ -11,40 +11,39 @@ Context:
 
 Scope:
 
-## In scope:
-
-- [What is being changed and where]
+In scope:
+---
+- [Bullet what is being changed and where, with file paths/modules]
 
 ## Out of scope:
-
-- [What is intentionally NOT being changed]
+- [Bullet what is intentionally NOT being changed in this task]
 
 Module/System:
-[Where this belongs]
+[Where this belongs — package, layer, or subsystem]
 
 ## Dependencies:
 
-- [Tx-task-name or None]
+* [Tx-task-name if any, otherwise None]
 
 ## Technical Notes:
-
-- [Constraints, invariants, links to plan sections]
+- [Any constraints, invariants, gotchas the implementer must know]
+- [Links to relevant sections of implementation-plan.md / feature-specification.md by heading]
 
 ## Acceptance Criteria:
 
--
--
+* [Behavioral / observable outcome 1]
+* [Behavioral / observable outcome 2]
 
 Definition of Done:
 
-- Code reviewed
-- Tested (manual/unit)
-- [Deployment evidence, only when required by the approved task scope]
-- No critical bugs
+* Code reviewed
+* Tested (manual/unit)
+* [Deployment evidence, only when required by the approved task scope]
+* No critical bugs
 
 Tests/Validation Before Next Task:
-
-- [Exact commands that must pass]
+- [Exact command(s) that must pass before the next task is started]
+- [E.g. `python -m compileall app`, `pytest tests/test_x.py -q`]
 
 Estimate:
 [S/M/L]

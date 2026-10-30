@@ -1,6 +1,6 @@
 ---
 name: geeky-status
-description: Read-only status snapshot of a geeky-plan / geeky-implement planning folder. Reports kanban lane counts, in-progress and blocked tasks, recent task notes, the last handoff entry, deferred follow-ups, and a suggested next step. No agents, no edits, no commits. Use when asked where a planning/implementation effort stands or to inspect a kanban folder before resuming. When resuming after a session cutoff/compaction, use geeky-resume instead — it reconciles the kanban against live git state. Invoked by the /geeky-status command and usable directly by any agent.
+description: Read-only status snapshot of a geeky-plan / geeky-implement planning folder. Reports kanban lane counts, in-progress and blocked tasks, recent task notes, the last handoff entry, deferred follow-ups, and a suggested next step. No agents, no edits, no commits. Use when asked where a planning/implementation effort stands or to inspect a kanban folder before resuming. When resuming after a session cutoff/compaction, use geeky-resume instead — it reconciles the kanban against live git state. This is the geeky-status skill. Invoke it by its skill name; any agent can use it directly.
 ---
 
 Use the shared [workflow terminology](../../AGENTS.md#workflow-terminology).
@@ -25,9 +25,9 @@ Fast situational awareness when resuming a planning/implementation session. Answ
    - Windows: `pwsh -NoProfile -ExecutionPolicy Bypass -File "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.ps1" -Path "<folder>"`
    - cross-platform: `python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.py" --path "<folder>"`
 
-2. **Read** `kanban.md`, `handoff.md`, and the last `review-*.md` in the folder. If `tasks/` exists, glob `tasks/T[0-9]*.md` (this pattern matches T1-foo.md, T10-bar.md, etc., but excludes T1-foo.notes.md and non-task files) to get the total task count.
+2. **Read** `kanban.md`, `handoff.md`, and the last `review-*.md` in the folder. If `tasks/` exists, glob `tasks/T[0-9]*.md` and skip every name ending `.notes.md` (case-insensitive, as `validate-kanban.py` does). The glob also matches `T1-foo.notes.md`, so the skip is required. The remaining files give the total task count.
 
-3. **Parse `kanban.md`** into lane counts. Recognise these lane headings (case-insensitive, any heading depth): Backlog, Ready, In Progress, Blocked, In Review, Done. For each task in `In Progress` or `Blocked`, capture the task ID (e.g., T1, T2), extract the **task title from the first line of the corresponding `tasks/Tx-*.md` file** (usually the line after `Task Name:` in the template, or the first heading if the template differs), and any trailing `<!-- ... -->` timestamp comment from the kanban line.
+3. **Parse `kanban.md`** into lane counts. Recognise these lane headings (case-insensitive, any heading depth): Backlog, Ready, In Progress, Blocked, In Review, Done. For each task in `In Progress` or `Blocked`, capture the task ID (e.g., T1, T2), extract the **task title from the corresponding `tasks/Tx-*.md` file**: use the value after `Task Name:` (the same line, or the next non-blank line when `Task Name:` stands alone, as in the template). If there is no `Task Name:` line, use the first heading, and any trailing `<!-- ... -->` timestamp comment from the kanban line.
 
 4. **Read recent `tasks/Tx-*.notes.md` files** (sorted by modified time, most recent 3). Pull out the SUMMARY line and the VALIDATION line from each, if present.
 

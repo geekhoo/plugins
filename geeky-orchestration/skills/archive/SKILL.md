@@ -54,6 +54,8 @@ Move these planning artifacts with `git mv` into `archives/docs/<folder-name>-pl
 - `tasks/` (entire directory)
 - `tasks/T*.notes.md` (if present)
 - `review-development-project-manager.md` (if present)
+- `review-plan.md` (if present)
+- `review-impl.md` (if present)
 - `implementation-plan.md`
 - `draft.md` (if present)
 - Any `*-prompt.md` files (handoff-prompt, optimization-prompt, etc.)
@@ -91,11 +93,11 @@ In the `## Current State` section:
 
 ### 8. Commit
 
-Same command on all platforms (bash and pwsh):
+Same command on all platforms (bash and pwsh). Stage only the archive paths, not unrelated changes. Drop `CLAUDE.md` or `AGENTS.md` from the list if the repo does not have it:
 
 ```bash
-git add -A
-git commit -m "chore: Archive completed planning package" -m "Move planning artifacts to archives/docs/<folder-name>-planning/" -m "Keep implementation specification, handoff, and README in docs/<folder-name>/" -m "Update CLAUDE.md / AGENTS.md current state"
+git add -A -- docs/<folder-name> archives/docs/<folder-name>-planning CLAUDE.md AGENTS.md
+git commit -m "docs(archive): archive <folder-name> planning package" -m "Move planning artifacts to archives/docs/<folder-name>-planning/" -m "Keep implementation specification, handoff, and README in docs/<folder-name>/" -m "Update CLAUDE.md / AGENTS.md current state" -m "Tasks: none"
 ```
 
 ### 9. Verify

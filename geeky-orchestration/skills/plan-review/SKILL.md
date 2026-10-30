@@ -143,7 +143,7 @@ Save the sequencing reviewer ID, input revision/file hashes, findings and verdic
 
 ### Phase 4: Sanity Pass
 
-The parent checks unresolved findings, both current reviewer verdicts, the complete document diff since their recorded inputs (including untracked additions), and changed content/affected references. Reuse the initial whole-folder coverage of all six sanity dimensions; reopen reviews only under the invalidation rules above. If the baseline or impact cannot be bounded, perform the full sanity pass and obtain fresh affected verdicts.
+The parent checks unresolved findings, both current reviewer verdicts, the complete document diff since their recorded inputs (including untracked additions), and changed content/affected references. Reuse the initial whole-folder coverage of Phase 1 cross-validation checks 1-16; reopen reviews only under the invalidation rules above. If the baseline or impact cannot be bounded, perform the full sanity pass and obtain fresh affected verdicts.
 
 After all corrections, including sequencing corrections, re-run all three Phase 1 validators (or their stated fallback if unavailable). Save commands/results and reuse/recheck decisions in `review-plan.md` Phase 4. Required findings or missing required evidence prevent READY FOR IMPLEMENTATION; optional suggestions alone need no further review.
 

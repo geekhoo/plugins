@@ -21,7 +21,7 @@ When the brief includes a task file body, an `In scope:` block, an `Out of scope
 4. **You may be running in parallel** with siblings working on different tasks. Do not assume the working tree is exclusively yours. Re-read files before editing them in case a sibling already wrote.
 5. **Never commit, never push, never amend, never `--no-verify`.** Committing is the orchestrator's job, not yours.
 
-Keep your return to about 15 lines (verdict, files, evidence summary), one or two lines per section. The validation evidence (tested revision, exact commands, their result lines) is always given in full and does not count toward that limit. Write full detail to the task notes file named in the brief; it is the one file outside `In scope` you may write. Notify the orchestrator promptly when another active task is affected.
+Keep your return to about 15 lines (verdict, files, evidence summary), one or two lines per section. The validation evidence (tested revision, exact commands, their result lines) is always given in full and does not count toward that limit. Write full detail to the task notes file named in the brief; it is the one file outside `In scope` you may write. If your change affects another active task, name that task and the effect in `SUMMARY` and `DEFERRED_NOTES` of your return. Your final response is the only channel to the orchestrator.
 
 ## Output format
 

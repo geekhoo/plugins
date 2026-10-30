@@ -45,7 +45,7 @@ Rate each potential issue on a scale from 0-100:
 - **75**: Highly confident. Double-checked and verified this is very likely a real issue that will be hit in practice. The existing approach is insufficient. Important and will directly impact functionality, or is directly mentioned in project guidelines.
 - **100**: Absolutely certain. Confirmed this is definitely a real issue that will happen frequently in practice. The evidence directly confirms this.
 
-**Only report issues with confidence ≥ 80.** Focus on issues that truly matter - quality over quantity.
+**In the default unassigned review, only report issues with confidence ≥ 80.** Focus on issues that truly matter - quality over quantity. When assigned by geeky-orchestration, follow the verdict contract in Review Scope instead. Report every blocking finding and every unproved AC or test, whatever its score.
 
 ## Output Guidance
 
