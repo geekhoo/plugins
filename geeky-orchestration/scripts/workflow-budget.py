@@ -14,7 +14,7 @@ import os
 
 STAGE_TARGETS = {
     "spec-research": .15, "geeky-plan": .30, "plan-review": .40,
-    "geeky-implement": .90, "impl-review": 1.0,
+    "geeky-implement": .75, "impl-review": 1.0,
 }
 
 

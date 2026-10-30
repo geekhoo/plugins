@@ -29,6 +29,13 @@ def test_cumulative_targets_leave_implementation_time():
     assert result["status"] == "active"
 
 
+def test_implementation_target_reserves_a_quarter_for_final_review():
+    result = budget.evaluate("geeky-implement", context(), NOW)
+    assert result["stage_target_remaining_s"] == 4455
+    review = budget.evaluate("impl-review", context(), NOW)
+    assert review["stage_target_remaining_s"] - result["stage_target_remaining_s"] == 1485
+
+
 def test_replaying_claude_timeline_surfaces_overrun_before_coding():
     research = budget.evaluate("spec-research", context(1800), NOW)
     plan = budget.evaluate("geeky-plan", context(4500), NOW)
