@@ -12,7 +12,7 @@ This section applies only to operators in the source checkout. Contestant export
 ## The workflow
 
 1. **spec-research** — research and write `feature-specification.md`.
-2. **geeky-plan** — create the frozen planning package.
+2. **geeky-plan** — create the planning package for review.
 3. **plan-review** — validate alignment, coverage, sequencing, and readiness.
 4. **geeky-status** — read-only status and resumption orientation at any packet stage.
 5. **geeky-implement** — execute Ready tasks with validation and review gates.
@@ -50,7 +50,9 @@ fields and checkpoint markers remain unchanged.
 
 ## The planning-folder contract
 
-**Frozen** (never edit mid-run — they are the contract between plan and implement):
+The plan, task bodies, draft and references remain editable through plan-review; each correction follows plan-review's invalidation rules (a bounded mechanical fix needs a changed-content/reference check; scope, requirement, AC or sequencing edits need a fresh affected verdict), then the contract freezes at plan-review's final verdict and stays frozen from geeky-implement onward (`feature-specification.md` stays frozen except for mechanical fixes).
+
+**Frozen during implementation** (they are the contract between plan and implement):
 `implementation-plan.md`, `feature-specification.md`, `draft.md`, `references.md`,
 and every `tasks/Tx-*.md` body. If the plan is genuinely wrong, surface it via the
 kanban **Blocked** lane + `handoff.md` instead of editing the contract.

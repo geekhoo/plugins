@@ -89,12 +89,17 @@ Deploy a review subagent for the semantic cross-validation the scripts cannot co
 13. **Completeness** — table-of-contents sections exist and every “see X” link resolves
 14. **Freshness** — dates, versions and task counts are current
 15. **Convention adherence** — applicable CLAUDE.md/AGENTS.md conventions are reflected in tasks
+16. **In-task acceptance evidence** — each task's Tests/Validation block contains a check for every one of its acceptance criteria, executable before the task advances; tests that exist only in later tasks do not count as evidence for earlier tasks. Expected outputs and messages, including error text and matching predicates, quote the source requirement verbatim, preserving positional conditions (prefix, suffix, exact line) rather than paraphrasing them.
 
 **Handling optional sections:** If a document contains a section stub marked as optional or placeholder (e.g., "[Optional: X]", "TBD"), do NOT flag it as missing content — optional stubs are valid and expected in planning packages.
 
 **Output:** In `review-plan.md` Phase 1, save the alignment reviewer ID, input revision/file hashes, findings and verdict with severity levels (Critical / Warning / Suggestion, within the plan-review scope).
 
 ### Phase 2: Issue Resolution
+
+The planning contract remains open during this phase: Critical findings and unambiguous fixes may edit `implementation-plan.md`, `draft.md`, `references.md`, and `tasks/Tx-*.md`. Each such edit follows the invalidation rules above. A bounded mechanical fix needs a changed-content/reference check; scope, requirement, AC or sequencing edits need a fresh affected verdict. `feature-specification.md` stays frozen except for mechanical fixes; this stage does not authorize requirement changes. The contract freezes when plan-review records its final verdict and remains frozen from geeky-implement onward.
+
+For guard invocations while making these corrections, set `GEEKY_STAGE=plan-review` (`$env:GEEKY_STAGE='plan-review'` in PowerShell; `export GEEKY_STAGE=plan-review` in a POSIX shell). For `geeky_check_frozen_artifact`, pass `stage: "plan-review"` explicitly alongside `file_path` inside `params`; a missing stage stays frozen. Restore or unset the environment stage on every exit from plan-review, before implementation starts. Pass the stage to correction workers and guard subprocesses only for this review window.
 
 For each finding from Phase 1:
 

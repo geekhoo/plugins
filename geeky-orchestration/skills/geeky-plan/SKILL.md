@@ -58,7 +58,9 @@ If the budget stops this stage, record missing artifacts, reviews and validators
    `references/task-template-fallback.md` (kept in sync with `templates/task_template.md`;
    the bundled template is canonical).
 
-5. **Coverage check — MUST not miss anything.** Write `draft.md` to disk: a `# Coverage Matrix` table mapping every requirement in `$ARGUMENTS` to the task(s) that satisfy it. Required columns (exact): Requirement ID, Requirement Summary, Covered by Task(s), Status. Each requirement must have at least one task; each task must trace to at least one requirement. Then read `draft.md` back and verify completeness. Fix gaps before proceeding.
+   Each task's Tests/Validation block must contain a check for every one of that task's acceptance criteria, including required error status, streams and wording. Tests may live in a separate file, but the task must run them before it advances; a test that exists only in a later task does not count as evidence for an earlier one. Expected outputs and messages, including error text and their matching predicates, must quote the source requirement verbatim; do not paraphrase them or loosen a positional condition (prefix, suffix, exact line).
+
+5. **Coverage check — MUST not miss anything.** Write `draft.md` to disk: a `# Coverage Matrix` table mapping every requirement in `$ARGUMENTS` to the task(s) that satisfy it. Required columns (exact): Requirement ID, Requirement Summary, Covered by Task(s), Status. Each requirement must have at least one task; each task must trace to at least one requirement. Then read `draft.md` back and verify completeness. Also self-check each task's acceptance criteria against its own validation block: every criterion needs a check that can run before the task advances, without relying on tests added only by a later task. Verify expected outputs, messages and their predicates against the source requirement verbatim. Fix gaps before proceeding.
 
 6. Delegate a PM-style review of the plan + tasks as a whole. **Reviewer selection order (first match wins):**
    1. A `development-project-manager` agent if available in the environment
@@ -66,7 +68,7 @@ If the budget stops this stage, record missing artifacts, reviews and validators
    3. A general-purpose subagent briefed with explicit PM-review instructions
    4. Perform the review directly in a dedicated pass
 
-   The review must check coverage, sequencing, dependency correctness, and scope gaps. Request actionable findings with requirement/task references and a concise verdict; avoid restating the package. Record suggestions separately from required fixes. Save the result as `review-development-project-manager.md` (exact filename — downstream skills look for it). Intelligently resolve all gaps but note them inside the review document.
+   The review must check coverage, sequencing, dependency correctness, and scope gaps. For every task, require a check in its own validation block for every acceptance criterion; later-task-only tests are not evidence for an earlier task. Check that expected outputs, messages and matching predicates quote the source requirement verbatim. Request actionable findings with requirement/task references and a concise verdict; avoid restating the package. Record suggestions separately from required fixes. Save the result as `review-development-project-manager.md` (exact filename — downstream skills look for it). Intelligently resolve all gaps but note them inside the review document.
 
 7. Create a Kanban markdown `kanban.md` for tracking task progress. Standard lanes: Backlog, Ready, In Progress, Blocked, In Review, Done, plus a Validation Checklist (release gate). Place every newly-created task in **Ready** unless an explicit dependency keeps it in Backlog.
 
@@ -96,4 +98,4 @@ Additional artifacts may be created beyond these.
 
 ## Frozen planning contract
 
-These artifacts form the frozen contract between planning and implementation: after this skill completes, `implementation-plan.md`, `references.md`, and `tasks/Tx-*.md` (plus `feature-specification.md` and `draft.md` if present) are guarded against edits by the bundled PreToolUse hook. Downstream sessions record per-task notes in `tasks/Tx-*.notes.md` instead; `kanban.md` and `handoff.md` stay mutable. During this planning session, guard warnings on these files are expected while iterating to green.
+The planning contract freezes once plan-review completes its final verdict, and stays frozen from geeky-implement onward. Until then, plan-review may correct `implementation-plan.md`, `draft.md`, `references.md`, and `tasks/Tx-*.md`; each correction follows plan-review's invalidation rules. A bounded mechanical fix needs a changed-content/reference check; scope, requirement, AC or sequencing edits need a fresh affected verdict. `feature-specification.md` stays frozen except for mechanical fixes. Downstream implementation sessions record per-task notes in `tasks/Tx-*.notes.md` instead; `kanban.md` and `handoff.md` stay mutable. Missing or unknown guard stage keeps the default frozen classification; the plan-review skill supplies its stage explicitly when correcting the package.
