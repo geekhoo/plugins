@@ -80,6 +80,7 @@ If MCP gate tools are available, prefer them over raw shell scripts:
 - `geeky_check_dod`
 - `geeky_check_commit`
 - `geeky_check_frozen_artifact`
+- `geeky_workflow_budget`
 
 If any entry gate exits non-zero, print the gate output and stop. Do not silently fix frozen task bodies.
 

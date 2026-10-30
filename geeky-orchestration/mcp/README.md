@@ -20,6 +20,7 @@ output, and there is no logic duplication.
 | `geeky_check_dod` | `check-dod.py` | Definition-of-Done for one task + its validation block |
 | `geeky_check_commit` | `check-commit.py` | Conventional-Commit + task-ref check |
 | `geeky_check_frozen_artifact` | `guard-planning-contract.py` | whether a path is a frozen planning artifact (pre-edit guardrail) |
+| `geeky_workflow_budget` | `workflow-budget.py` | deadline, reserve and stage-target report; the cheap in-stage budget recheck |
 
 A non-zero exit from a validator is a **validation failure** (`ok: false`), not a
 server error; the tool still returns its structured report.

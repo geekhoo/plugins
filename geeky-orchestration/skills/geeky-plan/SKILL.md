@@ -21,9 +21,13 @@ This is the _planning_ phase. After this run, use the `plan-review` skill (or `/
 
 ## Time budget and checkpoint
 
-At entry, before each numbered task or phase, after a lengthy direct operation,
-and immediately before and after each worker dispatch or blocking wait, run
+At entry, run
 `python "${CLAUDE_PLUGIN_ROOT}/scripts/workflow-budget.py" --stage geeky-plan --json`.
+Recheck before each phase or dispatch batch and when a blocking wait returns; a
+check made earlier in the same turn covers it, and consecutive direct operations
+need no recheck between them. Each shell call has a fixed startup cost (often several seconds
+in a sandbox), so make rechecks with the `geeky_workflow_budget` MCP tool when it
+is available (same report), or chain the script with the next command.
 Resolve `${CLAUDE_PLUGIN_ROOT}` to the installed plugin root containing this skill
 when the environment variable is unset, and use an available Python interpreter.
 If the helper cannot run or its output is unreadable, stop and report the missing
@@ -82,6 +86,8 @@ If the budget stops this stage, record missing artifacts, reviews and validators
     - Planning-folder completeness: `python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-planning-folder.py" --path "<folder>"`
 
     The `python` form works cross-platform; if Python is unavailable, use the paired PowerShell scripts, e.g. `pwsh -NoProfile -File "${CLAUDE_PLUGIN_ROOT}/scripts/validate-task-schema.ps1" -Path "<folder>"` (same pattern for the other two).
+
+    Gate calls: each shell call pays a fixed startup cost (often several seconds in a sandbox). When the `geeky_*` MCP gate tools are in your tool list and run without a permission prompt, use them; they wrap the same scripts and return the same reports. Otherwise chain the validators in one shell call. Re-run a validator only after its inputs changed since its last pass.
 
     If any exits non-zero, read its output, correct the artifact, and re-run until green. Only then finalize.
 

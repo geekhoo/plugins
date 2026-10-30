@@ -16,9 +16,13 @@ If a stub README already exists in the feature folder (for example `docs/feature
 
 ## Time budget and checkpoint
 
-At entry, before each numbered task or phase, after a lengthy direct operation,
-and immediately before and after each worker dispatch or blocking wait, run
+At entry, run
 `python "${CLAUDE_PLUGIN_ROOT}/scripts/workflow-budget.py" --stage spec-research --json`.
+Recheck before each phase or dispatch batch and when a blocking wait returns; a
+check made earlier in the same turn covers it, and consecutive direct operations
+need no recheck between them. Each shell call has a fixed startup cost (often several seconds
+in a sandbox), so make rechecks with the `geeky_workflow_budget` MCP tool when it
+is available (same report), or chain the script with the next command.
 Resolve `${CLAUDE_PLUGIN_ROOT}` to the installed plugin root containing this skill
 when the environment variable is unset, and use an available Python interpreter.
 If the helper cannot run or its output is unreadable, stop and report the missing

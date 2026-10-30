@@ -343,5 +343,34 @@ async def geeky_check_frozen_artifact(params: FrozenInput) -> dict[str, Any]:
     }
 
 
+class BudgetInput(BaseModel):
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
+    stage: Literal["spec-research", "geeky-plan", "plan-review",
+                   "geeky-implement", "impl-review"] = Field(
+        ..., description="Workflow stage whose cumulative advisory target to report")
+
+
+@mcp.tool(name="geeky_workflow_budget",
+          annotations={"title": "Check workflow time budget", **READONLY})
+async def geeky_workflow_budget(params: BudgetInput) -> dict[str, Any]:
+    """Report the shared workflow deadline, reserve and stage target.
+
+    Same report as `scripts/workflow-budget.py --stage <stage> --json`, read from
+    this server's GEEKY_DEADLINE_UTC, GEEKY_CLOSEOUT_RESERVE_S and
+    GEEKY_HARD_WALL_BUDGET_S. Use it for in-stage rechecks: it skips the agent
+    shell's startup cost. Read 'status' and 'action', not only 'ok': reserve
+    still exits 0.
+
+    Args:
+        params (BudgetInput): stage = current workflow stage.
+
+    Returns:
+        dict: { status: unbounded|active|reserve|exhausted|invalid, action: str,
+                remaining_s, usable_s, stage_target_utc, stage_target_exceeded,
+                ok: bool, exit_code: int }. exit_code 2 = invalid, 3 = exhausted.
+    """
+    return await _run(SCRIPTS / "workflow-budget.py", ["--stage", params.stage, "--json"])
+
+
 if __name__ == "__main__":
     mcp.run()
