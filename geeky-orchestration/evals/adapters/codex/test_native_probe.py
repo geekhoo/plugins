@@ -333,6 +333,32 @@ def test_routes_latest_addressed_task_despite_inherited_markers_and_calls():
         {'text': 'CP2_NATIVE_CHILD_ONLY'}]}]}) is None
 
 
+def lowered(data):
+    """The upstream view after the native bridge recovers plaintext and lowers agent messages."""
+    from litellm_bridge.native_plaintext import _lower_agent_message
+    rows = []
+    for row in copy.deepcopy(data['input']):
+        if row.get('type') == 'agent_message':
+            row['content'] = [{'type': 'input_text', 'text': part.get('text', part.get('encrypted_content'))}
+                              for part in row['content']]
+            row = _lower_agent_message(row)
+        rows.append(row)
+    return {**data, 'input': rows}
+
+
+def test_routing_and_completion_read_bridge_lowered_agent_messages():
+    main = native_request()
+    child = native_request('child', main['input'])
+    grandchild = native_request('grandchild', child['input'])
+    assert probe.request_thread(lowered(main)) == 'main'
+    assert probe.request_thread(lowered(child)) == 'child'
+    assert probe.request_thread(lowered(grandchild)) == 'grandchild'
+    main['input'].append(task_message('child', 'FINAL_ANSWER', 'CP2_NATIVE_CHILD_OK'))
+    assert probe.request_thread(lowered(main)) == 'main'
+    assert probe.child_completed(lowered(main), 'main', 'child', 'CP2_NATIVE_CHILD_OK')
+    assert not probe.child_completed(lowered(main), 'main', 'child', 'CP2_NATIVE_OTHER')
+
+
 @pytest.mark.parametrize('variant', probe.VARIANTS)
 def test_script_preserves_tools_and_requires_nested_and_default_final_answers(tmp_path, variant):
     state = probe.fixture_state(variant)

@@ -3,6 +3,7 @@
 Native namespaces, tool-search identities and reasoning envelopes are preserved.
 Only collaboration message schemas request plaintext. Tagged plaintext may be
 relabelled on replay only after an exact completed-response provenance match.
+Inter-agent messages are lowered to framed user messages before forwarding.
 The native launcher selects this mode explicitly; the legacy bridge is separate.
 """
 from __future__ import annotations
@@ -65,6 +66,23 @@ def _normalize_parts(parts, state):
             part.update(type='input_text', text=value)
 
 
+def _lower_agent_message(item):
+    """Deliver an inter-agent message as a user message, in the bridge mapper's framing.
+
+    The LiteLLM route drops agent_message input items whenever the request carries
+    tools, so a cold worker never sees its brief (live probe, 2026-10-30).
+    """
+    content = item.get('content')
+    if not isinstance(content, list) or not all(isinstance(part, dict) and part.get('type') == 'input_text'
+                                                and isinstance(part.get('text'), str) for part in content):
+        raise MappingError('Native agent message content must be plaintext parts')
+    # JSON framing avoids delimiter ambiguity in untrusted agent names.
+    envelope = {key: item[key] for key in item if key not in {'type', 'content'}}
+    return {'type': 'message', 'role': 'user', 'content': [
+        {'type': 'input_text', 'text': 'Agent message envelope: '
+         + json.dumps(envelope, sort_keys=True, ensure_ascii=False) + '\n'}, *content]}
+
+
 def translate_native_request(body, state, *, origin):
     """Return an independent request and its explicit plaintext response contract."""
     if not isinstance(body, dict) or not isinstance(origin, str) or not origin:
@@ -98,13 +116,15 @@ def translate_native_request(body, state, *, origin):
             fields[identity] = selected
     inputs = mapped.get('input', [])
     if isinstance(inputs, list):
-        for item in inputs:
+        for index, item in enumerate(inputs):
             if not isinstance(item, dict):
                 raise MappingError('Invalid native input item')
             key = ('content' if item.get('type') == 'agent_message' else
                    'output' if item.get('type') == 'function_call_output' else None)
             if key and isinstance(item.get(key), list):
                 _normalize_parts(item[key], state)
+            if item.get('type') == 'agent_message':
+                inputs[index] = _lower_agent_message(item)
     elif not isinstance(inputs, str):
         raise MappingError('Native input must be text or a list')
     return mapped, NativePlaintextContext(state, origin, fields)

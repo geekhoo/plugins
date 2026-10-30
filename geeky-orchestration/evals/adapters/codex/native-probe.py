@@ -110,7 +110,7 @@ def native_plaintext_contract_evidence(requests):
                                          for field in ('message', 'prompt'))
         for row in request.get('input', []):
             search_items += row.get('type') in ('tool_search_call', 'tool_search_output')
-            field = ('content' if row.get('type') == 'agent_message' else
+            field = ('content' if agent_envelope(row) is not None else
                      'output' if row.get('type') == 'function_call_output' else None)
             if field and isinstance(row.get(field), list):
                 tagged_handoffs += sum(part.get('type') == 'encrypted_content'
@@ -170,25 +170,47 @@ def request_spawn_calls(requests):
     return list(calls.values())
 
 
+ENVELOPE_PREFIX = 'Agent message envelope: '
+
+
+def agent_envelope(row):
+    """Author/recipient of a native agent_message or of one the bridge lowered to a user message."""
+    if row.get('type') == 'agent_message':
+        return {key: row.get(key) for key in ('author', 'recipient')}
+    parts = row.get('content') if row.get('type') == 'message' and row.get('role') == 'user' else None
+    first = parts[0] if isinstance(parts, list) and parts and isinstance(parts[0], dict) else {}
+    text = first.get('text', '')
+    if not isinstance(text, str) or not text.startswith(ENVELOPE_PREFIX):
+        return None
+    try:
+        envelope = json.loads(text[len(ENVELOPE_PREFIX):])
+    except ValueError:
+        return None
+    return envelope if isinstance(envelope, dict) else None
+
+
 def content_text(row):
-    return '\n'.join(c.get('text', c.get('encrypted_content', ''))
-                     for c in row.get('content', []) if isinstance(c, dict))
+    parts = [c for c in row.get('content', []) if isinstance(c, dict)]
+    if row.get('type') == 'message' and agent_envelope(row) is not None:
+        parts = parts[1:]
+    return '\n'.join(c.get('text', c.get('encrypted_content', '')) for c in parts)
 
 
 def request_thread(data):
     """Prefer the newest addressed task; inherited tasks and call arguments are history."""
     inputs = data.get('input', [])
     for row in reversed(inputs):
-        if row.get('type') != 'agent_message':
+        envelope = agent_envelope(row)
+        if envelope is None:
             continue
         text = content_text(row)
         if not text.startswith('Message Type: NEW_TASK\n'):
             continue
         for name, (recipient, marker) in THREADS.items():
-            if name != 'main' and row.get('recipient') == recipient and marker in text:
+            if name != 'main' and envelope.get('recipient') == recipient and marker in text:
                 return name
     for row in inputs:
-        if row.get('type') == 'message' and row.get('role') == 'user':
+        if row.get('type') == 'message' and row.get('role') == 'user' and agent_envelope(row) is None:
             if content_text(row).startswith(THREADS['main'][1] + '.'):
                 return 'main'
             for name, (_, marker) in THREADS.items():
@@ -198,9 +220,8 @@ def request_thread(data):
 
 
 def child_completed(data, parent, child, marker):
-    return any(row.get('type') == 'agent_message'
-               and row.get('author') == THREADS[child][0]
-               and row.get('recipient') == THREADS[parent][0]
+    return any((agent_envelope(row) or {}).get('author') == THREADS[child][0]
+               and (agent_envelope(row) or {}).get('recipient') == THREADS[parent][0]
                and content_text(row).startswith('Message Type: FINAL_ANSWER\n')
                and marker in content_text(row)
                for row in data.get('input', []))

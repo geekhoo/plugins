@@ -11,6 +11,11 @@ Third-party catalogs disable native tool search and expose MCP functions eagerly
 client request and stream retries are zero. Native records use `compatibility_proxy`;
 legacy mode continues to use `mapping_bridge`. Preparation starts no listener.
 
+As of 2026-10-30 the proxy also lowers each `agent_message` to a user message
+headed `Agent message envelope: {json}`, keeping its position and plaintext parts.
+The LiteLLM route drops `agent_message` items whenever a request carries tools,
+which hid every cold worker's brief; see [lessons learned](../../lessons-learned.md).
+
 The [offline encrypted-output fix](../../analyses/c0-encrypted-output-fix-20261029/README.md)
 passed 290 regressions, 64 subtests, 10 readiness tests and 69 real-Codex MXC
 proxy checks. The full scripted C0 mock passed oracle 13/13 over three runs.

@@ -71,6 +71,47 @@ def test_exact_completed_upstream_message_replays_as_plaintext_with_origin(event
     assert origin == ('request-1', ('collaboration', 'spawn_agent'), 'call_fixture', 'message')
 
 
+def test_agent_message_is_lowered_to_a_framed_user_message_in_place():
+    body = request()
+    task = 'Message Type: NEW_TASK\nTask name: /root/worker\nSender: /root\nPayload:\nUnicode 测试 brief'
+    body['input'].insert(1, {'type': 'agent_message', 'id': 'amsg_fixture', 'author': '/root',
+                             'recipient': '/root/worker', 'content': [{'type': 'input_text', 'text': task}]})
+    before = copy.deepcopy(body)
+    mapped, _ = translate_native_request(body, NativePlaintextState(), origin='request-1')
+    assert body == before
+    lowered = mapped['input'][1]
+    assert lowered['type'] == 'message' and lowered['role'] == 'user'
+    header = lowered['content'][0]['text']
+    assert header.startswith('Agent message envelope: ') and header.endswith('\n')
+    assert json.loads(header[len('Agent message envelope: '):]) == {
+        'id': 'amsg_fixture', 'author': '/root', 'recipient': '/root/worker'}
+    assert lowered['content'][1:] == [{'type': 'input_text', 'text': task}]
+    assert [row for i, row in enumerate(mapped['input']) if i != 1] == [
+        row for i, row in enumerate(before['input']) if i != 1]
+    assert not any(row.get('type') == 'agent_message' for row in mapped['input'])
+
+
+def test_recovered_tagged_handoff_is_lowered_with_plaintext_parts():
+    state = NativePlaintextState()
+    _, context = translate_native_request(request(), state, origin='request-1')
+    map_native_response_json({'output': [response_call('Recovered brief')]}, context)
+    mapped, _ = translate_native_request(replay('Recovered brief'), state, origin='request-2')
+    assert mapped['input'][-1]['type'] == 'message'
+    assert mapped['input'][-1]['content'][1:] == [
+        {'type': 'input_text', 'text': 'Message Type: NEW_TASK\n'},
+        {'type': 'input_text', 'text': 'Recovered brief'}]
+
+
+@pytest.mark.parametrize('content', [None, 'bare string', [{'type': 'input_image', 'image_url': 'x'}],
+                                     [{'type': 'input_text'}]])
+def test_agent_message_with_non_text_content_is_rejected(content):
+    body = request()
+    body['input'].append({'type': 'agent_message', 'author': '/root', 'recipient': '/root/worker',
+                          'content': content})
+    with pytest.raises(MappingError, match='plaintext parts'):
+        translate_native_request(body, NativePlaintextState(), origin='request-1')
+
+
 @pytest.mark.parametrize('value', ['readable but unknown', 'opaque-ciphertext'])
 def test_unknown_tagged_values_are_never_guessed_or_deleted(value):
     state = NativePlaintextState()

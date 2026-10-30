@@ -1,5 +1,11 @@
 # Eval runs: lessons learned
 
+## LiteLLM drops agent_message input when tools are present, 2026-10-30
+
+The T1 stop in [the plan-freeze follow-up](analyses/c0-plan-freeze-native-result-20261030/README.md) came from delivery after all. All 16 forked agents worked and all 7 cold implementers denied having a task. Forked agents could read their brief in the inherited `spawn_agent` call; cold ones had only the `agent_message`. Five cold workers with briefs from 403 to 10,989 characters each billed exactly 13,233 input tokens, so the brief never reached the prompt.
+
+Live sentinel probes against `litellm.markefin.com` with `vercel/gpt-6-luna` (9 small requests) settled it. A bare `agent_message` reaches the model. The same item inside Codex 0.164.0's real request envelope does not, and removing only `tools` restores it; `stream`, `include` and client metadata make no difference. Sent with tools as a user message, the brief arrives. The native proxy now lowers every `agent_message` to a framed user message, the shape the bridge mapper already sent. Offline fixtures accept any item type, so test inter-agent delivery against the real route before relying on it.
+
 ## Verify captured assignment before diagnosing delivery, 2026-10-30
 
 The [plan-freeze follow-up attempt](analyses/c0-plan-freeze-native-result-20261030/README.md) passed planning review but stopped at T1 after workers declined assignments. At least one own worker context contains a complete, explicitly addressed NEW_TASK before the worker claims it received none. Preserve that discrepancy; a worker's explanation does not prove that the harness omitted its assignment, and captured agent_message presence does not prove what the provider presented. Generic turn failures do not establish a decode failure without a diagnostic. No live fix was applied.

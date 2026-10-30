@@ -86,7 +86,10 @@ try {{
         assert report['response']['output'][0]['namespace'] == 'collaboration'
         assert report['response']['output'][0]['encrypted_function_args'] == []
         assert len(captured) == 1 and captured[0][0] == '/v1/responses'
-        assert captured[0][1]['input'][0]['type'] == ('agent_message' if wire_mode == 'native-plaintext' else 'message')
+        # Both wire modes lower inter-agent messages: LiteLLM drops agent_message when tools are present.
+        assert captured[0][1]['input'][0]['type'] == 'message'
+        assert captured[0][1]['input'][0]['content'][0]['text'].startswith('Agent message envelope: ')
+        assert captured[0][1]['input'][0]['content'][-1]['text'] == 'synthetic task'
         assert captured[0][1]['tools'][0]['type'] == ('namespace' if wire_mode == 'native-plaintext' else 'function')
         assert not (state / 'ready.json').exists()
         assert json.loads((state / 'stopped.json').read_text())['exited']
