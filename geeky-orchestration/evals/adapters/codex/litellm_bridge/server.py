@@ -1,6 +1,8 @@
 """Loopback-only Responses HTTP bridge, with a fixed authenticated upstream.
 
-No retries, redirect following, body logs, credential files, or provider discovery.
+No retries, redirect following, request logs, credential files, or provider discovery.
+Each upstream error writes one JSON line to stderr: status, trace headers and a
+short redacted excerpt of the error body. Requests and headers are never logged.
 Run one process per trusted run. Termination discards the plaintext provenance.
 """
 
@@ -9,6 +11,9 @@ from __future__ import annotations
 import hmac
 import http.client
 import json
+import re
+import sys
+import time
 import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import urlsplit
@@ -19,6 +24,29 @@ from .native_plaintext import NativePlaintextState, map_native_response_json, ma
 
 MAX_BODY = 16 * 1024 * 1024
 TIMEOUT = 120
+ERROR_READ = 4096
+ERROR_EXCERPT = 600
+TRACE_HEADERS = ("x-litellm-call-id", "x-request-id", "cf-ray")
+SECRET_PATTERNS = (re.compile(r"Bearer\s+\S+", re.IGNORECASE),
+                   re.compile(r"\b(?:sk|pk)-[A-Za-z0-9_\-]{6,}"))
+
+
+def redact(text, api_key):
+    if api_key:
+        text = text.replace(api_key, "[REDACTED]")
+    for pattern in SECRET_PATTERNS:
+        text = pattern.sub("[REDACTED]", text)
+    return text
+
+
+def log_event(record):
+    """One diagnostic line on stderr; a broken stderr never fails the request."""
+    record = dict(record, ts=time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()))
+    try:
+        sys.stderr.write(json.dumps(record, ensure_ascii=True, sort_keys=True) + "\n")
+        sys.stderr.flush()
+    except (OSError, ValueError):
+        pass
 
 
 def upstream_target(base_url):
@@ -108,6 +136,15 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                 connection.request("POST", upstream_path, body=payload, headers=forward_headers)
                 response = connection.getresponse()
                 if response.status != 200:
+                    try:
+                        error_body = response.read(ERROR_READ)
+                    except (OSError, http.client.HTTPException):
+                        error_body = b""
+                    headers = {name.lower(): value for name, value in response.getheaders()}
+                    log_event({"event": "upstream_http_error", "status": response.status,
+                               "content_type": headers.get("content-type", ""),
+                               "trace": {name: headers[name] for name in TRACE_HEADERS if name in headers},
+                               "excerpt": redact(error_body.decode("utf-8", "replace"), api_key)[:ERROR_EXCERPT]})
                     self._error(response.status if 400 <= response.status <= 599 else 502, "upstream_http_error")
                     return
                 content_type = response.getheader("Content-Type", "").split(";", 1)[0].strip().lower()
@@ -161,7 +198,9 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                     self.wfile.write(b'event: error\ndata: {"type":"error","code":"bridge_mapping_error","message":"Bridge mapping failed"}\n\n')
                 else:
                     self._error(400 if connection is None else 502, "bridge_mapping_error")
-            except (OSError, http.client.HTTPException):
+            except (OSError, http.client.HTTPException) as error:
+                log_event({"event": "upstream_transport_error", "error": type(error).__name__,
+                           "stream_started": started})
                 if started:
                     try:
                         self.wfile.write(b'event: error\ndata: {"type":"error","code":"upstream_transport_error","message":"Upstream transport failed"}\n\n')

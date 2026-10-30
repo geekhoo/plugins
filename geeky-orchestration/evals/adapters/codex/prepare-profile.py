@@ -166,7 +166,9 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
         config['model_providers'] = {'litellm': {
             'name': 'LiteLLM', 'base_url': provider['base_url'], 'env_key': provider['env_key'],
             'wire_api': 'responses', 'requires_openai_auth': False, 'supports_websockets': False,
-            'request_max_retries': 0, 'stream_max_retries': 0}}
+            # Codex retries 5xx and dropped streams, never 4xx. One transient
+            # gateway 502 must not end a run (20261030T150121Z-a55a910b).
+            'request_max_retries': 2, 'stream_max_retries': 2}}
         # Hosted web search is an OpenAI server tool; a LiteLLM route cannot serve it.
         config['web_search'] = 'disabled'
         # Third-party Responses SDKs have rewritten native tool-search item IDs.

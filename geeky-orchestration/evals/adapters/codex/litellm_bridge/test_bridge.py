@@ -479,6 +479,15 @@ def fake_upstream(mode="json"):
         def do_POST(self):
             body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
             captured.append((self.path, dict(self.headers), body))
+            if mode == "gateway_error":
+                body = ("upstream connect error; key " + KEY + "; Bearer " + KEY + "; sk-abcdef123456").encode()
+                self.send_response(502)
+                self.send_header("Content-Type", "text/plain")
+                self.send_header("x-litellm-call-id", "call-123")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+                return
             if mode in {"redirect", "rate_limit"}:
                 self.send_response(307 if mode == "redirect" else 429)
                 self.send_header("Location", "http://127.0.0.1:1/steal")
@@ -634,6 +643,17 @@ def test_upstream_rate_limit_status_preserved_with_sanitized_body():
         status, _, raw = post(bridge, request_body())
         assert status == 429 and b"secret" not in raw and KEY.encode() not in raw
         assert len(captured) == 1
+
+
+def test_upstream_error_logged_to_stderr_with_redacted_excerpt(capsys):
+    with fake_upstream("gateway_error") as (base, captured), running_bridge(base, seeded()) as bridge:
+        status, _, raw = post(bridge, request_body())
+    assert status == 502 and b"upstream connect error" not in raw and KEY.encode() not in raw
+    lines = [json.loads(line) for line in capsys.readouterr().err.splitlines() if line.startswith("{")]
+    record = next(line for line in lines if line["event"] == "upstream_http_error")
+    assert record["status"] == 502 and record["trace"] == {"x-litellm-call-id": "call-123"}
+    assert "upstream connect error" in record["excerpt"]
+    assert KEY not in json.dumps(record) and "abcdef123456" not in json.dumps(record)
 
 
 @pytest.mark.parametrize("url", ["ftp://example.test", "http://user:password@example.test", "http://example.test?token=secret", "http://example.test/#fragment", ""])

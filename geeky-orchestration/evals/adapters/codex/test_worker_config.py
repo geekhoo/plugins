@@ -92,8 +92,8 @@ class WorkerConfigTests(unittest.TestCase):
         self.assert_matrix(report, 'gpt-6-luna', 'max')
         config = tomllib.loads('\n'.join(report['codex_config_overrides']))
         provider = config['model_providers']['litellm']
-        self.assertEqual(provider['request_max_retries'], 0)
-        self.assertEqual(provider['stream_max_retries'], 0)
+        self.assertEqual(provider['request_max_retries'], 2)
+        self.assertEqual(provider['stream_max_retries'], 2)
         self.assertEqual(provider['wire_api'], 'responses')
         self.assertFalse(config['features']['tool_search'])
         self.assertFalse(config['features']['tool_search_always_defer_mcp_tools'])
