@@ -1,5 +1,7 @@
 # C0 operator readiness and verification
 
+**2026-10-30 native preparation: launch blocked before invocation.** Preparation `20261030T143704Z-4ab4c0dc` at `7cf5b3f` passed the eight-role and prompt readback, but produced an untracked baseline directory. The single `launch.ps1` invocation failed its clean-tree gate before the attempt claim or runner call. No live run, oracle, telemetry readback, worker assessment or parity score exists for this preparation. No retry was performed. See [blocked launch record](analyses/c0-native-result-20261030b/README.md).
+
 **Latest W6 result, 2026-10-30: NOT ACCEPTED at geeky-implement/T1 Blocked.**
 Run `20261030T063816Z-9860724b` used clean main `ae126e3`, native Luna/high on all eight configured roles, 6000/60 seconds and CODEX-key Langfuse telemetry. It ended voluntarily after 5868.789 seconds with process 0 but no product code or tests. Oracle 0/13 x3; Langfuse 32 traces/999 observations, zero reported truncation. Strict Quality/parity is unavailable because no supported T1 implementation commit exists. The owner waived W5 and push. One initial host invocation ran, with no operator retry, recovery, resume or overtime; that authorization is consumed. See [terminal evidence and captured-assignment audit](analyses/c0-plan-freeze-native-result-20261030/README.md).
 
