@@ -129,6 +129,34 @@
           }
         ]
       }
+    },
+    "geeky_workflow_budget": {
+      "content": [
+        {
+          "text": "{\n  \"exit_code\": 0,\n  \"acceptance_established\": false,\n  \"action\": \"ordinary-workflow\",\n  \"closeout_reserve_s\": null,\n  \"hard_deadline_utc\": null,\n  \"hard_wall_budget_s\": null,\n  \"now_utc\": \"<NOW>\",\n  \"remaining_s\": null,\n  \"schema\": \"geeky.workflow-budget/1\",\n  \"stage\": \"geeky-implement\",\n  \"stage_target_exceeded\": false,\n  \"stage_target_policy\": \"cumulative-advisory-v1\",\n  \"stage_target_remaining_s\": null,\n  \"stage_target_utc\": null,\n  \"status\": \"unbounded\",\n  \"usable_s\": null,\n  \"ok\": true\n}",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "acceptance_established": false,
+        "action": "ordinary-workflow",
+        "closeout_reserve_s": null,
+        "exit_code": 0,
+        "hard_deadline_utc": null,
+        "hard_wall_budget_s": null,
+        "now_utc": "<NOW>",
+        "ok": true,
+        "remaining_s": null,
+        "schema": "geeky.workflow-budget/1",
+        "stage": "geeky-implement",
+        "stage_target_exceeded": false,
+        "stage_target_policy": "cumulative-advisory-v1",
+        "stage_target_remaining_s": null,
+        "stage_target_utc": null,
+        "status": "unbounded",
+        "usable_s": null
+      }
     }
   },
   "tools_list": {
@@ -357,7 +385,7 @@
           "readOnlyHint": true,
           "title": "Check commit message"
         },
-        "description": "Validate a commit message: Conventional Commits subject + a task reference.\n\nErrors (ok=false): subject not 'type(scope): summary'; subject > 72 chars; no\ntask reference. A bare T<n> without a 'Tasks:' line is a warning, not an error.\n\nArgs:\n    params (CommitInput): message = full commit message text.\n\nReturns:\n    dict: { ok: bool, subject: str, errors: [str], warnings: [str], exit_code: int }.\n",
+        "description": "Validate a Conventional Commits subject and task reference (or docs-only none).\n\nErrors (ok=false): subject not 'type(scope): summary'; subject > 72 chars; no\ntask reference; 'Tasks: none' on a non-docs commit. A case-insensitive\n'Tasks: none' line satisfies the task rule for docs commits. A bare T<n>\nwithout a 'Tasks:' line is a warning, not an error.\n\nArgs:\n    params (CommitInput): message = full commit message text.\n\nReturns:\n    dict: { ok: bool, subject: str, errors: [str], warnings: [str], exit_code: int }.\n",
         "inputSchema": {
           "$defs": {
             "CommitInput": {
@@ -403,7 +431,7 @@
           "readOnlyHint": true,
           "title": "Check if a path is a frozen artifact"
         },
-        "description": "Check whether a file path is a frozen geeky-plan planning artifact.\n\nUse this as a pre-edit guardrail (the in-process equivalent of the PreToolUse\nguard hook): call it before editing a file inside a planning folder. Frozen:\nimplementation-plan.md, feature-specification.md, draft.md, references.md, and\ntasks/Tx-*.md bodies (but NOT tasks/Tx-*.notes.md).\n\nArgs:\n    params (FrozenInput): file_path = the path an agent intends to edit.\n\nReturns:\n    dict: { frozen: bool, file_path: str, reason: str|None, exit_code: int }.\n    frozen=true means do not edit — surface plan issues via kanban Blocked + handoff.md.\n",
+        "description": "Check whether a file path is a frozen geeky-plan planning artifact.\n\nUse this as a pre-edit guardrail (the in-process equivalent of the PreToolUse\nguard hook): call it before editing a file inside a planning folder. During\nplan-review, implementation-plan.md, draft.md, references.md and tasks/Tx-*.md\nbodies are editable; a bounded mechanical edit needs a changed-content check and\na scope, requirement, AC or sequencing edit needs a fresh verdict. feature-specification.md stays frozen. Missing stages and\nimplement freeze all those artifacts. Notes, kanban and handoff stay mutable.\n\nArgs:\n    params (FrozenInput): file_path = the path an agent intends to edit;\n        stage = plan-review or implement (default unknown, treated as frozen).\n\nReturns:\n    dict: { frozen: bool, file_path: str, reason: str|None, exit_code: int }.\n    frozen=true means do not edit — surface plan issues via kanban Blocked + handoff.md.\n",
         "inputSchema": {
           "$defs": {
             "FrozenInput": {
@@ -414,6 +442,23 @@
                   "minLength": 1,
                   "title": "File Path",
                   "type": "string"
+                },
+                "stage": {
+                  "anyOf": [
+                    {
+                      "enum": [
+                        "plan-review",
+                        "implement"
+                      ],
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "default": null,
+                  "description": "Workflow stage; plan-review permits planning edits with review invalidation. Omitted stages keep the planning contract frozen.",
+                  "title": "Stage"
                 }
               },
               "required": [
@@ -438,6 +483,58 @@
         "outputSchema": {
           "additionalProperties": true,
           "title": "geeky_check_frozen_artifactDictOutput",
+          "type": "object"
+        }
+      },
+      {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false,
+          "readOnlyHint": true,
+          "title": "Check workflow time budget"
+        },
+        "description": "Report the shared workflow deadline, reserve and stage target.\n\nSame report as `scripts/workflow-budget.py --stage <stage> --json`, read from\nthis server's GEEKY_DEADLINE_UTC, GEEKY_CLOSEOUT_RESERVE_S and\nGEEKY_HARD_WALL_BUDGET_S. Use it for in-stage rechecks: it skips the agent\nshell's startup cost. Read 'status' and 'action', not only 'ok': reserve\nstill exits 0.\n\nArgs:\n    params (BudgetInput): stage = current workflow stage.\n\nReturns:\n    dict: { status: unbounded|active|reserve|exhausted|invalid, action: str,\n            remaining_s, usable_s, stage_target_utc, stage_target_exceeded,\n            ok: bool, exit_code: int }. exit_code 2 = invalid, 3 = exhausted.\n",
+        "inputSchema": {
+          "$defs": {
+            "BudgetInput": {
+              "additionalProperties": false,
+              "properties": {
+                "stage": {
+                  "description": "Workflow stage whose cumulative advisory target to report",
+                  "enum": [
+                    "spec-research",
+                    "geeky-plan",
+                    "plan-review",
+                    "geeky-implement",
+                    "impl-review"
+                  ],
+                  "title": "Stage",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "stage"
+              ],
+              "title": "BudgetInput",
+              "type": "object"
+            }
+          },
+          "properties": {
+            "params": {
+              "$ref": "#/$defs/BudgetInput"
+            }
+          },
+          "required": [
+            "params"
+          ],
+          "title": "geeky_workflow_budgetArguments",
+          "type": "object"
+        },
+        "name": "geeky_workflow_budget",
+        "outputSchema": {
+          "additionalProperties": true,
+          "title": "geeky_workflow_budgetDictOutput",
           "type": "object"
         }
       }

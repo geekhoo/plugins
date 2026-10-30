@@ -77,6 +77,10 @@ The wrapped validators are standard-library only and need no packages.
 committed capture; diffing a fresh run against it is what proves an SDK or transport change
 did not alter the wire.
 
+The committed capture uses the SDK the plugin ships with: `uv run --with "mcp>=1.2.0" python
+wire_baseline.py --out wire_baseline.json` resolves the locked mcp 1.29.0. The run below is the
+comparison side for an SDK move.
+
 ```bash
 uv run --with "mcp>=2.0.0" python wire_baseline.py --out /tmp/v2.json
 diff wire_baseline.json /tmp/v2.json

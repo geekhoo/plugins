@@ -16,6 +16,9 @@ The transcript is deliberately stripped of everything that legitimately varies:
     directory name is random, so leaving it in would make the baseline
     irreproducible on the very next run.
   * keys are sorted recursively.
+  * UTC timestamps are rewritten to the literal `<NOW>` - the workflow-budget
+    report carries the current time. The server also runs without any
+    `GEEKY_*` deadline variables, so that report is always the unbounded one.
 
 What it does *not* normalise is the tool descriptions, which come straight from
 the handler docstrings -- and CPython 3.13 changed the compiler to strip leading
@@ -38,6 +41,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import queue
 import re
 import subprocess
@@ -51,12 +55,14 @@ HERE = Path(__file__).resolve().parent
 SERVER = HERE / "server.py"
 
 FIXTURE = "<FIXTURE>"
+NOW = "<NOW>"
+UTC_TIMESTAMP = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?\+00:00")
 PROTOCOL_VERSION = "2025-11-25"
 READ_TIMEOUT_S = 120.0
 
 # CPython 3.13 strips docstring indentation at compile time; 3.10-3.12 do not.
 # Tool descriptions are docstrings, so a capture below this floor differs from
-# the committed baseline in all six of them for a reason that has nothing to do
+# the committed baseline in every one of them for a reason that has nothing to do
 # with the server or the SDK.
 MIN_PYTHON = (3, 13)
 
@@ -69,6 +75,7 @@ TOOL_CALLS: list[tuple[str, dict[str, Any]]] = [
     ("geeky_validate_kanban", {"folder": None, "wip": 3}),
     ("geeky_validate_planning_folder", {"folder": None}),
     ("geeky_validate_task_schema", {"folder": None}),
+    ("geeky_workflow_budget", {"stage": "geeky-implement"}),
 ]
 
 
@@ -183,7 +190,7 @@ def normalize(obj: Any, variants: list[str]) -> Any:
         if FIXTURE in text:
             # Only inside rewritten paths - elsewhere a backslash may be content.
             text = text.replace("\\", "/")
-        return text
+        return UTC_TIMESTAMP.sub(NOW, text)
     return obj
 
 
@@ -242,6 +249,7 @@ class StdioClient:
             text=True,
             encoding="utf-8",
             bufsize=1,
+            env={k: v for k, v in os.environ.items() if not k.startswith("GEEKY_")},
         )
         self._lines: "queue.Queue[Optional[str]]" = queue.Queue()
         self.stderr: list[str] = []
