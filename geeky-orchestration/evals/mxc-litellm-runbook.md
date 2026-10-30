@@ -1,11 +1,12 @@
 # Runbook: Claude Code and Codex evals in MXC, through LiteLLM, traced to Langfuse
 
-Both evaluations are stopped. The [latest pair](analyses/c0-fresh-sequential-20261027/README.md)
-produced no implementation. Its [offline follow-up](analyses/c0-root-causes-20261027/README.md)
-adds planning budget checks and explicit rejection of the observed tool-call text;
-upstream attribution and live effectiveness remain unresolved. Source changes
-are uncommitted, and old prepared commands/pins must not be reused. A later source
-commit requires authorization, followed by fresh preparation; launch remains separate.
+Status, 2026-10-30: the latest C0 attempt, the [plan-freeze native result](analyses/c0-plan-freeze-native-result-20261030/README.md),
+was NOT ACCEPTED. Its cause, LiteLLM dropping `agent_message` input when tools are
+present, is fixed in `3bfc927`; the MXC cost changes are `9b65b8c` and `6b13509`.
+No live run has used them yet. A new run needs owner authorization and fresh
+preparation from main at `5f3e2c3` or later. Old prepared commands and pins must
+not be reused. The 2026-10-27 [sequential pair](analyses/c0-fresh-sequential-20261027/README.md)
+and its [offline follow-up](analyses/c0-root-causes-20261027/README.md) are history.
 
 For historical completed Windows `claudex-001` attempts, see the
 [C0 comparison](analyses/c0-claudex-001-win-20261026/README.md). Codex completed

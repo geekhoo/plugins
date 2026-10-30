@@ -9,7 +9,7 @@ Fresh offline source/tool inventory and pins passed before launch; main and all 
 
 ## Historical results and preparation
 
-**Current result: NOT ACCEPTED; the new one-attempt authorization is consumed.**
+**2026-10-29 result: NOT ACCEPTED; that one-attempt authorization is consumed.**
 Run `20261029T160022Z-45641609` ended after 31m11s at plan-review with a real T2
 validation gap and conflicting freeze/edit rules. No implementation or final
 review was reached. Oracle 0/13 x3; telemetry 8 traces / 391 observations.
@@ -18,7 +18,7 @@ exists. No transport error recurred. See [terminal evidence](analyses/c0-luna-na
 No retry, resume or overtime is authorized; earlier preparation notes below
 are historical.
 
-The owner has now authorized committing the fixes and ONE fresh native Luna/high C0 attempt at6000/60 seconds. [Current authorized operation](analyses/c0-luna-native-authorized-20261029/README.md) tracks clean-HEAD preparation, actual launch and terminal acceptance/scoring. The earlier no-paid state below is preauthorization history.
+The owner then authorized committing the fixes and ONE fresh native Luna/high C0 attempt at6000/60 seconds. [That authorized operation](analyses/c0-luna-native-authorized-20261029/README.md) tracks clean-HEAD preparation, actual launch and terminal acceptance/scoring. The earlier no-paid state below is preauthorization history.
 
 The owner selected retaining Luna/high through LiteLLM for the next comparison.
 See [prelaunch adjustments](analyses/c0-prelaunch-adjustments-20261029/README.md).
@@ -26,18 +26,18 @@ The selected settings and retained proof were rechecked; source commits, clean
 official preparation and new live-attempt authority are still required. The
 tested Sol/medium alternative is not selected. No paid launch is in progress.
 
-**Current offline protocol remediation: VERIFIED; live execution HELD.**
+**2026-10-29 offline protocol remediation: VERIFIED; live execution was HELD.**
 The [native plaintext compatibility fix](analyses/c0-encrypted-output-fix-20261029/README.md)
 prevents new encrypted collaboration handoffs and deferred-search history on the
 third-party route. Production proxy tests passed 69/69 inside MXC; integrated
 regressions passed 290 tests and 64 subtests, with 10 readiness tests passing.
 A fresh scripted C0 mock passed oracle 13/13 x3. These are local, model-free
-results against uncommitted working sources. No paid endpoint was verified or
+results against working sources, later committed in `0b4a5c0`. No paid endpoint was verified or
 authorized. Commit and re-export sources before any separately authorized future
 attempt; all old launch commands are historical. Readiness now fingerprints the
 new native plaintext mapper and its tests as well as profile generation.
 
-Offline follow-up: [C0 mock remediation](analyses/c0-offline-remediation-20261029/README.md) passes full scripted C0 and 105/105 native fixture checks with working-source fixes. This is uncommitted, model-free proof; current live readiness remains blocked and no paid execution is authorized.
+Offline follow-up: [C0 mock remediation](analyses/c0-offline-remediation-20261029/README.md) passes full scripted C0 and 105/105 native fixture checks with working-source fixes. It was model-free proof against uncommitted sources, later committed in `a3a2c2d` and `0b4a5c0`; live readiness was blocked and no paid execution was authorized.
 
 **Historical native Codex C0 failure, before the compatibility fix:**
 The single authorized run `20261029T062343Z-ffd63c3c` crashed after2511.334 s

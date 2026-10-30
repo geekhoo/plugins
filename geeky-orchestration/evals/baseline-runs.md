@@ -93,7 +93,8 @@ Record the UTC start time immediately before launching and the UTC end time imme
 ```powershell
 $p = (Get-Content <repo>\geeky-orchestration\evals\prompts\end-to-end.md -Raw) -replace '\{\{PLANNING_FOLDER\}\}','docs/spec-001-feature/'
 $sid = [guid]::NewGuid().ToString()
-$mxc = "$env:USERPROFILE\.claude\plugins\cache\geekhoo-plugins\mxc-sandbox\0.1.0\scripts\mxc.ps1"
+$mxc = Get-ChildItem "$env:USERPROFILE\.claude\plugins\cache\geekhoo-plugins\mxc-sandbox\*\scripts\mxc.ps1" |
+  Sort-Object { [version]$_.Directory.Parent.Name } | Select-Object -Last 1 -ExpandProperty FullName
 Set-Content <workspace>\..\no-hooks.json '{"disableAllHooks": true}'
 & $mxc run --workspace <workspace> --isolated --allow-win32k --ro <plugin dir> --timeout <wall-time ceiling s> -- `
   -p $p --session-id $sid --plugin-dir <plugin dir> --settings <workspace>\..\no-hooks.json `

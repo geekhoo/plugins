@@ -8,6 +8,8 @@ a 30-minute timeout: roughly 69 minutes remained. Exactly one attempt ran,
 without retries, resumes or overtime. All configured roles were Luna/high;
 all seven observed native thread contexts also verify that model and effort.
 
+Follow-up: the plan-freeze fixes and the next attempt are recorded in [c0-plan-freeze-native-result-20261030](../c0-plan-freeze-native-result-20261030/README.md).
+
 ## Blocking finding
 
 T2 requires contracted read/decode error status, streams and wording, but its

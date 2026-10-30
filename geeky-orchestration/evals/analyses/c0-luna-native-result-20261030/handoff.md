@@ -21,7 +21,7 @@ Preserve raw captures, workspace and native sessions. Candidate HEAD is only
 spec commit `d03bfc723e1a6d03f502bc628d807c74ec616086`; uncommitted planning
 files are preserved separately. No retries, resumes, overtime, pushes or score
 publication are authorized. Do not infer a new attempt from this checkpoint.
-Later offline remediation must preserve this result and revised source scope.
+The follow-up fixes landed in `751fb0d`, `6a47324` and `ae126e3`; the next attempt is recorded in [c0-plan-freeze-native-result-20261030](../c0-plan-freeze-native-result-20261030/README.md). This result is unchanged.
 Do not rerun the contestant to fill a missing score.
 
 Done: report actual non-acceptance, withheld scores, source commits and evidence.

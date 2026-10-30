@@ -230,6 +230,8 @@ The weights sum to 1, so the score stays 0–100 however many tasks there are. L
 
 ## Placement
 
+This is the planned layout. Today only the scorer, judge calibration notes, prompts, cases, adapters and discovery files exist. The `/geeky-eval` skill, judge agent, rubric, expectations, results folder and MCP scoring tools are not built yet.
+
 | Component | Location |
 |---|---|
 | Skill | `skills/geeky-eval/` with subcommands `run`, `judge`, `score`, `compare` and `report`. There is no same-named `commands/` wrapper, because one would shadow the skill (D78). |
