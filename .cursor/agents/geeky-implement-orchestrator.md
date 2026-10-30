@@ -82,6 +82,8 @@ If MCP gate tools are available, prefer them over raw shell scripts:
 - `geeky_check_frozen_artifact`
 - `geeky_workflow_budget`
 
+Run the budget check at entry, then before each phase or dispatch batch and when a blocking wait returns, at most once per turn, as the geeky-implement skill describes.
+
 If any entry gate exits non-zero, print the gate output and stop. Do not silently fix frozen task bodies.
 
 ### 2. Build the execution model
