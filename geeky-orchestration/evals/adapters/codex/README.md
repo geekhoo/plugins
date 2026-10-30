@@ -19,8 +19,9 @@ which hid every cold worker's brief; see [lessons learned](../../lessons-learned
 The [offline encrypted-output fix](../../analyses/c0-encrypted-output-fix-20261029/README.md)
 passed 290 regressions, 64 subtests, 10 readiness tests and 69 real-Codex MXC
 proxy checks. The full scripted C0 mock passed oracle 13/13 over three runs.
-All endpoint responses were local fixtures with external network denied. Changes
-are uncommitted; no live provider was verified and no paid run is authorized.
+All endpoint responses were local fixtures with external network denied. Those
+changes landed in `0b4a5c0`, and the `agent_message` lowering is `3bfc927`.
+No full live run has exercised either.
 The prior direct-native launch recipes are historical and must not be reused.
 
 The [minimal reasoning normalization](../../analyses/bridge-reasoning-normalization-20261027/README.md)

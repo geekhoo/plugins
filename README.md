@@ -1,8 +1,8 @@
 # geekhoo plugins
 
-[Latest native Luna/high C0 result](geeky-orchestration/evals/analyses/c0-plan-freeze-native-result-20261030/README.md): NOT ACCEPTED at geeky-implement/T1 Blocked after 97m49s. No product code or tests; oracle 0/13 x3. Langfuse 32 traces/999 observations; strict Quality/parity unavailable. Source ae126e3, one host invocation, no operator recovery or overtime; W5 and push waived by owner. Complete addressed worker assignments are present in the capture despite receipt denials.
+[Latest native Luna/high C0 result](geeky-orchestration/evals/analyses/c0-plan-freeze-native-result-20261030/README.md): NOT ACCEPTED at geeky-implement/T1 Blocked after 97m49s. No product code or tests; oracle 0/13 x3. Langfuse 32 traces/999 observations; strict Quality/parity unavailable. Source ae126e3, one host invocation, no operator recovery or overtime; W5 and push waived by owner. Cause, found after closeout: LiteLLM drops `agent_message` input whenever a request carries tools, so cold workers never saw their briefs. Main now lowers each one to a framed user message (`3bfc927`); no live run has used the fix yet.
 
-Historical entries below retain their recorded preparation and result states. The plan-freeze and native handoff fixes are committed in the source used by the latest attempt.
+Historical entries below retain their recorded preparation and result states. The plan-freeze and native handoff fixes are committed in the source used by the latest attempt. Main has since added the `agent_message` lowering and two MXC cost changes: a `geeky_workflow_budget` MCP tool with fewer budget rechecks (`9b65b8c`), and a 75% implementation target with one-dispatch re-review (`6b13509`).
 
 [Actual Luna/high C0 result](geeky-orchestration/evals/analyses/c0-luna-native-result-20261030/README.md): NOT ACCEPTED at plan-review after 31m11s; T2 validation gap and frozen-plan/edit conflict. Oracle 0/13 x3; Langfuse 8 traces/391 observations; strict scores withheld. One attempt consumed, no retry/resume/overtime.
 

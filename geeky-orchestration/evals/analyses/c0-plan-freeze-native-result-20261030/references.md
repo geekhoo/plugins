@@ -10,4 +10,5 @@
 - evidence/source-audit.md and source-delta.txt: source comparison with Claude 0b1f5fb, including parity-detector change 9baaba3; no scoring source changed in this W6 operation.
 - evidence/terminal-credential-scan.json and staged scan record: literal rotated credential matching, path/line reporting only, no values.
 - evidence/terminal-evidence-pins.json: raw capture and final workspace byte preservation.
+- Post-closeout diagnosis: ignored local `outputs/c0-agent-message-probe-20261030/` (probe scripts, result.json, codex-shape*.json). Fix in main `3bfc927`; lessons-learned entry "LiteLLM drops agent_message input when tools are present".
 - Local operator folder: outputs/c0-w6-native-20261030/. Launch guard exits occurred before the atomic attempt claim and before live invocation; no extra paid attempt was made.

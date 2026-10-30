@@ -10,6 +10,7 @@
 | Strict Quality/parity | Blocked by absent implementation | scorer exit 2; no supported T1 commit; parity missing Quality input |
 | Credential scan and evidence preservation | Done before commit | Terminal scan PASS; staged scan recorded with closeout |
 | Analysis/README/readiness/handoff/references | Done | This folder and repository index updates |
+| Post-closeout root cause and proxy fix | Done offline; live unverified | Nine live probes; main `3bfc927`; README "Root cause" section |
 | Push | Waived by owner; not performed | Local closeout commit only |
 
 No implementation, phase acceptance, DoD or final review was completed. No follow-up live action is scheduled.

@@ -25,6 +25,14 @@ The [independent audit](evidence/worker-audit.md) separates complete-task exampl
 
 The raw analyzer reports `impl_review_rounds=1`, and automatic Langfuse coverage reports an impl-review hit and complete coverage. Those are mention detections, contradicted by the final checkpoint and raw execution boundary. They are retained unchanged; no implementation or final review verdict is inferred from them.
 
+## Root cause, found after closeout
+
+The captured assignments were real. The model never received them. LiteLLM drops `agent_message` input items whenever the request also carries `tools`. All 16 forked agents worked because their inherited history held the parent's `spawn_agent` call, brief included. All 7 cold implementers had only the `agent_message`, and five of them billed exactly 13,233 input tokens with briefs from 403 to 10,989 characters.
+
+Nine small live probes on 2026-10-30 settled it. A bare `agent_message` reached `vercel/gpt-6-luna`. The same item inside Codex 0.164.0's real request envelope did not, and removing only `tools` brought it back; `stream`, `include` and client metadata made no difference. Sent as a user message, the brief arrived with tools present. Probe scripts and results stay local in the ignored `outputs/c0-agent-message-probe-20261030/`.
+
+Main commit `3bfc927` makes the native proxy lower each `agent_message` to a user message headed `Agent message envelope: {json}`, the framing the bridge mapper already used. The verdict above stands. This attempt stays NOT ACCEPTED and its bytes are unchanged.
+
 ## Authorization, provenance and scoring
 
 The owner explicitly requested W6 at ae126e3 and waived W5 rehearsals and push. No rehearsal ran. The existing narrow Windows Luna/high qualification waiver was retained without claiming qualification. Fresh offline inventory, source/tool hashes, 18 MXC build pins and the role configuration were verified. Canonical prompt SHA-256 stayed `124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde`; the live invocation generated a fresh deadline.
