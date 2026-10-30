@@ -24,7 +24,7 @@ Use the shared [workflow terminology](../AGENTS.md#workflow-terminology).
 - Treat `kanban.md` as the source of truth during implementation.
 - Do not push to remote during implementation.
 - Do not use `--amend`, `--force`, or `--no-verify`.
-- Once planning is frozen, do not edit planning contract files during implementation:
+- The planning contract freezes when `plan-review` records its final verdict. After that, do not edit these files:
   - `feature-specification.md`
   - `implementation-plan.md`
   - `draft.md`
@@ -78,8 +78,11 @@ Accept either:
 git add docs/<feature-folder>/
 git commit -m "docs: author feature specification in <feature-folder>" \
   -m "<1-line summary of the spec focus>" \
-  -m "Research conducted by: codebase analyst, researcher 2 domain, researcher 3 domain"
+  -m "Research conducted by: codebase analyst, researcher 2 domain, researcher 3 domain" \
+  -m "Tasks: none"
 ```
+
+No tasks exist yet, so this docs commit uses `Tasks: none`.
 
 ### Required output state
 
@@ -90,7 +93,7 @@ git commit -m "docs: author feature specification in <feature-folder>" \
 
 ---
 
-## 2. `geeky-plan` — create the frozen planning package
+## 2. `geeky-plan` — create the planning package
 
 **Purpose:** Convert the specification into a complete implementation package ready for implementation.
 
@@ -169,7 +172,7 @@ The folder must contain:
 - `references.md`
 - `handoff.md`
 
-After this step, the planning package is the frozen implementation contract.
+The package stays editable through `plan-review`. It becomes the frozen implementation contract when `plan-review` records its final verdict.
 
 ---
 
@@ -282,6 +285,8 @@ git commit -m "chore(plan): Plan review — align documents, fix sequencing" \
 ### Rules
 
 - Never delete tasks; move, rename, or add only.
+- Phase 2 may edit `implementation-plan.md`, `draft.md`, `references.md` and `tasks/Tx-*.md`. `feature-specification.md` takes mechanical fixes only.
+- The planning contract freezes when this skill records its final verdict.
 - Preserve user intent.
 - Flag ambiguity.
 - Minimize churn.
@@ -415,7 +420,7 @@ Refs: docs/<planning-folder>/tasks/Tx-*.md
    - phase name/date/duration,
    - tasks completed/blocked,
    - commits created,
-   - PM review highlights,
+   - phase review verdict and reviewer agent ID,
    - deferred follow-ups.
 
 ### Phase 3 — end of run
@@ -442,7 +447,7 @@ When all phases are complete, backlog is empty, or a task blocks:
 
 ## 5. `impl-review` — multi-angle review of completed implementation
 
-**Purpose:** Review implemented work after `geeky-implement` completes, using 3 dynamically selected domain reviewers.
+**Purpose:** Final implementation review after `geeky-implement` completes, using 3 dynamically selected domain reviewers. It does not replace the last phase review.
 
 ### Input
 
@@ -457,44 +462,48 @@ If missing:
 1. Review uncommitted changes when `git diff --stat` is non-empty.
 2. Otherwise scan `docs/` for the most recent feature package and review commits since its stated baseline.
 
+### Review boundary
+
+Task and phase review verdicts are inputs. Review the approved outcome and cross-phase integration within each domain. Do not repeat earlier reviews or tests unless changed dependencies, contradictory evidence or a concrete defect invalidate them. Record the reason for reopening a surface.
+
+### Resume contract (check first)
+
+The report lives in `review-impl.md` in the package folder, or in `docs/` for diff-only reviews. Each domain section records the reviewer agent ID, the reviewed revision or file hashes, findings, verdict and `<!-- reviewer-complete: <domain> -->`.
+
+If `review-impl.md` exists for the same target, the run is a resume. Skip completed domains whose reviewed revision and dependencies are still valid. Dispatch only missing or invalidated domains and merge into the existing report. A completed marker alone does not prove current validity.
+
 ### Steps
 
 1. Discover what was built.
    - Read `handoff.md`, `kanban.md`, and the implementation plan.
    - Run `git diff --stat` against the base.
    - Categorize changed work into 3-5 technical domains.
-2. Select exactly 3 significant, non-overlapping reviewer domains.
-3. Rank domains by:
-   - impact,
-   - risk,
-   - complexity,
-   - coverage of changed lines.
-4. Define each reviewer with:
-   - domain title,
-   - focus statement,
-   - file subset/patterns,
-   - 4-6 domain-specific criteria.
-5. Dispatch all 3 reviewers in parallel using `geeky-orchestration:code-reviewer`.
-6. Reviewers must not modify files.
-7. Reviewers must cite exact file paths and line numbers.
-8. Each reviewer reports:
-   - Critical Issues,
-   - Warnings,
+2. Select exactly 3 significant, non-overlapping reviewer domains. Rank by impact, risk, complexity and coverage of changed lines.
+3. Define each reviewer with a domain title, a focus statement, a file subset, and 4-6 domain-specific criteria.
+4. Dispatch all 3 reviewers in parallel in one turn, using `geeky-orchestration:code-reviewer`. Reviewers do not modify files and cite exact file paths and line numbers.
+5. Each reviewer reports:
+   - Required Findings (must fix, with severity),
+   - Nonblocking Warnings (follow-ups),
    - Suggestions,
    - Verdict: PASS, PASS WITH WARNINGS, or NEEDS FIXES.
-9. Consolidate findings:
-   - deduplicate overlaps,
-   - prioritize Critical > Warning > Suggestion,
-   - present unified report.
-10. Overall verdict is either PASS or NEEDS FIXES.
-11. If critical issues exist, ask the user whether to apply fixes.
-12. If approved, dispatch `geeky-coder` to fix only the critical issues, validate the affected scope, and commit:
+
+   Any unmet requirement, mandatory constraint, unresolved required finding or missing required evidence means NEEDS FIXES, whatever its severity label.
+6. Save each reply in its `review-impl.md` section as it arrives, before waiting for the others.
+7. After all 3 sections are saved and current, consolidate in `review-impl.md`:
+   - deduplicate findings,
+   - separate required findings from nonblocking follow-ups, then order by severity,
+   - record per-reviewer verdicts.
+8. Overall PASS requires all three current domain verdicts to be PASS or PASS WITH WARNINGS, with required findings resolved and complete passing evidence. Otherwise Overall is NEEDS FIXES. Missing or unknown reviewer evidence cannot pass.
+9. If required findings remain, ask whether to apply fixes unless already authorized. If the user declines, report NEEDS FIXES and stop.
+10. If approved, dispatch `geeky-coder` once with every required finding. Validate, then re-review all affected domains in one reviewer dispatch. Preserve unchanged sections and consolidate current verdicts. Commit:
 
 ```bash
-git commit -m "fix(spec): Address N critical review findings from impl-review" \
+git commit -m "fix(spec): Address N required review findings from impl-review" \
   -m "<1-line summary per fix>" \
   -m "Tasks: <IDs touched>"
 ```
+
+11. Once required findings are resolved and affected checks pass, record the final verdict and finish closeout. Do not add another review or hardening pass.
 
 ### Rules
 
@@ -502,7 +511,9 @@ git commit -m "fix(spec): Address N critical review findings from impl-review" \
 - Reviewers must be non-overlapping.
 - Run all reviewers in parallel.
 - Findings must be evidence-based.
-- Fix only critical issues, through `geeky-coder`, after user approval; warnings and suggestions are reported, not auto-fixed.
+- Fix every required finding through `geeky-coder`, whatever its severity label. The orchestrator does not edit product code or tests.
+- Warnings and suggestions remain follow-ups; they do not trigger a fix or review loop.
+- Reopen a domain only when concrete evidence invalidates acceptance.
 
 ---
 
@@ -512,7 +523,6 @@ git commit -m "fix(spec): Address N critical review findings from impl-review" \
 
 ### Prerequisites
 
-- `/archive` must be wired to invoke the archive skill.
 - Use only after `geeky-implement` is complete.
 - The package must have:
   - all tasks completed in kanban,
@@ -553,6 +563,8 @@ archives/docs/<folder-name>-planning/
    - `tasks/` directory
    - `tasks/T*.notes.md`, if present
    - `review-development-project-manager.md`, if present
+   - `review-plan.md`, if present
+   - `review-impl.md`, if present
    - `implementation-plan.md`
    - `draft.md`, if present
    - any `*-prompt.md` files
@@ -576,12 +588,15 @@ archives/docs/<folder-name>-planning/
 12. Commit:
 
 ```bash
-git add -A
-git commit -m "chore: Archive completed planning package" \
+git add -A -- docs/<folder-name> archives/docs/<folder-name>-planning CLAUDE.md AGENTS.md
+git commit -m "docs(archive): archive <folder-name> planning package" \
   -m "Move planning artifacts to archives/docs/<folder-name>-planning/" \
   -m "Keep implementation specification, handoff, and README in docs/<folder-name>/" \
-  -m "Update CLAUDE.md / AGENTS.md current state"
+  -m "Update CLAUDE.md / AGENTS.md current state" \
+  -m "Tasks: none"
 ```
+
+Stage only these paths. Unrelated working-tree changes stay out of the archive commit.
 
 13. Verify:
    - `implementation-plan.md` is archived, not final-folder-local.
@@ -621,6 +636,8 @@ Optional implementation variants:
 /geeky-implement docs/<feature-folder>/ --phase=<name|number>
 ```
 
+After a session cutoff, run `/geeky-resume docs/<feature-folder>/` first. It reconciles the kanban against live git state, then hands off to `/geeky-implement`.
+
 ---
 
 ## Final lifecycle state
@@ -640,6 +657,7 @@ archives/docs/<feature-folder>-planning/
   kanban.md
   tasks/
   review-development-project-manager.md
+  review-plan.md, review-impl.md, if present
   execution-schedule.md, if present
   other planning-only artifacts
 ```

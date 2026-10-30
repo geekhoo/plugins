@@ -64,7 +64,7 @@
     },
     {
       "id": "check-commit",
-      "purpose": "Commit message is Conventional Commits + references a task (Tasks: T<n>).",
+      "purpose": "Commit message is Conventional Commits + references a task (Tasks: T<n>); docs commits may use Tasks: none.",
       "when": "before each commit in geeky-implement; ideal as a git commit-msg hook",
       "args": "FILE (git commit-msg path)  OR  --message <text>  OR  stdin",
       "python": "python \"scripts/check-commit.py\" <FILE|--message \"...\"> [--json]",
@@ -78,7 +78,18 @@
       "args": "[--mode warn|block] [--exit-code]  (stdin = tool-call JSON)",
       "python": "python \"hooks/guard-planning-contract.py\" --mode warn",
       "powershell": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"hooks/guard-planning-contract.ps1\" -Mode warn",
-      "json": false
+      "json": false,
+      "mcp_tool": "geeky_check_frozen_artifact"
+    },
+    {
+      "id": "workflow-budget",
+      "purpose": "Read-only workflow clock: reports the stage's cumulative advisory time target from GEEKY_DEADLINE_UTC and GEEKY_CLOSEOUT_RESERVE_S. Exit 0 = ok, 2 = invalid input, 3 = budget exhausted. Python only; no PowerShell mirror.",
+      "when": "entry of spec-research, geeky-plan, plan-review and geeky-implement; recheck before each phase or dispatch batch in geeky-implement",
+      "args": "--stage spec-research|geeky-plan|plan-review|geeky-implement|impl-review",
+      "python": "python \"scripts/workflow-budget.py\" --stage <stage> [--json]",
+      "powershell": null,
+      "json": true,
+      "mcp_tool": "geeky_workflow_budget"
     }
   ],
   "frozen_artifacts": [

@@ -19,6 +19,10 @@ This section applies only to operators in the source checkout. Contestant export
 6. **impl-review** — review delivered code through three domain-specific lanes.
 7. **archive** — move completed planning artifacts into the archive structure.
 
+After a session cutoff, compaction, crash or dead subagent, use **geeky-resume**. It
+reconciles kanban lanes and handoff claims against live git state, then hands off to
+geeky-implement.
+
 Use **geeky-orchestrator** when the requested entry point is unclear or when one
 agent should administer the lifecycle. It examines repository evidence read-only
 and recommends a workflow before mutation. Clear, explicit requests route to the
@@ -79,7 +83,7 @@ Use `python3` where `python` is not on PATH; use `pwsh` (PowerShell 7+) for the 
 | Task-file schema | end of plan; start of implement | `python scripts/validate-task-schema.py --path "<folder>"` | `pwsh -File scripts/validate-task-schema.ps1 -Path "<folder>"` |
 | Kanban integrity | after every lane move | `python scripts/validate-kanban.py --path "<folder>"` | `pwsh -File scripts/validate-kanban.ps1 -Path "<folder>"` |
 | Definition of Done | in the Done step: move the task to Done, run this gate in the same step, move it back out on failure (D92) | `python scripts/check-dod.py --path "<folder>" --task <ID>` | `pwsh -File scripts/check-dod.ps1 -Path "<folder>" -Task <ID>` |
-| Commit message | before each commit; pre-planning docs commits use `Tasks: none` | `python scripts/check-commit.py --message "<msg>"` (or `<FILE>`) | `pwsh -File scripts/check-commit.ps1 -Message "<msg>"` (or `<FILE>`) |
+| Commit message | before each commit; docs commits with no task (pre-planning spec, archive) use `Tasks: none` | `python scripts/check-commit.py --message "<msg>"` (or `<FILE>`) | `pwsh -File scripts/check-commit.ps1 -Message "<msg>"` (or `<FILE>`) |
 
 **Feedback loop:** when a gate exits non-zero, read its output, fix the artifact,
 and re-run the same gate until it exits 0 before proceeding.

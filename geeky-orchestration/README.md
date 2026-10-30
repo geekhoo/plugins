@@ -132,12 +132,13 @@ three runs is in [the Claude review](evals/analyses/c1-claude-review-20261024.md
 | `spec-research` | skill | Researches a new spec with a parallel 3-subagent team (codebase, web best practices, architecture), then writes `feature-specification.md` and `README.md` in `docs/`. Runs *before* `geeky-plan`. |
 | `geeky-plan` | skill | Produces a complete planning package: implementation plan, ordered task files, PM review, kanban, references, handoff. |
 | `plan-review` | skill | 4-phase quality review of a `geeky-plan` package. document alignment, issue resolution, sequencing validation, final sanity pass. Run between planning and implementation. |
-| `geeky-implement` | skill | Orchestrates execution: walks the kanban, delegates `geeky-coder` subagents (up to 3 in parallel), runs per-task validation, code review, and per-phase PM review, commits in small logical groups, never pushes. |
+| `geeky-implement` | skill | Orchestrates execution: walks the kanban, delegates `geeky-coder` subagents (up to 3 in parallel), verifies each task's validation evidence, and dispatches one `code-reviewer` phase review per phase that gives each task its own verdict. Commits in small logical groups, never pushes. |
 | `impl-review` | skill | Reviews *delivered code* (not planning docs) with 3 dynamically-chosen domain-expert subagents, each covering a distinct aspect of what was built. |
 | `geeky-status` | skill | Read-only snapshot of a planning folder. Lane counts, blocked items, last handoff entry, suggested next step. No agents, no edits. |
 | `geeky-resume` | skill | Post-cutoff reconciliation: verifies kanban/handoff claims against live `git status`/`git log`/`git diff`, corrects lanes to verified reality (the only edits it may make), then hands off to `/geeky-implement`. Never trusts a pre-cutoff "done". |
-| `archive` | skill | Archives a concluded spec: moves planning artifacts to `archives/`, creates the permanent `docs/spec-NNN-name/` folder (spec + handoff + README), updates CLAUDE.md current state. |
+| `archive` | skill | Archives a concluded spec: moves planning artifacts (including `review-plan.md` and `review-impl.md`) to `archives/docs/<folder-name>-planning/`, keeps spec + handoff + README in `docs/<folder-name>/`, and updates the `## Current State` sections of CLAUDE.md and AGENTS.md. Commits only those paths as `docs(archive): archive <folder-name> planning package` with `Tasks: none`. |
 | `geeky-orchestrator` | agent | Intelligent workflow administrator for direct routing, read-only triage, lifecycle coordination, and focused clarification when the correct entry point is ambiguous. |
+| `geeky-implement-orchestrator` | agent | Use when executing, resuming, dry-running, or thoroughly orchestrating a geeky-plan planning package with the geeky-implement skill. |
 | `/spec-research`, `/geeky-plan`, `/plan-review`, `/geeky-implement`, `/impl-review`, `/geeky-status`, `/geeky-resume`, `/archive` | slash invocation | Each skill is invoked directly as a slash command (`/geeky-orchestration:<name>`). The plugin ships no separate `commands/` wrappers: a same-named command shadowed its skill, so invoking it returned the wrapper text instead of the `SKILL.md` procedure. The full procedure lives only in `skills/<name>/SKILL.md`, which non-Claude agents read too. |
 | `geeky-coder` | agent | Portable coder subagent. Treats the orchestrator's brief as authoritative scope. Returns a structured summary. Safe to spawn in parallel against non-overlapping task surfaces. |
 | `code-architect` | agent | Portable architecture reviewer subagent. Reviews code with a system-level lens, focusing on maintainability, scalability, modularity, and architectural best practices. |
@@ -148,7 +149,7 @@ three runs is in [the Claude review](evals/analyses/c1-claude-review-20261024.md
 | `scripts/validate-task-schema.{ps1,py}` | gate | Each `tasks/Tx-*.md` carries the required template sections (plan→implement boundary). |
 | `scripts/validate-kanban.{ps1,py}` | gate | Kanban integrity: every task in exactly one lane, no dangling refs, WIP cap, lane coverage. |
 | `scripts/check-dod.{ps1,py}` | gate | Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block for comparison with evidence. |
-| `scripts/check-commit.{ps1,py}` | gate | Commit message is Conventional Commits + references a task (`Tasks: T<n>`). |
+| `scripts/check-commit.{ps1,py}` | gate | Commit message is Conventional Commits + references a task (`Tasks: T<n>`). `docs` commits may use `Tasks: none`. |
 | `hooks/guard-planning-contract.{ps1,py}` | hook | PreToolUse guard for edits to frozen planning artifacts. Default `--mode warn` (advisory, surfaced via portable stdout+stderr); `--mode block` denies via Claude/Codex JSON (or exit 2 with `--exit-code`). |
 | `AGENTS.md` + `geeky.manifest.json` | discovery | Framework-agnostic discovery layer: how non-Claude agents learn the contract and invoke the gates (human-readable + machine-readable). |
 | `mcp/server.py` + `.mcp.json` | MCP server | `geeky_mcp`. stdio server exposing the six gates and the workflow-budget report as seven MCP tools for any MCP-capable agent. Thin adapter over the same scripts. See [mcp/README.md](mcp/README.md). |
@@ -161,16 +162,17 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 /spec-research <topic or spec-NNN>     → writes feature-specification.md + README.md in docs/<feature>/
 
 /geeky-plan <spec or folder>          → produces docs/<feature>/...
-   ├─ implementation-plan.md           (FROZEN after this point)
-   ├─ feature-specification.md         (FROZEN)
-   ├─ draft.md                         (FROZEN)
-   ├─ references.md                    (FROZEN)
+   ├─ implementation-plan.md           (contract; frozen at plan-review's final verdict)
+   ├─ feature-specification.md         (contract; mechanical fixes only)
+   ├─ draft.md                         (contract)
+   ├─ references.md                    (contract)
    ├─ kanban.md                        (mutable — status of truth)
    ├─ handoff.md                       (mutable — running log)
    ├─ review-development-project-manager.md
-   └─ tasks/T1-...md  T2-...md  ...    (FROZEN — notes go in Tx-*.notes.md siblings)
+   └─ tasks/T1-...md  T2-...md  ...    (contract — notes go in Tx-*.notes.md siblings)
 
-/plan-review <folder>                  → 4-phase quality review of the planning package
+/plan-review <folder>                  → 4-phase quality review; may correct the contract,
+                                         then freezes it at its final verdict
 
 /geeky-status <folder>                 → read-only snapshot
 
@@ -179,8 +181,7 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 /geeky-implement <folder>              → walks kanban Ready → Done
    ├─ delegates geeky-coder per task (max 3 parallel when safe)
    ├─ verifies each task's validation evidence; runs only justified checks
-   ├─ runs code-review on each task's diff
-   ├─ runs PM review at each phase boundary
+   ├─ one code-reviewer phase review per phase, with a verdict per task
    ├─ writes tasks/Tx-*.notes.md per task
    ├─ commits per phase, split into small logical commits
    └─ updates kanban.md + handoff.md continuously
@@ -188,8 +189,8 @@ Every gate follows one contract: **arguments in, exit 0 = pass / exit 1 = fail, 
 
 /impl-review <folder|diff|branch>      → 3 domain-expert subagents review the delivered code
 
-/archive <folder|spec-NNN>             → moves planning artifacts to archives/,
-                                         finalizes docs/spec-NNN-name/, updates CLAUDE.md
+/archive <folder|spec-NNN>             → moves planning artifacts to archives/docs/<folder-name>-planning/,
+                                         keeps docs/<folder-name>/, updates CLAUDE.md and AGENTS.md
 ```
 
 ## Operating profile (baked into `/geeky-implement`)
@@ -206,7 +207,7 @@ Override per run via flags inside the argument string:
 
 ## Contract between commands
 
-The output of `/geeky-plan` is a **read-only contract** consumed by `/geeky-implement`. The implementer never edits:
+The output of `/geeky-plan`, as corrected by `/plan-review`, freezes at plan-review's final verdict. From then on it is a **read-only contract** consumed by `/geeky-implement`. The implementer never edits:
 
 - `implementation-plan.md`
 - `feature-specification.md`
@@ -250,6 +251,7 @@ This plugin ships in the `geekhoo-plugins` marketplace. Once that marketplace is
 # Pick up on a different day
 /geeky-status docs/my-feature/      # where are we?
 /geeky-implement docs/my-feature/   # resume
+/geeky-resume docs/my-feature/      # after a session cutoff: reconcile, then resume
 
 # Try a single phase first
 /geeky-implement docs/my-feature/ --phase=2 --dry-run
@@ -309,12 +311,13 @@ node   scripts/sync-agents.js --agents geeky-orchestrator
 
 See `docs/cross-harness-agent-registration.md` for usage flags, compatibility notes, and verification steps.
 
-## Planned: agent eval (`/geeky-eval`)
+## Agent eval harness
 
-Not yet implemented. Design decisions for evaluating, judging, and scoring coding agents/harnesses/models on quality, adherence, and consistency are recorded in [docs/agent-eval-decisions.md](docs/agent-eval-decisions.md). The three sample challenges are in `evals/cases/c1-csvledger/`, `c2-linkvault/` and `c3-minisql/`. Each folder holds:
+The harness exists: baseline runners (`evals/scripts/run-baseline.ps1`, `run-codex-baseline.ps1`), the Codex adapter (`evals/adapters/codex/`), the run analyzer and the deterministic scorer (`evals/scripts/score-run.py`). Not yet built: the `/geeky-eval` skill wrapper, the LLM judge agent and its rubric. Design decisions are recorded in [docs/agent-eval-decisions.md](docs/agent-eval-decisions.md). The four challenges are in `evals/cases/c0-wordstat/`, `c1-csvledger/`, `c2-linkvault/` and `c3-minisql/`. Each folder holds:
 
 - `spec.md`: the reference spec.
 - `brief.md` and `contract.md`: the only files contestants see.
+- `case.json`: run limits (token and wall-time ceilings, timeouts) and oracle settings.
 - `oracle/`: the hidden pytest suite. Run it from inside `oracle/` with `ORACLE_TARGET=<contestant repo root>`.
 
 ## Consistent C1 saved-trace scoring (2026-10-24)

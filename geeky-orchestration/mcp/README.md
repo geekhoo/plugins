@@ -87,7 +87,7 @@ It is deliberately outside pytest — every run pays a `uv` resolve.
 **Why the interpreter is pinned.** Tool descriptions are the handler docstrings, and
 CPython 3.13 changed the compiler to strip leading indentation from docstrings (3.10–3.12
 keep it). The same server therefore emits differently formatted descriptions either side of
-that change, and the baseline — diffed byte for byte — fails in all six descriptions for a
+that change, and the baseline — diffed byte for byte — fails in every tool description for a
 reason that has nothing to do with the server or the SDK. `requires-python = ">=3.10"` let
 `uv` pick any interpreter when building the venv, so this failed silently the moment a venv
 was rebuilt on an older Python. `.python-version` removes the choice; `MIN_PYTHON` in
@@ -100,7 +100,7 @@ diff.
 server's own stdin *is* the pipe the host talks to it on. `stdin=None` means *inherit*, and
 a validator that inherits it stalls before executing any code — the child is released only
 when the server's own pending read on that pipe completes, so in practice the tool call
-never returns. Four of the six tools hung this way until 0.2.15; the two that feed a message
+never returns. Four of the six tools that existed at 0.2.15 hung this way until that release; the two that feed a message
 on stdin always got their own pipe, which made the failure look partial.
 
 `_run` therefore passes `DEVNULL` to every validator that is not fed text. `../test_mcp_server.py`

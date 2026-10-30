@@ -89,6 +89,8 @@ line of defense.
 
 ## 4. Gaps in what exists today
 
+> **Resolved since (noted 2026-10-30):** this section records the state before the gates were built. The guard now has `--mode block` (deny via Claude/Codex JSON, or exit 2 with `--exit-code`). Six gates ship: five validators plus the frozen-artifact guard. `AGENTS.md` and `geeky.manifest.json` are the discovery layer, and `mcp/server.py` exposes the gates as MCP tools.
+
 - **Guard is warn-only via stderr + exit 0.** Weakly surfaced even in Claude Code (exit-0 stderr
   is not reliably shown to the model); invisible in other frameworks. → needs a portable channel.
 - **Only two gates exist** (frozen-artifact guard, planning-folder existence validator). The
