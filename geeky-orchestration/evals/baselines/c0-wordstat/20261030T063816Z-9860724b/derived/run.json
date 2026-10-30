@@ -1,0 +1,316 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c0-wordstat",
+  "harness": "codex",
+  "harness_version": "codex-cli 0.164.0",
+  "model": "vercel/gpt-6-luna",
+  "reasoning": "high",
+  "approach": "canonical-prompt",
+  "plugin_sha": "ae126e3d30744848fe3909d0470fe59a0c644bae",
+  "worker_model": "vercel/gpt-6-luna",
+  "worker_reasoning": "high",
+  "model_matrix": {
+    "orchestrator": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high"
+    },
+    "workers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "scope": "all-descendants-except-reviewers"
+    },
+    "reviewers": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "roles": [
+        "code-reviewer",
+        "code-architect-reviewer"
+      ],
+      "scope": "review-assignments"
+    }
+  },
+  "plugin_modified_during_run": false,
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "workspace": "C:\\repos\\c0-w6-native-20261030-3ee862d0\\runtime\\eval-c0-wordstat-codex-20261030T063816Z-9860724b",
+  "config_directory": "C:\\repos\\c0-w6-native-20261030-3ee862d0\\runtime\\.eval-cfg-codex-20261030T063816Z-9860724b",
+  "seed_sha": "5c791d627d348adef99d49ad14722f9fd9d04ea9",
+  "session_id": "01a18b87-f097-74b2-b21e-1d3072eb4c39",
+  "started_utc": "2026-10-30T06:38:20.7492501Z",
+  "ended_utc": "2026-10-30T08:16:09.6190421Z",
+  "wall_time_s": 5869,
+  "tokens": {
+    "input": 26124669,
+    "cached_input": 24942707,
+    "cache_creation": 1142576,
+    "output": 209031,
+    "reasoning": 90320,
+    "total": 26333700,
+    "cost_usd_estimate": null
+  },
+  "model_calls": 440,
+  "latency_median_ms": null,
+  "max_idle_gap_s": 300,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-10-30T06:39:02.182000+00:00",
+      "ended_utc": "2026-10-30T06:47:37.042000+00:00",
+      "minutes": 8.6
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-10-30T06:47:37.042000+00:00",
+      "ended_utc": "2026-10-30T06:56:03.217000+00:00",
+      "minutes": 8.4
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-10-30T06:56:03.217000+00:00",
+      "ended_utc": "2026-10-30T07:05:06.979000+00:00",
+      "minutes": 9.1
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-10-30T07:05:06.979000+00:00",
+      "ended_utc": "2026-10-30T07:48:00.009000+00:00",
+      "minutes": 42.9
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-10-30T07:48:00.009000+00:00",
+      "ended_utc": "2026-10-30T08:15:51.640000+00:00",
+      "minutes": 27.9
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": null,
+  "commits": 2,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "raw_sha256": {
+    "stream": "df36daf9e064d2fd8a08b126fbb4c282a595d31b0774fb076659bd3f26cafe23",
+    "session": "4cf8bb33f263029cf9011689f5da4a4aca3b69b00fc74ab0a0fe57b1c2cfeace"
+  },
+  "interventions": 0,
+  "token_ceiling": 6000000,
+  "token_ceiling_policy": "informational-until-codex-baseline",
+  "reference_eligible": false,
+  "analysis_status": "complete",
+  "parity_passed": true,
+  "runtime_parity_verified": false,
+  "profile_sha256": "e18402424f361693aca21e9c9f070770ce74df44b4591b7f9d7cbd2234e92ef1",
+  "mock_agent": false,
+  "runtime_toolchain_verified": false,
+  "diagnostics_passed": null,
+  "native_proof_folder": null,
+  "native_qualification": {
+    "status": "waived-by-owner",
+    "override_reason": "Existing owner waiver for the Windows MXC C0 Luna/high pair; no qualification claim. geeky-orchestration/evals/analyses/c0-luna-preparation-20261028/qualification-waiver.json"
+  },
+  "provider": {
+    "name": "litellm",
+    "base_url": "https://litellm.markefin.com",
+    "context_window": 200000,
+    "wire_mode": "native",
+    "compatibility_protocol": "codex-v2-native-plaintext"
+  },
+  "telemetry": {
+    "enabled": true,
+    "backend": "langfuse",
+    "base_url": "https://langfuse.markefin.com",
+    "environment": "mxc-win",
+    "trace_name": "codex-mxc-win-orchestrator",
+    "tags": [
+      "geeky-eval",
+      "identity:agent-v1",
+      "harness:codex",
+      "platform:win",
+      "environment:mxc-win",
+      "agent-family:codex-mxc-win",
+      "case:c0-wordstat",
+      "run:20261030T063816Z-9860724b",
+      "plugin:ae126e3"
+    ],
+    "user_id": "codex-mxc-win-orchestrator-01a18b87-f097-74b2-b21e-1d3072eb4c39",
+    "user_id_policy": "source-bound-agent",
+    "agent_family": "codex-mxc-win",
+    "metadata": {
+      "identity_schema": "geeky-eval.agent-identity/1",
+      "harness": "codex",
+      "platform": "win",
+      "environment": "mxc-win",
+      "agent_family": "codex-mxc-win",
+      "case": "c0-wordstat",
+      "run": "20261030T063816Z-9860724b",
+      "run_group_id": "codex-mxc-win-c0-wordstat-20261030T063816Z-9860724b",
+      "plugin_sha": "ae126e3d30744848fe3909d0470fe59a0c644bae",
+      "configured_model": "vercel/gpt-6-luna",
+      "configured_reasoning": "high",
+      "worker_model": "vercel/gpt-6-luna",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "provider": "litellm",
+      "configured_provider": "litellm",
+      "mock": "false",
+      "claude_hook_commit": "b5b7cc364996467e856dc17575b5674f4799ad87",
+      "codex_tracer_version": "0.4.2"
+    },
+    "full_content": true,
+    "ca_passthrough": [],
+    "session_id": "codex-mxc-win-c0-wordstat-20261030T063816Z-9860724b",
+    "native_session_id": "01a18b87-f097-74b2-b21e-1d3072eb4c39",
+    "summary": "langfuse.json",
+    "delivered": true,
+    "observations": 999,
+    "coverage_complete": true,
+    "coverage_missed": [],
+    "user_ids": [
+      "codex-mxc-win-coder-franklin-01a18bba-6a2c-76f0-a532-a43517f8fddc",
+      "codex-mxc-win-coder-hegel-01a18bca-f6b9-7c01-b425-6d1d42df0cb6",
+      "codex-mxc-win-coder-jason-01a18bbe-25be-7db2-855d-d05ff50b73fe",
+      "codex-mxc-win-coder-kant-01a18bb6-c3f0-7561-83b5-6d76af0a2ab7",
+      "codex-mxc-win-coder-linnaeus-01a18ba5-690c-7d11-8bab-8b98bfd69402",
+      "codex-mxc-win-coder-nietzsche-01a18bad-cd89-72a0-a7c4-efc0bc653957",
+      "codex-mxc-win-orchestrator-01a18b87-f097-74b2-b21e-1d3072eb4c39",
+      "codex-mxc-win-reviewer-darwin-01a18b9b-fece-71a1-b5ac-bca12a065257",
+      "codex-mxc-win-reviewer-halley-01a18b91-d87c-71a1-9a34-8a87017d3dab",
+      "codex-mxc-win-reviewer-laplace-01a18b96-e034-7052-8562-1a96a5ad0862",
+      "codex-mxc-win-reviewer-mcclintock-01a18b98-e140-7dd2-a338-0eff8a8e4a51",
+      "codex-mxc-win-reviewer-meitner-01a18b91-ae84-70c0-b03a-8a69a9bd152c",
+      "codex-mxc-win-reviewer-wegener-01a18b95-b8ad-71b3-a459-61bff2b02254",
+      "codex-mxc-win-reviewer-zeno-01a18b95-8edb-77b0-bb2e-6e8a126e6adb",
+      "codex-mxc-win-unknown-copernicus-01a18b89-4bc1-71c0-bcbe-62db7a641a6f",
+      "codex-mxc-win-unknown-dalton-01a18b89-33a6-7db2-b434-60f2b8a30134",
+      "codex-mxc-win-unknown-dirac-01a18b88-d4c3-7fd3-a9b8-0837ecef2c95",
+      "codex-mxc-win-unknown-fermat-01a18bd4-bb76-73d1-b2d7-a707ea30fad5",
+      "codex-mxc-win-unknown-galileo-01a18b89-29c2-7672-a576-f498ce2b7615",
+      "codex-mxc-win-unknown-helmholtz-01a18b89-1b22-73e2-a919-41287f17bd6d",
+      "codex-mxc-win-unknown-hooke-01a18b88-f8fe-7c72-9425-5b5e01a1d56c",
+      "codex-mxc-win-unknown-huygens-01a18b89-17ce-7223-94f1-a477c99a6fe4",
+      "codex-mxc-win-unknown-newton-01a18b89-139f-7f71-8bf6-05ff8804dc02",
+      "codex-mxc-win-unknown-tesla-01a18b88-e8bd-7be1-a369-99762a615a82"
+    ],
+    "agent_roles": [
+      "coder",
+      "orchestrator",
+      "reviewer",
+      "unknown"
+    ],
+    "trace_count": 32,
+    "hook": {
+      "kind": "codex-stop",
+      "package": "@langfuse/codex-observability-plugin@0.4.2",
+      "node": "C:\\Program Files\\nodejs\\node.exe",
+      "script": "C:\\repos\\.eval-tools\\langfuse\\codex-tracing\\0.4.2\\dist\\index.geeky.mjs"
+    },
+    "host_flush": "exit 0",
+    "observations_present": true,
+    "observations_status": "present",
+    "coverage_status": "met",
+    "scores_verified": false,
+    "scores_status": "pending"
+  },
+  "reviewer_reasoning": "high",
+  "compatibility_proxy": {
+    "enabled": true,
+    "wire_mode": "native-plaintext",
+    "protocol": "codex-v2-native-plaintext",
+    "base_url": "http://127.0.0.1:64060/v1",
+    "pid": 32544,
+    "source_sha256": {
+      "__init__.py": "84a07a37abc8a3e7645e1d2888e2c079a40e868c46ee11f4961ed5fb2461e423",
+      "__main__.py": "4d5e2c064a72bdde2fa609b757a9e4850f315315303db29e577f42fc6fbee1bc",
+      "mapper.py": "7bde0384018ca1e5f83f9f2304be0e7cb867ddacf799149a006438c1a849a21c",
+      "server.py": "5230831616113e8406eaf12cc9f0ee2d8abda2ce50e3631dcec9bf9c529c6a7c",
+      "native_plaintext.py": "54b11c21f2d84e949a809938ccce612bea4ae76ee8e345f1f45bfba6ca7df0e0"
+    },
+    "state_directory": "C:\\repos\\c0-w6-native-20261030-3ee862d0\\runtime\\.eval-cfg-codex-20261030T063816Z-9860724b\\litellm-native-plaintext",
+    "known_plaintext_policy": "process-local-provenance-only",
+    "provider_requests_on_start": 0
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "process-finished",
+    "attempt_id": "8a3f92df-b05e-4b6f-873a-3771b07f0da1",
+    "segment_id": "7fe2cfea-1e12-4cfd-9a30-8aefe8769298",
+    "authorization_reference": "Owner 2026-10-30: execute W6 at ae126e3; W5 and push waived; native Luna/high eight roles; 6000/60; one attempt zero recoveries; full closeout and commit, no push.",
+    "allowed_recoveries": 0,
+    "qualification_waiver": {
+      "status": "waived-by-owner",
+      "override_reason": "Existing owner waiver for the Windows MXC C0 Luna/high pair; no qualification claim. geeky-orchestration/evals/analyses/c0-luna-preparation-20261028/qualification-waiver.json"
+    },
+    "initial_deadline_utc": "2026-10-30T08:18:16.8487626Z",
+    "hard_wall_budget_s": 6000,
+    "closeout_reserve_s": 60,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "vercel/gpt-6-luna",
+      "reasoning": "high",
+      "worker_model": "vercel/gpt-6-luna",
+      "worker_reasoning": "high",
+      "reviewer_reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "wire_mode": "native",
+      "hard_wall_budget_s": 6000,
+      "closeout_reserve_s": 60,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "7bf3b043cd2a78a2b9f0dcaaf5fc5ba1acaab2ea31a04cad8d7d5ada2e2e6618",
+    "invocations": [
+      {
+        "invocation_id": "5fb981bc-bcce-4abf-b7bf-fff44bab1250",
+        "kind": "initial",
+        "timeout_s": 5996,
+        "started_utc": "2026-10-30T06:38:20.7825361Z",
+        "ended_utc": "2026-10-30T08:16:09.6027466Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "launch-preparation": "completed",
+      "seed-oracle": "completed",
+      "parsing": "completed",
+      "native-capture": "completed",
+      "telemetry-replay": "completed",
+      "oracle": "completed",
+      "telemetry": "completed",
+      "analysis": "in-progress"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 5868.789291199995,
+    "attempt_elapsed_s": 5872.751180900028,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 70492,
+    "writer_host": "CPC-geral-J9OHY",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  },
+  "over_token_ceiling": true,
+  "trace_complete": true,
+  "trace_errors": []
+}

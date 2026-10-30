@@ -1,0 +1,34 @@
+{
+  "code-architect": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high"
+  },
+  "code-explorer": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high"
+  },
+  "code-reviewer": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high"
+  },
+  "geeky-coder": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high"
+  },
+  "geeky-implement-orchestrator": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high"
+  },
+  "geeky-orchestrator": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high"
+  },
+  "code-architect-reviewer": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high"
+  },
+  "general-purpose": {
+    "model": "vercel/gpt-6-luna",
+    "effort": "high"
+  }
+}

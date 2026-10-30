@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "cwd": "C:\\repos\\c0-w6-native-20261030-3ee862d0\\runtime\\eval-c0-wordstat-codex-20261030T063816Z-9860724b",
+      "hooks": [
+        {
+          "key": "C:\\<session-flags>\\config.toml:pre_tool_use:0:0",
+          "eventName": "preToolUse",
+          "handlerType": "command",
+          "command": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe C:\\repos\\c0-w6-native-20261030-3ee862d0\\runtime\\.eval-cfg-codex-20261030T063816Z-9860724b\\home\\guard-bridge.py --guard C:\\repos\\c0-w6-native-20261030-3ee862d0\\runtime\\.eval-cfg-codex-20261030T063816Z-9860724b\\plugin\\geeky-orchestration\\hooks\\guard-planning-contract.py",
+          "async": false,
+          "matcher": "Edit|Write|NotebookEdit|apply_patch",
+          "timeoutSec": 5,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "C:\\<session-flags>\\config.toml",
+          "source": "sessionFlags",
+          "pluginId": null,
+          "displayOrder": 0,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:58d7a94820ca755d8c0d48d923554ec1c4f4d6488a50db825847e271223739d6",
+          "trustStatus": "untrusted"
+        },
+        {
+          "key": "C:\\<session-flags>\\config.toml:stop:0:0",
+          "eventName": "stop",
+          "handlerType": "command",
+          "command": "C:\\repos\\.eval-tools\\agent-py\\Scripts\\python.exe C:\\repos\\c0-w6-native-20261030-3ee862d0\\runtime\\.eval-cfg-codex-20261030T063816Z-9860724b\\home\\langfuse-tracer.py",
+          "async": false,
+          "matcher": null,
+          "timeoutSec": 600,
+          "statusMessage": null,
+          "additionalContextLimit": null,
+          "sourcePath": "C:\\<session-flags>\\config.toml",
+          "source": "sessionFlags",
+          "pluginId": null,
+          "displayOrder": 1,
+          "enabled": true,
+          "isManaged": false,
+          "currentHash": "sha256:79c809b6f3a8430cf11e3d713cf2b7e8717e01d9cfae8b7789e8181e161f4857",
+          "trustStatus": "untrusted"
+        }
+      ],
+      "warnings": [],
+      "errors": []
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "run_id": "20261030T063816Z-9860724b",
+  "plugin_sha": "ae126e3d30744848fe3909d0470fe59a0c644bae",
+  "candidate_head": "8944713b2e36cb0430c3a93c2fdcda3c0574ca4b",
+  "accepted": false,
+  "stage_reached": "geeky-implement",
+  "task_state": "T1 Blocked",
+  "stop_reason": "Worker assignments repeatedly declined or unrecognized; no product code or tests produced",
+  "process_exit": 0,
+  "process_exit_reason": "completed",
+  "started_utc": "2026-10-30T06:38:20.7492501Z",
+  "ended_utc": "2026-10-30T08:16:09.6190421Z",
+  "contestant_time_s": 5868.789291199995,
+  "budget_s": 6000,
+  "reserve_s": 60,
+  "invocations": 1,
+  "allowed_recoveries": 0,
+  "operator_retries": 0,
+  "operator_resumes": 0,
+  "operator_overtime": 0,
+  "provider_probes": 0,
+  "rehearsals": {
+    "status": "waived-by-owner",
+    "attempts": 0
+  },
+  "push": "waived-by-owner; not performed",
+  "canonical_prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "wire_mode": "native",
+  "configured_model": "vercel/gpt-6-luna",
+  "configured_effort": "high on main and all eight roles",
+  "observed_threads": 24,
+  "observed_models": [
+    "vercel/gpt-6-luna"
+  ],
+  "observed_efforts": [
+    "high"
+  ],
+  "oracle": {
+    "collected": 13,
+    "passed": 0,
+    "failed": 0,
+    "errors": 13,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "product_python_files": 0,
+  "test_python_files": 0,
+  "langfuse": {
+    "session_id": "codex-mxc-win-c0-wordstat-20261030T063816Z-9860724b",
+    "traces": 32,
+    "observations": 999,
+    "generations": 454,
+    "tool_calls": 513,
+    "truncated_observations": 0
+  },
+  "scores": {
+    "strict_score_exit": 2,
+    "parity_exit": 1,
+    "quality_input_produced": false,
+    "qact_composite": null,
+    "parity_composite": null,
+    "reason": "T1: no source-supported implementation commit; final HEAD fallback forbidden",
+    "score_publication": false
+  },
+  "native_protocol": {
+    "response_items": 1650,
+    "tool_search_calls": 0,
+    "tagged_handoff_parts": 0
+  },
+  "automatic_summary_caveat": "analysis impl_review_rounds=1 and coverage impl-review hit are mention detections, not evidence of executed final review",
+  "terminal_credential_scan": {
+    "status": "PASS",
+    "checked_files_or_blobs": 84,
+    "hits": []
+  },
+  "historical_scoring_difference": "parity-eval.py detector changed at 9baaba3 relative to Claude 0b1f5fb; score-run.py and canonical prompt identical; no scoring edits in W6",
+  "source_fix_commits": [
+    "751fb0d",
+    "6a47324",
+    "ae126e3"
+  ],
+  "implementation_worker_contexts": 7,
+  "actual_implementation_phase_review": false,
+  "actual_final_implementation_review": false,
+  "captured_assignment_finding": "At least one worker own context contains a complete addressed NEW_TASK before denial of receipt; missing captured delivery disproved for that case; provider/model presentation remains unproven",
+  "root_stream_failed_commands": 32,
+  "root_stream_recognized_patch_failures": 9,
+  "credential_scans": {
+    "terminal_files": 84,
+    "final_tree_files": 135,
+    "initial_staged_files": 105,
+    "hits": 0,
+    "final_index_rescan_required_before_commit": false,
+    "final_staged_files": 107,
+    "final_index_status": "PASS",
+    "final_index_report": "outputs/c0-w6-native-20261030/commit-credential-scan.json"
+  },
+  "runtime_check": {
+    "residual_processes": 0,
+    "store_lock_available": true,
+    "manual_cleanup_performed": false
+  }
+}

@@ -1,5 +1,11 @@
 # Eval runs: lessons learned
 
+## Verify captured assignment before diagnosing delivery, 2026-10-30
+
+The [plan-freeze follow-up attempt](analyses/c0-plan-freeze-native-result-20261030/README.md) passed planning review but stopped at T1 after workers declined assignments. At least one own worker context contains a complete, explicitly addressed NEW_TASK before the worker claims it received none. Preserve that discrepancy; a worker's explanation does not prove that the harness omitted its assignment, and captured agent_message presence does not prove what the provider presented. Generic turn failures do not establish a decode failure without a diagnostic. No live fix was applied.
+
+Before readiness, put each skill's prescribed actions through the gates for its own stage and verify worker assignment consumption, not only dispatch or successful transport. Automatic coverage and stage summaries can count mentions of unreached reviews; bind acceptance to actual reviewer execution, artifacts and verdicts. This attempt has oracle 0/13 x3 and no strict Quality/parity input, despite process 0, analysis complete and a machine coverage hit for impl-review. No score should be manufactured for that gap.
+
 ## Native transport is not full workflow proof, 2026-10-29
 
 The [fixed native Codex attempt](analyses/c0-codex-native-fixed-run-20261029/README.md)

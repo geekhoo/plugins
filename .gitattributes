@@ -51,3 +51,7 @@ geeky-orchestration/evals/analyses/c0-luna-native-authorized-20261029/** -text
 # Preserve the authorized Luna/high attempt and terminal evidence exactly.
 geeky-orchestration/evals/baselines/c0-wordstat/20261029T160022Z-45641609/** -text
 geeky-orchestration/evals/analyses/c0-luna-native-result-20261030/** -text
+
+# Preserve this W6 native capture and terminal analysis without normalization.
+geeky-orchestration/evals/baselines/c0-wordstat/20261030T063816Z-9860724b/** -text
+geeky-orchestration/evals/analyses/c0-plan-freeze-native-result-20261030/** -text
