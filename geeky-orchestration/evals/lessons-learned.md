@@ -1,5 +1,15 @@
 # Eval runs: lessons learned
 
+## Shell calls carry a fixed cost in MXC, 2026-10-30
+
+A cross-run look at the four Claude MXC C0 captures that reached oracle 13/13 (`20261025T030323Z`, `20261025T061414Z`, `20261025T183455Z` recovered plus closeout, `20261028T115941Z` plus overtime) found two repeat costs.
+
+First, every agent shell call pays roughly 7.5 s before it does anything. In the Luna run `workflow-budget.py` ran 80 times for 808 s at a median of 8.5 s, though it finishes in 0.2 s on the host; shell validators took another 1,032 s. The skills asked for a budget check before and after every dispatch and wait. They now check at entry, then before each phase or dispatch batch and after a wait, with one check per turn. Rechecks go through the new `geeky_workflow_budget` MCP tool, which the eval MCP config already connects. The MCP gate tools are now preferred whenever they run without a prompt, which resolves the script-versus-MCP conflict listed below. The MCP tools were connected in that run but never called.
+
+Second, the final review loop consumed the time left. Two runs had passing code more than 20 minutes before timing out in impl-review. One-pass fixes and affected-only re-review were already in the skill. The implementation target is now 75% of usable time rather than 90%, so impl-review gets about a quarter, and a re-review is one reviewer dispatch across the affected domains.
+
+Savings are estimates until a live run confirms them. The MCP subprocess cost inside MXC has not been measured.
+
 ## Verify captured assignment before diagnosing delivery, 2026-10-30
 
 The [plan-freeze follow-up attempt](analyses/c0-plan-freeze-native-result-20261030/README.md) passed planning review but stopped at T1 after workers declined assignments. At least one own worker context contains a complete, explicitly addressed NEW_TASK before the worker claims it received none. Preserve that discrepancy; a worker's explanation does not prove that the harness omitted its assignment, and captured agent_message presence does not prove what the provider presented. Generic turn failures do not establish a decode failure without a diagnostic. No live fix was applied.
@@ -277,6 +287,6 @@ The cut-off run from before the background-wait fix is archived in `evals/baseli
 - [ ] **The `/geeky-eval` skill.** Still a future component; not implemented by the adapter closeout.
 - [ ] **O22 leftovers:** the MSYS tar PATH trap is documented but not guarded in the runner, and `model_calls` counts subagent messages.
 - [ ] **Historical `analysis.json` in run 5.** Preserve it; any future derived refresh belongs in a new output folder. Frozen historical score reproduction is recorded separately.
-- [ ] **A conflicting rule in `agents/geeky-implement-orchestrator.md`:** it prefers the MCP gate tools while `SKILL.md` prefers the scripts. It predates the eval work.
+- [x] **A conflicting rule in `agents/geeky-implement-orchestrator.md`:** resolved 2026-10-30. `geeky-implement` keeps scripts as the default and switches to the MCP gate tools when they run without a prompt.
 - [ ] **Unmerged side branches:** `claude/reverent-wright-14ac9b` (`618f1bf`, sync-agents test fix) and `claude/exciting-dewdney-adcbb0` (`c1cb0b0`, guard warn-mode). Merge or drop.
 - [ ] **Leftover folders:** the run workspaces under `C:\repos\eval-c1-csvledger-*`, their `C:\repos\.eval-cfg-*` folders and `C:\repos\mxc-probe`. Keep each run's workspace until it is scored, then delete it with its `.eval-cfg` and session folder.
