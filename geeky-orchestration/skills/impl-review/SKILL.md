@@ -127,7 +127,7 @@ Save each reply as it arrives, before waiting for the others. After all 3 domain
 
 If required findings remain, present them and ask whether to apply fixes unless already authorized. If the user declines, report NEEDS FIXES and stop. Optional warnings and suggestions do not trigger a fix/review loop.
 
-If approved, dispatch `geeky-coder` with the required findings; do not edit product code or tests directly. Validate and re-review only affected domains, preserve unchanged sections, then consolidate their current verdicts. Commit the fixes (same command on all platforms):
+If approved, dispatch `geeky-coder` once with every required finding; do not edit product code or tests directly. Validate, then re-review the affected domains in one reviewer dispatch that covers them all, not one reviewer per domain. Preserve unchanged sections, then consolidate their current verdicts. Commit the fixes (same command on all platforms):
 
 ```bash
 # Linux/macOS (bash) or Windows (pwsh) — identical command
