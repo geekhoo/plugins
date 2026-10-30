@@ -171,6 +171,7 @@ def execute(workspace: Path, plugin: Path, prompt: str, report, write_kanban=Non
     commands, stages, commits = [], [], []
     # The local regression suite uses this isolated negative control; runners never set it.
     split_tests = os.environ.get("GEEKY_MOCK_C0_SPLIT_TESTS") == "1"
+    plan_critical = os.environ.get("GEEKY_MOCK_C0_PLAN_CRITICAL") == "1"
 
     def write(path, body):
         if path.name == "kanban.md" and write_kanban:
@@ -180,12 +181,15 @@ def execute(workspace: Path, plugin: Path, prompt: str, report, write_kanban=Non
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(body, encoding="utf-8", newline="\n")
 
-    def command(name, argv):
+    def command(name, argv, *, input=None, stage=None):
         started_at_ms = int(time.time() * 1000)
         result = subprocess.run([str(x) for x in argv], cwd=workspace, capture_output=True,
-                                encoding="utf-8", errors="replace", timeout=90)
+                                encoding="utf-8", errors="replace", timeout=90, input=input,
+                                env={**os.environ, "GEEKY_STAGE": stage} if stage else None)
         item = {"name": name, "argv": [str(x) for x in argv], "exit_code": result.returncode,
                 "stdout": result.stdout, "stderr": result.stderr, "started_at_ms": started_at_ms}
+        if stage:
+            item.update(stage=stage, stdin=input)
         commands.append(item)
         write(workspace / ".git/c0-full-commands.json", json.dumps(commands, indent=2) + "\n")
         report(name, item)
@@ -206,8 +210,8 @@ def execute(workspace: Path, plugin: Path, prompt: str, report, write_kanban=Non
         command("git.commit", ["git", "commit", "-q", "-F", msg])
         commits.append(command("git.revision", ["git", "rev-parse", "HEAD"]))
 
-    def stage(name, detail):
-        stages.append({"stage": name, "label": LABEL, "detail": detail})
+    def stage(name, detail, **review_evidence):
+        stages.append({"stage": name, "label": LABEL, "detail": detail, **review_evidence})
         actual = {**stages[-1], "skill": name, "args": ""}
         if report(name, actual) is False:
             raise RuntimeError(f"could not read stage skill: {name}")
@@ -227,15 +231,61 @@ def execute(workspace: Path, plugin: Path, prompt: str, report, write_kanban=Non
         body = body.replace("The real feature logic (mock stub only).", "Provider, network and deployment calls.")
         body = body.replace("Scaffold the package", "Implement wordstat contract").replace("Add smoke tests", "Test wordstat contract")
         body = body.replace("Mock-agent dry run:", "SCRIPTED MOCK public contract fixture:")
+        if plan_critical and rel == "tasks/T2-smoke-tests.md":
+            body = body.replace("Smoke tests pass.", "Read/decode error checks and the other public-contract tests pass.")
+            body = body.replace("python -m pytest -q -p no:cacheprovider tests",
+                                'python -m pytest -q -p no:cacheprovider tests/test_wordstat.py -k "not file_errors"')
         write(folder / rel, body)
     gate("validate-planning-folder", "--path", folder)
     gate("validate-task-schema", "--path", folder)
     gate("validate-kanban", "--path", folder)
     commit("docs(plan): script public C0 planning fixture", [str(folder.relative_to(workspace))])
     stage(STAGES[2], "Review the plan and report the successful local gate results.")
-    write(folder / "review-plan.md", "# Plan review\n\nSCRIPTED MOCK reviewer scripted-plan: PASS.\nReal planning/schema/kanban checks passed; no model was dispatched.\n")
+    plan_review_evidence = {}
+    if plan_critical:
+        task = folder / "tasks/T2-smoke-tests.md"
+        task_rel = task.relative_to(workspace).as_posix()
+        before = task.read_text(encoding="utf-8")
+        before_hash = hashlib.sha256(task.read_bytes()).hexdigest()
+        finding = "Critical: T2 validation excludes the read/decode error checks required by its acceptance criteria."
+        initial = (f"## Phase 1: Document Alignment Audit\nSCRIPTED MOCK reviewer: scripted-alignment-before\n"
+                   f"Reviewed file hashes: {json.dumps({task_rel: before_hash}, sort_keys=True)}\n"
+                   f"{finding}\nVerdict: NEEDS ATTENTION\n<!-- phase-1-complete -->\n")
+        write(evidence / "plan-review-phase-1-before.md", initial)
+        write(evidence / "plan-review-T2-before.md", before)
+        write(folder / "review-plan.md", "# Plan review\n\nSCRIPTED MOCK; no model was dispatched.\n\n" + initial)
+        guard = command("guard-planning-contract", [sys.executable,
+            plugin / "hooks/guard-planning-contract.py", "--mode", "block", "--exit-code"],
+            input=json.dumps({"tool_name": "Edit", "tool_input": {"file_path": str(task)}}),
+            stage="plan-review")
+        if "may be edited during plan-review" not in guard or "invalidates the affected review" not in guard:
+            raise RuntimeError("plan-review correction was not permitted by the guard")
+        fixed = before.replace(
+            'python -m pytest -q -p no:cacheprovider tests/test_wordstat.py -k "not file_errors"',
+            "python -m pytest -q -p no:cacheprovider tests/test_wordstat.py -k file_errors\n"
+            "python -m pytest -q -p no:cacheprovider tests")
+        if fixed == before:
+            raise RuntimeError("scripted Critical finding did not change T2")
+        write(task, fixed)
+        after_hash = hashlib.sha256(task.read_bytes()).hexdigest()
+        invalidation = (f"## Phase 2: Issue Resolution\n{finding}\nAction: added explicit read/decode checks to T2. Fixed.\n"
+                        f"Phase 1 verdict scripted-alignment-before: INVALIDATED by T2 validation coverage change.\n"
+                        f"Previous T2 SHA-256: {before_hash}\nCorrected T2 SHA-256: {after_hash}\n")
+        write(folder / "review-plan.md", (folder / "review-plan.md").read_text(encoding="utf-8") + "\n" + invalidation)
+        for name in ("validate-planning-folder", "validate-task-schema", "validate-kanban"):
+            gate(name, "--path", folder)
+        fresh = (f"## Phase 1: Fresh Document Alignment Audit\nSCRIPTED MOCK reviewer: scripted-alignment-after\n"
+                 f"Reviewed file hashes: {json.dumps({task_rel: after_hash}, sort_keys=True)}\n"
+                 "Critical finding resolved; changed validation coverage rechecked.\n"
+                 "Verdict: PASS\n<!-- phase-1-complete -->\n")
+        write(evidence / "plan-review-phase-1-after.md", fresh)
+        write(folder / "review-plan.md", (folder / "review-plan.md").read_text(encoding="utf-8") + "\n" + fresh + "\nOverall: PASS\n")
+        plan_review_evidence = {"plan_review": {"reviewer": "scripted-alignment-after",
+            "input_hashes": {task_rel: after_hash}, "verdict": "PASS", "phase_1_invalidated": True}}
+    else:
+        write(folder / "review-plan.md", "# Plan review\n\nSCRIPTED MOCK reviewer scripted-plan: PASS.\nReal planning/schema/kanban checks passed; no model was dispatched.\n")
     titles = {"T1": "Implement wordstat contract", "T2": "Test wordstat contract"}
-    stage(STAGES[3], "Implement the Python contract, test it, and move both tasks through review and Done.")
+    stage(STAGES[3], "Implement the Python contract, test it, and move both tasks through review and Done.", **plan_review_evidence)
     write(folder / "kanban.md", board("In Progress"))
     gate("validate-kanban", "--path", folder)
     write(workspace / "wordstat/__init__.py", '"""wordstat SCRIPTED MOCK C0 fixture."""\n')

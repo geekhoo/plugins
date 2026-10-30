@@ -1,5 +1,6 @@
 """Focused local subprocess checks; no MXC, network, providers or oracle code."""
 import datetime as dt
+import hashlib
 import importlib.util
 import json
 import os
@@ -79,6 +80,14 @@ def validation_commands(task_file, task, actor):
     return score.Scorer.validation_commands(owner, task)
 
 
+def argv_for(command):
+    # Windows resolves a bare 'python' from the parent's directory, not env PATH.
+    argv = shlex.split(command)
+    if argv and argv[0] in ('python', 'python3'):
+        argv[0] = sys.executable
+    return argv
+
+
 def run_at_commit(workspace, sha, commands, env, tmp_path, label):
     tree = tmp_path / f'h1-{label}'
     command_env = {**env, 'PYTHONPYCACHEPREFIX': str(tmp_path / f'pycache-{label}')}
@@ -87,7 +96,7 @@ def run_at_commit(workspace, sha, commands, env, tmp_path, label):
     try:
         results = []
         for command in commands:
-            result = subprocess.run(shlex.split(command), cwd=tree, env=command_env,
+            result = subprocess.run(argv_for(command), cwd=tree, env=command_env,
                                     capture_output=True, encoding='utf-8', timeout=120)
             results.append({'command': command, 'exit_code': result.returncode,
                             'stdout': result.stdout, 'stderr': result.stderr})
@@ -123,7 +132,8 @@ def candidate(tmp_path):
         'socket.create_connection = denied\nsocket.socket.connect = denied\n', encoding='utf-8')
     env = {k: v for k, v in os.environ.items() if not any(
         word in k.upper() for word in ('API_KEY', 'OAUTH', 'AUTH_TOKEN', 'LANGFUSE', 'LITELLM',
-                                       'GEEKY_MOCK_C0_SPLIT_TESTS', 'C0_FIXTURE_EVIDENCE_DIR'))}
+                                       'GEEKY_MOCK_C0_SPLIT_TESTS', 'GEEKY_MOCK_C0_PLAN_CRITICAL',
+                                       'C0_FIXTURE_EVIDENCE_DIR'))}
     env.update(PATH=str(Path(sys.executable).parent) + os.pathsep + env.get('PATH', ''),
         PYTHONPATH=str(config), PYTHONDONTWRITEBYTECODE='1', PYTEST_DISABLE_PLUGIN_AUTOLOAD='1',
         CLAUDE_PLUGIN_ROOT=str(PLUGIN), CLAUDE_CONFIG_DIR=str(config / 'claude'),
@@ -234,6 +244,63 @@ def test_full_scripted_fixture_both_native_shapes(candidate, tmp_path, actor):
         assert 'SCRIPTED MOCK' in final and '17 tests passed' in final and 'Commits:' in final
 
 
+@pytest.mark.parametrize('actor', ['claude', 'codex'])
+def test_scripted_plan_critical_fix_invalidates_and_rechecks_phase_1(candidate, actor):
+    workspace, config, env = candidate
+    env['GEEKY_MOCK_C0_PLAN_CRITICAL'] = '1'
+    if actor == 'claude':
+        argv = [sys.executable, config / 'mock_claude.py', '--plugin-dir', PLUGIN,
+                '--mock-scenario', 'c0-full', '--mock-case', 'c0-wordstat',
+                '-p', 'Execute docs/spec-001-feature/']
+    else:
+        argv = [sys.executable, config / 'mock_codex.py', 'exec', '--json', '--cd', workspace,
+                '--mock-scenario', 'c0-full', '-c', 'hooks={PreToolUse=[]}',
+                'Execute docs/spec-001-feature/']
+    result = run(argv, workspace, env)
+    assert result.returncode == 0, result.stdout[-3000:] + result.stderr
+    report = json.loads((workspace / '.git/c0-full-summary.json').read_text())
+    assert report['label'] == 'SCRIPTED MOCK' and report['model_calls'] == 0
+    assert report['tests_passed'] == 17 and len(report['commits']) == 3
+    folder = workspace / report['planning_folder']
+    task = folder / 'tasks/T2-smoke-tests.md'
+    task_rel = task.relative_to(workspace).as_posix()
+    before = (folder / 'mock-evidence/plan-review-T2-before.md').read_bytes()
+    initial = run(['git', 'show', f"{report['commits'][0]}:{task_rel}"], workspace, env)
+    assert initial.returncode == 0 and initial.stdout == before.decode()
+    before_hash = hashlib.sha256(before).hexdigest()
+    after_hash = hashlib.sha256(task.read_bytes()).hexdigest()
+    assert before_hash != after_hash
+    assert '-k "not file_errors"' in before.decode()
+    assert '-k file_errors\n' in task.read_text()
+    old_review = (folder / 'mock-evidence/plan-review-phase-1-before.md').read_text()
+    fresh_review = (folder / 'mock-evidence/plan-review-phase-1-after.md').read_text()
+    review = (folder / 'review-plan.md').read_text()
+    assert 'Critical: T2 validation excludes the read/decode error checks' in old_review
+    assert before_hash in old_review and 'Verdict: NEEDS ATTENTION' in old_review
+    assert 'Phase 1 verdict scripted-alignment-before: INVALIDATED' in review
+    assert old_review in review and fresh_review in review
+    assert review.index('INVALIDATED') < review.index('Fresh Document Alignment Audit')
+    assert after_hash in fresh_review and before_hash not in fresh_review
+    assert 'scripted-alignment-after' in fresh_review and 'Verdict: PASS' in fresh_review
+    assert review.endswith('Overall: PASS\n')
+    implementation = next(s for s in report['stages'] if s['stage'] == 'geeky-implement')
+    assert implementation['plan_review'] == {'reviewer': 'scripted-alignment-after',
+        'input_hashes': {task_rel: after_hash}, 'verdict': 'PASS', 'phase_1_invalidated': True}
+    commands = json.loads((workspace / '.git/c0-full-commands.json').read_text())
+    guard = next(c for c in commands if c['name'] == 'guard-planning-contract')
+    assert guard['stage'] == 'plan-review' and guard['exit_code'] == 0
+    assert json.loads(guard['stdin'])['tool_input']['file_path'] == str(task)
+    assert Path(guard['argv'][1]) == PLUGIN / 'hooks/guard-planning-contract.py'
+    assert guard['argv'][-3:] == ['--mode', 'block', '--exit-code']
+    assert 'may be edited during plan-review' in guard['stdout']
+    assert 'invalidates the affected review' in guard['stdout']
+    assert [c['name'] for c in commands[commands.index(guard) + 1:]][:3] == [
+        'validate-planning-folder', 'validate-task-schema', 'validate-kanban']
+    assert commands.index(guard) < next(i for i, c in enumerate(commands) if c['name'] == 'pytest')
+    assert all(c['exit_code'] == 0 for c in commands)
+    assert run(['git', 'status', '--porcelain'], workspace, env).stdout == ''
+
+
 def test_h1_does_not_substitute_final_head_when_required_tests_are_later(candidate, tmp_path):
     workspace, config, env = candidate
     env['GEEKY_MOCK_C0_SPLIT_TESTS'] = '1'
@@ -268,7 +335,7 @@ def test_h1_does_not_substitute_final_head_when_required_tests_are_later(candida
     final_results = []
     final_env = {**env, 'PYTHONPYCACHEPREFIX': str(tmp_path / 'pycache-negative-final')}
     for command in commands:
-        check = subprocess.run(shlex.split(command), cwd=workspace, env=final_env,
+        check = subprocess.run(argv_for(command), cwd=workspace, env=final_env,
                                capture_output=True, encoding='utf-8', timeout=120)
         final_results.append({'command': command, 'exit_code': check.returncode,
                               'stdout': check.stdout, 'stderr': check.stderr})
