@@ -110,8 +110,9 @@ $P evals/scripts/score-run.py $RUN --harness $H --out $OUT
 # Judge the needs_judge items against the workspace and write $OUT/manual-verdicts.json
 #   (format: any existing analyses/c0-*/<harness>/manual-verdicts.json)
 $P evals/scripts/score-run.py $RUN --harness $H --manual $OUT/manual-verdicts.json --out $OUT
-$P evals/scripts/parity-eval.py $RUN --observations /tmp/obs.json --score $OUT/score.json --manual $OUT/manual-verdicts.json --out $OUT
-$P evals/telemetry/langfuse-scores.py --run $RUN --parity $OUT/parity.json
+$P evals/scripts/parity-eval.py $RUN --observations /tmp/obs.json --score $OUT/score.json --manual $OUT/manual-verdicts.json --scope $OUT/evaluation-inputs.json --out $OUT
+# evaluation-inputs.json is the geeky-eval.inputs/1 sidecar; see telemetry/README.md "Scoring in Langfuse"
+$P evals/telemetry/langfuse-scores.py --run $RUN --parity $OUT/parity.json --scope $OUT/evaluation-inputs.json
 ```
 
 - **Read `parity.json`** for the comparable composite (D103). score-run's own composite is not comparable across harnesses.
@@ -127,6 +128,7 @@ $P evals/telemetry/langfuse-scores.py --run $RUN --parity $OUT/parity.json
 | Telemetry, coverage, Langfuse scores and evaluators | [telemetry/README.md](telemetry/README.md), [telemetry/langfuse-evaluators/](telemetry/langfuse-evaluators/README.md) |
 | Codex adapter internals | [adapters/codex/README.md](adapters/codex/README.md) |
 | What the C0 cases check | [cases/c0-wordstat/spec.md](cases/c0-wordstat/spec.md) |
-| Latest Windows C0 | [claudex-001 comparison](analyses/c0-claudex-001-win-20261026/README.md), Codex 97.46, Claude timeout 90.33 and cumulative continuation 98.33 |
+| Latest Windows C0 attempt | [Native C0 after the plan-freeze fix](analyses/c0-plan-freeze-native-result-20261030/README.md), 2026-10-30, NOT ACCEPTED, no score |
+| Last scored Windows C0 | [claudex-001 comparison](analyses/c0-claudex-001-win-20261026/README.md), 2026-10-26, Codex 97.46, Claude timeout 90.33 and cumulative continuation 98.33 |
 | Earlier Linux results | [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md) |
 | Session evidence and archives | [session-20261025-evidence/](analyses/session-20261025-evidence/README.md), [archives/session-20261025/](../../archives/session-20261025/README.md) |

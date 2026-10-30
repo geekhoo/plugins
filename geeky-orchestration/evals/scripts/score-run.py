@@ -1,10 +1,17 @@
-"""Deterministic QACT scorer for a Claude Code run of the geeky-orchestration workflow.
+"""Deterministic QACT scorer for a Claude Code or Codex run of the geeky-orchestration workflow.
 
 Usage: python score-run.py <run-folder> [--manual <json>] [--no-rerun] [--out <dir>]
                                         [--workspace <dir>] [--ref-loc N]
+                                        [--harness {claude-code,codex}] [--process-evidence <json>]
+                                        [--validation-cache <json>] [--require-complete]
 
-Writes score.json and score.md into --out (default: the run folder). Exit 0 on success, 2 on a
-bad run folder. Rules: docs/agent-eval-decisions.md (Scoring, Hard gates, Consistency formula,
+--harness overrides run.json's "harness" field (default claude-code). Codex runs are read through
+codex-trace.py; --process-evidence passes a reviewed process-evidence file to that adapter.
+--validation-cache reuses recorded validation results instead of rerunning them.
+--require-complete scores strictly and exits 1 when the composite is unavailable.
+
+Writes score.json and score.md into --out (default: the run folder). Exit 0 on success, 1 on an
+incomplete strict score, 2 on a bad run folder. Rules: docs/agent-eval-decisions.md (Scoring, Hard gates, Consistency formula,
 Task-tier formula; D8, D27, D34, D53, D59, D60, D67, D68, D79, D80, D82, D86, D87, D88).
 Composite = 0.35 Quality + 0.35 Adherence + 0.20 Consistency + 0.10 Task tier. L_ref = 2678 ms.
 

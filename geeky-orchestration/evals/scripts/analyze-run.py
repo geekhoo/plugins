@@ -1,9 +1,15 @@
 """Derive baseline-run measures from a run folder and merge them into run.json.
 
 Usage: python analyze-run.py <run-folder> [--token-ceiling N] [--analysis-only]
+                              [--harness {claude-code,codex}] [--out <dir>]
+                              [--process-evidence <json>]
 
-Reads stream.jsonl (claude stream-json) and session.jsonl (Claude session transcript, which
-carries the timestamps the stream lacks). Writes analysis.json and updates these run.json fields:
+Harnesses: claude-code and codex. --harness overrides run.json's "harness" field (default
+claude-code). For claude-code it reads stream.jsonl (claude stream-json) and session.jsonl (Claude
+session transcript, which carries the timestamps the stream lacks). For codex it reads the
+run-local rollouts through codex-trace.py; --process-evidence passes a reviewed process-evidence
+file to that adapter. --out writes derived files to another folder and leaves the run folder
+unchanged. Writes analysis.json and updates these run.json fields:
 tokens (summed over every model in result.modelUsage), model_calls, latency_median_ms,
 max_idle_gap_s, stages, impl_review_rounds, token_ceiling, over_token_ceiling.
 --analysis-only writes analysis.json and leaves run.json untouched (re-analysing a stored run).

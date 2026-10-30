@@ -59,7 +59,8 @@ as a blocker.
 
 The secret scan before this commit found the Langfuse key pair in tracked
 capture `20261025T030323Z` (`stream.jsonl:7596`, one subagent log), which is
-already on the public remote. Rotate the keys. Scan captures for literal
+already on the public remote. Key rotation: done, per the owner report above.
+Purge of the tracked capture from history: not recorded. Scan captures for literal
 credential values, not only for key-shaped patterns, before each commit.
 
 ## Narrow reasoning normalization, 2026-10-27
@@ -103,7 +104,9 @@ not establish full native workflow compatibility. The mapping verification used
 one synthetic request; both C0 evaluations remain stopped. Historical evidence
 and scores are unchanged.
 
-## Current Windows C0 lessons, 2026-10-26
+## Windows C0 lessons from the last scored run, 2026-10-26
+
+The 2026-10-26 runs are the last accepted and scored Windows C0. The latest attempt is the [2026-10-30 native run](analyses/c0-plan-freeze-native-result-20261030/README.md), NOT ACCEPTED. Its cause, LiteLLM dropping `agent_message` when tools are present, is fixed in `3bfc927`. No live run has followed.
 
 Read [operator readiness](c0-readiness.md) for the current commands, evidence hashes and future verification prompts. Local executables are installed and version-probed. The readiness suite passed 10 tests; the actual mock command passed 28 local telemetry/publisher checks. Inventory alone reports `inventory-ready`; mock execution reports `mocktested-ready`. Both keep LIVE HELD. Neither proves credentials, remote service compatibility, model routing or live delivery.
 
@@ -277,7 +280,7 @@ The cut-off run from before the background-wait fix is archived in `evals/baseli
   - One run each.
 - **Langfuse scoring.**
   - `telemetry/langfuse-scores.py` posts 10 session scores per run, with score configs.
-  - The LLM judge `final_report_complete` exists, pinned to `zen/gpt-6-luna`. Its rule is disabled until calibration.
+  - The LLM judge `final_report_complete` exists. In the tracked `telemetry/langfuse-evaluators/final_report_complete.judge.json`, `modelConfig` is null, so the judge model is unset there. The rule file has `enabled: false`. The intended pin is `zen/gpt-6-luna`. The rule stays disabled until calibration.
   - Code evaluators need server-side enablement.
 
 ## Open TODOs

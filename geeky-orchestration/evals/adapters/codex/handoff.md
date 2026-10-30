@@ -1,6 +1,6 @@
 # Codex C1 current handoff: run 3 complete
 
-Target machine: Windows, PowerShell7.6.5. Workdir: `C:\Users\gerald.khoo\geekhoo-plugins`. Verify through Git: branch main, HEAD `bee7b14c3b17b00a6ce0b5643015226a1d7ef963`, no staged files. Preserve all shared dirty work.
+Target machine: Windows, PowerShell7.6.5. Workdir: `C:\Users\gerald.khoo\geekhoo-plugins`. At the time of this handoff, Git showed branch main, HEAD `bee7b14c3b17b00a6ce0b5643015226a1d7ef963`, no staged files. Preserve all shared dirty work.
 
 Read in order: `geeky-orchestration/AGENTS.md`; `geeky-orchestration/evals/baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md`; that run's `scoring-status.json`, `derived-final/score.json`, `model-audit.json`, `raw-evidence-manifest.json`; `geeky-orchestration/evals/adapters/codex/evidence/20261023T230039Z-run3-operator/README.md`, `preservation-check.json` and `final-acceptance.json`.
 
@@ -38,6 +38,6 @@ Native preflight21/21 passes with pinned original complete MXC bin copied into f
 
 Scoring scope: raw preread derivation retained in analysis-prefetch-original.json and prefetch-original/. Plaintext reviewed commencement records may correct stage boundaries; frozen source-evidence validation is mandatory. Opaque briefs do not expose task IDs; reviewer mapping requires explicit evidence. Shared validation parser misses plain-bullet commands; independent-validation.json supplies actual own-commit reruns. Do not claim automatic0/0commands is substantive validation. Read final scoring-status.json for remaining limitations. No rubric/formula or Claude-path changes authorized here; use retained six-Claude proof plus source/fixture hash verification where applicable.
 
-Takeover scope: review/report saved completed-run evidence and the accepted score derivation. Done: all claims trace to immutable evidence; score limitations remain explicit; no further contestant run; shared dirty work preserved. Output budget200words. Broad kickoff/baseline-runs/lessons/full decisions remain stale and explicitly deferred to checkpoint5.
+Takeover scope: review/report saved completed-run evidence and the accepted score derivation. Done: all claims trace to immutable evidence; score limitations remain explicit; no further contestant run; shared dirty work preserved. Output budget200words. Checkpoint 5 later updated the kickoff, baseline-runs, lessons and decision records.
 
-Final closeout: provisional shared QACT **81.7** (Q95.9/A81.5/C78.2/T40.0), no needs_judge; reviewed stages applied. See run-local scoring-status.json and learnings.md for parser limits. No further execution planned.
+Run 1 closeout (historical): provisional shared QACT **81.7** (Q95.9/A81.5/C78.2/T40.0), no needs_judge; reviewed stages applied. See run-local scoring-status.json and learnings.md for parser limits. The repaired run 1 score is 96.3. Runs 2 (98.0) and 3 (99.6) followed; see [checkpoint 5](../../codex-c1-checkpoint5.md) and the [run 3 report](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md).

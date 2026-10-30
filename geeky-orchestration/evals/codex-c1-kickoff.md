@@ -2,7 +2,7 @@
 
 > Historical initial kickoff. Checkpoints 0–5 are closed for the bounded C1 measurement/records scope: two completed Codex runs, repaired four-run scores, frozen six-Claude reproduction and updated decisions/records. Read [checkpoint 5 closeout](codex-c1-checkpoint5.md) and the adapter handoff first. Runtime parity/calibration follow-ups remain explicit. The original unchecked checklist below is preserved as historical requirements, not current status. No new run, commit or push is authorized.
 
-Paste this whole file into a fresh Codex session. It is the full brief, so you don't need any earlier chat.
+This file was pasted into a fresh Codex session as the full brief, with no earlier chat needed.
 
 ## Your role
 

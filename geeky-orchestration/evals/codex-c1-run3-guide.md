@@ -56,4 +56,4 @@ Primary proof: `C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\b
 
 Case limits remain 5,400 seconds / 12M informational tokens; reference eligibility remains false pending calibration. Scoring source hashes still match the final-pair verification; no scorer code changed here. Actual paid-session automatic hook invocation remains unverified, the documented shell-write bypass remains, and live auth/provider access was not exercised. The fixtures cannot guarantee a future unseen trace shape.
 
-Current records supersede older run-2 launch/model examples and the former records-only handoff. Historical guides/checkpoints and the initial preparation remain preserved. Updated plugin/adapter READMEs, kanban, handoff and references point here. All changes are unstaged and uncommitted.
+Current records supersede older run-2 launch/model examples and the former records-only handoff. Historical guides/checkpoints and the initial preparation remain preserved. Updated plugin/adapter READMEs, kanban, handoff and references point here. These changes were unstaged when this guide was written and were later committed in `8a62df9`.

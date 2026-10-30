@@ -1,5 +1,7 @@
 # Codex C1 run 1: issues, resolutions and run 2 preparation
 
+> Historical. Runs 2 (98.0) and 3 (99.6) later completed; see [checkpoint 5](codex-c1-checkpoint5.md) and the [run 3 report](baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md).
+
 Updated 2026-10-24, Asia/Singapore. This consolidates the parent orientation/setup chat and its C1 execution child. Source checkout: `C:\Users\gerald.khoo\geekhoo-plugins`, shared `main`, verified HEAD `bee7b14c3b17b00a6ce0b5643015226a1d7ef963`. Read this before the historical kickoff or another Codex C1 attempt.
 
 The owner authorized reference updates, bounded harness fixes and model-free testing for run 2. **Run 2 has not been launched or authorized here.** No paid model/judge calls, repository staging, commits, pushes, sign-ins or cleanup were performed during this preparation. Disposable fixture Git commits are permitted. The owner is handling Claude coordination; do not contact the child chat again.

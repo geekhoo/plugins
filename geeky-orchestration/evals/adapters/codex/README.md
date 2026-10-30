@@ -238,7 +238,8 @@ At checkpoint3 no paid run, staging, repository commit or push had occurred.
 Checkpoint4 current status is recorded below.
 Older Codex workspace-write and no-hooks examples in `baseline-runs.md` and the
 decision record are historical; this adapter follows the kickoff's MXC-contained
-danger-full-access recipe. Updating the full procedure is checkpoint 5 work.
+danger-full-access recipe. Checkpoint 5 updated the full procedure; see its
+[record reconciliation](../../codex-c1-checkpoint5.md#record-reconciliation).
 
 Checkpoint 1 verification on 2026-10-23: 14 offline tests plus 10 subtests passed,
 syntax checks passed, and the preparation-only integration produced a passing
@@ -285,6 +286,6 @@ Replacement native preflight passed 21/21 checks with the original pinned comple
 
 The raw prefetch-based analysis is preserved as analysis-prefetch-original.json and prefetch-original/. Its stage attribution is invalid because early bulk reads were mistaken for active stages. Any reviewed stage attribution must cite immutable plaintext main-session commencement records. Product/test/reviewer claims have independent evidence; the shared parser's code-span-only validation extraction misses this contestant's plain-bullet commands, so independent-validation.json records exact-command, own-commit reruns. Read run-local scoring-status.json and score.md for the accepted derivation and limitations.
 
-See [checkpoint4 evidence](evidence/20261023T1738Z-checkpoint4/README.md), [handoff](handoff.md), [kanban](kanban.md) and [references](references.md). Adapter records supersede their stale stopped-only wording. Historical kickoff, baseline-runs, lessons-learned and full decision records remain stale and deferred to checkpoint5. Canonical skills, agents and prompt are unchanged. No repository staging, commit, push or cleanup occurred.
+See [checkpoint4 evidence](evidence/20261023T1738Z-checkpoint4/README.md), [handoff](handoff.md), [kanban](kanban.md) and [references](references.md). Adapter records supersede their stale stopped-only wording. Checkpoint 5 later updated the kickoff, baseline-runs, lessons-learned and decision records ([record reconciliation](../../codex-c1-checkpoint5.md#record-reconciliation)). Canonical skills, agents and prompt are unchanged. No repository staging, commit, push or cleanup occurred.
 
-Final closeout: provisional shared QACT **81.7** (Q95.9/A81.5/C78.2/T40.0), no needs_judge; reviewed stages applied. See run-local scoring-status.json and learnings.md for parser limits. No further execution planned.
+Run 1 closeout (historical): provisional shared QACT **81.7** (Q95.9/A81.5/C78.2/T40.0), no needs_judge; reviewed stages applied. See run-local scoring-status.json and learnings.md for parser limits. The repaired run 1 score is 96.3. Runs 2 (98.0) and 3 (99.6) followed; see [checkpoint 5](../../codex-c1-checkpoint5.md) and the [run 3 report](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md).
