@@ -1,7 +1,20 @@
-# Native C0 preparation and blocked launch, 2026-10-30
+# Native Luna/high C0 attempt: crash during plan review
 
-**No live run started.** Preparation ID `20261030T143704Z-4ab4c0dc` at clean main `7cf5b3f60505a89bac5bfecec628f14220c0bfa1` generated a baseline directory that was untracked. The single invocation of the copied `launch.ps1` then failed its clean-tree check, before creating `one-attempt.claim`, loading credentials in that script, or invoking the runner. Its execution record remains `prepared`, process `not-started`, with zero invocations. No contestant stage was reached. This preparation ID is not a live run ID.
+Run `20261030T150121Z-a55a910b` is **NOT ACCEPTED**. The single authorized initial invocation at source `ef2cd7f989b83b23b025a986dc5c2640c5cbaba9` crashed after 809.255 seconds, during plan-review revisions and reviewer rechecks. The stream reports `502 Bad Gateway: upstream http error` through the local native proxy followed by `turn.failed`; this does not identify the upstream root cause. A separate startup access-denied warning is not established as the cause. Implementation and final review were not reached.
 
-The initial clean-tree, ancestor and offline readiness checks passed. Prepared role files read back eight `vercel/gpt-6-luna`/high roles; prompt SHA-256 was `124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde`. Scripts differed from W6 only in the authorized HEAD, runtime prefix and authorization reference. No retry, resume, provider probe or budget extension was performed.
+| Measure | Result |
+|---|---|
+| Profile and authorization | Native LiteLLM; eight configured Luna/high roles; 6000 seconds / 60-second reserve; one invocation, zero recoveries, retries, resumes or overtime |
+| Source and prompt | `ef2cd7f989b83b23b025a986dc5c2640c5cbaba9`; prompt SHA-256 `124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde` |
+| Specification and planning | Spec commit `3a40199903c4026e5372f9cd17144e96f52cfd40`; planning artifacts remained uncommitted; plan-review in progress |
+| Oracle | 0/13 on each of three repetitions; 13 missing-package setup errors each; repeated failure, not a passing result |
+| Langfuse | Explicit CODEX-key readback: 9 traces, 198 observations, 82 generations, 107 tool calls, zero reported truncation |
+| Cold workers | No cold implementation workers captured. All eight recorded subagents had forked-parent metadata. The brief-delivery fix remains unverified by this run. |
+| Strict scoring and scoped parity | Withheld: strict scorer exit 2 on incomplete failed trace and missing cumulative token count; scoped parity exit 1 because no score source exists. No synthetic input or score published. |
+| Credential scan | Terminal baseline scan passed for current literal credentials; final staged scan performed before commit. |
 
-Oracle, Langfuse live readback, cold-worker delivery assessment and parity scoring are unavailable because there was no contestant invocation. Acceptance is not established. The requested one-launch-invocation constraint prevents another launch in this operation. See [kanban](kanban.md), [handoff](handoff.md), and [references](references.md).
+## Preparation and provenance
+
+The original preparation `20261030T143704Z-4ab4c0dc` at `7cf5b3f` never launched. Its untracked baseline caused the first launch script invocation to fail before claim; it was archived in `ef2cd7f`. On relaunch, the first offline preparation stopped at an existing provenance report; that report and prior preparation artifacts were preserved and offline preparation was rerun. Its eight role files and prompt hash passed; its new preparation baseline was moved to the ignored operator folder with hashes verified before the clean-tree launch gate. The live runner generated a separate run ID and one attempt claim. The carried authorization-reference string in run metadata names the original `7cf5b3f`; the owner's relaunch explicitly authorized this attempt after the archive commit and run.json binds the actual source `ef2cd7f`. No source, prompt, scoring code or rubric was changed.
+
+Captured baseline and final workspace are preserved with byte hashes. Full Langfuse observations and operator logs remain local in `outputs/c0-native-run-20261030b/`. See [kanban](kanban.md), [handoff](handoff.md), [references](references.md), and [readback](evidence/langfuse-readback.json). The attempt is consumed; no retry or further paid action is authorized here.

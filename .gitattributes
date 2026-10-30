@@ -55,3 +55,7 @@ geeky-orchestration/evals/analyses/c0-luna-native-result-20261030/** -text
 # Preserve this W6 native capture and terminal analysis without normalization.
 geeky-orchestration/evals/baselines/c0-wordstat/20261030T063816Z-9860724b/** -text
 geeky-orchestration/evals/analyses/c0-plan-freeze-native-result-20261030/** -text
+
+# Preserve the 2026-10-30 native C0 capture and workspace bytes.
+geeky-orchestration/evals/baselines/c0-wordstat/20261030T150121Z-a55a910b/** -text
+geeky-orchestration/evals/analyses/c0-native-result-20261030b/final-workspace/** -text

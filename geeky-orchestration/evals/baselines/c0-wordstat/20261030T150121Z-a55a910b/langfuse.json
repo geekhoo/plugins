@@ -1,0 +1,148 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "codex-mxc-win-c0-wordstat-20261030T150121Z-a55a910b",
+  "traces": 9,
+  "observations": 198,
+  "by_type": {
+    "GENERATION": 82,
+    "AGENT": 9,
+    "TOOL": 107
+  },
+  "generations": 82,
+  "tool_calls": 107,
+  "subagents": 8,
+  "user_ids": [
+    "codex-mxc-win-orchestrator-01a18d54-c44b-7a53-909f-a3f93a06303c",
+    "codex-mxc-win-reviewer-faraday-01a18d60-fa13-74b3-a3b7-ac1deedd2fa8",
+    "codex-mxc-win-reviewer-gibbs-01a18d60-9690-73c0-b89d-ca49f78a8e43",
+    "codex-mxc-win-reviewer-linnaeus-01a18d60-b175-77d2-a368-6f006d379440",
+    "codex-mxc-win-unknown-dirac-01a18d56-2a35-7f12-b90d-5b03f4c57485",
+    "codex-mxc-win-unknown-feynman-01a18d5e-bf64-7510-8d4c-949a2e3a71aa",
+    "codex-mxc-win-unknown-franklin-01a18d56-4002-7a20-98c7-a67edbce6d7c",
+    "codex-mxc-win-unknown-hegel-01a18d56-e953-7843-9773-3863db183619",
+    "codex-mxc-win-unknown-hilbert-01a18d56-14bc-7e63-b375-c8e2ccf16bc4"
+  ],
+  "agent_roles": [
+    "orchestrator",
+    "reviewer",
+    "unknown"
+  ],
+  "agent_families": [
+    "codex-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 685764,
+    "output": 35476,
+    "total": 5070530,
+    "input_cached_tokens": 4332827,
+    "output_reasoning_tokens": 16463
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-10-30T15:01:46.762Z",
+  "last_start": "2026-10-30T15:15:07.189Z",
+  "top_names": [
+    [
+      "exec_command",
+      69
+    ],
+    [
+      "LLM",
+      59
+    ],
+    [
+      "LLM Subagent",
+      23
+    ],
+    [
+      "spawn_agent",
+      8
+    ],
+    [
+      "wait_agent",
+      5
+    ],
+    [
+      "geeky_workflow_budget",
+      5
+    ],
+    [
+      "geeky_validate_planning_folder",
+      2
+    ],
+    [
+      "geeky_validate_kanban",
+      2
+    ],
+    [
+      "geeky_validate_task_schema",
+      2
+    ],
+    [
+      "list_agents",
+      2
+    ],
+    [
+      "geeky_check_frozen_artifact",
+      2
+    ],
+    [
+      "write_stdin",
+      2
+    ],
+    [
+      "send_message",
+      2
+    ],
+    [
+      "skill:geeky-orchestrator",
+      2
+    ],
+    [
+      "codex-mxc-win-reviewer-faraday",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-linnaeus",
+      1
+    ],
+    [
+      "codex-mxc-win-reviewer-gibbs",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-feynman",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-hegel",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-franklin",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-dirac",
+      1
+    ],
+    [
+      "codex-mxc-win-unknown-hilbert",
+      1
+    ],
+    [
+      "skill:impl-review",
+      1
+    ],
+    [
+      "skill:plan-review",
+      1
+    ],
+    [
+      "skill:geeky-plan",
+      1
+    ]
+  ]
+}

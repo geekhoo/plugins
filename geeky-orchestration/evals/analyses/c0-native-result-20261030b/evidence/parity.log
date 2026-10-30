@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\scripts\parity-eval.py", line 402, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\scripts\parity-eval.py", line 389, in main
+    scope = load_scope(a.scope, inputs) if a.scope else None
+            ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\gerald.khoo\geekhoo-plugins\geeky-orchestration\evals\scripts\evaluation_scope.py", line 61, in load_scope
+    raise ValueError(f'Input is not bound to scope: {required}')
+ValueError: Input is not bound to scope: outputs\c0-native-run-20261030b\strict-score\score.json

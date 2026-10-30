@@ -1,0 +1,48 @@
+{
+  "schema": "geeky-eval.inputs/1",
+  "scope_id": "codex-c0-20261030T150121Z-a55a910b-initial",
+  "kind": "initial",
+  "parent_scope_id": null,
+  "configuration": {
+    "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+    "plugin_sha": "ef2cd7f989b83b23b025a986dc5c2640c5cbaba9"
+  },
+  "sources": [
+    {
+      "id": "run",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\geeky-orchestration\\evals\\baselines\\c0-wordstat\\20261030T150121Z-a55a910b\\run.json",
+      "sha256": "098897c53116e044505709497b9526b1a71997b66605df1dde4e1f1aa4ae07aa",
+      "ancestry": []
+    },
+    {
+      "id": "observations",
+      "path": "C:\\Users\\gerald.khoo\\geekhoo-plugins\\outputs\\c0-native-run-20261030b\\langfuse-observations.json",
+      "sha256": "4c9df9ab861bcf992744225848522f574270e8df72c77e396f1efc43c16b4bce",
+      "ancestry": []
+    }
+  ],
+  "segments": [
+    {
+      "segment_id": "840ad5dc-1761-4f0b-b998-ee13ca3d54a3",
+      "attempt_id": "a2c0dedb-ffe4-4027-839f-7dffa2acc387",
+      "authorization_reference": "Owner 2026-10-30: one native Luna/high C0 MXC attempt at 7cf5b3f60505a89bac5bfecec628f14220c0bfa1; 6000/60; one attempt, zero recoveries; closeout and local commit, no push.",
+      "start": "2026-10-30T15:01:38.1882950Z",
+      "end": "2026-10-30T15:15:07.4980739Z"
+    }
+  ],
+  "ownership": {
+    "method": "native",
+    "rule": "One initial invocation; no continuation."
+  },
+  "metric_default": {
+    "scope_id": "codex-c0-20261030T150121Z-a55a910b-initial",
+    "population": "one initial native Codex C0 attempt, terminated by crash",
+    "source_ids": [
+      "run",
+      "observations"
+    ],
+    "additive": false,
+    "complete": false
+  },
+  "metrics": {}
+}

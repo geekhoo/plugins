@@ -1,10 +1,13 @@
-# Preparation and launch status
+# Native C0 terminal status
 
 | Item | State | Evidence |
 |---|---|---|
-| Git, ancestor, readiness gates | Done | HEAD `7cf5b3f`; clean before preparation; readiness exit 0 |
-| Prepare and verify eight roles and prompt | Done | Local `verification.json`; prepared baseline |
-| One launch script invocation | Blocked before claim | Untracked prepared baseline caused clean-tree check failure; zero runner invocations |
-| Oracle, Langfuse, worker briefs, parity | Not applicable / unavailable | No live run or contestant output |
-| Records and local commit | Recorded | This folder and readiness index |
-| Further launch | Not performed | One launch invocation allowed; no retry |
+| Archive prior prepared-only record | Done | `ef2cd7f989b83b23b025a986dc5c2640c5cbaba9` |
+| Fresh preparation and verification | Done | Eight role readbacks and exact prompt hash; prepared baseline preserved locally |
+| One native launch | Crashed | `20261030T150121Z-a55a910b`; one invocation; 502 during plan-review |
+| Oracle x3 | Done, failing | 0/13 each, 13 missing-package setup errors each |
+| Langfuse CODEX-key readback | Done | 9 traces / 198 observations; zero reported truncation |
+| Cold-worker brief check | Unreached | Eight captured workers forked; no cold implementation worker |
+| Strict score / scoped parity | Withheld | Incomplete trace, no complete score source |
+| Records, staged scan, local commit | Done before commit | This folder, readiness and index updates; local scan report |
+| Further attempt / push | Not authorized / not performed | No retry, resume, provider probe, overtime or push |
