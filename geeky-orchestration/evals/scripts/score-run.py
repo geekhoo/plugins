@@ -220,6 +220,53 @@ def done_after(body, before):
 LANES = r"Backlog|Ready|In Progress|In Review|Blocked|Done"
 
 
+def py_writes(raw, filename):
+    """True when an inline Python snippet writes `filename` (e.g. kanban.md, handoff.md): a name bound to a
+    path ending in it is later written with .write_text/.write_bytes, or the file is opened for writing or
+    appending. A read alone does not count."""
+    f = re.escape(filename)
+    if filename not in raw:
+        return False
+    if re.search(r"open\(\s*[^)\n]*%s['\"]\s*,\s*['\"][wa]" % f, raw):
+        return True
+    names = set(re.findall(r"(\w+)\s*=\s*[^\n;=]*['\"]%s['\"]" % f, raw))
+    return any(re.search(r"\b%s\.write_(?:text|bytes)\(" % re.escape(n), raw) for n in names)
+
+
+def py_writes_kanban(raw):
+    return py_writes(raw, "kanban.md")
+
+
+_TASK_LINE = r"(['\"])(-\s*\[[ xX]\][^'\"\n]*?\bT\d+\b[^'\"\n]*)\1"
+
+
+def py_kanban_moves(raw):
+    """Lane moves made by inline Python that rebuilds kanban.md with str.replace, e.g.
+    `line='- [ ] [T1 — Core](tasks/T1.md)'; s=s.replace(line+'\\n','').replace('## Done\\n', '## Done\\n\\n'+...)`
+    or a loop `for line in ['- [ ] [T2 ...', '- [ ] [T3 ...']: s=s.replace(...).replace('## Ready\\n', ...)`.
+    Each task line (assigned or listed in a for loop) is paired with the lane heading the following
+    replace() inserts it under."""
+    if not py_writes_kanban(raw):
+        return []
+    sources = []  # (start, end, [task ids])
+    # the list body holds markdown links ("- [ ] [T2 — X](tasks/T2.md)"), so end it at the first "]" + ":"
+    for m in re.finditer(r"\bfor\s+\w+\s+in\s+\[(.*?)\]\s*:", raw, re.S):
+        ids = [re.findall(r"\b(T\d+)\b", g[1])[0] for g in re.findall(_TASK_LINE, m.group(1))]
+        if ids:
+            sources.append((m.start(), m.end(), ids))
+    for m in re.finditer(r"(\w+)\s*=\s*" + _TASK_LINE, raw):
+        if not any(s <= m.start() < e for s, e, _ in sources):
+            sources.append((m.start(), m.end(), re.findall(r"\b(T\d+)\b", m.group(3))[:1]))
+    sources.sort()
+    moves = []
+    for i, (start, end, ids) in enumerate(sources):
+        seg = raw[end: sources[i + 1][0] if i + 1 < len(sources) else len(raw)]
+        lanes = re.findall(r"replace\(\s*['\"]#+\s*(%s)\s*\\n['\"]" % LANES, seg)
+        if lanes:
+            moves += [(t, lanes[0]) for t in ids]
+    return moves
+
+
 def helper_moves(raw, helpers):
     """Lane moves made by calling a kanban helper script with `<task> <lane>` arguments, e.g.
     `python $kb $f T2 Done` or `foreach($t in 'T4','T5'){ python $kb $f $t "In Progress" }`, or with named
@@ -853,7 +900,8 @@ class Scorer:
                              ("kanban.md" in raw and re.search(
                                  r"(?:Set-Content|Out-File|WriteAll\w*|Add-Content|>)[^\n;]*kanban\.md|"
                                  r"kanban\.md['\"]?\s*,", raw)) or
-                             (c.name in ("PowerShell", "Bash") and any(h in raw.lower() for h in helpers)))
+                             (c.name in ("PowerShell", "Bash") and any(h in raw.lower() for h in helpers)) or
+                             (c.name in ("PowerShell", "Bash") and py_writes_kanban(raw)))
             if self.run.get('harness') == 'codex':
                 writes_kanban = writes_kanban and native_lane_write(c, reviewed_moves)
             writes_kanban = writes_kanban or c.id in reviewed_moves
@@ -864,7 +912,8 @@ class Scorer:
                 body = c.inp.get("new_string", "") + c.inp.get("content", "") if c.name in ("Edit", "Write") else raw
                 after = done_after(body, done_now)
                 ip = set(re.findall(r"\b(T\d+)\b[^\n]{0,80}?in_progress", body))
-                for t, lane in helper_moves(raw, helpers) + reviewed_moves.get(c.id, []):
+                py_moves = py_kanban_moves(raw) if c.name in ("PowerShell", "Bash") else []
+                for t, lane in helper_moves(raw, helpers) + py_moves + reviewed_moves.get(c.id, []):
                     if lane == "Done":
                         after.add(t)
                     elif lane == "In Progress":
@@ -882,7 +931,8 @@ class Scorer:
             if T.stage_of(c) in ("geeky-implement", "impl-review") and (
                     str(c.inp.get("file_path", "")).replace("\\", "/").endswith("handoff.md") or
                     re.search(r"(?:Set-Content|Add-Content|Out-File|WriteAll\w*|AppendAllText|>)[^\n;]*handoff\.md",
-                    raw) or c.id in self.handoff_tasks):
+                    raw) or c.id in self.handoff_tasks or
+                    (c.name in ("PowerShell", "Bash") and py_writes(raw, "handoff.md"))):
                 self.handoff_calls.append(c)
         # gate runs per call
         self.dod_runs = {t: [] for t in self.tasks}
