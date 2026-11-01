@@ -70,6 +70,14 @@ def test_uploaded_content_block_thinking_counts_only_with_text():
     assert 'reasoning_summaries' not in hits(cov.coverage([turn, empty]))
 
 
+def test_shell_heredoc_writes_count_as_file_edits():
+    turn = obs('turn', 'SPAN', 'Conversational Turn')
+    heredoc = obs('b', 'TOOL', 'Tool: Bash', 'turn', {'command': "cat > linkvault/store.py <<'EOF'\nimport sqlite3\nEOF"})
+    read_only = obs('r', 'TOOL', 'Tool: Bash', 'turn', {'command': 'cat linkvault/store.py | head -5'})
+    assert 'file_edits' in hits(cov.coverage([turn, heredoc]))
+    assert 'file_edits' not in hits(cov.coverage([turn, read_only]))
+
+
 def test_codex_names_escaped_js_commands_and_encrypted_handoffs():
     o = [obs('turn', 'AGENT', 'Codex Turn')]
     o += [obs(f's{i}', 'TOOL', f'skill:{s}', 'turn', 'x') for i, s in enumerate(cov.STAGES)]

@@ -115,7 +115,10 @@ def coverage(observations):
     point('mcp_tools', mcp, required=False, detail='gates may run as scripts instead')
     point('pytest', (o for o, t in shell_text if re.search(r'\bpytest\b', t)))
     point('git_commit', (o for o, t in shell_text if re.search(r'\bgit\b[^\n;|]{0,80}?\bcommit\b', t)))
-    point('file_edits', (o for o in tools if o.get('name') in EDIT_TOOLS or '*** Begin Patch' in text(o.get('input'))))
+    # shell writes count too: an agent may write every file with `cat > f <<'EOF'`, `tee` or `sed -i` (C2 Sonnet medium)
+    shell_write = re.compile(r"\bcat\s*>>?\s*[^\s<|;&]+\s*<<|\btee\s+(?:-a\s+)?[^\s|;&-]|\bsed\s+-i\b")
+    point('file_edits', [o for o in tools if o.get('name') in EDIT_TOOLS or '*** Begin Patch' in text(o.get('input'))] +
+          [o for o, t in shell_text if shell_write.search(t)])
 
     def has_reasoning(o):
         out = decoded(o.get('output'))
