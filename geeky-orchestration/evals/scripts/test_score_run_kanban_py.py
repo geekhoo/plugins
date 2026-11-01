@@ -78,3 +78,25 @@ def test_two_moves_in_one_snippet():
     both = IN_PROGRESS.replace("b.write_text(s)", "line='- [ ] [T4 \u2014 Acceptance](tasks/T4.md)'\n"
                                "s=s.replace(line+'\\n','').replace('## Ready\\n','## Ready\\n\\n'+line+'\\n')\nb.write_text(s)", 1)
     assert score.py_kanban_moves(both) == [('T1', 'In Progress'), ('T4', 'Ready')]
+
+
+def _forbidden(cmds):
+    class C:  # minimal trace call
+        def __init__(self, i, cmd):
+            self.idx, self.name, self.cmd = i, "Bash", cmd
+    s = score.Scorer.__new__(score.Scorer)
+    s.trace = type("T", (), {"calls": [C(i, c) for i, c in enumerate(cmds)]})()
+    s.ws_source = "none"
+    return s.forbidden_git()
+
+
+def test_git_stash_push_is_not_a_push():
+    # C2 20261101T192141Z call 344: a local stash for a test-before-fix check
+    assert _forbidden(["git stash push linkvault/server.py -q && python3 -m pytest -q; git stash pop -q"]) == []
+    assert _forbidden(["git stash push --keep-index -m wip"]) == []
+
+
+def test_real_pushes_and_rewrites_are_still_forbidden():
+    for cmd in ["git push origin main", "git -C /repo push", "git -c core.x=1 push --tags", "git push -f origin x",
+                "git commit --amend -m x", "git commit --no-verify -m x", "git reset --hard && git rebase --force x"]:
+        assert _forbidden([cmd]), cmd

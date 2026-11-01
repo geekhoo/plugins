@@ -48,7 +48,7 @@ What it does:
 - Sets `CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1`. Without it, every PowerShell tool call in MXC reports `Exit code 5` even when it succeeds.
 - Copies every subagent transcript into `subagents/` in the run folder: `agent-<id>.jsonl`, plus a `meta.json` naming the tool call that spawned it. When a subagent dispatches its own subagents, as `geeky-implement-orchestrator` did in C1 run 6, their calls appear only there and not in `stream.jsonl`.
 - Sets `PYTHONDONTWRITEBYTECODE=1`, and the plugin tamper check ignores `__pycache__`. C1 run 6 was flagged as tampered only because the gate scripts' bytecode was written into the read-write export.
-- Windows only: passes `--disallowedTools Bash`. On macOS and Linux Bash works and stays enabled; the `git stash` hard gate (`hg.forbidden_git`) in run 20261101T192141Z came from a Bash call. Git Bash cannot start in MXC (microsoft/mxc#1061), so every Bash call fails with exit 66. In C1 run 3 that wasted 8 calls, and one write silently did nothing. With Bash hidden, the agent uses PowerShell from the start.
+- Windows only: passes `--disallowedTools Bash`. On macOS and Linux Bash works and stays enabled; a `git stash push` in run 20261101T192141Z first fired `hg.forbidden_git` through a scorer false positive (fixed: only `git push` counts). Git Bash cannot start in MXC (microsoft/mxc#1061), so every Bash call fails with exit 66. In C1 run 3 that wasted 8 calls, and one write silently did nothing. With Bash hidden, the agent uses PowerShell from the start.
 - `-ResumeOnRefusal N` (default 0): when the model provider's content filter ends the session (`stop_reason` `content_filter` or `refusal`), resume the same session with "Continue the workflow from where you stopped." up to N times. Each resume is an intervention in `run.json` and makes the run ineligible as a reference. Without it the run is recorded as `exit_reason = provider_refusal`.
 - Sets `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`. Headless `claude -p` otherwise stops background subagents still running 10 minutes after the main agent's last turn, which cut C1 run 3 off mid-implementation. The main agent is resumed when the subagents finish. The MXC `--timeout` still bounds the run. A run whose background work was stopped is recorded with `exit_reason = bg_killed`.
 - Puts `C:\repos\.eval-tools\agent-py`, a venv with pytest built offline, first on the sandbox `PATH`. The sandbox Python has no pytest, and `pip` can't install inside MXC.
@@ -78,7 +78,7 @@ These runs use the Seatbelt sandbox under Santa Lockdown, launched by `~/.Projec
 | Run stamp | Model, effort | Outcome |
 |---|---|---|
 | 20261101T190249Z | claude-sonnet-5-5 (effort not recorded) | stopped by the owner after 16 min to change the Langfuse environment; run.json exit_reason is `prepared` |
-| 20261101T192141Z | claude-sonnet-5-5, high | completed, 4354 s, 14 commits, oracle 136/136; hard gate `hg.forbidden_git` (a subagent ran `git stash push` for a test-before-fix check) |
+| 20261101T192141Z | claude-sonnet-5-5, high | completed, 4354 s, 14 commits, oracle 136/136; a subagent's `git stash push` first fired `hg.forbidden_git` as a false positive; re-scored after the scorer fix |
 | 20261101T205532Z | gpt-6.1-sol, high (attempt 1) | BLOCKED after 288 s, 0 commits |
 | 20261101T211028Z | gpt-6.1-sol, high (attempt 2) | BLOCKED in phase 2, oracle 136/136, 3073 s, 6 commits |
 | 20261101T222922Z | gpt-6.1-sol, medium, compat layer | BLOCKED at plan review after 1150 s, 3 commits, no code (oracle 0/136) |
