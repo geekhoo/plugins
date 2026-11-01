@@ -2,11 +2,13 @@
 
 Latest Codex C1: [run3 completed report](baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md) — reviewed QACT99.6, oracle118/118 stable3, final110tests,1410s,18.116799M tokens. Main Sol/high, task/default Sol/medium, reviewers Sol/xhigh. Complete operator-reviewed scoring; automatic extraction unsupported for this shape. Token ceiling exceeded under informational calibration policy; reference eligibility remains false. Previous records below remain preserved.
 
+Latest macOS runs: C0 and C2 ran on macOS MXC (Seatbelt sandbox, Santa Lockdown) from 2026-10-30 to 2026-11-02. The C2 runs (Claude Code 2.1.316, Python 3.9.6 only, so non-reference diagnostics) are listed in [macOS MXC runs](#macos-mxc-runs-2026-10-30-to-2026-11-02) below; per-run numbers are in the [C2 analysis](analyses/c2-macos-mxc-20261102/README.md), and the C0 run is in [c0-macos-mxc-sonnet-20261030](analyses/c0-macos-mxc-sonnet-20261030/README.md).
+
 Final-pair update: [Codex 2 automatic process extraction](analyses/c1-final-parity-20261024/README.md) now works without operator process mappings. Use a fresh output directory, existing judgments/validation cache and `--require-complete`; a withheld strict composite exits nonzero. The prior six-run proof is tied to its saved source version.
 
 For saved-evidence scoring, use a separate `--out` directory. Bind reused validation to task, full commit SHA, exact command and source/output hashes with `--no-rerun --validation-cache`; use `--require-complete` for comparable repaired results and source-backed manual judgments for judge checks. Do not regenerate original baseline files. Historical `--no-rerun` score reproduction alone is not a fresh own-commit validation proof. Preserve retained workspaces and configs; the historical cleanup instructions below do not authorize deletion.
 
-> Current status, 2026-10-24: two Codex C1 calibration runs completed; corrected composites are 96.3 and 98.0. [Checkpoint 5 records and decisions](codex-c1-checkpoint5.md) link the frozen six-Claude reproduction and complete four-run derivation. The Codex runner is `scripts/run-codex-baseline.ps1`; its retained launch relies on outer MXC with explicit isolated configuration. The direct CLI/no-hooks examples below are historical, not current launch instructions. No further paid run is authorized.
+> Current status, 2026-10-24: two Codex C1 calibration runs completed; corrected composites are 96.3 and 98.0. [Checkpoint 5 records and decisions](codex-c1-checkpoint5.md) link the frozen six-Claude reproduction and complete four-run derivation. The Codex runner is `scripts/run-codex-baseline.ps1`; its retained launch relies on outer MXC with explicit isolated configuration. The direct CLI/no-hooks examples below are historical, not current launch instructions. No further paid run was authorized at that date. Paid macOS C0 and C2 runs were authorized later and executed between 2026-10-30 and 2026-11-02 (see [macOS MXC runs](#macos-mxc-runs-2026-10-30-to-2026-11-02)).
 
 These are the baseline implementation runs for the three eval challenges: what to do, what each run must produce, and which measures to collect. The results set the reference solutions, token budgets and time limits that every contestant run is scored against.
 
@@ -46,7 +48,7 @@ What it does:
 - Sets `CLAUDE_CODE_DISABLE_WINDOWS_SHELL_LAUNCHER=1`. Without it, every PowerShell tool call in MXC reports `Exit code 5` even when it succeeds.
 - Copies every subagent transcript into `subagents/` in the run folder: `agent-<id>.jsonl`, plus a `meta.json` naming the tool call that spawned it. When a subagent dispatches its own subagents, as `geeky-implement-orchestrator` did in C1 run 6, their calls appear only there and not in `stream.jsonl`.
 - Sets `PYTHONDONTWRITEBYTECODE=1`, and the plugin tamper check ignores `__pycache__`. C1 run 6 was flagged as tampered only because the gate scripts' bytecode was written into the read-write export.
-- Passes `--disallowedTools Bash`. Git Bash cannot start in MXC (microsoft/mxc#1061), so every Bash call fails with exit 66. In C1 run 3 that wasted 8 calls, and one write silently did nothing. With Bash hidden, the agent uses PowerShell from the start.
+- Windows only: passes `--disallowedTools Bash`. On macOS and Linux Bash works and stays enabled; the `git stash` hard gate (`hg.forbidden_git`) in run 20261101T192141Z came from a Bash call. Git Bash cannot start in MXC (microsoft/mxc#1061), so every Bash call fails with exit 66. In C1 run 3 that wasted 8 calls, and one write silently did nothing. With Bash hidden, the agent uses PowerShell from the start.
 - `-ResumeOnRefusal N` (default 0): when the model provider's content filter ends the session (`stop_reason` `content_filter` or `refusal`), resume the same session with "Continue the workflow from where you stopped." up to N times. Each resume is an intervention in `run.json` and makes the run ineligible as a reference. Without it the run is recorded as `exit_reason = provider_refusal`.
 - Sets `CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS=0`. Headless `claude -p` otherwise stops background subagents still running 10 minutes after the main agent's last turn, which cut C1 run 3 off mid-implementation. The main agent is resumed when the subagents finish. The MXC `--timeout` still bounds the run. A run whose background work was stopped is recorded with `exit_reason = bg_killed`.
 - Puts `C:\repos\.eval-tools\agent-py`, a venv with pytest built offline, first on the sandbox `PATH`. The sandbox Python has no pytest, and `pip` can't install inside MXC.
@@ -68,6 +70,27 @@ To run the whole pipeline with the mock agent instead of Claude:
 ```powershell
 pwsh -File evals\scripts\run-baseline.ps1 -Case <case> -MockAgent -MockScenario happy
 ```
+
+## macOS MXC runs (2026-10-30 to 2026-11-02)
+
+These runs use the Seatbelt sandbox under Santa Lockdown, launched by `~/.Projects/mxc-c0/launch-c2.sh` (any LiteLLM model, effort as an argument). All C2 runs used Claude Code 2.1.316, plugin export bf97923b, prompt sha 124eba9b, a 10800 s budget with a 900 s closeout reserve, and zero recoveries. Santa allows only the Xcode Python (3.9.6); the C2 contract asks for 3.11+, so these runs are non-reference diagnostics. Per-run scores are in the [C2 analysis](analyses/c2-macos-mxc-20261102/README.md); this table holds outcomes only.
+
+| Run stamp | Model, effort | Outcome |
+|---|---|---|
+| 20261101T190249Z | claude-sonnet-5-5 (effort not recorded) | stopped by the owner after 16 min to change the Langfuse environment; run.json exit_reason is `prepared` |
+| 20261101T192141Z | claude-sonnet-5-5, high | completed, 4354 s, 14 commits, oracle 136/136; hard gate `hg.forbidden_git` (a subagent ran `git stash push` for a test-before-fix check) |
+| 20261101T205532Z | gpt-6.1-sol, high (attempt 1) | BLOCKED after 288 s, 0 commits |
+| 20261101T211028Z | gpt-6.1-sol, high (attempt 2) | BLOCKED in phase 2, oracle 136/136, 3073 s, 6 commits |
+| 20261101T222922Z | gpt-6.1-sol, medium, compat layer | BLOCKED at plan review after 1150 s, 3 commits, no code (oracle 0/136) |
+| 20261101T225826Z | claude-sonnet-5-5, medium | running at the time of writing (run.json exit_reason is `prepared` until it finishes; update this row then) |
+
+Folders under `baselines/c2-linkvault/` with `exit_reason = prepared` in `run.json` (20261101T190234Z, 20261101T190236Z, 20261101T192125Z) and the two `baselines/c0-wordstat/` folders 20261101T173247Z and 20261101T173535Z are prepare-checks only, with no agent run.
+
+Differences from the Windows procedure:
+- Bash works, so the runner does not pass `--disallowedTools Bash`.
+- The launchers put `~/.Projects/mxc-c0/tools/agent-py/bin` first on PATH so the pytest-interpreter probe in `run-baseline.ps1` does not try `/usr/local/bin/python3` (python.org 3.14, blocked by Santa, one logged DENY per launch).
+- For non-claude models the launcher installs [the compat layer](adapters/claude-code-litellm-compat/README.md) into the sandbox's isolated `CLAUDE_CONFIG_DIR`. The canonical prompt and plugin export are unchanged.
+- All Langfuse channels use environment `mxc-claude-mac`, and the launcher sets `CC_LANGFUSE_MAX_CHARS=1000000` for the transcript upload (default 20000 cuts long fields).
 
 ## Procedure, per run
 

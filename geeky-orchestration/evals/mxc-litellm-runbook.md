@@ -1,6 +1,8 @@
 # Runbook: Claude Code and Codex evals in MXC, through LiteLLM, traced to Langfuse
 
-Both evaluations are stopped. The [latest pair](analyses/c0-fresh-sequential-20261027/README.md)
+Status (2026-11-02): macOS C0 (2026-10-30) and macOS C2 `c2-linkvault` (2026-11-02, Seatbelt sandbox, Santa Lockdown, Claude Code 2.1.316) have run. Per-run outcomes are in the [C2 analysis](analyses/c2-macos-mxc-20261102/README.md). The Windows and Linux hold below still applies to those platforms.
+
+On Windows and Linux, both evaluations are stopped. The [latest pair](analyses/c0-fresh-sequential-20261027/README.md)
 produced no implementation. Its [offline follow-up](analyses/c0-root-causes-20261027/README.md)
 adds planning budget checks and explicit rejection of the observed tool-call text;
 upstream attribution and live effectiveness remain unresolved. Source changes
@@ -16,7 +18,7 @@ qualification proof.
 
 This is the process that produced complete C0 runs on both harnesses (2026-10-25). It covers Linux MXC (mxc-sandbox 0.2.1, Bubblewrap), models served by a LiteLLM proxy, full-content Langfuse tracing, and harness-neutral scoring. Windows specifics and the older C1 procedure are in [baseline-runs.md](baseline-runs.md). The reasons behind each step are in [lessons-learned.md](lessons-learned.md) and the D-numbers in [agent-eval-decisions.md](../docs/agent-eval-decisions.md).
 
-Short version: [QUICKSTART.md](QUICKSTART.md). Results so far: [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md).
+Short version: [QUICKSTART.md](QUICKSTART.md). Results so far: [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md), [C2 on macOS MXC](analyses/c2-macos-mxc-20261102/README.md) (per-run numbers).
 
 ## Current authorization hold
 
@@ -113,7 +115,7 @@ result; do not reinterpret an unfinished record as accepted.
 | `LITELLM_PROXY_URL`, `LITELLM_PROXY_API_KEY` | The LiteLLM proxy and its virtual key. |
 | `TRACE_TO_LANGFUSE=true` | Turns telemetry on for both runners. |
 | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL` | Langfuse project. Codex prefers `LANGFUSE_CODEX_*` when set. |
-| MXC platform environment | Runners select `mxc-win`, `mxc-linux` or `mxc-mac` and the matching `codex-mxc-*` / `claude-mxc-*` family. Host identity overrides are not used. |
+| MXC platform environment | Runners select `mxc-win`, `mxc-linux` or `mxc-mac` and the matching `codex-mxc-*` / `claude-mxc-*` family. Host identity overrides are not used. The macOS launchers (`~/.Projects/mxc-c0/launch-c2.sh`) set the Langfuse environment `mxc-claude-mac` on every channel: the resource attribute `deployment.environment.name` for native OTel spans, and `LANGFUSE_TRACING_ENVIRONMENT` for the transcript upload and the automatic scores. |
 | `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE` / `NODE_EXTRA_CA_CERTS` | Only behind a TLS-inspecting proxy. They pass through to the sandbox. |
 
 Keys reach the sandbox only as bare `--env NAME`; the MXC host copies the value and never prints it.
@@ -187,7 +189,7 @@ Older results below retain their original `mxc` environment and native session I
 | **LiteLLM router 400: `requires a native Responses target`** | A complexity router (`ant-claudex`) sent a Messages-format request to a Responses-only backend. The Claude run aborted after 2.5 min. | Give the route a Messages-compatible target or fallback in LiteLLM before running Claude on it. Codex is unaffected. |
 | **Provider content filter ends a Claude run** | `stop_reason: content_filter`, "considered high risk" (mimo behind `ant-claude`). It is intermittent: 8 replays of the refused request passed. | `-ResumeOnRefusal 2`. Each resume is an intervention, and the run is not reference-eligible. Without the flag the run reads `provider_refusal`. |
 | **Same model name, different model** | A complexity router sends differently shaped requests (one harness vs the other) to different backends. | Treat router models as a confound. Prefer a fixed model for parity runs. |
-| **Reasoning differs between harnesses** | Codex runs at `high`. Claude Code requests no thinking for a model name it does not recognise (0 thinking tokens). | Record it as a confound, or equalise it deliberately (`claude --effort`). |
+| **Reasoning differs between harnesses** | Codex runs at `high`. Claude Code requests no thinking for a model name it does not recognise (0 thinking tokens). | Record it as a confound, or equalise it deliberately (`claude --effort`). Claude Code 2.1.316 defaults to omitted thinking display for Claude 5 models; pass `--thinking-display summarized` (commit ea144eb) to get text, which gave claude-sonnet-5-5 181 thinking blocks with text on C2. `showThinkingSummaries` in settings has no effect in `-p` mode. `gpt-6.1-sol` through Claude Code returns no thinking text (0 of 202 blocks), so its effort cannot be verified from traces; Claude Code does send effort on every request. |
 | **C0 time ceiling** | Claude on `ant-claudex` hit 5400 s during the final review fix. | For slow routes, raise `-TimeoutSec` (Codex) or `wall_time_ceiling_s` in `case.json` before the run. |
 | **C0 token ceiling is stale** | `case.json` says 6M; real C0 runs used 11.7M–21.9M, mostly cached input. | Recalibrate before reading `over_token_ceiling`. |
 | **Codex trace refused by score-run** | Its loader rejected interrupted children and rejected spawns (fixed). Its process parser expects Windows PowerShell board edits. | Use parity-eval for cross-harness process scores. score-run is still right for Quality. |
@@ -203,6 +205,14 @@ Older results below retain their original `mxc` environment and native session I
 | **`~/.local/bin/claude` disappeared** | An auto-update removed it mid-session. | The host falls back to `claude` on `PATH`. |
 | **Code evaluators rejected by Langfuse** | "Code evaluations are not enabled for this deployment." | Set `LANGFUSE_CODE_EVAL_DISPATCHER=insecure-local` and `QUEUE_CONSUMER_CODE_EVAL_EXECUTION_QUEUE_IS_ENABLED=true` on the server. Source is in `telemetry/langfuse-evaluators/`. |
 | **LLM judge runs before calibration** | An enabled rule scores every main-thread turn, at one paid call each. | Keep the rule disabled until the judge is calibrated (`telemetry/langfuse-evaluators/README.md`). |
+| **zsh here-document fails with "operation not permitted" (macOS)** | zsh here-documents fail with "operation not permitted" under Seatbelt. | The host pins `TMPPREFIX` to a writable path. |
+| **Literal `/tmp` is not writable (macOS)** | Seatbelt does not allow writes to `/tmp`. | Write temp files under the sandbox temp directory or the workspace, not `/tmp`. |
+| **Santa logs one DENY per launch** | `run-baseline.ps1`'s pytest-interpreter probe tries every python on `PATH`; `/usr/local/bin/python3` is the python.org 3.14 build that Santa blocks. | The launchers put `~/.Projects/mxc-c0/tools/agent-py/bin` first on `PATH`. The same interpreter is selected and nothing is denied. Contestants probing `python3.14` themselves are denied too; that is harmless. |
+| **Contestant-downloaded interpreter denied by Santa** | `gpt-6.1-sol` fetched a python-build-standalone CPython 3.11.18 into `.runtime/` with urllib to meet the 3.11+ contract; Santa refused to execute it. Outbound internet is open, so any contestant can try this. | Not committed and deleted afterwards. On a host where Santa allows only the Xcode Python 3.9.6, C2 runs are non-reference diagnostics. |
+| **GPT tool-call mismatches in Claude Code** | `gpt-6.1-sol` called `Skill('geeky-orchestrator')` (an agent, not a skill), looked for a wait/receive tool, and stopped although results had arrived as task notifications. | See the [compat adapter README](adapters/claude-code-litellm-compat/README.md). It applies to non-claude models only and logs each intervention. The canonical prompt (sha 124eba9b) is unchanged. |
+| **Langfuse transcript content cut at 20000 characters** | The transcript upload caps every string at `CC_LANGFUSE_MAX_CHARS` (default 20000); a 60,559-character field would be truncated. | The C2 launcher sets `CC_LANGFUSE_MAX_CHARS=1000000`. Native OTel spans carry structure, timing and token counts but no prompt or response content, because Langfuse drops OTel log events. Content comes from the post-run upload (`telemetry/transcript-otlp.mts`). |
+| **Langfuse CLI refuses sessions/traces queries** | The `langfuse` CLI (API 4.35.0) rejects the deprecated sessions and traces endpoints. Default `observations list` fields omit io and usage. | Use `langfuse api observations list --session-id <id> --fields core,basic,io,model,usage,metadata`. Add `--trace-id` to see uploaded child observations; only the root Conversational Turn carries the session id. |
+| **Scores land in environment `mxc`** | `langfuse-scores.py` falls back to environment `mxc` unless given a publish-run copy of `run.json` whose telemetry block names the environment. | Pass the publish-run copy so parity scores land in `mxc-claude-mac` with the 11 automatic `geeky.*` scores. |
 | **Cloud-session safety check gives no verdict** | Transient. Repeated retries slow down and can end the turn. | Stop after two tries, do read-only work, and retry later. |
 
 ## 8. Open items

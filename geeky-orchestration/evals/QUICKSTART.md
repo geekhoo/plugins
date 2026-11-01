@@ -2,6 +2,10 @@
 
 This sheet takes you from a fresh Linux host to a scored run. Each step links to the doc that explains it. For the full procedure and the pitfalls table, read [mxc-litellm-runbook.md](mxc-litellm-runbook.md). The Windows / OAuth path is in [baseline-runs.md](baseline-runs.md).
 
+On macOS the host is Santa-locked (Lockdown mode) and only the Xcode Python 3.9.6 may run. Santa blocks the python.org 3.14 build at `/usr/local/bin/python3`, so build the venvs from the Xcode Python and use the `tools/agent-py` venv (section A, step 3). The macOS launchers (`~/.Projects/mxc-c0/launch-c2.sh` for C2) put `tools/agent-py/bin` first on PATH so the pytest-interpreter probe in `run-baseline.ps1` picks that venv without logging a DENY. The C2 contract asks for Python 3.11+, so macOS runs are non-reference diagnostics. Codex cannot run on this host ([adapters/codex/README.md](adapters/codex/README.md)).
+
+The canonical prompt (`prompts/end-to-end.md`) says to invoke a real wait or receive operation after dispatching workers. Claude Code has no such operation for background agents; Claude models end the turn and get a task notification, but non-Claude models can read the sentence literally and stop. The prompt stays unchanged (sha 124eba9b) for cross-harness parity. For non-Claude models on Claude Code, see the [compat adapter](adapters/claude-code-litellm-compat/README.md).
+
 Commands run from the repository root unless noted. `T=~/repos/.eval-tools` throughout.
 
 For Windows preparation without oracle or contestant execution, use
@@ -50,7 +54,7 @@ on timeout excess.
 
    A copy of that Codex package is also in [archives/session-20261025/](../../archives/session-20261025/README.md) (`installers.zip`).
 
-3. **Sandbox Pythons.** The sandbox cannot `pip install`, so build the venvs on the host ([baseline-runs.md](baseline-runs.md), D75).
+3. **Sandbox Pythons.** The sandbox cannot `pip install`, so build the venvs on the host ([baseline-runs.md](baseline-runs.md), D75). On macOS, point `uv venv --python` at the Xcode Python (`/Applications/Xcode.app/Contents/Developer/usr/bin/python3`, 3.9.6; `/usr/bin/python3` is only an xcode-select shim that resolves to it), not `command -v python3`, which may resolve to the Santa-blocked python.org build.
 
    ```bash
    uv venv --python "$(command -v python3)" $T/agent-py   && VIRTUAL_ENV=$T/agent-py   uv pip install pytest
@@ -114,6 +118,7 @@ $P evals/scripts/parity-eval.py $RUN --observations /tmp/obs.json --score $OUT/s
 $P evals/telemetry/langfuse-scores.py --run $RUN --parity $OUT/parity.json
 ```
 
+- **On macOS**, `langfuse-scores.py` uses environment `mxc` unless given a copy of `run.json` whose `telemetry` block names the environment (`mxc-claude-mac` for the macOS runs). Transcript content comes from the post-run upload (`telemetry/transcript-otlp.mts`), not from native OTel spans.
 - **Read `parity.json`** for the comparable composite (D103). score-run's own composite is not comparable across harnesses.
 - **Check every failing check** against the run before trusting the number ([runbook §6](mxc-litellm-runbook.md#6-after-the-run)).
 - **Commit** the run folder and the analysis folder. Keep `/tmp/obs.json` out of git; it is in Langfuse.
@@ -128,5 +133,8 @@ $P evals/telemetry/langfuse-scores.py --run $RUN --parity $OUT/parity.json
 | Codex adapter internals | [adapters/codex/README.md](adapters/codex/README.md) |
 | What the C0 cases check | [cases/c0-wordstat/spec.md](cases/c0-wordstat/spec.md) |
 | Latest Windows C0 | [claudex-001 comparison](analyses/c0-claudex-001-win-20261026/README.md), Codex 97.46, Claude timeout 90.33 and cumulative continuation 98.33 |
+| macOS C0 r2 (Claude Code + claude-sonnet-5-5) | [c0-macos-mxc-sonnet-20261030](analyses/c0-macos-mxc-sonnet-20261030/README.md) |
+| macOS C2 c2-linkvault, all models | [c2-macos-mxc-20261102](analyses/c2-macos-mxc-20261102/README.md) (per-run outcomes and scores) |
+| Non-Claude models on Claude Code | [claude-code-litellm-compat](adapters/claude-code-litellm-compat/README.md) |
 | Earlier Linux results | [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md) |
 | Session evidence and archives | [session-20261025-evidence/](analyses/session-20261025-evidence/README.md), [archives/session-20261025/](../../archives/session-20261025/README.md) |

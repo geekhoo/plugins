@@ -3,6 +3,7 @@
 The [Windows C0 comparison](../analyses/c0-claudex-001-win-20261026/README.md)
 records paid-run identity audits and ten verified published scores per session.
 The earlier model-free identity fixtures remain [separate evidence](../analyses/telemetry-identity-20261025/README.md).
+The macOS runs ([C2, 2026-11-02](../analyses/c2-macos-mxc-20261102/README.md)) hold 21 scores per session: 11 automatic `geeky.*` scores (runner, `GEEKY_EVAL_SCORES=1`) and 10 parity scores (`langfuse-scores.py`). Per-run numbers are in that analysis.
 
 Both runners are configured to capture every eval session for Langfuse. The Claude Code runner is `run-baseline.ps1` and the Codex runner is `run-codex-baseline.ps1`. Capture includes turns, model generations, subagents or child threads, tool inputs/outputs and available reasoning summaries without configured truncation. Delivery and required coverage need separate evidence. Use the traces to inspect, evaluate and score runs alongside `score-run.py`.
 
@@ -13,6 +14,8 @@ Each harness uses Langfuse's own transcript hook, pinned in `pins.json` and veri
 | Claude Code | [`langfuse/claude-observability-plugin`](https://github.com/langfuse/claude-observability-plugin) `hooks/langfuse_hook.py` (Python, `langfuse` SDK) | `Stop` and `SessionEnd`, from the run's `--settings` | `CC_LANGFUSE_MAX_CHARS=2147483647`, skill content captured, `showThinkingSummaries: true` |
 | Codex | [`@langfuse/codex-observability-plugin`](https://github.com/langfuse/codex-observability-plugin) `dist/index.mjs` (Node 22+, self-contained bundle) | `Stop`, registered through the profile's `-c hooks=...` overrides and trusted by its exact command. That command is `agent-py python <run home>/langfuse-tracer.py`, which runs node with the bundle, so no shell has to quote a path like `C:\Program Files\nodejs\node.exe` | Never truncates; `model_reasoning_summary = "detailed"` |
 
+On macOS, Claude Code runs have no pinned hook. Claude Code exports native OTel spans, and the runner uploads the transcript after the run with `evals/telemetry/transcript-otlp.mts`. The native spans carry structure, timing and token counts as metadata but no prompt or response content, because Langfuse drops OTel log events. The content comes from the post-run upload.
+
 Each hook reads the transcript the harness already writes and uploads it over OTLP. That is the Claude session JSONL and `subagents/` folder, or the Codex rollout and its child-thread rollouts. The hooks fail open, so an upload problem never stops a run.
 
 The MXC adapters preserve those pinned upstream files. A Claude bootstrap and a
@@ -20,7 +23,7 @@ derived Codex converter add the [agent identity contract](#agent-and-run-identit
 The SDK remains pinned at 4.18.0 because the upstream Claude hook uses SDK 4.x
 backdated-span internals; a major-version migration requires separate validation.
 
-Thinking: in `claude -p` runs, Claude Code asks for `display: "omitted"` thinking by default, which leaves only signatures in the transcript. All 124 thinking blocks in C1 run 6 were empty. `showThinkingSummaries` makes it request API-side summaries instead. Codex runs used `summary: none`, so their reasoning was encrypted only. Summaries are the only plaintext reasoning either vendor returns; raw reasoning stays provider-encrypted.
+Thinking: in `claude -p` runs, Claude Code asks for `display: "omitted"` thinking by default, which leaves only signatures in the transcript. All 124 thinking blocks in C1 run 6 were empty. `showThinkingSummaries` makes it request API-side summaries instead. In `-p` mode the macOS runs found that setting has no effect; pass `--thinking-display summarized` (commit ea144eb), which returned text in 181 thinking blocks for claude-sonnet-5-5 on C2. gpt-6.1-sol through LiteLLM returned no thinking text (0 of 202 blocks), so its effort cannot be checked from traces. Codex runs used `summary: none`, so their reasoning was encrypted only. Summaries are the only plaintext reasoning either vendor returns; raw reasoning stays provider-encrypted.
 
 ## Setup (once per host)
 
@@ -41,7 +44,7 @@ Telemetry is on when the host has `TRACE_TO_LANGFUSE=true`. Pass `-NoTelemetry` 
 |---|---|
 | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL` | Claude; Codex fallback |
 | `LANGFUSE_CODEX_PUBLIC_KEY`, `LANGFUSE_CODEX_SECRET_KEY`, `LANGFUSE_CODEX_BASE_URL` | Codex (take precedence) |
-| `LANGFUSE_TRACING_ENVIRONMENT`, `LANGFUSE_CODEX_ENVIRONMENT` | runners explicitly select `mxc-win`, `mxc-linux` or `mxc-mac` from the actual host |
+| `LANGFUSE_TRACING_ENVIRONMENT`, `LANGFUSE_CODEX_ENVIRONMENT` | runners explicitly select `mxc-win`, `mxc-linux` or `mxc-mac` from the actual host. macOS Claude runs use `mxc-claude-mac`: `LANGFUSE_TRACING_ENVIRONMENT` for the transcript upload and automatic scores, and the resource attribute `deployment.environment.name` for native OTel spans |
 | `CC_LANGFUSE_TRACE_TAGS` / `LANGFUSE_CODEX_TAGS` | appended to the run tags |
 | `LANGFUSE_USER_ID` / `LANGFUSE_CODEX_USER_ID` | runners set a safe family fallback; adapters assign each observed agent its own user ID |
 
@@ -96,7 +99,7 @@ upstream files are unchanged. Existing ingested sessions are not renamed.
 
 [Validation and live examples](../analyses/telemetry-identity-20261025/README.md)
 include Windows MXC mocks and separate three-agent fixtures, with zero model
-inference. Linux/macOS naming is covered by tests, not live execution here.
+inference. Linux naming is covered by tests, not live execution here. macOS has run live: C0 on 2026-10-30 and C2 on 2026-11-02.
 
 After each run the runner reads the session back with `langfuse-run.py` and writes `langfuse.json` (counts by type, usage totals, truncated observations). It records `telemetry.delivered` and `telemetry.observations` in `run.json`. Claude runs also keep the hook log as `langfuse-hook.log`. To pull a session in full, including all inputs and outputs:
 
@@ -104,7 +107,7 @@ After each run the runner reads the session back with `langfuse-run.py` and writ
 python geeky-orchestration/evals/telemetry/langfuse-run.py --session-id <id> --output summary.json --full observations.json
 ```
 
-`langfuse-run.py` reads `/api/public/v2/observations`, the only read API on Langfuse v4 events-only deployments.
+`langfuse-run.py` reads `/api/public/v2/observations`, the only read API on Langfuse v4 events-only deployments. The `langfuse` CLI (API 4.35.0) likewise refuses the deprecated sessions and traces endpoints. Use `langfuse api observations list --session-id <id> --fields core,basic,io,model,usage,metadata`; the default fields omit io and usage. Use `--trace-id` to see uploaded child observations, since only the root Conversational Turn carries the session id.
 
 `delivered` is retained as a compatibility alias for `observations_present`
 (observations > 0). It proves presence only. `observations_status` is `present`
@@ -142,7 +145,7 @@ recovery or new outbox in this procedure.
 python geeky-orchestration/evals/telemetry/langfuse-coverage.py --session-id <id>
 ```
 
-It was calibrated on two real sessions, Claude C1 run 6 and Codex C1 run 3 (replayed through the pinned tracers under `environment=smoke`). Both hit every point except reasoning summaries, which those runs predate. `cases/c0-wordstat` is the minimal case built to hit every point; see its `spec.md`.
+It was calibrated on two real sessions, Claude C1 run 6 and Codex C1 run 3 (replayed through the pinned tracers under `environment=smoke`). Both hit every point except reasoning summaries, which those runs predate. Native-OTel Claude runs on macOS first reported `reasoning_summaries` as missed on every run, because `has_reasoning` did not read Anthropic thinking content blocks; commit a8a1fb4 fixed that. `cases/c0-wordstat` is the minimal case built to hit every point; see its `spec.md`.
 
 ## Known limits
 
@@ -150,6 +153,8 @@ It was calibrated on two real sessions, Claude C1 run 6 and Codex C1 run 3 (repl
 - **A stage counts when its SKILL.md is read.** Codex reads skills by opening the file, and an agent may read every skill up front: Codex C0 attempt 5 hit `stage:impl-review` without reaching it. Check the commits and the review files when a stage matters.
 - **Raw reasoning stays encrypted**; only the summaries are plaintext.
 - **Export timeout.** Both SDKs cap one OTLP export at `LANGFUSE_TIMEOUT` seconds, 5 by default. A full session needs longer, so the runners pass `LANGFUSE_TIMEOUT=300`. Without it, the C1 Codex run 3 replay delivered nothing while the hook still exited 0.
+- **Transcript upload truncation.** The macOS transcript upload caps every string at `CC_LANGFUSE_MAX_CHARS` (default 20000). The C2 launcher sets 1000000, because a 60,559-char field would otherwise be cut.
+- **Child observations carry no session id.** Only the root Conversational Turn has it. Query uploaded child observations by trace id.
 - **Proxies.** The Codex tracer's exporter uses Node's `http` module, which ignores `HTTPS_PROXY`. It needs direct egress to Langfuse, which the MXC sandbox provides.
 
 ## Scoring in Langfuse
@@ -165,6 +170,8 @@ python evals/telemetry/langfuse-scores.py --run <run> --parity derived/parity.js
 # Only after separate publication authorization:
 python evals/telemetry/langfuse-scores.py --run <run> --parity derived/parity.json --scope evaluation-inputs.json --output score-readback.json
 ```
+
+For native-OTel runs, pass a publish-run copy of `run.json` whose `telemetry` block names the environment (for example `mxc-claude-mac`). Without it `langfuse-scores.py` falls back to environment `mxc` and the scores land there.
 
 The sidecar declares `schema`, `scope_id`, `kind` (`initial`, `continuation` or
 `cumulative`), `parent_scope_id` (null only for initial), `configuration`
@@ -221,4 +228,4 @@ The mocks exercise the real hooks with no model calls. `mock_claude.py` runs the
 
 ## Parity note
 
-Telemetry changes the contestant setup: one extra `Stop` (and `SessionEnd`) hook, plus summarized thinking and reasoning. A run with telemetry is a different configuration from the earlier stored baselines (D101).
+Telemetry changes the contestant setup: one extra `Stop` (and `SessionEnd`) hook, plus summarized thinking and reasoning. On macOS Claude runs there is no extra hook; the change is the native OTel environment flags and `--thinking-display summarized`. A run with telemetry is a different configuration from the earlier stored baselines (D101).

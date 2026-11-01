@@ -1,5 +1,7 @@
 # Codex baseline adapter
 
+Codex cannot run on the macOS Santa-locked host: Santa denies the OpenAI TeamID `2DC432GLL2`, and `run-codex-baseline.ps1` execs `codex` on the host.
+
 The [minimal reasoning normalization](../../analyses/bridge-reasoning-normalization-20261027/README.md)
 adds missing summaries, repairs the provider's reasoning content tag, and reconciles
 only exact text-equivalent terminal duplicates against the completed SSE reasoning

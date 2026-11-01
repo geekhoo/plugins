@@ -1,5 +1,7 @@
 # C0 operator readiness and verification
 
+The macOS Claude estate (Seatbelt sandbox, Santa Lockdown) is not covered below. It is recorded in the [C2 analysis](analyses/c2-macos-mxc-20261102/README.md) and the [runbook](mxc-litellm-runbook.md). Authorization references for those runs follow the pattern `owner-macos-mxc-20261102-c2-<model>-<effort>[-aN]`.
+
 **Current native Codex C0 readiness: BLOCKED after terminal protocol failure.**
 The single authorized run `20261029T062343Z-ffd63c3c` crashed after2511.334 s
 during implementation T1: encrypted function output could not be decoded.

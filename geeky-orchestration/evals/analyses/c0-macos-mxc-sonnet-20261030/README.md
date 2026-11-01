@@ -45,6 +45,7 @@ It produced 10 commits, 70 non-test LOC (reference 70) and 237 test LOC.
 - **The gate still stands.** The skill prescribes HEREDOC commit messages, but it also says "Do NOT amend … create a NEW commit". A follow-up commit was the compliant remedy, and the contestant chose amend.
 - **Upstream did the same.** Upstream's Claude run 4 (`c0-ant-claude-20261025`) rewrote a commit with `git reset --soft`. Claude Code repairing a bad commit by rewriting it, rather than adding a new one, is now seen in both scored Claude C0 parity runs.
 - **Fixed for r3 in `5117e62`:** on macOS the host derives `TMPPREFIX=<TMPDIR>/zsh` after `--env` is applied. `473d5ad` adds a zsh here-document check to the mock env probe. Literal `/tmp` paths still fail; the filesystem policy is unchanged.
+- **Note, 2026-11-02:** the r3 fixes (`5117e62`, `473d5ad`) were only mock-tested. No r3 C0 run exists; run stamps `20261101T173247Z` and `20261101T173535Z` are prepare-check only.
 
 ### score-run timing checks (harness-specific, not in the parity composite)
 
@@ -94,12 +95,15 @@ Audit: I checked every failing check, and the sensitive passes, against the raw 
 
 1. **score-run drops `python3` validation commands on POSIX.** The claude-code filter `(python|py|pytest|…)\b` cannot match `python3`, so `Tests/Validation` reruns were a vacuous 0/0 (Quality D = 1.0). The codex branch accepts `python3` and refuses a vacuous 0/0. I reran the 5 selected commands at each task's own commit: all pass (`claude-code/validation-rerun.txt`), so Quality does not change here. Fixed in `63cd9b3`: a shared `python(?:\d+(?:\.\d+)*)?` head. Re-scored r2 gives 5/5, with Quality and the composite unchanged. Refusing a vacuous 0/0 for claude-code too is held: a claude run whose plans write plain-bullet commands would then fail to score.
 2. **`reasoning_summaries` missed.** This is a real capture gap. claude-sonnet-5-5 returned every thinking block signature-only through the gateway, even with `showThinkingSummaries` on, so no reasoning text exists to trace. Cause: in `-p` mode Claude Code 2.1.314 ignores `showThinkingSummaries` and sends no `display`, and Claude 5 models default to `omitted`. `ea144eb` adds `--thinking-display summarized`; the gateway accepts it (one call).
+   - **Note, 2026-11-02:** `--thinking-display summarized` is verified on C2 (see `evals/analyses/c2-macos-mxc-20261102/README.md`): `claude-sonnet-5-5` returned text in 181 thinking blocks. The `reasoning_summaries` miss that remained was a checker bug, fixed in `a8a1fb4`: `langfuse-coverage.py` `has_reasoning` now reads Anthropic thinking content blocks.
 3. **Observation export shape.** The runner's `langfuse-check.mts export` wraps the list. It should write the bare list `langfuse-run.py --full` produces, so `langfuse-coverage.py` reads it directly.
 4. **Score environment.** `langfuse-scores.py` falls back to environment `mxc` when `run.json.telemetry` has none. This run used native OTel, so `telemetry` is `{enabled: false}`. `claude-code/publish-run/20261030T043030Z/run.json` is a source-reviewed copy that adds the telemetry identity (session, `development`, coverage) and is otherwise identical. The scope binds it with ancestry to the original.
+   - **Note, 2026-11-02:** the publish-run copy is a standing requirement for native-OTel runs.
 
 ## Confounds (what is not equal)
 
 1. **Python 3.9.6, not 3.11+.** Santa blocks the python.org 3.14 build, so the contestant tests, validation reruns and oracle all ran on 3.9. The C0 contract asks for 3.11+. The runner marks the run `reference_eligible`, but these confounds make it a diagnostic.
+   - **Note, 2026-11-02:** contestants also probe `python3.14` themselves (blocked, harmless). The runner's pytest-interpreter probe in `run-baseline.ps1` tries every python on PATH, so each launch logged one Santa DENY for `/usr/local/bin/python3`; the launchers now put `~/.Projects/mxc-c0/tools/agent-py/bin` first on PATH, which selects the same interpreter without the DENY. On C2, GPT downloaded a CPython 3.11 build into the workspace and Santa denied executing it.
 2. **Sandbox defect.** The heredoc failure above caused the hard gate.
 3. **MCP server.** The geeky MCP server ran from the Node mirror (`server.mts`). The contestant ran every gate as the Python scripts through Bash and made 0 MCP calls.
 4. **Telemetry path.** Native OTel plus a post-run transcript upload replaced the pinned hook. The span shape is the same, and parity-eval consumed it unchanged.
@@ -110,6 +114,7 @@ Audit: I checked every failing check, and the sensitive passes, against the raw 
 
 - **Session:** `5a358c3e-fad1-4086-a37a-7dbfdd89a5b9`, project `geeky-orchestration-eval`, environment `development`.
 - **Traces:** 14 traces with 448 observations (169 generations, 29 spans, 250 tools, 15 subagent containers), carrying full prompt, response and tool content up to 20k characters per field. The native OTel spans were also delivered.
+- **Note, 2026-11-02:** later runs (C2) use environment `mxc-claude-mac` and set `CC_LANGFUSE_MAX_CHARS=1000000`, so fields are no longer cut at 20k. See `evals/analyses/c2-macos-mxc-20261102/README.md` for per-run numbers.
 - **Already posted** (`GEEKY_EVAL_SCORES=1`, during the run's post-processing): 11 run-level `geeky.*` scores.
 - **Published 2026-10-30** with owner write authorization (QUICKSTART §E): the 10 upstream parity scores (`parity_composite`, `quality`, `process_adherence`, `process_adherence_uncapped`, `process_consistency`, `oracle_pass_rate`, `forbidden_git_operation`, `harness_coverage_complete`, `provider_refusals`, `final_report_claims_verified`), using `langfuse-scores.py` with `--scope` and `--coverage`, evaluator `parity-eval/1`.
   - The first attempt returned `pending` (`score-readback.attempt1.json`): the POSTs were accepted, but the immediate v3 readback found nothing yet.
