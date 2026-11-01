@@ -1,0 +1,23 @@
+{
+  "schema": "geeky-eval.langfuse-coverage/1",
+  "session_id": "29bf98bd-3d6b-4ef3-9e87-3a4f7d89d9df",
+  "traces": 1,
+  "attempts": 2,
+  "expected": {
+    "Conversational Turn": 1,
+    "LLM Call": 32,
+    "Tool: *": 86,
+    "Subagent: *": 3,
+    "Subagent LLM Call": 25
+  },
+  "received": {
+    "LLM Call": 32,
+    "Tool: *": 86,
+    "Subagent LLM Call": 25,
+    "Subagent: *": 3,
+    "Conversational Turn": 1
+  },
+  "missing": {},
+  "ratio": 1,
+  "complete": true
+}

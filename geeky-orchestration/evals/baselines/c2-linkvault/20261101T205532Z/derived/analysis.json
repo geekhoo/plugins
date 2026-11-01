@@ -1,0 +1,99 @@
+{
+  "tokens": {
+    "input": 1546414,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 48927,
+    "total": 1595341,
+    "by_model": {
+      "gpt-6.1-sol": {
+        "inputTokens": 1546414,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "outputTokens": 48927
+      }
+    },
+    "cost_usd_estimate": 8.9552
+  },
+  "model_calls": 32,
+  "latency_median_ms": 5106,
+  "latency_samples": 35,
+  "max_idle_gap_s": 27,
+  "stages": [
+    {
+      "name": "geeky-orchestrator",
+      "started_utc": "2026-11-01T20:55:48.537000+00:00",
+      "ended_utc": "2026-11-01T21:00:21.871000+00:00",
+      "minutes": 4.6
+    }
+  ],
+  "impl_review_rounds": null,
+  "skill_invocations": {
+    "geeky-orchestrator": 1
+  },
+  "tool_calls_main": {
+    "Bash": 15,
+    "Read": 11,
+    "ToolSearch": 6,
+    "SendMessage": 5,
+    "Agent": 3,
+    "Skill": 1,
+    "ListAgents": 1,
+    "Write": 1
+  },
+  "tool_calls_subagents": {
+    "WebFetch": 24,
+    "Bash": 10,
+    "Read": 7,
+    "ToolSearch": 2
+  },
+  "subagent_dispatches": {
+    "general-purpose": 3
+  },
+  "validation_runs": {
+    "main": 1
+  },
+  "gate_invocations": {},
+  "gate_results": {},
+  "duration_api_ms": 851733,
+  "subagent_transcripts": {
+    "transcripts": 3,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "general-purpose": 3
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Bash": 15,
+          "Read": 11,
+          "ToolSearch": 6,
+          "SendMessage": 5,
+          "Agent": 3,
+          "Skill": 1,
+          "ListAgents": 1,
+          "Write": 1
+        },
+        "dispatches": {
+          "general-purpose": 3
+        },
+        "gates": {}
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "WebFetch": 24,
+          "Bash": 10,
+          "Read": 7,
+          "ToolSearch": 2
+        },
+        "dispatches": {},
+        "gates": {}
+      }
+    }
+  }
+}
