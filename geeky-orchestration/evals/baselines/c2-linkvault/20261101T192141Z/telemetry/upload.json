@@ -1,0 +1,73 @@
+{
+  "schema": "geeky-eval.transcript-upload/1",
+  "uploader": {
+    "name": "geeky-eval-transcript-otlp",
+    "version": "1.0.0"
+  },
+  "session_id": "61fcb731-f526-4171-86e5-85c759be2793",
+  "dry_run": false,
+  "ok": true,
+  "counts": {
+    "turns": 37,
+    "llm_calls": 164,
+    "tools": 441,
+    "tool_errors": 3,
+    "subagents": 22,
+    "subagent_llm_calls": 161,
+    "spans": 825,
+    "traces": 37
+  },
+  "expected_names": {
+    "Conversational Turn": 37,
+    "LLM Call": 164,
+    "Tool: *": 441,
+    "Subagent: *": 22,
+    "Subagent LLM Call": 161
+  },
+  "batches": [
+    200,
+    200,
+    200,
+    200,
+    200
+  ],
+  "trace_ids": [
+    "0300adb66c910df12a7b57f8df8477a3",
+    "86753ea8f9a4bb01857d743815ca1372",
+    "233309335d8302cd238b8a234bf240a6",
+    "bbb610ef184cdcb869fd81c565e71b01",
+    "d7a4d25acc8d74268f65acec61055050",
+    "687229665b5b0641f02b05870eb0f490",
+    "c99f382f47fde6d2d9c29bd7a6fd1b01",
+    "10daa0dcf701eb83fd7139288e9cbe65",
+    "dd7782c259c2c6373e4d27183cde68d9",
+    "d274622b01ac0e3048941135bf799c67",
+    "ddac35b1fe3738f1acb15d5de7838db8",
+    "afbfbb62f73ace1b5771a5b31172ef32",
+    "01ad8b738b7238d6bd1de75f0b029adb",
+    "ee2cb9c22bd8ba5ff346fc17c0c55ce8",
+    "3c39140329db5abbe7df438acce5c075",
+    "320d1e62d3e4478932a6e2e91a5f5b2d",
+    "c3bb1992db537a65850f6356ac00430b",
+    "90e5706b78c9967b016e0f3a6e06c4e0",
+    "4e090ff83ae5a34f0f112e81ca9c5bd4",
+    "0d4209fa937e634bf834a5abf2886b90",
+    "539bc03cca784b3d42cfaf3e13e4550f",
+    "52c9e3d14382f9b38dd7f6b50a5e98bf",
+    "160c389a1ed71ba9dc0bd7fac181e447",
+    "5d09ff6cf3f06dd1d3382c4b4c1edcd7",
+    "a52a6c7f5dc19e1c3a3ea9d07c34b387",
+    "60600d7ec1a6ff63b781ee7803c3dbc6",
+    "ee4391605d64d393fdf78e189d305e5c",
+    "3856012e480ba07f2f68ec744d0d1ac3",
+    "d6910fd857d7a487020522fd560a53cc",
+    "a9174530b595f0a48b097385da4f865e",
+    "de60b069b983b3dc092e6d9144433ff7",
+    "f54f98b68134812fc26fb3c80eba31b5",
+    "99fc6030a66ad0a12e377fe80680b214",
+    "a357740bad845ae9b383d8ade4d800ce",
+    "186c8e54afed988b5a1dfb569a18cce1",
+    "12dd35e02b20fec6a1e37fab88928e62",
+    "954c7496068ce170a351d00adc7b48a1"
+  ]
+}
