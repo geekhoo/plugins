@@ -220,6 +220,24 @@ def done_after(body, before):
 LANES = r"Backlog|Ready|In Progress|In Review|Blocked|Done"
 
 
+def dod_exit_verdicts(raw, text):
+    """check-dod verdicts shown only as an exit code: `check-dod.py --task T1 >/dev/null; echo dod1=$?` or, in a
+    bash loop, `--task $t >/dev/null; echo dod$t=$?` (output `dodT3=0`). The code counts only when check-dod's
+    own output was redirected, not piped: after `| tail`, $? is tail's exit code and proves nothing."""
+    out = {}
+    for m in re.finditer(r"check-dod[^\n;|&]*?--task\s+['\"]?(T\d+|\$\w+)['\"]?[^\n;|&]*?>\s*/dev/null\s*;\s*"
+                         r"echo\s+['\"]?([\w$]*?)=\$\?", raw):
+        task, label = m.group(1), m.group(2)
+        if task.startswith("$"):  # loop variable: the label carries the task id in the output, e.g. dodT3=0
+            prefix = re.escape(label.split("$")[0])
+            out.update({t: code == "0" for t, code in re.findall(r"\b%s(T\d+)=(\d+)\b" % prefix, text)})
+        else:
+            hit = re.search(r"\b%s=(\d+)\b" % re.escape(label), text)
+            if hit:
+                out[task] = hit.group(1) == "0"
+    return out
+
+
 def py_writes(raw, filename):
     """True when an inline Python snippet writes `filename` (e.g. kanban.md, handoff.md): a name bound to a
     path ending in it is later written with .write_text/.write_bytes, or the file is opened for writing or
@@ -279,6 +297,10 @@ def helper_moves(raw, helpers):
     hvars = set(re.findall(r"\$(\w+)\s*=\s*[\"'][^\"'\n]*(?:%s)" % "|".join(names), text, re.I))
     loops = [(m.start(), m.group(1), re.findall(r"\bT\d+\b", m.group(2)))
              for m in re.finditer(r"foreach\s*\(\s*\$(\w+)\s+in\s+([^)]*)\)", text, re.I)]
+    # bash: `for t in T1 T2; do python3 $kb $t Done; ...; done`
+    loops += [(m.start(), m.group(1), re.findall(r"\bT\d+\b", m.group(2)))
+              for m in re.finditer(r"\bfor\s+(\w+)\s+in\s+([^;\n]*?)\s*;\s*do\b", text)]
+    loops.sort()
     moves = []
     for stmt in re.finditer(r"[^;\n{}]+", text):
         s = stmt.group(0)
@@ -956,6 +978,10 @@ class Scorer:
                     for spec in re.findall(r"foreach\s*\(\s*\$\w+\s+in\s+([^)]*)\)", c.raw, re.I) + \
                             re.findall(r"((?:['\"]T\d+['\"]\s*,\s*)+['\"]T\d+['\"])\s*\|", c.raw):
                         ids |= set(re.findall(r"['\"](T\d+)['\"]", spec))
+                    # bash: `for t in T1 T2; do ... check-dod.py --task $t ...; done`
+                    for spec in re.findall(r"\bfor\s+\w+\s+in\s+([^;\n]*?)\s*;\s*do\b", c.raw):
+                        ids |= set(re.findall(r"\b(T\d+)\b", spec))
+                verdicts.update(dod_exit_verdicts(c.raw, c.text))
                 for t in ids | set(verdicts):
                     if t in self.dod_runs:
                         self.dod_runs[t].append((c.top.idx, verdicts.get(t)))
