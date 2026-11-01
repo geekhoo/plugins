@@ -59,6 +59,17 @@ def test_claude_names_cover_every_required_point():
     assert 'mcp_tools' not in hits(report)
 
 
+def test_uploaded_content_block_thinking_counts_only_with_text():
+    turn = obs('turn', 'SPAN', 'Conversational Turn')
+    summary = obs('g1', 'GENERATION', 'LLM Call', 'turn', usage={'input': 3}, output={
+        'role': 'assistant', 'content': [{'type': 'thinking', 'thinking': 'Check the budget script first.'},
+                                         {'type': 'text', 'text': 'ok'}]})
+    empty = obs('g2', 'GENERATION', 'LLM Call', 'turn', usage={'input': 3}, output={
+        'role': 'assistant', 'content': [{'type': 'thinking', 'thinking': ''}, {'type': 'text', 'text': 'ok'}]})
+    assert 'reasoning_summaries' in hits(cov.coverage([turn, summary]))
+    assert 'reasoning_summaries' not in hits(cov.coverage([turn, empty]))
+
+
 def test_codex_names_escaped_js_commands_and_encrypted_handoffs():
     o = [obs('turn', 'AGENT', 'Codex Turn')]
     o += [obs(f's{i}', 'TOOL', f'skill:{s}', 'turn', 'x') for i, s in enumerate(cov.STAGES)]

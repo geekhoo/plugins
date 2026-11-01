@@ -119,7 +119,15 @@ def coverage(observations):
 
     def has_reasoning(o):
         out = decoded(o.get('output'))
-        return isinstance(out, dict) and bool(out.get('thinking') or out.get('reasoning'))
+        if not isinstance(out, dict):
+            return False
+        if out.get('thinking') or out.get('reasoning'):  # pinned-hook / Codex shape
+            return True
+        # transcript-otlp.mts uploads Anthropic content blocks; only a thinking block with text is a summary
+        # (signature-only or redacted blocks carry no reasoning text)
+        blocks = out.get('content')
+        return isinstance(blocks, list) and any(
+            isinstance(b, dict) and b.get('type') == 'thinking' and str(b.get('thinking') or '').strip() for b in blocks)
     point('reasoning_summaries', (o for o in generations if has_reasoning(o)),
           detail='thinking (Claude) or reasoning summary (Codex) on generations')
     point('token_usage', (o for o in generations if any(isinstance(v, (int, float)) and v > 0
