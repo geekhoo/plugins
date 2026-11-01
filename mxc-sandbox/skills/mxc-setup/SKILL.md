@@ -36,6 +36,10 @@ forwards all arguments. It never writes into the plugin directory. To force a bu
      plugin directory and is lost on plugin update.
    - Claude CLI at `%USERPROFILE%\.local\bin\claude.exe` (native install), or `$env:MXC_CLAUDE_EXE`
      set to its path.
+   - macOS (Seatbelt): run the host as `dotnet MxcClaude.dll` (an ad-hoc-signed apphost is killed under Santa
+     Lockdown); the claude, node, dotnet, git and zsh binaries and the Xcode Python are allowed, while python.org 3.14 and downloaded interpreters are blocked; use `--host-loopback`
+     to reach a gateway on `127.0.0.1`; the host pins `TMPDIR` and `TMPPREFIX=<TMPDIR>/zsh` because literal
+     `/tmp` is not writable.
 2. **Probe** with the options the user intends to run with and an explicit workspace. Without
    `--workspace`, the current directory is granted read-write, which skews the report.
 

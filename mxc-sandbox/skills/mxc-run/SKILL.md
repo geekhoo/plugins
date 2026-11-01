@@ -42,6 +42,10 @@ Exit codes: claude's own, `124` timeout, `2` bad host usage, `1` `MXC error` bef
 | Set a variable for the workload | `--env NAME=VALUE` (or `--env NAME` to copy the host's value) | Repeatable, and applied last. Only the two auth variables are passed by default, so use this for anything else, e.g. `MCP_TIMEOUT` or, with `MXC_CLAUDE_EXE`, another CLI's `CODEX_HOME`. Pass secrets as a bare `NAME`, never as a literal value. |
 | Silence hooks (they cannot run, see below) | claude `--settings <file containing {"disableAllHooks": true}>` | No exit-66 hook noise |
 
+On macOS (Seatbelt): run the host as `dotnet MxcClaude.dll`, use only binaries Santa allows (dotnet, claude, node, git, zsh and the Xcode Python; python.org 3.14 and downloaded interpreters are blocked), add `--host-loopback`
+to reach a gateway on `127.0.0.1`, and keep temp files under `TMPDIR` (the host sets `TMPPREFIX=<TMPDIR>/zsh`
+so zsh here-documents work; literal `/tmp` is not writable).
+
 Keep the workspace shallow (`C:\repos\<name>`). A deep path such as a `%TEMP%` 8.3 path makes
 claude refuse to read `<workspace>\.claude\settings*.json`, because upward traversal is blocked.
 

@@ -46,6 +46,11 @@ blindly.
 | `[mcp-sdk] SEP-2352: stored OAuth credential has no 'issuer' stamp` | Harmless MCP SDK warning | Filter it from output |
 | `MXC error [...]` before launch | Request rejected by validation (unsupported combination) | Read the message; check `references/sdk-and-policy.md` for backend support |
 | Probe tier `AppContainer` (not BaseContainer) | Host lacks the BaseContainer feature | User runs `wxc-host-prep prepare-system-drive` once and `prepare-null-device` after every boot, both elevated. Do not elevate on the user's behalf |
+| macOS: here-document fails with `operation not permitted` or `can't create temp file for here document` | zsh writes here-documents to `$TMPPREFIX` (default `/tmp/zsh`), and literal `/tmp` is not writable under Seatbelt | The host sets `TMPPREFIX=<TMPDIR>/zsh` after `--env`; only a `TMPPREFIX` you pass with `--env` overrides it, so keep that one inside the writable `TMPDIR` |
+| macOS: writes to literal `/tmp` denied | Literal `/tmp` is not writable under Seatbelt | Write under `$TMPDIR` or `CLAUDE_CODE_TMPDIR` |
+| macOS: Santa DENY on python.org 3.14, or on a downloaded interpreter (for example python-build-standalone) | Santa Lockdown allows only signed, approved binaries; the Xcode Python is allowed | Use the allowed interpreter and put it first on PATH. Downloading another one does not work, even though outbound network is open |
+| macOS: `MxcClaude` apphost killed at launch | The ad-hoc-signed apphost is rejected by Santa Lockdown | Run `dotnet MxcClaude.dll` instead |
+| macOS: a hook that runs `node` fails silently | The hook process does not get the workload PATH: `command -v node` was empty inside a hook (2026-11-02), and a failing hook command is a non-blocking error | Use an absolute path to a Santa-allowed `node` in the hook command |
 | Host exit `2` with a usage message | Bad host options, or `tui` started without a real console | Fix the options; launch `tui` in a terminal (see `mxc-interactive`) |
 
 ## Security pitfalls (verified)
