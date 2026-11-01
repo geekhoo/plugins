@@ -1,0 +1,187 @@
+{
+  "tokens": {
+    "input": 5399058,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 68787,
+    "total": 5467845,
+    "by_model": {
+      "gpt-6.1-sol": {
+        "inputTokens": 5399058,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 0,
+        "outputTokens": 68787
+      }
+    },
+    "cost_usd_estimate": 28.715
+  },
+  "model_calls": 79,
+  "latency_median_ms": 4385,
+  "latency_samples": 81,
+  "max_idle_gap_s": 103,
+  "stages": [
+    {
+      "name": "geeky-orchestrator",
+      "started_utc": "2026-11-01T22:29:39.499000+00:00",
+      "ended_utc": "2026-11-01T22:29:57.336000+00:00",
+      "minutes": 0.3
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-11-01T22:29:57.336000+00:00",
+      "ended_utc": "2026-11-01T22:33:35.338000+00:00",
+      "minutes": 3.6
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-11-01T22:33:35.338000+00:00",
+      "ended_utc": "2026-11-01T22:39:30.654000+00:00",
+      "minutes": 5.9
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-11-01T22:39:30.654000+00:00",
+      "ended_utc": "2026-11-01T22:48:35.459000+00:00",
+      "minutes": 9.1
+    }
+  ],
+  "impl_review_rounds": null,
+  "skill_invocations": {
+    "geeky-orchestrator": 1,
+    "spec-research": 1,
+    "geeky-plan": 1,
+    "plan-review": 1
+  },
+  "tool_calls_main": {
+    "Bash": 32,
+    "Write": 14,
+    "Read": 11,
+    "Agent": 8,
+    "Edit": 7,
+    "Skill": 4,
+    "ToolSearch": 3,
+    "mcp__geeky__geeky_check_frozen_artifact": 3,
+    "SendMessage": 3,
+    "ListAgents": 1
+  },
+  "tool_calls_subagents": {
+    "Read": 73,
+    "Glob": 39,
+    "WebFetch": 16,
+    "Bash": 13,
+    "ToolSearch": 4,
+    "SendMessage": 3,
+    "ListAgents": 1
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 3,
+    "geeky-orchestration:code-architect": 2,
+    "geeky-orchestration:code-reviewer": 2
+  },
+  "validation_runs": {
+    "main": 1
+  },
+  "gate_invocations": {
+    "check-commit": 3,
+    "validate-planning-folder": 6,
+    "validate-task-schema": 5,
+    "validate-kanban": 7,
+    "check-frozen-artifact": 3
+  },
+  "gate_results": {
+    "check-commit": {
+      "pass": 3,
+      "fail": 0,
+      "unknown": 0,
+      "main": 3,
+      "sub": 0
+    },
+    "validate-planning-folder": {
+      "pass": 5,
+      "fail": 0,
+      "unknown": 1,
+      "main": 6,
+      "sub": 0
+    },
+    "validate-task-schema": {
+      "pass": 5,
+      "fail": 0,
+      "unknown": 0,
+      "main": 5,
+      "sub": 0
+    },
+    "validate-kanban": {
+      "pass": 6,
+      "fail": 1,
+      "unknown": 0,
+      "main": 7,
+      "sub": 0
+    },
+    "check-frozen-artifact": {
+      "pass": 0,
+      "fail": 0,
+      "unknown": 3,
+      "main": 3,
+      "sub": 0
+    }
+  },
+  "duration_api_ms": 1305617,
+  "subagent_transcripts": {
+    "transcripts": 8,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "geeky-orchestration:code-architect": 2,
+      "general-purpose": 3,
+      "geeky-orchestration:code-reviewer": 2,
+      "geeky-orchestration:code-explorer": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Bash": 32,
+          "Write": 14,
+          "Read": 11,
+          "Agent": 8,
+          "Edit": 7,
+          "Skill": 4,
+          "ToolSearch": 3,
+          "mcp__geeky__geeky_check_frozen_artifact": 3,
+          "SendMessage": 3,
+          "ListAgents": 1
+        },
+        "dispatches": {
+          "general-purpose": 3,
+          "geeky-orchestration:code-architect": 2,
+          "geeky-orchestration:code-reviewer": 2,
+          "geeky-orchestration:code-explorer": 1
+        },
+        "gates": {
+          "validate-kanban": 7,
+          "validate-planning-folder": 6,
+          "validate-task-schema": 5,
+          "check-commit": 3,
+          "check-frozen-artifact": 3
+        }
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "Read": 73,
+          "Glob": 39,
+          "WebFetch": 16,
+          "Bash": 13,
+          "ToolSearch": 4,
+          "SendMessage": 3,
+          "ListAgents": 1
+        },
+        "dispatches": {},
+        "gates": {}
+      }
+    }
+  }
+}
