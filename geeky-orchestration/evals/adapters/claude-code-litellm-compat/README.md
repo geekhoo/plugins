@@ -20,6 +20,12 @@ Found in the C2 runs of 2026-11-02 (`gpt-6.1-sol`, see
 A PreToolUse hook cannot fix an unknown skill name: Claude Code validates the name before hooks run. That is
 why the role is a shim skill rather than a hook rule.
 
+## Related: the Responses bridge
+
+The compat layer fixes tool calls. It does not fix what the gateway drops for GPT on its Messages route (prompt
+cache, reasoning text, visible effort). [`mxc-sandbox/bridge`](../../../../mxc-sandbox/bridge/README.md) does; the
+C2 launcher enables it with `BRIDGE=1`. The two are independent and can be used together.
+
 ## Files
 
 - `compat-hook.mjs`: the PreToolUse hook (matcher `Skill|Agent|ToolSearch|SendMessage`). It reads the model
