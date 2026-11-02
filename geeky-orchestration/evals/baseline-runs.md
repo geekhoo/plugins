@@ -82,7 +82,7 @@ These runs use the Seatbelt sandbox under Santa Lockdown, launched by `~/.Projec
 | 20261101T205532Z | gpt-6.1-sol, high (attempt 1) | BLOCKED after 288 s, 0 commits |
 | 20261101T211028Z | gpt-6.1-sol, high (attempt 2) | BLOCKED in phase 2, oracle 136/136, 3073 s, 6 commits |
 | 20261101T222922Z | gpt-6.1-sol, medium, compat layer | BLOCKED at plan review after 1150 s, 3 commits, no code (oracle 0/136) |
-| 20261101T225826Z | claude-sonnet-5-5, medium | running at the time of writing (run.json exit_reason is `prepared` until it finishes; update this row then) |
+| 20261101T225826Z | claude-sonnet-5-5, medium | completed, 1938 s, 13 commits, oracle 136/136, final review PASS |
 
 Folders under `baselines/c2-linkvault/` with `exit_reason = prepared` in `run.json` (20261101T190234Z, 20261101T190236Z, 20261101T192125Z) and the two `baselines/c0-wordstat/` folders 20261101T173247Z and 20261101T173535Z are prepare-checks only, with no agent run.
 
