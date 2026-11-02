@@ -1,0 +1,296 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c2-linkvault",
+  "harness": "claude-code",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "workspace": "/Users/gkhoo-c/.Projects/mxc-c0/work/eval-c2-linkvault-20261102T053248Z",
+  "config_directory": "/Users/gkhoo-c/.Projects/mxc-c0/work/.eval-cfg-20261102T053248Z",
+  "seed_sha": "38a4a5ca1c2a2468d68717f907fab29737f5f3e9",
+  "plugin_sha": "e0aa47068ea6d4097acf2ad1c37ac43db55f091c",
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "native_otel": {
+    "enabled": true,
+    "channel": "claude-code-otel",
+    "endpoint": "https://langfuse.markefin.com/api/public/otel",
+    "protocol": "http/protobuf",
+    "service_name": "claude-code",
+    "session_attribute": "8b8f7593-bc6c-4c8c-9059-f2c71bbbb4c8",
+    "exporters": {
+      "traces": "otlp",
+      "logs": "otlp",
+      "metrics": "otlp"
+    },
+    "variables": [
+      "CLAUDE_CODE_ENABLE_TELEMETRY",
+      "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA",
+      "OTEL_EXPORTER_OTLP_ENDPOINT",
+      "OTEL_EXPORTER_OTLP_PROTOCOL",
+      "OTEL_EXPORTER_OTLP_HEADERS",
+      "OTEL_LOGS_EXPORTER",
+      "OTEL_METRICS_EXPORTER",
+      "OTEL_TRACES_EXPORTER",
+      "OTEL_RESOURCE_ATTRIBUTES",
+      "OTEL_SERVICE_NAME",
+      "LANGFUSE_TRACING_ENVIRONMENT",
+      "OTEL_LOG_USER_PROMPTS",
+      "OTEL_LOG_ASSISTANT_RESPONSES",
+      "OTEL_LOG_TOOL_DETAILS",
+      "OTEL_LOG_TOOL_CONTENT",
+      "CLAUDE_CODE_OTEL_CONTENT_MAX_LENGTH",
+      "CLAUDE_CODE_OTEL_FLUSH_TIMEOUT_MS",
+      "CLAUDE_CODE_OTEL_SHUTDOWN_TIMEOUT_MS",
+      "CLAUDE_CODE_OTEL_DIAG_STDERR"
+    ],
+    "transcript_upload": {
+      "ok": true,
+      "counts": {
+        "turns": 1,
+        "llm_calls": 111,
+        "tools": 672,
+        "tool_errors": 48,
+        "subagents": 21,
+        "subagent_llm_calls": 236,
+        "spans": 1041,
+        "traces": 1
+      },
+      "trace_ids": [
+        "4e2b96e807bbd2f79cb3273532817d91"
+      ],
+      "coverage": {
+        "complete": true,
+        "ratio": 1,
+        "missing": {}
+      },
+      "observations_exported": true,
+      "scores": {
+        "ok": true,
+        "posted": 11
+      }
+    }
+  },
+  "session_id": "8b8f7593-bc6c-4c8c-9059-f2c71bbbb4c8",
+  "started_utc": "2026-11-02T05:32:50.456479Z",
+  "ended_utc": "2026-11-02T06:47:37.13954Z",
+  "wall_time_s": 4486.655278832986,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "reference_eligible": true,
+  "token_ceiling": 25000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "complete",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "d7388520-bbf1-4ab0-a268-f0e76143b04a",
+    "segment_id": "bab21484-cb82-4d4c-8971-d322b1264773",
+    "authorization_reference": "owner-macos-mxc-20261102-c2-gpt-6.1-sol-high-bridge",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-11-02T08:32:48.710943Z",
+    "hard_wall_budget_s": 10800,
+    "closeout_reserve_s": 900,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "hard_wall_budget_s": 10800,
+      "closeout_reserve_s": 900,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "814e8b4c4619e75638b70ca891b9606b472300ec0f06f435fa5fbbd9b55f0718",
+    "invocations": [
+      {
+        "invocation_id": "006503c1-1cb8-43c3-8895-78f63332218f",
+        "kind": "initial",
+        "timeout_s": 10798,
+        "started_utc": "2026-11-02T05:32:50.4683730Z",
+        "ended_utc": "2026-11-02T06:47:37.1337800Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "completed",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "completed",
+      "langfuse-upload": "completed"
+    },
+    "active_step": "langfuse-upload",
+    "failure": null,
+    "contestant_time_s": 4486.655278832986,
+    "attempt_elapsed_s": 4488.439370207998,
+    "finalization_time_s": 115.54881112500152,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 23545,
+    "writer_host": "st-gkhoo-c1",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "02cc3d09a325e2fb1bf7b9a37a042d4e7c86fd30",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "analysis.json": "36a98f7da69c0c413882f7d8400c73e8472306fb35ff874a8397daca03968f88",
+      "notes.md": "03772c196b1d1792f1d8e0f944b717ee2d5a449364a1c9c81bd13ae570d07c99",
+      "oracle-output.txt": "de497adbf560bab3e31054824d2e6685000393b05d29bf643c77c6476654609c",
+      "session.jsonl": "8a45f633b4f6eddeae54ab746af1c4eb1df866dcf7935372fc15dcf66272fc16",
+      "solution.bundle": "10eeee95cd5d02c85b2d940133a739b97c529d4aafcb73e5e41cdcf5e15bc3d0",
+      "stderr.txt": "1cdca5258adae4f16b41d9bb2d5651cda14a2c72cc5487215a67b3de7068260d",
+      "stream.jsonl": "dd5dfcf807fea001310c1d483e4f72cbf7ea8c27935944ad8440bf947bd6945c",
+      "subagents/agent-a00ea8ee0ed085372.jsonl": "07c65983b32b69f2b5ffb5169f8457b57e18cae9abd31dbe34f66bec0100de69",
+      "subagents/agent-a00ea8ee0ed085372.meta.json": "603f84da117a4951c071bdb77a70214ef93cfd35c731dd92728b77b9811174c5",
+      "subagents/agent-a0d725aa3d68cd08d.jsonl": "35160346eafd2b6f5695849e36420f9686becbcbf21eed274de57750ee24f646",
+      "subagents/agent-a0d725aa3d68cd08d.meta.json": "2252ca9bfc5266883c5d2def2ba43b1f7db451e6eb4e4fceb03a07953e717607",
+      "subagents/agent-a1f66715384e5aa74.jsonl": "5917b353711574e1cdd2b9d6d6d5e8f8a18f9ffde3dba66dc7414898636b082a",
+      "subagents/agent-a1f66715384e5aa74.meta.json": "67ca071fa5bf37669d375d062392756bdaead6f9c5aa5cae353cab809ab3d8a3",
+      "subagents/agent-a1f8d46d7f32d539a.jsonl": "dc9c549cf7dc368ff47f01b9a3efd93b0ff58c46919342e6d71bc2f1b8e03ab5",
+      "subagents/agent-a1f8d46d7f32d539a.meta.json": "a8653b56eee659fda91e8ce290f51edaa488346d37f6da15a7c65a31d17e8aef",
+      "subagents/agent-a23483120d0749fda.jsonl": "87d708bc6266a049ba6baa67976d3d287da8172b65a7ef1da7289f02f3eb91a9",
+      "subagents/agent-a23483120d0749fda.meta.json": "594533c4f91984977f9369d61e21a7140a8fe7f6629b6865c42a7d7eac430aec",
+      "subagents/agent-a270494bbffc185b7.jsonl": "bb1c5c56c806520699779a34c92b9ca2b79755fab338adc35c9cd4575c270340",
+      "subagents/agent-a270494bbffc185b7.meta.json": "7949882c2134730aaefc0f6ffdbd91dd6dc0219321584d09daed2c9c1bf68234",
+      "subagents/agent-a3879a5e85f7e7280.jsonl": "4d83f96ad9c747db14f95fbfe4903b4838948b47dfb8fcd9f64add611637b2fc",
+      "subagents/agent-a3879a5e85f7e7280.meta.json": "424d9c7aa8c803b10202db315409c740f5ebb04230c03cf55764fe58a942f274",
+      "subagents/agent-a432956e740d3f2f4.jsonl": "10016769d7b386a40ac1f231b6a36d6d42e4a6f94b9043e63e060f0edc7f3adc",
+      "subagents/agent-a432956e740d3f2f4.meta.json": "8442a727c9b83d6de6104e970f2afb50de89d3157d4f924395eb757c131e1f33",
+      "subagents/agent-a4cbb87c58b195a12.jsonl": "7ea5fcf9815db47c243cbcc1cbcef7670b944348745f0295c9fbec7ac2fdc1ef",
+      "subagents/agent-a4cbb87c58b195a12.meta.json": "17f8e3890293c391ada383be4c70e8e0c97d8a9f926ad79e2136445c0fff3e45",
+      "subagents/agent-a8c0dfc617e5632d0.jsonl": "0c9f202e095af0f2ffd2acdb8d45f671ab73f96fb4769c3fa60e25019cd89220",
+      "subagents/agent-a8c0dfc617e5632d0.meta.json": "d445eb28bb85d1e24d216b68af7b37751dff63ddb770b4b32e8ee9edfccc8074",
+      "subagents/agent-a963f8fb066add705.jsonl": "e6644e050ce4839ed15b4b4500b92b6ca08b3b47672bb9a7d015addd8da111c0",
+      "subagents/agent-a963f8fb066add705.meta.json": "8a06fcd1c4ddcd91e47e61d9dd04f89f3569f5ef5c62942e55235cdfffa6350e",
+      "subagents/agent-aac70f76c94924fda.jsonl": "79ed0de4b56712fda7afa51fe38ba5327e41b4e31b57dfa42cba3af63e656765",
+      "subagents/agent-aac70f76c94924fda.meta.json": "12f5d57de2ff194504359d4f1f112caaca3fb2f995f4df77f6dd488c5082980e",
+      "subagents/agent-ab3b82379a4b7ba50.jsonl": "40c1baaec021963210f6972e0750275c008dc031168b13dca1598bedcfd6c096",
+      "subagents/agent-ab3b82379a4b7ba50.meta.json": "2f855bc00d350b9d092014f09ce0757355bdebad19596d5ddd8656e26e9d6bec",
+      "subagents/agent-ab8f9c76ceab65935.jsonl": "ddccc583552bf7c8b22690f08a73117875dfce1e8012797a0945167d3907fc8c",
+      "subagents/agent-ab8f9c76ceab65935.meta.json": "475dfd62dbb14569fb256f8ec178c0d8d0611fd4d6998c8ad526f992bc4c7b06",
+      "subagents/agent-abe510475d095a0f2.jsonl": "fe5287b7edfc1368b7d7298118a53eb6bede1c0088fac26b9c40e35a980c69f0",
+      "subagents/agent-abe510475d095a0f2.meta.json": "656f2a68f0c845671670dd9ee4877660b8dd52f527281ba0481bf1e707a307a4",
+      "subagents/agent-ac431f991c3091c24.jsonl": "96ec8443685ff807d694b7381e11725609249ee64d30ab485b6111f36b08b7be",
+      "subagents/agent-ac431f991c3091c24.meta.json": "c8a29101b5d6e4f86cb97f8959925b00950852cc6345f6a44c4789911b1a6f14",
+      "subagents/agent-ac7f00336e7036754.jsonl": "2cfea5dc2d20d8cfcdb7c5ec88ffbfff20e7992170eb9a99e726e713d7ceff0f",
+      "subagents/agent-ac7f00336e7036754.meta.json": "b26440c9dad2183660a9add7b97c99af5ac323d792942f16cebf19fdf206740e",
+      "subagents/agent-aca608dfdfcc23f8a.jsonl": "5ab3cf14642e82bf3f955fd055c66a0391810ad46e47d941128fb4578be2550e",
+      "subagents/agent-aca608dfdfcc23f8a.meta.json": "80c21ff542bffab54bbcdc47311e8ff8fbe2db94f9bceaf159d6fe67ad4203be",
+      "subagents/agent-ad47fe67e56a3f9dd.jsonl": "04cab64546b0a3d1f66574e3e38255612b9ee2903218905fd695357c1219cb68",
+      "subagents/agent-ad47fe67e56a3f9dd.meta.json": "4d7e440b0ead303efbc9b9bec3d2f6d4e8e11aeb0e8ad8a259a6d61a17d0610e",
+      "subagents/agent-adc430336908ccaac.jsonl": "1fc659090755e9254d698e591aebaabdaaea3507047ea9d7933b774f7b7ab543",
+      "subagents/agent-adc430336908ccaac.meta.json": "d74a47c6f5f8eb67e2d03bf931bd2a6e9b1ac83dd22bca1c7d2a451104f72e15",
+      "subagents/agent-afcd3700c9e11d904.jsonl": "7a13782f41413ed571696e0efbd60f1761de42f3767e0cb58022ba9cc500bcba",
+      "subagents/agent-afcd3700c9e11d904.meta.json": "0b7e7256b46a23fa142f61649aa51ab3c197c0736b80e54db4d3cad8b6e20960",
+      "derived/analysis.json": "36a98f7da69c0c413882f7d8400c73e8472306fb35ff874a8397daca03968f88",
+      "derived/run.json": "eded5100fc20553894d7bb25b7dea77f238f55cdd377040776f11b698730ac6c",
+      "telemetry/coverage.json": "edf6945ea4c3b3f4c6753f1a5b467a7122723090bac403ca91bb8c141a406e7d",
+      "telemetry/coverage.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry/export.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry/observations.json": "f6fe34591ab0edc5c7010fdea0c3c6079608ed6b274dec9da10bdcb96a1c1415",
+      "telemetry/scores.json": "946bc13e4bfc419d7d06648ccd1ac3fb8aff462333ca9b42d43771ed00f2535b",
+      "telemetry/scores.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry/upload.json": "93180e4944a895ae74971d904fa1e976229918947c8cbb1746f2bb4dda59ba6a",
+      "telemetry/upload.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "harness_version": "2.1.316",
+  "approach": "canonical-prompt",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 18661369,
+    "cached_input": 17025892,
+    "cache_creation": 1590483,
+    "output": 312227,
+    "total": 18973596,
+    "cost_usd_estimate": 26.4841,
+    "reasoning": 0
+  },
+  "model_calls": 111,
+  "latency_median_ms": 6273,
+  "max_idle_gap_s": 583,
+  "stages": [
+    {
+      "name": "geeky-orchestrator",
+      "started_utc": "2026-11-02T13:32:57.642+08:00",
+      "ended_utc": "2026-11-02T13:33:05.297+08:00",
+      "minutes": 0.1
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-11-02T13:33:05.297+08:00",
+      "ended_utc": "2026-11-02T13:39:29.491+08:00",
+      "minutes": 6.4
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-11-02T13:39:29.491+08:00",
+      "ended_utc": "2026-11-02T13:45:01.664+08:00",
+      "minutes": 5.5
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-11-02T13:45:01.664+08:00",
+      "ended_utc": "2026-11-02T13:49:47.46+08:00",
+      "minutes": 4.8
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-11-02T13:49:47.46+08:00",
+      "ended_utc": "2026-11-02T14:28:22.91+08:00",
+      "minutes": 38.6
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-11-02T14:28:22.91+08:00",
+      "ended_utc": "2026-11-02T14:47:36.903+08:00",
+      "minutes": 19.2
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 136,
+    "passed": 136,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 612,
+    "test": 2041,
+    "files_changed": 100
+  },
+  "commits": 8,
+  "stop_reason": "end_turn",
+  "raw_sha256": {
+    "stream": "dd5dfcf807fea001310c1d483e4f72cbf7ea8c27935944ad8440bf947bd6945c",
+    "session": "8a45f633b4f6eddeae54ab746af1c4eb1df866dcf7935372fc15dcf66272fc16"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": {
+    "name": "litellm",
+    "base_url": "http://127.0.0.1:8788",
+    "model": "gpt-6.1-sol"
+  },
+  "over_token_ceiling": false
+}

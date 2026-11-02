@@ -1,0 +1,199 @@
+{
+  "tokens": {
+    "input": 18661369,
+    "cached_input": 17025892,
+    "cache_creation": 1590483,
+    "output": 312227,
+    "total": 18973596,
+    "by_model": {
+      "gpt-6.1-sol": {
+        "inputTokens": 44994,
+        "cacheReadInputTokens": 17025892,
+        "cacheCreationInputTokens": 1590483,
+        "outputTokens": 312227
+      }
+    },
+    "cost_usd_estimate": 26.4841
+  },
+  "model_calls": 111,
+  "latency_median_ms": 6273,
+  "latency_samples": 113,
+  "max_idle_gap_s": 583,
+  "stages": [
+    {
+      "name": "geeky-orchestrator",
+      "started_utc": "2026-11-02T05:32:57.642000+00:00",
+      "ended_utc": "2026-11-02T05:33:05.297000+00:00",
+      "minutes": 0.1
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-11-02T05:33:05.297000+00:00",
+      "ended_utc": "2026-11-02T05:39:29.491000+00:00",
+      "minutes": 6.4
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-11-02T05:39:29.491000+00:00",
+      "ended_utc": "2026-11-02T05:45:01.664000+00:00",
+      "minutes": 5.5
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-11-02T05:45:01.664000+00:00",
+      "ended_utc": "2026-11-02T05:49:47.460000+00:00",
+      "minutes": 4.8
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-11-02T05:49:47.460000+00:00",
+      "ended_utc": "2026-11-02T06:28:22.910000+00:00",
+      "minutes": 38.6
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-11-02T06:28:22.910000+00:00",
+      "ended_utc": "2026-11-02T06:47:36.903000+00:00",
+      "minutes": 19.2
+    }
+  ],
+  "impl_review_rounds": 1,
+  "skill_invocations": {
+    "geeky-orchestrator": 1,
+    "spec-research": 3,
+    "geeky-plan": 1,
+    "plan-review": 2,
+    "geeky-implement": 1,
+    "impl-review": 1
+  },
+  "tool_calls_main": {
+    "Bash": 60,
+    "Edit": 25,
+    "Agent": 21,
+    "Read": 18,
+    "Write": 18,
+    "Skill": 6,
+    "ToolSearch": 1
+  },
+  "tool_calls_subagents": {
+    "Read": 293,
+    "Glob": 64,
+    "Bash": 60,
+    "Grep": 34,
+    "Edit": 26,
+    "WebFetch": 19,
+    "Write": 19,
+    "Skill": 3,
+    "ToolSearch": 3,
+    "ListAgents": 1,
+    "SendMessage": 1
+  },
+  "subagent_dispatches": {
+    "geeky-orchestration:code-explorer": 1,
+    "general-purpose": 3,
+    "geeky-orchestration:code-reviewer": 10,
+    "geeky-orchestration:code-architect": 1,
+    "geeky-orchestration:geeky-coder": 6
+  },
+  "validation_runs": {
+    "sub": 9
+  },
+  "gate_invocations": {
+    "check-commit": 9,
+    "validate-task-schema": 6,
+    "validate-planning-folder": 5,
+    "validate-kanban": 15
+  },
+  "gate_results": {
+    "check-commit": {
+      "pass": 9,
+      "fail": 0,
+      "unknown": 0,
+      "main": 9,
+      "sub": 0
+    },
+    "validate-task-schema": {
+      "pass": 6,
+      "fail": 0,
+      "unknown": 0,
+      "main": 5,
+      "sub": 1
+    },
+    "validate-planning-folder": {
+      "pass": 5,
+      "fail": 0,
+      "unknown": 0,
+      "main": 5,
+      "sub": 0
+    },
+    "validate-kanban": {
+      "pass": 14,
+      "fail": 1,
+      "unknown": 0,
+      "main": 15,
+      "sub": 0
+    }
+  },
+  "duration_api_ms": 5324848,
+  "subagent_transcripts": {
+    "transcripts": 21,
+    "calls_only_in_transcripts": 0,
+    "by_type": {
+      "geeky-orchestration:code-reviewer": 10,
+      "general-purpose": 3,
+      "geeky-orchestration:code-explorer": 1,
+      "geeky-orchestration:geeky-coder": 6,
+      "geeky-orchestration:code-architect": 1
+    },
+    "threads": {
+      "main": {
+        "tool_calls": {
+          "Bash": 60,
+          "Edit": 25,
+          "Agent": 21,
+          "Read": 18,
+          "Write": 18,
+          "Skill": 6,
+          "ToolSearch": 1
+        },
+        "dispatches": {
+          "geeky-orchestration:code-reviewer": 10,
+          "geeky-orchestration:geeky-coder": 6,
+          "general-purpose": 3,
+          "geeky-orchestration:code-explorer": 1,
+          "geeky-orchestration:code-architect": 1
+        },
+        "gates": {
+          "validate-kanban": 15,
+          "check-commit": 9,
+          "validate-planning-folder": 5,
+          "validate-task-schema": 5
+        }
+      },
+      "orchestrator": {
+        "tool_calls": {},
+        "dispatches": {},
+        "gates": {}
+      },
+      "workers": {
+        "tool_calls": {
+          "Read": 293,
+          "Glob": 64,
+          "Bash": 60,
+          "Grep": 34,
+          "Edit": 26,
+          "WebFetch": 19,
+          "Write": 19,
+          "Skill": 3,
+          "ToolSearch": 3,
+          "ListAgents": 1,
+          "SendMessage": 1
+        },
+        "dispatches": {},
+        "gates": {
+          "validate-task-schema": 1
+        }
+      }
+    }
+  }
+}
