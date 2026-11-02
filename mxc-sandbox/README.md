@@ -99,3 +99,9 @@ All state lives under `%USERPROFILE%\.mxc-sandbox` (`MXC_SANDBOX_HOME` overrides
 `src\`, `bin\`, `home\` (isolated config), `cache\npm`, `cache\uv`, `tmp\`. `tui` copies
 `claude.exe` (about 280 MB) machine-wide to `%ProgramData%\mxc-sandbox\bin`, readable by all local
 users. Avoid `%LOCALAPPDATA%` for any override: the container cannot write there.
+
+## Non-Claude models
+
+[`bridge/`](bridge/README.md) is a local Messages-to-Responses proxy for running OpenAI reasoning models (for example
+`gpt-6.1-sol`) behind Claude Code in the sandbox: it restores prompt caching, reasoning summaries and effort that the
+gateway drops on its Messages route. Run it on the host and pass `--host-loopback`.
