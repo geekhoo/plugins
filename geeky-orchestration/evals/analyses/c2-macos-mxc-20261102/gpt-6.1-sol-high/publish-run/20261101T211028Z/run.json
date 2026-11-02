@@ -1,0 +1,286 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c2-linkvault",
+  "harness": "claude-code",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "workspace": "/Users/gkhoo-c/.Projects/mxc-c0/work/eval-c2-linkvault-20261101T211028Z",
+  "config_directory": "/Users/gkhoo-c/.Projects/mxc-c0/work/.eval-cfg-20261101T211028Z",
+  "seed_sha": "73dee01c114304639038482cc1942ffec80f618e",
+  "plugin_sha": "44d6afb13facdc5ff09f1015c2dc251a4de50d88",
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "native_otel": {
+    "enabled": true,
+    "channel": "claude-code-otel",
+    "endpoint": "https://langfuse.markefin.com/api/public/otel",
+    "protocol": "http/protobuf",
+    "service_name": "claude-code",
+    "session_attribute": "5bb3fdd4-9df1-4de0-993a-a6ee01b48aed",
+    "exporters": {
+      "traces": "otlp",
+      "logs": "otlp",
+      "metrics": "otlp"
+    },
+    "variables": [
+      "CLAUDE_CODE_ENABLE_TELEMETRY",
+      "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA",
+      "OTEL_EXPORTER_OTLP_ENDPOINT",
+      "OTEL_EXPORTER_OTLP_PROTOCOL",
+      "OTEL_EXPORTER_OTLP_HEADERS",
+      "OTEL_LOGS_EXPORTER",
+      "OTEL_METRICS_EXPORTER",
+      "OTEL_TRACES_EXPORTER",
+      "OTEL_RESOURCE_ATTRIBUTES",
+      "OTEL_SERVICE_NAME",
+      "LANGFUSE_TRACING_ENVIRONMENT",
+      "OTEL_LOG_USER_PROMPTS",
+      "OTEL_LOG_ASSISTANT_RESPONSES",
+      "OTEL_LOG_TOOL_DETAILS",
+      "OTEL_LOG_TOOL_CONTENT",
+      "CLAUDE_CODE_OTEL_CONTENT_MAX_LENGTH",
+      "CLAUDE_CODE_OTEL_FLUSH_TIMEOUT_MS",
+      "CLAUDE_CODE_OTEL_SHUTDOWN_TIMEOUT_MS",
+      "CLAUDE_CODE_OTEL_DIAG_STDERR"
+    ],
+    "transcript_upload": {
+      "ok": true,
+      "counts": {
+        "turns": 1,
+        "llm_calls": 83,
+        "tools": 389,
+        "tool_errors": 31,
+        "subagents": 12,
+        "subagent_llm_calls": 151,
+        "spans": 636,
+        "traces": 1
+      },
+      "trace_ids": [
+        "09aeca2791eeb6b0e0047d6ae1db3b1f"
+      ],
+      "coverage": {
+        "complete": true,
+        "ratio": 1,
+        "missing": {}
+      },
+      "observations_exported": true,
+      "scores": {
+        "ok": true,
+        "posted": 11
+      }
+    }
+  },
+  "session_id": "5bb3fdd4-9df1-4de0-993a-a6ee01b48aed",
+  "started_utc": "2026-11-01T21:10:30.280453Z",
+  "ended_utc": "2026-11-01T22:01:44.047131Z",
+  "wall_time_s": 3073.741385458008,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "reference_eligible": true,
+  "token_ceiling": 25000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "complete",
+  "telemetry": {
+    "enabled": false,
+    "source": "native OTel spans + post-run transcript upload (run.json native_otel); upstream hook disabled (-NoTelemetry)",
+    "derived_by": "source-reviewed copy for langfuse-scores.py: run.json + harness-coverage.json",
+    "session_id": "5bb3fdd4-9df1-4de0-993a-a6ee01b48aed",
+    "agent_family": "claude-code",
+    "environment": "mxc-claude-mac",
+    "delivered": true,
+    "observations": 636,
+    "coverage_complete": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "f4317263-cbed-4217-a10e-07f7a5a56550",
+    "segment_id": "a605a7dc-ea7e-4f76-8d95-5aa7708caba0",
+    "authorization_reference": "owner-macos-mxc-20261102-c2-gpt-6.1-sol-high-a2",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-11-02T00:10:28.563625Z",
+    "hard_wall_budget_s": 10800,
+    "closeout_reserve_s": 900,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "hard_wall_budget_s": 10800,
+      "closeout_reserve_s": 900,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "814e8b4c4619e75638b70ca891b9606b472300ec0f06f435fa5fbbd9b55f0718",
+    "invocations": [
+      {
+        "invocation_id": "dbdac811-060f-4118-bfce-83c0e7f8e950",
+        "kind": "initial",
+        "timeout_s": 10798,
+        "started_utc": "2026-11-01T21:10:30.2882820Z",
+        "ended_utc": "2026-11-01T22:01:44.0421030Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "completed",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "completed",
+      "langfuse-upload": "completed"
+    },
+    "active_step": "langfuse-upload",
+    "failure": null,
+    "contestant_time_s": 3073.741385458008,
+    "attempt_elapsed_s": 3075.474567917001,
+    "finalization_time_s": 118.3248714999936,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 97348,
+    "writer_host": "st-gkhoo-c1",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "1509e0ba7b4f7f12340fda6f10e43e1f9e9a469d",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "analysis.json": "db3d889401edb44c6b4e61d6d81eef902ca630e7e337b54972b72668579a0104",
+      "notes.md": "0585a3777e910a66d101c8a5d4ff316cf1dc6489f9a0917ac63e39b272ce6808",
+      "oracle-output.txt": "fee0b57f9fc1f213499827f70ec1accfd3ad9fa702a78b3cd22b6b35ed5c5d8b",
+      "session.jsonl": "f516bc5ba2095954c309f670c71d938f097cce8caa19db027323663ef64bff8f",
+      "solution.bundle": "4f670220340a8d4f36f4b3dc6f5ce3534eb778d958691e3e7d18e8e85845dfe9",
+      "stderr.txt": "fbf52fd836db346533ff9d394bea65bfb61750cfa469b5a41484e9fc4ad5357e",
+      "stream.jsonl": "6423a1009451fa9fc4ef89e8a6c571249f145ddb77aedeacb399c41e046d9fbe",
+      "subagents/agent-a0308ca32a92ae83f.jsonl": "3c950f2a13a3e4388dbac59089525f7c8f7fe17609d10a91d5c27f547ccf2491",
+      "subagents/agent-a0308ca32a92ae83f.meta.json": "a9333431c20eb6b7ede417c5547e1bf2dec91d60a3ad0e137545e5345c5ad8ac",
+      "subagents/agent-a930ece936698341d.jsonl": "3f2bd8f20a2e09a5dfb2b3bec43ce5213062bb0c0e3174a256fdabb14cafbd32",
+      "subagents/agent-a930ece936698341d.meta.json": "4f590e1df427583f23dccbee75f0987d96a19e0a63479a80deadb60d07a13bd3",
+      "subagents/agent-a9e2d88959b779554.jsonl": "aba925686da8186ac397da147550de71b68eea6ab8b5a0aa62c195e934863ddd",
+      "subagents/agent-a9e2d88959b779554.meta.json": "cfab3d767df2120d5c3c130ae1d0a0922a9441d7c5ae582fbde8f0d6c0e063bd",
+      "subagents/agent-ab1d21f545ff71100.jsonl": "be9d12542e9b9ed1aee08f8faba4841234c98416843c7affc169b48c289804f4",
+      "subagents/agent-ab1d21f545ff71100.meta.json": "f81d02fd487d97369f6d4d3e0eaebb50ebc0d867082fd8eec13b33380859074f",
+      "subagents/agent-ab6d15e6c3127dc4e.jsonl": "967ca6f196bfb14bc050f654fd906406d6a8ca6ae74d1994159d676f4d6f1cf3",
+      "subagents/agent-ab6d15e6c3127dc4e.meta.json": "5b30433ffdb72d15e486df9a4ef7ba384b43e8a37bed9638d55ae4754b48bbe9",
+      "subagents/agent-abc8ffd20192228cf.jsonl": "cd03125624cc0da6438801fd7acb6c9bd5ad6f55c7dcf7e8f3770ddb73ea24f1",
+      "subagents/agent-abc8ffd20192228cf.meta.json": "e0af41589063882275ac1b34b3e4550ace3d7e3d65d22dce413929b814d3b1c6",
+      "subagents/agent-ac44657eb1d6768c2.jsonl": "101f657636b54f2e6cdc24325eaed7038bcf67a8224b7b96c8a4f859a8cb383d",
+      "subagents/agent-ac44657eb1d6768c2.meta.json": "10bf4ea8b5a4d402df085939160c37174fbf6e7ebf2b3cf7d9a4dee72d1b97bd",
+      "subagents/agent-ac7632c7f2314dbd1.jsonl": "e1824c9c66b6f008c0ecb932152f8ac79b504168703f9c7c93aa853d5c0ef39b",
+      "subagents/agent-ac7632c7f2314dbd1.meta.json": "fbfbed281c2a99a441f86e0bc04ddfc94b8dae1ceb9c8f733f1b9073c1ac9702",
+      "subagents/agent-ad6533a76af64ed3d.jsonl": "fc7fe9eba0a91824b5cbc3194607cfc4ca0e8c3783e496f231821f097c99c391",
+      "subagents/agent-ad6533a76af64ed3d.meta.json": "92005156a0a3dba4c9a160193aff352332ae656a5b3101048e3cd6e7fd75bc99",
+      "subagents/agent-ae662714c4680e469.jsonl": "0843d1d3ee088a91ee5d2e03877e56ec9682f3c6ba74071d3b3e821cc2f26459",
+      "subagents/agent-ae662714c4680e469.meta.json": "c33235124d3036a3620e90516eb600f6dcbed35bf2dfff530a3c21d4eea4458f",
+      "subagents/agent-aee8c99fefb6957cf.jsonl": "ee1d2f9ba0049b53de8d5564bed0363bdbe76638b838206244eb1ceda06e2f1d",
+      "subagents/agent-aee8c99fefb6957cf.meta.json": "dc2e42f0f6e6f1c1e849da639dbfc791346d2be90067f8299c3c65877c6a4212",
+      "subagents/agent-afb5303da24a8bdaf.jsonl": "54de512374e32edc814fd20dc4dabd39e0cc42acb7f025eb7a765343025e35a1",
+      "subagents/agent-afb5303da24a8bdaf.meta.json": "8cda6d0fb91814724455cc7f9c659e296c442ea43fa267f73078b9c1eb134d9b",
+      "derived/analysis.json": "db3d889401edb44c6b4e61d6d81eef902ca630e7e337b54972b72668579a0104",
+      "derived/run.json": "7d5f0c60064e512968e03b9b2dec37082e2c047e1a56752a96fca769b2dcd937",
+      "telemetry/coverage.json": "f3bd53abd3a76b57a8f42c2626a6ba166cd83f4ec77e87a7d571b46a7e10341c",
+      "telemetry/coverage.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry/export.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry/observations.json": "57e837e0cde93c3b7be6cf41de1cfd70ac1f32b95c0179f0dcce7be6102e9da7",
+      "telemetry/scores.json": "ab4415879def71275b01d6773014d4b61dcd07544c88eb7842a8b23a0641ae37",
+      "telemetry/scores.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry/upload.json": "ed75f532f87786f28e94547edd1f2b59c1977301c1a73b8fd772f2718f1b9e4d",
+      "telemetry/upload.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "harness_version": "2.1.316",
+  "approach": "canonical-prompt",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 9751971,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 220241,
+    "total": 9972212,
+    "cost_usd_estimate": 54.2659,
+    "reasoning": 0
+  },
+  "model_calls": 83,
+  "latency_median_ms": 5180,
+  "max_idle_gap_s": 476,
+  "stages": [
+    {
+      "name": "geeky-orchestrator",
+      "started_utc": "2026-11-02T05:11:01.889+08:00",
+      "ended_utc": "2026-11-02T05:11:33.673+08:00",
+      "minutes": 0.5
+    },
+    {
+      "name": "geeky-orchestrator",
+      "started_utc": "2026-11-02T05:11:33.673+08:00",
+      "ended_utc": "2026-11-02T05:11:44.279+08:00",
+      "minutes": 0.2
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-11-02T05:11:44.279+08:00",
+      "ended_utc": "2026-11-02T05:16:34.619+08:00",
+      "minutes": 4.8
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-11-02T05:16:34.619+08:00",
+      "ended_utc": "2026-11-02T05:21:43.881+08:00",
+      "minutes": 5.2
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-11-02T05:21:43.881+08:00",
+      "ended_utc": "2026-11-02T05:26:46.792+08:00",
+      "minutes": 5
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-11-02T05:26:46.792+08:00",
+      "ended_utc": "2026-11-02T06:01:43.775+08:00",
+      "minutes": 34.9
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 136,
+    "passed": 136,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 581,
+    "test": 1608,
+    "files_changed": 34
+  },
+  "commits": 6,
+  "stop_reason": "end_turn",
+  "raw_sha256": {
+    "stream": "6423a1009451fa9fc4ef89e8a6c571249f145ddb77aedeacb399c41e046d9fbe",
+    "session": "f516bc5ba2095954c309f670c71d938f097cce8caa19db027323663ef64bff8f"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": {
+    "name": "litellm",
+    "base_url": "<gateway-host>:7891",
+    "model": "gpt-6.1-sol"
+  },
+  "over_token_ceiling": false
+}

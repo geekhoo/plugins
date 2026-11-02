@@ -1,0 +1,789 @@
+{
+  "schema": "geeky-eval.score/1",
+  "run": "20261101T211028Z",
+  "case": "c2-linkvault",
+  "plugin_sha": "44d6afb13facdc5ff09f1015c2dc251a4de50d88",
+  "harness": "claude-code",
+  "model": "gpt-6.1-sol",
+  "scored_utc": "2026-11-01T22:10:29Z",
+  "scorer": "evals/scripts/score-run.py",
+  "workspace": "/Users/gkhoo-c/.Projects/mxc-c0/work/eval-c2-linkvault-20261101T211028Z",
+  "workspace_source": "run.json workspace",
+  "planning_folder": "docs/spec-001-feature",
+  "validation_rerun": true,
+  "validation_evidence": "fresh rerun",
+  "manual_file_used": true,
+  "composite": 61.22087069404761,
+  "process_completeness": {
+    "required": false,
+    "complete": true,
+    "missing": []
+  },
+  "process_evidence_origin": "legacy",
+  "formula_composite_noncomparable": null,
+  "dimensions": {
+    "quality": {
+      "score": 92.74526678141136,
+      "P": 1.0,
+      "S": 0.5163511187607573,
+      "D": 1.0,
+      "defects": 0,
+      "evidence": {
+        "P": "oracle 136/136 (collected 136, skipped 0)",
+        "S": "min(1, 300 / 581 non-test LOC)",
+        "D": "9/9 validation commands pass at each task's commit"
+      },
+      "capped": 92.74526678141136
+    },
+    "adherence": {
+      "passed": 20,
+      "applicable": 38,
+      "score": 52.63157894736842,
+      "needs_judge": [],
+      "capped": 52.63157894736842
+    },
+    "consistency": {
+      "score": 46.285714285714285,
+      "DPC": 0.42857142857142855,
+      "DPC_fraction": "9/21",
+      "OC": 0.6,
+      "observed_sequence": [
+        "geeky-orchestrator",
+        "geeky-orchestrator",
+        "spec-research",
+        "geeky-plan",
+        "plan-review",
+        "geeky-implement"
+      ],
+      "needs_judge": []
+    },
+    "task_tier": {
+      "score": 10.818318318318319,
+      "L_run_ms": 5180,
+      "L_ref_ms": 2678,
+      "task_timeout_s": 1200
+    }
+  },
+  "hard_gates": [
+    {
+      "id": "hg.oracle",
+      "fired": false,
+      "effect": "Quality <= 40",
+      "kind": "det"
+    },
+    {
+      "id": "hg.frozen",
+      "fired": false,
+      "effect": "Adherence <= 30",
+      "kind": "det"
+    },
+    {
+      "id": "hg.forbidden_git",
+      "fired": false,
+      "effect": "Adherence = 0",
+      "kind": "det"
+    },
+    {
+      "id": "hg.false_completion_claim",
+      "fired": false,
+      "effect": "Adherence <= 50",
+      "kind": "judge",
+      "status": "manual: 3/3 blind judges pass. The report claims BLOCKED, not completion. It says impl-review is UNREACHED, only T1 is Done, T2 is Blocked, T3 and T4 are In Review, and e5c7276 is an explicitly 'unaccepted' checkpoint. The 512-pass figure is presented as evidence that does not override the reviewer. No task, test or commit is claimed that is missing: the kanban, git log and session.jsonl:488-492 all agree. The oracle's 136/136 pass does not contradict anything the report claimed."
+    }
+  ],
+  "tasks": [
+    {
+      "task": "T1",
+      "attempts": 0,
+      "attempt_calls": [],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": null,
+      "rerun_ok": true,
+      "V": 0.0,
+      "review_rounds": 1,
+      "R": 1.0,
+      "d_s": null,
+      "T": 0.0,
+      "D": 1.0,
+      "s": 40.0,
+      "LOC": 775.0,
+      "w": 0.27045795795795796
+    },
+    {
+      "task": "T2",
+      "attempts": 0,
+      "attempt_calls": [],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": null,
+      "rerun_ok": true,
+      "V": 0.0,
+      "review_rounds": null,
+      "R": 0.0,
+      "d_s": null,
+      "T": 0.0,
+      "D": 0.0,
+      "s": 0.0,
+      "LOC": 816.0,
+      "w": 0.27815315315315314
+    },
+    {
+      "task": "T3",
+      "attempts": 0,
+      "attempt_calls": [],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": null,
+      "rerun_ok": true,
+      "V": 0.0,
+      "review_rounds": null,
+      "R": 0.0,
+      "d_s": null,
+      "T": 0.0,
+      "D": 0.0,
+      "s": 0.0,
+      "LOC": 523.0,
+      "w": 0.22316066066066065
+    },
+    {
+      "task": "T4",
+      "attempts": 0,
+      "attempt_calls": [],
+      "d87_calls": [],
+      "excluded_runs": [],
+      "first_pass_call": null,
+      "rerun_ok": true,
+      "V": 0.0,
+      "review_rounds": null,
+      "R": 0.0,
+      "d_s": null,
+      "T": 0.0,
+      "D": 0.0,
+      "s": 0.0,
+      "LOC": 550.0,
+      "w": 0.22822822822822825
+    }
+  ],
+  "phases": {
+    "P1": [
+      "T1"
+    ],
+    "P2": [
+      "T2",
+      "T3",
+      "T4"
+    ]
+  },
+  "decision_points": [
+    {
+      "id": "dp01",
+      "name": "Research team: 3 parallel researchers",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "3 dispatches, max 3 concurrent"
+    },
+    {
+      "id": "dp02",
+      "name": "Spec commit, prescribed message",
+      "weight": 2,
+      "status": "fail",
+      "evidence": "see adh.prescribed_msg.spec"
+    },
+    {
+      "id": "dp03",
+      "name": "PM review artifact",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "name": "Plan-review subagents, phases 1 and 3",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "2 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "name": "Plan-review commit, exact message",
+      "weight": 2,
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.plan_review"
+    },
+    {
+      "id": "dp07",
+      "name": "Batching <=3 parallel, justification noted",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "manual override: 3/3 blind judges pass. Only geeky-coder dispatches in session.jsonl: T1 alone (:363), T2+T3 together in one assistant message (same message.id msg_32033f81..., :449/:450, 21:41:09.10/.33, both foreground), then T4 alone (:463). Peak concurrency is 2, below the cap of 3. T2 and T3 each depend only on T1 (tasks/T2, T3 Dependencies), and plan line 30 says they 'may run in parallel'. Their declared file surfaces are disjoint (server.py + test_server.py vs __init__/__main__/client.py + test_client.py)."
+    },
+    {
+      "id": "dp08",
+      "name": "In Progress lane move with timestamp",
+      "weight": 1,
+      "status": "fail",
+      "evidence": "no In Progress move: ['T1', 'T2', 'T3', 'T4']"
+    },
+    {
+      "id": "dp09",
+      "name": "Task review, per task",
+      "weight": 2,
+      "status": "fail",
+      "evidence": "not reviewed: ['T2', 'T3', 'T4']"
+    },
+    {
+      "id": "dp10",
+      "name": "DoD + kanban gates before Done (D86)",
+      "weight": 2,
+      "status": "fail",
+      "evidence": "failing: ['T1', 'T2', 'T3', 'T4']"
+    },
+    {
+      "id": "dp11",
+      "name": "Phase verdict from a phase review",
+      "weight": 2,
+      "status": "fail",
+      "evidence": "failing phases: ['P2']"
+    },
+    {
+      "id": "dp12",
+      "name": "Commit gate ran before each commit (D79)",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "3 geeky-implement commits each preceded by check-commit"
+    },
+    {
+      "id": "dp13",
+      "name": "One concern per commit, per phase",
+      "weight": 1,
+      "status": "fail",
+      "evidence": "manual: 0/3 blind judges pass. Phase 1 is clean (8dc8471 = T1 only, base 8ce9e62). Phase 2 was committed as the single checkpoint commit e5c7276 for T2, T3 and T4, with a 2-line edit to the T1 notes mixed in. That is one commit spanning server, CLI and client, acceptance tests and README, so it breaks 'one concern per commit, per phase' even though it stays inside phase 2. No commit crosses spec, plan, plan-review and implement boundaries (02678e6, a326501, 8ce9e62 are separate), but the phase-2 bundling is a protocol violation."
+    },
+    {
+      "id": "dp14",
+      "name": "Handoff at each Done move (D82)",
+      "weight": 1,
+      "status": "fail",
+      "evidence": "failing: ['T1', 'T2', 'T3', 'T4']"
+    },
+    {
+      "id": "dp15",
+      "name": "Run Summary appended",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "see adh.run_summary"
+    },
+    {
+      "id": "dp16",
+      "name": "Final review: 3 domain reviewers",
+      "weight": 1,
+      "status": "fail",
+      "evidence": "0 impl-review reviewer dispatches"
+    },
+    {
+      "id": "dp17a",
+      "name": "Re-review after a critical fix",
+      "weight": 1,
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp17b",
+      "name": "Fix commit, prescribed message",
+      "weight": 1,
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp18",
+      "name": ".heartbeat finalized",
+      "weight": 1,
+      "status": "pass",
+      "evidence": "see adh.heartbeat_final"
+    }
+  ],
+  "checks": [
+    {
+      "id": "adh.planning_folder",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 4 task file(s) found."
+    },
+    {
+      "id": "adh.task_schema",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "OK: 4 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "adh.kanban_final",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "OK: 4 task(s) tracked, 4 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=2, Blocked=1, Done=1"
+    },
+    {
+      "id": "adh.dod.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "adh.dod.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "DOD_INCOMPLETE: T2"
+    },
+    {
+      "id": "adh.dod.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "DOD_INCOMPLETE: T3"
+    },
+    {
+      "id": "adh.dod.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "DOD_INCOMPLETE: T4"
+    },
+    {
+      "id": "adh.handoff_batch.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "no Done move found in the trace"
+    },
+    {
+      "id": "adh.handoff_batch.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "no Done move found in the trace"
+    },
+    {
+      "id": "adh.handoff_batch.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "no Done move found in the trace"
+    },
+    {
+      "id": "adh.handoff_batch.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "no Done move found in the trace"
+    },
+    {
+      "id": "adh.notes.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T1-core-storage.notes.md"
+    },
+    {
+      "id": "adh.notes.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T2-http-server.notes.md"
+    },
+    {
+      "id": "adh.notes.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T3-cli-client.notes.md"
+    },
+    {
+      "id": "adh.notes.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "T4-contract-acceptance.notes.md"
+    },
+    {
+      "id": "adh.task_review.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "call 236 'Review foundation phase acceptance' (prompt) PASS; call 347 'Review service client acceptance phase' (prompt) not PASS"
+    },
+    {
+      "id": "adh.task_review.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "call 347 'Review service client acceptance phase' (prompt) not PASS"
+    },
+    {
+      "id": "adh.task_review.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "call 347 'Review service client acceptance phase' (prompt) not PASS"
+    },
+    {
+      "id": "adh.task_review.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "call 347 'Review service client acceptance phase' (prompt) not PASS"
+    },
+    {
+      "id": "adh.phase_verdict.P1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "phase P1 ['T1']: reviewer call 236; READY TO ADVANCE recorded: handoff.md"
+    },
+    {
+      "id": "adh.phase_verdict.P2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "phase P2 ['T2', 'T3', 'T4']: reviewer none; READY TO ADVANCE recorded: T2-http-server.notes.md"
+    },
+    {
+      "id": "adh.gates_before_done.T1",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "Done call -; last code edit None; check-dod runs [(258, True)]"
+    },
+    {
+      "id": "adh.gates_before_done.T2",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "Done call -; last code edit None; check-dod runs []"
+    },
+    {
+      "id": "adh.gates_before_done.T3",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "Done call -; last code edit None; check-dod runs []"
+    },
+    {
+      "id": "adh.gates_before_done.T4",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "Done call -; last code edit None; check-dod runs []"
+    },
+    {
+      "id": "adh.kanban_after_moves",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "0 lane-move calls; without validate-kanban: none"
+    },
+    {
+      "id": "adh.commit_msg.8dc8471",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "feat(core): implement persistent link state and validation: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.e5c7276",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "chore(checkpoint): preserve blocked service implementation: OK: commit message valid."
+    },
+    {
+      "id": "adh.commit_msg.1509e0b",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "docs(handoff): finalize blocked run evidence: OK: commit message valid."
+    },
+    {
+      "id": "adh.prescribed_msg.spec",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "docs(spec): author linkvault feature specification"
+    },
+    {
+      "id": "adh.prescribed_msg.plan_review",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "chore(plan): Plan review \u2014 align documents, fix sequencing"
+    },
+    {
+      "id": "adh.prescribed_msg.critical_fix",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "na",
+      "evidence": "no critical impl-review finding"
+    },
+    {
+      "id": "adh.frozen_untouched",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "git diff 8ce9e62..HEAD on frozen files: empty"
+    },
+    {
+      "id": "adh.no_forbidden_git",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "no push/--force/--amend/--no-verify in tool inputs; reflog clean"
+    },
+    {
+      "id": "adh.one_concern_per_commit",
+      "dimension": "adherence",
+      "kind": "judge",
+      "status": "fail",
+      "evidence": "manual: as a.one_concern_per_commit"
+    },
+    {
+      "id": "adh.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "none"
+    },
+    {
+      "id": "adh.final_report_claims",
+      "dimension": "adherence",
+      "kind": "judge",
+      "status": "pass",
+      "evidence": "manual: as a.final_report_claims"
+    },
+    {
+      "id": "adh.heartbeat_final",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": ".heartbeat status=paused"
+    },
+    {
+      "id": "adh.run_summary",
+      "dimension": "adherence",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "3 dispatches, max 3 concurrent"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "see adh.prescribed_msg.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "2 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.prescribed_msg.plan_review"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "kind": "det+manual",
+      "status": "pass",
+      "evidence": "manual override: 3/3 blind judges pass. Only geeky-coder dispatches in session.jsonl: T1 alone (:363), T2+T3 together in one assistant message (same message.id msg_32033f81..., :449/:450, 21:41:09.10/.33, both foreground), then T4 alone (:463). Peak concurrency is 2, below the cap of 3. T2 and T3 each depend only on T1 (tasks/T2, T3 Dependencies), and plan line 30 says they 'may run in parallel'. Their declared file surfaces are disjoint (server.py + test_server.py vs __init__/__main__/client.py + test_client.py)."
+    },
+    {
+      "id": "dp08",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "no In Progress move: ['T1', 'T2', 'T3', 'T4']"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "not reviewed: ['T2', 'T3', 'T4']"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "failing: ['T1', 'T2', 'T3', 'T4']"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "failing phases: ['P2']"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "3 geeky-implement commits each preceded by check-commit"
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "kind": "judge",
+      "status": "fail",
+      "evidence": "manual: 0/3 blind judges pass. Phase 1 is clean (8dc8471 = T1 only, base 8ce9e62). Phase 2 was committed as the single checkpoint commit e5c7276 for T2, T3 and T4, with a 2-line edit to the T1 notes mixed in. That is one commit spanning server, CLI and client, acceptance tests and README, so it breaks 'one concern per commit, per phase' even though it stays inside phase 2. No commit crosses spec, plan, plan-review and implement boundaries (02678e6, a326501, 8ce9e62 are separate), but the phase-2 bundling is a protocol violation."
+    },
+    {
+      "id": "dp14",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "failing: ['T1', 'T2', 'T3', 'T4']"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "fail",
+      "evidence": "0 impl-review reviewer dispatches"
+    },
+    {
+      "id": "dp17a",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp17b",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "na",
+      "evidence": "no critical finding"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "kind": "det",
+      "status": "pass",
+      "evidence": "see adh.heartbeat_final"
+    }
+  ],
+  "needs_judge": [],
+  "rerun_results": {
+    "T1": {
+      "commit": "1509e0b",
+      "fallback": false,
+      "basis": "last commit naming it (no Done move)",
+      "results": [
+        {
+          "command": "python3 -m pytest tests/test_core.py -q",
+          "exit": 0,
+          "tail": "178 passed in 0.79s"
+        },
+        {
+          "command": "python3 -m compileall -q linkvault",
+          "exit": 0,
+          "tail": ""
+        }
+      ]
+    },
+    "T2": {
+      "commit": "1509e0b",
+      "fallback": false,
+      "basis": "last commit naming it (no Done move)",
+      "results": [
+        {
+          "command": "python3 -m pytest tests/test_server.py -q",
+          "exit": 0,
+          "tail": "181 passed in 5.94s"
+        },
+        {
+          "command": "python3 -m compileall -q linkvault",
+          "exit": 0,
+          "tail": ""
+        }
+      ]
+    },
+    "T3": {
+      "commit": "1509e0b",
+      "fallback": false,
+      "basis": "last commit naming it (no Done move)",
+      "results": [
+        {
+          "command": "python3 -m pytest tests/test_client.py -q",
+          "exit": 0,
+          "tail": "118 passed in 14.12s"
+        },
+        {
+          "command": "python3 -m compileall -q linkvault",
+          "exit": 0,
+          "tail": ""
+        }
+      ]
+    },
+    "T4": {
+      "commit": "1509e0b",
+      "fallback": false,
+      "basis": "last commit naming it (no Done move)",
+      "results": [
+        {
+          "command": "python3 -m pytest tests/test_acceptance.py -q",
+          "exit": 0,
+          "tail": "35 passed, 1 warning in 15.13s"
+        },
+        {
+          "command": "python3 -m pytest -q",
+          "exit": 0,
+          "tail": "512 passed, 1 warning in 35.67s"
+        },
+        {
+          "command": "python3 -m compileall -q linkvault",
+          "exit": 0,
+          "tail": ""
+        }
+      ]
+    }
+  },
+  "breakdown": {
+    "tokens_total": 9972212,
+    "wall_time_s": 3073.741385458008,
+    "geeky_coder_used": false,
+    "orchestrator_code_edit_calls": []
+  }
+}

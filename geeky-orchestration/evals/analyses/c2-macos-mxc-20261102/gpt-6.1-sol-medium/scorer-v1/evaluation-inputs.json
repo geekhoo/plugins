@@ -1,0 +1,133 @@
+{
+  "schema": "geeky-eval.inputs/1",
+  "scope_id": "c2-macos-mxc-gpt-6.1-sol-medium-20261102",
+  "kind": "initial",
+  "parent_scope_id": null,
+  "description": "C2 c2-linkvault, Claude Code + gpt-6.1-sol (effort medium, compat layer on) in MXC (Seatbelt) on macOS: non-reference diagnostic (Python 3.9.6 vs the 3.11+ contract)",
+  "configuration": {
+    "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+    "plugin_sha": "44d6afb13facdc5ff09f1015c2dc251a4de50d88"
+  },
+  "sources": [
+    {
+      "id": "run",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T222922Z/run.json",
+      "sha256": "7b78a60b2299fbd3454d4c70d188b848b579ac2be59f5e5c4ec0b91498285f24",
+      "ancestry": []
+    },
+    {
+      "id": "session",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T222922Z/session.jsonl",
+      "sha256": "a64726ff92598f5e61597f4b6b668e0cee58c000ac75e14ca833f768b5a0a348",
+      "ancestry": []
+    },
+    {
+      "id": "stream",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T222922Z/stream.jsonl",
+      "sha256": "ef69b964992db5fa757e304d0ad129bc2d5a3961123a4e89fd09dbf931e3c0ae",
+      "ancestry": []
+    },
+    {
+      "id": "transcript-upload",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T222922Z/telemetry/upload.json",
+      "sha256": "ee3ca936580f53730253154ef4feeb8d23e0db90f31093b69414bac1bfad6168",
+      "ancestry": [
+        "session"
+      ]
+    },
+    {
+      "id": "observations-export",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T222922Z/telemetry/observations.json",
+      "sha256": "8776276a002cba62a5d324aca573dae6506ae4cc7160183871d5a0609ab0370b",
+      "ancestry": [
+        "transcript-upload"
+      ]
+    },
+    {
+      "id": "observations",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-medium/langfuse-observations.json",
+      "sha256": "2f0ff30ea9b4aadb3ff93a9bc9a18309d6c4a16422a19e49725272727f2cea2a",
+      "ancestry": [
+        "observations-export"
+      ]
+    },
+    {
+      "id": "harness-coverage",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-medium/harness-coverage.json",
+      "sha256": "33c8611be5046211ed083dd82575345836160d24aead14c33f999549ec968c11",
+      "ancestry": [
+        "observations"
+      ]
+    },
+    {
+      "id": "manual-verdicts",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-medium/manual-verdicts.json",
+      "sha256": "7c81890b2691c85208fabe9b7862a3068e7239757712fe59a78a3a062ea3c746",
+      "ancestry": [
+        "session",
+        "stream"
+      ]
+    },
+    {
+      "id": "score",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-medium/score.json",
+      "sha256": "afba4beecca1a5003ede3359932f8afdba08144d4d3adb79892eb9d2ff8bfc9e",
+      "ancestry": [
+        "run",
+        "session",
+        "stream",
+        "manual-verdicts"
+      ]
+    },
+    {
+      "id": "publish-run",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-medium/publish-run/20261101T222922Z/run.json",
+      "sha256": "2e32608c6fab9d08e0d46d0cfb6898a45393cf576f323bd050cc2cd1c342db3b",
+      "ancestry": [
+        "run",
+        "harness-coverage"
+      ]
+    }
+  ],
+  "segments": [
+    {
+      "segment_id": "df91f2d1-fc8c-4074-973b-78d7f4d2b44d",
+      "attempt_id": "dbab3f48-e541-4ff4-87f7-197be94b3af7",
+      "authorization_reference": "owner-macos-mxc-20261102-c2-gpt-6.1-sol-medium",
+      "start": "2026-11-01T22:29:25.054355Z",
+      "end": "2026-11-01T22:48:35.821913Z"
+    }
+  ],
+  "ownership": {
+    "method": "native",
+    "rule": "single initial segment: every captured row, observation and artifact belongs to this attempt (zero recoveries)"
+  },
+  "metric_default": {
+    "scope_id": "c2-macos-mxc-gpt-6.1-sol-medium-20261102",
+    "population": "segment df91f2d1: main session + 8 subagents, one attempt",
+    "source_ids": [
+      "run",
+      "session"
+    ],
+    "additive": false,
+    "complete": true
+  },
+  "metrics": {
+    "coverage": {
+      "source_ids": [
+        "harness-coverage"
+      ],
+      "population": "langfuse-coverage.py harness points over the 401 uploaded observations"
+    },
+    "cost": {
+      "complete": false,
+      "population": "analyze-run list-price estimate; gateway billing not observed"
+    },
+    "backend": {
+      "source_ids": [
+        "run"
+      ],
+      "population": "LiteLLM gateway (gpt-6.1-sol) via the local <proxy>"
+    }
+  }
+}

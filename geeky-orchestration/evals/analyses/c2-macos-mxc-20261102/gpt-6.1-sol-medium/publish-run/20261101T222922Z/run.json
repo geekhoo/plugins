@@ -1,0 +1,268 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c2-linkvault",
+  "harness": "claude-code",
+  "model": "gpt-6.1-sol",
+  "reasoning": "medium",
+  "workspace": "/Users/gkhoo-c/.Projects/mxc-c0/work/eval-c2-linkvault-20261101T222922Z",
+  "config_directory": "/Users/gkhoo-c/.Projects/mxc-c0/work/.eval-cfg-20261101T222922Z",
+  "seed_sha": "ef16f803089eafe0cdac40a27b40436bcffd3727",
+  "plugin_sha": "44d6afb13facdc5ff09f1015c2dc251a4de50d88",
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "native_otel": {
+    "enabled": true,
+    "channel": "claude-code-otel",
+    "endpoint": "https://langfuse.markefin.com/api/public/otel",
+    "protocol": "http/protobuf",
+    "service_name": "claude-code",
+    "session_attribute": "631dbf7a-5833-456a-8cd7-6168163a5b87",
+    "exporters": {
+      "traces": "otlp",
+      "logs": "otlp",
+      "metrics": "otlp"
+    },
+    "variables": [
+      "CLAUDE_CODE_ENABLE_TELEMETRY",
+      "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA",
+      "OTEL_EXPORTER_OTLP_ENDPOINT",
+      "OTEL_EXPORTER_OTLP_PROTOCOL",
+      "OTEL_EXPORTER_OTLP_HEADERS",
+      "OTEL_LOGS_EXPORTER",
+      "OTEL_METRICS_EXPORTER",
+      "OTEL_TRACES_EXPORTER",
+      "OTEL_RESOURCE_ATTRIBUTES",
+      "OTEL_SERVICE_NAME",
+      "LANGFUSE_TRACING_ENVIRONMENT",
+      "OTEL_LOG_USER_PROMPTS",
+      "OTEL_LOG_ASSISTANT_RESPONSES",
+      "OTEL_LOG_TOOL_DETAILS",
+      "OTEL_LOG_TOOL_CONTENT",
+      "CLAUDE_CODE_OTEL_CONTENT_MAX_LENGTH",
+      "CLAUDE_CODE_OTEL_FLUSH_TIMEOUT_MS",
+      "CLAUDE_CODE_OTEL_SHUTDOWN_TIMEOUT_MS",
+      "CLAUDE_CODE_OTEL_DIAG_STDERR"
+    ],
+    "transcript_upload": {
+      "ok": true,
+      "counts": {
+        "turns": 1,
+        "llm_calls": 79,
+        "tools": 235,
+        "tool_errors": 41,
+        "subagents": 8,
+        "subagent_llm_calls": 78,
+        "spans": 401,
+        "traces": 1
+      },
+      "trace_ids": [
+        "0846a678e31041be75c0dc461e9ff7d4"
+      ],
+      "coverage": {
+        "complete": true,
+        "ratio": 1,
+        "missing": {}
+      },
+      "observations_exported": true,
+      "scores": {
+        "ok": true,
+        "posted": 11
+      }
+    }
+  },
+  "session_id": "631dbf7a-5833-456a-8cd7-6168163a5b87",
+  "started_utc": "2026-11-01T22:29:25.044219Z",
+  "ended_utc": "2026-11-01T22:48:35.826888Z",
+  "wall_time_s": 1150.7649433749903,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "reference_eligible": false,
+  "token_ceiling": 25000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "complete",
+  "telemetry": {
+    "enabled": false,
+    "source": "native OTel spans + post-run transcript upload (run.json native_otel); upstream hook disabled (-NoTelemetry)",
+    "derived_by": "source-reviewed copy for langfuse-scores.py: run.json + harness-coverage.json",
+    "session_id": "631dbf7a-5833-456a-8cd7-6168163a5b87",
+    "agent_family": "claude-code",
+    "environment": "mxc-claude-mac",
+    "delivered": true,
+    "observations": 401,
+    "coverage_complete": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "dbab3f48-e541-4ff4-87f7-197be94b3af7",
+    "segment_id": "df91f2d1-fc8c-4074-973b-78d7f4d2b44d",
+    "authorization_reference": "owner-macos-mxc-20261102-c2-gpt-6.1-sol-medium",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-11-02T01:29:23.328790Z",
+    "hard_wall_budget_s": 10800,
+    "closeout_reserve_s": 900,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "medium",
+      "mock": false,
+      "provider": "litellm",
+      "hard_wall_budget_s": 10800,
+      "closeout_reserve_s": 900,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "59ed839c1231d12aea5ed19e1772095d4926631db5903d8918909b9295ccc890",
+    "invocations": [
+      {
+        "invocation_id": "4173ae65-32b9-4c47-ad84-ac19d38caef2",
+        "kind": "initial",
+        "timeout_s": 10798,
+        "started_utc": "2026-11-01T22:29:25.0543550Z",
+        "ended_utc": "2026-11-01T22:48:35.8219130Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "completed",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "completed",
+      "langfuse-upload": "completed"
+    },
+    "active_step": "langfuse-upload",
+    "failure": null,
+    "contestant_time_s": 1150.7649433749903,
+    "attempt_elapsed_s": 1152.498777624991,
+    "finalization_time_s": 10.933793542004423,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 50644,
+    "writer_host": "st-gkhoo-c1",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "7d33bc946b11dc717823059a0d89f00957b034b9",
+    "workspace_status": [
+      "?? .claude/"
+    ],
+    "artifact_sha256": {
+      "analysis.json": "c5b4d8c0c2a6a2c8f415da8ef3e70a6c49a01d576224b46168df099ad80dd525",
+      "notes.md": "9420989e1b4ee758b672b46825e2369ca3d7faca6c142fa74e3a568f6152f634",
+      "oracle-output.txt": "05731e182f8798760f4305ff1fda95c35347f5a664f4bdfba47f0b4b14701241",
+      "session.jsonl": "a64726ff92598f5e61597f4b6b668e0cee58c000ac75e14ca833f768b5a0a348",
+      "solution.bundle": "5adb58a4e8472e04239c940fb71c8a559c36e143c09bb177d1c36907b4e2b2b9",
+      "stderr.txt": "1eca96a9b07d139c00a7f70f8a732d5d59d05650a120aaa356e75e1b355593ee",
+      "stream.jsonl": "ef69b964992db5fa757e304d0ad129bc2d5a3961123a4e89fd09dbf931e3c0ae",
+      "subagents/agent-a0270242958c460cd.jsonl": "2d3af21a3d57c17251d5ba25883b524eed671960f25cd437b13e84ab8a9055d4",
+      "subagents/agent-a0270242958c460cd.meta.json": "f59baf86395f6cb3ddb573902a3d9c4157785a0f40d61382ee8b6d61d5329246",
+      "subagents/agent-a32fe1c8e6be9a1c6.jsonl": "5855cf9df4c497235198cdd660bc41d0ed63af5f69964d6b521bb58d694b20e4",
+      "subagents/agent-a32fe1c8e6be9a1c6.meta.json": "a6fab44455aea401291802510f742bceb61a93056daf96350ad8bf09261d33b8",
+      "subagents/agent-a4dd1fb2488ae1d6a.jsonl": "a1e46d06f73ded1c73782960976215e8d3e103bee3336b5ff0676aaba1097984",
+      "subagents/agent-a4dd1fb2488ae1d6a.meta.json": "0288146216523cb222b4a1950c3dd5fd20b8cc30b8b190a3ac3d239b27872dbc",
+      "subagents/agent-a8cad966ebdd98a88.jsonl": "525f41268a353be27bdfcb5f8e7b8d25012341a2920971546c2ce3d16f28cec8",
+      "subagents/agent-a8cad966ebdd98a88.meta.json": "cb6ae5cf620004cd888ad53720b358aacf9cff8fb5f5141d45175031b48d15c5",
+      "subagents/agent-a8ea53378e09c97fe.jsonl": "6e6d585fcb44fdda79a0a510ec94b6468c104710d820027db26a959ddeb3a15a",
+      "subagents/agent-a8ea53378e09c97fe.meta.json": "4d853e52c176be40245f95812217a9c55fbcd772b30f6d9b4e17727f2c42dd19",
+      "subagents/agent-ac89c1944c73b02c9.jsonl": "5aec05430f5f21f65723f6ea3bbe7bbec43c6915ea453c0651ec20daf2cc95f0",
+      "subagents/agent-ac89c1944c73b02c9.meta.json": "95e168b7c4ce0709b4cfa66cb20d6e6058aee5e4b3ab7e4fbf4203e9fb61fbb5",
+      "subagents/agent-af507a6a99ef1bff1.jsonl": "7414d03f3fabe517a1096111fa84d8e7130111a275d24b88f4e3be50fe319ebc",
+      "subagents/agent-af507a6a99ef1bff1.meta.json": "20fb41b1c3261c674ab115b14fb9bc1960d7e19a6883c3e0f4e96a16ce65780b",
+      "subagents/agent-aff625488b65c2983.jsonl": "f6080ec34a1e6cd88a50016e80dc55cd4e5596113be3923fc009d45b80d92cb7",
+      "subagents/agent-aff625488b65c2983.meta.json": "93286a961a47bd5daa33692cb772d4c4b4ad1675bfd81bde23afd35dcc170b5a",
+      "derived/analysis.json": "c5b4d8c0c2a6a2c8f415da8ef3e70a6c49a01d576224b46168df099ad80dd525",
+      "derived/run.json": "4a32105840cb29d4bfc1a00edef5563dc4dfcc5ea379c0b4aec7e0d5aa04e5f2",
+      "telemetry/coverage.json": "9cd3909a60a30424a268f8e7b14da02322d6e2b4bce672a719653f2b8ece500c",
+      "telemetry/coverage.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry/export.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry/observations.json": "8776276a002cba62a5d324aca573dae6506ae4cc7160183871d5a0609ab0370b",
+      "telemetry/scores.json": "750936cd45307a681941ac70971ab36aaff3ff53ce0a170b11fd69805597c1f7",
+      "telemetry/scores.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "telemetry/upload.json": "ee3ca936580f53730253154ef4feeb8d23e0db90f31093b69414bac1bfad6168",
+      "telemetry/upload.stderr.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "harness_version": "2.1.316",
+  "approach": "canonical-prompt",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 5399058,
+    "cached_input": 0,
+    "cache_creation": 0,
+    "output": 68787,
+    "total": 5467845,
+    "cost_usd_estimate": 28.715,
+    "reasoning": 0
+  },
+  "model_calls": 79,
+  "latency_median_ms": 4385,
+  "max_idle_gap_s": 103,
+  "stages": [
+    {
+      "name": "geeky-orchestrator",
+      "started_utc": "2026-11-02T06:29:39.499+08:00",
+      "ended_utc": "2026-11-02T06:29:57.336+08:00",
+      "minutes": 0.3
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-11-02T06:29:57.336+08:00",
+      "ended_utc": "2026-11-02T06:33:35.338+08:00",
+      "minutes": 3.6
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-11-02T06:33:35.338+08:00",
+      "ended_utc": "2026-11-02T06:39:30.654+08:00",
+      "minutes": 5.9
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-11-02T06:39:30.654+08:00",
+      "ended_utc": "2026-11-02T06:48:35.459+08:00",
+      "minutes": 9.1
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": null,
+  "oracle": {
+    "collected": 136,
+    "passed": 0,
+    "failed": 0,
+    "errors": 136,
+    "skipped": 0,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 0,
+    "test": 0,
+    "files_changed": 13
+  },
+  "commits": 3,
+  "stop_reason": "end_turn",
+  "raw_sha256": {
+    "stream": "ef69b964992db5fa757e304d0ad129bc2d5a3961123a4e89fd09dbf931e3c0ae",
+    "session": "a64726ff92598f5e61597f4b6b668e0cee58c000ac75e14ca833f768b5a0a348"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": {
+    "name": "litellm",
+    "base_url": "<gateway-host>:7891",
+    "model": "gpt-6.1-sol"
+  },
+  "over_token_ceiling": false
+}

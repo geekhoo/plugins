@@ -1,0 +1,605 @@
+{
+  "schema": "geeky-eval.parity/1",
+  "harness": "claude-code",
+  "run": "eval-c2-linkvault-20261101T211028Z",
+  "session_id": "5bb3fdd4-9df1-4de0-993a-a6ee01b48aed",
+  "composite": 79.38,
+  "quality": 92.75,
+  "adherence": 82.5,
+  "adherence_uncapped": 82.5,
+  "adherence_fraction": "33/40",
+  "consistency": 50.53,
+  "dpc": 0.6316,
+  "order": 0.0,
+  "efficiency": {
+    "tokens_total": 9972212,
+    "wall_time_s": 3073.741385458008,
+    "latency_median_ms": 1554,
+    "commits": 6,
+    "interventions": 0,
+    "cost": null
+  },
+  "stage_bounds": {
+    "spec-research": [
+      "2026-11-01T21:10:36.517000+00:00",
+      null
+    ],
+    "geeky-plan": [
+      null,
+      "2026-11-01T21:21:39.000000+00:00"
+    ],
+    "plan-review": [
+      "2026-11-01T21:21:39.000000+00:00",
+      "2026-11-01T21:26:43.000000+00:00"
+    ],
+    "geeky-implement": [
+      "2026-11-01T21:26:43.000000+00:00",
+      "9999"
+    ],
+    "impl-review": [
+      null,
+      "9999"
+    ]
+  },
+  "phases": {
+    "P1": [
+      "T1"
+    ],
+    "P2": [
+      "T2",
+      "T3",
+      "T4"
+    ]
+  },
+  "needs_judge": [],
+  "checks": [
+    {
+      "id": "a.planning_folder",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 4 task file(s) found."
+    },
+    {
+      "id": "a.task_schema",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 4 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "a.kanban_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 4 task(s) tracked, 4 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=2, Blocked=1, Done=1"
+    },
+    {
+      "id": "a.dod.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "a.notes.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T1-core-storage.notes.md"
+    },
+    {
+      "id": "a.dod.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "DOD_INCOMPLETE: T2"
+    },
+    {
+      "id": "a.notes.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T2-http-server.notes.md"
+    },
+    {
+      "id": "a.dod.T3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "DOD_INCOMPLETE: T3"
+    },
+    {
+      "id": "a.notes.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T3-cli-client.notes.md"
+    },
+    {
+      "id": "a.dod.T4",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "DOD_INCOMPLETE: T4"
+    },
+    {
+      "id": "a.notes.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T4-contract-acceptance.notes.md"
+    },
+    {
+      "id": "a.run_summary",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "a.heartbeat_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "{\"ts\": \"2026-11-01T22:00:40.204058+00:00\", \"task\": \"T2\", \"status\": \"paused\"}"
+    },
+    {
+      "id": "a.prescribed.spec",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "spec-research commit subject"
+    },
+    {
+      "id": "a.prescribed.plan_review",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "plan-review commit subject exact"
+    },
+    {
+      "id": "a.prescribed.critical_fix",
+      "dimension": "adherence",
+      "status": "na",
+      "evidence": "no critical-fix commit"
+    },
+    {
+      "id": "a.commit_messages",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 post-plan-review commits; failing: []"
+    },
+    {
+      "id": "a.frozen_untouched",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "frozen files changed after plan-review: []"
+    },
+    {
+      "id": "a.no_forbidden_git",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reflog: []; commands: []"
+    },
+    {
+      "id": "a.task_dispatch.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T1"
+    },
+    {
+      "id": "a.task_review.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T1 or P1"
+    },
+    {
+      "id": "a.dod_gate.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "1 check-dod runs naming T1 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T2"
+    },
+    {
+      "id": "a.task_review.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T2 or P2"
+    },
+    {
+      "id": "a.dod_gate.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "1 check-dod runs naming T2 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T3"
+    },
+    {
+      "id": "a.task_review.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T3 or P2"
+    },
+    {
+      "id": "a.dod_gate.T3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T3 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T4"
+    },
+    {
+      "id": "a.task_review.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T4 or P2"
+    },
+    {
+      "id": "a.dod_gate.T4",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T4 during implement"
+    },
+    {
+      "id": "a.phase_verdict.P1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.kanban_gate",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "9 validate-kanban runs for 4 tasks"
+    },
+    {
+      "id": "a.commit_gate",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 check-commit runs for 2 code commits"
+    },
+    {
+      "id": "a.tests_run",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "17 pytest runs during implement"
+    },
+    {
+      "id": "a.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "main-thread code/test writes: []"
+    },
+    {
+      "id": "a.run_completed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "exit_reason completed"
+    },
+    {
+      "id": "a.work_committed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "uncommitted at the end: []"
+    },
+    {
+      "id": "a.one_concern_per_commit",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "judge: 0/3 blind judges pass. e5c7276 (chore(checkpoint), 16 files, +2550) puts the HTTP server (server.py), the CLI/client (__main__.py, client.py, __init__.py), three test suites (test_server, test_client, test_acceptance), the root README.md and the phase-2 review/notes into one commit. These are at least three functional deliveries (T2, T3, T4) plus docs. Execution-protocol.md:44 and :168-177 require splitting a phase into 'multiple small logically-grouped commits', and 'Tasks:' may list several tasks only when they form one concern. The Q2/Q5 precedent covers tracking files inside a functional commit, not several independent code deliveries. The other commits are fine: 8dc8471 is T1 code, tests and its tracking files; 02678e6, a326501, 8ce9e62 and 1509e0b are each a single planning or evidence concern."
+    },
+    {
+      "id": "a.final_report_claims",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "judge: 3/3 blind judges pass. Every process claim in the final report (stream.jsonl result, session.jsonl:495) matches primary evidence. Validators ran with the claimed output (session.jsonl:257, 270, 441 DOD_OK T1, 489). Reviewer verdicts match the subagent transcripts (a0308/afb53 PASS, abc8ff T1 PASS, ad6533 T2/T4 NEEDS FIXES and T3 PASS), and the 512 = 178+181+118+35 counts match the coder transcripts. Commits 02678e6, a326501, 8ce9e62, 8dc8471, e5c7276, 1509e0b exist, the tree is clean, and the kanban is 1 Done / 1 Blocked / 2 In Review. Deviations are disclosed (isolation mismatch, Python 3.9.6 only, no 3.11 execution, synchronous Agent waits without timeouts)."
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 spec-research dispatches"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "see a.prescribed.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "2 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.plan_review"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "every task reviewed"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "DoD gate for every task"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "phase verdict for every phase"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.commit_gate"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 impl-review dispatches"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.heartbeat_final"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: 3/3 blind judges pass. Only geeky-coder dispatches in session.jsonl: T1 alone (:363), T2+T3 together in one assistant message (same message.id msg_32033f81..., :449/:450, 21:41:09.10/.33, both foreground), then T4 alone (:463). Peak concurrency is 2, below the cap of 3. T2 and T3 each depend only on T1 (tasks/T2, T3 Dependencies), and plan line 30 says they 'may run in parallel'. Their declared file surfaces are disjoint (server.py + test_server.py vs __init__/__main__/client.py + test_client.py)."
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "judge: 0/3 blind judges pass. Phase 1 is clean (8dc8471 = T1 only, base 8ce9e62). Phase 2 was committed as the single checkpoint commit e5c7276 for T2, T3 and T4, with a 2-line edit to the T1 notes mixed in. That is one commit spanning server, CLI and client, acceptance tests and README, so it breaks 'one concern per commit, per phase' even though it stays inside phase 2. No commit crosses spec, plan, plan-review and implement boundaries (02678e6, a326501, 8ce9e62 are separate), but the phase-2 bundling is a protocol violation."
+    }
+  ],
+  "evaluation_scope": {
+    "schema": "geeky-eval.inputs/1",
+    "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+    "kind": "initial",
+    "parent_scope_id": null,
+    "description": "C2 c2-linkvault, Claude Code + gpt-6.1-sol (effort high, attempt 2, no compat layer) in MXC (Seatbelt) on macOS: non-reference diagnostic (Python 3.9.6 vs the 3.11+ contract)",
+    "configuration": {
+      "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+      "plugin_sha": "44d6afb13facdc5ff09f1015c2dc251a4de50d88"
+    },
+    "sources": [
+      {
+        "id": "run",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T211028Z/run.json",
+        "sha256": "c7c57fe28d51d87a9f9f237050f00be4e6277231db29c56f4c75254870d08129",
+        "ancestry": []
+      },
+      {
+        "id": "session",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T211028Z/session.jsonl",
+        "sha256": "f516bc5ba2095954c309f670c71d938f097cce8caa19db027323663ef64bff8f",
+        "ancestry": []
+      },
+      {
+        "id": "stream",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T211028Z/stream.jsonl",
+        "sha256": "6423a1009451fa9fc4ef89e8a6c571249f145ddb77aedeacb399c41e046d9fbe",
+        "ancestry": []
+      },
+      {
+        "id": "transcript-upload",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T211028Z/telemetry/upload.json",
+        "sha256": "ed75f532f87786f28e94547edd1f2b59c1977301c1a73b8fd772f2718f1b9e4d",
+        "ancestry": [
+          "session"
+        ]
+      },
+      {
+        "id": "observations-export",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T211028Z/telemetry/observations.json",
+        "sha256": "57e837e0cde93c3b7be6cf41de1cfd70ac1f32b95c0179f0dcce7be6102e9da7",
+        "ancestry": [
+          "transcript-upload"
+        ]
+      },
+      {
+        "id": "observations",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-high/langfuse-observations.json",
+        "sha256": "20cb6157ddf062523ebb5004e3e55a925a2816de10d29a3bf0ddc158920fbe29",
+        "ancestry": [
+          "observations-export"
+        ]
+      },
+      {
+        "id": "harness-coverage",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-high/harness-coverage.json",
+        "sha256": "ea9d5a67845fc83a882e6f281d80239e15d9afce406ffbf16b38c9234a73a754",
+        "ancestry": [
+          "observations"
+        ]
+      },
+      {
+        "id": "manual-verdicts",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-high/manual-verdicts.json",
+        "sha256": "b8e48b9cbfc2c815f3f3620b220bb403db0c9e3b1b91c31d8ed31858ba96ccb3",
+        "ancestry": [
+          "session",
+          "stream"
+        ]
+      },
+      {
+        "id": "score",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-high/score.json",
+        "sha256": "69d705e9bd453a76856f072b809a4ae34f1be724e57da1447bc79dcd131dba3d",
+        "ancestry": [
+          "run",
+          "session",
+          "stream",
+          "manual-verdicts"
+        ]
+      },
+      {
+        "id": "publish-run",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/gpt-6.1-sol-high/publish-run/20261101T211028Z/run.json",
+        "sha256": "e12f78c90324ae496755b0b73bfd3742026e37b717703e5ab2cef4eeba0b1044",
+        "ancestry": [
+          "run",
+          "harness-coverage"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "a605a7dc-ea7e-4f76-8d95-5aa7708caba0",
+        "attempt_id": "f4317263-cbed-4217-a10e-07f7a5a56550",
+        "authorization_reference": "owner-macos-mxc-20261102-c2-gpt-6.1-sol-high-a2",
+        "start": "2026-11-01T21:10:30.288282Z",
+        "end": "2026-11-01T22:01:44.042103Z"
+      }
+    ],
+    "ownership": {
+      "method": "native",
+      "rule": "single initial segment: every captured row, observation and artifact belongs to this attempt (zero recoveries)"
+    },
+    "metric_default": {
+      "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+      "population": "segment a605a7dc: main session + 12 subagents, one attempt",
+      "source_ids": [
+        "run",
+        "session"
+      ],
+      "additive": false,
+      "complete": true
+    },
+    "metrics": {
+      "coverage": {
+        "source_ids": [
+          "harness-coverage"
+        ],
+        "population": "langfuse-coverage.py harness points over the 636 uploaded observations"
+      },
+      "cost": {
+        "complete": false,
+        "population": "analyze-run list-price estimate; gateway billing not observed"
+      },
+      "backend": {
+        "source_ids": [
+          "run"
+        ],
+        "population": "LiteLLM gateway (gpt-6.1-sol) via the local <proxy>"
+      }
+    },
+    "input_sha256": "30ed95e1bc48c27e8c28dd84b2a6e45fe16267ed911018417e4743e9f46e90a3",
+    "metric_labels": {
+      "runtime": {
+        "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+        "population": "segment a605a7dc: main session + 12 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "tokens": {
+        "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+        "population": "segment a605a7dc: main session + 12 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "calls": {
+        "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+        "population": "segment a605a7dc: main session + 12 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "latency_idle": {
+        "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+        "population": "segment a605a7dc: main session + 12 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "commits": {
+        "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+        "population": "segment a605a7dc: main session + 12 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "coverage": {
+        "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+        "population": "langfuse-coverage.py harness points over the 636 uploaded observations",
+        "source_ids": [
+          "harness-coverage"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "backend": {
+        "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+        "population": "LiteLLM gateway (gpt-6.1-sol) via the local <proxy>",
+        "source_ids": [
+          "run"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "cost": {
+        "scope_id": "c2-macos-mxc-gpt-6.1-sol-high-20261102-a2",
+        "population": "analyze-run list-price estimate; gateway billing not observed",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": false
+      }
+    },
+    "completeness": "sources-verified",
+    "missing_sources": []
+  },
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "plugin_sha": "44d6afb13facdc5ff09f1015c2dc251a4de50d88"
+}

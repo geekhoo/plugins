@@ -1,0 +1,133 @@
+{
+  "schema": "geeky-eval.inputs/1",
+  "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+  "kind": "initial",
+  "parent_scope_id": null,
+  "description": "C2 c2-linkvault, Claude Code + claude-sonnet-5-5 (effort high) in MXC (Seatbelt) on macOS: non-reference diagnostic (Python 3.9.6 vs the 3.11+ contract)",
+  "configuration": {
+    "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+    "plugin_sha": "44d6afb13facdc5ff09f1015c2dc251a4de50d88"
+  },
+  "sources": [
+    {
+      "id": "run",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/run.json",
+      "sha256": "55cb278174e58edeb71724e156e35689ec3f1bdda7c3a0b4eee2b7267a3819ff",
+      "ancestry": []
+    },
+    {
+      "id": "session",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/session.jsonl",
+      "sha256": "9e3758cdad0088928328de0e4539453933e521c2f0559b35c7c9456ff3c02067",
+      "ancestry": []
+    },
+    {
+      "id": "stream",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/stream.jsonl",
+      "sha256": "828d0d7979792fd5314674cd659d2ab20713cffbe0ec9844d52379d1c0a3215e",
+      "ancestry": []
+    },
+    {
+      "id": "transcript-upload",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/telemetry/upload.json",
+      "sha256": "2e53f70eed553220a4dc0e024cd81ace53e661318abcf9bf5487a6e3a57efbf2",
+      "ancestry": [
+        "session"
+      ]
+    },
+    {
+      "id": "observations-export",
+      "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/telemetry/observations.json",
+      "sha256": "9bd023c0f89e11c42ae88e15769cda51c36173a7752e94c6caa8502434723068",
+      "ancestry": [
+        "transcript-upload"
+      ]
+    },
+    {
+      "id": "observations",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/langfuse-observations.json",
+      "sha256": "063d201f843fffba685cff309460972f459763e28eb8cae35a3c53a6d0ebdc9d",
+      "ancestry": [
+        "observations-export"
+      ]
+    },
+    {
+      "id": "harness-coverage",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/harness-coverage.json",
+      "sha256": "1227435e060da565766f40dbfa4e305d51b6b22aa00005df82cdd5613c2514e5",
+      "ancestry": [
+        "observations"
+      ]
+    },
+    {
+      "id": "manual-verdicts",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/manual-verdicts.json",
+      "sha256": "3b8f005de253f80a7814617927452e52cbd3698478ce5c959eab59a40a14f576",
+      "ancestry": [
+        "session",
+        "stream"
+      ]
+    },
+    {
+      "id": "score",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/score.json",
+      "sha256": "a5d6082c57a6097a7f5de697c191e0de5aa20e88448d460dd295bcba122953ea",
+      "ancestry": [
+        "run",
+        "session",
+        "stream",
+        "manual-verdicts"
+      ]
+    },
+    {
+      "id": "publish-run",
+      "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/publish-run/20261101T192141Z/run.json",
+      "sha256": "0de8cbc981e646e2ae91a1238efd585aa1247e22cf7b7698a934671bb45b8bd5",
+      "ancestry": [
+        "run",
+        "harness-coverage"
+      ]
+    }
+  ],
+  "segments": [
+    {
+      "segment_id": "3974235a-6464-4808-a7fc-940882b34634",
+      "attempt_id": "ea27e6fb-1699-46c7-bf19-c94e5d291e08",
+      "authorization_reference": "owner-macos-mxc-20261102-c2-sonnet-high-a2",
+      "start": "2026-11-01T19:21:43.180541Z",
+      "end": "2026-11-01T20:34:16.791858Z"
+    }
+  ],
+  "ownership": {
+    "method": "native",
+    "rule": "single initial segment: every captured row, observation and artifact belongs to this attempt (zero recoveries)"
+  },
+  "metric_default": {
+    "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+    "population": "segment 3974235a: main session + 22 subagents, one attempt",
+    "source_ids": [
+      "run",
+      "session"
+    ],
+    "additive": false,
+    "complete": true
+  },
+  "metrics": {
+    "coverage": {
+      "source_ids": [
+        "harness-coverage"
+      ],
+      "population": "langfuse-coverage.py harness points over the 825 uploaded observations"
+    },
+    "cost": {
+      "complete": false,
+      "population": "analyze-run list-price estimate; gateway billing not observed"
+    },
+    "backend": {
+      "source_ids": [
+        "run"
+      ],
+      "population": "LiteLLM gateway (claude-sonnet-5-5) via the local <proxy>"
+    }
+  }
+}

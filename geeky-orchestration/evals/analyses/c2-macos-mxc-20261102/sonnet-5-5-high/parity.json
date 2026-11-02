@@ -1,0 +1,768 @@
+{
+  "schema": "geeky-eval.parity/1",
+  "harness": "claude-code",
+  "run": "eval-c2-linkvault-20261101T192141Z",
+  "session_id": "61fcb731-f526-4171-86e5-85c759be2793",
+  "composite": 95.3,
+  "quality": 91.83,
+  "adherence": 98.48,
+  "adherence_uncapped": 98.48,
+  "adherence_fraction": "65/66",
+  "consistency": 95.79,
+  "dpc": 0.9474,
+  "order": 1.0,
+  "efficiency": {
+    "tokens_total": 40829858,
+    "wall_time_s": 4353.595768166997,
+    "latency_median_ms": 470,
+    "commits": 14,
+    "interventions": 0,
+    "cost": null
+  },
+  "stage_bounds": {
+    "spec-research": [
+      "2026-11-01T19:21:50.481000+00:00",
+      "2026-11-01T19:27:55.000000+00:00"
+    ],
+    "geeky-plan": [
+      "2026-11-01T19:27:55.000000+00:00",
+      "2026-11-01T19:35:32.000000+00:00"
+    ],
+    "plan-review": [
+      "2026-11-01T19:35:32.000000+00:00",
+      "2026-11-01T19:43:04.000000+00:00"
+    ],
+    "geeky-implement": [
+      "2026-11-01T19:43:04.000000+00:00",
+      "2026-11-01T20:28:48.829000+00:00"
+    ],
+    "impl-review": [
+      "2026-11-01T20:28:48.829000+00:00",
+      "9999"
+    ]
+  },
+  "phases": {
+    "P1": [
+      "T1",
+      "T2",
+      "T3"
+    ],
+    "P2": [
+      "T4",
+      "T5",
+      "T6"
+    ],
+    "P3": [
+      "T7",
+      "T8",
+      "T9"
+    ]
+  },
+  "needs_judge": [],
+  "checks": [
+    {
+      "id": "a.planning_folder",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 9 task file(s) found."
+    },
+    {
+      "id": "a.task_schema",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 9 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "a.kanban_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 9 task(s) tracked, 9 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=9"
+    },
+    {
+      "id": "a.dod.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "a.notes.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T1-package-skeleton-clock.notes.md"
+    },
+    {
+      "id": "a.dod.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T2"
+    },
+    {
+      "id": "a.notes.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T2-sqlite-store.notes.md"
+    },
+    {
+      "id": "a.dod.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T3"
+    },
+    {
+      "id": "a.notes.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T3-validators.notes.md"
+    },
+    {
+      "id": "a.dod.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T4"
+    },
+    {
+      "id": "a.notes.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T4-http-core-admin-routes.notes.md"
+    },
+    {
+      "id": "a.dod.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T5"
+    },
+    {
+      "id": "a.notes.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T5-link-endpoints.notes.md"
+    },
+    {
+      "id": "a.dod.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T6"
+    },
+    {
+      "id": "a.notes.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T6-serve-command-shutdown.notes.md"
+    },
+    {
+      "id": "a.dod.T7",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T7"
+    },
+    {
+      "id": "a.notes.T7",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T7-cli-client.notes.md"
+    },
+    {
+      "id": "a.dod.T8",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T8"
+    },
+    {
+      "id": "a.notes.T8",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T8-acceptance-suite.notes.md"
+    },
+    {
+      "id": "a.dod.T9",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T9"
+    },
+    {
+      "id": "a.notes.T9",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T9-final-verification-docs.notes.md"
+    },
+    {
+      "id": "a.run_summary",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "a.heartbeat_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "{\"ts\": \"2026-11-01T20:34:00Z\", \"task\": \"T9\", \"status\": \"done\"}"
+    },
+    {
+      "id": "a.prescribed.spec",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "spec-research commit subject"
+    },
+    {
+      "id": "a.prescribed.plan_review",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "plan-review commit subject exact"
+    },
+    {
+      "id": "a.prescribed.critical_fix",
+      "dimension": "adherence",
+      "status": "na",
+      "evidence": "no critical-fix commit"
+    },
+    {
+      "id": "a.commit_messages",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "11 post-plan-review commits; failing: []"
+    },
+    {
+      "id": "a.frozen_untouched",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "frozen files changed after plan-review: []"
+    },
+    {
+      "id": "a.no_forbidden_git",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reflog: []; commands: []"
+    },
+    {
+      "id": "a.task_dispatch.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T1"
+    },
+    {
+      "id": "a.task_review.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T1 or P1"
+    },
+    {
+      "id": "a.dod_gate.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 check-dod runs naming T1 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T2"
+    },
+    {
+      "id": "a.task_review.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T2 or P1"
+    },
+    {
+      "id": "a.dod_gate.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 check-dod runs naming T2 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T3"
+    },
+    {
+      "id": "a.task_review.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T3 or P1"
+    },
+    {
+      "id": "a.dod_gate.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 check-dod runs naming T3 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T4"
+    },
+    {
+      "id": "a.task_review.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T4 or P2"
+    },
+    {
+      "id": "a.dod_gate.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "4 check-dod runs naming T4 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T5"
+    },
+    {
+      "id": "a.task_review.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T5 or P2"
+    },
+    {
+      "id": "a.dod_gate.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "4 check-dod runs naming T5 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T6"
+    },
+    {
+      "id": "a.task_review.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T6 or P2"
+    },
+    {
+      "id": "a.dod_gate.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 check-dod runs naming T6 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T7",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T7"
+    },
+    {
+      "id": "a.task_review.T7",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T7 or P3"
+    },
+    {
+      "id": "a.dod_gate.T7",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 check-dod runs naming T7 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T8",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T8"
+    },
+    {
+      "id": "a.task_review.T8",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T8 or P3"
+    },
+    {
+      "id": "a.dod_gate.T8",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 check-dod runs naming T8 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T9",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T9"
+    },
+    {
+      "id": "a.task_review.T9",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T9 or P3"
+    },
+    {
+      "id": "a.dod_gate.T9",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 check-dod runs naming T9 during implement"
+    },
+    {
+      "id": "a.phase_verdict.P1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.kanban_gate",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "20 validate-kanban runs for 9 tasks"
+    },
+    {
+      "id": "a.commit_gate",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "11 check-commit runs for 7 code commits"
+    },
+    {
+      "id": "a.tests_run",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "60 pytest runs during implement"
+    },
+    {
+      "id": "a.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "main-thread code/test writes: []"
+    },
+    {
+      "id": "a.run_completed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "exit_reason completed"
+    },
+    {
+      "id": "a.work_committed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "uncommitted at the end: []"
+    },
+    {
+      "id": "a.one_concern_per_commit",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "judge: 0/3 blind judges pass. 92e1ee3 ('docs: add README usage notes and stdlib/stdout hygiene tests', Tasks: T9) also carries the whole T8 acceptance suite (tests/test_acceptance.py, 483 lines, plus T8 notes), a server.py behaviour change (send_error 501->404, log_request silenced), pytest.ini and a test_server_core.py change. The planned T8 'test(acceptance)' commit failed the 72-char subject gate, its staged files were swept into the T9 commit (session.jsonl:1034-1035); disclosed in the final report but not repaired. Other commits single-concern; a1e6c93 (T4+T5 one server.py HTTP surface with tests) borderline but defensible (checkpoint-5 Q2/Q5)."
+    },
+    {
+      "id": "a.final_report_claims",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "judge: 3/3 blind judges: process claims verified. Reviewer verdicts match subagent transcripts (PM review APPROVE WITH FIXES, 12 fixes applied; plan-review 1 Critical/4+6 Warnings, delta 0 Critical; phase reviewers a8b3243f/ac326113/ae7db802 READY TO ADVANCE; three impl-review PASS WITH WARNINGS); check-dod/validate-kanban OK on every Done move (session.jsonl:631, 882, 1035); 346 passed, 2 skipped on Python 3.9.6 after 3.14 exited 137; live smoke (429 Retry-After 50, SIGINT exit 0 in 0.13 s) real; the T8 commit-gate failure and T8 files in 92e1ee3 disclosed. Omissions only: both skips are Windows CTRL_BREAK tests; delta review's NEEDS FIXES verdict (2 Warnings, fixed) not stated; T6 serve() code inside a1e6c93 not mentioned."
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "3 spec-research dispatches"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "3 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.plan_review"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "every task reviewed"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "DoD gate for every task"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "phase verdict for every phase"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.commit_gate"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "3 impl-review dispatches"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.heartbeat_final"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: 3/3 blind judges: of 9 geeky-coder dispatches only T2 and T3 ran concurrently (session.jsonl:564, :566; both run_in_background), peak 2 <= 3; both depend only on T1 with disjoint files. T1 alone; T4-T9 each dispatched after the previous coder returned and was re-verified."
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "judge: 0/3 blind judges pass. No commit straddles phases (planning cb14e35, plan-review 4efada4, P1 890f6b5/a85ef94/4083fae + dfb3723, P2 a1e6c93/9f84c1a + 8825fe6, P3 8f6a24a/92e1ee3 + 371b36b, impl-review f966dc0), but the one-concern clause fails on 92e1ee3 (T8 tests + server.py fix + T9 docs/hygiene under a T9-only docs: message; execution-protocol step 16 T8/T9 split missing)."
+    }
+  ],
+  "evaluation_scope": {
+    "schema": "geeky-eval.inputs/1",
+    "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+    "kind": "initial",
+    "parent_scope_id": null,
+    "description": "C2 c2-linkvault, Claude Code + claude-sonnet-5-5 (effort high) in MXC (Seatbelt) on macOS: non-reference diagnostic (Python 3.9.6 vs the 3.11+ contract)",
+    "configuration": {
+      "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+      "plugin_sha": "44d6afb13facdc5ff09f1015c2dc251a4de50d88"
+    },
+    "sources": [
+      {
+        "id": "run",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/run.json",
+        "sha256": "55cb278174e58edeb71724e156e35689ec3f1bdda7c3a0b4eee2b7267a3819ff",
+        "ancestry": []
+      },
+      {
+        "id": "session",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/session.jsonl",
+        "sha256": "9e3758cdad0088928328de0e4539453933e521c2f0559b35c7c9456ff3c02067",
+        "ancestry": []
+      },
+      {
+        "id": "stream",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/stream.jsonl",
+        "sha256": "828d0d7979792fd5314674cd659d2ab20713cffbe0ec9844d52379d1c0a3215e",
+        "ancestry": []
+      },
+      {
+        "id": "transcript-upload",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/telemetry/upload.json",
+        "sha256": "2e53f70eed553220a4dc0e024cd81ace53e661318abcf9bf5487a6e3a57efbf2",
+        "ancestry": [
+          "session"
+        ]
+      },
+      {
+        "id": "observations-export",
+        "path": "/Users/gkhoo-c/.Projects/geekhoo-plugins-macos-mxc/geeky-orchestration/evals/baselines/c2-linkvault/20261101T192141Z/telemetry/observations.json",
+        "sha256": "9bd023c0f89e11c42ae88e15769cda51c36173a7752e94c6caa8502434723068",
+        "ancestry": [
+          "transcript-upload"
+        ]
+      },
+      {
+        "id": "observations",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/langfuse-observations.json",
+        "sha256": "063d201f843fffba685cff309460972f459763e28eb8cae35a3c53a6d0ebdc9d",
+        "ancestry": [
+          "observations-export"
+        ]
+      },
+      {
+        "id": "harness-coverage",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/harness-coverage.json",
+        "sha256": "1227435e060da565766f40dbfa4e305d51b6b22aa00005df82cdd5613c2514e5",
+        "ancestry": [
+          "observations"
+        ]
+      },
+      {
+        "id": "manual-verdicts",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/manual-verdicts.json",
+        "sha256": "3b8f005de253f80a7814617927452e52cbd3698478ce5c959eab59a40a14f576",
+        "ancestry": [
+          "session",
+          "stream"
+        ]
+      },
+      {
+        "id": "score",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/score.json",
+        "sha256": "a5d6082c57a6097a7f5de697c191e0de5aa20e88448d460dd295bcba122953ea",
+        "ancestry": [
+          "run",
+          "session",
+          "stream",
+          "manual-verdicts"
+        ]
+      },
+      {
+        "id": "publish-run",
+        "path": "/Users/gkhoo-c/.Projects/mxc-c0/analyses/c2-macos-mxc-20261102/sonnet-5-5-high/publish-run/20261101T192141Z/run.json",
+        "sha256": "0de8cbc981e646e2ae91a1238efd585aa1247e22cf7b7698a934671bb45b8bd5",
+        "ancestry": [
+          "run",
+          "harness-coverage"
+        ]
+      }
+    ],
+    "segments": [
+      {
+        "segment_id": "3974235a-6464-4808-a7fc-940882b34634",
+        "attempt_id": "ea27e6fb-1699-46c7-bf19-c94e5d291e08",
+        "authorization_reference": "owner-macos-mxc-20261102-c2-sonnet-high-a2",
+        "start": "2026-11-01T19:21:43.180541Z",
+        "end": "2026-11-01T20:34:16.791858Z"
+      }
+    ],
+    "ownership": {
+      "method": "native",
+      "rule": "single initial segment: every captured row, observation and artifact belongs to this attempt (zero recoveries)"
+    },
+    "metric_default": {
+      "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+      "population": "segment 3974235a: main session + 22 subagents, one attempt",
+      "source_ids": [
+        "run",
+        "session"
+      ],
+      "additive": false,
+      "complete": true
+    },
+    "metrics": {
+      "coverage": {
+        "source_ids": [
+          "harness-coverage"
+        ],
+        "population": "langfuse-coverage.py harness points over the 825 uploaded observations"
+      },
+      "cost": {
+        "complete": false,
+        "population": "analyze-run list-price estimate; gateway billing not observed"
+      },
+      "backend": {
+        "source_ids": [
+          "run"
+        ],
+        "population": "LiteLLM gateway (claude-sonnet-5-5) via the local <proxy>"
+      }
+    },
+    "input_sha256": "050d0ea72ef48ad3119ee681e8f11a16b5977876ee6b0843c486de41804a3a5e",
+    "metric_labels": {
+      "runtime": {
+        "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+        "population": "segment 3974235a: main session + 22 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "tokens": {
+        "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+        "population": "segment 3974235a: main session + 22 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "calls": {
+        "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+        "population": "segment 3974235a: main session + 22 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "latency_idle": {
+        "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+        "population": "segment 3974235a: main session + 22 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "commits": {
+        "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+        "population": "segment 3974235a: main session + 22 subagents, one attempt",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "coverage": {
+        "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+        "population": "langfuse-coverage.py harness points over the 825 uploaded observations",
+        "source_ids": [
+          "harness-coverage"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "backend": {
+        "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+        "population": "LiteLLM gateway (claude-sonnet-5-5) via the local <proxy>",
+        "source_ids": [
+          "run"
+        ],
+        "additive": false,
+        "complete": true
+      },
+      "cost": {
+        "scope_id": "c2-macos-mxc-sonnet-5-5-high-20261102",
+        "population": "analyze-run list-price estimate; gateway billing not observed",
+        "source_ids": [
+          "run",
+          "session"
+        ],
+        "additive": false,
+        "complete": false
+      }
+    },
+    "completeness": "sources-verified",
+    "missing_sources": []
+  },
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "plugin_sha": "44d6afb13facdc5ff09f1015c2dc251a4de50d88"
+}

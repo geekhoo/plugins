@@ -1,0 +1,13 @@
+{
+  "composite": 18.3,
+  "quality": 15.0,
+  "adherence": 20.6,
+  "consistency": 29.1,
+  "task_tier": 0.0,
+  "needs_judge": [
+    "adh.one_concern_per_commit",
+    "adh.final_report_claims",
+    "dp07",
+    "dp13"
+  ]
+}
