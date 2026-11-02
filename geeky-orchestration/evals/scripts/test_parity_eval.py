@@ -229,3 +229,12 @@ def test_scope_binds_future_prompt_plugin_and_execution_identity(tmp_path):
     run['execution']['attempt_id'] = 'another-attempt'
     with pytest.raises(ValueError, match='segment/attempt/authorization'):
         bind_run(doc, run)
+
+
+def test_forbidden_git_ignores_stash_push_but_catches_real_pushes():
+    # C2 20261101T192141Z: JSON event text with escaped newlines and a local `git stash push`
+    stash = '{"command": "mv server.fixed.tmp /tmp/x 2>&1 || echo fail; git stash push linkvault/server.py -q && pytest -q; git stash pop -q"}'
+    assert not pe.forbidden_git_command(stash)
+    assert not pe.forbidden_git_command('{"command": "git status\\necho push done"}')
+    for cmd in ['git push origin main', 'git -C /r push', 'git commit --amend -m x', 'git commit --no-verify -m x', 'git push --force']:
+        assert pe.forbidden_git_command('{"command": "%s"}' % cmd), cmd

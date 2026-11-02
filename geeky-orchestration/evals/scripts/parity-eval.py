@@ -156,6 +156,17 @@ def commit_gate_runs(event):
     return max(1, len(passes))
 
 
+_GIT = r'\bgit(?:\s+-[Cc]\s+\S+|\s+--[\w.-]+(?:=\S+)?)*\s+'
+FORBIDDEN_GIT = re.compile(_GIT + r'push\b|\bgit\b[^\n;|&]*\s(?:--no-verify|--amend)\b|'
+                           r'\bgit\s+(?!add\b|stash\b)[^\n;|&]*\s--force(?:-with-lease)?\b')
+
+
+def forbidden_git_command(text):
+    """A push, --force, --amend or --no-verify git command. `push` must be git's subcommand: `git stash push`
+    is a local stash. Event text is JSON, so escaped newlines are decoded first to keep commands apart."""
+    return bool(FORBIDDEN_GIT.search(text.replace('\\n', '\n')))
+
+
 def gate(script, *args):
     r = subprocess.run([sys.executable, str(PLUGIN / 'scripts' / f'{script}.py'), *args], capture_output=True, text=True)
     return r.returncode == 0, (r.stdout + r.stderr).strip().splitlines()[:1]
@@ -284,7 +295,7 @@ class Evaluation:
         frozen = [fn for c in after for fn in c['files'] if fn.rsplit('/', 1)[-1] in FROZEN or re.search(r'/tasks/T\d+-[^.]+\.md$', fn)]
         frozen_status = self.check('a.frozen_untouched', A, 'fail' if frozen else 'pass', f'frozen files changed after plan-review: {sorted(set(frozen))}')
         reflog = [l for l in git(self.ws, 'reflog', '--format=%gs').splitlines() if re.match(r'commit \(amend\)|reset:', l)]
-        pushes = [e['text'][:80] for e in self.events if e['kind'] == 'shell' and re.search(r'\bgit\b[^\n]*\s(push|--no-verify|--force|--amend)\b', e['text'])]
+        pushes = [e['text'][:80] for e in self.events if e['kind'] == 'shell' and forbidden_git_command(e['text'])]
         forbidden = self.check('a.no_forbidden_git', A, 'fail' if reflog or pushes else 'pass', f'reflog: {reflog}; commands: {pushes}')
 
         impl = self.within('geeky-implement')
