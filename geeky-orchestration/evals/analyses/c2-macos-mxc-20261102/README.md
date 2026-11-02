@@ -2,9 +2,11 @@
 
 Case C2 (`c2-linkvault`: a stdlib URL-shortener HTTP service with a CLI client) on the Claude Code harness,
 inside the MXC sandbox (macOS Seatbelt). Two models at two effort levels: `claude-sonnet-5-5` and
-`gpt-6.1-sol` (through LiteLLM), each at high and medium. Six launches in all:
+`gpt-6.1-sol` (through LiteLLM), each at high and medium, plus one GPT high run through the
+[Messages-to-Responses bridge](../../../../mxc-sandbox/bridge/README.md). Seven launches in all:
 
-- four scored runs: two completed, two stopped BLOCKED;
+- five scored runs: two Sonnet runs completed; GPT through the bridge reached all five stages; two GPT runs
+  without the bridge stopped BLOCKED;
 - one BLOCKED GPT high launch that was not scored (attempt 1; attempt 2 is scored);
 - one Sonnet high launch aborted by the owner after 16 minutes to change the Langfuse environment, then
   restarted (not scored).
@@ -24,7 +26,7 @@ allows only the Xcode Python 3.9.6, and C2 requires Python 3.11 or newer, so eve
 | Launcher | `~/.Projects/mxc-c0/launch-c2.sh run <model> <effort> <AUTH_REF>` (outside the repo: machine paths) |
 | Authorization | owner, 2026-11-02 (+08); one reference per launch, `owner-macos-mxc-20261102-c2-<model>-<effort>[-aN]`. Run stamps below are UTC. |
 | Langfuse | environment `mxc-claude-mac` on every channel; transcript content cap `CC_LANGFUSE_MAX_CHARS=1000000` |
-| Non-Claude models | GPT medium only: the [compat layer](../../adapters/claude-code-litellm-compat/README.md) |
+| Non-Claude models | GPT medium and GPT high via bridge: the [compat layer](../../adapters/claude-code-litellm-compat/README.md); GPT high via bridge also routes through `mxc-sandbox/bridge` (launcher `BRIDGE=1`) |
 
 ## Results
 
@@ -36,6 +38,7 @@ Adherence (process rules) and Consistency (workflow decision points). These are 
 |---|---|---|---|---:|---:|---:|---:|---|
 | Sonnet high | [20261101T192141Z](sonnet-5-5-high/) | claude-sonnet-5-5, high | completed, final review PASS | 4353 s | 14 | 136/136 | **95.30** | 91.83 / 98.48 / 95.79 |
 | Sonnet medium | [20261101T225826Z](sonnet-5-5-medium/) | claude-sonnet-5-5, medium | completed, final review PASS | 1938 s | 13 | 136/136 | **96.47** | 92.54 / 98.39 / 100.0 |
+| **GPT high via bridge** | [20261102T053248Z](gpt-6.1-sol-high-bridge/) | gpt-6.1-sol, high, compat layer + bridge | all five stages; final review NEEDS FIXES only for Python 3.11+ evidence | 4486 s | 8 | 136/136 | **94.24** | 92.35 / 95.24 / 95.79 |
 | GPT high a2 | [20261101T211028Z](gpt-6.1-sol-high/) | gpt-6.1-sol, high | BLOCKED in phase 2 | 3073 s | 6 | 136/136 | **79.38** | 92.75 / 82.50 / 50.53 |
 | GPT medium | [20261101T222922Z](gpt-6.1-sol-medium/) | gpt-6.1-sol, medium, compat layer | BLOCKED at plan review, no code | 1150 s | 3 | 0/136 | **22.83** | 15.00 / 29.27 / 25.26 |
 | GPT high a1 | 20261101T205532Z | gpt-6.1-sol, high | BLOCKED during research | 287 s | 0 | – | not scored | – |
@@ -45,6 +48,7 @@ Adherence (process rules) and Consistency (workflow decision points). These are 
 |---|---:|---:|---:|---:|---|
 | Sonnet high | 40.8M | 96% | 164 | 22 | `61fcb731-f526-4171-86e5-85c759be2793` |
 | Sonnet medium | 13.5M | 94% | 93 | 20 | `1cf70dcf-3b13-4c43-809c-c9c610056fbb` |
+| GPT high via bridge | 18.7M | 91% | 111 | 21 | `8b8f7593-bc6c-4c8c-9059-f2c71bbbb4c8` |
 | GPT high a2 | 10.0M | 0% | 83 | 12 | `5bb3fdd4-9df1-4de0-993a-a6ee01b48aed` |
 | GPT medium | 5.5M | 0% | 79 | 8 | `631dbf7a-5833-456a-8cd7-6168163a5b87` |
 | GPT high a1 | 1.6M | 0% | 32 | 3 | `29bf98bd-3d6b-4ef3-9e87-3a4f7d89d9df` |
@@ -55,14 +59,16 @@ high went over the case's 25M token guideline, which is not enforced.
 Judge verdicts: 3 blind judges per item, majority vote; the raw verdicts are in each run folder's `judges.json`.
 Task names (T8, T9) refer to that run's plan; commit hashes are in that run's workspace.
 
-| Item | Sonnet high | Sonnet medium | GPT high a2 | GPT medium |
-|---|---|---|---|---|
-| One concern per commit, whole run | fail: T8 files in the T9 commit | fail: tests plus fixes in 72f79d7, serve plus client in 37931be | fail: one 2,550-line checkpoint commit | pass |
-| One concern per commit within each phase (dp13) | fail | pass (2 of 3 judges) | fail | pass |
-| Final report claims match the evidence | pass | pass | pass | pass |
-| No false completion claim | pass | pass | pass | pass |
-| At most 3 coders at once (dp07) | pass: peak 2 | pass: serial | pass: peak 2 | fail: no coder was dispatched |
-| The batching choice is explained (dp07 justification) | pass | fail: serial order not explained | pass | fail: no coder was dispatched |
+| Item | Sonnet high | Sonnet medium | GPT high a2 | GPT medium | GPT high via bridge |
+|---|---|---|---|---|---|
+| One concern per commit, whole run | fail: T8 files in the T9 commit | fail: tests plus fixes in 72f79d7, serve plus client in 37931be | fail: one 2,550-line checkpoint commit | pass | pass: one commit per task |
+| One concern per commit within each phase (dp13) | fail | pass (2 of 3 judges) | fail | pass | pass |
+| Final report claims match the evidence | pass | pass | pass | pass | pass |
+| No false completion claim | pass | pass | pass | pass | pass |
+| At most 3 coders at once (dp07) | pass: peak 2 | pass: serial | pass: peak 2 | fail: no coder was dispatched | pass: peak 2 (T2+T3) |
+| The batching choice is explained (dp07 justification) | pass | fail: serial order not explained | pass | fail: no coder was dispatched | pass |
+
+| Required impl-review fix re-reviewed (dp17a) | – | – | – | – | pass |
 
 The two commit rows differ for Sonnet medium: its bundled commits each stay inside one phase, which dp13 accepts,
 but each holds more than one concern. A decision point that a run never reached counts as failed (D38).
@@ -100,6 +106,16 @@ subagent and answered two wait-tool searches. It never started a background agen
 ATTENTION because no Python 3.11+ was available, and it stopped there with no code. Its handoff says two
 reviewers' continuation reports were not delivered; they had arrived as queued agent messages.
 
+**GPT high via bridge** ran with the compat layer and the bridge, so GPT got the gateway's prompt cache and
+reasoning summaries. It reached all five stages for the first time: spec, a 4-task plan in three phases, plan
+review (READY FOR IMPLEMENTATION), implementation with one commit per task (T2 and T3 in parallel), and final
+review. Final review found one code defect (large-integer JSON) and the missing Python 3.11+ evidence; a coder
+fixed the defect and a reviewer re-reviewed it. The final verdict stayed NEEDS FIXES solely for the Python
+evidence, which this host cannot produce, and the report says so. It ran its DoD and kanban gates from Python
+with `subprocess`, rolling the Done move back if a gate failed. The bridge served 391 requests, all 200, with
+91% of 18.7M input tokens read from cache and 91k reasoning tokens; 68 of 252 thinking blocks carry summary
+text. The compat layer loaded the shim once and rewrote one SendMessage call.
+
 ## Harness findings
 
 - **GPT breaks Claude Code conventions.** It called skill names that do not exist, searched for a wait tool,
@@ -108,7 +124,11 @@ reviewers' continuation reports were not delivered; they had arrived as queued a
   [compat layer](../../adapters/claude-code-litellm-compat/README.md) corrects these calls for non-Claude
   models. It did not prevent the BLOCKED stops: a2 reached phase 2 without it, and GPT medium stopped at plan
   review with it.
-- **GPT reasoning is not visible.** No assistant thinking block in the main or subagent transcripts had text
+- **The bridge fixes what the gateway drops for GPT.** Without it: 0% cache reads and no thinking text in every
+  GPT run. With it: 91% cache reads, 91k visible reasoning tokens, 68 thinking blocks with text, and the first
+  GPT run to finish the workflow. One cache miss per run happens when ToolSearch loads deferred tools and the
+  tool list changes.
+- **GPT reasoning is not visible without the bridge.** No assistant thinking block in the main or subagent transcripts had text
   (a2: 0 of 202; medium: 0 of 71; a1: 0 of 46), so the effort level cannot be checked from the output. The native
   OTel spans of a1 record `effort: high` on its requests, so the setting was sent.
 - **Santa.** The host's Santa telemetry (`log show`, subsystem `com.northpolesec.santa`) shows every program the
@@ -124,8 +144,8 @@ reviewers' continuation reports were not delivered; they had arrived as queued a
 
 ## Scoring corrections
 
-Scoring these runs exposed six scorer gaps. Each fix has a regression test; after the last fix the eval tests
-(`evals/scripts` and `evals/telemetry`) gave 235 passed, 3 skipped.
+Scoring these runs exposed seven scorer gaps (the last commit covers three related ones). Each fix has a regression test; after the last fix the eval tests
+(`evals/scripts` and `evals/telemetry`) gave 238 passed, 3 skipped. None of the later fixes changed the earlier runs' checks.
 
 | Commit | Gap | Effect |
 |---|---|---|
@@ -135,6 +155,7 @@ Scoring these runs exposed six scorer gaps. Each fix has a regression test; afte
 | 8b4bea9 | score-run did not resolve bash `for` loops or read check-dod exit codes | Sonnet medium: score-run Adherence 75 -> 100 |
 | f73f750 | langfuse-coverage did not count shell file writes as file edits | Sonnet medium: coverage now complete |
 | b32282f | parity-eval's own forbidden-git pattern matched `git stash push` | Sonnet high: parity 57.0 -> 95.30 |
+| 98852af | gates run from Python `subprocess` argument lists, `Path.open('a')` handoff writes, and the impl-review fix subject ("required", per the skill since 6799ec2) | GPT high via bridge: score-run Adherence 76.9 -> 100 |
 
 The `git stash push` false positive had the largest effect. A Sonnet high coder ran
 `git stash push linkvault/server.py && pytest; git stash pop` to check that the tests failed without its fix.
@@ -145,7 +166,8 @@ also the newest. The first-pass outputs are kept in each run's `scorer-v1/`.
 
 ## Plugin change
 
-Commit `3508256` was made after all four scored runs, so none of them includes it. When the commit gate or
+Commit `3508256` was made after the first four scored runs, so none of them includes it; GPT high via bridge ran
+with it (plugin 3508256). When the commit gate or
 `git commit` fails, the implement closeout now stages nothing else until that commit exists. Both Sonnet runs hit
 the 73-character rejection; at high effort the next `git add` bundled two tasks into one commit. Not yet tested
 in a run.
@@ -157,7 +179,9 @@ in a run.
    without it. The layer adds one skill to GPT's skill list and runs background Agent calls in the foreground.
 3. GPT high has two attempts with the same settings and different outcomes, an early sign of run-to-run variance.
    Every other configuration ran once.
-4. The LiteLLM route gives GPT no prompt cache (0% cache reads), so its token totals are not comparable to
+4. GPT high via bridge differs from GPT high a2 in three ways at once: the bridge, the compat layer and plugin
+   3508256. It shows what the combination achieves, not the effect of each part.
+5. The LiteLLM Messages route gives GPT no prompt cache (0% cache reads), so its token totals are not comparable to
    Sonnet's, and its reasoning text is not visible.
 
 ## Method
