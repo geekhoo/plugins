@@ -92,7 +92,8 @@ WEIGHTS = {"Q": 0.35, "A": 0.35, "C": 0.20, "T": 0.10}
 CRITICAL_DPS = {"dp02", "dp05", "dp09", "dp10", "dp11"}
 PLAN_REVIEW_SUBJECT = "chore(plan): Plan review — align documents, fix sequencing"
 SPEC_SUBJECT = re.compile(r"^docs: author feature specification in \S+$")
-FIX_SUBJECT = re.compile(r"^fix\(spec\): Address \d+ critical review findings from impl-review$")
+# The impl-review skill prescribes "required" (skills/impl-review/SKILL.md); earlier skill versions said "critical"
+FIX_SUBJECT = re.compile(r"^fix\(spec\): Address \d+ (?:required|critical) review findings from impl-review$")
 # Leading word of an executable Tests/Validation command. "python" takes an optional version suffix
 # (python3, python3.11); a bare python\b cannot match python3 because 3 is a word character.
 EXEC_HEAD = r"(?:python(?:\d+(?:\.\d+)*)?|py|pytest|pwsh|bash|sh|node|npm|uv)"
@@ -248,7 +249,8 @@ def py_writes(raw, filename):
     if re.search(r"open\(\s*[^)\n]*%s['\"]\s*,\s*['\"][wa]" % f, raw):
         return True
     names = set(re.findall(r"(\w+)\s*=\s*[^\n;=]*['\"]%s['\"]" % f, raw))
-    return any(re.search(r"\b%s\.write_(?:text|bytes)\(" % re.escape(n), raw) for n in names)
+    # p.write_text(...) or `with p.open('a') as f: f.write(...)` on a Path bound to the file
+    return any(re.search(r"\b%s\.(?:write_(?:text|bytes)\(|open\(\s*(?:mode\s*=\s*)?['\"][wa])" % re.escape(n), raw) for n in names)
 
 
 def py_writes_kanban(raw):
@@ -971,7 +973,8 @@ class Scorer:
                 self.commit_gate_runs[c.top.idx] = self.commit_gate_runs.get(c.top.idx, 0) + n_commit
             if any(g == "check-dod" for g, _ in outs):
                 verdicts = {t: v == "DOD_OK" for v, t in re.findall(r"\b(DOD_OK|DOD_INCOMPLETE): (T\d+)", c.text)}
-                ids = set(re.findall(r"(?:--task|-Task)\s+['\"]?(T\d+)", c.raw))
+                # shell `--task T1` or a Python argument list `'--task','T1'`
+                ids = set(re.findall(r"(?:--task|-Task)['\"]?(?:\s+|\s*,\s*)['\"]?(T\d+)", c.raw))
                 if isinstance(c.inp, dict) and c.inp.get("task"):
                     ids.add(str(c.inp["task"]).upper())
                 if re.search(r"(?:--task|-Task)\s+['\"]?\$", c.raw):

@@ -211,6 +211,12 @@ def static_gate_runs(cmd):
         for gate, n in _executed(m.group(3)).items():
             runs[gate] += n * len(items)
         cmd = cmd[:m.start()] + " " * (m.end() - m.start()) + cmd[m.end():]
+    # Inline Python that runs gates as argument lists, e.g.
+    # `for script,args in [('check-dod.py',['--task','T1']),('validate-kanban.py',[])]: subprocess.run(['python',root+script,...])`
+    # (gpt-6.1-sol, C2 20261102T053248Z): each quoted gate-script literal is one run.
+    if re.search(r"\bsubprocess\.(?:run|call|check_call|check_output|Popen)\(|\bos\.system\(", cmd):
+        for gate in GATES:
+            runs[gate] += len(re.findall(r"['\"][^'\"\n]*?\b%s\.py['\"]" % re.escape(gate), cmd))
     runs.update(_executed(cmd))
     return runs
 

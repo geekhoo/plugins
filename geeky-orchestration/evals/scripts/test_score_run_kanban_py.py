@@ -118,3 +118,31 @@ def test_check_dod_exit_code_evidence():
     assert score.dod_exit_verdicts(lit, "dod1=0") == {'T1': True}
     piped = 'for t in T1 T2; do python3 $R/check-dod.py --path $F --task $t | tail -3; echo dod=$?; done'
     assert score.dod_exit_verdicts(piped, "  Re-run ...\ndod=0\ndod=0") == {}
+
+
+def test_python_subprocess_gate_runs_are_counted():
+    # C2 20261102T053248Z (gpt-6.1-sol high via the bridge): gates run from inline Python as argument lists
+    ar = module('analyze-run')
+    cmd = ("python - <<'PY'\nimport subprocess\nroot='/p/scripts/'\n"
+           "for script,args in [('check-dod.py',['--task','T1']),('validate-kanban.py',[])]:\n"
+           " r=subprocess.run(['python',root+script,'--path','docs/f']+args)\nPY")
+    runs = ar.static_gate_runs(cmd)
+    assert runs['check-dod'] == 1 and runs['validate-kanban'] == 1
+    outs = ar.gate_outcomes('Bash', {'command': cmd}, ("DOD_OK: T1\nOK: 4 task(s) tracked, 4 task file(s).", False))
+    assert ('check-dod', True) in outs and ('validate-kanban', True) in outs
+    # reading or printing a script name without running anything is not a gate run
+    assert ar.static_gate_runs("python - <<'PY'\nprint('check-dod.py')\nPY")['check-dod'] == 0
+
+
+def test_path_open_append_is_a_write():
+    # C2 20261102T053248Z: `h=p/'handoff.md'; with h.open('a') as f: f.write(...)`
+    raw = "p=Path('docs/f')\nh=p/'handoff.md'\nwith h.open('a') as f:\n f.write('T1 Done')\n"
+    assert score.py_writes(raw, 'handoff.md')
+    assert not score.py_writes("h=p/'handoff.md'\nwith h.open() as f:\n print(f.read())\n", 'handoff.md')
+
+
+def test_fix_subject_accepts_the_skill_wording():
+    # skills/impl-review/SKILL.md prescribes "required"; older versions said "critical"
+    assert score.FIX_SUBJECT.match("fix(spec): Address 1 required review findings from impl-review")
+    assert score.FIX_SUBJECT.match("fix(spec): Address 2 critical review findings from impl-review")
+    assert not score.FIX_SUBJECT.match("fix: address findings")
