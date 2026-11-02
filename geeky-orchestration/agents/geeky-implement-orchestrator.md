@@ -177,7 +177,7 @@ Refs: docs/<planning-folder>/tasks/Tx-*.md
 python geeky-orchestration/scripts/check-commit.py --message "<msg>"
 ```
 
-5. Commit without pushing, amending, forcing, or skipping hooks. If hooks fail, route any product code or test fix to `geeky-coder` and commit again normally.
+5. Commit without pushing, amending, forcing, or skipping hooks. If hooks fail, route any product code or test fix to `geeky-coder` and commit again normally. If the gate or the commit fails, stage nothing else until that commit exists; check `git log -1` and that nothing is left staged before the next commit.
 6. Update `handoff.md` with phase summary, tasks completed, commits created, phase review verdict and reviewer agent ID, and deferred follow-ups.
 
 ### 7. End-of-run finalization

@@ -180,6 +180,8 @@ Acceptance must wait until all required tests have passing evidence, even when t
 
     Before each commit, validate the message with the **commit gate** (`--message` works in PowerShell and bash; in bash you may pipe the message via stdin instead). A non-zero exit blocks that commit: fix the message and re-run the gate until it exits 0, then commit.
 
+    Make each commit a checked step of its own. If the gate or `git commit` fails, stop there: do not stage files for the next commit until this one exists, because the next `git add` would sweep the staged files into it. Before staging the next commit, confirm the previous one landed (`git log -1`) and nothing is left staged (`git diff --cached --quiet`).
+
     ```
     python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py" --message "<msg>"
     printf '%s' "$msg" | python "${CLAUDE_PLUGIN_ROOT}/scripts/check-commit.py"   # bash alternative
