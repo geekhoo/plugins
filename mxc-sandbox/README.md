@@ -50,7 +50,7 @@ $mxc = '<plugin-root>\scripts\mxc.ps1'      # builds on first use into %USERPROF
 |---|---|---|
 | `--workspace <dir>` | all | Read-write project folder (default: current directory). Keep it shallow |
 | `--isolated` | run, probe | Persistent private config dir; auth may come from inherited or explicitly passed environment values |
-| `--allow-win32k` | run, probe | Let node/npx/uv/pwsh start; adds enumerate-only access to `C:\` (folder names listable, contents denied) |
+| `--allow-win32k` | run, probe | Let node/npx/uv/pwsh start; where the platform supports it, adds enumerate-only access to the system drive (folder names listable, contents denied). Check `enumeratePaths` in the probe |
 | `--no-enumerate-root` | run, probe | Omit system-drive enumeration, including with `--allow-win32k`. Retain an explicit ProcessContainer filesystem policy and all `--ro`/`--rw` grants. Off by default; tools requiring root enumeration may fail. |
 | `--deny-net` | run, probe | Block all egress; claude retries the API until `--timeout`, so set a short one |
 | `--ro <dir>` / `--rw <dir>` | run, probe | Extra grants (repeatable) |
@@ -85,7 +85,7 @@ Exit codes: claude's own code, `124` on timeout, `2` for bad host usage, `1` for
 | `uv run` MCP servers | failed in the 2026-10-20 observations | failed in the 2026-10-20 observations | n/a |
 | Git Bash hooks | failed in the 2026-10-20 observations | failed in the 2026-10-20 observations | n/a |
 
-Git Bash hooks failed to start in the 2026-10-20 BaseContainer observations. A hook explicitly declaring `"shell": "powershell"` was later observed working with `--allow-win32k`; verify each hook under its intended policy and grants. To disable hooks for a test, use `--settings` pointing at `{"disableAllHooks": true}`.
+Git Bash hooks failed to start in the 2026-10-20 BaseContainer observations. A hook explicitly declaring `"shell": "powershell"` was observed working with `--allow-win32k`; verify each hook under its intended policy and grants. To disable hooks for a test, use `--settings` pointing at `{"disableAllHooks": true}`.
 
 ## State
 

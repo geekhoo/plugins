@@ -56,7 +56,7 @@
     {
       "id": "check-dod",
       "purpose": "Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block to re-run.",
-      "when": "before moving a task to Done in geeky-implement",
+      "when": "in the Done step of geeky-implement: move the task to Done, run this gate in the same step, move it back out on failure",
       "args": "--path <folder> --task <ID>",
       "python": "python \"scripts/check-dod.py\" --path \"<folder>\" --task <ID> [--json]",
       "powershell": "pwsh -NoProfile -ExecutionPolicy Bypass -File \"scripts/check-dod.ps1\" -Path \"<folder>\" -Task <ID> [-Json]",

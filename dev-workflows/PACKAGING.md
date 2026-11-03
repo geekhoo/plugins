@@ -3,12 +3,12 @@
 This plugin's skills are self-contained **except** for a few that delegate to skills shipped by
 other plugins. The Figma dependency is declared in the Codex manifest (see below). Claude Code users must install the Figma plugin separately. The remaining cross-references are documented for context.
 
-## Figma dependency (resolved — declared as a plugin dependency)
+## Figma dependency (declared in the Codex manifest only)
 Three skills delegate to the Figma skills `figma-use` and `figma-generate-library`. Those skills —
 and, crucially, the **Figma MCP server** they call (`use_figma`, `get_metadata`,
 `get_variable_defs`, …) — are shipped by the official **`figma`** plugin in the
 `claude-plugins-official` marketplace. Vendoring the skill folders alone would ship broken skills
-(no MCP server), so `dev-workflows` depends on the whole `figma` plugin instead.
+(no MCP server), so those skills need the whole `figma` plugin instead.
 
 | Referenced skill | Provided by | Used by |
 |---|---|---|

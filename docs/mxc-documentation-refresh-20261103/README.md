@@ -13,7 +13,7 @@ Reviewed on **3 November 2026 (Asia/Singapore)** at `main`, HEAD `ea94635d2f7691
 
 The first run's [`run.json`](../../geeky-orchestration/evals/baselines/c1-csvledger/20261020T114232Z/run.json) records `started_utc` as `2026-10-20T11:42:34.6757449Z`. The [first C1 comparison](../../geeky-orchestration/evals/baselines/c1-csvledger/comparison-20261021T0530Z.md) identifies the model, harness and MXC isolation. Earlier case kits and evaluation design were committed that morning, before the host existed.
 
-The documentation review starts at the parent of the first host commit, `c957a431e4e1144b4280cee92d15bb90646e21ee`, and follows changes through the reviewed HEAD plus existing working changes. It covers **457 documentation paths**: 90 existing guides, skills and agent documents; 359 historical evidence paths; and eight deleted command wrappers. Two older canonical agent documents were added to the inventory so their source locators could remain consistent across all six agents. Six Codex TOML registrations were checked alongside the Markdown projections.
+The documentation review starts at the parent of the first host commit, `c957a431e4e1144b4280cee92d15bb90646e21ee`, and follows changes through the reviewed HEAD plus existing working changes. The inventory holds **459 documentation paths**. The original scope had 457: 90 existing guides, skills and agent documents; 359 historical evidence paths; and eight deleted command wrappers. Two older canonical agent documents were added so their source locators could remain consistent across all six agents. Six Codex TOML registrations were checked alongside the Markdown projections.
 
 ## Source behavior checked during the refresh
 

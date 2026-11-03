@@ -273,7 +273,7 @@ async def geeky_validate_kanban(params: KanbanInput) -> dict[str, Any]:
 
 @mcp.tool(name="geeky_check_dod", annotations={"title": "Check Definition of Done", **READONLY})
 async def geeky_check_dod(params: DodInput) -> dict[str, Any]:
-    """Verify a task's Definition of Done before it moves to Done.
+    """Verify a task's Definition of Done after it enters the Done lane.
 
     Asserts: a per-task notes file tasks/<ID>-*.notes.md exists; <ID> is in the Done
     lane; handoff.md mentions <ID>. Also returns the task's Tests/Validation block so

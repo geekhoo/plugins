@@ -38,3 +38,18 @@ The owner authorized documentation-only commits on 3 November 2026 and prohibite
 The final `docs: record MXC documentation refresh` commit contains this handoff, the inventory and root navigation. Resolve its SHA with `git log -1 --format=%H -- docs/mxc-documentation-refresh-20261103/handoff.md`; a commit cannot contain its own hash.
 
 Nine pre-existing hunks across seven mixed documents were excluded from staging. All original code and untracked work remain outside these commits. Final byte/hash and index checks are recorded in the local `outputs/docs-refresh-20261103/publication/` folder.
+
+## Post-commit review corrections
+
+A review of the five commits on 3 November found remaining drift. The owner authorized these text corrections and committed them locally as one group, `docs: correct workflow, MXC and eval doc drift`, resolved with `git log -1 --format=%H -- docs/mxc-documentation-refresh-20261103/handoff.md`. Earlier unrelated hunks in `mxc-sandbox/README.md` and `mxc-troubleshooting/SKILL.md` stay in the worktree:
+
+- `mxc-troubleshooting/evals/evals.json`: expected outputs for the hook and `--isolated` prompts now match the skill.
+- `scripts/check-dod.py`: docstring states the gate runs with the Done move. Behavior is unchanged.
+- `geeky-implement/SKILL.md`, `execution-protocol.md`, `docs/end-to-end-workflow.md`: a split phase review records every dispatch's agent ID and marks the verdict issuer. `SKILL.md` also gains the last-dispatch rule.
+- `dev-workflows/PACKAGING.md`, `langfuse-evaluators/README.md`, `adapters/codex/README.md`: Figma heading, `provider_refusals` fallback and retry wording corrected. `langfuse-scores.py` is unchanged.
+- `mxc-sandbox` README, `mxc-run`, recipes and `mxc-troubleshooting`: removed the unsupported "later" ordering and hook exit 66 claim, and qualified system-drive enumeration. The troubleshooting symptom row still quotes `exit=66`, since no artifact confirms or refutes it for hooks.
+- This packet: `findings.md` marks the two worktree-only corrections, and `README.md` and `kanban.md` state 459 inventory paths.
+
+- `mcp/server.py:276`, `mcp/wire_baseline.json:335` and `geeky.manifest.json:59`: the `check-dod` wording now places the gate in the Done step, on the owner's ruling. Regenerate the baseline with `uv run --frozen --with "mcp==1.29.0" python wire_baseline.py --out wire_baseline.json` from `mcp/`; the unpinned command picks up an untracked local `uv.lock` and adds an unrelated line.
+
+`framework-agnostic-quality-gates.md:125` is left as it describes proposed gates. They were committed as one group because each commit gives later runs a new `plugin_sha`, which D60 treats as a different contestant.

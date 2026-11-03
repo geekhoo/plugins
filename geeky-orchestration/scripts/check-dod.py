@@ -3,7 +3,8 @@
 
 Definition-of-Done checker for a single geeky-implement task. Embodies "verify,
 don't trust": instead of believing the agent that a task is finished, assert the
-durable signals on disk before the task may move to Done.
+durable signals on disk in the same step as the move to Done. On failure, move
+the task back out of Done.
 
 Checks for task <ID> in <folder> (missing => ERROR unless noted):
   - a per-task notes file tasks/<ID>-*.notes.md exists

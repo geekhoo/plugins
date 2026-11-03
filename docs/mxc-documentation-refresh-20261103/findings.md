@@ -1,6 +1,6 @@
 # Documentation findings and actions
 
-Reviewed on 3 November 2026 against the working checkout at `ea94635d2f76918f4a01699aea3e356f90954033`. Each row records a stale claim corrected during this refresh. Original run results and frozen case requirements were preserved.
+Reviewed on 3 November 2026 against the working checkout at `ea94635d2f76918f4a01699aea3e356f90954033`. Each row records a stale claim corrected during this refresh. Corrections landed in the commits listed in [handoff.md](handoff.md), except the smoke clarification and credential-source wording, which exist only in the worktree (see Commit scope below). Original run results and frozen case requirements were preserved.
 
 | Document | Correction | Owning evidence |
 |---|---|---|
@@ -38,7 +38,7 @@ Reviewed on 3 November 2026 against the working checkout at `ea94635d2f76918f4a0
 | geeky-orchestration/evals/codex-c1-run1-retrospective.md | Distinguish past run instructions from current operating authority. | geeky-orchestration/AGENTS.md:5-7; geeky-orchestration/evals/baseline-runs.md |
 | geeky-orchestration/evals/codex-c1-run2-guide.md | Distinguish past run instructions from current operating authority. | geeky-orchestration/AGENTS.md:5-7; geeky-orchestration/evals/baseline-runs.md |
 | geeky-orchestration/evals/codex-c1-run3-guide.md | Distinguish past run instructions from current operating authority. | geeky-orchestration/AGENTS.md:5-7; geeky-orchestration/evals/baseline-runs.md |
-| geeky-orchestration/evals/c0-readiness.md | The smoke record predates a later full DeepSeek C0 attempt; preserve the historical statement and point to local evidence. | outputs/c0-deepseek-responses-openai-20261031/README.md:3-7 |
+| geeky-orchestration/evals/c0-readiness.md | Worktree only, not committed: the smoke record predates a later full DeepSeek C0 attempt; preserve the historical statement and point to local evidence. | outputs/c0-deepseek-responses-openai-20261031/README.md:3-7 |
 | geeky-orchestration/evals/telemetry/langfuse-evaluators/README.md | Clarify required scope, omitted values and readback-based delivery. | geeky-orchestration/evals/telemetry/langfuse-scores.py:1-10,27-64,77-135,137-163 |
 | geeky-orchestration/evals/judge-calibration.md | Separate planned calibration format from current scoring output. | geeky-orchestration/evals/scripts/score-run.py:13-18,1656-1675,1721-1731,1751 |
 | geeky-orchestration/evals/telemetry/README.md | Distinguish enabled collection from preparation-only and disabled telemetry. | geeky-orchestration/evals/scripts/run-codex-baseline.ps1:38-39,295,372-398; geeky-orchestration/evals/scripts/run-baseline.ps1:41,167 |
@@ -76,7 +76,7 @@ The canonical implementation-orchestrator summary is projected into its five har
 
 The repository and orchestration README C0 summaries now distinguish initial closeout from the later local 95.18 parity result. The workflow guide's next step retains the gated Done state instead of describing a second Done move. Packaging list spacing and the review packet's wrapper reference were corrected during integration.
 
-The final operational review also corrected three date/scope issues: `lessons-learned.md` now identifies the old credential file as that run's source and defers future selection to the owner's current authorization; its C1 reference is labelled historical; and `mxc-litellm-runbook.md` dates the stopped-state claim to the 27 October mapping checkpoint.
+The final operational review also corrected three date/scope issues: `lessons-learned.md` identifies the old credential file as that run's source and defers future selection to the owner's current authorization (worktree only, see Commit scope); its C1 reference is labelled historical; and `mxc-litellm-runbook.md` dates the stopped-state claim to the 27 October mapping checkpoint.
 
 Commit scope: the credential-source correction and smoke clarification modify pre-existing, uncommitted draft sections. Those sections remain in the worktree. Their original content is not pulled into the documentation commits; the standalone index and tracked-document corrections are committed separately.
 

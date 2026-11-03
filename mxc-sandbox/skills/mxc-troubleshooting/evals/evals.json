@@ -10,7 +10,7 @@
     {
       "id": 2,
       "prompt": "all my hooks fail with exit 66 when claude runs in MXC",
-      "expected_output": "Explains Claude Code runs hooks via Git Bash and msys fails NtCreateDirectoryObject 0xC0000022 in BaseContainer, states it is a hard limit, recommends disableAllHooks via a --settings file and testing hook scripts directly",
+      "expected_output": "Explains Git Bash hooks fail because msys hits NtCreateDirectoryObject 0xC0000022 in BaseContainer, as seen in the 2026-10-20 observations, and does not call it a universal limit. Says to inspect the hook shell and grants, notes a hook declaring \"shell\": \"powershell\" was observed working with --allow-win32k, and offers disableAllHooks via a --settings file only if the test permits, or testing hook scripts directly",
       "files": []
     },
     {
@@ -28,7 +28,7 @@
     {
       "id": 5,
       "prompt": "mxc run --isolated says Not logged in",
-      "expected_output": "Explains --isolated has no access to ~/.claude, so auth comes only from a host CLAUDE_CODE_OAUTH_TOKEN (claude setup-token, set by the user) or ANTHROPIC_API_KEY, or drop --isolated",
+      "expected_output": "Explains --isolated does not grant the host Claude config directory, so the login in ~/.claude is not available. Auth must reach the workload through its environment, typically a host CLAUDE_CODE_OAUTH_TOKEN (claude setup-token, set by the user) or ANTHROPIC_API_KEY, or the user can drop --isolated",
       "files": []
     },
     {

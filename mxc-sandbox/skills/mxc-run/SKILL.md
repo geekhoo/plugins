@@ -56,7 +56,7 @@ claude refuse to read `<workspace>\.claude\settings*.json`, because upward trave
 | `node`, `npx`, `pwsh`, `uv` start | no (`0xC0000142`) | yes |
 | stdio MCP servers via `node`/`npx` (e.g. playwright, pdf-viewer) | no | yes; the first `npx` run fills a private cache and may need a retry |
 | stdio MCP servers via `uv run` | no | no: uv builds a trampoline `.exe` in the AppContainer temp dir, which is denied |
-| Settings and plugin hooks | Git Bash hooks failed in the 2026-10-20 BaseContainer observations | Git Bash hooks failed; a hook explicitly declaring `"shell": "powershell"` was later observed working with `--allow-win32k`. Verify the particular hook and grants. |
+| Settings and plugin hooks | Git Bash hooks failed in the 2026-10-20 BaseContainer observations | Git Bash hooks failed; a hook explicitly declaring `"shell": "powershell"` was observed working with `--allow-win32k`. Verify the particular hook and grants. |
 | Inbound connections | denied | denied |
 | Host loopback (Windows) | denied by default; `--host-loopback` allows it | denied by default; `--host-loopback` allows it |
 

@@ -332,7 +332,7 @@
           "readOnlyHint": true,
           "title": "Check Definition of Done"
         },
-        "description": "Verify a task's Definition of Done before it moves to Done.\n\nAsserts: a per-task notes file tasks/<ID>-*.notes.md exists; <ID> is in the Done\nlane; handoff.md mentions <ID>. Also returns the task's Tests/Validation block so\nthe caller can re-run it (\"verify, don't trust\").\n\nArgs:\n    params (DodInput): folder = planning folder; task = task id (e.g. 'T3').\n\nReturns:\n    dict: { ok: bool, task: str, errors: [str], warnings: [str], lanes: [str],\n            validation_block: str, exit_code: int }.\n",
+        "description": "Verify a task's Definition of Done after it enters the Done lane.\n\nAsserts: a per-task notes file tasks/<ID>-*.notes.md exists; <ID> is in the Done\nlane; handoff.md mentions <ID>. Also returns the task's Tests/Validation block so\nthe caller can re-run it (\"verify, don't trust\").\n\nArgs:\n    params (DodInput): folder = planning folder; task = task id (e.g. 'T3').\n\nReturns:\n    dict: { ok: bool, task: str, errors: [str], warnings: [str], lanes: [str],\n            validation_block: str, exit_code: int }.\n",
         "inputSchema": {
           "$defs": {
             "DodInput": {

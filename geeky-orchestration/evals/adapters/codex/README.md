@@ -12,7 +12,7 @@ roles, models, session metadata and reasoning envelopes. Collaboration message
 schemas request plaintext, and streaming added/completed calls receive explicit
 `encrypted_function_args: []`. Unknown opaque content is never guessed or erased.
 Third-party catalogs disable native tool search and expose MCP functions eagerly;
-Codex retries 5xx responses and dropped streams twice; native probes keep zero retries. Native records use `compatibility_proxy`;
+Provider profiles configure `request_max_retries` and `stream_max_retries` to 2; native probes configure zero. A keyword search of retained tests and logs on 3 November found no recorded retry, so runtime retry behavior remains unverified. Native records use `compatibility_proxy`;
 legacy mode continues to use `mapping_bridge`. Preparation starts no listener.
 
 As of 2026-10-30 the proxy also lowers each `agent_message` to a user message

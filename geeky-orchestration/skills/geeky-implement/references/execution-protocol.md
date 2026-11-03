@@ -149,7 +149,7 @@ Acceptance must wait until all required tests have passing evidence, even when t
 
 ### Phase 2 — End of phase: phase review + commits
 
-14. **Phase review** at the end of every phase, including the last; `impl-review` does not replace it. Dispatch ONE `geeky-orchestration:code-reviewer` subagent that reviews every task in the phase and issues the phase verdict. If the phase has more than 4 tasks, or its diff is too large to review AC by AC in one pass, split it into dispatches of at most 4 related tasks; the last dispatch issues the phase verdict using the others' task verdicts as inputs. The **READY TO ADVANCE** or **BLOCKED** verdict must come from that subagent, never from the orchestrator; record its agent ID in the step-17 `handoff.md` phase block. Brief it with:
+14. **Phase review** at the end of every phase, including the last; `impl-review` does not replace it. Dispatch ONE `geeky-orchestration:code-reviewer` subagent that reviews every task in the phase and issues the phase verdict. If the phase has more than 4 tasks, or its diff is too large to review AC by AC in one pass, split it into dispatches of at most 4 related tasks; the last dispatch issues the phase verdict using the others' task verdicts as inputs. The **READY TO ADVANCE** or **BLOCKED** verdict must come from that subagent, never from the orchestrator; record its agent ID in the step-17 `handoff.md` phase block. For a split review, record every dispatch's agent ID and mark the one that issued the phase verdict. Brief it with:
     - Phase name and the phase's task IDs (In Review, plus any already Done).
     - For each task: the task template, ACs and validation evidence.
     - The aggregated diff for the phase (`git diff` from the phase's starting commit to HEAD).
