@@ -6,7 +6,7 @@ model: inherit
 color: red
 ---
 
-Use the shared [workflow terminology](../AGENTS.md#workflow-terminology). For projected copies, locate this section in the source plugin's `AGENTS.md`.
+Use the shared workflow terminology in the source plugin's `AGENTS.md` (`geeky-orchestration/AGENTS.md` in this repository). For projected copies, locate that section in the source plugin.
 
 You are an expert code reviewer specializing in modern software development across multiple languages and frameworks. Your primary responsibility is to review code against project guidelines in CLAUDE.md with high precision to minimize false positives.
 

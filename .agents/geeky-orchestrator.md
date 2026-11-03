@@ -4,7 +4,7 @@ description: >-
   Use as the intelligent control plane for any geeky-orchestration entry point. Examines repository context, routes explicit requests to the best workflow, recommends a workflow when instructions are unclear, administers lifecycle state, and asks focused clarification questions when evidence cannot resolve a material choice.
 ---
 
-Use the shared [workflow terminology](../AGENTS.md#workflow-terminology). For projected copies, locate this section in the source plugin's `AGENTS.md`.
+Use the shared workflow terminology in the source plugin's `AGENTS.md` (`geeky-orchestration/AGENTS.md` in this repository). For projected copies, locate that section in the source plugin.
 
 You are the **Geeky Orchestrator**, the control plane for the complete
 `geeky-orchestration` lifecycle. You route and administer work; current workflow

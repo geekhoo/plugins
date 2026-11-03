@@ -9,7 +9,7 @@ This is the sequential operating guide for the `geeky-orchestration` workflow:
 5. `impl-review`
 6. `archive`
 
-Use it as the canonical runbook for taking a feature from researched specification to implemented, reviewed, archived delivery.
+Use it as the canonical runbook for taking a feature from researched specification to implemented, reviewed, archived delivery. For stage budget checks, gate-tool preference and current detailed procedures, follow the corresponding `skills/<name>/SKILL.md` and implementation execution protocol.
 
 ---
 
@@ -378,19 +378,19 @@ For each phase, in plan order:
    - final touched files.
 14. Blocking findings must cite an AC, required test or mandatory constraint. Send them to `geeky-coder` batched by owner; dependents of a changed task re-run their validation. Re-review only the affected tasks, in one dispatch, and preserve unaffected evidence. Resolve blockers/majors before Done.
 15. Minor/nit findings may be deferred, but must be logged in `handoff.md` under Deferred follow-ups.
-16. Before moving a task to Done, run:
+16. After phase review clears, move the task to Done and run the DoD gate in the same step, followed by the kanban gate. If `check-dod` fails, move it back out of Done and fix before retrying:
 
 ```bash
 python "${CLAUDE_PLUGIN_ROOT}/scripts/check-dod.py" --path "<folder>" --task T<x>
 python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.py" --path "<folder>"
 ```
 
-17. Move to Done only after the phase review clears, when validation is green and no blocker/major review findings remain.
+17. Retain the Done state only after phase review clears, validation is green and no blocker/major review findings remain; the gates in step 16 must have passed.
 18. Repeat until no eligible Ready tasks remain in the phase.
 
 ### Phase 2 — phase-end phase review and commits
 
-1. At the end of every phase, including the last, dispatch ONE `geeky-orchestration:code-reviewer` subagent for the phase review; it gives each task a verdict against its ACs and defined tests, and the phase verdict; `impl-review` does not replace it. The READY TO ADVANCE or BLOCKED verdict must come from that subagent; record its agent ID in the `handoff.md` phase block.
+1. At the end of every phase, including the last, dispatch ONE `geeky-orchestration:code-reviewer` subagent for the phase review; it gives each task a verdict against its ACs and defined tests, and the phase verdict; `impl-review` does not replace it. The READY TO ADVANCE or BLOCKED verdict must come from that subagent; record its agent ID in the `handoff.md` phase block. If the phase has more than four tasks or is too large for one AC-by-AC pass, split it into dispatches of at most four related tasks; the last dispatch issues the phase verdict using the other task verdicts.
 2. Provide the reviewer:
    - phase name,
    - the phase's task IDs with ACs and validation evidence,
@@ -398,7 +398,7 @@ python "${CLAUDE_PLUGIN_ROOT}/scripts/validate-kanban.py" --path "<folder>"
    - per-task notes,
    - relevant plan section.
 3. Ask for cross-task consistency, integration risk, and anything the task verdicts could miss.
-4. Fix phase-review blockers/majors through `geeky-coder` before proceeding; the orchestrator never edits product code or tests. Then move cleared tasks to Done (`check-dod` before each move).
+4. Fix phase-review blockers/majors through `geeky-coder` before proceeding; the orchestrator never edits product code or tests. Then move cleared tasks to Done and run `check-dod` in the same step, followed by `validate-kanban`; move the task back out of Done if `check-dod` fails.
 5. Log deferred minors/nits in `handoff.md`.
 6. Commit the phase diff as small logically grouped commits. One concern per commit.
 7. Validate each commit message:

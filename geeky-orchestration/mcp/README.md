@@ -40,7 +40,7 @@ In Claude Code the server starts automatically: `.mcp.json` at the plugin root r
 it as the `geeky` server using `uv run --with "mcp>=1.2.0"`.
 
 From version 0.3.0, the Codex-specific manifest uses `cwd: "./mcp"` and
-`python server.py`. Codex resolves the working directory against the installed
+`uv run --with "mcp>=1.2.0" python server.py`. Codex resolves the working directory against the installed
 plugin root, so startup does not depend on `${PLUGIN_ROOT}` substitution or a
 version-specific cache path. Claude retains its own `${CLAUDE_PLUGIN_ROOT}` config.
 

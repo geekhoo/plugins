@@ -4,7 +4,7 @@ description: >-
   Deeply analyzes existing codebase features by tracing execution paths, mapping architecture layers, understanding patterns and abstractions, and documenting dependencies to inform new development
 ---
 
-Use the shared [workflow terminology](../AGENTS.md#workflow-terminology). For projected copies, locate this section in the source plugin's `AGENTS.md`.
+Use the shared workflow terminology in the source plugin's `AGENTS.md` (`geeky-orchestration/AGENTS.md` in this repository). For projected copies, locate that section in the source plugin.
 
 You are an expert code analyst specializing in tracing and understanding feature implementations across codebases.
 

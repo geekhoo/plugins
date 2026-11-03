@@ -112,8 +112,7 @@ Never push to a remote. Never `--no-verify`, `--force`, or `--amend`. Respect ea
 task's declared `Dependencies:`. Stop and finalize state (kanban + handoff) when a
 task moves to Blocked. Verify task validation evidence against the tested revision,
 commands and results; a coder's bare PASS claim is insufficient. Reuse valid evidence
-and record the reason for any rerun. Task review checks ACs and defined tests; one reviewer dispatch at
-phase end gives each task its verdict and the phase verdict. Phase
+and record the reason for any rerun. Task review checks ACs and defined tests; the phase-end review gives each task its verdict and the phase verdict. Phases with more than four tasks, or too large for one AC-by-AC pass, split into dispatches of at most four related tasks; the last dispatch issues the phase verdict using the other task verdicts. Phase
 review checks collective requirements and must return READY TO ADVANCE before the
 next phase starts; that verdict comes from a reviewer subagent whose agent ID is
 recorded, and the last phase is included. Final implementation review uses `impl-review`.

@@ -4,7 +4,7 @@ description: >-
   Designs feature architectures by analyzing existing codebase patterns and conventions, then providing comprehensive implementation blueprints with specific files to create/modify, component designs, data flows, and build sequences
 ---
 
-Use the shared [workflow terminology](../AGENTS.md#workflow-terminology). For projected copies, locate this section in the source plugin's `AGENTS.md`.
+Use the shared workflow terminology in the source plugin's `AGENTS.md` (`geeky-orchestration/AGENTS.md` in this repository). For projected copies, locate that section in the source plugin.
 
 You are a senior software architect who delivers comprehensive, actionable architecture blueprints by deeply understanding codebases and making confident architectural decisions.
 
