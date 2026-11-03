@@ -1,5 +1,7 @@
 # mxc-sandbox
 
+Documentation checked against the host source on 3 November 2026. The [MXC documentation index](../docs/mxc-documentation-refresh-20261103/README.md) records source context and dated test evidence; platform observations below retain their stated scope.
+
 Run the Claude Code CLI inside a [Microsoft MXC](https://github.com/microsoft/mxc) sandbox on
 Windows, Linux or macOS, for isolated testing of prompts, plugins, skills, hooks, and untrusted repositories.
 
@@ -47,14 +49,14 @@ $mxc = '<plugin-root>\scripts\mxc.ps1'      # builds on first use into %USERPROF
 | Option | Modes | Effect |
 |---|---|---|
 | `--workspace <dir>` | all | Read-write project folder (default: current directory). Keep it shallow |
-| `--isolated` | run, probe | Private config dir; auth only from host `CLAUDE_CODE_OAUTH_TOKEN` / `ANTHROPIC_API_KEY` |
+| `--isolated` | run, probe | Persistent private config dir; auth may come from inherited or explicitly passed environment values |
 | `--allow-win32k` | run, probe | Let node/npx/uv/pwsh start; adds enumerate-only access to `C:\` (folder names listable, contents denied) |
 | `--no-enumerate-root` | run, probe | Omit system-drive enumeration, including with `--allow-win32k`. Retain an explicit ProcessContainer filesystem policy and all `--ro`/`--rw` grants. Off by default; tools requiring root enumeration may fail. |
 | `--deny-net` | run, probe | Block all egress; claude retries the API until `--timeout`, so set a short one |
 | `--ro <dir>` / `--rw <dir>` | run, probe | Extra grants (repeatable) |
 | `--timeout <sec>` | run, tui | Kill after N seconds (exit 124) |
 | `--host-loopback` | run | Allow the workload to reach host `127.0.0.1`. Needed by Python asyncio, and therefore by `mcp`-library stdio MCP servers, on Windows builds affected by [microsoft/mxc#1505](https://github.com/microsoft/mxc/issues/1505) (for example 26300.9711 with KB5127648). Without it they never connect. It also exposes every host loopback port to the workload. |
-| `--env NAME=VALUE` / `--env NAME` | run, tui | Set a variable in the workload (repeatable). A bare `NAME` copies the host's value, and exits 2 if that is unset. Applied last, so it overrides pinned values. Only on the host's side is the value shown; `probe` lists the names only. |
+| `--env NAME=VALUE` / `--env NAME` | run, tui | Set a variable in the workload (repeatable). A bare `NAME` copies the host's value, and exits 2 if that is unset. Applied last, so it overrides pinned values. The workload receives the value; `probe` prints the names only. |
 | `-Rebuild` | wrapper | Force a host rebuild; must be the first argument |
 
 `probe` reports the grants a `run` with the same options would apply. `tui` ignores the
@@ -80,10 +82,10 @@ Exit codes: claude's own code, `124` on timeout, `2` for bad host usage, `1` for
 | Host `~/.claude` | read-write (shared) or none (`--isolated`) | same | none |
 | Network | egress allowed, inbound denied (`--deny-net` blocks egress) | same | unrestricted |
 | node/npx stdio MCP servers | fail | work | n/a |
-| `uv run` MCP servers, all hooks | fail | fail | n/a |
+| `uv run` MCP servers | failed in the 2026-10-20 observations | failed in the 2026-10-20 observations | n/a |
+| Git Bash hooks | failed in the 2026-10-20 observations | failed in the 2026-10-20 observations | n/a |
 
-Hooks fail because Claude Code runs every hook through Git Bash, which cannot start in
-BaseContainer. Disable them with `--settings` pointing at `{"disableAllHooks": true}`.
+Git Bash hooks failed to start in the 2026-10-20 BaseContainer observations. A hook explicitly declaring `"shell": "powershell"` was later observed working with `--allow-win32k`; verify each hook under its intended policy and grants. To disable hooks for a test, use `--settings` pointing at `{"disableAllHooks": true}`.
 
 ## State
 

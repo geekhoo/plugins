@@ -38,8 +38,7 @@ fine-grained policy are mutually exclusive.
    If no base path is shown, use the fallback lookup in `mxc-setup`.
 3. Pick a workspace the agent account can read. Folders under `C:\repos` are readable by local
    Users; anything under `C:\Users\<host user>` is not.
-4. Auth: a host `CLAUDE_CODE_OAUTH_TOKEN` or `ANTHROPIC_API_KEY` is passed in. Otherwise the user
-   runs `/login` inside every session.
+4. Auth: the host explicitly copies `CLAUDE_CODE_OAUTH_TOKEN` and `ANTHROPIC_API_KEY` when set; the session request also enables default environment inheritance. If no usable authentication is available, the user runs `/login` inside the session.
 5. Launch in a real console. `tui` refuses redirected I/O (`tui needs an interactive terminal`,
    exit 2), so never run it through a captured shell tool call:
    - If a tool exists that opens a terminal tab for the user (e.g. a desktop app's

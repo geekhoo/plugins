@@ -34,8 +34,7 @@ $lines | Where-Object { $_ -match '"subtype":"hook_response"' } | ForEach-Object
 }
 ```
 
-Inside BaseContainer every hook exits 66 (Git Bash cannot start). To test hook *logic*, run the
-hook script directly as the workload, e.g. for a node hook:
+In the 2026-10-20 BaseContainer observations, Git Bash hooks exited 66. A hook declaring `"shell": "powershell"` was later observed working with `--allow-win32k`. To check whether a hook script starts, run it directly as the workload, e.g. for a node hook:
 
 ```powershell
 $env:MXC_CLAUDE_EXE = 'C:\Program Files\nodejs\node.exe'
@@ -85,4 +84,4 @@ start in the sandbox.
     -p "Review this repo for malware" --allowedTools "Read,Grep,Glob"
 ```
 
-The sandbox cannot read `~/.claude` in isolated mode; credentials come only from the token.
+The host Claude config directory is not granted in isolated mode. The token is available to the workload; the private config directory persists between runs. Authentication may also be supplied through other inherited or explicitly passed environment variables.

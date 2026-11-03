@@ -34,8 +34,7 @@ forwards all arguments. It never writes into the plugin directory. To force a bu
    - .NET SDK matching the host's target (`net10.0`): `dotnet --list-sdks`. The wrapper checks this
      and names the project file to edit when only SDK 8/9 is present. Such an edit lives in the
      plugin directory and is lost on plugin update.
-   - Claude CLI at `%USERPROFILE%\.local\bin\claude.exe` (native install), or `$env:MXC_CLAUDE_EXE`
-     set to its path.
+   - Claude CLI at `%USERPROFILE%\.local\bin\claude.exe`, or `claude` on PATH; `$env:MXC_CLAUDE_EXE` can override the executable path.
 2. **Probe** with the options the user intends to run with and an explicit workspace. Without
    `--workspace`, the current directory is granted read-write, which skews the report.
 
@@ -54,9 +53,9 @@ forwards all arguments. It never writes into the plugin directory. To force a bu
 | `processContainer tier` | `BaseContainer` | An `AppContainer` tier needs `wxc-host-prep prepare-system-drive` once and `prepare-null-device` after every boot, both elevated. The user must run them; do not elevate on their behalf |
 | `isolationSession` | `True` | `tui` mode is unavailable; headless `run` still works |
 | `enumeratePaths` | `True` | Without it, `--allow-win32k` cannot fix node's `EPERM lstat 'C:\'` |
-| `containment` | `Process`, or `ProcessContainer` with `--allow-win32k` | `ProcessContainer` appears only when `--allow-win32k` is set and `enumeratePaths` is `True` |
+| `containment` | `Process`, or `ProcessContainer` with `--allow-win32k` | `ProcessContainer` is also selected by `--no-enumerate-root`, including without `--allow-win32k` |
 | `claude exe ... exists` | `True` | Install the native CLI or set `MXC_CLAUDE_EXE` |
-| `env token passthrough` | any | Matters only for `--isolated` and `tui` |
+| `env token passthrough` | any | Reports a detected auth variable name, not proof of successful authentication or the complete inherited environment. Auth values can affect shared runs too. |
 
 4. **Smoke test** a real prompt. Shared config uses the existing login:
 

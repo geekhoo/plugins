@@ -33,14 +33,14 @@ Exit codes: claude's own, `124` timeout, `2` bad host usage, `1` `MXC error` bef
 | Need | Options | Effect |
 |---|---|---|
 | Existing login, settings, plugins, HTTP MCP servers | *(default: shared)* | `CLAUDE_CONFIG_DIR=%USERPROFILE%\.claude` granted read-write; `~/.claude.json` copied one-way to `~/.claude/.claude.json` before each run |
-| Clean config, nothing from the host profile | `--isolated` | Private config at `%USERPROFILE%\.mxc-sandbox\home`; auth only via host env `CLAUDE_CODE_OAUTH_TOKEN` or `ANTHROPIC_API_KEY`, else "Not logged in" |
-| stdio MCP servers, node/npx/pwsh tools | `--allow-win32k` | Allows Win32k syscalls and enumerate-only access to `C:\`. All folder **names** become listable; file **contents** outside grants stay denied |
+| Private Claude config | `--isolated` | Uses persistent `%USERPROFILE%\.mxc-sandbox\home` instead of granting the host Claude config. The workload can still receive credentials and other inherited or explicitly passed environment values. |
+| stdio MCP servers, node/npx/pwsh tools | `--allow-win32k` | Allows Win32k syscalls and, when supported and not suppressed by `--no-enumerate-root`, enumerate-only access to the system drive. Folder names become listable; file contents outside grants stay denied. Check the probe. |
 | Containment test without network | `--deny-net --timeout 60` | Blocks all egress. claude retries the API until the timeout (exit 124) rather than failing fast, so always pair it with a short `--timeout` |
 | Load a local plugin under test | `--ro <plugin dir>` and `--plugin-dir <plugin dir>` for claude | Extra read-only grant |
 | Extra writable folder | `--rw <dir>` | Extra read-write grant |
 | Python stdio MCP servers built on the `mcp` library | `--allow-win32k --host-loopback` | asyncio's loopback socketpair hangs under the default loopback deny ([microsoft/mxc#1505](https://github.com/microsoft/mxc/issues/1505)). This opens every host loopback port to the workload. Launch the server with a prebuilt interpreter, not `uv run`, which still fails. |
-| Set a variable for the workload | `--env NAME=VALUE` (or `--env NAME` to copy the host's value) | Repeatable, and applied last. Only the two auth variables are passed by default, so use this for anything else, e.g. `MCP_TIMEOUT` or, with `MXC_CLAUDE_EXE`, another CLI's `CODEX_HOME`. Pass secrets as a bare `NAME`, never as a literal value. |
-| Silence hooks (they cannot run, see below) | claude `--settings <file containing {"disableAllHooks": true}>` | No exit-66 hook noise |
+| Set a variable for the workload | `--env NAME=VALUE` (or `--env NAME` to copy the host's value) | Repeatable, and applied last. The request inherits the backend default environment; the host explicitly adds two auth variables and pinned values. Use this option to set or override values such as `MCP_TIMEOUT` or another CLI's `CODEX_HOME`. Pass secrets as a bare `NAME`, never as a literal value. |
+| Disable hooks for a test | claude `--settings <file containing {"disableAllHooks": true}>` | Suppresses hook execution; do not use when testing hooks |
 
 Keep the workspace shallow (`C:\repos\<name>`). A deep path such as a `%TEMP%` 8.3 path makes
 claude refuse to read `<workspace>\.claude\settings*.json`, because upward traversal is blocked.
@@ -56,8 +56,9 @@ claude refuse to read `<workspace>\.claude\settings*.json`, because upward trave
 | `node`, `npx`, `pwsh`, `uv` start | no (`0xC0000142`) | yes |
 | stdio MCP servers via `node`/`npx` (e.g. playwright, pdf-viewer) | no | yes; the first `npx` run fills a private cache and may need a retry |
 | stdio MCP servers via `uv run` | no | no: uv builds a trampoline `.exe` in the AppContainer temp dir, which is denied |
-| Settings and plugin hooks | no | no: Claude Code runs every hook through Git Bash, which cannot start in BaseContainer |
-| Inbound connections, host loopback | no | no |
+| Settings and plugin hooks | Git Bash hooks failed in the 2026-10-20 BaseContainer observations | Git Bash hooks failed; a hook explicitly declaring `"shell": "powershell"` was later observed working with `--allow-win32k`. Verify the particular hook and grants. |
+| Inbound connections | denied | denied |
+| Host loopback (Windows) | denied by default; `--host-loopback` allows it | denied by default; `--host-loopback` allows it |
 
 When a limit affects the requested test, report it instead of retrying.
 
@@ -68,8 +69,7 @@ When a limit affects the requested test, report it instead of retrying.
   lines containing `"type":"result"` or `"subtype":"hook_response"`.
 - **Test a plugin in development:** write `{"disableAllHooks": true}` to `<ws>\no-hooks.json`, then
   `& $mxc run --workspace <ws> --ro <plugin> -- --plugin-dir <plugin> --settings <ws>\no-hooks.json -p "<trigger phrase>"`.
-- **Untrusted repo:** `--isolated` with a host `CLAUDE_CODE_OAUTH_TOKEN` keeps credentials, memory,
-  and sessions out of reach. Add claude `--allowedTools` / `--permission-mode` to limit actions.
+- **Untrusted repo:** `--isolated` avoids granting the host Claude config directory. The workload receives the host token, and the private config directory is persistent; treat its contents and any explicit grants as accessible to the workload. Add claude `--allowedTools` / `--permission-mode` to limit actions.
 
 Full command lines, result parsing, tool-call extraction, hook-script checks, and workspace
 diffing are in **`references/recipes.md`**.
