@@ -1,5 +1,7 @@
 # C1 run 3: completed run and preparation record
 
+> Historical record. For current source-checkout readiness and authorization boundaries, see [C0 operator readiness](c0-readiness.md) and [baseline runs](baseline-runs.md).
+
 Run3 completed as `20261023T230041Z-2c3b5489`. [Final report](baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md) records reviewed QACT99.6, oracle118/118 stable3, exact requested matrix and final110tests. Its single launch authorization was consumed. Do not reuse the historical launch template for another attempt.
 
 ## Historical preparation record

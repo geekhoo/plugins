@@ -136,7 +136,7 @@ recovery or new outbox in this procedure.
 
 ## Harness coverage
 
-`langfuse-coverage.py` checks which harness points a session reached, using its Langfuse observations: all five skills, subagents, the coder and reviewer roles, planning gates, pytest, commits, file edits, reasoning summaries and token usage. It also reports nested subagents (the agent may run `geeky-implement` itself or delegate it to `geeky-implement-orchestrator`), MCP gate tools and encrypted Codex handoffs as information only. The runners call it after each run and write `langfuse-coverage.json`, plus `telemetry.coverage_complete` and `telemetry.coverage_missed` in `run.json`. Run it on demand too:
+`langfuse-coverage.py` checks which harness points a session reached, using its Langfuse observations: all five skills, subagents, the coder and reviewer roles, planning gates, pytest, commits, file edits, reasoning summaries and token usage. It also reports nested subagents (the agent may run `geeky-implement` itself or delegate it to `geeky-implement-orchestrator`), MCP gate tools and encrypted Codex handoffs as information only. When telemetry is enabled and the run reaches telemetry collection, the runners call it and write `langfuse-coverage.json`, plus `telemetry.coverage_complete` and `telemetry.coverage_missed` in `run.json`. Run it on demand too:
 
 ```powershell
 python geeky-orchestration/evals/telemetry/langfuse-coverage.py --session-id <id>

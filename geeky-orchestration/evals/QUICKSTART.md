@@ -1,5 +1,7 @@
 # Quickstart: run a geeky-orchestration eval in MXC (Claude Code or Codex)
 
+For later C0/C1/C2 records and the distinction between committed source, working changes and local evidence, see the [3 November documentation index](../../docs/mxc-documentation-refresh-20261103/README.md). Earlier run and preparation statements below retain their original dates.
+
 This sheet takes you from a fresh Linux host to a scored run. Each step links to the doc that explains it. For the full procedure and the pitfalls table, read [mxc-litellm-runbook.md](mxc-litellm-runbook.md). The Windows / OAuth path is in [baseline-runs.md](baseline-runs.md).
 
 Commands run from the repository root unless noted. `T=~/repos/.eval-tools` throughout.
@@ -117,7 +119,7 @@ $P evals/telemetry/langfuse-scores.py --run $RUN --parity $OUT/parity.json --sco
 
 - **Read `parity.json`** for the comparable composite (D103). score-run's own composite is not comparable across harnesses.
 - **Check every failing check** against the run before trusting the number ([runbook §6](mxc-litellm-runbook.md#6-after-the-run)).
-- **Commit** the run folder and the analysis folder. Keep `/tmp/obs.json` out of git; it is in Langfuse.
+- Preserve the run folder and analysis folder. Commit only when authorized, after reviewing the artifacts and applicable credential checks. Keep `/tmp/obs.json` out of git.
 
 ## F. Where to look next
 
@@ -128,7 +130,7 @@ $P evals/telemetry/langfuse-scores.py --run $RUN --parity $OUT/parity.json --sco
 | Telemetry, coverage, Langfuse scores and evaluators | [telemetry/README.md](telemetry/README.md), [telemetry/langfuse-evaluators/](telemetry/langfuse-evaluators/README.md) |
 | Codex adapter internals | [adapters/codex/README.md](adapters/codex/README.md) |
 | What the C0 cases check | [cases/c0-wordstat/spec.md](cases/c0-wordstat/spec.md) |
-| Latest Windows C0 attempt | [Native C0 after the plan-freeze fix](analyses/c0-plan-freeze-native-result-20261030/README.md), 2026-10-30, NOT ACCEPTED, no score |
-| Last scored Windows C0 | [claudex-001 comparison](analyses/c0-claudex-001-win-20261026/README.md), 2026-10-26, Codex 97.46, Claude timeout 90.33 and cumulative continuation 98.33 |
+| Native Windows C0 records and current readiness | [C0 operator readiness](c0-readiness.md), including the later 2026-10-31 native capture and its evidence limitations |
+| Historical scored Windows C0 | [claudex-001 comparison](analyses/c0-claudex-001-win-20261026/README.md), 2026-10-26, Codex 97.46, Claude timeout 90.33 and cumulative continuation 98.33 |
 | Earlier Linux results | [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md) |
 | Session evidence and archives | [session-20261025-evidence/](analyses/session-20261025-evidence/README.md), [archives/session-20261025/](../../archives/session-20261025/README.md) |

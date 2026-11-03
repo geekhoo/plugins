@@ -1,5 +1,7 @@
 # Eval runs: lessons learned
 
+For later C0/C1/C2 records and the distinction between committed source, working changes and local evidence, see the [3 November documentation index](../../docs/mxc-documentation-refresh-20261103/README.md). Earlier run and preparation statements below retain their original dates.
+
 ## One gateway 502 ended a run because retries were off, 2026-10-30
 
 Run `20261030T150121Z-a55a910b` died at 809 s on a single LiteLLM 502 that came back in under 0.2 s. The run profile had set Codex's request and stream retries to 0, so nothing absorbed it. The proxy kept no error body, so the cause is unknown. Codex never retries 4xx, so retries do not hide route errors. Keep two retries on run profiles and zero on probes, and keep redacted upstream error excerpts in the proxy's stderr log.
@@ -141,7 +143,7 @@ Final-pair lesson: [automatic extraction](analyses/c1-final-parity-20261024/READ
 
 Measurement lessons: distinguish skill prereads from execution boundaries; merge nested worker ownership; count repeated reviews and polled outcomes; reject documentation-HEAD fallback; reuse exact task-commit validation once. Complete metric coverage does not prove hook execution or model superiority. See D94-D98 and the checkpoint 5 question-by-question disposition.
 
-> Current Codex reference (2026-10-24): [checkpoint 5 closeout](codex-c1-checkpoint5.md). Both C1 runs completed and the saved-trace repair yields 96.3/98.0; original scores remain historical. The frozen six-Claude replay supplements the complete four-run proof. Historical cleanup instructions do not apply to these preserved records. No further paid run is authorized.
+> Historical Codex reference (2026-10-24): [checkpoint 5 closeout](codex-c1-checkpoint5.md). Both C1 runs completed and the saved-trace repair yields 96.3/98.0; original scores remain historical. The frozen six-Claude replay supplements the complete four-run proof. Historical cleanup instructions do not apply to these preserved records. At that checkpoint, no further paid run was authorized.
 
 This page records what it took to run paid geeky-orchestration evals in the MXC sandbox, first on Windows (C1) and since 2026-10-24 on Linux through LiteLLM (C0): what broke, how each break was fixed, the traps that cost a run, and what is still open. Read it before a new case, a new harness or a new machine. [baseline-runs.md](baseline-runs.md) is the step-by-step procedure, and [agent-eval-decisions.md](../docs/agent-eval-decisions.md) holds the decisions (D-numbers below). This file covers what those two leave out: the reasons, the traps and the order things went wrong.
 

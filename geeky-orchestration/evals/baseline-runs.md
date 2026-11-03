@@ -1,5 +1,7 @@
 # Baseline Runs (O14) and Run Limits (O13)
 
+For later C0/C1/C2 records and the distinction between committed source, working changes and local evidence, see the [3 November documentation index](../../docs/mxc-documentation-refresh-20261103/README.md). Earlier run and preparation statements below retain their original dates.
+
 Latest Codex C1: [run3 completed report](baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md) — reviewed QACT99.6, oracle118/118 stable3, final110tests,1410s,18.116799M tokens. Main Sol/high, task/default Sol/medium, reviewers Sol/xhigh. Complete operator-reviewed scoring; automatic extraction unsupported for this shape. Token ceiling exceeded under informational calibration policy; reference eligibility remains false. Previous records below remain preserved.
 
 Final-pair update: [Codex 2 automatic process extraction](analyses/c1-final-parity-20261024/README.md) now works without operator process mappings. Use a fresh output directory, existing judgments/validation cache and `--require-complete`; a withheld strict composite exits nonzero. The prior six-run proof is tied to its saved source version.

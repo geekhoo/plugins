@@ -1,5 +1,7 @@
 # Adapter evidence and known limits
 
+**2026-11-03 context:** The C1 references below describe saved checkpoint evidence. For current preparation, see [current readiness](../../c0-readiness.md) and inspect the actual adapter source and Git state; local modifications were present in the profile and bridge during this review.
+
 Current run3 evidence: [report](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md), [strict reviewed score](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/derived-final/score.md), [model audit](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/model-audit.json), [scoring provenance](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/scoring-status.json), and [operator/preservation evidence](evidence/20261023T230039Z-run3-operator/README.md). Complete reviewed99.6, oracle118 stable3, final110tests. Initial automatic failure and interim96.5 preserved. Prior preparation/model examples remain historical; paid-hook/calibration limits remain.
 
 Current final-pair closeout: [automatic normalization and guard evidence](../../analyses/c1-final-parity-20261024/README.md). Run 2 process extraction and strict failure contract are Done for supported shapes; 68 parser tests and 64 guard/profile/trust tests pass (2 optional parser fixture skips). No guard code change; shared shell bypass and unverified paid invocation remain explicit. No new run, commit or push authorized.

@@ -1,5 +1,9 @@
 # Codex baseline adapter
 
+The [3 November documentation index](../../../../docs/mxc-documentation-refresh-20261103/README.md) links later campaigns and records which source changes were committed or local at review time.
+
+**Source context, 2026-11-03:** The runner defaults to `gpt-6.1-sol`/`high`; absent worker overrides inherit the main model and effort. The guard bridge uses warn mode for patch inputs; shell edits bypass it. Static configuration and native fixtures do not prove guard invocation during a paid run. Check [current readiness](../../c0-readiness.md) and the actual source and run configuration before any separately authorized live action. Local changes to `prepare-profile.py` and `litellm_bridge/server.py` were present during this review; they are not committed source.
+
 ## Native plaintext compatibility, 2026-10-29
 
 `-LitellmWireMode native` now selects an authenticated loopback compatibility
@@ -21,7 +25,7 @@ passed 290 regressions, 64 subtests, 10 readiness tests and 69 real-Codex MXC
 proxy checks. The full scripted C0 mock passed oracle 13/13 over three runs.
 All endpoint responses were local fixtures with external network denied. Those
 changes landed in `0b4a5c0`, and the `agent_message` lowering is `3bfc927`.
-No full live run has exercised either.
+At the 2026-10-29 offline checkpoint, no full live run had exercised either change.
 The prior direct-native launch recipes are historical and must not be reused.
 
 The [minimal reasoning normalization](../../analyses/bridge-reasoning-normalization-20261027/README.md)

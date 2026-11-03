@@ -1,5 +1,7 @@
 # C1 run 2: operator guide
 
+> Historical record. For current source-checkout readiness and authorization boundaries, see [C0 operator readiness](c0-readiness.md) and [baseline runs](baseline-runs.md).
+
 Historical preparation guide, 2026-10-24, Asia/Singapore. Target: Windows 11 / PowerShell 7, `C:\Users\gerald.khoo\geekhoo-plugins`. Run 2 subsequently completed as `20261023T194430Z-c5e04f3f`, with owner-overridden **Sol/medium for main and every descendant**, superseding the Luna settings below. Its corrected composite is 98.0. Read [checkpoint 5 closeout](codex-c1-checkpoint5.md) for current state. Do not reuse these historical launch commands as authorization for another run.
 
 ## Fast path: avoid setup and discovery turns

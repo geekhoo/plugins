@@ -1,12 +1,8 @@
 # Runbook: Claude Code and Codex evals in MXC, through LiteLLM, traced to Langfuse
 
-Status, 2026-10-30: the latest C0 attempt, the [plan-freeze native result](analyses/c0-plan-freeze-native-result-20261030/README.md),
-was NOT ACCEPTED. Its cause, LiteLLM dropping `agent_message` input when tools are
-present, is fixed in `3bfc927`; the MXC cost changes are `9b65b8c` and `6b13509`.
-No live run has used them yet. A new run needs owner authorization and fresh
-preparation from main at `5f3e2c3` or later. Old prepared commands and pins must
-not be reused. The 2026-10-27 [sequential pair](analyses/c0-fresh-sequential-20261027/README.md)
-and its [offline follow-up](analyses/c0-root-causes-20261027/README.md) are history.
+For later C0/C1/C2 records and the distinction between committed source, working changes and local evidence, see the [3 November documentation index](../../docs/mxc-documentation-refresh-20261103/README.md). Earlier run and preparation statements below retain their original dates.
+
+Status, 2026-11-03: this runbook retains historical procedures. For current source-checkout readiness and later native C0 records, read [C0 operator readiness](c0-readiness.md). The [2026-10-30 plan-freeze result](analyses/c0-plan-freeze-native-result-20261030/README.md) was not accepted; later captures do not themselves authorize another run. Verify the authorized source and prepare fresh for each separately authorized live action. The 2026-10-27 [sequential pair](analyses/c0-fresh-sequential-20261027/README.md) and its [offline follow-up](analyses/c0-root-causes-20261027/README.md) are historical.
 
 For historical completed Windows `claudex-001` attempts, see the
 [C0 comparison](analyses/c0-claudex-001-win-20261026/README.md). Codex completed
@@ -19,7 +15,7 @@ This is the process that produced complete C0 runs on both harnesses (2026-10-25
 
 Short version: [QUICKSTART.md](QUICKSTART.md). Results so far: [C0 on ant-claude](analyses/c0-ant-claude-20261025/README.md), [C0 on ant-claudex](analyses/c0-ant-claudex-20261025/README.md).
 
-## Current authorization hold
+## Historical mapping checkpoint, 27 October 2026
 
 The [2026-10-27 V2 mapping fix](analyses/codex-v2-litellm-mapping-20261027/README.md)
 adds an authenticated host-side wire bridge for future Codex `-Litellm -Launch`
@@ -27,10 +23,10 @@ invocations. It translates V2 messages/functions before LiteLLM and restores
 plaintext collaboration metadata on JSON/SSE responses. Native V2 roles and
 effort settings remain in use. One bounded synthetic provider request passed;
 it started no Codex/Claude/MXC evaluation and does not supply full workflow or
-telemetry qualification. Both evaluations are stopped. Historical launch and
+telemetry qualification. Both evaluations were stopped at that checkpoint. Historical launch and
 recovery recipes below grant no new authority.
 
-Read [C0 operator readiness](c0-readiness.md) before using the procedures below. Local inventory and mock checks pass; live telemetry compatibility and paid canaries remain held. Launch only the separately authorized attempt with explicit role models/efforts, budget/reserve, recovery limit, waiver and authorization reference. Remote score publication and any judge inference need their own covered scope. Read-only session queries do not prove publisher write/readback.
+Read [C0 operator readiness](c0-readiness.md) before using the procedures below. Generate fresh offline inventory for the exact source and prompt; prior mock checks do not establish current readiness or grant launch authority. Launch only the separately authorized attempt with explicit role models/efforts, budget/reserve, recovery limit, waiver and authorization reference. Remote score publication and any judge inference need their own covered scope. Read-only session queries do not prove publisher write/readback.
 
 ## Runner record and timing contract
 

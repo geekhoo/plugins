@@ -1,6 +1,6 @@
 # Judge Calibration — Judging the Judge
 
-**Status: planned.** The `/geeky-eval` skill, `evals/rubric/judge-rubric.md` and `evals/expectations/` do not exist yet, so this procedure cannot run as written. Until they do, judge-scored values stay provisional (D57).
+**Status: planned.** The `/geeky-eval` skill, `evals/rubric/judge-rubric.md` and `evals/expectations/` do not exist yet, so this procedure cannot run as written. Until they do, judge-scored values stay provisional (D57). The bundle and `results.json` described below are the planned judge format; the current `score-run.py` instead writes `score.json` and `score.md`, with unresolved judgments listed as `needs_judge`.
 
 How a human or another agent checks the `/geeky-eval` LLM judge. You score a sample of runs yourself, without looking at the judge's scores, then compare the two. The judge counts as calibrated only if it passes. Repeat the check whenever the rubric, the judge model or the judge prompt changes.
 

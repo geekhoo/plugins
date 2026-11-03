@@ -1,4 +1,6 @@
-# Codex C1 current handoff: run 3 complete
+# Codex C1 historical handoff: run 3 complete
+
+**2026-11-03 context:** This is a preserved C1 closeout, not a current checkout pin or authorization. For new source-checkout work, verify Git state and read [current readiness](../../c0-readiness.md).
 
 Target machine: Windows, PowerShell7.6.5. Workdir: `C:\Users\gerald.khoo\geekhoo-plugins`. At the time of this handoff, Git showed branch main, HEAD `bee7b14c3b17b00a6ce0b5643015226a1d7ef963`, no staged files. Preserve all shared dirty work.
 

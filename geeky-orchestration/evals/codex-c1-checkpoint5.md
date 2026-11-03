@@ -1,5 +1,7 @@
 # C1 checkpoint 5: measurement and records closeout
 
+> Historical record. For current source-checkout readiness and authorization boundaries, see [C0 operator readiness](c0-readiness.md) and [baseline runs](baseline-runs.md).
+
 2026-10-24, Asia/Singapore. Scope: frozen six-Claude score reproduction and current records. No scorer, adapter runtime, skill, agent or rubric changes; no paid calls, MXC launches, case-test reruns, commits, pushes or cleanup.
 
 ## Evidence and status
