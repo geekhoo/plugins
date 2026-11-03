@@ -1,6 +1,8 @@
 # geekhoo plugins
 
-[Latest native C0 capture](geeky-orchestration/evals/analyses/c0-native-result-20261031/README.md): completed with final review PASS and oracle 13/13 x3; Langfuse 19 traces / 911 observations. Cold-worker post-proxy receipt and comparable parity remain unverified.
+[MXC documentation and current state, 3 November 2026](docs/mxc-documentation-refresh-20261103/README.md) records the testing start, source changes and later C0/C1/C2 evidence. The C0 entries below preserve their recorded closeout states; later local scoring is listed in that index.
+
+[Native Luna C0 capture, initial closeout](geeky-orchestration/evals/analyses/c0-native-result-20261031/README.md): completed with final review PASS and oracle 13/13 x3; Langfuse 19 traces / 911 observations. At closeout, cold-worker post-proxy receipt and comparable parity were unverified. The 3 November documentation index above records the later local 95.18 parity result and its limits.
 
 [Previous native C0 attempt](geeky-orchestration/evals/analyses/c0-native-result-20261030b/README.md): NOT ACCEPTED after a proxy-reported 502 during plan review. Oracle 0/13 x3; Langfuse 9 traces / 198 observations; parity withheld. No cold implementer was reached.
 
@@ -10,9 +12,9 @@ Historical entries below retain their recorded preparation and result states. Th
 
 [Actual Luna/high C0 result](geeky-orchestration/evals/analyses/c0-luna-native-result-20261030/README.md): NOT ACCEPTED at plan-review after 31m11s; T2 validation gap and frozen-plan/edit conflict. Oracle 0/13 x3; Langfuse 8 traces/391 observations; strict scores withheld. One attempt consumed, no retry/resume/overtime.
 
-[Native encrypted-output compatibility fix](geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/README.md) implements plaintext V2 collaboration and eager MCP. Offline verification: 290 tests, 64 subtests, 10 readiness tests, 69/69 real-Codex MXC checks, scripted C0 oracle 13/13 x3. Source is uncommitted; no paid run or provider probe was used.
+[Native encrypted-output compatibility fix](geeky-orchestration/evals/analyses/c0-encrypted-output-fix-20261029/README.md) implements plaintext V2 collaboration and eager MCP. Offline verification: 290 tests, 64 subtests, 10 readiness tests, 69/69 real-Codex MXC checks, scripted C0 oracle 13/13 x3. The source was uncommitted at the time of that record; native handoff compatibility was later committed in `0b4a5c0`. No paid run or provider probe was used for that offline verification.
 
-[Offline C0 remediation](geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/README.md): full scripted C0 mock passes; five real-Codex MXC fixture configurations pass 105/105 checks. Fixes are uncommitted; live upstream compatibility remains unverified.
+[Offline C0 remediation](geeky-orchestration/evals/analyses/c0-offline-remediation-20261029/README.md): full scripted C0 mock passes; five real-Codex MXC fixture configurations pass 105/105 checks. The fixes were uncommitted at the time of that record; its scripted checks did not establish live upstream compatibility.
 
 [Native Codex C0 after the gate fix](geeky-orchestration/evals/analyses/c0-codex-native-fixed-run-20261029/README.md)
 passed specification and plan review, then crashed during the first implementation
@@ -270,7 +272,7 @@ the Figma setup are in [`dev-workflows/PACKAGING.md`](dev-workflows/PACKAGING.md
 
 ### `mxc-sandbox`
 
-Windows only. The wrapper builds the host into `%USERPROFILE%\.mxc-sandbox\bin`
+The following Windows examples build the host into `%USERPROFILE%\.mxc-sandbox\bin`
 (needs the .NET 10 SDK, or edit the host `.csproj` for 8/9) and probes the machine:
 
 ```powershell
