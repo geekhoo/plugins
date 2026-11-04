@@ -1,0 +1,180 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c3-minisql",
+  "harness": "claude-code",
+  "model": "claude-mock-5-5",
+  "reasoning": "default",
+  "workspace": "/Users/gkhoo-c/.Projects/mxc-c0/work/eval-c3-minisql-20261104T083108Z",
+  "config_directory": "/Users/gkhoo-c/.Projects/mxc-c0/work/.eval-cfg-20261104T083108Z",
+  "seed_sha": "459a3e6eeee12d943c457cfaf546b028da0579d6",
+  "plugin_sha": "52160ef648cb15db1716c979e8c53f6a34fcad34",
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "native_otel": {
+    "enabled": false
+  },
+  "session_id": "173a49b1-37bd-40ce-a1ec-5224d4d5e47d",
+  "started_utc": "2026-11-04T08:31:10.61066Z",
+  "ended_utc": "2026-11-04T08:31:34.165306Z",
+  "wall_time_s": 23.537293625005987,
+  "exit_code": 0,
+  "exit_reason": "aborted",
+  "is_error": true,
+  "reference_eligible": false,
+  "token_ceiling": 50000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "complete",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "finalized",
+    "attempt_id": "f1099227-ca2e-4055-bd08-d28c9ed243b5",
+    "segment_id": "f7a4b095-eca5-403d-afd2-40b89717e8c5",
+    "authorization_reference": "mock-c3-preflight-20261104",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-11-04T08:46:09.216302Z",
+    "hard_wall_budget_s": 900,
+    "closeout_reserve_s": 0,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "",
+      "reasoning": "default",
+      "mock": true,
+      "provider": "anthropic",
+      "hard_wall_budget_s": 900,
+      "closeout_reserve_s": 0,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "7f2193115462c7a2fb39516f10f3129b7ef9efad16b1fee8fe9f8c60e133e486",
+    "invocations": [
+      {
+        "invocation_id": "d4dd1f54-a3cb-4a9b-bb09-0f01f95be46f",
+        "kind": "initial",
+        "timeout_s": 898,
+        "started_utc": "2026-11-04T08:31:10.6230290Z",
+        "ended_utc": "2026-11-04T08:31:34.1601250Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "completed",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "completed"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 23.537293625005987,
+    "attempt_elapsed_s": 24.952196999976877,
+    "finalization_time_s": 39.40007454098668,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 19460,
+    "writer_host": "st-gkhoo-c1",
+    "reconciliation_required": false,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    },
+    "workspace_head": "50005246ec91ef880ab68001ab1679bde8ba3205",
+    "workspace_status": [],
+    "artifact_sha256": {
+      "analysis.json": "824cd5dc48eab5866a9145924e137682e5537181a65f9a7f1a33672e206aabca",
+      "mock-summary.json": "2fc733f41fabef1723753790b4f19ae576eb7ffbd3986917fec70359b89edf38",
+      "notes.md": "54ebb6b09e4893584d6ae7cc6dc808283cf3e1af0683282fb4613be67caf60c3",
+      "oracle-output.txt": "6adebde97d3ea7b36e923945b64d0c509ed5f2b67fea1f514adef901aa734a12",
+      "secret-scrub.json": "723d67e4dc87cd71aa2d4719c80da4540cbd006ebe82d23da171e1ca38bba5bd",
+      "session.jsonl": "61bf2ed7ec160a48111fd25cb63dbabb43a4be7f8553206ce0d2ff0c6e7c8575",
+      "solution.bundle": "428efb7b0938d6416fb99d630c48031af768e93e0067c89a2e51e3ee364e21d3",
+      "stderr.txt": "38d8383f814cc6b8294f998c71cb0a9ba26b0bfe015207ab00e365f2f543d558",
+      "stream.jsonl": "9b6d77568ccc7e17bdbaec0fd31900d89605b433c68882e50edd50ba7aebd002",
+      "derived/analysis.json": "824cd5dc48eab5866a9145924e137682e5537181a65f9a7f1a33672e206aabca",
+      "derived/run.json": "79e5922a242f3f007dd42cd3a8d8e442cf1869a2b1ff932a7c0315a7469d8741"
+    }
+  },
+  "harness_version": "0.0.0-mock",
+  "approach": "mock-agent:all,happy",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 604712,
+    "cached_input": 530100,
+    "cache_creation": 43010,
+    "output": 25311,
+    "total": 630023,
+    "cost_usd_estimate": 0.7112,
+    "reasoning": 50
+  },
+  "model_calls": 98,
+  "latency_median_ms": 46,
+  "max_idle_gap_s": 3,
+  "stages": [
+    {
+      "name": "spec-research",
+      "started_utc": "2026-11-04T16:31:26.947+08:00",
+      "ended_utc": "2026-11-04T16:31:27.275+08:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-11-04T16:31:27.275+08:00",
+      "ended_utc": "2026-11-04T16:31:28.555+08:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-11-04T16:31:28.555+08:00",
+      "ended_utc": "2026-11-04T16:31:29.413+08:00",
+      "minutes": 0.0
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-11-04T16:31:29.413+08:00",
+      "ended_utc": "2026-11-04T16:31:32.824+08:00",
+      "minutes": 0.1
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-11-04T16:31:32.824+08:00",
+      "ended_utc": "2026-11-04T16:31:34.088+08:00",
+      "minutes": 0.0
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 183,
+    "passed": 2,
+    "failed": 180,
+    "errors": 0,
+    "skipped": 1,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 12,
+    "test": 7,
+    "files_changed": 14
+  },
+  "commits": 3,
+  "stop_reason": "end_turn",
+  "raw_sha256": {
+    "stream": "9b6d77568ccc7e17bdbaec0fd31900d89605b433c68882e50edd50ba7aebd002",
+    "session": "61bf2ed7ec160a48111fd25cb63dbabb43a4be7f8553206ce0d2ff0c6e7c8575"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": null,
+  "over_token_ceiling": false
+}
