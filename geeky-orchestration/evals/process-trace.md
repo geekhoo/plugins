@@ -75,9 +75,35 @@ Review coverage is partial when a reviewer's final message has no anchored verdi
 
 Claude stage boundaries are within about 75 seconds of the analyzer on all six runs. The Claude events are offline documents. Those run records hold no telemetry session, so nothing has been exported for them.
 
+Mac MXC runs, Claude Code harness, read from `origin/opus/macos-mxc-c0` by adapter version 2. These are offline documents; nothing is exported. The runs used Python 3.9.6, which C2 does not meet, so they are not reference results.
+
+| Run | Model, effort | Stage | Lane | Review | Gate |
+|---|---|---|---|---|---|
+| C0 `20261029T161528Z` | Sonnet 5.5, default | unknown: no planning commit | unknown | unknown | unknown |
+| C0 `20261030T043030Z` | Sonnet 5.5, default | complete | partial, commit-bound: 3 shell board writes | partial | complete |
+| C2 `20261101T192141Z` | Sonnet 5.5, high | complete | partial, commit-bound: 1 shell board write | partial | partial |
+| C2 `20261101T225826Z` | Sonnet 5.5, medium | complete | partial, commit-bound: 3 shell board writes | partial | partial |
+| C2 `20261102T053248Z` | GPT-6.1-sol, high, bridge | complete | partial, commit-bound: 12 shell board writes | partial | complete |
+| C2 `20261101T211028Z` | GPT-6.1-sol, high | partial: blocked before final review | partial, commit-bound: 8 shell board writes | partial | partial |
+| C2 `20261101T222922Z` | GPT-6.1-sol, medium | partial: implementation never started | complete: 3 writes, agree with gates and commits | unknown | partial |
+| C2 `20261101T205532Z` | GPT-6.1-sol, high | unknown: no planning commit | unknown | unknown | unknown |
+| C3 `20261104T083537Z` | Opus 5.5, high | complete | partial, commit-bound: 2 shell board writes | partial | partial |
+| C3 `20261104T104418Z` | GPT-6.1-sol, high, bridge | partial: one commit closed plan and plan review | partial, commit-bound: 10 shell board writes | partial | partial |
+
+## What the Mac runs showed
+
+The contract and exporter needed no change for a third operating system or for a non-Claude model behind Claude Code. The adapter did need fixes, all found by checking its output against the source records:
+
+- **Gates that never ran.** Reading a gate's source or naming it in a message counted as a run. On 10 commands across the Mac and C1 runs, printed source text produced a result, some of them false failures. A gate now counts only when a statement runs it, or when the output holds its result line.
+- **Linked board entries.** `- [ ] [T2 — Server](tasks/T2.md)` was not read as a task, which emptied the boards of two GPT runs.
+- **Lost reviewer messages.** A background reviewer's notice can be missing, so the adapter now falls back to the reviewer's own retained transcript. On C3 GPT this recovered `PASS WITH WARNINGS` for two final review domains, as the run's commit note records.
+- **Stages without evidence.** A zero-length stage now makes stage coverage `partial`, and `geeky-implement` needs a coder thread or a lane past Ready.
+
+Lane coverage is complete on 1 of 10 runs, because shell board writes defeat replay here as well. These runs predate the watcher. Some reviewer messages still give no verdict: on the runs sampled, these include plan-alignment audits, which have no single verdict, and messages with one verdict per task. A gate stays `unknown` when its command prints no result line, such as `dodT3=0`.
+
 ## What the second harness showed
 
-- **Holds across harnesses:** the contract and exporter needed no change for Claude. Stage boundaries, verdicts, gates and commit-bound lanes all came from one shared module, and the refactor left Codex output unchanged. Adapter sizes are 167 and 203 lines, against 278 shared.
+- **Holds across harnesses:** the contract and exporter needed no change for Claude. Stage boundaries, verdicts, gates and commit-bound lanes all came from one shared module, and the refactor left Codex output unchanged.
 - **Does not hold: exact lane moves.** Only 1 of 8 retained runs, DeepSeek on 4 November, wrote its board in a form that can be replayed. Shell `.Replace` and `[regex]` edits defeat replay on Luna and all six Claude runs. This depends on how each model chooses to write a file, not on the harness.
 - **Harness quirks stay in adapters:** early Claude MXC runs flag nearly every shell result `Exit code 5`, so the Claude adapter reads fixed gate text and never treats that flag as failure. Runs before `20261023T104412Z` kept no subagent transcripts, so their subagents' board writes and gates are invisible.
 
@@ -101,7 +127,7 @@ Both are exported to their retained sessions under the name `geeky-orchestration
 
 ## Limits
 
-- Tested on two Codex configurations and one Claude configuration, all retained runs. No other harness has been tried, and the Claude adapter has not run on a run with telemetry.
+- Tested on retained runs from two Codex configurations and on Claude Code with Claude and GPT models, on Windows and macOS. No other harness has been tried, and no Claude process trace has been exported, including for Mac runs that do have telemetry sessions.
 - The watcher has run only on mock contestants on Windows, on NTFS. No model-driven run has used it, and its Linux and macOS read path has not been run.
 - No scorer reads this trace yet. `score-run.py` and `parity-eval.py` are unchanged, and a scorer based on it would need its own score scope.
 - The Codex adapter does not yet record gates run as shell scripts; the Claude adapter does.
