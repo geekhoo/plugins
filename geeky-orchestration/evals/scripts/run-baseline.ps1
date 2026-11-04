@@ -387,7 +387,7 @@ $analysisRecord = [ordered]@{
         reasoning = [long]$u.output_tokens_details.thinking_tokens; total = $inputTotal + [long]$u.output_tokens } }
         else { [ordered]@{ input = $null; cached_input = $null; output = $null; reasoning = $null; total = $null } })
     model_calls = ($results | ForEach-Object { [int]$_.num_turns } | Measure-Object -Sum).Sum; latency_median_ms = $null; max_idle_gap_s = $null
-    stages = $null; tasks = $null; impl_review_rounds = $null
+    stages = $null; tasks = $null; impl_review_skill_invocations = $null
     oracle = [ordered]@{ collected = $o.passed + $o.failed + $o.errors + $o.skipped; passed = $o.passed; failed = $o.failed
         errors = $o.errors; skipped = $o.skipped; stable_over_3 = $stable }
     loc = [ordered]@{ source_non_test = $srcLoc; test = $testLoc

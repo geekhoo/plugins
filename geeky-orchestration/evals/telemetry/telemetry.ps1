@@ -83,7 +83,11 @@ function Resolve-EvalTelemetry {
 
     # Both SDKs cap each OTLP export at LANGFUSE_TIMEOUT seconds (default 5); a full eval session's batch
     # takes longer, and the hook then fails open with nothing delivered (C1 Codex run 3 replay).
+    # LANGFUSE_TIMEOUT reaches only the exporter. The Codex tracer's BatchSpanProcessor separately rejects a
+    # batch after 30 s by default, leaving no .langfuse sidecar while the request can still finish, so the
+    # replay delivers the session twice (C2 run 20261104T041838Z-d22d38ec). The value is in milliseconds.
     $envArgs = @('--env', 'TRACE_TO_LANGFUSE=true', '--env', "LANGFUSE_TRACING_ENVIRONMENT=$environment", '--env', 'LANGFUSE_TIMEOUT=300',
+        '--env', 'OTEL_BSP_EXPORT_TIMEOUT=300000',
         '--env', "GEEKY_TRACE_NAME=$traceName", '--env', "GEEKY_AGENT_FAMILY=$family", '--env', "GEEKY_SESSION_ID=$sessionId",
         '--env', "GEEKY_RUN_METADATA=$metadataJson", '--env', "GEEKY_RUN_TAGS=$tagsJson",
         '--env', "OTEL_SERVICE_NAME=$family", '--env', "OTEL_RESOURCE_ATTRIBUTES=service.namespace=geeky-eval,deployment.environment.name=$environment")
@@ -198,6 +202,7 @@ function Save-EvalTelemetry {
     $Telemetry.Record.delivered = $false # compatibility alias: observations > 0 only
     $Telemetry.Record.observations_present = $false
     $Telemetry.Record.observations = $null
+    $Telemetry.Record.duplicate_observation_rows = $null
     $Telemetry.Record.trace_count = $null
     $Telemetry.Record.observations_status = 'pending'
     $Telemetry.Record.coverage_complete = $null
@@ -224,6 +229,7 @@ function Save-EvalTelemetry {
         $sessionSummary = Get-Content $summary -Raw | ConvertFrom-Json
         $observations = [int]$sessionSummary.observations
         $Telemetry.Record.observations = $observations
+        $Telemetry.Record.duplicate_observation_rows = [int]$sessionSummary.duplicate_rows
         $Telemetry.Record.delivered = $observations -gt 0
         $Telemetry.Record.observations_present = $observations -gt 0
         $Telemetry.Record.observations_status = if ($observations -gt 0) { 'present' } else { 'pending' }

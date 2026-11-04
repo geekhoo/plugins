@@ -183,7 +183,7 @@ A run that is invalid for an environment reason, rather than for the contestant'
 | `max_idle_gap_s` | the longest gap between consecutive session events | *derived* |
 | `stages[]` | per workflow: `name`, `started_utc`, `ended_utc` | *derived* from skill invocations |
 | `tasks[]` | per task: `id`, `dispatched_utc`, `done_utc`, `duration_s`, `validation_attempts`, `review_rounds`, `loc_changed` | *derived* from the session, kanban and git |
-| `impl_review_rounds` | `impl-review` runs until PASS | *derived* |
+| `impl_review_skill_invocations` | `impl-review` `Skill` calls, or successful `SKILL.md` reads on Codex. This is not a count of review passes, because one pass can read the skill repeatedly. Runs recorded before 4 November 2026 hold the same count as `impl_review_rounds`. Those values are kept unchanged and should be read under this definition. No scorer reads either field. | *derived* |
 | `oracle` | `collected`, `passed`, `failed`, `skipped` | step 3 |
 | `loc.source_non_test`, `loc.test`, `files_changed` | final code size | `git` in the workspace |
 | `commits` | the number of commits | `git rev-list --count HEAD` |

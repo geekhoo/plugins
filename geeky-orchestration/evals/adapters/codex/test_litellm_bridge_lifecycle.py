@@ -174,7 +174,8 @@ def test_runner_uses_bridge_only_for_litellm_launch():
     # Source contract supplements actual lifecycle/transport tests above.
     runner = (HERE.parents[1] / 'scripts/run-codex-baseline.ps1').read_text(encoding='utf-8-sig')
     provider_block = runner.split('if ($Litellm) {', 1)[1].split('& $python (Join-Path $adapter', 1)[0]
-    assert 'if ($Launch) {' in provider_block
+    # This branch's guard also requires bridge wire mode; main's does not. Launch-only is the contract.
+    assert 'if ($Launch' in provider_block
     assert 'Start-CodexLitellmBridge' in provider_block
     assert '$providerBaseUrl = $mappingBridge.Record.base_url' in provider_block
     assert 'Stop-CodexLitellmBridge -Bridge $mappingBridge' in runner

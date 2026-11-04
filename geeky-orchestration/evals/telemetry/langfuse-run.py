@@ -5,6 +5,10 @@ works against both v3 and v4 servers. Credentials come from environment variable
 command line, never from arguments. Waits for asynchronous ingestion until the observation count
 is stable. Exit 0 when the session has observations, 3 when none arrived before --wait ran out.
 
+The summary counts unique observation ids. A session delivered twice is stored as two rows per id until
+the server collapses them, roughly 30 minutes later (C2 run 20261104T041838Z-d22d38ec); `duplicate_rows`
+keeps that visible. --full stays the raw read, so parity-eval.py still refuses a doubled read.
+
   python langfuse-run.py --session-id <id> --output <run>/langfuse.json [--full <run>/langfuse-observations.json]
 """
 import argparse
@@ -53,7 +57,20 @@ def truncated(metadata):
     return False
 
 
-def summarize(session_id, observations):
+def unique_observations(rows):
+    """One row per observation id, first seen wins. Twins differ at most in endTime and latency, which the
+    summary does not use. A row without an id cannot be matched, so it counts on its own."""
+    unique, seen = [], set()
+    for row in rows:
+        identity = row.get('id')
+        if identity is None or identity not in seen:
+            unique.append(row)
+            seen.add(identity)
+    return unique
+
+
+def summarize(session_id, rows):
+    observations = unique_observations(rows)
     types = collections.Counter(o.get('type') for o in observations)
     names = collections.Counter(o.get('name') for o in observations)
     usage = collections.Counter()
@@ -65,7 +82,7 @@ def summarize(session_id, observations):
     return {
         'schema': 'geeky-eval.langfuse-session/1', 'session_id': session_id,
         'traces': len({o.get('traceId') for o in observations}),
-        'observations': len(observations), 'by_type': dict(types),
+        'observations': len(observations), 'duplicate_rows': len(rows) - len(observations), 'by_type': dict(types),
         'generations': types.get('GENERATION', 0),
         'tool_calls': sum(n for name, n in names.items() if str(name).startswith('Tool:')) or types.get('TOOL', 0),
         'subagents': sum(1 for o in observations if str(o.get('name', '')).startswith(('Subagent:', 'Agent:'))
@@ -117,7 +134,7 @@ def main():
     print(text if not a.output else
           f"langfuse: session {a.session_id}: {summary['traces']} traces, {summary['observations']} observations "
           f"({summary['generations']} generations, {summary['tool_calls']} tool calls), "
-          f"{summary['truncated_observations']} truncated")
+          f"{summary['truncated_observations']} truncated, {summary['duplicate_rows']} duplicate rows ignored")
     if a.full and observations:
         full = fetch_observations(base_url, auth, a.session_id, FULL_FIELDS)
         a.full.write_text(json.dumps(full, indent=1) + '\n', encoding='utf-8')

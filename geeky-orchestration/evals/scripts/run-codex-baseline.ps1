@@ -264,7 +264,7 @@ $record = [ordered]@{
     plugin_modified_during_run = $false; prompt_sha256 = $promptSha; workspace = $ws; config_directory = $cfg; seed_sha = $baseSha
     session_id = $null; started_utc = $null; ended_utc = $null; wall_time_s = $null
     tokens = $null; model_calls = $null; latency_median_ms = $null; max_idle_gap_s = $null
-    stages = $null; tasks = $null; impl_review_rounds = $null; oracle = $null; loc = $null; commits = 0
+    stages = $null; tasks = $null; impl_review_skill_invocations = $null; oracle = $null; loc = $null; commits = 0
     exit_code = $null; exit_reason = 'prepared'; is_error = $false; raw_sha256 = $null; interventions = 0
     token_ceiling = $caseCfg.token_ceiling; token_ceiling_policy = 'informational-until-codex-baseline'
     reference_eligible = $false; analysis_status = 'awaiting-rollout'; parity_passed = $true

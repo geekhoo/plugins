@@ -2,6 +2,8 @@
 
 **2026-11-03 context:** This board records historical C1 checkpoints. For current source-checkout readiness and any separately authorized work, see [current readiness](../../c0-readiness.md).
 
+- Telemetry and bridge evidence fixes from C2 run `20261104T041838Z-d22d38ec` (2026-11-04): code and offline tests merged to local `main`. Not exercised by a live Codex or MXC run. Before the next run, rerun `telemetry/install-telemetry-tools.ps1` so the derived tracer writes its delivery ledger.
+
 - Run 3 execution/closeout (2026-10-24): Done. [Report](../../baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md), [evidence](evidence/20261023T230039Z-run3-operator/README.md). One attempt, runner0,1410s,oracle118/118 stable3,own-commit35/52/108tests and final110 pass; actual16threads/19contexts match requested matrix. Reviewed QACT99.6; automatic normalization unsupported and reviewed parser correction disclosed.32source hashes and206previous original files preserved. No further paid run, staging, repository commit/push or cleanup authorized.
 
 - Historical run 3 environment preparation (2026-10-24): Done. [Guide](../../codex-c1-run3-guide.md), [evidence](evidence/20261023T223555Z-run3-readiness/README.md). Sol/high main, Sol/medium task/default catch-all, Sol/xhigh reviewers. Static 12/12, pinned 18-file MXC copy, two native fixtures 21/21, combined reviewer proof 30/30. Offline 126 tests + 39 subtests; 106 affected tests rechecked after proof tightening. No C1 contestant or paid calls, scorer run, commit or push. Paid run 3 remains unstarted and unauthorized.

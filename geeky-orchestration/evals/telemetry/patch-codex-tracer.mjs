@@ -30,6 +30,38 @@ async function emitGeekyTurn(turn, sessionMeta, ctx) {`);
     'const root = startObservation(ctx.geekyIdentity?.traceName || (isSubagent ? "Codex Subagent Turn" : "Codex Turn"), {');
   replace('"codex.thread_id": sessionMeta.sessionId,',
     '"codex.thread_id": sessionMeta.sessionId,\n\t\t\t...ctx.geekyIdentity?.metadata,');
+  // Delivery ledger: the span ids a flush attempted, written before the flush, so codex-flush.py can
+  // tell a delivered turn from a lost one when a failed flush left no .langfuse sidecar.
+  replace('function setupInstrumentation(config) {', `const geekySpanIds = [];
+const geekySpanLedger = {
+  onStart() {},
+  onEnd(span) { geekySpanIds.push(span.spanContext().spanId); },
+  forceFlush: () => Promise.resolve(),
+  shutdown: () => Promise.resolve()
+};
+async function geekyLedgerAppend(rolloutFile, entry) {
+  try {
+    await fs$1.appendFile(\`\${rolloutFile}.langfuse-attempts\`, \`\${JSON.stringify(entry)}\\n\`, "utf-8");
+  } catch {}
+}
+function setupInstrumentation(config) {`);
+  replace('spanProcessors: [spanProcessor],', 'spanProcessors: [geekySpanLedger, spanProcessor],');
+  replace(`\ttry {
+\t\tawait instrumentation.shutdown();
+\t} catch (error) {
+\t\tfailure ??= error;
+\t\tdebugLog("error during flush/shutdown:", error);
+\t}
+`, `\tconst geekyFlushStart = Date.now();
+\tif (exportedTurnIds.length > 0) await geekyLedgerAppend(hookInput.transcript_path, { event: "attempt", turn_ids: exportedTurnIds, span_ids: geekySpanIds });
+\ttry {
+\t\tawait instrumentation.shutdown();
+\t} catch (error) {
+\t\tfailure ??= error;
+\t\tdebugLog("error during flush/shutdown:", error);
+\t}
+\tif (exportedTurnIds.length > 0) await geekyLedgerAppend(hookInput.transcript_path, { event: "flush", ok: !failure, elapsed_ms: Date.now() - geekyFlushStart, error: failure ? String(failure.message ?? failure).slice(0, 200) : void 0 });
+`);
   return 'import { agentIdentity as geekyAgentIdentity } from "./codex-identity.mjs";\n' + source;
 }
 

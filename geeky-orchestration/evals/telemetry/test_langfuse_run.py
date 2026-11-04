@@ -29,6 +29,27 @@ def test_summarize_counts_types_tools_usage_and_traces():
     assert s['first_start'] == '2026-10-24T10:00:00Z' and s['last_start'] == '2026-10-24T10:00:02Z'
 
 
+def test_doubled_delivery_is_counted_once_and_reported():
+    row = {'traceId': 't1', 'type': 'GENERATION', 'name': 'LLM', 'usageDetails': {'input': 10, 'total': 10},
+           'startTime': '2026-11-04T06:00:00Z'}
+    rows = [{**row, 'id': 'g1'}, {**row, 'id': 'g1'}, {**row, 'id': 'g2'}, {**row, 'id': 'g2'},
+            {'id': 't1-tool', 'traceId': 't1', 'type': 'TOOL', 'name': 'Tool: shell'},
+            {'id': 't1-tool', 'traceId': 't1', 'type': 'TOOL', 'name': 'Tool: shell'},
+            {'id': 'a1', 'traceId': 't1', 'type': 'AGENT', 'name': 'Subagent: coder', 'endTime': '2026-11-04T06:21:13Z'},
+            {'id': 'a1', 'traceId': 't1', 'type': 'AGENT', 'name': 'Subagent: coder', 'endTime': '2026-11-04T06:23:17Z'}]
+    s = lf.summarize('sid', rows)
+    assert (s['observations'], s['duplicate_rows']) == (4, 4)
+    assert (s['generations'], s['tool_calls'], s['subagents']) == (2, 1, 1)
+    assert s['by_type'] == {'GENERATION': 2, 'TOOL': 1, 'AGENT': 1}
+    assert s['usage_details'] == {'input': 20, 'total': 20}
+
+
+def test_single_delivery_is_unchanged_and_idless_rows_still_count():
+    assert lf.summarize('sid', [{'id': 'a'}, {'id': 'b'}, {}, {}])['observations'] == 4
+    assert lf.summarize('sid', [{'id': 'a'}, {'id': 'b'}, {}, {}])['duplicate_rows'] == 0
+    assert lf.summarize('sid', [])['duplicate_rows'] == 0
+
+
 def test_summary_reports_new_actor_identities_without_losing_subagent_counts():
     row = {'traceId': 'child', 'type': 'AGENT', 'name': 'claude-mxc-win-coder-coder-a',
            'userId': 'claude-mxc-win-coder-a-native-id', 'environment': 'mxc-win',

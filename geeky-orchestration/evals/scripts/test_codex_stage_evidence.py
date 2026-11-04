@@ -72,7 +72,7 @@ def test_reviewed_transitions_ignore_bulk_reads_and_repeat_review(stage_run):
     assert normalized['stage_evidence_mode'] == 'reviewed'
     report = AR.analyze(folder)
     assert [s['name'] for s in report['stages']] == [e['stage'] for e in artifact['stages']]
-    assert report['impl_review_rounds'] == 2
+    assert report['impl_review_skill_invocations'] == 2
     assert report['tool_calls_main']['CodexSkillRead'] == 5
     assert report['skill_invocations']['geeky-implement'] == 1
     assert report['stages'][3]['minutes'] == 11.0
@@ -151,7 +151,7 @@ def test_actual_reviewed_paid_trace_is_read_only_when_supplied():
     assert result['trace_complete'], result['trace_errors']
     assert result['stage_evidence_mode'] == 'reviewed'
     report = AR.analyze(folder)
-    assert report['impl_review_rounds'] == 2
+    assert report['impl_review_skill_invocations'] == 2
     assert report['tokens']['total'] == 17729214
     assert report['model_calls'] == 205
     assert [s['name'] for s in report['stages']] == list(CT.STAGES) + ['impl-review']

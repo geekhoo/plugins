@@ -69,7 +69,17 @@ python -m litellm_bridge serve --port 0 --ready-file <new-absolute-path>
 in `/v1`, or an exact `/responses` endpoint) and `LITELLM_PROXY_API_KEY` in its
 process environment. Clients authenticate with that same key. The readiness
 file contains only the loopback base URL and PID. The bridge does not log bodies
-or credentials and performs no retries or redirect following.
+or credentials and performs no retries or redirect following. Each forwarded
+request writes one `bridge_request` JSON line to stderr, kept as `stderr.log` in
+the bridge state folder when the bridge stops: `request_bytes`,
+`upstream_request_bytes`, `stream`, `status`, `outcome`, `response_model` and
+`usage_cost`, the last two read from the upstream response and null when absent.
+The line is written before the client can see completion. If the outcome changes
+later, a second line with the same `request_id` supersedes it. A request still in
+flight when the bridge is killed leaves no line, and `stderr.log` exists only once
+`Stop-CodexLitellmBridge` has run. A transport failure adds `phase` (`client_read`, `connect`, `send`,
+`response_headers`, `response_body` or `client_write`) and the exception class
+name. Codex also receives `phase` in the `upstream_transport_error` event.
 
 Unknown tagged encrypted collaboration content fails before forwarding.
 Recovery requires exact plaintext provenance, either from earlier plaintext
