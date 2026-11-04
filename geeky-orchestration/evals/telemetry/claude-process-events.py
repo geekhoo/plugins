@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import process_trace  # noqa: E402
 from process_events import build_document, load_snapshots, role_for  # noqa: E402
 
-ADAPTER_VERSION = '1'
+ADAPTER_VERSION = '2'
 BOARD_WRITE = re.compile(r'Set-Content|Add-Content|Out-File|WriteAllText|write_text|sed -i|>\s*\S*kanban|\.Replace\(')
 NOTIFICATION = re.compile(r'<task-notification>.*?</task-notification>', re.S)
 COUNTS = re.compile(r'Backlog=(\d+), Ready=(\d+), In Progress=(\d+), In Review=(\d+), Blocked=(\d+), Done=(\d+)')
@@ -30,6 +30,17 @@ SHELLS = ('PowerShell', 'Bash')
 GATE_NAME = re.compile(r'(validate-kanban|validate-planning-folder|validate-task-schema|check-dod|check-commit)')
 TASK_ARG = re.compile(r'(?:--task|-Task)\s+["\']?(T\d+)', re.I)
 DOD_LINE = re.compile(r'^\s*(DOD_\w+):\s*(T\d+)', re.M)
+RUNNER = re.compile(r'(?:^|[\s(/\\])(?:python[\d.]*|py|pwsh|powershell|bash|sh)(?:\.exe)?\s|^\s*["\']?\$\{?\w+\}?["\']?\s+\S')
+HEREDOC = re.compile(r"([^\n]*)<<-?\s*['\"]?(\w+)['\"]?[^\n]*\n(.*?)\n\s*\2\b", re.S)
+GATE_PATH = r'^\s*["\']?\S*(?:validate-kanban|validate-planning-folder|validate-task-schema|check-dod|check-commit)\.(?:py|ps1|sh)\b'
+LOOP = re.compile(r'\bfor\s+\w+\s+in\s+([^;\n]*)|\bforeach\s*\(\s*\$\w+\s+in\s+([^)]*)\)', re.I)
+# A gate's own result line starts an output line. A listing of its source shows these only inside print() calls.
+KANBAN_OK = re.compile(r'(?:^|\s)OK:\s*\d+ task\(s\) tracked', re.M)
+GATE_OUTPUT = {'validate-kanban': re.compile(r'(?:^|\s)(?:OK|[A-Z_]+):\s[^\n"]*\d+ task\(s\) tracked', re.M),
+               'validate-task-schema': re.compile(r'^\s*(?:OK:\s*)?\d+ task file\(s\) checked', re.M),
+               'validate-planning-folder': re.compile(r'^\s*(?:OK: planning folder valid|INVALID_PLANNING_FOLDER)', re.M),
+               'check-dod': re.compile(r'^\s*DOD_\w+:\s*T\d+', re.M),
+               'check-commit': re.compile(r'^\s*(?:OK: commit message valid|INVALID_COMMIT_MESSAGE)', re.M)}
 
 
 def text_of(content):
@@ -76,8 +87,10 @@ def transcript(path, role, actor):
             elif item.get('type') == 'tool_result':
                 results[item.get('tool_use_id')] = {'at': row.get('timestamp'), 'text': text_of(item.get('content')), 'error': bool(item.get('is_error')), 'detail': row.get('toolUseResult')}
     stamps = [row.get('timestamp') for row in rows if row.get('timestamp')]
+    closing = next((row for row in reversed(rows) if row.get('type') == 'assistant' and text_of((row.get('message') or {}).get('content')).strip()), None)
     return {'uses': uses, 'results': results, 'notices': notices, 'start': min(stamps, key=process_trace.stamp) if stamps else None,
-            'end': max(stamps, key=process_trace.stamp) if stamps else None, 'file': os.path.basename(path)}
+            'end': max(stamps, key=process_trace.stamp) if stamps else None, 'file': os.path.basename(path), 'actor': actor,
+            'closing_text': text_of(closing['message']['content']) if closing else None, 'closing_at': closing.get('timestamp') if closing else None}
 
 
 def is_board(path):
@@ -103,13 +116,36 @@ def board_operations(transcripts):
     return ops
 
 
+def invoked_gates(command, output=''):
+    """Gates a shell command runs. Reading a gate's source or naming it in a message or heredoc is not running it.
+
+    A gate counts if a statement runs it, or if the command names it and the output holds its result line.
+    """
+    names = {gate for gate in GATE_NAME.findall(command) if GATE_OUTPUT[gate].search(output)}
+
+    def heredoc(match):
+        if RUNNER.search(match.group(1)):
+            names.update(GATE_NAME.findall(match.group(3)))
+        return match.group(1)
+
+    text = HEREDOC.sub(heredoc, command)
+    runs_something = any(RUNNER.search(statement) for statement in re.split(r'[;\n|&]+', text))
+    for statement in re.split(r'[;\n|&]+', text):
+        if RUNNER.search(statement) or re.match(GATE_PATH, statement) or (runs_something and re.match(r'^\s*\w+=', statement)):
+            names.update(GATE_NAME.findall(statement))
+    if runs_something:
+        for loop in LOOP.finditer(text):
+            names.update(GATE_NAME.findall(loop.group(1) or loop.group(2)))
+    return sorted(names)
+
+
 def segment_gate(gate, output):
     """Read one gate's result from shell text. Scripts print fixed OK lines; anything else stays unknown."""
     if gate == 'validate-kanban':
         found = re.search(r'^(.*)task\(s\) tracked[^\n]*', output, re.M) or COUNTS.search(output)
         if not found:
             return 'unknown'
-        return 'pass' if re.search(r'^\s*OK:[^\n]*task\(s\) tracked', output, re.M) else 'fail'
+        return 'pass' if KANBAN_OK.search(output) else 'fail'
     if gate == 'validate-task-schema':
         found = re.search(r'(\d+) task file\(s\) checked, (\d+) failing', output)
         return 'unknown' if not found else ('pass' if found.group(2) == '0' else 'fail')
@@ -135,11 +171,13 @@ def gate_events(transcripts):
             if use['name'] not in SHELLS:
                 continue
             command = use['input'].get('command', '')
-            names = sorted(set(GATE_NAME.findall(command)))
             result = record['results'].get(use['id'])
-            if not names or result is None:
+            if result is None:
                 continue
             output = result['text']
+            names = invoked_gates(command, output)
+            if not names:
+                continue
             task = TASK_ARG.search(command)
             for gate in names:
                 if gate == 'check-dod':
@@ -157,7 +195,7 @@ def gate_events(transcripts):
             found = COUNTS.search(output)
             if found and 'validate-kanban' in names:
                 counts = dict(zip(('Backlog', 'Ready', 'In Progress', 'In Review', 'Blocked', 'Done'), map(int, found.groups())))
-                readings.append({'at': use['at'], 'counts': counts, 'ok': bool(re.search(r'^\s*OK:[^\n]*task\(s\) tracked', output, re.M)), 'ref': use['ref']})
+                readings.append({'at': use['at'], 'counts': counts, 'ok': bool(KANBAN_OK.search(output)), 'ref': use['ref']})
     return events, readings
 
 
@@ -168,6 +206,7 @@ def build_threads(transcripts, root_record):
     notices = {}
     for record in transcripts:
         notices.update(record['notices'])
+    own = {record['actor']: record for record in transcripts if record is not root_record}
     for record in transcripts:
         for use in record['uses']:
             if use['name'] not in ('Agent', 'Task'):
@@ -179,6 +218,9 @@ def build_threads(transcripts, root_record):
             launched = result is not None and 'launched' in result['text'][:200].lower()
             done_at = notice['at'] if notice else (result['at'] if result and not launched else None)
             text = notice['text'] if notice else (result['text'] if result and not launched else None)
+            if not text and own.get(use['id'], {}).get('closing_text'):
+                # A background agent's notice can be lost; its own retained transcript still holds its closing message.
+                text, done_at = own[use['id']]['closing_text'], done_at or own[use['id']]['closing_at']
             scope = use['input'].get('description') or agent_type
             threads.append({'id': use['id'], 'file': record['file'], 'role': role, 'agent_type': agent_type, 'path': scope, 'start': use['at'], 'end': done_at or root_record['end'], 'root': False})
             if role == 'reviewer':

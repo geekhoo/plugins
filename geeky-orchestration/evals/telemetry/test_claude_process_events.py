@@ -1,8 +1,12 @@
 """Offline tests for the Claude adapter and the board operations it adds. No network."""
 import importlib.util
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
+
+import pytest
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
@@ -30,6 +34,101 @@ def write_rows(path, rows):
 
 def record(tmp_path, rows):
     return adapter.transcript(write_rows(tmp_path / 'session.jsonl', rows), 'orchestrator', 'root')
+
+
+def test_parse_board_reads_linked_and_bold_tasks():
+    board = '## Backlog\n- [ ] [T2 — Server](tasks/T2.md)\n\n## Done\n- [x] **T1** core\n\n## Validation Checklist\n- [ ] T9 is not a task\n'
+    assert process_events.parse_board(board) == {'T2': 'Backlog', 'T1': 'Done'}
+
+
+@pytest.mark.parametrize('command,names', [
+    ('python3 $P/scripts/validate-kanban.py --path docs/x', ['validate-kanban']),
+    ('cd w && python3 scripts/check-dod.py --task T1 ; echo done', ['check-dod']),
+    ('pwsh -File scripts/validate-task-schema.ps1 -Path x', ['validate-task-schema']),
+    ('& "C:/p/scripts/validate-kanban.ps1" -Path x', ['validate-kanban']),
+    ('"$PY" scripts/validate-kanban.py --path x', ['validate-kanban']),
+    ('G=$P/scripts/check-commit.py; python3 $G msg.txt', ['check-commit']),
+    ('for s in validate-kanban check-dod; do python3 $P/scripts/$s.py --path x; done', ['check-dod', 'validate-kanban']),
+    ("python3 - <<'EOF'\nimport subprocess\nsubprocess.run(['python3', 'scripts/validate-kanban.py'])\nEOF", ['validate-kanban']),
+    ("foreach($s in 'validate-kanban','check-dod'){ python \"$p/$s.py\" --path $f }", ['check-dod', 'validate-kanban']),
+    ('sed -n 1,50p $P/scripts/validate-task-schema.py', []),
+    ('cat $P/scripts/check-dod.py; ls $P/scripts', []),
+    ('git commit -m "docs: validate-kanban passes"', []),
+    ("cat >> review.md <<'EOF'\nvalidate-kanban OK\nEOF\ngit log -1", []),
+])
+def test_only_running_a_gate_counts(command, names):
+    assert adapter.invoked_gates(command) == names
+
+
+def test_a_gate_run_from_a_generated_script_is_proved_by_its_output():
+    command = "cat > lanes.py <<'EOF'\nsubprocess.run([p + '/validate-kanban.py'])\nEOF\npython3 lanes.py T5"
+    output = 'T5 Ready 0 OK: 11 task(s) tracked, 11 task file(s). Backlog=6, Ready=1, In Progress=0, In Review=0, Blocked=0, Done=4\n'
+    assert adapter.invoked_gates(command, output) == ['validate-kanban']
+    assert adapter.segment_gate('validate-kanban', output) == 'pass'
+    assert adapter.invoked_gates("cat > lanes.py <<'EOF'\nvalidate-kanban\nEOF\ngit log", 'print("OK: 11 task(s) tracked")') == []
+
+
+def test_reading_a_gates_source_gives_no_gate_event(tmp_path):
+    source = 'print("INVALID_COMMIT_MESSAGE")\nprint("OK: planning folder valid")\n'
+    rows = [use('Bash', {'command': 'sed -n 1,50p scripts/check-commit.py'}), result(source)]
+    assert adapter.gate_events([record(tmp_path, rows)]) == ([], [])
+
+
+def test_lost_notice_falls_back_to_the_agents_own_closing_message(tmp_path):
+    root_rows = [use('Agent', {'subagent_type': 'geeky-orchestration:code-reviewer', 'description': 'Review domain', 'run_in_background': True}, 'a1'), result('Async agent launched successfully', 'a1')]
+    root = record(tmp_path, root_rows)
+    closing = {'type': 'assistant', 'timestamp': '2026-10-22T07:09:00Z', 'message': {'content': [{'type': 'text', 'text': 'Verdict: PASS WITH WARNINGS'}]}}
+    child = adapter.transcript(write_rows(tmp_path / 'agent.jsonl', [closing]), 'reviewer', 'a1')
+    _, finals = adapter.build_threads([root, child], root)
+    assert finals[0]['text'] == 'Verdict: PASS WITH WARNINGS' and finals[0]['at'] == '2026-10-22T07:09:00Z'
+
+
+@pytest.mark.parametrize('text,verdict', [
+    ('Detail.\n\n**Can we move to the next phase? READY TO ADVANCE.**\n<usage>tool_uses: 3</usage>', 'READY TO ADVANCE'),
+    ('Detail.\n\n**This is NOT READY.**', 'NOT READY'),
+    ('Detail.\n\n**This did not PASS.**', None),
+    ('Some **READY TO ADVANCE** was considered.\n\nMore to do.', None),
+])
+def test_bold_last_line_gives_a_verdict(text, verdict):
+    reviews, missing = process_events.review_events([{'at': '2026-10-22T07:00:00Z', 'scope': 's', 'text': text, 'actor': 'a', 'agent_type': 'r', 'ref': 'x'}])
+    assert ([event['verdict'] for event in reviews], missing) == (([verdict], 0) if verdict else ([], 1))
+
+
+def planning_workspace(tmp_path, commits):
+    workspace = tmp_path / 'ws'
+    workspace.mkdir()
+    run = lambda *args, **env: subprocess.run(['git', '-C', str(workspace), '-c', 'user.name=t', '-c', 'user.email=t@local', *args], check=True, capture_output=True, env={**os.environ, **env})
+    run('init', '-q')
+    for index, (message, names) in enumerate(commits):
+        for name in names:
+            path = workspace / 'docs' / name
+            path.parent.mkdir(exist_ok=True)
+            path.write_text('x', encoding='utf-8')
+        stamp = f'2026-10-22T07:{index + 10}:00+00:00'
+        run('add', '-A')
+        run('commit', '-q', '-m', message, GIT_AUTHOR_DATE=stamp, GIT_COMMITTER_DATE=stamp)
+    return workspace
+
+
+ROOT_THREAD = {'id': 'root', 'role': 'orchestrator', 'start': '2026-10-22T07:00:00Z', 'end': '2026-10-22T08:00:00Z', 'root': True}
+PLANNING = [('spec', ['feature-specification.md']), ('plan', ['implementation-plan.md']), ('chore: plan review', ['review-plan.md'])]
+
+
+def test_no_coder_and_no_lane_progress_gives_no_implement_stage(tmp_path):
+    rows, problem = process_events.stage_rows(planning_workspace(tmp_path, PLANNING), ROOT_THREAD, [ROOT_THREAD], [{'task_id': 'T1', 'to_lane': 'Blocked', 'at': '2026-10-22T07:13:00Z'}], [])
+    assert [row['stage'] for row in rows] == ['spec-research', 'geeky-plan', 'plan-review'] and problem == 'Implementation never started'
+
+
+def test_a_coder_after_plan_review_gives_an_implement_stage(tmp_path):
+    coder = {'id': 'c', 'role': 'coder', 'start': '2026-10-22T07:20:00Z', 'end': '2026-10-22T07:30:00Z', 'root': False}
+    rows, problem = process_events.stage_rows(planning_workspace(tmp_path, PLANNING), ROOT_THREAD, [ROOT_THREAD, coder], [], [])
+    assert rows[-1]['stage'] == 'geeky-implement' and problem == 'Final review start not established'
+
+
+def test_one_commit_closing_two_stages_is_reported(tmp_path):
+    commits = [('spec', ['feature-specification.md']), ('chore: plan and plan review', ['implementation-plan.md', 'review-plan.md'])]
+    rows, problem = process_events.stage_rows(planning_workspace(tmp_path, commits), ROOT_THREAD, [ROOT_THREAD], [], [])
+    assert rows[2]['start'] == rows[2]['end'] and problem == 'plan-review has no length: one commit closed two stages'
 
 
 def test_write_and_edit_replay_as_exact_board_states(tmp_path):

@@ -23,7 +23,9 @@ VERDICT_WORDS = 'READY FOR IMPLEMENTATION|READY TO ADVANCE|NOT READY|PASS WITH W
 VERDICT_LINE = re.compile(r'^[\s>*#_`-]*(?:T\d+\s*:\s*)?(?:(?:overall\s+|final\s+|phase\s+)*verdict\s*[:\-]?\s*)?[*_`]*(' + VERDICT_WORDS + r')\b', re.I | re.M)
 VERDICT_BOLD = re.compile(r'\*\*\s*(?:overall\s+|final\s+|phase\s+)*verdict\s*[:\-]\s*\*{0,2}\s*(' + VERDICT_WORDS + r')\b'
                           r'|^[\s>*#_`-]*(?:[\w-]+\s+){0,4}verdict\s*[:\-]\s*\*{0,2}\s*(' + VERDICT_WORDS + r')\b', re.I | re.M)
-TASK = re.compile(r'^\s*[-*]\s*(?:\[[ xX]\]\s*)?`?(T\d+)\b')
+VERDICT_LAST_LINE = re.compile(r'^\s*\*\*.*?(?<![Nn][Oo][Tt] )\b(' + VERDICT_WORDS + r')\b[.!]?\*\*\s*$')
+USAGE = re.compile(r'<usage>.*?</usage>', re.S)
+TASK = re.compile(r'^\s*[-*]\s*(?:\[[ xX]\]\s*)?[`\[*]*(T\d+)\b')
 
 
 def role_for(agent_type):
@@ -295,22 +297,33 @@ def stage_rows(workspace, root, threads, lane_rows, readings):
     edges = [(root['start'], None), (spec[1], spec[0]), (plan[1], plan[0]), (review[1], review[0])]
     rows = [{'stage': name, 'start': edges[index][0], 'end': edges[index + 1][0], 'evidence': 'commit', 'source': edges[index + 1][1][:7]}
             for index, name in enumerate(('spec-research', 'geeky-plan', 'plan-review'))]
+    shared = next((row['stage'] for row in rows if process_trace.stamp(row['start']) == process_trace.stamp(row['end'])), None)
+    problem = f'{shared} has no length: one commit closed two stages' if shared else None
     if final_start is None:
+        moment = process_trace.stamp(review[1])
+        started = any(thread['role'] == 'coder' and thread['start'] and process_trace.stamp(thread['start']) > moment for thread in threads) \
+            or any(event['to_lane'] in ('In Progress', 'In Review', 'Done') for event in lane_rows)
+        if not started:
+            return rows, problem or 'Implementation never started'
         rows.append({'stage': 'geeky-implement', 'start': review[1], 'end': root['end'], 'evidence': 'commit-then-run-end', 'source': review[0][:7]})
-        return rows, 'Final review start not established'
+        return rows, problem or 'Final review start not established'
     rows.append({'stage': 'geeky-implement', 'start': review[1], 'end': final_start, 'evidence': 'lane-and-thread', 'source': 'all tasks Done'})
     rows.append({'stage': 'impl-review', 'start': final_start, 'end': root['end'], 'evidence': 'lane-and-thread', 'source': 'first reviewer after Done'})
-    return rows, None
+    return rows, problem
 
 
 def review_events(finals):
-    """One verdict per reviewer closing message, from an anchored verdict line in that message."""
+    """One verdict per reviewer closing message, from an anchored verdict line or a bold last line ending in a verdict."""
     events, missing = [], 0
     for final in finals:
         if not final.get('text'):
             missing += 1
             continue
         found = VERDICT_LINE.findall(final['text']) or [first or second for first, second in VERDICT_BOLD.findall(final['text'])]
+        if not found:
+            lines = [line for line in USAGE.sub('', final['text']).splitlines() if line.strip()]
+            closing = VERDICT_LAST_LINE.match(lines[-1]) if lines else None
+            found = [closing.group(1)] if closing else []
         if not found:
             missing += 1
             continue
