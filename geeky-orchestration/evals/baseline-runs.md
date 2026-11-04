@@ -73,7 +73,7 @@ pwsh -File evals\scripts\run-baseline.ps1 -Case <case> -MockAgent -MockScenario 
 
 ## macOS MXC runs (2026-10-30 to 2026-11-02)
 
-These runs use the Seatbelt sandbox under Santa Lockdown, launched by `~/.Projects/mxc-c0/launch-c2.sh` (any LiteLLM model, effort as an argument). All C2 runs used Claude Code 2.1.316, plugin export bf97923b, prompt sha 124eba9b, a 10800 s budget with a 900 s closeout reserve, and zero recoveries. Santa allows only the Xcode Python (3.9.6); the C2 contract asks for 3.11+, so these runs are non-reference diagnostics. Per-run scores are in the [C2 analysis](analyses/c2-macos-mxc-20261102/README.md); this table holds outcomes only.
+These runs use the Seatbelt sandbox under Santa Lockdown, launched by [`macos-mxc/launch-c2.sh`](macos-mxc/README.md) (any LiteLLM model, effort as an argument). All C2 runs used Claude Code 2.1.316, plugin export bf97923b, prompt sha 124eba9b, a 10800 s budget with a 900 s closeout reserve, and zero recoveries. Santa allows only the Xcode Python (3.9.6); the C2 contract asks for 3.11+, so these runs are non-reference diagnostics. Per-run scores are in the [C2 analysis](analyses/c2-macos-mxc-20261102/README.md); this table holds outcomes only.
 
 | Run stamp | Model, effort | Outcome |
 |---|---|---|

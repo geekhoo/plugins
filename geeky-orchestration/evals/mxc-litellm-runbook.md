@@ -115,7 +115,7 @@ result; do not reinterpret an unfinished record as accepted.
 | `LITELLM_PROXY_URL`, `LITELLM_PROXY_API_KEY` | The LiteLLM proxy and its virtual key. |
 | `TRACE_TO_LANGFUSE=true` | Turns telemetry on for both runners. |
 | `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_BASE_URL` | Langfuse project. Codex prefers `LANGFUSE_CODEX_*` when set. |
-| MXC platform environment | Runners select `mxc-win`, `mxc-linux` or `mxc-mac` and the matching `codex-mxc-*` / `claude-mxc-*` family. Host identity overrides are not used. The macOS launchers (`~/.Projects/mxc-c0/launch-c2.sh`) set the Langfuse environment `mxc-claude-mac` on every channel: the resource attribute `deployment.environment.name` for native OTel spans, and `LANGFUSE_TRACING_ENVIRONMENT` for the transcript upload and the automatic scores. |
+| MXC platform environment | Runners select `mxc-win`, `mxc-linux` or `mxc-mac` and the matching `codex-mxc-*` / `claude-mxc-*` family. Host identity overrides are not used. The macOS launchers ([`macos-mxc/launch-c2.sh`](macos-mxc/README.md)) set the Langfuse environment `mxc-claude-mac` on every channel: the resource attribute `deployment.environment.name` for native OTel spans, and `LANGFUSE_TRACING_ENVIRONMENT` for the transcript upload and the automatic scores. |
 | `SSL_CERT_FILE` / `REQUESTS_CA_BUNDLE` / `NODE_EXTRA_CA_CERTS` | Only behind a TLS-inspecting proxy. They pass through to the sandbox. |
 
 Keys reach the sandbox only as bare `--env NAME`; the MXC host copies the value and never prints it.

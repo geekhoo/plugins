@@ -38,7 +38,7 @@ C2 launcher enables it with `BRIDGE=1`. The two are independent and can be used 
 
 ## Install
 
-The macOS launcher (`~/.Projects/mxc-c0/launch-c2.sh`) installs the layer into the sandbox's isolated
+The macOS launcher ([`evals/macos-mxc/launch-c2.sh`](../../macos-mxc/README.md)) installs the layer into the sandbox's isolated
 `CLAUDE_CONFIG_DIR` (`$MXC_SANDBOX_HOME/home`) for non-`claude-*` models and removes it for Claude models:
 
 ```bash
