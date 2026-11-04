@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 
 def quoted_assignment_value(text, variable_name):
@@ -40,7 +41,13 @@ def inspect_shim(codex_root):
         return result
     text = shim.read_text(encoding="utf-8", errors="replace")
     result["uses_shell_execute_false"] = "UseShellExecute = $false" in text
-    result["reads_stdin"] = "In.ReadToEnd()" in text
+    stream_copy = re.search(
+        r"\[Console\]\s*::\s*OpenStandardInput\s*\(\s*\)\s*\.\s*"
+        r"CopyToAsync\s*\(\s*\$process\s*\.\s*StandardInput\s*\.\s*BaseStream\s*\)",
+        text,
+        re.IGNORECASE,
+    )
+    result["reads_stdin"] = "In.ReadToEnd()" in text or stream_copy is not None
     node_path = quoted_assignment_value(text, "$startInfo.FileName")
     guard_path = quoted_assignment_value(text, "$guardPath")
     check_optional_path(result, "node_path", node_path, "shim node path is missing: {path}")

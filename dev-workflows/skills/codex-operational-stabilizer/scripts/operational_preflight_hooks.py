@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 from operational_preflight_json import load_json_file
 
@@ -6,7 +7,25 @@ from operational_preflight_json import load_json_file
 def hook_command_paths(command):
     paths = []
     marker = '-File "'
-    if marker not in command:
+    powershell_command = re.match(
+        r'\s*(?:(?:powershell|pwsh)(?:\.exe)?|"[^"\r\n]*[\\/](?:powershell|pwsh)\.exe")\s+',
+        command,
+        re.IGNORECASE,
+    )
+    if marker not in command or not powershell_command:
+        # Only direct Node invocations with one literal operand are supported.
+        # Full matching deliberately excludes options, wrappers and compound commands.
+        executable = r"(?:[A-Za-z]:[\\/]|\\\\)(?:[^\r\n\"']*[\\/])?node\.exe"
+        match = re.fullmatch(
+            rf"\s*(?:node(?:\.exe)?|\"{executable}\"|'{executable}')\s+"
+            r"(?:\"([^\"\r\n]+)\"|'([^'\r\n]+)'|([^\s\"']+))\s*",
+            command,
+            re.IGNORECASE,
+        )
+        if match:
+            path = next(value for value in match.groups() if value is not None)
+            if not path.startswith('-') and not any(char in path for char in '$%`;&|<>()'):
+                paths.append(path)
         return paths
     start = command.find(marker) + len(marker)
     end = command.find('"', start)

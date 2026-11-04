@@ -44,6 +44,86 @@ class OperationalPreflightTests(unittest.TestCase):
             self.assertEqual(command["missing_paths"], [str(missing)])
             self.assertEqual(result["issues"], [f"UserPromptSubmit references missing path: {missing}"])
 
+    def test_hook_command_paths_extracts_direct_node_literals(self):
+        cases = [
+            (r'node "C:\Users\gerald.khoo\.claude\hooks\sessionstart-banner.js"',
+             r'C:\Users\gerald.khoo\.claude\hooks\sessionstart-banner.js'),
+            (r'node "C:\Users\gerald.khoo\.claude\hooks\stop-kanban-nudge.js"',
+             r'C:\Users\gerald.khoo\.claude\hooks\stop-kanban-nudge.js'),
+            (r'node.exe "C:\Hook Scripts\guard.js"', r'C:\Hook Scripts\guard.js'),
+            (r'"C:\Program Files\nodejs\node.exe" "C:\Hook Scripts\guard.js"',
+             r'C:\Hook Scripts\guard.js'),
+            (r"'C:\Program Files\nodejs\node.exe' 'C:\Hook Scripts\guard.js'",
+             r'C:\Hook Scripts\guard.js'),
+            (r'node C:\Hooks\guard.js', r'C:\Hooks\guard.js'),
+            (r'"C:\node.exe" guard.js', 'guard.js'),
+            (r'"\\server\tools\node.exe" guard.js', 'guard.js'),
+            ('  NODE.EXE\tguard.js  ', 'guard.js'),
+        ]
+        for command, expected in cases:
+            with self.subTest(command=command):
+                self.assertEqual(preflight.hook_command_paths(command), [expected])
+
+    def test_hook_command_paths_rejects_unsupported_node_forms(self):
+        commands = [
+            'node -e "console.log(1)"', 'node --eval "guard.js"',
+            'node -e', 'node "--eval"', 'node --require helper.js guard.js',
+            'echo node "guard.js"', 'echo "node guard.js"',
+            'cmd /c node "guard.js"', 'node "guard.js" && echo done',
+            'node guard.js;other.js', 'node "guard.js" extra',
+            'node "$env:HOOK"', 'node "%HOOK%"', 'node "$(Get-Hook)"',
+            'node "`hook.js"', 'notnode "guard.js"',
+            'node -e \'const command = `powershell -File "guard.ps1"`;\'',
+            'echo node -File "guard.ps1"',
+        ]
+        for command in commands:
+            with self.subTest(command=command):
+                self.assertEqual(preflight.hook_command_paths(command), [])
+
+    def test_inspect_hooks_checks_existing_and_missing_node_targets(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            existing = root / "existing hook.js"
+            existing.write_text("", encoding="utf-8")
+            missing = root / "missing hook.js"
+            hooks = {"hooks": {
+                event: [{"hooks": [{"type": "command", "command": f'node "{path}"'}]}]
+                for event, path in [("SessionStart", existing), ("Stop", missing)]
+            }}
+            (root / "hooks.json").write_text(json.dumps(hooks), encoding="utf-8")
+
+            result = preflight.inspect_hooks(root)
+
+            for event, path in [("SessionStart", existing), ("Stop", missing)]:
+                command = result["events"][event]["commands"][0]
+                self.assertEqual(command["referenced_paths"], [str(path)])
+                self.assertEqual(command["missing_paths"], [] if path == existing else [str(path)])
+            self.assertEqual(result["issues"], [f"Stop references missing path: {missing}"])
+
+    def test_inspect_shim_recognizes_only_stdin_copy_to_child_input(self):
+        cases = [
+            ("[Console]::OpenStandardInput().CopyToAsync($process.StandardInput.BaseStream)", True),
+            ("[cOnSoLe] :: openstandardinput ( ) . COPYTOASYNC (\n"
+             " $PROCESS . standardinput . basestream )", True),
+            ("", False),
+            ("[Console]::OpenStandardInput()", False),
+            ("[Console]::OpenStandardInput().CopyToAsync($file)", False),
+            ("[Console]::OpenStandardInput().CopyToAsync($process.StandardOutput.BaseStream)", False),
+            ("[Console]::OpenStandardOutput().CopyToAsync($process.StandardInput.BaseStream)", False),
+        ]
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            (root / "hooks").mkdir()
+            shim = root / "hooks" / "omx-native-hook-windows-shim.ps1"
+            for snippet, expected in cases:
+                with self.subTest(snippet=snippet):
+                    shim.write_text("$startInfo.UseShellExecute = $false\n" + snippet, encoding="utf-8")
+                    result = preflight.inspect_shim(root)
+                    self.assertEqual(result["reads_stdin"], expected)
+                    self.assertEqual(result["issues"], [] if expected else [
+                        "shim does not read hook payload from stdin"
+                    ])
+
     def test_inspect_shim_accepts_stdin_and_no_shell_execute(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)

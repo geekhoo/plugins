@@ -270,6 +270,11 @@ python -m pytest -q
 Some skills call tools supplied by other plugins. The dependency details and
 the Figma setup are in [`dev-workflows/PACKAGING.md`](dev-workflows/PACKAGING.md).
 
+The operational preflight recognizes direct Node hook script paths and the
+Windows stdin stream-copy shim. These are static checks, not proof that hooks
+execute. See the [maintenance record](dev-workflows/docs/preflight-20261103/handoff.md)
+for focused validation and source-versus-installed status.
+
 ### `mxc-sandbox`
 
 The following Windows examples build the host into `%USERPROFILE%\.mxc-sandbox\bin`
