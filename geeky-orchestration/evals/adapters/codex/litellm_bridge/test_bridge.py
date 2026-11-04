@@ -471,6 +471,7 @@ def test_unpaired_v2_output_becomes_untrusted_message_with_full_envelope(output)
 @contextmanager
 def fake_upstream(mode="json"):
     captured = []
+    release = threading.Event()
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_args):
@@ -479,6 +480,12 @@ def fake_upstream(mode="json"):
         def do_POST(self):
             body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
             captured.append((self.path, dict(self.headers), body))
+            if mode == "stall":
+                release.wait(5)
+                return
+            if mode == "disconnect":
+                self.close_connection = True
+                return
             if mode in {"redirect", "rate_limit"}:
                 self.send_response(307 if mode == "redirect" else 429)
                 self.send_header("Location", "http://127.0.0.1:1/steal")
@@ -502,6 +509,24 @@ def fake_upstream(mode="json"):
                 payload = b"".join(b"event: " + event["type"].encode() + b"\ndata: " + json.dumps(event).encode() + b"\n\n" for event in events)
                 payload += b"data: [DONE]\n\n"
                 content_type = "text/event-stream"
+            elif mode in {"sse_usage", "sse_stall"}:
+                gateway = {"id": "resp_1", "model": "deepseek/deepseek-v3.2", "usage": {"input_tokens": 9, "cost": 0.0125},
+                           "output": [item]}
+                events = [{"type": "response.created", "response": {"id": "resp_1", "model": "deepseek/deepseek-v3.2", "output": []}}]
+                if mode == "sse_usage":
+                    events.append({"type": "response.completed", "response": gateway})
+                self.send_response(200)
+                self.send_header("Content-Type", "text/event-stream")
+                self.end_headers()
+                self.wfile.write(b"".join(b"event: " + event["type"].encode() + b"\ndata: " + json.dumps(event).encode() + b"\n\n"
+                                          for event in events))
+                self.wfile.flush()
+                if mode == "sse_stall":
+                    release.wait(5)
+                return
+            elif mode == "json_usage":
+                payload = json.dumps({"id": "resp_1", "model": "minimax/m2", "usage": {"cost": 0}, "output": [item]}).encode()
+                content_type = "application/json"
             elif mode == "bad_text_json":
                 wire = body["tools"][0]["name"]
                 message = {"type": "message", "role": "assistant", "content": [
@@ -523,14 +548,15 @@ def fake_upstream(mode="json"):
     try:
         yield f"http://127.0.0.1:{upstream.server_port}/v1", captured
     finally:
+        release.set()
         upstream.shutdown()
         upstream.server_close()
         thread.join(3)
 
 
 @contextmanager
-def running_bridge(base_url, state=None, max_body=100000):
-    server = make_server(base_url, KEY, state=state, max_body=max_body, timeout=3)
+def running_bridge(base_url, state=None, max_body=100000, timeout=3, log=lambda _entry: None):
+    server = make_server(base_url, KEY, state=state, max_body=max_body, timeout=timeout, log=log)
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     try:
@@ -598,6 +624,89 @@ def test_http_end_to_end_maps_real_wire_and_auth_without_mutation(stream):
             assert int(headers["Content-Length"]) == len(raw)
             assert result["output"][0]["encrypted_function_args"] == []
             assert result["output"][0]["namespace"] == "collaboration"
+
+
+def logged_request(mode, body, **bridge):
+    entries = []
+    with fake_upstream(mode) as (base, _), running_bridge(base, seeded(), log=entries.append, **bridge) as bridge_server:
+        result = post(bridge_server, body)
+    deadline = time.monotonic() + 3
+    while not entries and time.monotonic() < deadline:
+        time.sleep(0.01)
+    assert len(entries) == 1
+    return result, entries[0]
+
+
+@pytest.mark.parametrize("mode,stream,model,cost", [("sse_usage", True, "deepseek/deepseek-v3.2", 0.0125),
+                                                    ("json_usage", False, "minimax/m2", 0)])
+def test_each_request_logs_gateway_model_cost_and_sizes_and_no_content(mode, stream, model, cost):
+    body = request_body(stream)
+    (status, _, _), entry = logged_request(mode, body)
+    assert status == 200
+    assert entry["event"] == "bridge_request" and entry["stream"] is stream
+    assert (entry["status"], entry["outcome"]) == (200, "ok")
+    assert (entry["response_model"], entry["usage_cost"]) == (model, cost)
+    assert entry["request_bytes"] == len(json.dumps(body)) and entry["upstream_request_bytes"] > 0
+    assert "phase" not in entry
+    line = json.dumps(entry)
+    for secret in (TASK, KEY, "Do the actual task.", "send_message", "Authorization"):
+        assert secret not in line
+
+
+def test_missing_cost_is_logged_as_absent_and_bad_types_are_not_copied():
+    record = {"response_model": None, "usage_cost": None}
+    from .server import note_response
+    note_response(record, {"model": 7, "usage": {"cost": True}})
+    note_response(record, {"usage": "free"})
+    note_response(record, "not an object")
+    assert record == {"response_model": None, "usage_cost": None}
+    note_response(record, {"model": "m" * 500, "usage": {"cost": "0.1"}})
+    assert record == {"response_model": "m" * 200, "usage_cost": None}
+
+
+def test_rejected_upstream_request_logs_status_without_body():
+    (status, _, _), entry = logged_request("rate_limit", request_body())
+    assert status == 429 and (entry["status"], entry["outcome"]) == (429, "upstream_http_error")
+    assert entry["response_model"] is None and entry["usage_cost"] is None and "secret" not in json.dumps(entry)
+
+
+def test_transport_error_names_the_phase_before_the_stream_starts():
+    (status, _, raw), entry = logged_request("stall", request_body(), timeout=0.2)
+    assert status == 502
+    assert json.loads(raw)["error"] == {"type": "bridge_error", "code": "upstream_transport_error",
+                                        "message": "upstream transport error", "phase": "response_headers"}
+    assert (entry["outcome"], entry["phase"], entry["error_type"]) == ("upstream_transport_error", "response_headers", "TimeoutError")
+    (status, _, raw), entry = logged_request("disconnect", request_body())
+    assert status == 502 and entry["phase"] == "response_headers" and entry["error_type"] == "RemoteDisconnected"
+
+
+def test_transport_error_names_the_connect_phase():
+    entries = []
+    with running_bridge("http://127.0.0.1:1/v1", seeded(), log=entries.append) as bridge:
+        status, _, raw = post(bridge, request_body())
+    assert status == 502 and json.loads(raw)["error"]["phase"] == "connect"
+    assert entries[0]["phase"] == "connect"
+
+
+def test_transport_error_mid_stream_names_the_phase_and_keeps_the_model():
+    (status, _, raw), entry = logged_request("sse_stall", request_body(True), timeout=0.2)
+    assert status == 200
+    events = [json.loads(line[6:]) for line in raw.decode().splitlines() if line.startswith("data: {")]
+    assert events[-1] == {"type": "error", "code": "upstream_transport_error", "phase": "response_body",
+                          "message": "Upstream transport failed"}
+    assert (entry["status"], entry["outcome"], entry["phase"]) == (200, "upstream_transport_error", "response_body")
+    assert entry["response_model"] == "deepseek/deepseek-v3.2" and entry["usage_cost"] is None
+
+
+def test_closed_log_stream_does_not_fail_a_request(monkeypatch):
+    from . import server as bridge_server
+
+    class Closed:
+        def write(self, _text):
+            raise ValueError("I/O operation on closed file")
+
+    monkeypatch.setattr(bridge_server.sys, "stderr", Closed())
+    bridge_server.stderr_log({"event": "bridge_request"})
 
 
 def test_http_rejects_unknown_content_auth_and_bad_path_before_upstream():
@@ -695,6 +804,9 @@ def test_real_cli_server_readiness_and_fixed_upstream(tmp_path):
             process.terminate()
             stdout, stderr = process.communicate(timeout=5)
             assert KEY.encode() not in stdout + stderr and TASK.encode() not in stdout + stderr
+            entries = [json.loads(line) for line in stderr.decode().splitlines()]
+            assert [entry["event"] for entry in entries] == ["bridge_request"]
+            assert entries[0]["status"] == 200 and entries[0]["request_bytes"] == len(json.dumps(request_body()))
 
 
 def test_cli_graceful_exit_closes_listener_and_removes_readiness(tmp_path, monkeypatch):
