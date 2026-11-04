@@ -181,7 +181,8 @@ A run that is invalid for an environment reason, rather than for the contestant'
 | File | Content |
 |---|---|
 | `solution.bundle` | `git bundle create solution.bundle --all`, taken in the workspace: the full repo, including the agent's planning folder and commits |
-| `stream.jsonl`, `session.jsonl`, `stderr.txt` | the raw transcripts |
+| `stream.jsonl`, `session.jsonl`, `stderr.txt` | the raw transcripts, secret-scrubbed in place before anything reads them (`scripts/scrub-secrets.mjs`) |
+| `secret-scrub.json` | the scrub report: files changed and redactions per rule, never the values |
 | `run.json` | the measures below |
 | `oracle-output.txt` | the step 3 output |
 | `notes.md` | the approach, any interventions, oracle verdicts, environment notes |

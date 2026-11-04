@@ -104,6 +104,14 @@ if ($name -eq 'analyze-run.py') {
     Set-Content (Join-Path $output 'analysis.json') '{}'
     return
 }
+if ($name -eq 'scrub-secrets.mjs') {
+    # Discovery is overridden, so the runner's node lookup lands here; record what it would scrub.
+    Add-Content (Join-Path $env:FAKE_ROOT 'scrubs.txt') $a[1]
+    if ($env:FAKE_FAILURE -eq 'scrub') { $global:LASTEXITCODE = 1; return }
+    Set-Content $a[[array]::IndexOf($a, '--report') + 1] '{"files_changed":0}'
+    $global:LASTEXITCODE = 0
+    return
+}
 throw "DENIED unexpected Python call: $a"
 '''
 
@@ -287,6 +295,19 @@ def test_actual_runner_prepared_and_running_deadline_context(estate, harness):
     assert record['execution']['finalization_time_s'] == 0
     assert record['fixture_analyzed']
     assert record['execution']['artifact_sha256']['stream.jsonl'] == hashlib.sha256((folder / 'stream.jsonl').read_bytes()).hexdigest()
+    if harness == 'claude':
+        # The stored run folder is scrubbed once, before oracle, analysis and upload.
+        assert (root / 'scrubs.txt').read_text(encoding='utf-8-sig').split() == [str(folder)]
+        assert (folder / 'secret-scrub.json').exists()
+
+
+def test_claude_secret_scrub_failure_fails_closed(estate):
+    result, record, launches, folder = estate[0]('claude', failure='scrub')
+    assert result.returncode != 0
+    assert 'secret scrub failed' in result.stdout + result.stderr
+    assert record['execution']['state'] != 'finalized'
+    assert record['execution']['failure']
+    assert record['execution']['postprocessing'].get('oracle') != 'completed'
 
 
 @pytest.mark.parametrize('duration,count,timeouts', [('8', 2, [10, 2]), ('8.1', 2, [10, 1]), ('9.1', 1, [10]), ('10', 1, [10])])

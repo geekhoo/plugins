@@ -9,8 +9,8 @@
     2. oracle against the empty workspace (every test must fail)
     3. headless claude in MXC (--isolated --allow-win32k --host-loopback), stream captured
     4. oracle 3x against the result (flake check)
-    5. stores solution.bundle, stream/session/stderr, oracle output and run.json under
-       evals/baselines/<case>/<UTC stamp>/
+    5. stores solution.bundle, stream/session/stderr (secret-scrubbed in place, scrub-secrets.mjs),
+       oracle output and run.json under evals/baselines/<case>/<UTC stamp>/
   Fields that need the ATIF ingest tool (latency, idle gaps, stages, tasks) are left null.
 
   Requires: CLAUDE_CODE_OAUTH_TOKEN (process or User env), the mxc-sandbox plugin, Python with
@@ -388,6 +388,13 @@ if ($session) {
     $subDir = Join-Path $session.DirectoryName "$sid/subagents"
     if (Test-Path $subDir) { Copy-Item $subDir (Join-Path $out 'subagents') -Recurse }
 }
+# Redact secrets from every stored text file before anything is hashed, analysed, uploaded or committed: a
+# contestant can print its environment into a tool result (printenv), and stderr can echo headers. Values come
+# from this process's environment, never argv (scrub-secrets.mjs). Fails closed: no scrub, no stored run.
+$scrubNode = (Get-Command node -ErrorAction SilentlyContinue).Source
+if (-not $scrubNode) { throw 'node is required to scrub secrets from the stored run' }
+& $scrubNode (Join-Path $PSScriptRoot 'scrub-secrets.mjs') $out --report (Join-Path $out 'secret-scrub.json')
+if ($LASTEXITCODE -ne 0) { throw "secret scrub failed: $out" }
 
 # 4. Oracle 3x
 Set-EvalStep $record $recordPath 'oracle'
@@ -498,6 +505,9 @@ if ($nativeOtel) {
         & $node --disable-warning=ExperimentalWarning $checker export --upload (Join-Path $telDir 'upload.json') `
             --out (Join-Path $telDir 'observations.json') > $null 2> (Join-Path $telDir 'export.stderr.txt')
         $uploadRecord.observations_exported = ($LASTEXITCODE -eq 0)
+        # The export includes the live OTEL spans sent during the run, which no host step scrubbed before upload.
+        & $node (Join-Path $PSScriptRoot 'scrub-secrets.mjs') $telDir --report (Join-Path $telDir 'secret-scrub.json')
+        $uploadRecord.secrets_scrubbed = ($LASTEXITCODE -eq 0)
         if ($env:GEEKY_EVAL_SCORES -in '1', 'true') {
             Write-EvalRecord $record $recordPath   # scores read the finished record
             & $node --disable-warning=ExperimentalWarning $checker scores --run $recordPath --session-id $sid `

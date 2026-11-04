@@ -40,6 +40,15 @@ capture `20261025T030323Z` (`stream.jsonl:7596`, one subagent log), which is
 already on the public remote. Rotate the keys. Scan captures for literal
 credential values, not only for key-shaped patterns, before each commit.
 
+It happened again on 2026-11-02: in the macOS MXC C2 GPT medium run the
+contestant ran `printenv`, and the gateway key went into a tool result, the
+stored transcripts, an analysis folder and the Langfuse trace, and was pushed.
+A manual scan step is not enough. The runner now scrubs every stored text file
+right after capture and fails closed (`scripts/scrub-secrets.mjs`), and
+`scripts/secret-scan.mjs --git <range>` checks the added lines and messages of
+a range before a push. Both read the values from the environment, never argv.
+The scrub cannot reach live OTel spans, which leave during the run.
+
 ## Narrow reasoning normalization, 2026-10-27
 
 The [bridge follow-up](analyses/bridge-reasoning-normalization-20261027/README.md)
