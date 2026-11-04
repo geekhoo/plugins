@@ -286,7 +286,9 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
         provider=({'name': 'litellm', 'base_url': provider['base_url'], 'env_key': provider['env_key'],
                    'context_window': provider['context_window'], 'tool_shape': 'classic-functions, multi-agent v2',
                    'tool_search': 'disabled; MCP functions exposed eagerly',
-                   'client_retries': {'request': 0, 'stream': 0}}
+                   'client_retries': {
+                       'request': config['model_providers']['litellm']['request_max_retries'],
+                       'stream': config['model_providers']['litellm']['stream_max_retries']}}
                   if provider else None),
         profile_sha256=hashlib.sha256((digest(profile) + digest(home)).encode()).hexdigest(),
         reachability={'claude': required, 'codex': required,

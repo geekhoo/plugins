@@ -82,7 +82,7 @@ class WorkerConfigTests(unittest.TestCase):
             HERE / 'profile', 'gpt-6.1-sol', 'medium')
         self.assert_matrix(report, 'gpt-6.1-sol', 'medium')
 
-    def test_provider_disables_client_retries_without_changing_worker_settings(self):
+    def test_provider_reports_configured_client_retries_without_changing_worker_settings(self):
         catalog = self.root / 'catalog.json'
         catalog.write_text(json.dumps({'models': [{'slug': 'gpt-5.5'}]}), encoding='utf-8')
         report = profile.prepare(self.export, self.root / 'home', self.signed, self.tools,
@@ -94,6 +94,11 @@ class WorkerConfigTests(unittest.TestCase):
         provider = config['model_providers']['litellm']
         self.assertEqual(provider['request_max_retries'], 2)
         self.assertEqual(provider['stream_max_retries'], 2)
+        saved = tomllib.loads((self.root / 'home/eval.config.toml').read_text(encoding='utf-8'))
+        self.assertEqual(saved['model_providers']['litellm'], provider)
+        self.assertEqual(report['provider']['client_retries'], {
+            'request': provider['request_max_retries'],
+            'stream': provider['stream_max_retries']})
         self.assertEqual(provider['wire_api'], 'responses')
         self.assertFalse(config['features']['tool_search'])
         self.assertFalse(config['features']['tool_search_always_defer_mcp_tools'])
