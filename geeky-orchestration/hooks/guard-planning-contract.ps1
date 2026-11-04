@@ -1,7 +1,7 @@
 # guard-planning-contract.ps1
 # PreToolUse-style guard for Edit/Write/NotebookEdit. Mirrors guard-planning-contract.py.
 # Reads tool-call JSON from stdin. If file_path points at a frozen geeky-plan
-# artifact, surfaces a message through a PORTABLE channel (stdout + stderr).
+# artifact, surfaces a message through a PORTABLE channel (JSON stdout + plain stderr).
 #
 # Frozen patterns (inside a planning folder under docs/<feature>/):
 #   - implementation-plan.md, feature-specification.md, draft.md, references.md
@@ -15,7 +15,9 @@
 #   feature-specification.md stays frozen at every stage.
 #
 # Modes (default warn) via -Mode or $env:GEEKY_GUARD_MODE:
-#   warn   -> advisory. Writes the message to stdout (context channel) and stderr; exit 0.
+#   warn   -> advisory. Emits additionalContext JSON on stdout
+#             ({"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":<msg>}})
+#             and the plain message on stderr for logs and other frameworks; exit 0.
 #   block  -> emits Claude/Codex-style deny JSON on stdout; exit 0 (host parses & blocks).
 #             Pass -ExitCode to return exit 2 instead (for exit-code-only frameworks).
 #
@@ -31,6 +33,18 @@ param(
 )
 
 $ErrorActionPreference = 'SilentlyContinue'
+
+# Claude Code and Codex ignore plain PreToolUse stdout, so wrap it as additionalContext.
+function Write-GuardWarning([string]$Message) {
+    $context = [pscustomobject]@{
+        hookSpecificOutput = [pscustomobject]@{
+            hookEventName = 'PreToolUse'
+            additionalContext = $Message
+        }
+    }
+    [Console]::Out.WriteLine(($context | ConvertTo-Json -Compress -Depth 5 -EscapeHandling EscapeNonAscii))
+    [Console]::Error.WriteLine($Message)
+}
 
 try {
     $raw = [Console]::In.ReadToEnd()
@@ -68,8 +82,7 @@ if ($Stage -ceq 'plan-review' -and $leaf -ne 'feature-specification.md') {
     $reviewMessage = "[geeky-orchestration] $filePath may be edited during plan-review. " +
                      "This edit invalidates the affected review: a bounded mechanical fix needs a " +
                      "changed-content/reference check; scope, requirement, AC or sequencing edits need a fresh verdict."
-    [Console]::Out.WriteLine($reviewMessage)
-    [Console]::Error.WriteLine($reviewMessage)
+    Write-GuardWarning $reviewMessage
     exit 0
 }
 
@@ -95,6 +108,5 @@ if ($Mode -eq 'block') {
 }
 
 # warn (default)
-[Console]::Out.WriteLine($msg)
-[Console]::Error.WriteLine($msg)
+Write-GuardWarning $msg
 exit 0

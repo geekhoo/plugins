@@ -21,10 +21,12 @@ Stage via --stage or $GEEKY_STAGE:
   feature-specification.md stays frozen at every stage.
 
 Modes (default warn) via --mode or $GEEKY_GUARD_MODE:
-  warn   -> advisory only. Writes the message to BOTH stdout (plain text) and
-            stderr, then exit 0. On exit 0, Claude Code treats non-JSON stdout as
-            added context; OpenAI Codex treats stdout as developer context. So the
-            warning actually reaches the model, unlike stderr-on-exit-0 alone.
+  warn   -> advisory only. Emits JSON on stdout,
+            {"hookSpecificOutput": {"hookEventName": "PreToolUse",
+            "additionalContext": <message>}}, writes the plain message to stderr
+            for logs and other frameworks, then exits 0. Claude Code and OpenAI
+            Codex both ignore plain PreToolUse stdout; additionalContext reaches
+            the model without blocking the edit.
   block  -> emits Claude/Codex-style deny JSON on stdout and exits 0 so the host
             parses the decision and blocks the edit. (Frameworks that gate purely
             on exit code: re-run with --exit-code so a block returns exit 2.)
@@ -75,9 +77,15 @@ def parse_args() -> argparse.Namespace:
 
 
 def emit_warn(msg: str) -> int:
-    # stdout: portable context channel (Claude adds non-JSON stdout as context;
-    # Codex treats stdout as developer context). stderr: log visibility.
-    sys.stdout.write(msg + "\n")
+    # stdout: additionalContext JSON (compact separators so the bytes match the
+    # PowerShell guard). stderr: plain text for logs and other frameworks.
+    context = {
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "additionalContext": msg,
+        }
+    }
+    sys.stdout.write(json.dumps(context, separators=(",", ":")) + "\n")
     sys.stdout.flush()
     sys.stderr.write(msg + "\n")
     sys.stderr.flush()

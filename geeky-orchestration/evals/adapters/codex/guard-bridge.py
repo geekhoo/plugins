@@ -29,7 +29,7 @@ def main():
             input=json.dumps({'tool_name': 'Edit', 'tool_input': {'file_path': path}}),
             text=True, capture_output=True, check=True)
         if result.stdout.strip():
-            warnings.append(result.stdout.strip())
+            warnings.append(json.loads(result.stdout)['hookSpecificOutput']['additionalContext'])
     if warnings:
         print(json.dumps({'hookSpecificOutput': {
             'hookEventName': 'PreToolUse', 'additionalContext': '\n'.join(warnings)}}))

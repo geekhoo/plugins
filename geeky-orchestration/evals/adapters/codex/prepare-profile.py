@@ -296,7 +296,7 @@ def prepare(plugin, home, codex_home, tools, profile, model, reasoning,
         capability_notes=['sync-agents omits canonical model/tool restrictions for Codex; generated role layers apply the worker model/reasoning and preserve nested defaults/registrations. Runtime inheritance requires native probe evidence.',
             'Windows KnownFolder ignores HOME for skills; run-home local marketplace enables only pinned export. Its native cache is in dedicated CODEX_HOME.',
             'Shell edits bypass guard as in Claude.',
-            'Codex patch warnings are wrapped as additionalContext; Claude plain stdout warnings may be invisible (O19).'])
+            'Guard warnings reach both harnesses as additionalContext; the Codex bridge also translates patch inputs to file paths.'])
     return report
 
 

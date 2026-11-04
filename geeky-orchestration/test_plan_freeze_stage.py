@@ -51,6 +51,12 @@ def line_bytes(message: str) -> bytes:
     return (message + os.linesep).encode("utf-8")
 
 
+def warn_stdout(message: str) -> bytes:
+    return line_bytes(json.dumps({"hookSpecificOutput": {
+        "hookEventName": "PreToolUse", "additionalContext": message,
+    }}, separators=(",", ":")))
+
+
 def review_message(path: str) -> str:
     return (
         f"[geeky-orchestration] {path} may be edited during plan-review. "
@@ -96,7 +102,7 @@ def assert_guard_result(result: subprocess.CompletedProcess[bytes], path: str,
     editable_review = stage == "plan-review" and leaf in FROZEN and leaf != "feature-specification.md"
     frozen = leaf in FROZEN and not editable_review
     assert result.returncode == (2 if frozen else 0), result.stderr
-    assert result.stdout == (line_bytes(review_message(path)) if editable_review else b"")
+    assert result.stdout == (warn_stdout(review_message(path)) if editable_review else b"")
     expected = legacy_message(path) if frozen else review_message(path) if editable_review else None
     assert result.stderr == (line_bytes(expected) if expected else b"")
 
@@ -115,8 +121,8 @@ def test_guard_unset_stage_preserves_default_warn_output(backend: str, leaf: str
     path = FOLDER + leaf
     result = run_guard(backend, path, mode=None, exit_code=False)
     assert result.returncode == 0
-    assert result.stdout == line_bytes(legacy_message(path))
-    assert result.stderr == result.stdout
+    assert result.stdout == warn_stdout(legacy_message(path))
+    assert result.stderr == line_bytes(legacy_message(path))
 
 
 @pytest.mark.parametrize("backend", ("python", "pwsh"))
@@ -146,7 +152,8 @@ def test_guard_block_json_retains_deny_or_allows_review(backend: str, stage: str
     result = run_guard(backend, path, stage=stage, exit_code=False)
     assert result.returncode == 0
     if stage == "plan-review":
-        assert result.stdout == result.stderr == line_bytes(review_message(path))
+        assert result.stdout == warn_stdout(review_message(path))
+        assert result.stderr == line_bytes(review_message(path))
     else:
         assert result.stderr == b""
         assert json.loads(result.stdout) == {"hookSpecificOutput": {

@@ -123,6 +123,8 @@ class GuardTests(unittest.TestCase):
                 output = json.loads(result.stdout)['hookSpecificOutput']
                 self.assertEqual(output['hookEventName'], 'PreToolUse')
                 self.assertIn('frozen', output['additionalContext'])
+                # Plain text: the guard's own JSON must not be wrapped a second time.
+                self.assertTrue(output['additionalContext'].startswith('[geeky-orchestration] '))
 
 
 if __name__ == '__main__':
