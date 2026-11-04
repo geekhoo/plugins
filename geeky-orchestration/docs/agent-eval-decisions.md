@@ -310,6 +310,12 @@ This is the planned layout. Today only the scorer, judge calibration notes, prom
 | D109 | Budget cadence and stage split for sandboxed runs | An MXC shell call costs about 7.5 s before it runs. Skills check the budget at entry, then before each phase or dispatch batch and after a wait, once per turn, preferring the `geeky_workflow_budget` MCP tool. `geeky_*` gate tools are preferred when they run without a prompt. The geeky-implement target drops from 90% to 75% of usable time, and impl-review re-reviews affected domains in one dispatch. Scoring unchanged. Commits `9b65b8c`, `6b13509`; savings unmeasured live. |
 | D110 | Client retries and upstream error log for LiteLLM runs | One gateway 502 ended run `20261030T150121Z-a55a910b` because the run profile set Codex's `request_max_retries` and `stream_max_retries` to 0. Run profiles now allow 2 of each; Codex retries 5xx and dropped streams, never 4xx. Native probes keep 0 so one probe is one request. The proxy writes each upstream error's status, trace headers and a 600-character redacted body excerpt to stderr; requests and headers are never logged. Scoring unchanged. |
 
+## Agnostic evaluation contract (2026-11-04)
+
+| ID | Decision | Evidence and limits |
+|---|---|---|
+| D111 | Process trace as the agnostic evaluation contract | Owner goal: a system, LLM and agent agnostic way to evaluate and score, using Langfuse tracing, tags and metadata to define workflows, and non-invasive for the contestant. A post-run adapter writes one `geeky-orchestration.end-to-end` trace per run into the run's session, with stages, tasks, lane moves, review verdicts and gate results, and coverage that says `unknown` rather than guessing. Model and provider stay in metadata and tags. New-run identity is `sessionId` `<case>/<harness>/<stamp>`, `userId` `<harness>/<role>` and step-named actor traces. This supersedes D105's rule that user IDs identify actual agents; D105's one-trace-per-actor rule stands, and exact threads stay in metadata. Retained sessions keep their IDs. Tested on `langfuse.markefin.com` with two mock sessions, and with the Codex adapter on two retained C2 runs: [contract](../evals/process-trace.md). The tracers do not emit the new identity yet, no Claude adapter exists, and no scorer reads the trace. A scorer built on it would change checks in the frozen parity rubric, so it needs its own owner ruling and score scope. Published scores are unchanged. |
+
 ## Open items
 
 | ID | Item |
