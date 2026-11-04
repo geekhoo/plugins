@@ -1,0 +1,206 @@
+{
+  "schema": "geeky-eval.baseline/1",
+  "case": "c3-minisql",
+  "harness": "claude-code",
+  "model": "gpt-6.1-sol",
+  "reasoning": "high",
+  "workspace": "/Users/gkhoo-c/.Projects/mxc-c0/work/eval-c3-minisql-20261104T104418Z",
+  "config_directory": "/Users/gkhoo-c/.Projects/mxc-c0/work/.eval-cfg-20261104T104418Z",
+  "seed_sha": "2e9d5cfd6b860bf31d48f442c5c497e476406a64",
+  "plugin_sha": "52160ef648cb15db1716c979e8c53f6a34fcad34",
+  "prompt_sha256": "124eba9b416324a052c8e25031f1660200f52a05a74c9a1d9ce13527b270ddde",
+  "native_otel": {
+    "enabled": true,
+    "channel": "claude-code-otel",
+    "endpoint": "https://langfuse.markefin.com/api/public/otel",
+    "protocol": "http/protobuf",
+    "service_name": "claude-code",
+    "session_attribute": "4df94188-e5f9-4c3e-9c3c-b4aecdd1267a",
+    "exporters": {
+      "traces": "otlp",
+      "logs": "otlp",
+      "metrics": "otlp"
+    },
+    "variables": [
+      "CLAUDE_CODE_ENABLE_TELEMETRY",
+      "CLAUDE_CODE_ENHANCED_TELEMETRY_BETA",
+      "OTEL_EXPORTER_OTLP_ENDPOINT",
+      "OTEL_EXPORTER_OTLP_PROTOCOL",
+      "OTEL_EXPORTER_OTLP_HEADERS",
+      "OTEL_LOGS_EXPORTER",
+      "OTEL_METRICS_EXPORTER",
+      "OTEL_TRACES_EXPORTER",
+      "OTEL_RESOURCE_ATTRIBUTES",
+      "OTEL_SERVICE_NAME",
+      "LANGFUSE_TRACING_ENVIRONMENT",
+      "OTEL_LOG_USER_PROMPTS",
+      "OTEL_LOG_ASSISTANT_RESPONSES",
+      "OTEL_LOG_TOOL_DETAILS",
+      "OTEL_LOG_TOOL_CONTENT",
+      "CLAUDE_CODE_OTEL_CONTENT_MAX_LENGTH",
+      "CLAUDE_CODE_OTEL_FLUSH_TIMEOUT_MS",
+      "CLAUDE_CODE_OTEL_SHUTDOWN_TIMEOUT_MS",
+      "CLAUDE_CODE_OTEL_DIAG_STDERR"
+    ]
+  },
+  "session_id": "4df94188-e5f9-4c3e-9c3c-b4aecdd1267a",
+  "started_utc": "2026-11-04T10:44:19.6830090Z",
+  "ended_utc": "2026-11-04T12:36:16.0734260Z",
+  "wall_time_s": 6716,
+  "exit_code": 0,
+  "exit_reason": "completed",
+  "is_error": false,
+  "reference_eligible": false,
+  "token_ceiling": 50000000,
+  "token_ceiling_policy": "informational",
+  "analysis_status": "not-started",
+  "telemetry": {
+    "enabled": false
+  },
+  "execution": {
+    "schema": "geeky-eval.execution/1",
+    "state": "process-finished",
+    "attempt_id": "13453aa5-c55b-4761-aee3-b67c8ed74e0e",
+    "segment_id": "d1ca8321-681b-410a-8865-ffd28c150273",
+    "authorization_reference": "owner-macos-mxc-20261104-c3-gpt-6.1-sol-high-bridge",
+    "allowed_recoveries": 0,
+    "qualification_waiver": null,
+    "initial_deadline_utc": "2026-11-04T16:44:18.482771Z",
+    "hard_wall_budget_s": 21600,
+    "closeout_reserve_s": 900,
+    "closeout_policy": "advisory-within-hard-wall",
+    "configuration": {
+      "model": "gpt-6.1-sol",
+      "reasoning": "high",
+      "mock": false,
+      "provider": "litellm",
+      "hard_wall_budget_s": 21600,
+      "closeout_reserve_s": 900,
+      "allowed_recoveries": 0
+    },
+    "configuration_sha256": "e435a4a6f8d29c3a8514b9c605b7a34fd50779ec640d1bae14178c8751eb0c89",
+    "invocations": [
+      {
+        "invocation_id": "746a1c37-c391-4d72-bcd4-64be3ea040b8",
+        "kind": "initial",
+        "timeout_s": 21598,
+        "started_utc": "2026-11-04T10:44:19.7102300Z",
+        "ended_utc": "2026-11-04T12:36:16.0659550Z",
+        "exit_code": 0,
+        "outcome": "success"
+      }
+    ],
+    "process_outcome": "success",
+    "capture_status": "captured",
+    "postprocessing": {
+      "seed-oracle": "completed",
+      "native-capture": "completed",
+      "oracle": "completed",
+      "parsing": "completed",
+      "telemetry": "completed",
+      "analysis": "in-progress"
+    },
+    "active_step": "analysis",
+    "failure": null,
+    "contestant_time_s": 6716.333697916998,
+    "attempt_elapsed_s": 6717.569178958016,
+    "finalization_time_s": null,
+    "workflow_acceptance": "not-established",
+    "writer_pid": 52439,
+    "writer_host": "st-gkhoo-c1",
+    "reconciliation_required": true,
+    "step_timeouts_s": {
+      "oracle": null,
+      "claude_host_flush": null,
+      "codex_replay": 900,
+      "sandbox_hook": 600,
+      "telemetry_poll_wait": 120,
+      "telemetry_host_process": null,
+      "telemetry_coverage": null,
+      "analysis": null
+    }
+  },
+  "harness_version": "2.1.318",
+  "approach": "canonical-prompt",
+  "plugin_modified_during_run": false,
+  "geeky_skills_loaded": 8,
+  "tokens": {
+    "input": 21961759,
+    "cached_input": 20409465,
+    "cache_creation": 1515432,
+    "output": 401490,
+    "total": 22363249,
+    "cost_usd_estimate": 29.8977,
+    "reasoning": 0
+  },
+  "model_calls": 119,
+  "latency_median_ms": 8580,
+  "max_idle_gap_s": 1105,
+  "stages": [
+    {
+      "name": "geeky-orchestrator",
+      "started_utc": "2026-11-04T10:44:28.255000+00:00",
+      "ended_utc": "2026-11-04T10:44:33.572000+00:00",
+      "minutes": 0.1
+    },
+    {
+      "name": "spec-research",
+      "started_utc": "2026-11-04T10:44:33.572000+00:00",
+      "ended_utc": "2026-11-04T10:52:41.400000+00:00",
+      "minutes": 8.1
+    },
+    {
+      "name": "geeky-plan",
+      "started_utc": "2026-11-04T10:52:41.400000+00:00",
+      "ended_utc": "2026-11-04T11:00:38.157000+00:00",
+      "minutes": 7.9
+    },
+    {
+      "name": "plan-review",
+      "started_utc": "2026-11-04T11:00:38.157000+00:00",
+      "ended_utc": "2026-11-04T11:11:47.847000+00:00",
+      "minutes": 11.2
+    },
+    {
+      "name": "geeky-implement",
+      "started_utc": "2026-11-04T11:11:47.847000+00:00",
+      "ended_utc": "2026-11-04T12:27:45.738000+00:00",
+      "minutes": 76.0
+    },
+    {
+      "name": "impl-review",
+      "started_utc": "2026-11-04T12:27:45.738000+00:00",
+      "ended_utc": "2026-11-04T12:36:15.833000+00:00",
+      "minutes": 8.5
+    }
+  ],
+  "tasks": null,
+  "impl_review_rounds": 1,
+  "oracle": {
+    "collected": 183,
+    "passed": 181,
+    "failed": 1,
+    "errors": 0,
+    "skipped": 1,
+    "stable_over_3": true
+  },
+  "loc": {
+    "source_non_test": 1210,
+    "test": 3198,
+    "files_changed": 67
+  },
+  "commits": 10,
+  "stop_reason": "end_turn",
+  "raw_sha256": {
+    "stream": "7c71586d71ba8d0a43bbc5b7005887a84216e044c0eb447d638f4a6a02e08308",
+    "session": "b1836841b7ddd70e439c773bc0d4eed57d1a82edaa0dbd779dd1747523d4ffaa"
+  },
+  "interventions": 0,
+  "resumed_after_refusal": 0,
+  "provider": {
+    "name": "litellm",
+    "base_url": "http://127.0.0.1:8788",
+    "model": "gpt-6.1-sol"
+  },
+  "over_token_ceiling": false
+}

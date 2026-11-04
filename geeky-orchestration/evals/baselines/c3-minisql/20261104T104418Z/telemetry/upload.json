@@ -1,0 +1,41 @@
+{
+  "schema": "geeky-eval.transcript-upload/1",
+  "uploader": {
+    "name": "geeky-eval-transcript-otlp",
+    "version": "1.0.0"
+  },
+  "session_id": "4df94188-e5f9-4c3e-9c3c-b4aecdd1267a",
+  "dry_run": false,
+  "ok": true,
+  "counts": {
+    "turns": 3,
+    "llm_calls": 119,
+    "tools": 792,
+    "tool_errors": 23,
+    "subagents": 23,
+    "subagent_llm_calls": 317,
+    "spans": 1254,
+    "traces": 3
+  },
+  "expected_names": {
+    "Conversational Turn": 3,
+    "LLM Call": 119,
+    "Tool: *": 792,
+    "Subagent: *": 23,
+    "Subagent LLM Call": 317
+  },
+  "batches": [
+    200,
+    200,
+    200,
+    200,
+    200,
+    200,
+    200
+  ],
+  "trace_ids": [
+    "6b45787baebfd25cad0c47a53111a661",
+    "e12e5fc876ac54dcd3ea5043b7db20cc",
+    "0cec9c59dfff0f814a45470ab8222545"
+  ]
+}

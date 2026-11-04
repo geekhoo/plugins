@@ -1,0 +1,603 @@
+..F......................................................s.............. [ 39%]
+........................................................................ [ 78%]
+.......................................                                  [100%]
+=================================== FAILURES ===================================
+_____________________________ test_ac1_import_scan _____________________________
+
+target = PosixPath('/Users/gkhoo-c/.Projects/mxc-c0/work/eval-c3-minisql-20261104T104418Z')
+
+    def test_ac1_import_scan(target):
+        """AC1, R1: only stdlib imports, never sqlite3; no eval()/exec() calls in minisql/."""
+>       allowed = set(sys.stdlib_module_names) - {"sqlite3", "_sqlite3"}
+E       AttributeError: module 'sys' has no attribute 'stdlib_module_names'
+
+oracle_acceptance.py:27: AttributeError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED oracle_acceptance.py::test_ac1_select_literal
+PASSED oracle_acceptance.py::test_ac1_package_layout
+PASSED oracle_acceptance.py::test_ac2_select_star_case_insensitive_table
+PASSED oracle_acceptance.py::test_ac2_missing_data_dir
+PASSED oracle_acceptance.py::test_ac3_schema
+PASSED oracle_acceptance.py::test_ac4_lex_error
+PASSED oracle_acceptance.py::test_ac5_precedence
+PASSED oracle_acceptance.py::test_ac6_case_insensitive_names
+PASSED oracle_acceptance.py::test_ac7_type_mismatch
+PASSED oracle_acceptance.py::test_ac8_arithmetic
+PASSED oracle_acceptance.py::test_ac9_not_in_with_null
+PASSED oracle_acceptance.py::test_ac10_projection_naming
+PASSED oracle_acceptance.py::test_ac11_library_avg
+PASSED oracle_cases.py::test_case01_join_duplicates
+PASSED oracle_cases.py::test_case02_left_join_null_fill
+PASSED oracle_cases.py::test_case02_left_join_anti
+PASSED oracle_cases.py::test_case03_null_group
+PASSED oracle_cases.py::test_case04_having
+PASSED oracle_cases.py::test_case05_order_desc_nulls_last
+PASSED oracle_cases.py::test_case05_order_multi_key
+PASSED oracle_cases.py::test_case06_like_escape_underscore
+PASSED oracle_cases.py::test_case06_like_escape_percent
+PASSED oracle_cases.py::test_case06_like_backslash_literal
+PASSED oracle_cases.py::test_case06_like_case_sensitive
+PASSED oracle_cases.py::test_case06_like_invalid_pattern
+PASSED oracle_cases.py::test_case07_division_by_zero
+PASSED oracle_cases.py::test_case07_and_short_circuit
+PASSED oracle_cases.py::test_case08_type_inference_output
+PASSED oracle_cases.py::test_case08_type_inference_types
+PASSED oracle_cases.py::test_case08_text_vs_integer
+PASSED oracle_cases.py::test_case09_parse_error_multiline
+PASSED oracle_cases.py::test_case09_unterminated_string
+PASSED oracle_cases.py::test_case09_double_quotes_are_identifiers
+PASSED oracle_cases.py::test_case09_unexpected_end
+PASSED oracle_cases.py::test_case09_unknown_table
+PASSED oracle_cases.py::test_case10_empty_aggregate
+PASSED oracle_cases.py::test_case10_empty_grouped
+PASSED oracle_cases.py::test_case11_not_null
+PASSED oracle_cases.py::test_case11_in_or_is_null
+PASSED oracle_cases.py::test_case12_distinct_limit_offset
+PASSED oracle_cases.py::test_case12_distinct_order_by_rule
+PASSED oracle_cases.py::test_case13_table_format
+PASSED oracle_cases.py::test_case14_csv_quoting
+PASSED oracle_cases.py::test_case15_repl
+PASSED oracle_engine.py::test_load_errors[files0-IOError: empty.csv: empty file]
+PASSED oracle_engine.py::test_load_errors[files1-IOError: empty.csv: empty column name]
+PASSED oracle_engine.py::test_load_errors[files2-IOError: empty.csv: duplicate column 'a']
+PASSED oracle_engine.py::test_load_errors[files3-IOError: empty.csv: duplicate column 'ID']
+PASSED oracle_engine.py::test_load_errors[files4-IOError: empty.csv: line 3: expected 2 fields, got 1]
+PASSED oracle_engine.py::test_load_errors[files5-IOError: empty.csv: line 4: expected 2 fields, got 1]
+PASSED oracle_engine.py::test_load_errors[files6-IOError: empty.csv: line 2: malformed CSV]
+PASSED oracle_engine.py::test_load_errors[files7-IOError: empty.csv: invalid UTF-8]
+PASSED oracle_engine.py::test_data_dir_is_file
+PASSED oracle_engine.py::test_unreferenced_bad_file_ignored
+PASSED oracle_engine.py::test_tables_does_not_read_contents
+PASSED oracle_engine.py::test_missing_data_dir_before_lexing
+PASSED oracle_engine.py::test_having_without_group_by[SELECT COUNT(*) AS n FROM emp HAVING COUNT(*) > 10-n\n]
+PASSED oracle_engine.py::test_having_without_group_by[SELECT COUNT(*) AS n FROM emp HAVING COUNT(*) > 1-n\n5\n]
+PASSED oracle_engine.py::test_having_without_group_by[SELECT COUNT(*) AS n FROM emp WHERE id > 99 HAVING COUNT(*) = 0-n\n0\n]
+PASSED oracle_engine.py::test_having_without_group_by[SELECT MAX(salary) AS m FROM emp WHERE id > 99 HAVING COUNT(*) > 0-m\n]
+PASSED oracle_engine.py::test_bom_crlf_blank_lines
+PASSED oracle_engine.py::test_table_extension_and_lookup_case_insensitive
+PASSED oracle_engine.py::test_tables_listing
+PASSED oracle_engine.py::test_inference_edge_cases
+PASSED oracle_engine.py::test_quoted_empty_is_null
+PASSED oracle_engine.py::test_inner_join_keyword_and_as
+PASSED oracle_engine.py::test_join_nested_loop_order
+PASSED oracle_engine.py::test_left_outer_join_count
+PASSED oracle_engine.py::test_left_join_false_condition
+PASSED oracle_engine.py::test_star_expansion_with_join
+PASSED oracle_engine.py::test_min_max_text_and_real
+PASSED oracle_engine.py::test_group_first_seen_order
+PASSED oracle_engine.py::test_group_by_expression
+PASSED oracle_engine.py::test_order_by_aggregate_not_selected
+PASSED oracle_engine.py::test_aggregate_query_via_order_by
+PASSED oracle_engine.py::test_aggregate_with_literal
+PASSED oracle_engine.py::test_all_null_group
+PASSED oracle_engine.py::test_order_by_ordinals
+PASSED oracle_engine.py::test_order_by_ordinal_after_star
+PASSED oracle_engine.py::test_order_by_alias
+PASSED oracle_engine.py::test_order_by_alias_without_as
+PASSED oracle_engine.py::test_order_by_unselected_column
+PASSED oracle_engine.py::test_order_desc_stable_ties
+PASSED oracle_engine.py::test_distinct_null_equal
+PASSED oracle_engine.py::test_distinct_order_by_alias
+PASSED oracle_engine.py::test_distinct_multi_column
+PASSED oracle_engine.py::test_limit_offset[LIMIT 0-id\n]
+PASSED oracle_engine.py::test_limit_offset[LIMIT 2-id\n1\n2\n]
+PASSED oracle_engine.py::test_limit_offset[OFFSET 3-id\n4\n5\n]
+PASSED oracle_engine.py::test_limit_offset[LIMIT 10 OFFSET 4-id\n5\n]
+PASSED oracle_engine.py::test_limit_offset[LIMIT 1 OFFSET 9-id\n]
+PASSED oracle_interfaces.py::test_api_result_is_frozen_dataclass
+PASSED oracle_interfaces.py::test_api_error_hierarchy
+PASSED oracle_interfaces.py::test_api_lex_error_attributes
+PASSED oracle_interfaces.py::test_api_parse_error_attributes
+PASSED oracle_interfaces.py::test_api_semantic_error_attributes
+PASSED oracle_interfaces.py::test_api_runtime_error_attributes
+PASSED oracle_interfaces.py::test_api_io_error_attributes
+PASSED oracle_interfaces.py::test_api_schema_case_insensitive
+PASSED oracle_interfaces.py::test_format_functions
+PASSED oracle_interfaces.py::test_table_format_mixed_types
+PASSED oracle_interfaces.py::test_table_format_zero_rows
+PASSED oracle_interfaces.py::test_table_format_right_align_and_nulls
+PASSED oracle_interfaces.py::test_utf8_output
+PASSED oracle_interfaces.py::test_csv_quoting_more
+PASSED oracle_interfaces.py::test_cli_usage_error
+PASSED oracle_interfaces.py::test_cli_default_data_dir
+PASSED oracle_interfaces.py::test_cli_io_error_exit_code
+PASSED oracle_interfaces.py::test_repl_tables_and_schema
+PASSED oracle_interfaces.py::test_repl_error_continues
+PASSED oracle_interfaces.py::test_repl_positions_relative_to_buffer
+PASSED oracle_interfaces.py::test_repl_eof_executes_buffer
+PASSED oracle_interfaces.py::test_repl_unknown_command
+PASSED oracle_interfaces.py::test_repl_blank_lines_and_exit
+PASSED oracle_interfaces.py::test_repl_dot_line_inside_buffer_is_sql
+PASSED oracle_language.py::test_lex_errors[SELECT 1abc-LexError at line 1, column 8: invalid number literal]
+PASSED oracle_language.py::test_lex_errors[SELECT 1.2.3-LexError at line 1, column 8: invalid number literal]
+PASSED oracle_language.py::test_lex_errors[SELECT "abc FROM emp-LexError at line 1, column 8: unterminated quoted identifier]
+PASSED oracle_language.py::test_lex_errors[SELECT 'it''s-LexError at line 1, column 8: unterminated string literal]
+PASSED oracle_language.py::test_lex_comment_and_escaped_quote
+PASSED oracle_language.py::test_lex_real_literal_forms
+PASSED oracle_language.py::test_lex_positions_tab_line2
+PASSED oracle_language.py::test_lex_positions_cr_and_codepoints
+PASSED oracle_language.py::test_lex_case_insensitive_keywords
+PASSED oracle_language.py::test_quoted_identifiers_may_be_keywords
+PASSED oracle_language.py::test_quoted_identifier_doubled_quote
+PASSED oracle_language.py::test_parse_errors[SELECT 1 = 2 = 3-ParseError at line 1, column 14: unexpected token '=']
+PASSED oracle_language.py::test_parse_errors[SELECT-ParseError at line 1, column 7: unexpected end of input]
+PASSED oracle_language.py::test_parse_errors[SELECT 1; 2-ParseError at line 1, column 11: unexpected token '2']
+PASSED oracle_language.py::test_parse_errors[SELECT 1 FROM emp LIMIT -1-ParseError at line 1, column 25: unexpected token '-']
+PASSED oracle_language.py::test_parse_errors[SELECT 1 FROM emp LIMIT 1.5-ParseError at line 1, column 25: unexpected token '1.5']
+PASSED oracle_language.py::test_parse_errors[SELECT id FROM emp WHERE-ParseError at line 1, column 25: unexpected end of input]
+PASSED oracle_language.py::test_parse_errors[SELECT name FROM emp ORDER-ParseError at line 1, column 27: unexpected end of input]
+PASSED oracle_language.py::test_precedence_and_associativity
+PASSED oracle_language.py::test_optional_as_and_semicolon
+PASSED oracle_language.py::test_from_less_query
+PASSED oracle_language.py::test_output_name_verbatim_source
+PASSED oracle_language.py::test_output_name_quoted_column_uses_header
+PASSED oracle_language.py::test_duplicate_output_names
+PASSED oracle_language.py::test_semantic_errors[SELECT emp.name FROM emp e-column 8: unknown column 'emp.name']
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp JOIN emp ON 1 = 1-column 24: duplicate table name 'emp']
+PASSED oracle_language.py::test_semantic_errors[SELECT nope FROM emp-column 8: unknown column 'nope']
+PASSED oracle_language.py::test_semantic_errors[SELECT e.nope FROM emp e-column 8: unknown column 'e.nope']
+PASSED oracle_language.py::test_semantic_errors[SELECT code FROM dept a JOIN dept b ON a.code = b.code-column 8: ambiguous column 'code']
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp e JOIN dept d ON e.dept = f.code JOIN dept f ON 1 = 1-column 45: unknown column 'f.code']
+PASSED oracle_language.py::test_semantic_errors[SELECT foo(id) FROM emp-column 8: unknown function 'foo']
+PASSED oracle_language.py::test_semantic_errors[SELECT -name FROM emp-column 8: type mismatch: cannot apply '-' to TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE id LIKE 'a'-column 28: type mismatch: cannot apply 'LIKE' to INTEGER and TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE id IN (1, 'a')-column 28: type mismatch: cannot apply 'IN' to INTEGER and TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT SUM(name) FROM emp-column 8: type mismatch: cannot apply 'SUM' to TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE name-column 25: condition must be numeric, got TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE COUNT(*) > 1-column 25: aggregate function not allowed here]
+PASSED oracle_language.py::test_semantic_errors[SELECT SUM(COUNT(*)) FROM emp-column 12: aggregate function not allowed here]
+PASSED oracle_language.py::test_semantic_errors[SELECT name, COUNT(*) FROM emp GROUP BY dept-column 8: column 'name' must appear in GROUP BY or be used in an aggregate]
+PASSED oracle_language.py::test_semantic_errors[SELECT *, COUNT(*) FROM emp-column 8: '*' not allowed in aggregate query]
+PASSED oracle_language.py::test_semantic_errors[SELECT id FROM emp ORDER BY 2-column 29: ORDER BY position 2 is out of range]
+PASSED oracle_language.py::test_semantic_errors[SELECT id FROM emp ORDER BY 0-column 29: ORDER BY position 0 is out of range]
+PASSED oracle_language.py::test_semantic_errors[SELECT fname FROM files WHERE fname LIKE 'a' ESCAPE '!!'-column 53: ESCAPE must be a single character]
+PASSED oracle_language.py::test_semantic_errors[SELECT id AS k, salary AS k FROM emp ORDER BY k-column 47: ambiguous column 'k']
+PASSED oracle_language.py::test_semantic_errors[SELECT id AS k FROM emp WHERE k = 1-column 31: unknown column 'k']
+PASSED oracle_language.py::test_star_argument_only_for_count
+PASSED oracle_language.py::test_duplicate_range_name_with_aliases[SELECT 1 FROM emp e JOIN dept e ON 1 = 1-column 31: duplicate table name 'e']
+PASSED oracle_language.py::test_duplicate_range_name_with_aliases[SELECT 1 FROM emp E JOIN dept e ON 1 = 1-column 31: duplicate table name 'e']
+PASSED oracle_language.py::test_duplicate_range_name_with_aliases[SELECT 1 FROM emp JOIN dept AS emp ON 1 = 1-column 32: duplicate table name 'emp']
+PASSED oracle_language.py::test_semantic_error_before_rows
+PASSED oracle_language.py::test_arithmetic_mixed
+PASSED oracle_language.py::test_arithmetic_big_integer
+PASSED oracle_language.py::test_division_by_zero[SELECT 1 / 0-10]
+PASSED oracle_language.py::test_division_by_zero[SELECT 1.0 / 0-12]
+PASSED oracle_language.py::test_division_by_zero[SELECT 5 % 0-10]
+PASSED oracle_language.py::test_division_by_zero[SELECT NULL AND 1 / 0-19]
+PASSED oracle_language.py::test_division_by_zero_first_row
+PASSED oracle_language.py::test_no_runtime_error_without_rows
+PASSED oracle_language.py::test_short_circuit
+PASSED oracle_language.py::test_static_result_types
+PASSED oracle_language.py::test_comparisons
+PASSED oracle_language.py::test_is_null
+PASSED oracle_language.py::test_and_or_not_truth_table
+PASSED oracle_language.py::test_in_semantics
+PASSED oracle_language.py::test_like_semantics
+PASSED oracle_language.py::test_like_underscore_matches_newline
+SKIPPED [1] oracle_engine.py:65: filesystem is case-insensitive; cannot create a.csv and A.csv together
+FAILED oracle_acceptance.py::test_ac1_import_scan - AttributeError: module 's...
+1 failed, 181 passed, 1 skipped in 16.16s
+
+..F......................................................s.............. [ 39%]
+........................................................................ [ 78%]
+.......................................                                  [100%]
+=================================== FAILURES ===================================
+_____________________________ test_ac1_import_scan _____________________________
+
+target = PosixPath('/Users/gkhoo-c/.Projects/mxc-c0/work/eval-c3-minisql-20261104T104418Z')
+
+    def test_ac1_import_scan(target):
+        """AC1, R1: only stdlib imports, never sqlite3; no eval()/exec() calls in minisql/."""
+>       allowed = set(sys.stdlib_module_names) - {"sqlite3", "_sqlite3"}
+E       AttributeError: module 'sys' has no attribute 'stdlib_module_names'
+
+oracle_acceptance.py:27: AttributeError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED oracle_acceptance.py::test_ac1_select_literal
+PASSED oracle_acceptance.py::test_ac1_package_layout
+PASSED oracle_acceptance.py::test_ac2_select_star_case_insensitive_table
+PASSED oracle_acceptance.py::test_ac2_missing_data_dir
+PASSED oracle_acceptance.py::test_ac3_schema
+PASSED oracle_acceptance.py::test_ac4_lex_error
+PASSED oracle_acceptance.py::test_ac5_precedence
+PASSED oracle_acceptance.py::test_ac6_case_insensitive_names
+PASSED oracle_acceptance.py::test_ac7_type_mismatch
+PASSED oracle_acceptance.py::test_ac8_arithmetic
+PASSED oracle_acceptance.py::test_ac9_not_in_with_null
+PASSED oracle_acceptance.py::test_ac10_projection_naming
+PASSED oracle_acceptance.py::test_ac11_library_avg
+PASSED oracle_cases.py::test_case01_join_duplicates
+PASSED oracle_cases.py::test_case02_left_join_null_fill
+PASSED oracle_cases.py::test_case02_left_join_anti
+PASSED oracle_cases.py::test_case03_null_group
+PASSED oracle_cases.py::test_case04_having
+PASSED oracle_cases.py::test_case05_order_desc_nulls_last
+PASSED oracle_cases.py::test_case05_order_multi_key
+PASSED oracle_cases.py::test_case06_like_escape_underscore
+PASSED oracle_cases.py::test_case06_like_escape_percent
+PASSED oracle_cases.py::test_case06_like_backslash_literal
+PASSED oracle_cases.py::test_case06_like_case_sensitive
+PASSED oracle_cases.py::test_case06_like_invalid_pattern
+PASSED oracle_cases.py::test_case07_division_by_zero
+PASSED oracle_cases.py::test_case07_and_short_circuit
+PASSED oracle_cases.py::test_case08_type_inference_output
+PASSED oracle_cases.py::test_case08_type_inference_types
+PASSED oracle_cases.py::test_case08_text_vs_integer
+PASSED oracle_cases.py::test_case09_parse_error_multiline
+PASSED oracle_cases.py::test_case09_unterminated_string
+PASSED oracle_cases.py::test_case09_double_quotes_are_identifiers
+PASSED oracle_cases.py::test_case09_unexpected_end
+PASSED oracle_cases.py::test_case09_unknown_table
+PASSED oracle_cases.py::test_case10_empty_aggregate
+PASSED oracle_cases.py::test_case10_empty_grouped
+PASSED oracle_cases.py::test_case11_not_null
+PASSED oracle_cases.py::test_case11_in_or_is_null
+PASSED oracle_cases.py::test_case12_distinct_limit_offset
+PASSED oracle_cases.py::test_case12_distinct_order_by_rule
+PASSED oracle_cases.py::test_case13_table_format
+PASSED oracle_cases.py::test_case14_csv_quoting
+PASSED oracle_cases.py::test_case15_repl
+PASSED oracle_engine.py::test_load_errors[files0-IOError: empty.csv: empty file]
+PASSED oracle_engine.py::test_load_errors[files1-IOError: empty.csv: empty column name]
+PASSED oracle_engine.py::test_load_errors[files2-IOError: empty.csv: duplicate column 'a']
+PASSED oracle_engine.py::test_load_errors[files3-IOError: empty.csv: duplicate column 'ID']
+PASSED oracle_engine.py::test_load_errors[files4-IOError: empty.csv: line 3: expected 2 fields, got 1]
+PASSED oracle_engine.py::test_load_errors[files5-IOError: empty.csv: line 4: expected 2 fields, got 1]
+PASSED oracle_engine.py::test_load_errors[files6-IOError: empty.csv: line 2: malformed CSV]
+PASSED oracle_engine.py::test_load_errors[files7-IOError: empty.csv: invalid UTF-8]
+PASSED oracle_engine.py::test_data_dir_is_file
+PASSED oracle_engine.py::test_unreferenced_bad_file_ignored
+PASSED oracle_engine.py::test_tables_does_not_read_contents
+PASSED oracle_engine.py::test_missing_data_dir_before_lexing
+PASSED oracle_engine.py::test_having_without_group_by[SELECT COUNT(*) AS n FROM emp HAVING COUNT(*) > 10-n\n]
+PASSED oracle_engine.py::test_having_without_group_by[SELECT COUNT(*) AS n FROM emp HAVING COUNT(*) > 1-n\n5\n]
+PASSED oracle_engine.py::test_having_without_group_by[SELECT COUNT(*) AS n FROM emp WHERE id > 99 HAVING COUNT(*) = 0-n\n0\n]
+PASSED oracle_engine.py::test_having_without_group_by[SELECT MAX(salary) AS m FROM emp WHERE id > 99 HAVING COUNT(*) > 0-m\n]
+PASSED oracle_engine.py::test_bom_crlf_blank_lines
+PASSED oracle_engine.py::test_table_extension_and_lookup_case_insensitive
+PASSED oracle_engine.py::test_tables_listing
+PASSED oracle_engine.py::test_inference_edge_cases
+PASSED oracle_engine.py::test_quoted_empty_is_null
+PASSED oracle_engine.py::test_inner_join_keyword_and_as
+PASSED oracle_engine.py::test_join_nested_loop_order
+PASSED oracle_engine.py::test_left_outer_join_count
+PASSED oracle_engine.py::test_left_join_false_condition
+PASSED oracle_engine.py::test_star_expansion_with_join
+PASSED oracle_engine.py::test_min_max_text_and_real
+PASSED oracle_engine.py::test_group_first_seen_order
+PASSED oracle_engine.py::test_group_by_expression
+PASSED oracle_engine.py::test_order_by_aggregate_not_selected
+PASSED oracle_engine.py::test_aggregate_query_via_order_by
+PASSED oracle_engine.py::test_aggregate_with_literal
+PASSED oracle_engine.py::test_all_null_group
+PASSED oracle_engine.py::test_order_by_ordinals
+PASSED oracle_engine.py::test_order_by_ordinal_after_star
+PASSED oracle_engine.py::test_order_by_alias
+PASSED oracle_engine.py::test_order_by_alias_without_as
+PASSED oracle_engine.py::test_order_by_unselected_column
+PASSED oracle_engine.py::test_order_desc_stable_ties
+PASSED oracle_engine.py::test_distinct_null_equal
+PASSED oracle_engine.py::test_distinct_order_by_alias
+PASSED oracle_engine.py::test_distinct_multi_column
+PASSED oracle_engine.py::test_limit_offset[LIMIT 0-id\n]
+PASSED oracle_engine.py::test_limit_offset[LIMIT 2-id\n1\n2\n]
+PASSED oracle_engine.py::test_limit_offset[OFFSET 3-id\n4\n5\n]
+PASSED oracle_engine.py::test_limit_offset[LIMIT 10 OFFSET 4-id\n5\n]
+PASSED oracle_engine.py::test_limit_offset[LIMIT 1 OFFSET 9-id\n]
+PASSED oracle_interfaces.py::test_api_result_is_frozen_dataclass
+PASSED oracle_interfaces.py::test_api_error_hierarchy
+PASSED oracle_interfaces.py::test_api_lex_error_attributes
+PASSED oracle_interfaces.py::test_api_parse_error_attributes
+PASSED oracle_interfaces.py::test_api_semantic_error_attributes
+PASSED oracle_interfaces.py::test_api_runtime_error_attributes
+PASSED oracle_interfaces.py::test_api_io_error_attributes
+PASSED oracle_interfaces.py::test_api_schema_case_insensitive
+PASSED oracle_interfaces.py::test_format_functions
+PASSED oracle_interfaces.py::test_table_format_mixed_types
+PASSED oracle_interfaces.py::test_table_format_zero_rows
+PASSED oracle_interfaces.py::test_table_format_right_align_and_nulls
+PASSED oracle_interfaces.py::test_utf8_output
+PASSED oracle_interfaces.py::test_csv_quoting_more
+PASSED oracle_interfaces.py::test_cli_usage_error
+PASSED oracle_interfaces.py::test_cli_default_data_dir
+PASSED oracle_interfaces.py::test_cli_io_error_exit_code
+PASSED oracle_interfaces.py::test_repl_tables_and_schema
+PASSED oracle_interfaces.py::test_repl_error_continues
+PASSED oracle_interfaces.py::test_repl_positions_relative_to_buffer
+PASSED oracle_interfaces.py::test_repl_eof_executes_buffer
+PASSED oracle_interfaces.py::test_repl_unknown_command
+PASSED oracle_interfaces.py::test_repl_blank_lines_and_exit
+PASSED oracle_interfaces.py::test_repl_dot_line_inside_buffer_is_sql
+PASSED oracle_language.py::test_lex_errors[SELECT 1abc-LexError at line 1, column 8: invalid number literal]
+PASSED oracle_language.py::test_lex_errors[SELECT 1.2.3-LexError at line 1, column 8: invalid number literal]
+PASSED oracle_language.py::test_lex_errors[SELECT "abc FROM emp-LexError at line 1, column 8: unterminated quoted identifier]
+PASSED oracle_language.py::test_lex_errors[SELECT 'it''s-LexError at line 1, column 8: unterminated string literal]
+PASSED oracle_language.py::test_lex_comment_and_escaped_quote
+PASSED oracle_language.py::test_lex_real_literal_forms
+PASSED oracle_language.py::test_lex_positions_tab_line2
+PASSED oracle_language.py::test_lex_positions_cr_and_codepoints
+PASSED oracle_language.py::test_lex_case_insensitive_keywords
+PASSED oracle_language.py::test_quoted_identifiers_may_be_keywords
+PASSED oracle_language.py::test_quoted_identifier_doubled_quote
+PASSED oracle_language.py::test_parse_errors[SELECT 1 = 2 = 3-ParseError at line 1, column 14: unexpected token '=']
+PASSED oracle_language.py::test_parse_errors[SELECT-ParseError at line 1, column 7: unexpected end of input]
+PASSED oracle_language.py::test_parse_errors[SELECT 1; 2-ParseError at line 1, column 11: unexpected token '2']
+PASSED oracle_language.py::test_parse_errors[SELECT 1 FROM emp LIMIT -1-ParseError at line 1, column 25: unexpected token '-']
+PASSED oracle_language.py::test_parse_errors[SELECT 1 FROM emp LIMIT 1.5-ParseError at line 1, column 25: unexpected token '1.5']
+PASSED oracle_language.py::test_parse_errors[SELECT id FROM emp WHERE-ParseError at line 1, column 25: unexpected end of input]
+PASSED oracle_language.py::test_parse_errors[SELECT name FROM emp ORDER-ParseError at line 1, column 27: unexpected end of input]
+PASSED oracle_language.py::test_precedence_and_associativity
+PASSED oracle_language.py::test_optional_as_and_semicolon
+PASSED oracle_language.py::test_from_less_query
+PASSED oracle_language.py::test_output_name_verbatim_source
+PASSED oracle_language.py::test_output_name_quoted_column_uses_header
+PASSED oracle_language.py::test_duplicate_output_names
+PASSED oracle_language.py::test_semantic_errors[SELECT emp.name FROM emp e-column 8: unknown column 'emp.name']
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp JOIN emp ON 1 = 1-column 24: duplicate table name 'emp']
+PASSED oracle_language.py::test_semantic_errors[SELECT nope FROM emp-column 8: unknown column 'nope']
+PASSED oracle_language.py::test_semantic_errors[SELECT e.nope FROM emp e-column 8: unknown column 'e.nope']
+PASSED oracle_language.py::test_semantic_errors[SELECT code FROM dept a JOIN dept b ON a.code = b.code-column 8: ambiguous column 'code']
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp e JOIN dept d ON e.dept = f.code JOIN dept f ON 1 = 1-column 45: unknown column 'f.code']
+PASSED oracle_language.py::test_semantic_errors[SELECT foo(id) FROM emp-column 8: unknown function 'foo']
+PASSED oracle_language.py::test_semantic_errors[SELECT -name FROM emp-column 8: type mismatch: cannot apply '-' to TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE id LIKE 'a'-column 28: type mismatch: cannot apply 'LIKE' to INTEGER and TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE id IN (1, 'a')-column 28: type mismatch: cannot apply 'IN' to INTEGER and TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT SUM(name) FROM emp-column 8: type mismatch: cannot apply 'SUM' to TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE name-column 25: condition must be numeric, got TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE COUNT(*) > 1-column 25: aggregate function not allowed here]
+PASSED oracle_language.py::test_semantic_errors[SELECT SUM(COUNT(*)) FROM emp-column 12: aggregate function not allowed here]
+PASSED oracle_language.py::test_semantic_errors[SELECT name, COUNT(*) FROM emp GROUP BY dept-column 8: column 'name' must appear in GROUP BY or be used in an aggregate]
+PASSED oracle_language.py::test_semantic_errors[SELECT *, COUNT(*) FROM emp-column 8: '*' not allowed in aggregate query]
+PASSED oracle_language.py::test_semantic_errors[SELECT id FROM emp ORDER BY 2-column 29: ORDER BY position 2 is out of range]
+PASSED oracle_language.py::test_semantic_errors[SELECT id FROM emp ORDER BY 0-column 29: ORDER BY position 0 is out of range]
+PASSED oracle_language.py::test_semantic_errors[SELECT fname FROM files WHERE fname LIKE 'a' ESCAPE '!!'-column 53: ESCAPE must be a single character]
+PASSED oracle_language.py::test_semantic_errors[SELECT id AS k, salary AS k FROM emp ORDER BY k-column 47: ambiguous column 'k']
+PASSED oracle_language.py::test_semantic_errors[SELECT id AS k FROM emp WHERE k = 1-column 31: unknown column 'k']
+PASSED oracle_language.py::test_star_argument_only_for_count
+PASSED oracle_language.py::test_duplicate_range_name_with_aliases[SELECT 1 FROM emp e JOIN dept e ON 1 = 1-column 31: duplicate table name 'e']
+PASSED oracle_language.py::test_duplicate_range_name_with_aliases[SELECT 1 FROM emp E JOIN dept e ON 1 = 1-column 31: duplicate table name 'e']
+PASSED oracle_language.py::test_duplicate_range_name_with_aliases[SELECT 1 FROM emp JOIN dept AS emp ON 1 = 1-column 32: duplicate table name 'emp']
+PASSED oracle_language.py::test_semantic_error_before_rows
+PASSED oracle_language.py::test_arithmetic_mixed
+PASSED oracle_language.py::test_arithmetic_big_integer
+PASSED oracle_language.py::test_division_by_zero[SELECT 1 / 0-10]
+PASSED oracle_language.py::test_division_by_zero[SELECT 1.0 / 0-12]
+PASSED oracle_language.py::test_division_by_zero[SELECT 5 % 0-10]
+PASSED oracle_language.py::test_division_by_zero[SELECT NULL AND 1 / 0-19]
+PASSED oracle_language.py::test_division_by_zero_first_row
+PASSED oracle_language.py::test_no_runtime_error_without_rows
+PASSED oracle_language.py::test_short_circuit
+PASSED oracle_language.py::test_static_result_types
+PASSED oracle_language.py::test_comparisons
+PASSED oracle_language.py::test_is_null
+PASSED oracle_language.py::test_and_or_not_truth_table
+PASSED oracle_language.py::test_in_semantics
+PASSED oracle_language.py::test_like_semantics
+PASSED oracle_language.py::test_like_underscore_matches_newline
+SKIPPED [1] oracle_engine.py:65: filesystem is case-insensitive; cannot create a.csv and A.csv together
+FAILED oracle_acceptance.py::test_ac1_import_scan - AttributeError: module 's...
+1 failed, 181 passed, 1 skipped in 16.00s
+
+..F......................................................s.............. [ 39%]
+........................................................................ [ 78%]
+.......................................                                  [100%]
+=================================== FAILURES ===================================
+_____________________________ test_ac1_import_scan _____________________________
+
+target = PosixPath('/Users/gkhoo-c/.Projects/mxc-c0/work/eval-c3-minisql-20261104T104418Z')
+
+    def test_ac1_import_scan(target):
+        """AC1, R1: only stdlib imports, never sqlite3; no eval()/exec() calls in minisql/."""
+>       allowed = set(sys.stdlib_module_names) - {"sqlite3", "_sqlite3"}
+E       AttributeError: module 'sys' has no attribute 'stdlib_module_names'
+
+oracle_acceptance.py:27: AttributeError
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED oracle_acceptance.py::test_ac1_select_literal
+PASSED oracle_acceptance.py::test_ac1_package_layout
+PASSED oracle_acceptance.py::test_ac2_select_star_case_insensitive_table
+PASSED oracle_acceptance.py::test_ac2_missing_data_dir
+PASSED oracle_acceptance.py::test_ac3_schema
+PASSED oracle_acceptance.py::test_ac4_lex_error
+PASSED oracle_acceptance.py::test_ac5_precedence
+PASSED oracle_acceptance.py::test_ac6_case_insensitive_names
+PASSED oracle_acceptance.py::test_ac7_type_mismatch
+PASSED oracle_acceptance.py::test_ac8_arithmetic
+PASSED oracle_acceptance.py::test_ac9_not_in_with_null
+PASSED oracle_acceptance.py::test_ac10_projection_naming
+PASSED oracle_acceptance.py::test_ac11_library_avg
+PASSED oracle_cases.py::test_case01_join_duplicates
+PASSED oracle_cases.py::test_case02_left_join_null_fill
+PASSED oracle_cases.py::test_case02_left_join_anti
+PASSED oracle_cases.py::test_case03_null_group
+PASSED oracle_cases.py::test_case04_having
+PASSED oracle_cases.py::test_case05_order_desc_nulls_last
+PASSED oracle_cases.py::test_case05_order_multi_key
+PASSED oracle_cases.py::test_case06_like_escape_underscore
+PASSED oracle_cases.py::test_case06_like_escape_percent
+PASSED oracle_cases.py::test_case06_like_backslash_literal
+PASSED oracle_cases.py::test_case06_like_case_sensitive
+PASSED oracle_cases.py::test_case06_like_invalid_pattern
+PASSED oracle_cases.py::test_case07_division_by_zero
+PASSED oracle_cases.py::test_case07_and_short_circuit
+PASSED oracle_cases.py::test_case08_type_inference_output
+PASSED oracle_cases.py::test_case08_type_inference_types
+PASSED oracle_cases.py::test_case08_text_vs_integer
+PASSED oracle_cases.py::test_case09_parse_error_multiline
+PASSED oracle_cases.py::test_case09_unterminated_string
+PASSED oracle_cases.py::test_case09_double_quotes_are_identifiers
+PASSED oracle_cases.py::test_case09_unexpected_end
+PASSED oracle_cases.py::test_case09_unknown_table
+PASSED oracle_cases.py::test_case10_empty_aggregate
+PASSED oracle_cases.py::test_case10_empty_grouped
+PASSED oracle_cases.py::test_case11_not_null
+PASSED oracle_cases.py::test_case11_in_or_is_null
+PASSED oracle_cases.py::test_case12_distinct_limit_offset
+PASSED oracle_cases.py::test_case12_distinct_order_by_rule
+PASSED oracle_cases.py::test_case13_table_format
+PASSED oracle_cases.py::test_case14_csv_quoting
+PASSED oracle_cases.py::test_case15_repl
+PASSED oracle_engine.py::test_load_errors[files0-IOError: empty.csv: empty file]
+PASSED oracle_engine.py::test_load_errors[files1-IOError: empty.csv: empty column name]
+PASSED oracle_engine.py::test_load_errors[files2-IOError: empty.csv: duplicate column 'a']
+PASSED oracle_engine.py::test_load_errors[files3-IOError: empty.csv: duplicate column 'ID']
+PASSED oracle_engine.py::test_load_errors[files4-IOError: empty.csv: line 3: expected 2 fields, got 1]
+PASSED oracle_engine.py::test_load_errors[files5-IOError: empty.csv: line 4: expected 2 fields, got 1]
+PASSED oracle_engine.py::test_load_errors[files6-IOError: empty.csv: line 2: malformed CSV]
+PASSED oracle_engine.py::test_load_errors[files7-IOError: empty.csv: invalid UTF-8]
+PASSED oracle_engine.py::test_data_dir_is_file
+PASSED oracle_engine.py::test_unreferenced_bad_file_ignored
+PASSED oracle_engine.py::test_tables_does_not_read_contents
+PASSED oracle_engine.py::test_missing_data_dir_before_lexing
+PASSED oracle_engine.py::test_having_without_group_by[SELECT COUNT(*) AS n FROM emp HAVING COUNT(*) > 10-n\n]
+PASSED oracle_engine.py::test_having_without_group_by[SELECT COUNT(*) AS n FROM emp HAVING COUNT(*) > 1-n\n5\n]
+PASSED oracle_engine.py::test_having_without_group_by[SELECT COUNT(*) AS n FROM emp WHERE id > 99 HAVING COUNT(*) = 0-n\n0\n]
+PASSED oracle_engine.py::test_having_without_group_by[SELECT MAX(salary) AS m FROM emp WHERE id > 99 HAVING COUNT(*) > 0-m\n]
+PASSED oracle_engine.py::test_bom_crlf_blank_lines
+PASSED oracle_engine.py::test_table_extension_and_lookup_case_insensitive
+PASSED oracle_engine.py::test_tables_listing
+PASSED oracle_engine.py::test_inference_edge_cases
+PASSED oracle_engine.py::test_quoted_empty_is_null
+PASSED oracle_engine.py::test_inner_join_keyword_and_as
+PASSED oracle_engine.py::test_join_nested_loop_order
+PASSED oracle_engine.py::test_left_outer_join_count
+PASSED oracle_engine.py::test_left_join_false_condition
+PASSED oracle_engine.py::test_star_expansion_with_join
+PASSED oracle_engine.py::test_min_max_text_and_real
+PASSED oracle_engine.py::test_group_first_seen_order
+PASSED oracle_engine.py::test_group_by_expression
+PASSED oracle_engine.py::test_order_by_aggregate_not_selected
+PASSED oracle_engine.py::test_aggregate_query_via_order_by
+PASSED oracle_engine.py::test_aggregate_with_literal
+PASSED oracle_engine.py::test_all_null_group
+PASSED oracle_engine.py::test_order_by_ordinals
+PASSED oracle_engine.py::test_order_by_ordinal_after_star
+PASSED oracle_engine.py::test_order_by_alias
+PASSED oracle_engine.py::test_order_by_alias_without_as
+PASSED oracle_engine.py::test_order_by_unselected_column
+PASSED oracle_engine.py::test_order_desc_stable_ties
+PASSED oracle_engine.py::test_distinct_null_equal
+PASSED oracle_engine.py::test_distinct_order_by_alias
+PASSED oracle_engine.py::test_distinct_multi_column
+PASSED oracle_engine.py::test_limit_offset[LIMIT 0-id\n]
+PASSED oracle_engine.py::test_limit_offset[LIMIT 2-id\n1\n2\n]
+PASSED oracle_engine.py::test_limit_offset[OFFSET 3-id\n4\n5\n]
+PASSED oracle_engine.py::test_limit_offset[LIMIT 10 OFFSET 4-id\n5\n]
+PASSED oracle_engine.py::test_limit_offset[LIMIT 1 OFFSET 9-id\n]
+PASSED oracle_interfaces.py::test_api_result_is_frozen_dataclass
+PASSED oracle_interfaces.py::test_api_error_hierarchy
+PASSED oracle_interfaces.py::test_api_lex_error_attributes
+PASSED oracle_interfaces.py::test_api_parse_error_attributes
+PASSED oracle_interfaces.py::test_api_semantic_error_attributes
+PASSED oracle_interfaces.py::test_api_runtime_error_attributes
+PASSED oracle_interfaces.py::test_api_io_error_attributes
+PASSED oracle_interfaces.py::test_api_schema_case_insensitive
+PASSED oracle_interfaces.py::test_format_functions
+PASSED oracle_interfaces.py::test_table_format_mixed_types
+PASSED oracle_interfaces.py::test_table_format_zero_rows
+PASSED oracle_interfaces.py::test_table_format_right_align_and_nulls
+PASSED oracle_interfaces.py::test_utf8_output
+PASSED oracle_interfaces.py::test_csv_quoting_more
+PASSED oracle_interfaces.py::test_cli_usage_error
+PASSED oracle_interfaces.py::test_cli_default_data_dir
+PASSED oracle_interfaces.py::test_cli_io_error_exit_code
+PASSED oracle_interfaces.py::test_repl_tables_and_schema
+PASSED oracle_interfaces.py::test_repl_error_continues
+PASSED oracle_interfaces.py::test_repl_positions_relative_to_buffer
+PASSED oracle_interfaces.py::test_repl_eof_executes_buffer
+PASSED oracle_interfaces.py::test_repl_unknown_command
+PASSED oracle_interfaces.py::test_repl_blank_lines_and_exit
+PASSED oracle_interfaces.py::test_repl_dot_line_inside_buffer_is_sql
+PASSED oracle_language.py::test_lex_errors[SELECT 1abc-LexError at line 1, column 8: invalid number literal]
+PASSED oracle_language.py::test_lex_errors[SELECT 1.2.3-LexError at line 1, column 8: invalid number literal]
+PASSED oracle_language.py::test_lex_errors[SELECT "abc FROM emp-LexError at line 1, column 8: unterminated quoted identifier]
+PASSED oracle_language.py::test_lex_errors[SELECT 'it''s-LexError at line 1, column 8: unterminated string literal]
+PASSED oracle_language.py::test_lex_comment_and_escaped_quote
+PASSED oracle_language.py::test_lex_real_literal_forms
+PASSED oracle_language.py::test_lex_positions_tab_line2
+PASSED oracle_language.py::test_lex_positions_cr_and_codepoints
+PASSED oracle_language.py::test_lex_case_insensitive_keywords
+PASSED oracle_language.py::test_quoted_identifiers_may_be_keywords
+PASSED oracle_language.py::test_quoted_identifier_doubled_quote
+PASSED oracle_language.py::test_parse_errors[SELECT 1 = 2 = 3-ParseError at line 1, column 14: unexpected token '=']
+PASSED oracle_language.py::test_parse_errors[SELECT-ParseError at line 1, column 7: unexpected end of input]
+PASSED oracle_language.py::test_parse_errors[SELECT 1; 2-ParseError at line 1, column 11: unexpected token '2']
+PASSED oracle_language.py::test_parse_errors[SELECT 1 FROM emp LIMIT -1-ParseError at line 1, column 25: unexpected token '-']
+PASSED oracle_language.py::test_parse_errors[SELECT 1 FROM emp LIMIT 1.5-ParseError at line 1, column 25: unexpected token '1.5']
+PASSED oracle_language.py::test_parse_errors[SELECT id FROM emp WHERE-ParseError at line 1, column 25: unexpected end of input]
+PASSED oracle_language.py::test_parse_errors[SELECT name FROM emp ORDER-ParseError at line 1, column 27: unexpected end of input]
+PASSED oracle_language.py::test_precedence_and_associativity
+PASSED oracle_language.py::test_optional_as_and_semicolon
+PASSED oracle_language.py::test_from_less_query
+PASSED oracle_language.py::test_output_name_verbatim_source
+PASSED oracle_language.py::test_output_name_quoted_column_uses_header
+PASSED oracle_language.py::test_duplicate_output_names
+PASSED oracle_language.py::test_semantic_errors[SELECT emp.name FROM emp e-column 8: unknown column 'emp.name']
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp JOIN emp ON 1 = 1-column 24: duplicate table name 'emp']
+PASSED oracle_language.py::test_semantic_errors[SELECT nope FROM emp-column 8: unknown column 'nope']
+PASSED oracle_language.py::test_semantic_errors[SELECT e.nope FROM emp e-column 8: unknown column 'e.nope']
+PASSED oracle_language.py::test_semantic_errors[SELECT code FROM dept a JOIN dept b ON a.code = b.code-column 8: ambiguous column 'code']
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp e JOIN dept d ON e.dept = f.code JOIN dept f ON 1 = 1-column 45: unknown column 'f.code']
+PASSED oracle_language.py::test_semantic_errors[SELECT foo(id) FROM emp-column 8: unknown function 'foo']
+PASSED oracle_language.py::test_semantic_errors[SELECT -name FROM emp-column 8: type mismatch: cannot apply '-' to TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE id LIKE 'a'-column 28: type mismatch: cannot apply 'LIKE' to INTEGER and TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE id IN (1, 'a')-column 28: type mismatch: cannot apply 'IN' to INTEGER and TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT SUM(name) FROM emp-column 8: type mismatch: cannot apply 'SUM' to TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE name-column 25: condition must be numeric, got TEXT]
+PASSED oracle_language.py::test_semantic_errors[SELECT 1 FROM emp WHERE COUNT(*) > 1-column 25: aggregate function not allowed here]
+PASSED oracle_language.py::test_semantic_errors[SELECT SUM(COUNT(*)) FROM emp-column 12: aggregate function not allowed here]
+PASSED oracle_language.py::test_semantic_errors[SELECT name, COUNT(*) FROM emp GROUP BY dept-column 8: column 'name' must appear in GROUP BY or be used in an aggregate]
+PASSED oracle_language.py::test_semantic_errors[SELECT *, COUNT(*) FROM emp-column 8: '*' not allowed in aggregate query]
+PASSED oracle_language.py::test_semantic_errors[SELECT id FROM emp ORDER BY 2-column 29: ORDER BY position 2 is out of range]
+PASSED oracle_language.py::test_semantic_errors[SELECT id FROM emp ORDER BY 0-column 29: ORDER BY position 0 is out of range]
+PASSED oracle_language.py::test_semantic_errors[SELECT fname FROM files WHERE fname LIKE 'a' ESCAPE '!!'-column 53: ESCAPE must be a single character]
+PASSED oracle_language.py::test_semantic_errors[SELECT id AS k, salary AS k FROM emp ORDER BY k-column 47: ambiguous column 'k']
+PASSED oracle_language.py::test_semantic_errors[SELECT id AS k FROM emp WHERE k = 1-column 31: unknown column 'k']
+PASSED oracle_language.py::test_star_argument_only_for_count
+PASSED oracle_language.py::test_duplicate_range_name_with_aliases[SELECT 1 FROM emp e JOIN dept e ON 1 = 1-column 31: duplicate table name 'e']
+PASSED oracle_language.py::test_duplicate_range_name_with_aliases[SELECT 1 FROM emp E JOIN dept e ON 1 = 1-column 31: duplicate table name 'e']
+PASSED oracle_language.py::test_duplicate_range_name_with_aliases[SELECT 1 FROM emp JOIN dept AS emp ON 1 = 1-column 32: duplicate table name 'emp']
+PASSED oracle_language.py::test_semantic_error_before_rows
+PASSED oracle_language.py::test_arithmetic_mixed
+PASSED oracle_language.py::test_arithmetic_big_integer
+PASSED oracle_language.py::test_division_by_zero[SELECT 1 / 0-10]
+PASSED oracle_language.py::test_division_by_zero[SELECT 1.0 / 0-12]
+PASSED oracle_language.py::test_division_by_zero[SELECT 5 % 0-10]
+PASSED oracle_language.py::test_division_by_zero[SELECT NULL AND 1 / 0-19]
+PASSED oracle_language.py::test_division_by_zero_first_row
+PASSED oracle_language.py::test_no_runtime_error_without_rows
+PASSED oracle_language.py::test_short_circuit
+PASSED oracle_language.py::test_static_result_types
+PASSED oracle_language.py::test_comparisons
+PASSED oracle_language.py::test_is_null
+PASSED oracle_language.py::test_and_or_not_truth_table
+PASSED oracle_language.py::test_in_semantics
+PASSED oracle_language.py::test_like_semantics
+PASSED oracle_language.py::test_like_underscore_matches_newline
+SKIPPED [1] oracle_engine.py:65: filesystem is case-insensitive; cannot create a.csv and A.csv together
+FAILED oracle_acceptance.py::test_ac1_import_scan - AttributeError: module 's...
+1 failed, 181 passed, 1 skipped in 15.76s
+

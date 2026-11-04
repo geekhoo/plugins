@@ -1,0 +1,1 @@
+{"agentType":"geeky-orchestration:code-reviewer","isBuiltIn":false,"description":"Review foundation tasks and phase gate","toolUseId":"call_CzR99YzxuUVy1EjrYjar4hh6","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"pickedEffortModel":"gpt-6.1-sol","finished":true}

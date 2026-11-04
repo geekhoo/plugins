@@ -1,0 +1,1 @@
+{"agentType":"geeky-orchestration:geeky-coder","isBuiltIn":false,"description":"Fix lexer large integer conversions","toolUseId":"call_JORkLNpwww4bBGfHKtRAeJKV","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"pickedEffortModel":"gpt-6.1-sol","finished":true}

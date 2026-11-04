@@ -1,0 +1,1 @@
+{"agentType":"geeky-orchestration:code-reviewer","isBuiltIn":false,"description":"Re-review corrected foundation phase gate","toolUseId":"call_q56AcAwm3ikSnRmlU0DiAN03","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"pickedEffortModel":"gpt-6.1-sol","finished":true}

@@ -1,0 +1,1 @@
+{"agentType":"geeky-orchestration:code-reviewer","isBuiltIn":false,"description":"Audit entire planning-package alignment","toolUseId":"call_PGRrJVOdquri07FoWDVlsIiy","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"pickedEffortModel":"gpt-6.1-sol","finished":true}
