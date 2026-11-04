@@ -186,7 +186,7 @@ class HappyScenarioTests(unittest.TestCase):
         self.assertIsNotNone(run["latency_median_ms"])
         self.assertIsNotNone(run["max_idle_gap_s"])
         self.assertGreater(run["model_calls"], 0)
-        self.assertEqual(run["impl_review_rounds"], 1)
+        self.assertEqual(run["impl_review_skill_invocations"], 1)
         self.assertFalse(run["over_token_ceiling"])
         self.assertIn("geeky-orchestration:geeky-coder", analysis["subagent_dispatches"])
         self.assertIn("validate-kanban", analysis["gate_invocations"])

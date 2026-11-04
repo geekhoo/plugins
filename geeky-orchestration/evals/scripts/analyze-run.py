@@ -5,7 +5,7 @@ Usage: python analyze-run.py <run-folder> [--token-ceiling N] [--analysis-only]
 Reads stream.jsonl (claude stream-json) and session.jsonl (Claude session transcript, which
 carries the timestamps the stream lacks). Writes analysis.json and updates these run.json fields:
 tokens (summed over every model in result.modelUsage), model_calls, latency_median_ms,
-max_idle_gap_s, stages, impl_review_rounds, token_ceiling, over_token_ceiling.
+max_idle_gap_s, stages, impl_review_skill_invocations, token_ceiling, over_token_ceiling.
 --analysis-only writes analysis.json and leaves run.json untouched (re-analysing a stored run).
 
 Subagent transcripts: when the run folder has subagents/agent-<id>.jsonl (+ .meta.json), tool calls found
@@ -364,7 +364,8 @@ def analyze(run_dir: Path, harness=None, process_path=None):
         "latency_samples": len(latencies),
         "max_idle_gap_s": round(max(gaps)) if gaps else None,
         "stages": stages or None,
-        "impl_review_rounds": skills.get("impl-review") or None,
+        # Skill calls or SKILL.md reads, not review passes: one pass can read the skill repeatedly.
+        "impl_review_skill_invocations": skills.get("impl-review") or None,
         "skill_invocations": dict(skills),
         "tool_calls_main": dict(main_tools.most_common()),
         "tool_calls_subagents": dict(sub_tools.most_common()),
@@ -412,7 +413,8 @@ def main():
     tokens = {k: v for k, v in analysis["tokens"].items() if k != "by_model"}
     tokens["reasoning"] = analysis['tokens'].get('reasoning') if analysis.get('harness') == 'codex' else (run.get("tokens") or {}).get("reasoning")
     run["tokens"] = tokens
-    for key in ("model_calls", "latency_median_ms", "max_idle_gap_s", "stages", "impl_review_rounds"):
+    # A stored impl_review_rounds is left as recorded: it means the same count under its old name.
+    for key in ("model_calls", "latency_median_ms", "max_idle_gap_s", "stages", "impl_review_skill_invocations"):
         run[key] = analysis[key]
     if args.token_ceiling:
         run["token_ceiling"] = args.token_ceiling
@@ -426,7 +428,7 @@ def main():
             run['reference_eligible'] = False
     (output / 'run.json').write_text(json.dumps(run, indent=2), encoding="utf-8")
     print(json.dumps({k: run.get(k) for k in ("tokens", "model_calls", "latency_median_ms",
-                                              "max_idle_gap_s", "impl_review_rounds",
+                                              "max_idle_gap_s", "impl_review_skill_invocations",
                                               "token_ceiling", "over_token_ceiling")}, indent=2))
 
 
