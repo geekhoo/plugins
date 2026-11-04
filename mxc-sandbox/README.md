@@ -87,6 +87,15 @@ Exit codes: claude's own code, `124` on timeout, `2` for bad host usage, `1` for
 
 Git Bash hooks failed to start in the 2026-10-20 BaseContainer observations. A hook explicitly declaring `"shell": "powershell"` was observed working with `--allow-win32k`; verify each hook under its intended policy and grants. To disable hooks for a test, use `--settings` pointing at `{"disableAllHooks": true}`.
 
+For other workloads, an explicitly selected Git Bash can encounter the same MSYS
+named-object denial. Use a shell already verified to start under the applicable
+sandbox policy and grants; do not relax isolation to make Bash start. A successful
+direct shell check does not establish that a nested agent has identical permissions
+or will select that shell. On Windows, avoid very large single command arguments:
+write large content in bounded chunks and validate the assembled result. No universal
+command-length threshold is assumed. The corresponding upstream limitation is
+tracked in [Microsoft MXC issue 1061](https://github.com/microsoft/mxc/issues/1061).
+
 ## State
 
 All state lives under `%USERPROFILE%\.mxc-sandbox` (`MXC_SANDBOX_HOME` overrides):
