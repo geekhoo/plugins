@@ -1,0 +1,1 @@
+{"agentType":"geeky-orchestration:code-reviewer","isBuiltIn":false,"description":"impl-review: CLI, REPL, output, tests","toolUseId":"toolu_bdrk_01HK42EYFr2sG6TVSDGXWNvN","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true,"pickedEffortModel":"claude-opus-5-5","finished":true}
