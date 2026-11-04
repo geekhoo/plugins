@@ -321,12 +321,13 @@ $lock = [IO.File]::Open((Join-Path $ToolsDir '.codex-baseline.lock'), [IO.FileMo
     $savedMxcHome = $env:MXC_SANDBOX_HOME
     $env:MXC_CLAUDE_EXE = $python
     $env:MXC_SANDBOX_HOME = $mxcState
+    $boardWatcher = Start-EvalBoardWatcher $python $ws $out
     try {
         if (-not (Start-EvalInvocation $record $recordPath 'initial' ([ref]$hostArgs))) { throw 'Attempt deadline exhausted before launch' }
         & $mxc @hostArgs -- @codexArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
         $exitCode = $LASTEXITCODE
         Complete-EvalInvocation $record $recordPath $exitCode
-    } finally { $env:MXC_CLAUDE_EXE = $savedExe; $env:MXC_SANDBOX_HOME = $savedMxcHome }
+    } finally { Stop-EvalBoardWatcher $boardWatcher; $env:MXC_CLAUDE_EXE = $savedExe; $env:MXC_SANDBOX_HOME = $savedMxcHome }
     $ended = (Get-Date).ToUniversalTime()
     $record.started_utc = $started.ToString('o'); $record.ended_utc = $ended.ToString('o')
     $record.wall_time_s = [int]($ended - $started).TotalSeconds; $record.exit_code = $exitCode

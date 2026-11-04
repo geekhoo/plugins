@@ -154,6 +154,10 @@ It was calibrated on two real sessions, Claude C1 run 6 and Codex C1 run 3 (repl
 - **Double delivery.** Span ids are seeded, so a replay after such a flush stores the same ids a second time, and the server collapses them about 30 minutes later (C2 run `20261104T041838Z-d22d38ec`). The derived tracer now records each flush in `<rollout>.langfuse-attempts`: the turn and span ids before the flush, then its outcome. `codex-flush.py` marks a turn delivered only when Langfuse returns every recorded span id, polling for up to 120 s, and otherwise replays. Outcomes appear in `langfuse-flush.log`. `langfuse-run.py` counts unique ids and reports `duplicate_rows`, which reaches `run.json` as `telemetry.duplicate_observation_rows`. `--full` stays the raw read. A tracer derived before this change writes no ledger, so rerun `install-telemetry-tools.ps1` before a run.
 - **Proxies.** The Codex tracer's exporter uses Node's `http` module, which ignores `HTTPS_PROXY`. It needs direct egress to Langfuse, which the MXC sandbox provides.
 
+## Board watcher
+
+Both baseline runners run `board-watcher.py` on the host for the length of a contestant's invocations and retain `board-snapshots.jsonl` in the run folder. The process adapters read it for exact lane moves. Why it reads the file the way it does, and what was tested, is in [process-trace.md](../process-trace.md#board-watcher).
+
 ## Scoring in Langfuse
 
 After scoring with `scripts/parity-eval.py`, new publication requires an explicit

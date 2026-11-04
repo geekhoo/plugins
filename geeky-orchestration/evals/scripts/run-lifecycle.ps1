@@ -115,6 +115,37 @@ function Complete-EvalInvocation($Record, [string]$Path, [int]$Code) {
     Write-EvalRecord $Record $Path
 }
 
+# Host-side observer of the contestant's board. It changes nothing the contestant sees, and it must never affect the run.
+function Start-EvalBoardWatcher([string]$Python, [string]$Workspace, [string]$RunFolder) {
+    try {
+        $watcher = Join-Path $PSScriptRoot '..\telemetry\board-watcher.py'
+        $stop = Join-Path $RunFolder '.board-watcher-stop'
+        $arguments = @('-B', "`"$watcher`"", '--workspace', "`"$Workspace`"", '--out', "`"$(Join-Path $RunFolder 'board-snapshots.jsonl')`"", '--stop-file', "`"$stop`"", '--parent-pid', $PID)
+        $process = Start-Process -FilePath $Python -ArgumentList $arguments -NoNewWindow -PassThru `
+            -RedirectStandardOutput (Join-Path $RunFolder 'board-watcher-stdout.txt') -RedirectStandardError (Join-Path $RunFolder 'board-watcher-stderr.txt')
+        return @{ process = $process; stop = $stop }
+    } catch {
+        Write-Warning "Board watcher did not start: $($_.Exception.Message)"
+        return $null
+    }
+}
+
+function Stop-EvalBoardWatcher($Watcher) {
+    if (-not $Watcher) { return }
+    try {
+        Set-Content -LiteralPath $Watcher.stop -Value 'stop'
+        if (-not $Watcher.process.WaitForExit(10000)) { $Watcher.process.Kill() }
+        Remove-Item -LiteralPath $Watcher.stop -ErrorAction SilentlyContinue
+        $folder = Split-Path -Parent $Watcher.stop
+        foreach ($log in 'board-watcher-stdout.txt', 'board-watcher-stderr.txt') {
+            $file = Get-Item -LiteralPath (Join-Path $folder $log) -ErrorAction SilentlyContinue
+            if ($file -and $file.Length -eq 0) { Remove-Item -LiteralPath $file.FullName -ErrorAction SilentlyContinue }
+        }
+    } catch {
+        Write-Warning "Board watcher did not stop cleanly: $($_.Exception.Message)"
+    }
+}
+
 function Set-EvalStep($Record, [string]$Path, [string]$Name) {
     $prior = $Record.execution.active_step
     if ($Record.execution.postprocessing[$prior] -eq 'in-progress') { $Record.execution.postprocessing[$prior] = 'completed' }

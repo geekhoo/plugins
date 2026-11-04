@@ -9,6 +9,7 @@ Everything here works from those and the contestant's git history, so it holds n
     reading     {at, counts, ok, ref}, lane counts reported by the kanban gate
     final       {at, scope, text, actor, agent_type, ref}, a reviewer's closing message; text None when there is none
 """
+import json
 import re
 import subprocess
 
@@ -130,18 +131,46 @@ def lanes_at(states, when):
     return current
 
 
-def reconcile(states, readings, commits):
-    """Compare the replay with what gates and git independently recorded. Any disagreement is reported."""
+def load_snapshots(path):
+    """Board states recorded by board-watcher.py, or None when there is no record. A watcher that never stopped proves nothing."""
+    try:
+        lines = open(path, encoding='utf-8', errors='replace').read().splitlines()
+    except OSError:
+        return None
+    states, stopped, boards, name = [], False, set(), getattr(path, 'name', str(path))
+    for index, line in enumerate(lines):
+        try:
+            row = json.loads(line)
+        except ValueError:
+            return None
+        if row.get('record') == 'snapshot':
+            boards.add(row['path'])
+            states.append({'at': row['at'], 'text': row['text'], 'ref': f'{name}:{index}', 'actor': 'unknown', 'evidence': 'observed'})
+        elif row.get('record') == 'stop':
+            stopped = True
+    # Two boards in one record would interleave into moves that never happened.
+    return states if stopped and len(boards) <= 1 else None
+
+
+def reconcile(states, readings, commits, window=0):
+    """Compare the board states with what gates and git independently recorded. Any disagreement is reported.
+
+    A watcher sees a write up to one poll later, and a shell command can write the board and run the gate after
+    its call began, so `window` seconds lets a reading match a state that follows it.
+    """
     problems = []
     checked = {'gate_readings': 0, 'commits': 0}
     for reading in readings:
         if reading.get('ok') is False:
             continue
-        lanes = lanes_at(states, reading['at'])
-        counts = lane_counts(lanes)
+        counts = lane_counts(lanes_at(states, reading['at']))
         wanted = {lane: reading['counts'].get(lane, 0) for lane in LANES}
         checked['gate_readings'] += 1
-        if counts != wanted:
+        matched = counts == wanted
+        if not matched and window:
+            moment = process_trace.stamp(reading['at'])
+            matched = any(0 <= (process_trace.stamp(state['at']) - moment).total_seconds() <= window and lane_counts(parse_board(state['text'])) == wanted for state in states)
+        if not matched:
             problems.append(f'{reading["ref"]}: gate read {wanted}, replay has {counts}')
     seen = {board_text(state['text']) for state in states}
     for commit in commits:
@@ -183,8 +212,11 @@ def lane_events(states):
         lanes = parse_board(state['text'])
         for task, lane in sorted(lanes.items()):
             if previous.get(task) != lane:
-                events.append({'kind': 'lane', 'at': state['at'], 'task_id': task, 'from_lane': previous.get(task, 'none'), 'to_lane': lane,
-                               'actor': state['actor'], 'source_ref': state['ref']})
+                event = {'kind': 'lane', 'at': state['at'], 'task_id': task, 'from_lane': previous.get(task, 'none'), 'to_lane': lane,
+                         'actor': state['actor'], 'source_ref': state['ref']}
+                if state.get('evidence'):
+                    event['lane_evidence'] = state['evidence']
+                events.append(event)
         previous = lanes
     return events
 
@@ -287,19 +319,35 @@ def review_events(finals):
     return events, missing
 
 
-def build_document(run, workspace, threads, ops, gates, readings, finals, adapter, adapter_version):
-    """Assemble a process-events document, asserting only what reconciles."""
+def build_document(run, workspace, threads, ops, gates, readings, finals, adapter, adapter_version, snapshots=None):
+    """Assemble a process-events document, asserting only what reconciles.
+
+    Snapshots from an outside observer come first, because they do not depend on how a model wrote the file.
+    If they do not reconcile, the record falls back to replaying writes, then to what commits show.
+    """
     root = next(thread for thread in threads if thread['root'])
     telemetry = run.get('telemetry') or {}
     notes = {}
     ops = sorted(ops, key=lambda op: process_trace.stamp(op['at']))
-    states, replay_problems = replay(ops)
     commits = board_commits(workspace)
-    reconcile_problems, checked = reconcile(states, readings, commits)
     notes['board_writes'] = {'replayable': sum(op['kind'] != 'shell' for op in ops), 'failed_skipped': sum(op['ok'] is False for op in ops), 'shell_writes': sum(op['kind'] == 'shell' for op in ops)}
+    states, watcher_trusted = [], False
+    if snapshots:
+        states = snapshots
+        watcher_problems, checked = reconcile(states, readings, commits, window=120)
+        watcher_trusted = not watcher_problems and checked['commits'] > 0
+        notes['board_snapshots'] = {'states': len(states), **checked, 'problems': watcher_problems[:20], 'problem_count': len(watcher_problems)}
+    if watcher_trusted:
+        replay_problems, reconcile_problems = [], []
+    else:
+        states, replay_problems = replay(ops)
+        reconcile_problems, checked = reconcile(states, readings, commits)
+    notes['board_source'] = 'watcher' if watcher_trusted else 'replay'
     notes['reconciliation'] = {**checked, 'problems': (replay_problems + reconcile_problems)[:20], 'problem_count': len(replay_problems) + len(reconcile_problems)}
     trusted = not replay_problems and not reconcile_problems and bool(states) and checked['commits'] > 0
     lanes = lane_events(states) if trusted else commit_bound_lane_events(commits)
+    if not trusted:
+        notes['board_source'] = 'commits'
     stages, stage_problem = stage_rows(workspace, root, threads, lanes, readings)
     if stage_problem:
         notes['stage_problem'] = stage_problem

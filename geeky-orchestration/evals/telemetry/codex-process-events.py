@@ -17,7 +17,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import process_trace  # noqa: E402
 from process_events import (VERDICT_BOLD, VERDICT_LINE, apply_update, build_document, commit_bound_lane_events, first_commit_adding,  # noqa: E402,F401
-                            parse_board, reconcile, replay, role_for)
+                            load_snapshots, parse_board, reconcile, replay, role_for)
 
 ADAPTER_VERSION = '1'
 SHELL_TOOLS = ('exec_command', 'shell', 'shell_command', 'exec', 'apply_patch')
@@ -173,7 +173,8 @@ def build(run_dir, workspace):
     threads = [load_thread(path) for path in paths]
     gates, readings = gate_events(threads)
     run.setdefault('harness', 'codex')
-    return build_document(run, workspace, threads, board_operations(threads), gates, readings, reviewer_finals(threads), 'codex-process-events', ADAPTER_VERSION)
+    return build_document(run, workspace, threads, board_operations(threads), gates, readings, reviewer_finals(threads), 'codex-process-events', ADAPTER_VERSION,
+                          load_snapshots(run_dir / 'board-snapshots.jsonl'))
 
 
 def main():

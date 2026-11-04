@@ -20,7 +20,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import process_trace  # noqa: E402
-from process_events import build_document, role_for  # noqa: E402
+from process_events import build_document, load_snapshots, role_for  # noqa: E402
 
 ADAPTER_VERSION = '1'
 BOARD_WRITE = re.compile(r'Set-Content|Add-Content|Out-File|WriteAllText|write_text|sed -i|>\s*\S*kanban|\.Replace\(')
@@ -210,7 +210,8 @@ def build(run_dir, workspace):
     threads, finals = build_threads(transcripts, root_record)
     gates, readings = gate_events(transcripts)
     run.setdefault('harness', 'claude-code')
-    doc = build_document(run, workspace, threads, board_operations(transcripts), gates, readings, finals, 'claude-process-events', ADAPTER_VERSION)
+    doc = build_document(run, workspace, threads, board_operations(transcripts), gates, readings, finals, 'claude-process-events', ADAPTER_VERSION,
+                         load_snapshots(run_dir / 'board-snapshots.jsonl'))
     agent_calls = sum(1 for thread in threads if not thread['root'])
     doc['notes']['subagent_transcripts'] = {'agent_calls': agent_calls, 'transcripts_retained': len(transcripts) - 1}
     return doc

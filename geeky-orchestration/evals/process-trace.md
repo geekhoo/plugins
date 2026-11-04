@@ -51,7 +51,9 @@ Exact threads stay reachable through `agent_id` in metadata. Retained sessions k
 
 - Assert only what can be reconciled. Unobserved facts are absent and coverage says `unknown`. A partial source says `partial`. Never turn an unknown into a pass or a fail.
 - Stage ends come from artifacts: the first commit adding `feature-specification.md`, then `implementation-plan.md`, then the plan-review commit. Final review starts with the first reviewer thread after every task stands in Done.
-- A replayed board is trusted only if it agrees with every passing `geeky_validate_kanban` reading and every commit touching the board. Otherwise lane moves come from commits, marked `lane_evidence: commit-bound`, because the move happened at or before that time.
+- Board states come from the host-side watcher when its record reconciles, marked `lane_evidence: observed`, because the time is up to one poll after the write. Next comes a replay of the writes, then commits.
+- A set of board states is trusted only if it agrees with every passing gate reading and every commit touching the board. For watcher states, a reading may match a state up to 120 seconds later, because one shell command can write the board and run the gate. Otherwise lane moves come from commits, marked `lane_evidence: commit-bound`, because the move happened at or before that time.
+- A watcher record is ignored if it has no `stop` line or covers more than one board.
 - Failed writes are skipped. A board write the adapter cannot replay, such as a PowerShell regex edit, makes lane coverage `partial`. The adapter does not execute it.
 - `source_ref` points at the native record, so a person can audit any fact.
 - Times are UTC. Langfuse shows them in the viewer's time zone.
@@ -62,7 +64,6 @@ Exact threads stay reachable through `agent_id` in metadata. Retained sessions k
 |---|---|---|---|---|
 | C2 DeepSeek `20261104T041838Z-d22d38ec` | complete | complete: 18 patches, 1 failed and skipped, agrees with 21 gate readings and 6 commits | partial | complete |
 | C2 Luna `20261101T190137Z-5b0dc756` | complete | partial, commit-bound: 9 shell board writes | partial | partial |
-
 | C1 Claude `20261020T114232Z` | complete | partial, commit-bound: 7 shell board writes | partial | complete |
 | C1 Claude `20261020T155628Z` | complete | partial, commit-bound: 7 shell board writes | partial | partial |
 | C1 Claude `20261022T065938Z` | complete | partial, commit-bound: 4 shell board writes | partial | partial |
@@ -80,13 +81,28 @@ Claude stage boundaries are within about 75 seconds of the analyzer on all six r
 - **Does not hold: exact lane moves.** Only 1 of 8 retained runs, DeepSeek on 4 November, wrote its board in a form that can be replayed. Shell `.Replace` and `[regex]` edits defeat replay on Luna and all six Claude runs. This depends on how each model chooses to write a file, not on the harness.
 - **Harness quirks stay in adapters:** early Claude MXC runs flag nearly every shell result `Exit code 5`, so the Claude adapter reads fixed gate text and never treats that flag as failure. Runs before `20261023T104412Z` kept no subagent transcripts, so their subagents' board writes and gates are invisible.
 
-For exact lane moves on future runs, the board needs observing from outside the contestant, for example a host-side file watcher. That needs no contestant change and works for any harness or model. It is not built or tested.
+## Board watcher
+
+`telemetry/board-watcher.py` observes the board from the host, so lane moves no longer depend on how a model writes the file. Both baseline runners start it just before launch and stop it after the last invocation. It runs outside the sandbox, changes no contestant configuration and writes `board-snapshots.jsonl` to the run folder. A watcher that fails to start only logs a warning.
+
+Reading a file can make a contestant's rename fail on Windows, even with full sharing. A first version did this: 7 failed renames in 3,000 at a 0.25 s poll, against none without a reader. The watcher therefore finds changes by enumerating the directory, and opens the file and takes a full oplock as one atomic step, so a conflicting write or rename waits for the read to finish. If anyone else has the file open, the oplock is refused and the read happens on a later tick, which also keeps torn boards out of the record.
+
+| Test | Result |
+|---|---|
+| 3,000 renames plus 3,000 direct writes, no reader | 0 failures |
+| The same, with reads in a tight loop | 0 failures |
+| The same, watcher polling at 0 s and at 0.25 s | 0 failures, 0 torn boards, final board captured |
+| Codex mock (`c0-full`) through MXC `--isolated` | 4 board states, `board_source: watcher`, lane coverage `complete`, from 0 replayable writes |
+| Claude mock (`c0-full`) through MXC `--isolated` | 4 board states, `board_source: watcher`, lane coverage `complete`, agrees with 4 gate readings and 2 commits |
+
+A board state shorter than one poll can be missed. If a commit captured it, the record fails to reconcile and falls back; if not, the skipped step is invisible. Observed moves have `actor: unknown`, because a file snapshot does not say who wrote it.
 
 Both are exported to their retained sessions under the name `geeky-orchestration.end-to-end`: 109 spans for DeepSeek and 87 for Luna, with no span missing on readback. Luna's exported timeline predates the `(by this commit)` label, so its text reads `T1: Ready -> Done` at 20:01:38; the span's `lane_evidence` metadata is correct. Spans cannot be re-sent, so this stays as it is.
 
 ## Limits
 
 - Tested on two Codex configurations and one Claude configuration, all retained runs. No other harness has been tried, and the Claude adapter has not run on a run with telemetry.
+- The watcher has run only on mock contestants on Windows, on NTFS. No model-driven run has used it, and its Linux and macOS read path has not been run.
 - No scorer reads this trace yet. `score-run.py` and `parity-eval.py` are unchanged, and a scorer based on it would need its own score scope.
 - The Codex adapter does not yet record gates run as shell scripts; the Claude adapter does.
 - Phase is not recorded, because existing phase parsing is unreliable.

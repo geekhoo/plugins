@@ -295,29 +295,32 @@ $started = (Get-Date).ToUniversalTime()
 $resumes = 0
 $exitCode = $null
 if ($MockAgent) { $savedExe = $env:MXC_CLAUDE_EXE; $env:MXC_CLAUDE_EXE = $agentPython }
+$boardWatcher = Start-EvalBoardWatcher $python $ws $out
 try {
-    if (Start-EvalInvocation $record $recordPath 'initial' ([ref]$hostArgs)) {
-        & $mxc @hostArgs -- @claudeArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
+    try {
+        if (Start-EvalInvocation $record $recordPath 'initial' ([ref]$hostArgs)) {
+            & $mxc @hostArgs -- @claudeArgs > (Join-Path $out 'stream.jsonl') 2> (Join-Path $out 'stderr.txt')
+            $exitCode = $LASTEXITCODE
+            Complete-EvalInvocation $record $recordPath $exitCode
+        }
+    } finally { if ($MockAgent) { $env:MXC_CLAUDE_EXE = $savedExe } }
+    while ($null -ne $exitCode -and $exitCode -eq 0 -and $resumes -lt $ResumeOnRefusal) {
+        $last = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '"type":"result"' } | Select-Object -Last 1 | ConvertFrom-Json
+        if ($last.stop_reason -notin 'content_filter', 'refusal') { break }
+        if (-not (Start-EvalInvocation $record $recordPath 'refusal-recovery' ([ref]$hostArgs))) { break }
+        $resumes++
+        Write-Host "provider refusal: resuming session $sid ($resumes/$ResumeOnRefusal)"
+        # Same flags, with a neutral prompt in place of the canonical one and --resume for --session-id.
+        $resumeArgs = @($claudeArgs)
+        $resumeArgs[[array]::IndexOf($resumeArgs, '-p') + 1] = 'Continue the workflow from where you stopped.'
+        $resumeArgs[[array]::IndexOf($resumeArgs, '--session-id')] = '--resume'
+        if ($MockAgent) { $env:MXC_CLAUDE_EXE = $agentPython }
+        try { & $mxc @hostArgs -- @resumeArgs >> (Join-Path $out 'stream.jsonl') 2>> (Join-Path $out 'stderr.txt') }
+        finally { if ($MockAgent) { $env:MXC_CLAUDE_EXE = $savedExe } }
         $exitCode = $LASTEXITCODE
         Complete-EvalInvocation $record $recordPath $exitCode
     }
-} finally { if ($MockAgent) { $env:MXC_CLAUDE_EXE = $savedExe } }
-while ($null -ne $exitCode -and $exitCode -eq 0 -and $resumes -lt $ResumeOnRefusal) {
-    $last = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '"type":"result"' } | Select-Object -Last 1 | ConvertFrom-Json
-    if ($last.stop_reason -notin 'content_filter', 'refusal') { break }
-    if (-not (Start-EvalInvocation $record $recordPath 'refusal-recovery' ([ref]$hostArgs))) { break }
-    $resumes++
-    Write-Host "provider refusal: resuming session $sid ($resumes/$ResumeOnRefusal)"
-    # Same flags, with a neutral prompt in place of the canonical one and --resume for --session-id.
-    $resumeArgs = @($claudeArgs)
-    $resumeArgs[[array]::IndexOf($resumeArgs, '-p') + 1] = 'Continue the workflow from where you stopped.'
-    $resumeArgs[[array]::IndexOf($resumeArgs, '--session-id')] = '--resume'
-    if ($MockAgent) { $env:MXC_CLAUDE_EXE = $agentPython }
-    try { & $mxc @hostArgs -- @resumeArgs >> (Join-Path $out 'stream.jsonl') 2>> (Join-Path $out 'stderr.txt') }
-    finally { if ($MockAgent) { $env:MXC_CLAUDE_EXE = $savedExe } }
-    $exitCode = $LASTEXITCODE
-    Complete-EvalInvocation $record $recordPath $exitCode
-}
+} finally { Stop-EvalBoardWatcher $boardWatcher }
 $ended = (Get-Date).ToUniversalTime()
 $finalizationStart = Get-EvalMonotonicSeconds
 if ($null -eq $exitCode) { throw 'Attempt deadline exhausted before launch' }
