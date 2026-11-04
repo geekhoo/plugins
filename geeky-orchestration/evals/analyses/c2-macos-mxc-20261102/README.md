@@ -23,7 +23,7 @@ allows only the Xcode Python 3.9.6, and C2 requires Python 3.11 or newer, so eve
 | Plugin | export `bf97923b` for all four scored runs (checked with `diff -r` on the exported trees); repo commits 44d6afb and a8a1fb4 differ only under `evals/`, which the export excludes |
 | Prompt | canonical `prompts/end-to-end.md`, sha `124eba9b`, unchanged |
 | Budget | 10800 s (3 h) per run, the last 900 s held back for closeout; no restart after a failure |
-| Launcher | `~/.Projects/mxc-c0/launch-c2.sh run <model> <effort> <AUTH_REF>` (outside the repo: machine paths) |
+| Launcher | `launch-c2.sh run <model> <effort> <AUTH_REF>`, run from the eval root `~/.Projects/mxc-c0`; the published copy, with paths taken from the environment, is [`evals/macos-mxc/launch-c2.sh`](../../macos-mxc/README.md) |
 | Authorization | owner, 2026-11-02 (+08); one reference per launch, `owner-macos-mxc-20261102-c2-<model>-<effort>[-aN]`. Run stamps below are UTC. |
 | Langfuse | environment `mxc-claude-mac` on every channel; transcript content cap `CC_LANGFUSE_MAX_CHARS=1000000` |
 | Non-Claude models | GPT medium and GPT high via bridge: the [compat layer](../../adapters/claude-code-litellm-compat/README.md); GPT high via bridge also routes through `mxc-sandbox/bridge` (launcher `BRIDGE=1`) |
@@ -207,7 +207,15 @@ Per run, on the Xcode Python 3.9 `tools/agent-py` venv (`P=~/.Projects/mxc-c0/to
    value (`verified`).
 
 The scope files bind the inputs at the paths used when scoring (`~/.Projects/mxc-c0/analyses/…`); this folder is
-a copy of those files.
+a copy of those files. Step 5 is [`evals/macos-mxc/scoring/make-scope.mjs`](../../macos-mxc/scoring/make-scope.mjs).
+
+Redaction (2026-11-04). In the GPT medium run the contestant ran `printenv`, which put the gateway key into a tool
+result, and from there into the stored transcripts, this folder's observations and the Langfuse trace. The branch
+history was rewritten to replace that key, other secret values and the internal gateway and proxy host names with
+placeholders (`<redacted:…>`, `<gateway-host>`, `<proxy>`, `<org>`) in every committed file. The redacted files no
+longer match the SHA-256 their scope recorded: the scopes still bind the unredacted originals, which the owner
+keeps outside the repo. Since this change the runner scrubs secrets from a run's stored files before it hashes,
+analyses or uploads them (`evals/scripts/scrub-secrets.mjs`), so new scopes bind redacted files.
 
 ## Files
 
