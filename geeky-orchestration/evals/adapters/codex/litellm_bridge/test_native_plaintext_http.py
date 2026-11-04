@@ -46,7 +46,8 @@ def servers(*, stream=False, response_mode='normal', max_body=100000):
                               for e in events).encode() + b'data: [DONE]\n\n'
                 content_type = 'text/event-stream'
             else:
-                raw = json.dumps({'id': 'resp_fixture', 'output': [call]}).encode()
+                raw = (b'{"private-invalid-upstream-payload":' if response_mode == 'invalid-json'
+                       else json.dumps({'id': 'resp_fixture', 'output': [call]}).encode())
                 content_type = 'application/json'
             self.send_response(200)
             self.send_header('Content-Type', content_type)
@@ -144,3 +145,60 @@ def test_native_http_does_not_follow_upstream_redirects():
         status, raw = post(proxy, request())
         assert status == 502 and len(captured) == 1
         assert b'upstream_http_error' in raw
+
+
+@pytest.mark.parametrize('case,phase,status,started,error_kind', [
+    ('request', 'request_map', 400, False, 'MappingError'),
+    ('response', 'upstream_response_map', 502, False, 'MappingError'),
+    ('stream', 'upstream_stream_map', 200, True, 'MappingError'),
+    ('invalid-json', 'upstream_response_decode', 502, False, 'JSONDecodeError'),
+])
+def test_mapping_diagnostics_identify_phase_without_logging_content(case, phase, status, started, error_kind, capsys):
+    body = request()
+    body['stream'] = case == 'stream'
+    if case == 'request':
+        body['input'].append({'type': 'function_call_output', 'call_id': 'call_unknown', 'output': [
+            {'type': 'encrypted_content', 'encrypted_content': 'unknown-opaque-content'}]})
+    response_mode = 'invalid-json' if case == 'invalid-json' else 'opaque'
+    with servers(stream=case == 'stream', response_mode=response_mode) as (proxy, _, captured):
+        actual, raw = post(proxy, body)
+        assert actual == status
+        assert b'bridge_mapping_error' in raw
+        assert len(captured) == (0 if case == 'request' else 1)
+    err = capsys.readouterr().err
+    events = [event for event in map(json.loads, err.splitlines()) if event['event'] == 'bridge_mapping_error']
+    assert len(events) == 1
+    event = events[0]
+    assert set(event) == {'event', 'phase', 'error', 'diagnostic_id', 'stream_started', 'ts'}
+    assert event['event'] == 'bridge_mapping_error'
+    assert event['phase'] == phase
+    assert event['error'] == error_kind
+    assert event['stream_started'] is started
+    assert len(event['diagnostic_id']) == 32
+    assert int(event['diagnostic_id'], 16) >= 0
+    assert KEY not in err
+    assert 'unknown-opaque-content' not in err
+    assert 'unverified-opaque-envelope' not in err
+    assert 'private-invalid-upstream-payload' not in err
+
+
+@pytest.mark.parametrize('payload,error_kind', [
+    (b'{"private-request-sentinel":', 'JSONDecodeError'),
+    (b'\xffprivate-request-sentinel', 'UnicodeError'),
+])
+def test_invalid_request_encoding_has_safe_diagnostics(payload, error_kind, capsys):
+    with servers() as (proxy, _, captured):
+        connection = http.client.HTTPConnection('127.0.0.1', proxy.server_port, timeout=5)
+        try:
+            connection.request('POST', '/v1/responses', payload, {
+                'Authorization': 'Bearer ' + KEY, 'Content-Type': 'application/json'})
+            response = connection.getresponse()
+            assert response.status == 400 and b'bridge_mapping_error' in response.read()
+        finally:
+            connection.close()
+        assert not captured
+    err = capsys.readouterr().err
+    event = next(event for event in map(json.loads, err.splitlines()) if event['event'] == 'bridge_mapping_error')
+    assert event['phase'] == 'request_decode'
+    assert event['error'] == error_kind and event['stream_started'] is False
+    assert 'private-request-sentinel' not in err and KEY not in err

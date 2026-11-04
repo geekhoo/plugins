@@ -17,6 +17,7 @@ import pytest
 
 from .mapper import (BridgeState, MappingError, digest, map_response_json,
                      map_sse_event, map_sse_frame, translate_request)
+from . import server as bridge_server
 from .server import make_server, upstream_target
 
 
@@ -585,6 +586,35 @@ def post(server, body, key=KEY, path="/v1/responses", headers=None):
         return response.status, dict(response.getheaders()), response.read()
     finally:
         connection.close()
+
+
+@pytest.mark.parametrize('case,phase,status,started', [
+    ('request', 'request_map', 400, False),
+    ('response', 'upstream_response_map', 502, False),
+    ('stream', 'upstream_stream_map', 200, True),
+])
+def test_classic_mapping_diagnostics_do_not_expose_exception_details(case, phase, status, started, monkeypatch, capsys):
+    secret = 'sensitive-exception-fixture-do-not-log'
+
+    def fail(*_args):
+        raise MappingError(secret)
+
+    mapper = {'request': 'translate_request', 'response': 'map_response_json', 'stream': 'map_sse_frame'}[case]
+    monkeypatch.setattr(bridge_server, mapper, fail)
+    with fake_upstream('sse' if case == 'stream' else 'json') as (base, captured):
+        with running_bridge(base, None if case == 'request' else seeded()) as bridge:
+            actual, _, raw = post(bridge, request_body(case == 'stream'))
+            assert actual == status and b'bridge_mapping_error' in raw
+            assert len(captured) == (0 if case == 'request' else 1)
+    err = capsys.readouterr().err
+    events = [json.loads(line) for line in err.splitlines()]
+    assert len(events) == 1
+    event = events[0]
+    assert set(event) == {'event', 'phase', 'error', 'diagnostic_id', 'stream_started', 'ts'}
+    assert (event['event'], event['phase'], event['error'], event['stream_started']) == (
+        'bridge_mapping_error', phase, 'MappingError', started)
+    assert len(event['diagnostic_id']) == 32 and int(event['diagnostic_id'], 16) >= 0
+    assert secret not in err and KEY not in err and TASK not in err
 
 
 def test_http_stream_rejects_text_markup_and_never_emits_completion():

@@ -3,6 +3,9 @@
 No retries, redirect following, request logs, credential files, or provider discovery.
 Each upstream error writes one JSON line to stderr: status, trace headers and a
 short redacted excerpt of the error body. Requests and headers are never logged.
+Mapping failures log a fixed processing phase and error category, without the
+exception message or request/response content. The phase is diagnostic only;
+it does not establish whether an upstream request reached its destination.
 Run one process per trusted run. Termination discards the plaintext provenance.
 
 Each forwarded request writes one JSON line to stderr: sizes, status, response.model and
@@ -101,6 +104,19 @@ def note_sse_frame(record, frame):
     return event.get("type") in SSE_TERMINAL_TYPES
 
 
+def mapping_error_kind(error):
+    """Return a fixed diagnostic category without exposing exception content."""
+    if isinstance(error, MappingError):
+        return "MappingError"
+    if isinstance(error, json.JSONDecodeError):
+        return "JSONDecodeError"
+    if isinstance(error, UnicodeError):
+        return "UnicodeError"
+    if isinstance(error, TypeError):
+        return "TypeError"
+    return "ValueError"
+
+
 def upstream_target(base_url):
     parsed = urlsplit(base_url)
     if (parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.username
@@ -181,15 +197,21 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
             self.record = record = {"event": "bridge_request", "request_id": next(request_ids),
                                     "ts": datetime.now(timezone.utc).isoformat(), "request_bytes": length, "upstream_request_bytes": None, "stream": None,
                                     "status": None, "outcome": None, "response_model": None, "usage_cost": None}
+            diagnostic_id = uuid.uuid4().hex
+            processing_phase = "request_read"
             try:
                 raw = self.rfile.read(length)
                 if len(raw) != length:
                     raise MappingError("Truncated request")
+                processing_phase = "request_decode"
                 body = json.loads(raw)
+                processing_phase = "request_map"
                 request, context = (translate_native_request(body, state, origin=uuid.uuid4().hex)
                                     if native else translate_request(body, state))
+                processing_phase = "request_encode"
                 payload = json.dumps(request, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
                 record.update(upstream_request_bytes=len(payload), stream=bool(request.get("stream")))
+                processing_phase = "upstream_connect"
                 connection_type = http.client.HTTPSConnection if parsed.scheme == "https" else http.client.HTTPConnection
                 connection = connection_type(parsed.hostname, parsed.port, timeout=timeout)
                 # Deliberately construct headers rather than copying credentials,
@@ -204,6 +226,7 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                 phase = "connect"
                 connection.connect()
                 phase = "send"
+                processing_phase = "upstream_request"
                 connection.request("POST", upstream_path, body=payload, headers=forward_headers)
                 phase = "response_headers"
                 response = connection.getresponse()
@@ -226,6 +249,7 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                         self._error(502, "unexpected_upstream_content_type")
                         return
                     phase = "client_write"
+                    processing_phase = "downstream_response_start"
                     self.send_response(200)
                     self.send_header("Content-Type", "text/event-stream")
                     self.send_header("Cache-Control", "no-cache")
@@ -236,11 +260,13 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                     frame = bytearray()
                     while True:
                         phase = "response_body"
+                        processing_phase = "upstream_stream_read"
                         line = response.readline(max_body + 1)
                         if len(frame) + len(line) > max_body:
                             raise MappingError("Upstream SSE frame too large")
                         if not line:
                             if frame:
+                                processing_phase = "upstream_stream_map"
                                 terminal = note_sse_frame(record, bytes(frame))
                                 mapped_frame = frame_mapper(bytes(frame), context)
                                 phase = "client_write"
@@ -250,6 +276,7 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                             break
                         frame.extend(line)
                         if line in {b"\n", b"\r\n"}:
+                            processing_phase = "upstream_stream_map"
                             terminal = note_sse_frame(record, bytes(frame))
                             mapped_frame = frame_mapper(bytes(frame), context)
                             phase = "client_write"
@@ -262,15 +289,20 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                     if content_type != "application/json":
                         self._error(502, "unexpected_upstream_content_type")
                         return
+                    processing_phase = "upstream_response_read"
                     raw_response = response.read(max_body + 1)
                     if len(raw_response) > max_body:
                         raise MappingError("Upstream response too large")
+                    processing_phase = "upstream_response_decode"
                     upstream_result = json.loads(raw_response)
                     if isinstance(upstream_result, dict):
                         note_response(record, upstream_result)
+                    processing_phase = "upstream_response_map"
                     result = response_mapper(upstream_result, context)
+                    processing_phase = "downstream_response_encode"
                     data = json.dumps(result, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
                     phase = "client_write"
+                    processing_phase = "downstream_response_start"
                     self.send_response(200)
                     self.send_header("Content-Type", "application/json")
                     self.send_header("Content-Length", str(len(data)))
@@ -287,7 +319,12 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                     self.wfile.write(b'event: error\ndata: {"type":"error","code":"bridge_tool_call_as_text","message":"Tool-call markup in assistant output text"}\n\n')
                 else:
                     self._error(502, "bridge_tool_call_as_text")
-            except (MappingError, ValueError, UnicodeError, TypeError):
+            except (MappingError, ValueError, UnicodeError, TypeError) as error:
+                # The exception message and data can contain arbitrary prompts,
+                # upstream responses or credentials; log only safe metadata.
+                log_event({"event": "bridge_mapping_error", "phase": processing_phase,
+                           "error": mapping_error_kind(error), "diagnostic_id": diagnostic_id,
+                           "stream_started": started})
                 if started:
                     record["outcome"] = "bridge_mapping_error"
                     self._flush_record()
