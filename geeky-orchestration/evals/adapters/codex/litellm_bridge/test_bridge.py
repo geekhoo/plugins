@@ -773,7 +773,10 @@ def test_real_cli_server_readiness_and_fixed_upstream(tmp_path):
     with fake_upstream() as (base, captured):
         environment = dict(os.environ, LITELLM_PROXY_API_BASE=base, LITELLM_PROXY_API_KEY=KEY,
                            PYTHONDONTWRITEBYTECODE="1")
-        process = subprocess.Popen([sys.executable, "-m", "litellm_bridge", "serve", "--port", "0",
+        # A Windows venv python.exe is a launcher whose PID differs from the interpreter's, so start
+        # the base interpreter as litellm-bridge.ps1 does. The bridge is stdlib-only.
+        interpreter = getattr(sys, "_base_executable", None) or sys.executable
+        process = subprocess.Popen([interpreter, "-m", "litellm_bridge", "serve", "--port", "0",
                                     "--ready-file", str(ready), "--known-plaintext", str(known)],
                                    cwd=folder, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
@@ -804,9 +807,10 @@ def test_real_cli_server_readiness_and_fixed_upstream(tmp_path):
             process.terminate()
             stdout, stderr = process.communicate(timeout=5)
             assert KEY.encode() not in stdout + stderr and TASK.encode() not in stdout + stderr
-            entries = [json.loads(line) for line in stderr.decode().splitlines()]
-            assert [entry["event"] for entry in entries] == ["bridge_request"]
-            assert entries[0]["status"] == 200 and entries[0]["request_bytes"] == len(json.dumps(request_body()))
+    # Outside the finally: an assertion there would replace whichever failure stopped the request.
+    entries = [json.loads(line) for line in stderr.decode().splitlines()]
+    assert [entry["event"] for entry in entries] == ["bridge_request"]
+    assert entries[0]["status"] == 200 and entries[0]["request_bytes"] == len(json.dumps(request_body()))
 
 
 def test_cli_graceful_exit_closes_listener_and_removes_readiness(tmp_path, monkeypatch):
