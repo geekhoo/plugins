@@ -158,7 +158,7 @@ three runs is in [the Claude review](evals/analyses/c1-claude-review-20261024.md
 | `scripts/validate-kanban.{ps1,py}` | gate | Kanban integrity: every task in exactly one lane, no dangling refs, WIP cap, lane coverage. |
 | `scripts/check-dod.{ps1,py}` | gate | Definition-of-Done for one task: notes file exists, task in Done lane, handoff mentions it; prints the task's validation block for comparison with evidence. |
 | `scripts/check-commit.{ps1,py}` | gate | Commit message is Conventional Commits + references a task (`Tasks: T<n>`). `docs` commits may use `Tasks: none`. |
-| `hooks/guard-planning-contract.{ps1,py}` | hook | PreToolUse guard for edits to frozen planning artifacts. Default `--mode warn` (advisory, surfaced via portable stdout+stderr); `--mode block` denies via Claude/Codex JSON (or exit 2 with `--exit-code`). |
+| `hooks/guard-planning-contract.{ps1,py}` | hook | PreToolUse guard for edits to frozen planning artifacts. Default `--mode warn` (advisory: `additionalContext` JSON on stdout, plain text on stderr); `--mode block` denies via Claude/Codex JSON (or exit 2 with `--exit-code`). |
 | `AGENTS.md` + `geeky.manifest.json` | discovery | Framework-agnostic discovery layer: how non-Claude agents learn the contract and invoke the gates (human-readable + machine-readable). |
 | `mcp/server.py` + `.mcp.json` | MCP server | `geeky_mcp`. stdio server exposing the six gates and the workflow-budget report as seven MCP tools for any MCP-capable agent. Thin adapter over the same scripts. See [mcp/README.md](mcp/README.md). |
 
@@ -224,6 +224,14 @@ The output of `/geeky-plan`, as corrected by `/plan-review`, freezes at plan-rev
 - `tasks/Tx-*.md` (original task bodies)
 
 If reality diverges from the plan mid-run, the task is moved to Blocked with a note in `kanban.md` and surfaced to the user. The bundled PreToolUse hook surfaces a warning if any tool attempts to write to a frozen artifact (default `--mode warn`); switch it to `--mode block` in `hooks/hooks.json` to deny such edits outright.
+
+**Hook output:** in warn mode the guard prints one line of JSON to stdout and exits `0`:
+
+```json
+{"hookSpecificOutput":{"hookEventName":"PreToolUse","additionalContext":"[geeky-orchestration] <path> is a frozen geeky-plan planning artifact. ..."}}
+```
+
+Claude Code and Codex add `additionalContext` to the model's context and still let the edit run. Neither passes plain PreToolUse stdout to the model. The guard also writes the plain message to stderr for logs and other frameworks. Block mode emits `permissionDecision: "deny"` instead, or exits `2` with `--exit-code` / `-ExitCode`. Both guards produce the same stdout bytes and exit codes; `test_guard_hook.py` checks this.
 
 Mutable artifacts (updated continuously by `/geeky-implement`):
 - `kanban.md`. single source of truth for lane status

@@ -324,5 +324,5 @@ The cut-off run from before the background-wait fix is archived in `evals/baseli
 - [ ] **O22 leftovers:** the MSYS tar PATH trap is documented but not guarded in the runner, and `model_calls` counts subagent messages.
 - [ ] **Historical `analysis.json` in run 5.** Preserve it; any future derived refresh belongs in a new output folder. Frozen historical score reproduction is recorded separately.
 - [x] **A conflicting rule in `agents/geeky-implement-orchestrator.md`:** resolved 2026-10-30. `geeky-implement` keeps scripts as the default and switches to the MCP gate tools when they run without a prompt.
-- [ ] **Unmerged side branches:** `claude/reverent-wright-14ac9b` (`618f1bf`, sync-agents test fix) and `claude/exciting-dewdney-adcbb0` (`c1cb0b0`, guard warn-mode). Merge or drop.
+- [ ] **Unmerged side branches:** `claude/reverent-wright-14ac9b` (`618f1bf`, sync-agents test fix). Merge or drop. `claude/exciting-dewdney-adcbb0` (`c1cb0b0`, guard warn-mode) is superseded by a port to main that also covers the plan-review warning and `guard-bridge.py`; drop it once the port is committed.
 - [ ] **Leftover folders:** the run workspaces under `C:\repos\eval-c1-csvledger-*`, their `C:\repos\.eval-cfg-*` folders and `C:\repos\mxc-probe`. Keep each run's workspace until it is scored, then delete it with its `.eval-cfg` and session folder.
