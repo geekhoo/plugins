@@ -509,11 +509,11 @@ def fake_upstream(mode="json"):
                 payload = b"".join(b"event: " + event["type"].encode() + b"\ndata: " + json.dumps(event).encode() + b"\n\n" for event in events)
                 payload += b"data: [DONE]\n\n"
                 content_type = "text/event-stream"
-            elif mode in {"sse_usage", "sse_stall"}:
+            elif mode in {"sse_usage", "sse_stall", "sse_stall_after_completed"}:
                 gateway = {"id": "resp_1", "model": "deepseek/deepseek-v3.2", "usage": {"input_tokens": 9, "cost": 0.0125},
                            "output": [item]}
                 events = [{"type": "response.created", "response": {"id": "resp_1", "model": "deepseek/deepseek-v3.2", "output": []}}]
-                if mode == "sse_usage":
+                if mode in {"sse_usage", "sse_stall_after_completed"}:
                     events.append({"type": "response.completed", "response": gateway})
                 self.send_response(200)
                 self.send_header("Content-Type", "text/event-stream")
@@ -521,7 +521,7 @@ def fake_upstream(mode="json"):
                 self.wfile.write(b"".join(b"event: " + event["type"].encode() + b"\ndata: " + json.dumps(event).encode() + b"\n\n"
                                           for event in events))
                 self.wfile.flush()
-                if mode == "sse_stall":
+                if mode != "sse_usage":
                     release.wait(5)
                 return
             elif mode == "json_usage":
@@ -696,6 +696,58 @@ def test_transport_error_mid_stream_names_the_phase_and_keeps_the_model():
                           "message": "Upstream transport failed"}
     assert (entry["status"], entry["outcome"], entry["phase"]) == (200, "upstream_transport_error", "response_body")
     assert entry["response_model"] == "deepseek/deepseek-v3.2" and entry["usage_cost"] is None
+
+
+@pytest.mark.parametrize("mode,stream", [("json_usage", False), ("sse_usage", True), ("rate_limit", False)])
+def test_log_line_is_written_before_the_client_can_see_completion(mode, stream):
+    # A run can kill the bridge as soon as its client finishes, so a line written after the last
+    # byte can be lost. The slow callback makes a late log lose this race every time.
+    order = []
+
+    def slow_log(_entry):
+        time.sleep(0.3)
+        order.append("log")
+
+    with fake_upstream(mode) as (base, _), running_bridge(base, seeded(), log=slow_log) as bridge:
+        connection = http.client.HTTPConnection("127.0.0.1", bridge.server_port, timeout=5)
+        try:
+            connection.request("POST", "/v1/responses", json.dumps(request_body(stream)),
+                               {"Authorization": "Bearer " + KEY, "Content-Type": "application/json"})
+            response = connection.getresponse()
+            if stream:
+                while b"response.completed" not in response.readline():
+                    pass
+            else:
+                response.read()
+            order.append("client")
+        finally:
+            connection.close()
+        deadline = time.monotonic() + 3
+        while "log" not in order and time.monotonic() < deadline:
+            time.sleep(0.01)
+    assert order == ["log", "client"]
+
+
+def test_failure_after_the_terminal_frame_adds_a_superseding_line():
+    entries = []
+    with fake_upstream("sse_stall_after_completed") as (base, _), \
+            running_bridge(base, seeded(), timeout=0.2, log=entries.append) as bridge:
+        post(bridge, request_body(True))
+        deadline = time.monotonic() + 3
+        while len(entries) < 2 and time.monotonic() < deadline:
+            time.sleep(0.01)
+    assert [entry["outcome"] for entry in entries] == ["ok", "upstream_transport_error"]
+    assert entries[0]["request_id"] == entries[1]["request_id"]
+    assert entries[0]["usage_cost"] == entries[1]["usage_cost"] == 0.0125
+    assert "phase" not in entries[0] and entries[1]["phase"] == "response_body"
+
+
+def test_request_ids_differ_between_requests():
+    entries = []
+    with fake_upstream("json_usage") as (base, _), running_bridge(base, seeded(), log=entries.append) as bridge:
+        post(bridge, request_body())
+        post(bridge, request_body())
+    assert len({entry["request_id"] for entry in entries}) == 2
 
 
 def test_closed_log_stream_does_not_fail_a_request(monkeypatch):

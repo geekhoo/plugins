@@ -5,7 +5,9 @@ Run one process per trusted run. Termination discards the plaintext provenance.
 
 Each forwarded request writes one JSON line to stderr: sizes, status, response.model and
 usage.cost, the evidence a provider invoice cannot give per request. No request or response
-content, header or exception text is logged.
+content, header or exception text is logged. The line is written before the client can see
+completion, because a run can kill the bridge once its client finishes. If the outcome changes
+afterwards, a later line with the same request_id supersedes it.
 """
 
 from __future__ import annotations
@@ -13,6 +15,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import hmac
 import http.client
+import itertools
 import json
 import sys
 import threading
@@ -27,6 +30,7 @@ TIMEOUT = 120
 MAX_LOGGED_MODEL = 200
 SSE_RESPONSE_EVENTS = (b"response.created", b"response.in_progress", b"response.completed",
                        b"response.incomplete", b"response.failed")
+SSE_TERMINAL_TYPES = {"response.completed", "response.incomplete", "response.failed"}
 _log_lock = threading.Lock()
 
 
@@ -54,15 +58,18 @@ def note_response(record, response):
 
 
 def note_sse_frame(record, frame):
+    """Copy evidence from a response event; True when the event ends the response."""
     if not any(name in frame for name in SSE_RESPONSE_EVENTS):
-        return
+        return False
     data = b"\n".join(line[5:].strip() for line in frame.splitlines() if line.startswith(b"data:"))
     try:
         event = json.loads(data)
     except ValueError:
-        return
-    if isinstance(event, dict):
-        note_response(record, event.get("response"))
+        return False
+    if not isinstance(event, dict):
+        return False
+    note_response(record, event.get("response"))
+    return event.get("type") in SSE_TERMINAL_TYPES
 
 
 def upstream_target(base_url):
@@ -82,19 +89,27 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
     if not isinstance(api_key, str) or not api_key.strip() or "\r" in api_key or "\n" in api_key:
         raise ValueError("A fixed upstream API key is required")
     state = state if state is not None else BridgeState()
+    request_ids = itertools.count(1)
 
     class Handler(BaseHTTPRequestHandler):
         protocol_version = "HTTP/1.0"
         record = None
+        logged = None
 
         def log_message(self, *_args):
             pass
+
+        def _flush_record(self):
+            if self.record is not None and self.record != self.logged:
+                self.logged = dict(self.record)
+                log(dict(self.record))
 
         def _error(self, status, code, **fields):
             body = json.dumps({"error": {"type": "bridge_error", "code": code,
                                          "message": code.replace("_", " "), **fields}}).encode()
             if self.record is not None:
                 self.record.update(status=status, outcome=code)
+                self._flush_record()
             self.send_response(status)
             self.send_header("Content-Type", "application/json")
             self.send_header("Content-Length", str(len(body)))
@@ -126,8 +141,8 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
             connection = None
             started = False
             phase = "client_read"
-            self.record = record = {"event": "bridge_request", "ts": datetime.now(timezone.utc).isoformat(),
-                                    "request_bytes": length, "upstream_request_bytes": None, "stream": None,
+            self.record = record = {"event": "bridge_request", "request_id": next(request_ids),
+                                    "ts": datetime.now(timezone.utc).isoformat(), "request_bytes": length, "upstream_request_bytes": None, "stream": None,
                                     "status": None, "outcome": None, "response_model": None, "usage_cost": None}
             try:
                 raw = self.rfile.read(length)
@@ -178,16 +193,20 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                             raise MappingError("Upstream SSE frame too large")
                         if not line:
                             if frame:
-                                note_sse_frame(record, bytes(frame))
+                                terminal = note_sse_frame(record, bytes(frame))
                                 mapped_frame = map_sse_frame(bytes(frame), context)
                                 phase = "client_write"
+                                if terminal:
+                                    self._flush_record()
                                 self.wfile.write(mapped_frame)
                             break
                         frame.extend(line)
                         if line in {b"\n", b"\r\n"}:
-                            note_sse_frame(record, bytes(frame))
+                            terminal = note_sse_frame(record, bytes(frame))
                             mapped_frame = map_sse_frame(bytes(frame), context)
                             phase = "client_write"
+                            if terminal:
+                                self._flush_record()
                             self.wfile.write(mapped_frame)
                             self.wfile.flush()
                             frame.clear()
@@ -211,16 +230,19 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                     self.end_headers()
                     started = True
                     record.update(status=200, outcome="ok")
+                    self._flush_record()
                     self.wfile.write(data)
             except ToolCallAsText:
                 if started:
                     record["outcome"] = "bridge_tool_call_as_text"
+                    self._flush_record()
                     self.wfile.write(b'event: error\ndata: {"type":"error","code":"bridge_tool_call_as_text","message":"Tool-call markup in assistant output text"}\n\n')
                 else:
                     self._error(502, "bridge_tool_call_as_text")
             except (MappingError, ValueError, UnicodeError, TypeError):
                 if started:
                     record["outcome"] = "bridge_mapping_error"
+                    self._flush_record()
                     self.wfile.write(b'event: error\ndata: {"type":"error","code":"bridge_mapping_error","message":"Bridge mapping failed"}\n\n')
                 else:
                     self._error(400 if connection is None else 502, "bridge_mapping_error")
@@ -229,6 +251,7 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
                 record.update(phase=phase, error_type=type(error).__name__)
                 if started:
                     record["outcome"] = "upstream_transport_error"
+                    self._flush_record()
                     try:
                         self.wfile.write(b'event: error\ndata: {"type":"error","code":"upstream_transport_error","phase":"'
                                          + phase.encode() + b'","message":"Upstream transport failed"}\n\n')
@@ -239,7 +262,7 @@ def make_server(base_url, api_key, *, port=0, state=None, timeout=TIMEOUT, max_b
             finally:
                 if connection is not None:
                     connection.close()
-                log(record)
+                self._flush_record()
 
         def do_GET(self):
             self._error(405, "post_required")

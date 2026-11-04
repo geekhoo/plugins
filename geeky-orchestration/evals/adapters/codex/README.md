@@ -46,7 +46,10 @@ request writes one `bridge_request` JSON line to stderr, kept as `stderr.log` in
 the bridge state folder when the bridge stops: `request_bytes`,
 `upstream_request_bytes`, `stream`, `status`, `outcome`, `response_model` and
 `usage_cost`, the last two read from the upstream response and null when absent.
-A transport failure adds `phase` (`client_read`, `connect`, `send`,
+The line is written before the client can see completion. If the outcome changes
+later, a second line with the same `request_id` supersedes it. A request still in
+flight when the bridge is killed leaves no line, and `stderr.log` exists only once
+`Stop-CodexLitellmBridge` has run. A transport failure adds `phase` (`client_read`, `connect`, `send`,
 `response_headers`, `response_body` or `client_write`) and the exception class
 name. Codex also receives `phase` in the `upstream_transport_error` event.
 
