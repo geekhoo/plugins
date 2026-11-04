@@ -198,6 +198,7 @@ function Save-EvalTelemetry {
     $Telemetry.Record.delivered = $false # compatibility alias: observations > 0 only
     $Telemetry.Record.observations_present = $false
     $Telemetry.Record.observations = $null
+    $Telemetry.Record.duplicate_observation_rows = $null
     $Telemetry.Record.trace_count = $null
     $Telemetry.Record.observations_status = 'pending'
     $Telemetry.Record.coverage_complete = $null
@@ -224,6 +225,7 @@ function Save-EvalTelemetry {
         $sessionSummary = Get-Content $summary -Raw | ConvertFrom-Json
         $observations = [int]$sessionSummary.observations
         $Telemetry.Record.observations = $observations
+        $Telemetry.Record.duplicate_observation_rows = [int]$sessionSummary.duplicate_rows
         $Telemetry.Record.delivered = $observations -gt 0
         $Telemetry.Record.observations_present = $observations -gt 0
         $Telemetry.Record.observations_status = if ($observations -gt 0) { 'present' } else { 'pending' }
