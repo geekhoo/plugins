@@ -2,6 +2,8 @@
 
 For the reviewed source state, later local C0/C1/C2 records and documentation update dates, see the [3 November MXC documentation index](../docs/mxc-documentation-refresh-20261103/README.md).
 
+[Normalized C1 scoring](evals/normalized-c1.md) applies the existing C0 parity formula to hash-bound Langfuse observations and explicitly reviewed C1 evidence. It is reproducible for frozen inputs; source-review and cross-run comparison limits remain explicit.
+
 [Native Luna C0 capture, initial closeout](evals/analyses/c0-native-result-20261031/README.md): completed with final review PASS and oracle 13/13 x3; Langfuse 19 traces / 911 observations. At closeout, cold-worker post-proxy receipt and comparable parity were unverified. The 3 November documentation index above records the later local 95.18 parity result and its limits.
 
 [Previous native C0 attempt](evals/analyses/c0-native-result-20261030b/README.md): NOT ACCEPTED after a proxy-reported 502 during plan review. Oracle 0/13 x3; Langfuse 9 traces / 198 observations; parity withheld. No cold implementer was reached.
