@@ -2,6 +2,8 @@
 
 For the reviewed source state, later local C0/C1/C2 records and documentation update dates, see the [3 November MXC documentation index](../docs/mxc-documentation-refresh-20261103/README.md).
 
+[macOS MXC findings](evals/macos-mxc-findings.md): C0, C2 and C3 runs on the Claude Code harness, kept on branch `opus/macos-mxc-c0` as a point of reference for C3. All ran on Python 3.9.6, so none is a reference baseline.
+
 [Normalized C1 scoring](evals/normalized-c1.md) applies the existing C0 parity formula to hash-bound Langfuse observations and explicitly reviewed C1 evidence. It is reproducible for frozen inputs; source-review and cross-run comparison limits remain explicit.
 
 [Native Luna C0 capture, initial closeout](evals/analyses/c0-native-result-20261031/README.md): completed with final review PASS and oracle 13/13 x3; Langfuse 19 traces / 911 observations. At closeout, cold-worker post-proxy receipt and comparable parity were unverified. The 3 November documentation index above records the later local 95.18 parity result and its limits.

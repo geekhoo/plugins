@@ -95,7 +95,7 @@ pwsh -NoProfile -File evals/scripts/run-codex-baseline.ps1 -Case c0-wordstat -Mo
 pwsh -NoProfile -File evals/scripts/run-baseline.ps1       -Case c0-wordstat -Model <litellm-model> -Litellm -TimeoutSec 5400 -CloseoutReserveSec 900 -ResumeOnRefusal 0 -AuthorizationReference <authorized-reference>
 ```
 
-- **Cases:** `c0-wordstat` (start here), `c1-csvledger`, `c2-linkvault`, `c3-minisql` ([cases](cases/)).
+- **Cases:** `c0-wordstat` (start here), `c1-csvledger`, `c2-linkvault`, `c3-minisql` ([cases](cases/)). For C3, see the [macOS reference numbers](macos-mxc-findings.md#c3-reference); they aren't a baseline.
 - **Progress:** watch the commit count in `~/repos/eval-<case>-<stamp>`.
 - **Output:** each runner ends with `stored: evals/baselines/<case>/<stamp>`.
 - **Warning signs:** exit 255 or repeated `API Error: 400`. With recovery zero, any refusal ends the authorized attempt. See the [pitfalls table](mxc-litellm-runbook.md#7-pitfalls-warning-and-guidance).

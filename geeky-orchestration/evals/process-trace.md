@@ -92,6 +92,8 @@ Mac MXC runs, Claude Code harness, read from `origin/opus/macos-mxc-c0` by adapt
 
 ## What the Mac runs showed
 
+The wider results and lessons from that work are in [macos-mxc-findings.md](macos-mxc-findings.md).
+
 The contract and exporter needed no change for a third operating system or for a non-Claude model behind Claude Code. The adapter did need fixes, all found by checking its output against the source records:
 
 - **Gates that never ran.** Reading a gate's source or naming it in a message counted as a run. On 10 commands across the Mac and C1 runs, printed source text produced a result, some of them false failures. A gate now counts only when a statement runs it, or when the output holds its result line.

@@ -2,6 +2,8 @@
 
 Reviewed on **3 November 2026 (Asia/Singapore)** at `main`, HEAD `ea94635d2f76918f4a01699aea3e356f90954033`. This checkout already contained uncommitted source changes and local evaluation evidence. HEAD alone does not identify those working changes.
 
+Later addition, 5 November 2026: the [macOS MXC findings](../../geeky-orchestration/evals/macos-mxc-findings.md) cover runs kept on branch `opus/macos-mxc-c0` as a point of reference for C3, and [decision D112](../../geeky-orchestration/docs/agent-eval-decisions.md) records that ruling. The review below is unchanged.
+
 ## Where testing began
 
 | Point | Git or retained evidence | Time in Singapore |

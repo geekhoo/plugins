@@ -6,6 +6,8 @@ The [normalized C1 scoring workflow](normalized-c1.md) applies the C0 parity for
 
 C2 Codex/DeepSeek waiver-route run, 4 November 2026: `20261104T041838Z-d22d38ec`, evidence in `C:\Repos\c2-ds-full-20261103-9c41e7b2\` (local, uncommitted; start at `review/post-run/report.md`). Codex 0.164.0, `vercel/deepseek-responses`, high for all roles, `native-plaintext`, one uninterrupted attempt. Oracle 136/136 stable3, 7,473s, 61.62M tokens, $2.75 gateway-reported in LiteLLM. Provisional Quality 92.45 on the Luna formula (Luna 96.87); QACT composite withheld; parity 81.21 is diagnostic only. No normalized composite. Native qualification waived; `reference_eligible` and `runtime_parity_verified` are false. Oracle 1.0 and provisional Quality 92.45 are published under the separate Langfuse scope `c2-deepseek-source-reviewed-20261104-d22d38ec-v1`, verified by readback.
 
+macOS MXC runs, 29 October to 4 November 2026: two C0, six C2 and two C3 runs through the Claude Code harness, including GPT-6.1-sol. They stay on branch `opus/macos-mxc-c0` and aren't merged. All ran on Python 3.9.6, so none is a reference baseline; the C3 pair is the point of reference when running C3. Numbers and their state are in [the macOS MXC findings](macos-mxc-findings.md).
+
 Historical Codex C1 run 3: [completed report](baselines/c1-csvledger/20261023T230041Z-2c3b5489/report.md) — reviewed QACT99.6, oracle118/118 stable3, final110tests,1410s,18.116799M tokens. Main Sol/high, task/default Sol/medium, reviewers Sol/xhigh. Complete operator-reviewed scoring; automatic extraction unsupported for this shape. Token ceiling exceeded under informational calibration policy; reference eligibility remains false. Previous records below remain preserved.
 
 Final-pair update: [Codex 2 automatic process extraction](analyses/c1-final-parity-20261024/README.md) now works without operator process mappings. Use a fresh output directory, existing judgments/validation cache and `--require-complete`; a withheld strict composite exits nonzero. The prior six-run proof is tied to its saved source version.
@@ -143,6 +145,8 @@ python -m pytest -q -rA | Tee-Object oracle-output.txt
 | C2: 136 | 136 passed |
 | C3: 183 | 182 passed, 1 skipped |
 
+On Python below 3.10, C3's `test_ac1_import_scan` fails because it calls `sys.stdlib_module_names`. Both macOS C3 runs show that failure ([findings](macos-mxc-findings.md#c3-reference)). Oracle runs for a C3 baseline need Python 3.11+, like C2.
+
 **For every failure**, check it against `spec.md` and record a verdict in `notes.md`:
 
 - **Implementation wrong:** fix it in a new run, or flag the run as "not reference-eligible".
@@ -207,6 +211,8 @@ Once each case has a reference-eligible baseline, set these values in `evals/cas
 | **Idle watchdog**: no trace event for N seconds means the run is treated as hung and fails fast | N = max(600, 1.5 × baseline `max_idle_gap_s`) | 10 min |
 | **Task timeout** (D37) | max(20 min, 2 × the slowest baseline task's `duration_s`) | 20 min |
 | **`L_ref`** (D68), per harness | baseline `latency_median_ms` for that harness | none; the duration part `T` uses an unadjusted `d` |
+
+The macOS C3 runs used 38.96M and 22.36M tokens in 7,652 s and 6,716 s, inside the provisional ceilings. They aren't reference-eligible, so they don't set these limits.
 | **Size reference** (score `S`) | the reference solution's `loc.source_non_test` | the upper bound of the spec's Quality signals band |
 
 How the limits are enforced (O13):

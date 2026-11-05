@@ -314,7 +314,7 @@ The cut-off run from before the background-wait fix is archived in `evals/baseli
 
 - [x] **Codex C1 on `bee7b14` (after `f54747e`).** Three completed runs now exercise the later plugin: 96.3, 98.0, and 99.6 reviewed for run 3 (`20261023T230041Z-2c3b5489`). See [the Claude review](analyses/c1-claude-review-20261024.md). This does not establish a new Claude repeat on that SHA; D92 remains move/check/revert.
 - [ ] **Three runs on one SHA**, for a real mean and stability figure (D60).
-- [ ] **C2 (`c2-linkvault`) and C3 (`c3-minisql`) baselines.** The kits and oracles exist but neither has run. Do mock runs first; C2 and C3 have larger ceilings (25M, 50M).
+- [ ] **C2 (`c2-linkvault`) and C3 (`c3-minisql`) baselines.** Neither case has a reference baseline yet. Both have run on macOS MXC on Python 3.9.6, below what C2 and C3's oracle need, and those runs stay on branch `opus/macos-mxc-c0` as a point of reference: see [the findings](macos-mxc-findings.md#c3-reference). C2 also has the non-reference DeepSeek and Luna Codex runs. Do mock runs first; C2 and C3 have larger ceilings (25M, 50M).
 - [ ] **The judge (D57) and the expectations files (D34).** A Langfuse LLM judge (`final_report_complete`) exists but is uncalibrated and its rule disabled; `manual-verdicts.json` is still hand-written.
 - [ ] **Calibrate `final_report_complete`** on labelled main-thread turns (positive: the three C0 final reports; negative: intermediate turns and the last turns of the refused and timed-out runs) before enabling its rule.
 - [ ] **Claude C0 on `ant-claudex` with a higher ceiling**, then three runs per harness on one fixed model with matched reasoning.
