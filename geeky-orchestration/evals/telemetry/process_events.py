@@ -371,7 +371,8 @@ def build_document(run, workspace, threads, ops, gates, readings, finals, adapte
                 'lane': 'complete' if trusted else ('partial' if lanes else 'unknown'),
                 'review': 'unknown' if not reviews else ('partial' if reviews_missing else 'complete'),
                 'gate': 'complete' if gates and all(gate['gate_result'] != 'unknown' for gate in gates) else ('partial' if gates else 'unknown')}
-    tags = [tag for tag in telemetry.get('tags', []) if tag != 'mock']
+    # New runs already tag configured values; the run record's own values replace them.
+    tags = [tag for tag in telemetry.get('tags', []) if tag != 'mock' and not tag.startswith(('model:', 'provider:'))]
     tags += [f'model:{run.get("model")}', f'provider:{(run.get("provider") or {}).get("name") or "native"}']
     events = sorted(lanes + reviews + gates, key=lambda event: process_trace.stamp(event['at']))
     return {'schema': process_trace.SCHEMA, 'session_id': telemetry.get('session_id') or run.get('session_id'), 'harness': run.get('harness') or 'unknown', 'adapter': adapter,

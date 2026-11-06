@@ -91,6 +91,17 @@ def test_scoped_publication_is_idempotent_and_preserves_legacy_ids(http):
     assert ls.score_id('a:b', 'c', 'd', 'e') != ls.score_id('a', 'b:c', 'd', 'e')
 
 
+@pytest.mark.parametrize('session', ['c2-ds-full/codex/20261105T000000Z-abcd1234', 'codex-mxc-win-c2-ds-full-20261104T041838Z-d22d38ec'])
+def test_scores_publish_and_read_back_on_new_and_retained_session_ids(http, session):
+    client, state = http
+    rows = [{**row, 'sessionId': session, 'id': ls.score_id(session, 'initial', 'parity-eval/1', row['name'])} for row in expected()]
+    assert ls.publish(client, rows)['scores_verified'] is True
+    posted = [body for method, path, body in state['requests'] if method == 'POST' and path == '/api/public/scores']
+    assert {body['sessionId'] for body in posted} == {session}
+    # The session travels only in the JSON body. No request path carries it.
+    assert all(session not in path for _, path, _ in state['requests'])
+
+
 @pytest.mark.parametrize('mode', ['missing', 'hash', 'value', 'type', 'boolean-type', 'subject', 'unsupported', 'dns', 'partial'])
 def test_missing_mismatched_and_failed_delivery_remains_pending(http, mode):
     client, state = http

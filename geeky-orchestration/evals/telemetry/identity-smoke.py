@@ -129,7 +129,8 @@ def main():
     subprocess.run(command, input=json.dumps(payload), text=True,
                    env=env, check=True, timeout=300)
     report = {'session_id': os.environ['GEEKY_SESSION_ID'], 'actors': actors, 'paid_model_calls': 0,
-              'environment': os.environ.get('LANGFUSE_TRACING_ENVIRONMENT')}
+              'environment': os.environ.get('LANGFUSE_TRACING_ENVIRONMENT'),
+              'expected': {role: {'user_id': f'{args.harness}/{role}', 'trace_name': role} for role in actors}}
     (args.home / 'identity-smoke.json').write_text(json.dumps(report, indent=2), encoding='utf-8')
     print(json.dumps(report))
 

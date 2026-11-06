@@ -1,4 +1,7 @@
 // Source-bound actor identity; prompts and descriptions never establish roles.
+// New runs (D111): userId is <harness>/<role> and the exact thread stays in agent_id. The trace name is the
+// plain role: native metadata carries no stage or scope when the hook emits, so <stage>/<scope>/<role> is
+// left to a post-run adapter. Keep roleFor in step with agent_identity.py; test_agent_identity.py compares them.
 import { createHash } from 'node:crypto';
 
 export function slug(value, fallback = 'unknown') {
@@ -14,8 +17,10 @@ export function roleFor(type, root) {
   if (root) return 'orchestrator';
   const role = String(type ?? '').split(':').at(-1);
   if (['geeky-orchestrator', 'geeky-implement-orchestrator'].includes(role)) return 'orchestrator';
-  if (role === 'geeky-coder') return 'coder';
+  if (['geeky-coder', 'worker'].includes(role)) return 'coder';
   if (['code-reviewer', 'code-architect-reviewer', 'architect-reviewer', 'reviewer', 'plan-reviewer', 'impl-reviewer'].includes(role)) return 'reviewer';
+  // plan-review dispatches this type as its planner. Generic types stay unknown.
+  if (role === 'code-architect') return 'planner';
   return 'unknown';
 }
 
@@ -25,24 +30,24 @@ export function agentIdentity(meta, ctx, env = process.env) {
   const role = roleFor(meta.agentRole, root);
   const name = meta.agentNickname || meta.agentRole || (root ? 'orchestrator' : 'unknown');
   const id = meta.sessionId || 'unknown';
-  const traceName = bounded(`${family}-${role}${slug(name) === role ? '' : `-${slug(name)}`}`);
-  const userId = bounded(`${family}-${role}${slug(name) === role ? '' : `-${slug(name)}`}-${slug(id)}`);
+  // The per-thread key old sessions used as userId, so both forms group through metadata.
+  const threadKey = bounded(`${family}-${role}${slug(name) === role ? '' : `-${slug(name)}`}-${slug(id)}`);
   // A seeded trace's placeholder parent is not a real dispatch relationship.
   const parent = ctx.parentObservation?.otelSpan.spanContext() || (ctx.attached ? ctx.parentSpanContext : undefined);
   const runMetadata = JSON.parse(env.GEEKY_RUN_METADATA || '{}');
   if (!runMetadata || typeof runMetadata !== 'object' || Array.isArray(runMetadata)) throw Error('GEEKY_RUN_METADATA must be an object');
   const metadata = {
     ...Object.fromEntries(Object.entries(runMetadata).filter(([, v]) => v != null).map(([k, v]) => [k, bounded(v)])),
-    identity_schema: 'geeky-eval.agent-identity/1', agent_family: family,
+    identity_schema: 'geeky-eval.agent-identity/2', agent_family: family,
     agent_id: bounded(id), agent_role: role, agent_type: meta.agentRole || (root ? 'orchestrator' : 'unknown'),
-    agent_name: bounded(name), agent_user_id: userId, actor_scope: root ? 'main' : 'subagent',
+    agent_name: bounded(name), agent_user_id: threadKey, actor_scope: root ? 'main' : 'subagent',
     native_session_id: bounded(id),
     ...(meta.parentThreadId ? { parent_agent_id: bounded(meta.parentThreadId) } : {}),
     ...(meta.agentPath ? { agent_path: bounded(meta.agentPath) } : {}),
     ...(parent ? { parent_trace_id: parent.traceId, parent_observation_id: parent.spanId } : {})
   };
   return {
-    sessionId: env.GEEKY_SESSION_ID || id, userId, traceName, metadata,
+    sessionId: env.GEEKY_SESSION_ID || id, userId: `${runMetadata.harness || 'codex'}/${role}`, traceName: role, metadata,
     tags: [...(ctx.config.tags || []), `agent-role:${role}`, `agent-type:${slug(meta.agentRole || role)}`]
   };
 }

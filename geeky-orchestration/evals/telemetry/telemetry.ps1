@@ -15,8 +15,9 @@ function Get-EvalTelemetryNaming {
     }
     $environment = "mxc-$Platform"
     $family = "$(if ($Harness -eq 'codex') { 'codex' } else { 'claude' })-$environment"
-    $sessionId = "$family-$Case-$Stamp"
-    if ($sessionId.Length -ge 200 -or $sessionId -cmatch '[^\x20-\x7e]') { throw 'Invalid telemetry session identity.' }
+    # D111: one continuous contestant invocation. Retained sessions keep their <family>-<case>-<stamp> IDs.
+    $sessionId = "$Case/$Harness/$Stamp"
+    if ($sessionId.Length -ge 200 -or $sessionId -cmatch '[^\x20-\x7e]' -or "$Case$Stamp".Contains('/')) { throw 'Invalid telemetry session identity.' }
     [pscustomobject]@{ Platform = $Platform; Environment = $environment; Family = $family; SessionId = $sessionId }
 }
 
@@ -61,15 +62,17 @@ function Resolve-EvalTelemetry {
     $hostTags = [Environment]::GetEnvironmentVariable($(if ($codex) { 'LANGFUSE_CODEX_TAGS' } else { 'CC_LANGFUSE_TRACE_TAGS' }))
     $extraTags = if ($hostTags -and $hostTags.Trim().StartsWith('[')) { @($hostTags | ConvertFrom-Json) } `
         elseif ($hostTags) { @($hostTags -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ }) } else { @() }
-    $tags = @('geeky-eval', 'identity:agent-v1', "harness:$Harness", "platform:$platform", "environment:$environment", "agent-family:$family",
+    $providerTag = if ($Mock) { 'mock' } else { $Provider }
+    $tags = @('geeky-eval', 'identity:agent-v2', "harness:$Harness", "platform:$platform", "environment:$environment", "agent-family:$family",
         "case:$Case", "run:$Stamp", "plugin:$($PluginSha.Substring(0, 7))") +
+        @(if ($Model) { "model:$Model" }) + @(if ($providerTag) { "provider:$providerTag" }) +
         @(if ($Mock) { 'mock' }) + $extraTags
     $tags = @($tags | Select-Object -Unique)
     $tagsJson = ConvertTo-Json -InputObject $tags -Compress
-    $traceName = "$family-orchestrator"
-    # The adapter replaces this fallback with the source-bound native actor ID.
-    $userId = "$family-orchestrator"
-    $metadata = [ordered]@{ identity_schema = 'geeky-eval.agent-identity/1'; harness = $Harness; platform = $platform;
+    $traceName = 'orchestrator'
+    # The adapter replaces this fallback with the actor's own role. The native agent ID stays in agent_id metadata.
+    $userId = "$Harness/orchestrator"
+    $metadata = [ordered]@{ identity_schema = 'geeky-eval.agent-identity/2'; harness = $Harness; platform = $platform;
         environment = $environment; agent_family = $family; case = $Case; run = $Stamp; run_group_id = $sessionId;
         plugin_sha = $PluginSha; configured_model = $(if ($Model) { $Model } else { 'runner-default' });
         configured_reasoning = $(if ($Reasoning) { $Reasoning } else { 'runner-default' });
@@ -103,17 +106,22 @@ function Resolve-EvalTelemetry {
     }
     $record = [ordered]@{
         enabled = $true; backend = 'langfuse'; base_url = $baseUrl; environment = $environment; trace_name = $traceName; tags = $tags
-        user_id = $userId; user_id_policy = 'source-bound-agent'; agent_family = $family; metadata = $metadata;
+        user_id = $userId; user_id_policy = 'harness-role'; agent_family = $family; metadata = $metadata;
         full_content = $true; ca_passthrough = @($caNames); session_id = $sessionId; native_session_id = $null; summary = $null
         delivered = $null; observations = $null; coverage_complete = $null; coverage_missed = $null
         user_ids = @(); agent_roles = @(); trace_count = $null
     }
-    $result = [ordered]@{ Harness = $Harness; KeyNames = $keyNames; BaseUrl = $baseUrl; Tags = $tags; Record = $record
+    $result = [ordered]@{ Harness = $Harness; SessionId = $sessionId; KeyNames = $keyNames; BaseUrl = $baseUrl; Tags = $tags; Record = $record
         RoPaths = @($roPaths | Select-Object -Unique) }
 
     if ($codex) {
         $index = Join-Path $ToolsDir "langfuse/codex-tracing/$($pins.codex_plugin.version)/dist/index.geeky.mjs"
         if (-not (Test-Path $index)) { throw "Missing $index; run evals/telemetry/install-telemetry-tools.ps1." }
+        # The installed tracer holds a copy of the identity module. A stale copy would emit the old user IDs into a new session.
+        $identity = Join-Path (Split-Path $index) 'codex-identity.mjs'
+        if (-not (Test-Path $identity) -or (Get-FileHash $identity -Algorithm SHA256).Hash -ne (Get-FileHash (Join-Path $PSScriptRoot 'codex-identity.mjs') -Algorithm SHA256).Hash) {
+            throw "Stale $identity; run evals/telemetry/install-telemetry-tools.ps1."
+        }
         $node = (Get-Command node -ErrorAction SilentlyContinue).Source
         $major = if ($node) { [int]((& $node --version).TrimStart('v') -split '\.')[0] } else { 0 }
         if ($major -lt [int]$pins.codex_plugin.node_major_min) { throw "Codex tracing needs Node.js $($pins.codex_plugin.node_major_min)+ on PATH (found: $(if ($node) { "v$major at $node" } else { 'none' }))." }
@@ -209,14 +217,13 @@ function Save-EvalTelemetry {
     $Telemetry.Record.coverage_status = 'unknown'
     $Telemetry.Record.scores_verified = $false # published/read back separately by langfuse-scores.py
     $Telemetry.Record.scores_status = 'pending'
-    $Telemetry.Record.session_id = $SessionId
     $Telemetry.Record.native_session_id = $SessionId
-    if ($SessionId -and $Telemetry.Record.agent_family) {
-        $nativeSlug = ($SessionId.ToLowerInvariant() -replace '[^a-z0-9]+', '-').Trim('-')
-        $Telemetry.Record.user_id = "$($Telemetry.Record.agent_family)-orchestrator-$nativeSlug"
-    }
-    if ($Telemetry.Record.metadata.run_group_id) { $Telemetry.Record.session_id = $Telemetry.Record.metadata.run_group_id }
-    $SessionId = $Telemetry.Record.session_id
+    # $SessionId is the harness's native ID. The Langfuse session was fixed when telemetry was resolved; a record
+    # from before that field used run_group_id, which held the session then and can span several sessions now.
+    $SessionId = if ($Telemetry.PSObject.Properties['SessionId']) { $Telemetry.SessionId }
+        elseif ($Telemetry.Record.metadata.run_group_id) { $Telemetry.Record.metadata.run_group_id }
+        else { $SessionId }
+    $Telemetry.Record.session_id = $SessionId
     if ($Telemetry.StateDir -and (Test-Path (Join-Path $Telemetry.StateDir 'langfuse_hook.log'))) {
         Copy-Item (Join-Path $Telemetry.StateDir 'langfuse_hook.log') (Join-Path $OutDir 'langfuse-hook.log')
     }

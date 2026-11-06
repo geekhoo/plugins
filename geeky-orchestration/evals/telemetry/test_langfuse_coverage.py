@@ -26,6 +26,16 @@ def test_actor_owned_agent_trace_keeps_subagent_classification():
     assert 'nested_subagents' in hits(report)
 
 
+def test_plain_role_trace_name_keeps_subagent_classification():
+    root = obs('coder', 'AGENT', 'coder')
+    root['metadata'] = {'actor_scope': 'subagent', 'agent_role': 'coder'}
+    main = obs('main', 'AGENT', 'orchestrator')
+    main['metadata'] = {'actor_scope': 'main', 'agent_role': 'orchestrator'}
+    spawn = obs('review', 'TOOL', 'spawn_agent', 'coder', {'agent_type': 'code-reviewer'})
+    assert cov.is_subagent_container(root) and not cov.is_subagent_container(main)
+    assert 'nested_subagents' in hits(cov.coverage([main, root, spawn]))
+
+
 def test_same_command_literal_variable_skill_read_counts():
     command = "$r='C:/plugin/skills/impl-review'; Get-Content \"$r/SKILL.md\""
     report = cov.coverage([obs('read', 'TOOL', 'exec_command', input_={'cmd': command})])
