@@ -61,6 +61,9 @@ What it does:
 - Sets `TMPDIR` to a per-run writable folder. MXC forces `TEMP` and `TMP` to the AppContainer's own temp folder, where pytest `tmp_path` and other `mkdtemp()` folders can't be written.
 - Sets a neutral commit identity, `geeky-eval-agent <agent@geeky-eval.local>`, through the `GIT_AUTHOR_*` and `GIT_COMMITTER_*` environment variables.
 - Reads its limits from `evals/cases/<case>/case.json`. After each run it calls `evals/scripts/analyze-run.py`, which writes `analysis.json` and fills the derived `run.json` fields.
+- Scrubs secrets from every text file in the run folder (`scrub-secrets.mjs`), because a contestant can print its environment into a tool result. Values come from the runner's environment and from generic key shapes. The first pass runs after the oracle and bundle, before anything is parsed or hashed, and a second runs at finalization, including for a failed run. `run.json.secret_scrub` holds the result, and a failed scrub marks the run as an error and never reference-eligible while keeping its files. It needs `node` on `PATH`, which the runner checks before launching.
+- Scans the workspace's git history (`secret-scan.mjs`), because `solution.bundle` is binary and can't be scrubbed. Hits are listed in `secret-scan-solution.txt` by location and rule, and the bundle needs review before it is committed.
+- Records what changed the contestant's conditions in `run.json.route_interventions`: what the runner can detect, plus each `-DeclaredIntervention` value. A compat layer or bridge outside the runner must be declared. The numeric `interventions` field still counts refusal recoveries, because scorers read it.
 - **Scoring is a separate step.** Run `python evals/scripts/score-run.py <run-folder> --manual <verdicts.json>`. It writes `score.json` and `score.md` into the run folder. Without `--manual`, judgement items are listed as `needs_judge` and left out of their denominators. To re-analyse a stored run without touching `run.json`, use `analyze-run.py --analysis-only`.
 
 Run it once per repeat, from a fresh shell.
@@ -168,7 +171,8 @@ A run that is invalid for an environment reason, rather than for the contestant'
 | File | Content |
 |---|---|
 | `solution.bundle` | `git bundle create solution.bundle --all`, taken in the workspace: the full repo, including the agent's planning folder and commits |
-| `stream.jsonl`, `session.jsonl`, `stderr.txt` | the raw transcripts |
+| `stream.jsonl`, `session.jsonl`, `stderr.txt` | the transcripts, with secrets scrubbed in runs from 5 November 2026 on |
+| `secret-scrub-capture.json`, `secret-scrub.json`, `secret-scan-solution.txt` | what each scrub pass and the history scan found, by file and rule, never values |
 | `run.json` | the measures below |
 | `oracle-output.txt` | the step 3 output |
 | `notes.md` | the approach, any interventions, oracle verdicts, environment notes |
@@ -196,7 +200,7 @@ A run that is invalid for an environment reason, rather than for the contestant'
 | `loc.source_non_test`, `loc.test`, `files_changed` | final code size | `git` in the workspace |
 | `commits` | the number of commits | `git rev-list --count HEAD` |
 | `exit_reason` | `completed`, `timeout`, `idle`, `budget`, `bg_killed`, `provider_refusal` (the model provider ended the session with `stop_reason` `content_filter` or `refusal`), `crash` or `aborted` | you / process exit |
-| `raw_sha256` | SHA-256 of `stream.jsonl` and `session.jsonl` | computed when stored |
+| `raw_sha256` | SHA-256 of `stream.jsonl` and `session.jsonl`, after scrubbing | computed when stored |
 | `interventions` | the count of human interventions, with reasons in `notes.md` | you |
 | `reference_eligible` | `true` only if the oracle result is clean and there were no interventions | you |
 

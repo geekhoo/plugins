@@ -45,7 +45,12 @@ Three Langfuse behaviours, each tested on the deployment, shaped this:
 | Actor trace name | `<stage>/<scope>/<role>` where known, from a fixed scope list; `orchestrator` for the root |
 | Model and provider | Metadata and tags, not IDs. The model the gateway reports stays in the observation's model field |
 
-Exact threads stay reachable through `agent_id` in metadata. Retained sessions keep their old IDs, because observations cannot be changed after export. The process trace uses `<harness>/workflow` in old sessions too. The tracers do not emit this identity yet.
+Exact threads stay reachable through `agent_id` in metadata. Retained sessions keep their old IDs, because observations cannot be changed after export. The process trace uses `<harness>/workflow` in old sessions too.
+
+Both tracers emit this identity for new runs, checked against a loopback collector; no real Langfuse session has it yet. Two parts fall short:
+
+- **Actor trace names** are the plain role, because neither harness's metadata carries stage or scope when the hook emits.
+- **Resumed segments** still share one session. `-ResumeOnRefusal` would need the runner to swap `GEEKY_SESSION_ID` per segment, and `langfuse-scores.py` and `process_events.py` would need a rule for which session to read.
 
 ## Rules for adapters
 

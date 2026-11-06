@@ -106,7 +106,7 @@ A comparison between models has to account for these. The Claude runs had neithe
 - Sends medium effort when none is given, and maps `max` to `xhigh` (`:91`, `:15`).
 - Maps only `content_filter` to `refusal` (`:216`).
 
-**Not recorded:** `run-baseline.ps1:465` writes `Interventions: none` on every run, and that script never mentions either layer. Any future use of these layers should record them in the run record and the score scope.
+**Not recorded on these runs:** the branch's `run-baseline.ps1:465` writes `Interventions: none` on every run, and that script never mentions either layer. On `main`, `run.json.route_interventions` records these once declared with `-DeclaredIntervention`. The score scope doesn't carry them yet.
 
 ## Readers real runs needed
 
@@ -128,7 +128,7 @@ Traps in those fixes:
 ## Evaluation practice
 
 - **Check the judge's model in the transcript.** `CLAUDE_CODE_SUBAGENT_MODEL` overrode an agent call with no explicit model, so the C3 judges and eval agents ran on Sonnet, not the Opus requested. The C2 judges were Sonnet too.
-- **Contestants can print their environment.** One run's `printenv` carried a gateway key into transcripts and traces. Scrub before hashing or uploading, and scrub again after exporting spans. This checkout's runners do not scrub yet.
+- **Contestants can print their environment.** One run's `printenv` carried a gateway key into transcripts and traces. Both runners on `main` now scrub stored files before hashing, but they can't reach spans the hook already sent from inside the sandbox. A telemetry run with any redaction records `telemetry_exposure: possible`.
 - **Redaction breaks hash bindings.** `raw_sha256` no longer matches the stored transcripts on 4 runs, and redacted scope sources no longer match their recorded hashes. Keep originals, and hash after scrubbing.
 - **A shared telemetry label needs one meaning.** `exit_reason` is `completed` on blocked runs, so it reports the process, not the workflow.
 
@@ -152,7 +152,6 @@ The branch stays as it is and nothing here is merged. Port by need.
 
 | Item | Path | Before using it |
 |---|---|---|
-| Secret tools | `evals/scripts/{secret-rules,scrub-secrets,secret-scan}.mjs` | Also wire into the Codex runner. A failed scrub leaves raw files in place, and `oracle-output.txt` and `solution.bundle` are written after it |
 | Bridge | `mxc-sandbox/bridge/` | Record it as an intervention. Stream failures log `status:200`, so "all 200" does not prove success |
 | Compat layer | `evals/adapters/claude-code-litellm-compat/` | Decide first whether coaching is acceptable in a scored run |
 | Node gates and MCP | `scripts/*.mts`, `mcp/server.mts` | Needed only on Python-restricted hosts. It lacks `geeky_workflow_budget`, its implement target is 0.90 against 0.75 here, and its guard has no `GEEKY_STAGE` |

@@ -43,14 +43,15 @@ Telemetry is on when the host has `TRACE_TO_LANGFUSE=true`. Pass `-NoTelemetry` 
 | `LANGFUSE_CODEX_PUBLIC_KEY`, `LANGFUSE_CODEX_SECRET_KEY`, `LANGFUSE_CODEX_BASE_URL` | Codex (take precedence) |
 | `LANGFUSE_TRACING_ENVIRONMENT`, `LANGFUSE_CODEX_ENVIRONMENT` | runners explicitly select `mxc-win`, `mxc-linux` or `mxc-mac` from the actual host |
 | `CC_LANGFUSE_TRACE_TAGS` / `LANGFUSE_CODEX_TAGS` | appended to the run tags |
-| `LANGFUSE_USER_ID` / `LANGFUSE_CODEX_USER_ID` | runners set a safe family fallback; adapters assign each observed agent its own user ID |
+| `LANGFUSE_USER_ID` / `LANGFUSE_CODEX_USER_ID` | runners set `<harness>/orchestrator` as a fallback; adapters assign each observed agent `<harness>/<role>` |
 
 Keys reach the sandbox only as bare `--env NAME`. The MXC host copies the value and never prints it. Codex always gets an explicit `LANGFUSE_CODEX_USER_ID`, so its hook never reads `CODEX_HOME/auth.json`. When the host trusts a private CA through `SSL_CERT_FILE`, `REQUESTS_CA_BUNDLE` or `NODE_EXTRA_CA_CERTS`, those variables pass through with a read-only grant on the bundle's folder.
 
 ## Finding a run in Langfuse
 
-Every trace carries `geeky-eval`, `identity:agent-v1`, harness, platform,
-environment, agent-family, case, run and plugin tags, plus `mock` for mocks.
+Every new trace carries `geeky-eval`, `identity:agent-v2`, harness, platform,
+environment, agent-family, case, run, plugin, model and provider tags, plus `mock`
+for mocks. Retained sessions carry `identity:agent-v1` and no model or provider tag.
 Agent-role and agent-type tags distinguish each actor. The human-readable
 Langfuse session ID is `run.json.telemetry.session_id`. The original
 `run.json.session_id` remains the native Claude session/Codex thread ID.
@@ -58,20 +59,24 @@ For historical runs without a telemetry session override, use the native ID.
 
 ## Agent and run identities
 
-| Field | Windows example | Linux / macOS equivalent |
-|---|---|---|
-| Environment | `mxc-win` | `mxc-linux`, `mxc-mac` |
-| Agent family | `codex-mxc-win`, `claude-mxc-win` | replace `win` with `linux` or `mac` |
-| Run session | `codex-mxc-win-c0-wordstat-<run-stamp>` | same platform naming |
-| Orchestrator trace | `codex-mxc-win-orchestrator` | same platform naming |
-| Coder trace | `claude-mxc-win-coder-<agent-name>` | same platform naming |
-| User ID | `<family>-<role>-<agent-name>-<native-agent-id>` | same platform naming |
+New runs follow [D111](../process-trace.md#identity-for-new-runs):
 
-When the agent name equals its role, it appears once. User IDs are ASCII,
-bounded below Langfuse's 200-character limit and retain collision-resistant
-suffixes when truncation is necessary. They identify the agent/subagent rather
-than the human operator. Native roles come from structured metadata; unknown
-types stay `unknown`, with the original type and name retained.
+| Field | New runs | Retained sessions |
+|---|---|---|
+| Environment | `mxc-win`, `mxc-linux`, `mxc-mac` | the same |
+| Agent family | `codex-mxc-win`, `claude-mxc-win`, in tags and metadata | also part of every ID |
+| Run session | `c0-wordstat/codex/<run-stamp>` | `codex-mxc-win-c0-wordstat-<run-stamp>` |
+| Orchestrator trace | `orchestrator` | `codex-mxc-win-orchestrator` |
+| Coder trace | `coder` | `claude-mxc-win-coder-<agent-name>` |
+| User ID | `claude-code/coder`, `codex/reviewer` | `<family>-<role>-<agent-name>-<native-agent-id>` |
+
+User IDs now name a harness and role, not a thread. The exact thread is in
+`agent_id`, and `agent_user_id` holds the key old sessions used as a user ID, so
+both forms group through metadata. Native roles come from structured metadata:
+`geeky-coder` and `worker` are `coder`, `code-architect` is `planner`, and other
+unrecognised types stay `unknown`, with the original type and name retained.
+`install-telemetry-tools.ps1` copies the Codex identity module into the tracer, and
+a Codex run with telemetry refuses to start if that copy differs from the source.
 
 Each agent owns its trace. All actors from one run share its session. This
 avoids Langfuse's trace-level user propagation overwriting the orchestrator's
