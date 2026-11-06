@@ -79,6 +79,12 @@ if ($a[0] -eq '-m' -and $a[1] -eq 'pytest') {
     return
 }
 $name = Split-Path $a[0] -Leaf
+if ($name -in 'scrub-secrets.mjs', 'secret-scan.mjs') {
+    # Get-Command is faked below, so the runner's node arrives here. The tools themselves are real.
+    if ($env:FAKE_SCRUB_EXIT) { $global:LASTEXITCODE = [int]$env:FAKE_SCRUB_EXIT; return }
+    & $env:FAKE_NODE @a
+    return
+}
 if ($name -eq 'prepare-profile.py') {
     if ($env:FAKE_FAILURE -eq 'preflight') { throw 'Injected preflight failure' }
     ConvertTo-Json -InputObject $a | Set-Content (Join-Path $env:FAKE_ROOT 'profile-arguments.json')
@@ -121,6 +127,7 @@ $calls = @(Get-Content $observed).Count
 $durations = $env:FAKE_DURATIONS.Split(',')
 $elapsed = [double](Get-Content $env:FAKE_CLOCK)
 [IO.File]::WriteAllText($env:FAKE_CLOCK, [string]($elapsed + [double]$durations[[Math]::Min($calls-1, $durations.Count-1)]))
+if ($env:PLANTED_SECRET_TOKEN) { '{"type":"tool_result","content":"PLANTED_SECRET_TOKEN=' + $env:PLANTED_SECRET_TOKEN + '"}' }
 if ($record.harness -eq 'claude-code') {
     '{"type":"system","subtype":"init","model":"fixture","claude_code_version":"fixture","skills":[]}'
     '{"type":"result","stop_reason":"refusal","is_error":false,"num_turns":1,"usage":{"input_tokens":1,"output_tokens":1}}'
@@ -145,6 +152,8 @@ def estate(tmp_path):
         shutil.copy2(SOURCE / name, scripts / name)
     for name in ('run-baseline.ps1', 'run-codex-baseline.ps1'):
         assert hashlib.sha256((scripts / name).read_bytes()).digest() == hashlib.sha256((SOURCE / name).read_bytes()).digest()
+    for name in ('scrub-secrets.mjs', 'secret-scan.mjs', 'secret-rules.mjs', 'secret-allow.txt'):
+        shutil.copy2(SOURCE / name, scripts / name)
     helper = scripts / 'run-lifecycle.ps1'
     body = helper.read_text(encoding='utf-8')
     body = body.replace('[Diagnostics.Stopwatch]::GetTimestamp() / [double][Diagnostics.Stopwatch]::Frequency',
@@ -220,7 +229,7 @@ function Invoke-ClaudeTelemetryFlush { throw 'DENIED unexpected Claude replay' }
 
     def run(harness, *, failure='', durations='1', pre_elapsed='0', recoveries=0,
             child_exit=0, prepare=False, waiver=False, post_elapsed='0', extra=(),
-            litellm=False, wire_mode=None):
+            litellm=False, wire_mode=None, planted=None, scrub_exit=None):
         if failure == 'stale-budget-export':
             (plugin / 'scripts/workflow-budget.py').write_text('# uncommitted changed policy')
         runner = scripts / ('run-baseline.ps1' if harness == 'claude' else 'run-codex-baseline.ps1')
@@ -233,7 +242,11 @@ function Invoke-ClaudeTelemetryFlush { throw 'DENIED unexpected Claude replay' }
                    FAKE_DURATIONS=durations, FAKE_PRE_ELAPSED=pre_elapsed, FAKE_EXIT=str(child_exit),
                    FAKE_FAILURE=failure, FAKE_TELEMETRY='1' if failure == 'telemetry' else '0',
                    FAKE_POST_ELAPSED=post_elapsed,
-                   CLAUDE_CODE_OAUTH_TOKEN='offline-fixture-only')
+                   CLAUDE_CODE_OAUTH_TOKEN='offline-fixture-only', FAKE_NODE=shutil.which('node') or '')
+        if planted:
+            env['PLANTED_SECRET_TOKEN'] = planted
+        if scrub_exit is not None:
+            env['FAKE_SCRUB_EXIT'] = str(scrub_exit)
         if litellm:
             env.update(LITELLM_PROXY_URL='https://offline.invalid/litellm',
                        LITELLM_PROXY_API_KEY='offline-fixture-only')
@@ -295,6 +308,86 @@ def test_actual_runner_prepared_and_running_deadline_context(estate, harness):
     assert record['execution']['finalization_time_s'] == 0
     assert record['fixture_analyzed']
     assert record['execution']['artifact_sha256']['stream.jsonl'] == hashlib.sha256((folder / 'stream.jsonl').read_bytes()).hexdigest()
+
+
+PLANTED = 'planted-fixture-value-' + 'x' * 16
+needs_node = pytest.mark.skipif(not shutil.which('node'), reason='node required')
+
+
+@needs_node
+@pytest.mark.parametrize('harness', ['claude', 'codex'])
+def test_planted_secret_is_gone_before_anything_is_hashed(estate, harness):
+    result, record, _, folder = estate[0](harness, planted=PLANTED)
+    assert result.returncode == 0, result.stdout + result.stderr
+    for path in folder.rglob('*'):
+        if path.is_file():
+            assert PLANTED.encode() not in path.read_bytes(), path
+    scrub = record['secret_scrub']
+    assert scrub['status'] == 'scrubbed' and scrub['failed_files'] == 0 and scrub['redactions'] >= 1
+    stream = hashlib.sha256((folder / 'stream.jsonl').read_bytes()).hexdigest()
+    assert record['raw_sha256']['stream'] == stream
+    assert record['execution']['artifact_sha256']['stream.jsonl'] == stream
+    assert '<redacted:PLANTED_SECRET_TOKEN>' in (folder / 'stream.jsonl').read_text(encoding='utf-8-sig')
+    assert (folder / 'secret-scrub-capture.json').exists() and (folder / 'secret-scrub.json').exists()
+    assert record['execution']['artifact_sha256']['secret-scrub.json']
+    assert 'telemetry_exposure' not in scrub
+
+
+@needs_node
+@pytest.mark.parametrize('failure', ['capture', 'oracle'])
+def test_failed_run_is_still_scrubbed_at_finalization(estate, failure):
+    result, record, _, folder = estate[0]('claude', failure=failure, planted=PLANTED)
+    assert result.returncode != 0
+    for path in folder.rglob('*'):
+        if path.is_file():
+            assert PLANTED.encode() not in path.read_bytes(), path
+    assert record['secret_scrub']['status'] == 'scrubbed'
+    assert record['execution']['failure']
+
+
+@needs_node
+def test_scrub_failure_marks_the_record_and_keeps_the_evidence(estate):
+    result, record, _, folder = estate[0]('claude', scrub_exit=3)
+    assert record['secret_scrub']['status'] == 'failed'
+    assert record['is_error'] is True and record['reference_eligible'] is False
+    assert record['execution']['state'] == 'finalized'
+    assert (folder / 'stream.jsonl').exists()
+    assert 'Secret scrub failed' in result.stdout + result.stderr
+
+
+@needs_node
+def test_clean_run_records_no_redactions_and_scans_the_solution(estate):
+    result, record, _, _ = estate[0]('claude')
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert record['secret_scrub']['redactions'] == 0
+    assert record['secret_scrub']['solution_history'] == 'clean'
+
+
+@needs_node
+def test_claude_interventions_reach_the_record_and_notes(estate):
+    result, record, _, folder = estate[0]('claude', recoveries=0, extra=('-DeclaredIntervention', 'compat-layer:fixture'))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert record['route_interventions'] == ['compat-layer:fixture']
+    assert record['interventions'] == 0
+    assert 'Interventions: compat-layer:fixture.' in (folder / 'notes.md').read_text(encoding='utf-8-sig')
+
+
+@needs_node
+def test_claude_notes_say_none_only_when_there_are_none(estate):
+    result, record, _, folder = estate[0]('claude')
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert record['route_interventions'] == []
+    assert 'Interventions: none.' in (folder / 'notes.md').read_text(encoding='utf-8-sig')
+
+
+@needs_node
+def test_codex_records_a_started_proxy_as_an_intervention(estate):
+    run = estate[0]
+    prepared = run('codex', prepare=True, litellm=True, wire_mode='native')[1]
+    assert prepared['route_interventions'] == []
+    shutil.rmtree(estate[1] / 'repo/geeky-orchestration/evals/baselines')
+    record = run('codex', waiver=True, litellm=True, wire_mode='native', extra=('-DeclaredIntervention', 'fixture-layer'))[1]
+    assert record['route_interventions'] == ['compatibility-proxy:native', 'fixture-layer']
 
 
 @pytest.mark.parametrize('duration,count,timeouts', [('8', 2, [10, 2]), ('8.1', 2, [10, 1]), ('9.1', 1, [10]), ('10', 1, [10])])

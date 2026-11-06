@@ -146,6 +146,65 @@ function Stop-EvalBoardWatcher($Watcher) {
     }
 }
 
+# A contestant can print its environment into a tool result, and stderr can echo headers, so stored files get
+# scrubbed before they are hashed. Values come from this process's environment, never argv. These helpers never
+# throw: a scrub problem marks the record and must not lose the run's evidence.
+function Assert-EvalSecretTools {
+    if (-not (Get-Command node -CommandType Application -ErrorAction SilentlyContinue)) { throw 'node is required on PATH to scrub secrets from the stored run.' }
+    foreach ($tool in 'scrub-secrets.mjs', 'secret-scan.mjs', 'secret-rules.mjs') {
+        if (-not (Test-Path -LiteralPath (Join-Path $PSScriptRoot $tool) -PathType Leaf)) { throw "Missing secret tool: $tool" }
+    }
+}
+
+function Get-EvalSecretRecord($Record) {
+    if (-not $Record.Contains('secret_scrub')) {
+        $Record['secret_scrub'] = [ordered]@{ status = 'not-run'; redactions = 0; failed_files = 0; binary_files = @(); solution_history = 'not-scanned'; solution_history_hits = 0 }
+    }
+    return $Record['secret_scrub']
+}
+
+function Invoke-EvalSecretScrub($Record, [string]$RunFolder, [string]$ReportName) {
+    $scrub = Get-EvalSecretRecord $Record
+    $report = Join-Path $RunFolder $ReportName
+    $code = -1
+    try {
+        Remove-Item -LiteralPath $report -ErrorAction SilentlyContinue
+        $node = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
+        & $node (Join-Path $PSScriptRoot 'scrub-secrets.mjs') $RunFolder --report $report 2>$null
+        $code = $LASTEXITCODE
+        $summary = Get-Content -LiteralPath $report -Raw | ConvertFrom-Json
+        $scrub['redactions'] += [int]$summary.redactions
+        $scrub['failed_files'] = @($summary.failed).Count
+        $scrub['binary_files'] = @($summary.binary_files | ForEach-Object { [IO.Path]::GetRelativePath($RunFolder, $_).Replace('\', '/') })
+    } catch { $code = if ($code -eq 0) { -1 } else { $code } }
+    $scrub['status'] = if ($code -eq 0) { 'scrubbed' } else { 'failed' }
+    if ($code -ne 0) {
+        $Record.is_error = $true; $Record.reference_eligible = $false
+        Write-Warning "Secret scrub failed (exit $code); files in $RunFolder may hold secrets. Do not commit or upload them."
+    }
+}
+
+# A bundle is binary and its history cannot be rewritten without changing the evidence, so its source is only scanned.
+function Invoke-EvalSolutionSecretScan($Record, [string]$Workspace, [string]$RunFolder) {
+    $scrub = Get-EvalSecretRecord $Record
+    $output = Join-Path $RunFolder 'secret-scan-solution.txt'
+    try {
+        $node = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
+        & $node (Join-Path $PSScriptRoot 'secret-scan.mjs') --repo $Workspace --git --all > $output 2>$null
+        $code = $LASTEXITCODE
+        $scrub['solution_history'] = if ($code -eq 0) { 'clean' } elseif ($code -eq 1) { 'hits' } else { 'error' }
+        $scrub['solution_history_hits'] = if ($code -eq 1) { @(Get-Content -LiteralPath $output).Count } else { 0 }
+    } catch { $scrub['solution_history'] = 'error' }
+    if ($scrub['solution_history'] -ne 'clean') {
+        Write-Warning "Solution history scan: $($scrub['solution_history']). Review $output before committing solution.bundle."
+    }
+}
+
+function Get-EvalInterventionNote($Items) {
+    $listed = @($Items | Where-Object { $_ })
+    return $(if ($listed.Count) { $listed -join '; ' } else { 'none' })
+}
+
 function Set-EvalStep($Record, [string]$Path, [string]$Name) {
     $prior = $Record.execution.active_step
     if ($Record.execution.postprocessing[$prior] -eq 'in-progress') { $Record.execution.postprocessing[$prior] = 'completed' }
@@ -176,6 +235,14 @@ function Save-EvalFinalRecord($Record, [string]$Path, [string]$Workspace, [doubl
     $execution.reconciliation_required = $execution.process_outcome -eq 'unknown'
     $execution['workspace_head'] = (& git -C $Workspace rev-parse HEAD | Out-String).Trim()
     $execution['workspace_status'] = @(& git -C $Workspace status --porcelain=v1)
+    # Also covers a run that failed before the runner's own scrub, and files written after it.
+    Invoke-EvalSecretScrub $Record (Split-Path $Path) 'secret-scrub.json'
+    $scrub = $Record['secret_scrub']
+    if ($scrub['redactions'] -gt 0 -and $Record.Contains('telemetry') -and $Record.telemetry.enabled) {
+        # Spans leave from inside the sandbox during the run; a host scrub cannot reach what was already sent.
+        $scrub['telemetry_exposure'] = 'possible'
+        Write-Warning "Secret scrub redacted $($scrub['redactions']) value(s). Langfuse spans for this run may hold the same text."
+    }
     $execution['artifact_sha256'] = [ordered]@{}
     Get-ChildItem -LiteralPath (Split-Path $Path) -File -Recurse | Where-Object { $_.FullName -ne $Path -and $_.Extension -ne '.tmp' } | ForEach-Object {
         $name = [IO.Path]::GetRelativePath((Split-Path $Path), $_.FullName).Replace('\', '/')
@@ -183,4 +250,10 @@ function Save-EvalFinalRecord($Record, [string]$Path, [string]$Workspace, [doubl
     }
     $execution.finalization_time_s = (Get-EvalMonotonicSeconds) - $FinalizationStart
     Write-EvalRecord $Record $Path
+    # run.json is rewritten from memory above, so it gets its own last pass. It is outside artifact_sha256.
+    try {
+        $node = (Get-Command node -CommandType Application -ErrorAction Stop | Select-Object -First 1).Source
+        & $node (Join-Path $PSScriptRoot 'scrub-secrets.mjs') $Path > $null 2>$null
+        if ($LASTEXITCODE -ne 0) { Write-Warning "Secret scrub of $Path failed (exit $LASTEXITCODE)." }
+    } catch { Write-Warning "Secret scrub of $Path did not run: $($_.Exception.GetType().Name)" }
 }

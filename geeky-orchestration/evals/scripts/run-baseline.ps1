@@ -10,7 +10,7 @@
     3. headless claude in MXC (--isolated --allow-win32k --host-loopback), stream captured
     4. oracle 3x against the result (flake check)
     5. stores solution.bundle, stream/session/stderr, oracle output and run.json under
-       evals/baselines/<case>/<UTC stamp>/
+       evals/baselines/<case>/<UTC stamp>/, with secrets scrubbed before anything is hashed
   Fields that need the ATIF ingest tool (latency, idle gaps, stages, tasks) are left null.
 
   Requires: CLAUDE_CODE_OAUTH_TOKEN (process or User env), the mxc-sandbox plugin, Python with
@@ -50,7 +50,9 @@ param(
     # the same session with a neutral prompt up to this many times; each resume counts as an intervention.
     [int]$ResumeOnRefusal = 0,
     # Omit to preserve Claude's default effort; explicit effort applies to main and child requests.
-    [ValidateSet('low', 'medium', 'high', 'xhigh', 'max')][string]$Effort
+    [ValidateSet('low', 'medium', 'high', 'xhigh', 'max')][string]$Effort,
+    # Anything that changes what the contestant sees and this runner cannot detect, such as a compat layer or bridge.
+    [string[]]$DeclaredIntervention = @()
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'run-lifecycle.ps1')
@@ -240,6 +242,7 @@ if ($Litellm) {
 
 $record = [ordered]@{
     schema = 'geeky-eval.baseline/1'; case = $Case; harness = 'claude-code'; model = $Model; reasoning = $configuredEffort
+    route_interventions = @(@(if ($Litellm) { 'tool-removed:WebSearch'; "subagent-model-pinned:$Model" }) + $DeclaredIntervention)
     workspace = $ws; config_directory = $cfg; seed_sha = $baseSha; plugin_sha = $pluginSha; prompt_sha256 = $promptSha
     session_id = $sid; started_utc = $null; ended_utc = $null; wall_time_s = $null
     exit_code = $null; exit_reason = 'prepared'; is_error = $false; reference_eligible = $false
@@ -294,6 +297,7 @@ if ($DryRun) {
 $started = (Get-Date).ToUniversalTime()
 $resumes = 0
 $exitCode = $null
+Assert-EvalSecretTools
 if ($MockAgent) { $savedExe = $env:MXC_CLAUDE_EXE; $env:MXC_CLAUDE_EXE = $agentPython }
 $boardWatcher = Start-EvalBoardWatcher $python $ws $out
 try {
@@ -349,6 +353,9 @@ $stable = ($runs | ForEach-Object { "$($_.passed)/$($_.failed)/$($_.errors)/$($_
 # 5. Store
 Set-EvalStep $record $recordPath 'parsing'
 git -C $ws bundle create (Join-Path $out 'solution.bundle') --all 2>$null
+# Before parsing and hashing: everything derived from these files sees the scrubbed text.
+Invoke-EvalSolutionSecretScan $record $ws $out
+Invoke-EvalSecretScrub $record $out 'secret-scrub-capture.json'
 $lines = Get-Content (Join-Path $out 'stream.jsonl') | Where-Object { $_ -match '^\{' }
 $init = $lines | Where-Object { $_ -match '"subtype":"init"' } | Select-Object -First 1 | ConvertFrom-Json
 $results = @($lines | Where-Object { $_ -match '"type":"result"' } | ForEach-Object { $_ | ConvertFrom-Json })
@@ -406,7 +413,8 @@ $analysisRecord = [ordered]@{
 foreach ($key in $analysisRecord.Keys) { $record[$key] = $analysisRecord[$key] }
 Write-EvalRecord $record $recordPath
 
-Set-Content (Join-Path $out 'notes.md') "# Baseline $Case $stamp`n`nApproach: canonical prompt, Claude Code isolated in MXC.`nInterventions: none.`nOracle verdicts: (fill in for any failure)`n"
+$interventionNote = Get-EvalInterventionNote (@($record.route_interventions) + @(if ($resumes) { "refusal-recovery:$resumes" }))
+Set-Content (Join-Path $out 'notes.md') "# Baseline $Case $stamp`n`nApproach: canonical prompt, Claude Code isolated in MXC.`nInterventions: $interventionNote.`nOracle verdicts: (fill in for any failure)`n"
 # Derived measures (tokens summed over all models, stages, latency, idle gap) -> run.json + analysis.json
 Set-EvalStep $record $recordPath 'analysis'
 $record.analysis_status = 'in-progress'

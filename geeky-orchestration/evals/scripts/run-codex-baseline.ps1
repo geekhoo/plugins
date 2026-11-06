@@ -44,7 +44,9 @@ param(
     # Debugging: a RUST_LOG filter for the contestant Codex process; its log lands in stderr.txt.
     [string]$CodexRustLog,
     # Native retains Responses V2 namespaces through a plaintext compatibility proxy.
-    [ValidateSet('bridge', 'native')][string]$LitellmWireMode = 'bridge'
+    [ValidateSet('bridge', 'native')][string]$LitellmWireMode = 'bridge',
+    # Anything that changes what the contestant sees and this runner cannot detect.
+    [string[]]$DeclaredIntervention = @()
 )
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'run-lifecycle.ps1')
@@ -285,6 +287,7 @@ if ($mappingBridge) {
     $proxyKey = if ($LitellmWireMode -eq 'native') { 'compatibility_proxy' } else { 'mapping_bridge' }
     $record[$proxyKey] = $mappingBridge.Record
 }
+$record['route_interventions'] = @(@(if ($mappingBridge) { "$($proxyKey.Replace('_', '-')):$LitellmWireMode" }) + $DeclaredIntervention)
 if ($ReviewerProofFolder) { $record['reviewer_proof_folder'] = [IO.Path]::GetFullPath($ReviewerProofFolder) }
 $record['execution'] = $execution
 $hostArgs += @('--env', "GEEKY_DEADLINE_UTC=$($record.execution.initial_deadline_utc)", '--env', "GEEKY_CLOSEOUT_RESERVE_S=$CloseoutReserveSec",
@@ -293,6 +296,7 @@ Write-EvalRecord $record $recordPath
 Write-Host "workspace: $ws (seed $baseSha)"
 Write-Host "prepared: $out"
 if (-not $Launch -and -not $MockAgent) { Write-Host 'Preparation only; no MXC workload or model call launched.'; return }
+Assert-EvalSecretTools
 Set-EvalStep $record $recordPath 'launch-preparation'
 $mxcState = Join-Path $cfg 'mxc-runner'
 if ($MxcBuildSource) {
@@ -397,7 +401,10 @@ $lock = [IO.File]::Open((Join-Path $ToolsDir '.codex-baseline.lock'), [IO.FileMo
         stable_over_3 = @($runs | ForEach-Object { "$(ConvertTo-Json $_ -Compress)" } | Select-Object -Unique).Count -eq 1 }
     Invoke-Git @('-C', $ws, 'bundle', 'create', (Join-Path $out 'solution.bundle'), '--all') | Out-Null
     $record.commits = [int](Invoke-Git @('-C', $ws, 'rev-list', '--count', "$baseSha..HEAD"))
-    $record.raw_sha256 = [ordered]@{ stream = Get-Sha (Join-Path $out 'stream.jsonl'); session = Get-Sha (Join-Path $out 'session.jsonl') }
+    # Before hashing and analysis: everything derived from these files sees the scrubbed text.
+    Invoke-EvalSolutionSecretScan $record $ws $out
+    Invoke-EvalSecretScrub $record $out 'secret-scrub-capture.json'
+    $record.raw_sha256 =[ordered]@{ stream = Get-Sha (Join-Path $out 'stream.jsonl'); session = Get-Sha (Join-Path $out 'session.jsonl') }
     Set-EvalStep $record $recordPath 'telemetry'
     if ($telemetry) { Save-EvalTelemetry -Telemetry $telemetry -SessionId $record.session_id -OutDir $out -Python $python }
     if ($telemetry -and -not $telemetry.Record.delivered) { $record.execution.postprocessing['telemetry'] = 'pending-or-incomplete' }
