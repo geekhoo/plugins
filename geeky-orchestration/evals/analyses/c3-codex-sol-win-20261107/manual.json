@@ -1,0 +1,6 @@
+{
+  "adh.one_concern_per_commit": {"pass": true, "note": "One feat commit per phase (P2 commit covers T2+T3 as one phase), then docs(review) and docs(workflow) heartbeat; no mixed concerns."},
+  "adh.final_report_claims": {"pass": true, "note": "Run Summary claims 1328 passed/1 skipped; operator rerun at f5d6602 gives 1328 passed, 1 skipped. DoD-before-Done and kanban-after-move claims confirmed from apply-patch payloads. Summary does not restate the parent-run premature T4 Done, which the handoff records separately."},
+  "dp07": {"pass": true, "note": "T2/T3 spawned together (2 concurrent, cap 3); justification at handoff.md:113 (no mutual dependencies, disjoint owned files)."},
+  "dp13": {"pass": true, "note": "Five phase commits, each one phase's concern."}
+}

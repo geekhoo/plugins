@@ -1,0 +1,11 @@
+{
+  "status": "verified",
+  "utc": "2026-11-07T18:09:16.6597110Z",
+  "scope": "c3-codex-sol-source-reviewed-20261107-9e506686-v1",
+  "ids": [
+    "5f0fa68a9c06294f72905e85f6198f30",
+    "ffd6f305fa71b97e2aef136e2f2b246c"
+  ],
+  "count": 2,
+  "historic_ids_touched": false
+}

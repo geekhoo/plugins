@@ -1,0 +1,472 @@
+{
+  "schema": "geeky-eval.parity/1",
+  "harness": "codex",
+  "run": "ws",
+  "session_id": "c3-minisql/codex/20261107T150925Z-9e506686",
+  "composite": 59.53,
+  "quality": 89.06,
+  "adherence": 47.17,
+  "adherence_uncapped": 47.17,
+  "adherence_fraction": "25/53",
+  "consistency": 29.47,
+  "dpc": 0.3684,
+  "order": 0.0,
+  "efficiency": {
+    "tokens_total": null,
+    "wall_time_s": 2905.1764074999955,
+    "latency_median_ms": 120,
+    "commits": 10,
+    "interventions": 0
+  },
+  "stage_bounds": {
+    "spec-research": [
+      "2026-11-06T16:50:32.924000+00:00",
+      null
+    ],
+    "geeky-plan": [
+      null,
+      null
+    ],
+    "plan-review": [
+      null,
+      null
+    ],
+    "geeky-implement": [
+      null,
+      "9999"
+    ],
+    "impl-review": [
+      null,
+      "9999"
+    ]
+  },
+  "phases": {
+    "P1": [
+      "T1"
+    ],
+    "P2": [
+      "T2",
+      "T3"
+    ],
+    "P3": [
+      "T4"
+    ],
+    "P4": [
+      "T5"
+    ],
+    "P5": [
+      "T6"
+    ]
+  },
+  "needs_judge": [],
+  "checks": [
+    {
+      "id": "a.planning_folder",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 6 task file(s) found."
+    },
+    {
+      "id": "a.task_schema",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 6 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "a.kanban_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 6 task(s) tracked, 6 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=6"
+    },
+    {
+      "id": "a.dod.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "a.notes.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T1-language-foundation.notes.md"
+    },
+    {
+      "id": "a.dod.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T2"
+    },
+    {
+      "id": "a.notes.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T2-csv-data.notes.md"
+    },
+    {
+      "id": "a.dod.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T3"
+    },
+    {
+      "id": "a.notes.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T3-result-formatting.notes.md"
+    },
+    {
+      "id": "a.dod.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T4"
+    },
+    {
+      "id": "a.notes.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T4-semantic-analysis.notes.md"
+    },
+    {
+      "id": "a.dod.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T5"
+    },
+    {
+      "id": "a.notes.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T5-ordered-executor.notes.md"
+    },
+    {
+      "id": "a.dod.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T6"
+    },
+    {
+      "id": "a.notes.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T6-api-cli-acceptance.notes.md"
+    },
+    {
+      "id": "a.run_summary",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "a.heartbeat_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "{\"ts\":\"2026-11-07T15:56:01Z\",\"task\":\"T6\",\"status\":\"done\"}"
+    },
+    {
+      "id": "a.prescribed.spec",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "spec-research commit subject"
+    },
+    {
+      "id": "a.prescribed.plan_review",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "plan-review commit subject exact"
+    },
+    {
+      "id": "a.prescribed.critical_fix",
+      "dimension": "adherence",
+      "status": "na",
+      "evidence": "no critical-fix commit"
+    },
+    {
+      "id": "a.commit_messages",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "7 post-plan-review commits; failing: []"
+    },
+    {
+      "id": "a.frozen_untouched",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "frozen files changed after plan-review: []"
+    },
+    {
+      "id": "a.no_forbidden_git",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reflog: []; commands: []"
+    },
+    {
+      "id": "a.task_dispatch.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T1"
+    },
+    {
+      "id": "a.task_review.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T1 or P1"
+    },
+    {
+      "id": "a.dod_gate.T1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T1 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T2"
+    },
+    {
+      "id": "a.task_review.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T2 or P2"
+    },
+    {
+      "id": "a.dod_gate.T2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T2 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T3"
+    },
+    {
+      "id": "a.task_review.T3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T3 or P2"
+    },
+    {
+      "id": "a.dod_gate.T3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T3 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T4",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T4"
+    },
+    {
+      "id": "a.task_review.T4",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T4 or P3"
+    },
+    {
+      "id": "a.dod_gate.T4",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T4 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T5",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T5"
+    },
+    {
+      "id": "a.task_review.T5",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T5 or P4"
+    },
+    {
+      "id": "a.dod_gate.T5",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T5 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T6",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "geeky-coder dispatch naming T6"
+    },
+    {
+      "id": "a.task_review.T6",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "reviewer dispatch naming T6 or P5"
+    },
+    {
+      "id": "a.dod_gate.T6",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-dod runs naming T6 during implement"
+    },
+    {
+      "id": "a.phase_verdict.P1",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P2",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P3",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P4",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P5",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.kanban_gate",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 validate-kanban runs for 6 tasks"
+    },
+    {
+      "id": "a.commit_gate",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 check-commit runs for 5 code commits"
+    },
+    {
+      "id": "a.tests_run",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "0 pytest runs during implement"
+    },
+    {
+      "id": "a.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "main-thread code/test writes: []"
+    },
+    {
+      "id": "a.run_completed",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "exit_reason diagnostics-failed"
+    },
+    {
+      "id": "a.work_committed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "uncommitted at the end: []"
+    },
+    {
+      "id": "a.one_concern_per_commit",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "judge: One feat commit per phase (P2 commit covers T2+T3 as one phase), then docs(review) and docs(workflow) heartbeat; no mixed concerns."
+    },
+    {
+      "id": "a.final_report_claims",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "judge: Run Summary claims 1328 passed/1 skipped; operator rerun at f5d6602 gives 1328 passed, 1 skipped. DoD-before-Done and kanban-after-move claims confirmed from apply-patch payloads. Summary does not restate the parent-run premature T4 Done, which the handoff records separately."
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 spec-research dispatches"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "see a.prescribed.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.plan_review"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "every task reviewed"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "DoD gate for every task"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "phase verdict for every phase"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "see a.commit_gate"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 impl-review dispatches"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.heartbeat_final"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: T2/T3 spawned together (2 concurrent, cap 3); justification at handoff.md:113 (no mutual dependencies, disjoint owned files)."
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: Five phase commits, each one phase's concern."
+    }
+  ]
+}

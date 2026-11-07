@@ -1,0 +1,145 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "c3-minisql/codex/20261107T150925Z-9e506686",
+  "traces": 35,
+  "observations": 1672,
+  "duplicate_rows": 0,
+  "by_type": {
+    "GENERATION": 458,
+    "TOOL": 1179,
+    "AGENT": 35
+  },
+  "generations": 458,
+  "tool_calls": 1179,
+  "subagents": 33,
+  "user_ids": [
+    "codex/coder",
+    "codex/orchestrator",
+    "codex/reviewer",
+    "codex/unknown"
+  ],
+  "agent_roles": [
+    "coder",
+    "orchestrator",
+    "reviewer",
+    "unknown"
+  ],
+  "agent_families": [
+    "codex-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 22905230,
+    "output": 244747,
+    "total": 38405629,
+    "input_cached_tokens": 15213696,
+    "output_reasoning_tokens": 41956
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-11-06T16:50:22.538Z",
+  "last_start": "2026-11-07T15:57:53.736Z",
+  "top_names": [
+    [
+      "exec_command",
+      872
+    ],
+    [
+      "LLM",
+      242
+    ],
+    [
+      "LLM Subagent",
+      216
+    ],
+    [
+      "wait_agent",
+      113
+    ],
+    [
+      "spawn_agent",
+      48
+    ],
+    [
+      "geeky_check_frozen_artifact",
+      27
+    ],
+    [
+      "geeky_check_commit",
+      23
+    ],
+    [
+      "reviewer",
+      21
+    ],
+    [
+      "followup_task",
+      15
+    ],
+    [
+      "geeky_validate_kanban",
+      12
+    ],
+    [
+      "list_agents",
+      11
+    ],
+    [
+      "geeky_validate_task_schema",
+      10
+    ],
+    [
+      "geeky_validate_planning_folder",
+      10
+    ],
+    [
+      "skill:impl-review",
+      9
+    ],
+    [
+      "coder",
+      9
+    ],
+    [
+      "skill:geeky-implement",
+      8
+    ],
+    [
+      "skill:geeky-resume",
+      8
+    ],
+    [
+      "send_message",
+      4
+    ],
+    [
+      "write_stdin",
+      4
+    ],
+    [
+      "unknown",
+      3
+    ],
+    [
+      "orchestrator",
+      2
+    ],
+    [
+      "skill:plan-review",
+      2
+    ],
+    [
+      "geeky_workflow_budget",
+      1
+    ],
+    [
+      "skill:geeky-plan",
+      1
+    ],
+    [
+      "skill:spec-research",
+      1
+    ]
+  ]
+}

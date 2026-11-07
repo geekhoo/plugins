@@ -1,0 +1,10 @@
+{
+  "utc": "2026-11-07T18:09:04.9921419Z",
+  "state": "claimed-before-publication",
+  "scope": "c3-codex-sol-source-reviewed-20261107-9e506686-v1",
+  "ids": [
+    "5f0fa68a9c06294f72905e85f6198f30",
+    "ffd6f305fa71b97e2aef136e2f2b246c"
+  ],
+  "expected_sha256": "6d73f589c6d72db0a5a537f1e6542ad3e5b3166faaedd6d7bb9ac8150fdf12b1"
+}
