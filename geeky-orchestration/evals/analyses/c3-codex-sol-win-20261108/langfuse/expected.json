@@ -1,0 +1,46 @@
+{
+  "scope": "c3-codex-sol-source-reviewed-20261108-463d8062-v1",
+  "scores": [
+    {
+      "id": "a899f3c9ac74bce2c7b4a56deac02a0c",
+      "sessionId": "c3-minisql/codex/20261108T150341Z-463d8062",
+      "name": "oracle_pass_rate",
+      "value": 1.0,
+      "dataType": "NUMERIC",
+      "environment": "mxc-win",
+      "source": "API",
+      "metadata": {
+        "scope_id": "c3-codex-sol-source-reviewed-20261108-463d8062-v1",
+        "evaluator": "c3-factual/1",
+        "run_id": "20261108T150341Z-463d8062",
+        "workspace_head": "ef2fe4e9ef82026750d3d758f184c418fc2d5518",
+        "oracle_output_sha256": "18faaf2ec41d422231a2446419d5a7235508a453ed9a0aef9ce8eefeb11824dd",
+        "quality_evidence_sha256": "31e0c50385cd804e8255e5aee4fe77791715dd2c5802d216699db475ad749b3e",
+        "plugin_sha": "eed723042882737fe9789287051d62dd1265e1a4",
+        "telemetry": "live 2026-11-08"
+      },
+      "comment": "Independent oracle: 182/182 passed on each of three repetitions; 1 case-insensitive-filesystem test skipped. This measures oracle pass rate only.",
+      "configId": "fe4ba7b1-73e6-4807-96bc-588fa7b2d25a"
+    },
+    {
+      "id": "95d7dc254c75cb52474b7e36c99267dc",
+      "sessionId": "c3-minisql/codex/20261108T150341Z-463d8062",
+      "name": "c3_quality_qact_v1",
+      "value": 88.86,
+      "dataType": "NUMERIC",
+      "environment": "mxc-win",
+      "source": "API",
+      "metadata": {
+        "scope_id": "c3-codex-sol-source-reviewed-20261108-463d8062-v1",
+        "evaluator": "c3-factual/1",
+        "run_id": "20261108T150341Z-463d8062",
+        "workspace_head": "ef2fe4e9ef82026750d3d758f184c418fc2d5518",
+        "oracle_output_sha256": "18faaf2ec41d422231a2446419d5a7235508a453ed9a0aef9ce8eefeb11824dd",
+        "quality_evidence_sha256": "31e0c50385cd804e8255e5aee4fe77791715dd2c5802d216699db475ad749b3e",
+        "plugin_sha": "eed723042882737fe9789287051d62dd1265e1a4",
+        "telemetry": "live 2026-11-08"
+      },
+      "comment": "Frozen score-run.py Quality component: oracle 1.0, size 300/1167 non-test LOC, 7/7 task validation commands pass at task commits (agent-py rerun). Not a composite; QACT and parity composites withheld because the Codex process parsers miss apply-patch board moves and the non-prescribed spec subject breaks parity stage bounds."
+    }
+  ]
+}

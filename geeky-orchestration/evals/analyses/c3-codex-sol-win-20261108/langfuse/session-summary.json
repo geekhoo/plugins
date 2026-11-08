@@ -1,0 +1,137 @@
+{
+  "schema": "geeky-eval.langfuse-session/1",
+  "session_id": "c3-minisql/codex/20261108T150341Z-463d8062",
+  "traces": 22,
+  "observations": 1169,
+  "duplicate_rows": 0,
+  "by_type": {
+    "GENERATION": 418,
+    "TOOL": 729,
+    "AGENT": 22
+  },
+  "generations": 418,
+  "tool_calls": 729,
+  "subagents": 21,
+  "user_ids": [
+    "codex/coder",
+    "codex/orchestrator",
+    "codex/reviewer",
+    "codex/unknown"
+  ],
+  "agent_roles": [
+    "coder",
+    "orchestrator",
+    "reviewer",
+    "unknown"
+  ],
+  "agent_families": [
+    "codex-mxc-win"
+  ],
+  "environments": [
+    "mxc-win"
+  ],
+  "usage_details": {
+    "input": 16078950,
+    "output": 222729,
+    "total": 31724095,
+    "input_cached_tokens": 15383680,
+    "output_reasoning_tokens": 38736
+  },
+  "truncated_observations": 0,
+  "first_start": "2026-11-08T15:03:48.512Z",
+  "last_start": "2026-11-08T16:46:09.834Z",
+  "top_names": [
+    [
+      "exec_command",
+      610
+    ],
+    [
+      "LLM",
+      212
+    ],
+    [
+      "LLM Subagent",
+      206
+    ],
+    [
+      "wait_agent",
+      32
+    ],
+    [
+      "spawn_agent",
+      21
+    ],
+    [
+      "send_message",
+      16
+    ],
+    [
+      "reviewer",
+      11
+    ],
+    [
+      "geeky_check_commit",
+      10
+    ],
+    [
+      "write_stdin",
+      8
+    ],
+    [
+      "geeky_check_frozen_artifact",
+      7
+    ],
+    [
+      "coder",
+      7
+    ],
+    [
+      "skill:impl-review",
+      6
+    ],
+    [
+      "geeky_validate_planning_folder",
+      4
+    ],
+    [
+      "geeky_validate_task_schema",
+      4
+    ],
+    [
+      "geeky_validate_kanban",
+      4
+    ],
+    [
+      "unknown",
+      3
+    ],
+    [
+      "skill:geeky-implement",
+      2
+    ],
+    [
+      "list_agents",
+      1
+    ],
+    [
+      "skill:plan-review",
+      1
+    ],
+    [
+      "geeky_workflow_budget",
+      1
+    ],
+    [
+      "skill:geeky-plan",
+      1
+    ],
+    [
+      "skill:spec-research",
+      1
+    ],
+    [
+      "orchestrator",
+      1
+    ]
+  ]
+}

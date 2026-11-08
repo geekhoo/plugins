@@ -1,0 +1,464 @@
+{
+  "schema": "geeky-eval.parity/1",
+  "harness": "codex",
+  "run": "eval-c3-minisql-codex-20261108T150341Z-463d8062",
+  "session_id": "c3-minisql/codex/20261108T150341Z-463d8062",
+  "composite": 86.01,
+  "quality": 88.86,
+  "adherence": 96.23,
+  "adherence_uncapped": 96.23,
+  "adherence_fraction": "51/53",
+  "consistency": 63.16,
+  "dpc": 0.7895,
+  "order": 0.0,
+  "efficiency": {
+    "tokens_total": 31236183,
+    "wall_time_s": 6162.830104099994,
+    "latency_median_ms": 172,
+    "commits": 10,
+    "interventions": 0
+  },
+  "stage_bounds": {
+    "spec-research": [
+      "2026-11-08T15:03:54.141000+00:00",
+      null
+    ],
+    "geeky-plan": [
+      null,
+      "2026-11-08T15:21:03.000000+00:00"
+    ],
+    "plan-review": [
+      "2026-11-08T15:21:03.000000+00:00",
+      "2026-11-08T15:21:03.000000+00:00"
+    ],
+    "geeky-implement": [
+      "2026-11-08T15:21:03.000000+00:00",
+      "2026-11-08T16:25:03.075000+00:00"
+    ],
+    "impl-review": [
+      "2026-11-08T16:25:03.075000+00:00",
+      "9999"
+    ]
+  },
+  "phases": {
+    "P1": [
+      "T1",
+      "T2"
+    ],
+    "P2": [
+      "T3"
+    ],
+    "P3": [
+      "T4"
+    ],
+    "P4": [
+      "T5",
+      "T6"
+    ]
+  },
+  "needs_judge": [],
+  "checks": [
+    {
+      "id": "a.planning_folder",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: planning folder valid. 6 task file(s) found."
+    },
+    {
+      "id": "a.task_schema",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 6 task file(s) checked, 0 failing."
+    },
+    {
+      "id": "a.kanban_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "OK: 6 task(s) tracked, 6 task file(s). Backlog=0, Ready=0, In Progress=0, In Review=0, Blocked=0, Done=6"
+    },
+    {
+      "id": "a.dod.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T1"
+    },
+    {
+      "id": "a.notes.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T1-foundation.notes.md"
+    },
+    {
+      "id": "a.dod.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T2"
+    },
+    {
+      "id": "a.notes.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T2-frontend.notes.md"
+    },
+    {
+      "id": "a.dod.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T3"
+    },
+    {
+      "id": "a.notes.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T3-semantic.notes.md"
+    },
+    {
+      "id": "a.dod.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T4"
+    },
+    {
+      "id": "a.notes.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T4-engine.notes.md"
+    },
+    {
+      "id": "a.dod.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T5"
+    },
+    {
+      "id": "a.notes.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T5-terminal.notes.md"
+    },
+    {
+      "id": "a.dod.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "DOD_OK: T6"
+    },
+    {
+      "id": "a.notes.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "T6-contract.notes.md"
+    },
+    {
+      "id": "a.run_summary",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "Run Summary heading in handoff.md"
+    },
+    {
+      "id": "a.heartbeat_final",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "{\"ts\":\"2026-11-08T16:45:00Z\",\"task\":\"run complete; accepted\",\"status\":\"done\"}"
+    },
+    {
+      "id": "a.prescribed.spec",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "spec-research commit subject"
+    },
+    {
+      "id": "a.prescribed.plan_review",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "plan-review commit subject exact"
+    },
+    {
+      "id": "a.prescribed.critical_fix",
+      "dimension": "adherence",
+      "status": "fail",
+      "evidence": "fix(spec): Address 1 required review findings from impl-review"
+    },
+    {
+      "id": "a.commit_messages",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "8 post-plan-review commits; failing: []"
+    },
+    {
+      "id": "a.frozen_untouched",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "frozen files changed after plan-review: []"
+    },
+    {
+      "id": "a.no_forbidden_git",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reflog: []; commands: []"
+    },
+    {
+      "id": "a.task_dispatch.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T1"
+    },
+    {
+      "id": "a.task_review.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T1 or P1"
+    },
+    {
+      "id": "a.dod_gate.T1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "1 check-dod runs naming T1 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T2"
+    },
+    {
+      "id": "a.task_review.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T2 or P1"
+    },
+    {
+      "id": "a.dod_gate.T2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "1 check-dod runs naming T2 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T3"
+    },
+    {
+      "id": "a.task_review.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T3 or P2"
+    },
+    {
+      "id": "a.dod_gate.T3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 check-dod runs naming T3 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T4"
+    },
+    {
+      "id": "a.task_review.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T4 or P3"
+    },
+    {
+      "id": "a.dod_gate.T4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 check-dod runs naming T4 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T5"
+    },
+    {
+      "id": "a.task_review.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T5 or P4"
+    },
+    {
+      "id": "a.dod_gate.T5",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 check-dod runs naming T5 during implement"
+    },
+    {
+      "id": "a.task_dispatch.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "geeky-coder dispatch naming T6"
+    },
+    {
+      "id": "a.task_review.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "reviewer dispatch naming T6 or P4"
+    },
+    {
+      "id": "a.dod_gate.T6",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 check-dod runs naming T6 during implement"
+    },
+    {
+      "id": "a.phase_verdict.P1",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "4 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P2",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P3",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "2 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.phase_verdict.P4",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "3 reviewer dispatches; verdict recorded: True"
+    },
+    {
+      "id": "a.kanban_gate",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "15 validate-kanban runs for 6 tasks"
+    },
+    {
+      "id": "a.commit_gate",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "7 check-commit runs for 7 code commits"
+    },
+    {
+      "id": "a.tests_run",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "43 pytest runs during implement"
+    },
+    {
+      "id": "a.no_orchestrator_code_edits",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "main-thread code/test writes: []"
+    },
+    {
+      "id": "a.run_completed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "exit_reason completed"
+    },
+    {
+      "id": "a.work_committed",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "uncommitted at the end: []"
+    },
+    {
+      "id": "a.one_concern_per_commit",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "judge: One feat commit per task (T1-T5), one test(contract) commit for T6, one fix commit for F1 with its review record and regressions; tracking files ride along by workflow design; no mixed product concerns."
+    },
+    {
+      "id": "a.final_report_claims",
+      "dimension": "adherence",
+      "status": "pass",
+      "evidence": "judge: Run Summary claims 955 passed/1 skipped; operator rerun at ef2fe4e with agent-py gives 955 passed, 1 skipped. Commit list matches git log. 'All DoD/board gates PASS' holds eventually, but the T5/T6 Done move (session.jsonl:1249, 16:23:39) preceded DOD_OK (:1272, 16:24:00); the summary reports this only as a repaired stale heartbeat patch."
+    },
+    {
+      "id": "dp01",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 spec-research dispatches"
+    },
+    {
+      "id": "dp02",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "see a.prescribed.spec"
+    },
+    {
+      "id": "dp03",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "review-development-project-manager.md"
+    },
+    {
+      "id": "dp04",
+      "dimension": "consistency",
+      "status": "fail",
+      "evidence": "0 plan-review dispatches"
+    },
+    {
+      "id": "dp05",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.prescribed.plan_review"
+    },
+    {
+      "id": "dp09",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "every task reviewed"
+    },
+    {
+      "id": "dp10",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "DoD gate for every task"
+    },
+    {
+      "id": "dp11",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "phase verdict for every phase"
+    },
+    {
+      "id": "dp12",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.commit_gate"
+    },
+    {
+      "id": "dp15",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.run_summary"
+    },
+    {
+      "id": "dp16",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "5 impl-review dispatches"
+    },
+    {
+      "id": "dp18",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "see a.heartbeat_final"
+    },
+    {
+      "id": "dp07",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: T1/T2 coders spawned together at 15:22:34 (2 concurrent, cap 3); justification at handoff.md:67 (no declared dependency, disjoint files)."
+    },
+    {
+      "id": "dp13",
+      "dimension": "consistency",
+      "status": "pass",
+      "evidence": "judge: Six task commits and one fix commit, each one task's or one finding's concern."
+    }
+  ]
+}
