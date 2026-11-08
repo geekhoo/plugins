@@ -64,6 +64,8 @@ Use these when running C3. They show roughly what a full run costs and how it be
 | Local `parity-eval/1.3` | 36.84 | 76.67 |
 | Quality / Adherence / Consistency, our rerun without judge verdicts | 40 / 0 / 95.29, composite 36.73 | 40 / 100 / 100, composite 76.67 |
 
+On frozen QACT without judge verdicts (`score-run.py`, 300-line reference), Opus scores 37.1 and Sol 60.2. With the oracle and forbidden-git gates removed, both score 77.1. The rescore and the comparison with Windows Codex run `463d8062` are in [the 8 November C3 Windows analysis](analyses/c3-codex-sol-win-20261108/README.md#against-the-macos-c3-pair).
+
 Both ran Claude Code 2.1.318 with plugin `52160ef`, prompt `124eba9b`, a 900 s closeout reserve, no recoveries and Python 3.9.6. Their Langfuse sessions begin `2b944b7c` and `4df94188`, environment `mxc-claude-mac`.
 
 When comparing a new C3 run with these:
