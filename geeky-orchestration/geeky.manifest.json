@@ -83,7 +83,7 @@
     },
     {
       "id": "workflow-budget",
-      "purpose": "Read-only workflow clock: reports the stage's cumulative advisory time target from GEEKY_DEADLINE_UTC and GEEKY_CLOSEOUT_RESERVE_S. Exit 0 = ok, 2 = invalid input, 3 = budget exhausted. Python only; no PowerShell mirror.",
+      "purpose": "Read-only workflow clock: reports the stage's cumulative advisory time target from GEEKY_DEADLINE_UTC and GEEKY_CLOSEOUT_RESERVE_S. Guidance only: exit 0 for every status (unbounded, active, reserve, exhausted, invalid); read status and action. Exit 2 = usage error. Python only; no PowerShell mirror.",
       "when": "entry of spec-research, geeky-plan, plan-review and geeky-implement; recheck before each phase or dispatch batch in geeky-implement",
       "args": "--stage spec-research|geeky-plan|plan-review|geeky-implement|impl-review",
       "python": "python \"scripts/workflow-budget.py\" --stage <stage> [--json]",

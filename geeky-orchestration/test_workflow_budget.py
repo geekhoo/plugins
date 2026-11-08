@@ -1,6 +1,7 @@
 """Deterministic clock tests; no contestant or provider execution."""
 from datetime import datetime, timedelta, timezone
 import importlib.util
+import json
 from pathlib import Path
 
 import pytest
@@ -60,11 +61,12 @@ def test_reserve_and_expiry_cannot_authorize_work(elapsed, status):
     {"GEEKY_HARD_WALL_BUDGET_S": "inf"}, {"GEEKY_HARD_WALL_BUDGET_S": "1e999"},
     {"GEEKY_DEADLINE_UTC": "9999-12-31T23:59:59+00:00"},
 ])
-def test_invalid_context_fails_closed(patch):
+def test_invalid_context_is_reported_not_trusted(patch):
     env = context()
     env.update(patch)
     result = budget.evaluate("spec-research", env, NOW)
     assert result["status"] == "invalid" and not result["acceptance_established"]
+    assert result["action"] == "record-error-continue-unbounded"
 
 
 def test_legacy_context_retains_deadline_without_fabricated_targets():
@@ -75,12 +77,23 @@ def test_legacy_context_retains_deadline_without_fabricated_targets():
     assert result["stage_target_utc"] is None
 
 
-def test_cli_status_codes(monkeypatch, capsys):
+def test_partial_context_guides_instead_of_stopping():
+    for env in ({"GEEKY_CLOSEOUT_RESERVE_S": "600"}, {"GEEKY_DEADLINE_UTC": NOW.isoformat()}):
+        result = budget.evaluate("geeky-plan", env, NOW)
+        assert result["status"] == "invalid" and "stop" not in result["action"]
+
+
+def test_cli_exits_zero_for_every_status(monkeypatch, capsys):
     for name in context():
         monkeypatch.delenv(name, raising=False)
     assert budget.main(["--stage", "spec-research", "--json"]) == 0
     monkeypatch.setenv("GEEKY_DEADLINE_UTC", "bad")
-    assert budget.main(["--stage", "spec-research", "--json"]) == 2
+    assert budget.main(["--stage", "spec-research", "--json"]) == 0
     monkeypatch.setenv("GEEKY_DEADLINE_UTC", "2000-01-01T00:00:00Z")
     monkeypatch.setenv("GEEKY_CLOSEOUT_RESERVE_S", "0")
-    assert budget.main(["--stage", "spec-research", "--json"]) == 3
+    assert budget.main(["--stage", "spec-research", "--json"]) == 0
+    statuses = [json.loads(line)["status"] for line in capsys.readouterr().out.splitlines()]
+    assert statuses == ["unbounded", "invalid", "exhausted"]
+    with pytest.raises(SystemExit) as usage:
+        budget.main(["--stage", "nope"])
+    assert usage.value.code == 2

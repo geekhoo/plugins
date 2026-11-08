@@ -494,7 +494,7 @@
           "readOnlyHint": true,
           "title": "Check workflow time budget"
         },
-        "description": "Report the shared workflow deadline, reserve and stage target.\n\nSame report as `scripts/workflow-budget.py --stage <stage> --json`, read from\nthis server's GEEKY_DEADLINE_UTC, GEEKY_CLOSEOUT_RESERVE_S and\nGEEKY_HARD_WALL_BUDGET_S. Use it for in-stage rechecks: it skips the agent\nshell's startup cost. Read 'status' and 'action', not only 'ok': reserve\nstill exits 0.\n\nArgs:\n    params (BudgetInput): stage = current workflow stage.\n\nReturns:\n    dict: { status: unbounded|active|reserve|exhausted|invalid, action: str,\n            remaining_s, usable_s, stage_target_utc, stage_target_exceeded,\n            ok: bool, exit_code: int }. exit_code 2 = invalid, 3 = exhausted.\n",
+        "description": "Report the shared workflow deadline, reserve and stage target.\n\nSame report as `scripts/workflow-budget.py --stage <stage> --json`, read from\nthis server's GEEKY_DEADLINE_UTC, GEEKY_CLOSEOUT_RESERVE_S and\nGEEKY_HARD_WALL_BUDGET_S. Use it for in-stage rechecks: it skips the agent\nshell's startup cost. The report guides pacing and never stops a workflow:\nevery status exits 0, so read 'status' and 'action', not 'ok'.\n\nArgs:\n    params (BudgetInput): stage = current workflow stage.\n\nReturns:\n    dict: { status: unbounded|active|reserve|exhausted|invalid, action: str,\n            remaining_s, usable_s, stage_target_utc, stage_target_exceeded,\n            ok: bool, exit_code: int }. exit_code is 0 for every status.\n",
         "inputSchema": {
           "$defs": {
             "BudgetInput": {

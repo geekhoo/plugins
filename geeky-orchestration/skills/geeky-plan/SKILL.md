@@ -30,11 +30,14 @@ in a sandbox), so make rechecks with the `geeky_workflow_budget` MCP tool when i
 is available (same report), or chain the script with the next command.
 Resolve `${CLAUDE_PLUGIN_ROOT}` to the installed plugin root containing this skill
 when the environment variable is unset, and use an available Python interpreter.
-If the helper cannot run or its output is unreadable, stop and report the missing
-budget check; do not assume unlimited time. Read the JSON status, not just the
-exit code: `unbounded` means no deadline was provided; `active` continues; `reserve` or `exhausted` stops starting new work
-and checkpoints the incomplete stage; `invalid` stops and reports the configuration
-error. A zero exit also covers `reserve`, so it is not permission to continue.
+The check guides pacing; it never stops or fails the workflow, and the helper
+exits 0 for every status, so read the JSON `status` and `action`. If the helper
+cannot run or its output is unreadable, note that in the handoff and continue as
+`unbounded`. `unbounded` (no deadline supplied) and `active` continue normally.
+`reserve` and `exhausted` mean time is short: bring the handoff up to date first,
+then keep doing required work in priority order and skip optional expansion.
+`invalid` means the supplied deadline context is malformed: record its `error` in
+the handoff and continue as `unbounded`.
 The stage target is advisory, not a gate or guarantee: after it is exceeded,
 finish required work with the smallest sufficient evidence and defer optional
 expansion. Never skip a required review, validator or acceptance condition, or
@@ -44,9 +47,9 @@ unbounded; if only the target is absent, say the target is unavailable. Do not
 invent either value. Tell each child to return its current evidence,
 unresolved questions and status before the available work time ends. Bound waits by
 the remaining usable time where the host supports it; if it cannot, record that
-limitation rather than claiming cancellation. Recheck after a wait; a child report alone does not override the budget result.
+limitation rather than claiming cancellation. Recheck after a wait; a child report alone does not replace a fresh check.
 
-If the budget stops this stage, record missing artifacts, reviews and validators in the handoff; do not declare the package complete or frozen.
+While time is short, keep missing artifacts, reviews and validators recorded in the handoff so an interruption loses nothing; do not declare the package complete or frozen until they pass.
 
 ## Tasks
 

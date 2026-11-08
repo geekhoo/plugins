@@ -358,8 +358,8 @@ async def geeky_workflow_budget(params: BudgetInput) -> dict[str, Any]:
     Same report as `scripts/workflow-budget.py --stage <stage> --json`, read from
     this server's GEEKY_DEADLINE_UTC, GEEKY_CLOSEOUT_RESERVE_S and
     GEEKY_HARD_WALL_BUDGET_S. Use it for in-stage rechecks: it skips the agent
-    shell's startup cost. Read 'status' and 'action', not only 'ok': reserve
-    still exits 0.
+    shell's startup cost. The report guides pacing and never stops a workflow:
+    every status exits 0, so read 'status' and 'action', not 'ok'.
 
     Args:
         params (BudgetInput): stage = current workflow stage.
@@ -367,7 +367,7 @@ async def geeky_workflow_budget(params: BudgetInput) -> dict[str, Any]:
     Returns:
         dict: { status: unbounded|active|reserve|exhausted|invalid, action: str,
                 remaining_s, usable_s, stage_target_utc, stage_target_exceeded,
-                ok: bool, exit_code: int }. exit_code 2 = invalid, 3 = exhausted.
+                ok: bool, exit_code: int }. exit_code is 0 for every status.
     """
     return await _run(SCRIPTS / "workflow-budget.py", ["--stage", params.stage, "--json"])
 
